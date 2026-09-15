@@ -1,6 +1,10 @@
 import level11 from "../../data/story/w1/w1_1_soft_paths.json"
 import level12 from "../../data/story/w1/w1_2_hedge_maze.json"
 import level13 from "../../data/story/w1/w1_3_cart_chase.json"
+import level21 from "../../data/story/w2/w2_1_green_corridor.json"
+import level22 from "../../data/story/w2/w2_2_floating_logs.json"
+import level31 from "../../data/story/w3/w3_1_paper_lights.json"
+import level32 from "../../data/story/w3/w3_2_tiger_road.json"
 
 export type StoryLevelDef = {
   id: string
@@ -14,19 +18,35 @@ export type StoryLevelDef = {
   moonLine: string
   objective: string
   wallBounce?: boolean
+  glide?: boolean
+  sky?: string
   foxHu?: { startX: number; y: number; speed: number }
+  ride?: {
+    w: number
+    h: number
+    speed: number
+    waypoints: { chunk: number; x: number; y: number }[]
+  }
 }
 
-const W1: StoryLevelDef[] = [
+const LEVELS: StoryLevelDef[] = [
   level11 as StoryLevelDef,
   level12 as StoryLevelDef,
   level13 as StoryLevelDef,
+  level21 as StoryLevelDef,
+  level22 as StoryLevelDef,
+  level31 as StoryLevelDef,
+  level32 as StoryLevelDef,
 ]
 
+export function listStoryLevels(): StoryLevelDef[] {
+  return [...LEVELS]
+}
+
 export function listWorld1Levels(): StoryLevelDef[] {
-  return [...W1]
+  return LEVELS.filter((level) => level.world === 1)
 }
 
 export function getStoryLevel(id: string): StoryLevelDef | undefined {
-  return W1.find((level) => level.id === id)
+  return LEVELS.find((level) => level.id === id)
 }

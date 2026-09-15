@@ -1,7 +1,6 @@
 import Phaser from "phaser"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
 import { TaskRunner, type TaskId } from "./TaskRunner"
-import { getSave } from "../../core/session"
 import { getContentFlags } from "../../core/ModeContext"
 import { t } from "../../core/i18n"
 
@@ -57,7 +56,6 @@ export class TaskSelectScene extends Phaser.Scene {
   create(): void {
     const flags = getContentFlags()
     const runner = new TaskRunner()
-    const completed = new Set(getSave().progress.tasksCompleted)
 
     const meadowCard = flags.meadow
       ? modeCard({
@@ -75,10 +73,9 @@ export class TaskSelectScene extends Phaser.Scene {
         if (!def) {
           return ""
         }
-        const done = completed.has(id)
         return modeCard({
           attr: `data-task="${id}"`,
-          title: `${def.name}${done ? " ✓" : ""}`,
+          title: def.name,
           desc: def.description,
           icon: TASK_ICONS[id] ?? MEADOW_ICON,
         })

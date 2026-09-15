@@ -20,6 +20,8 @@ Shared by Meadow, Story, Tasks, Endless. Each kit: tileset, palette, parallax la
 
 Story opens on an HTML/SVG landscape path from burrow toward the moon. Worlds are nodes. Expanding a live world shows its stations. Locked later worlds stay visible as dim nodes.
 
+Path progress today: Worlds 1–3 each expose two clearable stations (Soft Paths, Hedge Maze, Green Corridor, Floating Logs, Paper Lights, Tiger Road). Boss stations and Guanghan stay Soon. Clearing both playable stations of a world unlocks the next.
+
 ### World 0 — Burrow Eve
 
 | Station | Kind | Notes |
@@ -32,27 +34,27 @@ Unlocks Soft Paths when complete. Station ids are stored in `progress.story.clea
 
 ### World 1 — Meadow and Hedgerows
 
-| Level | Env | Teach | Exit |
-| --- | --- | --- | --- |
-| 1-1 Soft Paths | meadow | run, jump, dash | Moon Pool |
-| 1-2 Hedge Maze | orchard | wall bounce, crow lob | Moon Pool |
-| 1-3 Cart Chase | meadow | boss: Fox Hu cart | World clear |
+| Level | Env | Teach | Exit | Status |
+| --- | --- | --- | --- | --- |
+| 1-1 Soft Paths | meadow | run, jump, dash | Moon Pool | live |
+| 1-2 Hedge Maze | orchard | wall bounce, crow lob | Moon Pool | live |
+| 1-3 Cart Chase | meadow | boss: Fox Hu cart | World clear | soon |
 
 ### World 2 — Bamboo Grove and River
 
-| Level | Env | Teach | Exit |
-| --- | --- | --- | --- |
-| 2-1 Green Corridor | bamboo | wall jump | Moon Pool |
-| 2-2 Floating Logs | riverbank | log ride, swim, current | Moon Pool |
-| 2-3 Raft Gauntlet | riverbank | boss: Heron Fisher | World clear |
+| Level | Env | Teach | Exit | Status |
+| --- | --- | --- | --- | --- |
+| 2-1 Green Corridor | bamboo | wall jump | Moon Pool | live |
+| 2-2 Floating Logs | riverbank | log ride, current | Moon Pool | live |
+| 2-3 Raft Gauntlet | riverbank | boss: Heron Fisher | World clear | soon |
 
 ### World 3 — Lantern Village and Osmanthus Peak
 
-| Level | Env | Teach | Exit |
-| --- | --- | --- | --- |
-| 3-1 Paper Lights | lantern | lantern glide | Moon Pool |
-| 3-2 Tiger Road | osmanthus | tiger ride (Tu'er Ye) | Moon Pool |
-| 3-3 Crane Summit | osmanthus | boss: Crane Envoy | Ride to moon |
+| Level | Env | Teach | Exit | Status |
+| --- | --- | --- | --- | --- |
+| 3-1 Paper Lights | lantern | lantern glide | Moon Pool | live |
+| 3-2 Tiger Road | osmanthus | tiger ride (Tu'er Ye) | Moon Pool | live |
+| 3-3 Crane Summit | osmanthus | boss: Crane Envoy | Ride to moon | soon |
 
 ### Finale
 

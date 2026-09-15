@@ -1,0 +1,24 @@
+{
+  "id": "w3_2_tiger_road",
+  "world": 3,
+  "index": 2,
+  "name": "Tiger Road",
+  "chunks": ["chunk_osmanthus_start", "chunk_osmanthus_ride", "chunk_osmanthus_pool"],
+  "playerSpawn": { "x": 100, "y": 900 },
+  "moonPool": { "chunk": 2, "x": 220, "y": 920 },
+  "exit": { "chunk": 2, "x": 820, "y": 920 },
+  "moonLine": "Lord Rabbit's tiger knows the blossom road.",
+  "objective": "Ride the tiger across the gaps. Hop when you must.",
+  "sky": "#40364a",
+  "ride": {
+    "w": 110,
+    "h": 36,
+    "speed": 110,
+    "waypoints": [
+      { "chunk": 1, "x": 180, "y": 900 },
+      { "chunk": 1, "x": 360, "y": 780 },
+      { "chunk": 1, "x": 560, "y": 700 },
+      { "chunk": 1, "x": 760, "y": 860 }
+    ]
+  }
+}

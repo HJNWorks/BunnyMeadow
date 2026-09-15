@@ -1,0 +1,19 @@
+{
+  "id": "chunk_osmanthus_ride",
+  "width": 960,
+  "height": 1080,
+  "groundY": 980,
+  "platforms": [
+    { "x": 0, "y": 980, "w": 140, "h": 100 },
+    { "x": 400, "y": 760, "w": 110, "h": 24 },
+    { "x": 820, "y": 980, "w": 140, "h": 100 }
+  ],
+  "walls": [],
+  "enemies": [
+    { "id": "crow", "x": 520, "y": 520 }
+  ],
+  "hazards": [
+    { "x": 140, "y": 1000, "w": 680, "h": 80, "kind": "water", "current": 0 }
+  ],
+  "color": "#40364a"
+}

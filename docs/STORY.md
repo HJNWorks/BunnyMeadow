@@ -62,9 +62,9 @@ Enemies: herons, frogs, carp. Falling bamboo.
 
 Mei learns Yue is fine but "above the clouds".
 
-Boss: the Heron Fisher on the river rafts (invented).
+Boss: the Heron Fisher on the river rafts (invented). Soon.
 
-Mechanics: bamboo wall jump, log riding, swimming, current.
+Live stations: Green Corridor (bamboo wall bounce), Floating Logs (moving logs + river current).
 
 Moon Pool sample:
 
@@ -76,7 +76,9 @@ Mid-Autumn lanterns, cats, owls (ordinary night enemies only), fireworks.
 
 [Lord Rabbit](LORE.md#tuer-ye--lord-rabbit-兔兒爺) lends his tiger for the ascent.
 
-Boss: the Crane Envoy. It realizes the mistake and carries Mei up.
+Boss: the Crane Envoy. It realizes the mistake and carries Mei up. Soon.
+
+Live stations: Paper Lights (hold jump to glide), Tiger Road (scripted tiger ride).
 
 Mechanics: lantern glide, tiger ride, wind.
 

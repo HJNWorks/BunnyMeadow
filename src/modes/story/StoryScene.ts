@@ -13,6 +13,7 @@ type Hud = {
   hearts: HTMLElement
   objective: HTMLElement
   levelName: HTMLElement
+  worldLabel: HTMLElement
   overlay: HTMLElement
   title: HTMLElement
   message: HTMLElement
@@ -24,10 +25,27 @@ type Hud = {
   controlsFloat: HTMLElement
 }
 
+type MoverState = {
+  sprite: Phaser.Physics.Arcade.Image
+  baseX: number
+  baseY: number
+  axis: "x" | "y"
+  amplitude: number
+  speed: number
+  phase: number
+}
+
+type RideState = {
+  sprite: Phaser.Physics.Arcade.Image
+  points: { x: number; y: number }[]
+  index: number
+  speed: number
+}
+
 const SHELL = `
 <div class="bm-shell bm-wide story-shell">
   <header class="meadow-header">
-    <div class="bm-eyebrow">Story · World 1</div>
+    <div class="bm-eyebrow" data-ui="worldLabel">Story</div>
     <h1 data-ui="levelName">Soft Paths</h1>
     <p class="bm-tagline" data-ui="objective">Reach the burrow.</p>
   </header>
@@ -128,6 +146,7 @@ export class StoryScene extends Phaser.Scene {
   private dashCooldown = 0
   private dashTime = 0
   private wallBounce = false
+  private glide = false
   private facing = 1
   private checkpoint: { x: number; y: number } | null = null
   private poolClaimed = false
@@ -138,6 +157,11 @@ export class StoryScene extends Phaser.Scene {
   private inDialogue = false
   private coach: ControlCoach | null = null
   private leaving = false
+  private movers: MoverState[] = []
+  private hazards: Phaser.GameObjects.Rectangle[] = []
+  private ride: RideState | null = null
+  private waterGrace = 0
+  private baseGravity = 1200
 
   constructor() {
     super("Story")
@@ -155,6 +179,7 @@ export class StoryScene extends Phaser.Scene {
     }
     this.level = def
     this.wallBounce = !!def.wallBounce
+    this.glide = !!def.glide
     this.won = false
     this.lost = false
     this.paused = false
@@ -163,6 +188,10 @@ export class StoryScene extends Phaser.Scene {
     this.inDialogue = false
     this.foxHu = null
     this.leaving = false
+    this.movers = []
+    this.hazards = []
+    this.ride = null
+    this.waterGrace = 0
     this.physics.world.isPaused = false
 
     this.style = document.createElement("style")
@@ -174,6 +203,7 @@ export class StoryScene extends Phaser.Scene {
       hearts: requireEl(shell.root, "[data-ui=hearts]"),
       objective: requireEl(shell.root, "[data-ui=objective]"),
       levelName: requireEl(shell.root, "[data-ui=levelName]"),
+      worldLabel: requireEl(shell.root, "[data-ui=worldLabel]"),
       overlay: requireEl(shell.root, "[data-ui=overlay]"),
       title: requireEl(shell.root, "[data-ui=title]"),
       message: requireEl(shell.root, "[data-ui=message]"),
@@ -187,6 +217,7 @@ export class StoryScene extends Phaser.Scene {
 
     this.hud.levelName.textContent = def.name
     this.hud.objective.textContent = def.objective
+    this.hud.worldLabel.textContent = `Story · World ${def.world}`
 
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=back]").onclick = () => this.leaveToWorldMap()
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=pauseBtn]").onclick = () => this.setPaused(true)
@@ -240,15 +271,18 @@ export class StoryScene extends Phaser.Scene {
     const world = assembler.assemble(def.chunks)
     this.ensureStoryTextures()
 
+    const skyHex = def.sky ?? world.colors[0]?.color ?? "#c5d48a"
+    const skyNum = Number.parseInt(skyHex.replace("#", ""), 16)
     this.cameras.main.setBounds(0, 0, world.width, 1080)
-    this.cameras.main.setBackgroundColor("#c5d48a")
+    this.cameras.main.setBackgroundColor(skyHex)
     this.physics.world.setBounds(0, -200, world.width, 1400, true, true, true, false)
+    this.baseGravity = this.physics.world.gravity.y || 1200
 
-    this.add.rectangle(world.width / 2, 540, world.width, 1080, 0xc5d48a).setDepth(-3)
-    this.add.rectangle(world.width / 2, 200, world.width, 220, 0xeaf3c8, 0.22).setDepth(-2)
+    this.add.rectangle(world.width / 2, 540, world.width, 1080, skyNum).setDepth(-3)
+    this.add.rectangle(world.width / 2, 200, world.width, 220, 0xeaf3c8, 0.18).setDepth(-2)
     for (let i = 0; i < Math.ceil(world.width / 280); i += 1) {
       const cx = 140 + i * 280
-      this.add.ellipse(cx, 130 + (i % 2) * 28, 120, 36, 0xf4f7e8, 0.4).setDepth(-1)
+      this.add.ellipse(cx, 130 + (i % 2) * 28, 120, 36, 0xf4f7e8, 0.28).setDepth(-1)
     }
 
     this.platforms = this.physics.add.staticGroup()
@@ -303,6 +337,67 @@ export class StoryScene extends Phaser.Scene {
     playerBody.setOffset(7, 8)
 
     this.physics.add.collider(this.player, this.platforms)
+
+    for (const mover of world.movers) {
+      const sprite = this.physics.add.image(
+        mover.worldX + mover.w / 2,
+        mover.worldY + mover.h / 2,
+        "story_log",
+      )
+      sprite.setDisplaySize(mover.w, mover.h)
+      sprite.setTint(mover.tint ?? 0x8b5a2b)
+      sprite.setDepth(3)
+      sprite.setImmovable(true)
+      ;(sprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
+      ;(sprite.body as Phaser.Physics.Arcade.Body).setSize(mover.w, mover.h)
+      this.physics.add.collider(this.player, sprite)
+      this.movers.push({
+        sprite,
+        baseX: mover.worldX + mover.w / 2,
+        baseY: mover.worldY + mover.h / 2,
+        axis: mover.axis,
+        amplitude: mover.amplitude,
+        speed: mover.speed,
+        phase: Math.random() * Math.PI * 2,
+      })
+    }
+
+    for (const hazard of world.hazards) {
+      const water = this.add.rectangle(
+        hazard.worldX + hazard.w / 2,
+        hazard.worldY + hazard.h / 2,
+        hazard.w,
+        hazard.h,
+        0x4a90b8,
+        0.45,
+      )
+      water.setDepth(0.5)
+      water.setData("current", hazard.current ?? 0)
+      water.setData("kind", hazard.kind)
+      this.physics.add.existing(water, true)
+      this.hazards.push(water)
+      this.physics.add.overlap(this.player, water, () => {
+        this.onWater(water)
+      })
+    }
+
+    if (def.ride && def.ride.waypoints.length > 0) {
+      const points = def.ride.waypoints.map((point) => assembler.worldPoint(world, point))
+      const start = points[0]
+      const sprite = this.physics.add.image(start.x, start.y, "story_tiger")
+      sprite.setDisplaySize(def.ride.w, def.ride.h)
+      sprite.setDepth(4)
+      sprite.setImmovable(true)
+      ;(sprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
+      ;(sprite.body as Phaser.Physics.Arcade.Body).setSize(def.ride.w, def.ride.h)
+      this.physics.add.collider(this.player, sprite)
+      this.ride = {
+        sprite,
+        points,
+        index: 0,
+        speed: def.ride.speed,
+      }
+    }
 
     this.enemies = this.physics.add.group()
     this.projectiles = this.physics.add.group()
@@ -478,6 +573,32 @@ export class StoryScene extends Phaser.Scene {
       crow.generateTexture("story_crow", 36, 28)
       crow.destroy()
     }
+
+    if (!this.textures.exists("story_log")) {
+      const log = this.make.graphics({ x: 0, y: 0 })
+      log.fillStyle(0x8b5a2b, 1)
+      log.fillRoundedRect(0, 4, 64, 24, 10)
+      log.fillStyle(0xa8733a, 1)
+      log.fillRoundedRect(4, 8, 56, 10, 6)
+      log.generateTexture("story_log", 64, 32)
+      log.destroy()
+    }
+
+    if (!this.textures.exists("story_tiger")) {
+      const tiger = this.make.graphics({ x: 0, y: 0 })
+      tiger.fillStyle(0xe0a040, 1)
+      tiger.fillRoundedRect(4, 8, 88, 28, 10)
+      tiger.fillStyle(0x3a2a18, 1)
+      tiger.fillRect(18, 10, 6, 24)
+      tiger.fillRect(40, 10, 6, 24)
+      tiger.fillRect(62, 10, 6, 24)
+      tiger.fillStyle(0xf0c060, 1)
+      tiger.fillCircle(12, 16, 10)
+      tiger.fillStyle(0x2a2010, 1)
+      tiger.fillCircle(8, 14, 2)
+      tiger.generateTexture("story_tiger", 100, 40)
+      tiger.destroy()
+    }
   }
 
   private spawnEnemy(id: string, x: number, y: number): void {
@@ -582,6 +703,32 @@ export class StoryScene extends Phaser.Scene {
     })
   }
 
+  private onWater(water: Phaser.GameObjects.Rectangle): void {
+    if (this.won || this.lost) {
+      return
+    }
+    const current = Number(water.getData("current") || 0)
+    const body = this.player.body as Phaser.Physics.Arcade.Body
+    if (current !== 0) {
+      body.velocity.x += current * 0.04
+    }
+    body.velocity.y = Math.min(body.velocity.y, 120)
+    const bounds = water.getBounds()
+    if (this.player.y > bounds.centerY + 10) {
+      this.waterGrace += 0.016
+      if (this.waterGrace > 0.35) {
+        this.waterGrace = 0
+        this.enterDeadState(
+          this.checkpoint &&
+            (this.checkpoint.x !== this.level.playerSpawn.x ||
+              this.checkpoint.y !== this.level.playerSpawn.y)
+            ? "The river is soft. Continue from the last Moon Pool."
+            : "The river is soft. Continue from the start.",
+        )
+      }
+    }
+  }
+
   private async onExit(): Promise<void> {
     if (this.won || this.lost || this.leaving) {
       return
@@ -639,6 +786,54 @@ export class StoryScene extends Phaser.Scene {
     this.invuln = Math.max(0, this.invuln - dt)
     this.dashCooldown = Math.max(0, this.dashCooldown - dt)
     this.dashTime = Math.max(0, this.dashTime - dt)
+    this.waterGrace = Math.max(0, this.waterGrace - dt * 0.5)
+
+    for (const mover of this.movers) {
+      mover.phase += dt * mover.speed
+      const offset = Math.sin(mover.phase) * mover.amplitude
+      const nextX = mover.axis === "x" ? mover.baseX + offset : mover.baseX
+      const nextY = mover.axis === "y" ? mover.baseY + offset : mover.baseY
+      const dx = nextX - mover.sprite.x
+      const dy = nextY - mover.sprite.y
+      mover.sprite.setPosition(nextX, nextY)
+      ;(mover.sprite.body as Phaser.Physics.Arcade.Body).updateFromGameObject()
+      const body = this.player.body as Phaser.Physics.Arcade.Body
+      if (body.blocked.down || body.touching.down) {
+        const onMover =
+          Math.abs(this.player.x - mover.sprite.x) < mover.sprite.displayWidth * 0.55 &&
+          Math.abs(this.player.y - (mover.sprite.y - mover.sprite.displayHeight * 0.5)) < 40
+        if (onMover) {
+          this.player.x += dx
+          this.player.y += dy
+        }
+      }
+    }
+
+    if (this.ride) {
+      const target = this.ride.points[this.ride.index]
+      const dx = target.x - this.ride.sprite.x
+      const dy = target.y - this.ride.sprite.y
+      const dist = Math.hypot(dx, dy) || 1
+      const step = Math.min(this.ride.speed * dt, dist)
+      const mx = (dx / dist) * step
+      const my = (dy / dist) * step
+      this.ride.sprite.x += mx
+      this.ride.sprite.y += my
+      ;(this.ride.sprite.body as Phaser.Physics.Arcade.Body).updateFromGameObject()
+      const body = this.player.body as Phaser.Physics.Arcade.Body
+      if (body.blocked.down || body.touching.down) {
+        const onRide =
+          Math.abs(this.player.x - this.ride.sprite.x) < this.ride.sprite.displayWidth * 0.55 &&
+          Math.abs(this.player.y - (this.ride.sprite.y - this.ride.sprite.displayHeight * 0.5)) < 48
+        if (onRide) {
+          this.player.x += mx
+          this.player.y += my
+        }
+      }
+      if (dist < 8) {
+        this.ride.index = Math.min(this.ride.index + 1, this.ride.points.length - 1)
+      }
+    }
 
     const input = getInput().snapshot()
     if (input.pausePressed) {
@@ -674,6 +869,13 @@ export class StoryScene extends Phaser.Scene {
     let vx = input.moveX * (this.dashTime > 0 ? 480 : 260)
     if (input.moveX) {
       this.facing = input.moveX > 0 ? 1 : -1
+    }
+
+    if (this.glide && !onFloor && input.jumpHeld && body.velocity.y > 0) {
+      body.setGravityY(this.baseGravity * 0.22)
+      body.velocity.y = Math.min(body.velocity.y, 90)
+    } else {
+      body.setGravityY(this.baseGravity)
     }
 
     if (this.wallBounce && (body.blocked.left || body.blocked.right) && !onFloor && input.jumpPressed) {

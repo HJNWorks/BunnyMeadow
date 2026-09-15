@@ -1,0 +1,14 @@
+{
+  "id": "w3_1_paper_lights",
+  "world": 3,
+  "index": 1,
+  "name": "Paper Lights",
+  "chunks": ["chunk_lantern_start", "chunk_lantern_glide", "chunk_lantern_pool"],
+  "playerSpawn": { "x": 100, "y": 900 },
+  "moonPool": { "chunk": 2, "x": 240, "y": 920 },
+  "exit": { "chunk": 2, "x": 820, "y": 920 },
+  "moonLine": "Lanterns lift soft paws. Hold the jump and float.",
+  "objective": "Hold jump to glide between lantern platforms.",
+  "glide": true,
+  "sky": "#2c3348"
+}

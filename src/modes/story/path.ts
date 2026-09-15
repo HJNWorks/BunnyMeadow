@@ -86,6 +86,56 @@ const STATIONS: Record<string, StoryStation> = {
     levelId: "w1_3_cart_chase",
     soon: true,
   },
+  w2_1_green_corridor: {
+    id: "w2_1_green_corridor",
+    kind: "level",
+    title: "Green Corridor",
+    blurb: "Climb the bamboo shafts. Bounce off the green walls.",
+    lines: [],
+    levelId: "w2_1_green_corridor",
+  },
+  w2_2_floating_logs: {
+    id: "w2_2_floating_logs",
+    kind: "level",
+    title: "Floating Logs",
+    blurb: "Hop the floating logs. The river carries you gently.",
+    lines: [],
+    levelId: "w2_2_floating_logs",
+  },
+  w2_3_raft_gauntlet: {
+    id: "w2_3_raft_gauntlet",
+    kind: "level",
+    title: "Raft Gauntlet",
+    blurb: "Heron Fisher waits on the rafts.",
+    lines: [],
+    levelId: "w2_3_raft_gauntlet",
+    soon: true,
+  },
+  w3_1_paper_lights: {
+    id: "w3_1_paper_lights",
+    kind: "level",
+    title: "Paper Lights",
+    blurb: "Hold jump to glide between lantern platforms.",
+    lines: [],
+    levelId: "w3_1_paper_lights",
+  },
+  w3_2_tiger_road: {
+    id: "w3_2_tiger_road",
+    kind: "level",
+    title: "Tiger Road",
+    blurb: "Ride the tiger across the gaps. Hop when you must.",
+    lines: [],
+    levelId: "w3_2_tiger_road",
+  },
+  w3_3_crane_summit: {
+    id: "w3_3_crane_summit",
+    kind: "level",
+    title: "Crane Summit",
+    blurb: "The Crane Envoy waits above the blossoms.",
+    lines: [],
+    levelId: "w3_3_crane_summit",
+    soon: true,
+  },
 }
 
 const WORLDS: StoryWorldNode[] = [
@@ -114,8 +164,8 @@ const WORLDS: StoryWorldNode[] = [
     world: 2,
     title: "Bamboo and River",
     tagline: "Dusk water and tall green walls.",
-    status: "soon",
-    stationIds: [],
+    status: "live",
+    stationIds: ["w2_1_green_corridor", "w2_2_floating_logs", "w2_3_raft_gauntlet"],
     x: 52,
     y: 44,
   },
@@ -124,8 +174,8 @@ const WORLDS: StoryWorldNode[] = [
     world: 3,
     title: "Lantern Peak",
     tagline: "Festival lights and a tiger road.",
-    status: "soon",
-    stationIds: [],
+    status: "live",
+    stationIds: ["w3_1_paper_lights", "w3_2_tiger_road", "w3_3_crane_summit"],
     x: 70,
     y: 30,
   },
@@ -142,6 +192,15 @@ const WORLDS: StoryWorldNode[] = [
 ]
 
 const W0_IDS = ["w0_setting", "w0_lore_moon", "w0_controls"] as const
+
+const W1_PLAYABLE = ["w1_1_soft_paths", "w1_2_hedge_maze"] as const
+const W2_PLAYABLE = ["w2_1_green_corridor", "w2_2_floating_logs"] as const
+const W3_PLAYABLE = ["w3_1_paper_lights", "w3_2_tiger_road"] as const
+
+function worldPlayableCleared(save: SaveV1, ids: readonly string[]): boolean {
+  const cleared = new Set(save.progress.story.cleared)
+  return ids.every((id) => cleared.has(id))
+}
 
 export function listWorlds(): StoryWorldNode[] {
   return [...WORLDS]
@@ -182,7 +241,21 @@ export function isWorldUnlocked(save: SaveV1, worldId: StoryWorldId): boolean {
   if (worldId === "w1") {
     return isW0Complete(save)
   }
+  if (worldId === "w2") {
+    return isW0Complete(save) && worldPlayableCleared(save, W1_PLAYABLE)
+  }
+  if (worldId === "w3") {
+    return isW0Complete(save) && worldPlayableCleared(save, W2_PLAYABLE)
+  }
   return false
+}
+
+function previousInChain(ids: readonly string[], stationId: string): string | null {
+  const index = ids.indexOf(stationId)
+  if (index <= 0) {
+    return null
+  }
+  return ids[index - 1]
 }
 
 export function isStationUnlocked(save: SaveV1, stationId: string): boolean {
@@ -192,23 +265,29 @@ export function isStationUnlocked(save: SaveV1, stationId: string): boolean {
   }
   const cleared = new Set(save.progress.story.cleared)
   if (stationId.startsWith("w0_")) {
-    const index = W0_IDS.indexOf(stationId as (typeof W0_IDS)[number])
-    if (index <= 0) {
-      return true
-    }
-    return cleared.has(W0_IDS[index - 1])
+    const prev = previousInChain(W0_IDS, stationId)
+    return prev === null || cleared.has(prev)
   }
   if (!isW0Complete(save)) {
     return false
   }
-  if (stationId === "w1_1_soft_paths") {
-    return true
+  if (stationId.startsWith("w1_")) {
+    const prev = previousInChain(W1_PLAYABLE, stationId)
+    return prev === null || cleared.has(prev)
   }
-  if (stationId === "w1_2_hedge_maze") {
-    return cleared.has("w1_1_soft_paths")
+  if (stationId.startsWith("w2_")) {
+    if (!worldPlayableCleared(save, W1_PLAYABLE)) {
+      return false
+    }
+    const prev = previousInChain(W2_PLAYABLE, stationId)
+    return prev === null || cleared.has(prev)
   }
-  if (stationId === "w1_3_cart_chase") {
-    return false
+  if (stationId.startsWith("w3_")) {
+    if (!worldPlayableCleared(save, W2_PLAYABLE)) {
+      return false
+    }
+    const prev = previousInChain(W3_PLAYABLE, stationId)
+    return prev === null || cleared.has(prev)
   }
   return false
 }
@@ -244,5 +323,14 @@ export function defaultExpandedWorld(save: SaveV1): StoryWorldId {
   if (!isW0Complete(save)) {
     return "w0"
   }
-  return "w1"
+  if (!worldPlayableCleared(save, W1_PLAYABLE)) {
+    return "w1"
+  }
+  if (!worldPlayableCleared(save, W2_PLAYABLE)) {
+    return "w2"
+  }
+  if (!worldPlayableCleared(save, W3_PLAYABLE)) {
+    return "w3"
+  }
+  return "w3"
 }

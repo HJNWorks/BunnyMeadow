@@ -6,6 +6,7 @@ export type InputSnapshot = {
   moveY: number
   dashPressed: boolean
   jumpPressed: boolean
+  jumpHeld: boolean
   pausePressed: boolean
   confirmPressed: boolean
   cancelPressed: boolean
@@ -134,11 +135,14 @@ export class InputBus {
     const moveY =
       Number(this.anyKey(this.bindings.moveDown)) - Number(this.anyKey(this.bindings.moveUp)) ||
       axis.y
+    const pad = typeof navigator !== "undefined" ? navigator.getGamepads?.()?.[0] : null
+    const jumpHeldPad = !!pad?.buttons[this.bindings.gamepadJump]?.pressed
     const snap: InputSnapshot = {
       moveX: Math.max(-1, Math.min(1, moveX)),
       moveY: Math.max(-1, Math.min(1, moveY)),
       dashPressed: this.edge.dash,
       jumpPressed: this.edge.jump,
+      jumpHeld: this.anyKey(this.bindings.jump) || jumpHeldPad,
       pausePressed: this.edge.pause,
       confirmPressed: this.edge.confirm,
       cancelPressed: this.edge.cancel,

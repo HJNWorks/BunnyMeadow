@@ -197,17 +197,17 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 **Status: done**
 
-**Filled:** Achievements rename (Title); WorldMap path map (W0 stations + W1 expandable) + Story Phaser Arcade W1; ChunkAssembler JSON chunks; Moon Pool checkpoints + DialogueOverlay; Soft Paths, Hedge Maze; Cart Chase soon node; `storyWorld1` true; `FOX_FOILED` / `WORLD1_CLEAR` reserved for 1-3 clear.
+**Filled:** Achievements rename (Title); WorldMap path map (W0 stations + W1–W3 expandable) + Story Phaser Arcade; ChunkAssembler JSON chunks with movers/hazards; Moon Pool checkpoints + DialogueOverlay; Soft Paths, Hedge Maze, Green Corridor, Floating Logs, Paper Lights, Tiger Road live; boss nodes Soon; `storyWorld1` true.
 
-**Exit criteria (met):** clear Soft Paths / Hedge Maze; Moon Pool checkpoint restore; W0 beats unlock Soft Paths.
+**Exit criteria (met for non-boss slice):** clear six playable stations; Moon Pool checkpoint restore; W0 beats unlock Soft Paths; W1 2/2 unlocks W2; W2 2/2 unlocks W3.
 
 ### M4 — Story content complete
 
-**Goal:** Worlds 2–3, bosses, moon finale, epilogue.
+**Goal:** Bosses (Cart Chase, Raft Gauntlet, Crane Summit), moon finale, epilogue.
 
-**Fills:** remaining levels, Heron Fisher, Crane Envoy, Guanghan finale, epilogue. Start Steamworks verification in parallel ([STEAM.md](STEAM.md)). Optionally set `storyFull` for desktop builds only.
+**Fills:** remaining boss levels, Heron Fisher, Crane Envoy, Guanghan finale, epilogue. Start Steamworks verification in parallel ([STEAM.md](STEAM.md)). Optionally set `storyFull` for desktop builds only.
 
-**Must not reinvent:** path-map WorldMap, boss-as-phases-in-enemies-data pattern.
+**Must not reinvent:** path-map WorldMap, ChunkAssembler movers/hazards, boss-as-phases-in-enemies-data pattern.
 
 **Exit criteria:** full story clearable; `MOON_RETURN` unlocks.
 
@@ -255,4 +255,4 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 ## Suggested next coding session
 
-Story path map and World 0 stations are live. Next Story content work remains **M4**: Worlds 2–3, bosses, moon finale, epilogue. Expand path nodes from `soon` to playable. Keep ChunkAssembler/JSON chunk format. Do not reinvent the path-map WorldMap or boss-as-phases patterns.
+Six non-boss path stations are live (W1–W3 × 2). Next Story work: boss levels (Cart Chase, Raft Gauntlet, Crane Summit), then Guanghan finale and epilogue. Keep ChunkAssembler movers/hazards and path-map WorldMap.

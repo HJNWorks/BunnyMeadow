@@ -21,36 +21,43 @@ const SHELL_HTML = `
   </div>
   <div class="meadow-field">
     <canvas data-ui="canvas" width="960" height="540" aria-label="Bunny Meadow"></canvas>
-  </div>
-  <div class="meadow-lobby" data-ui="lobby">
-    <div class="meadow-lobby-card">
-      <div class="meadow-lobby-preview">
-        <canvas class="meadow-preview" data-ui="preview" width="336" height="336" aria-label="Bunny preview"></canvas>
-      </div>
-      <div class="meadow-lobby-side">
-        <h2>Choose map</h2>
-        <div class="meadow-map-list" data-ui="mapList"></div>
-        <h2>Difficulty</h2>
-        <div class="meadow-diff-list" data-ui="difficultyList"></div>
-        <button type="button" class="bm-btn warm" data-ui="startRun">Start run</button>
+    <div class="meadow-lobby" data-ui="lobby">
+      <div class="meadow-lobby-card">
+        <h2>Pre-run lobby</h2>
+        <p>Pick a map and difficulty, then start.</p>
+        <div class="meadow-lobby-row">
+          <canvas class="meadow-preview" data-ui="preview" width="336" height="336" aria-label="Bunny preview"></canvas>
+          <div class="meadow-lobby-meta">
+            <div class="meadow-section-label">Map</div>
+            <div class="meadow-map-list" data-ui="mapList"></div>
+          </div>
+        </div>
+        <div class="meadow-section-label meadow-diff-heading">Difficulty</div>
+        <div class="meadow-diff-list" data-ui="difficultyList" role="listbox" aria-label="Difficulty"></div>
+        <div class="meadow-lobby-actions">
+          <button type="button" class="bm-btn ghost" data-ui="abortLobby">Back to Moon Tasks</button>
+          <button type="button" class="bm-btn warm" data-ui="startRun">Start run →</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="meadow-overlay" data-ui="overlay" hidden>
-    <div class="meadow-card">
-      <h2 data-ui="title">Ready</h2>
-      <p data-ui="message"></p>
-      <button type="button" class="bm-btn warm" data-ui="play">Play again</button>
-      <button type="button" class="bm-btn ghost" data-ui="toLobby">Lobby</button>
+    <div class="meadow-overlay" data-ui="overlay" hidden>
+      <div class="meadow-card">
+        <h2 data-ui="title">Ready</h2>
+        <p data-ui="message"></p>
+        <div class="meadow-end-actions">
+          <button type="button" class="bm-btn warm" data-ui="play">Play again</button>
+          <button type="button" class="bm-btn ghost" data-ui="toLobby">Lobby</button>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="meadow-overlay meadow-pause" data-ui="pausePanel" hidden>
-    <div class="meadow-card">
-      <h2>Paused</h2>
-      <div class="meadow-pause-actions">
-        <button type="button" class="bm-btn warm" data-ui="resume">Resume</button>
-        <button type="button" class="bm-btn ghost" data-ui="openSettings">Settings</button>
-        <button type="button" class="bm-btn ghost" data-ui="quitModes">Quit to Moon Tasks</button>
+    <div class="meadow-overlay meadow-pause" data-ui="pausePanel" hidden>
+      <div class="meadow-card">
+        <h2>Paused</h2>
+        <div class="meadow-pause-actions">
+          <button type="button" class="bm-btn warm" data-ui="resume">Resume</button>
+          <button type="button" class="bm-btn ghost" data-ui="openSettings">Settings</button>
+          <button type="button" class="bm-btn ghost" data-ui="quitModes">Quit to Moon Tasks</button>
+        </div>
       </div>
     </div>
   </div>
@@ -63,22 +70,63 @@ const MEADOW_CSS = `
 .meadow-header h1 { font-size:40px; margin:8px 0; }
 .meadow-bar { display:flex; gap:18px; align-items:center; margin:16px 0 12px; flex-wrap:wrap; }
 .meadow-bar .bm-btn { margin-left:auto; }
-.meadow-field > canvas[data-ui="canvas"] { display:block; width:100%; aspect-ratio:16/9; touch-action:none; background:#d7e3b8; border-radius:20px; border:1px solid #cbd2ba; }
+.meadow-field { position:relative; overflow:hidden; border-radius:24px; box-shadow:0 14px 40px #415c3620; background:#b7ce88; }
+.meadow-field > canvas[data-ui="canvas"] { display:block; width:100%; aspect-ratio:16/9; touch-action:none; }
 .meadow-overlay, .meadow-lobby { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:#34563835; backdrop-filter:blur(3px); }
 .meadow-overlay[hidden], .meadow-lobby[hidden] { display:none; }
-.meadow-card, .meadow-lobby-card { background:#fffaf0; padding:28px; border-radius:24px; max-width:720px; width:min(920px, 92vw); }
-.meadow-card { text-align:center; max-width:420px; }
-.meadow-lobby-card { display:grid; grid-template-columns:336px 1fr; gap:24px; align-items:start; }
-.meadow-lobby-side h2 { margin:0 0 10px; font-size:18px; }
-.meadow-map-list, .meadow-diff-list { display:grid; gap:8px; margin-bottom:16px; }
-.meadow-map-list button, .meadow-diff-list button { text-align:left; }
-.meadow-preview { width:336px; height:336px; border-radius:18px; background:#e8efd4; display:block; }
+.meadow-card, .meadow-lobby-card { max-width:560px; margin:16px; text-align:center; background:#fffaf0; padding:28px; border-radius:24px; box-shadow:0 12px 30px #26432425; }
+.meadow-lobby-card { width:min(560px, 94%); }
+.meadow-card h2, .meadow-lobby-card h2 { font:32px Georgia, serif; margin:0 0 12px; font-weight:400; }
+.meadow-card p, .meadow-lobby-card p { line-height:1.6; color:#71816e; margin:0; }
+.meadow-lobby-row { display:flex; gap:18px; align-items:stretch; text-align:left; margin:18px 0 12px; }
+.meadow-preview {
+  flex:0 0 auto;
+  width:168px;
+  height:168px;
+  border-radius:16px;
+  background:#bed593;
+  display:block;
+}
+.meadow-lobby-meta { flex:1; min-width:0; display:flex; flex-direction:column; }
+.meadow-section-label { font:12px Georgia, serif; letter-spacing:0.04em; color:#6a7a64; margin:0 0 8px; }
+.meadow-diff-heading { margin-top:4px; text-align:center; }
+.meadow-diff-list {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  margin:0 0 18px;
+}
+.meadow-diff-chip {
+  flex:0 0 auto;
+  border:1px solid #c9cfba;
+  background:#fff;
+  border-radius:999px;
+  padding:8px 14px;
+  font:13px Georgia, serif;
+  color:#3d4934;
+  cursor:pointer;
+}
+.meadow-diff-chip:hover { border-color:#8aaa6a; background:#f4f8ec; }
+.meadow-diff-chip.selected { border-color:#6a8f4e; background:#eef6e2; color:#2f4a28; }
+.meadow-diff-chip[data-id="hardcore"].selected { border-color:#a85a3a; background:#f7ebe4; color:#6a3220; }
+.meadow-map-list { display:grid; grid-template-columns:1fr 1fr; gap:8px; flex:1; }
+.meadow-map-card { border:1px solid #c9cfba; background:#fff; border-radius:12px; padding:10px; text-align:left; cursor:pointer; }
+.meadow-map-card strong { display:block; font-size:14px; }
+.meadow-map-card span { display:block; font-size:12px; color:#71816e; }
+.meadow-map-card.selected { border-color:#6a8f4e; background:#eef6e2; }
+.meadow-map-card.locked { opacity:0.45; cursor:not-allowed; }
+.meadow-lobby-actions { display:flex; flex-direction:column; gap:10px; }
+.meadow-end-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
 .meadow-pause-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
 .meadow-touch { position:fixed; right:24px; bottom:24px; display:none; z-index:40; }
-@media (max-width: 820px) {
-  .meadow-lobby-card { grid-template-columns:1fr; }
-  .meadow-preview { width:100%; height:auto; aspect-ratio:1; }
-  .meadow-touch { display:inline-flex; }
+@media (pointer:coarse) { .meadow-touch { display:inline-flex; } }
+@media (max-width:600px) {
+  .meadow-header h1 { font-size:32px; }
+  .meadow-bar { gap:12px; font-size:12px; }
+  .meadow-lobby-row { flex-direction:column; align-items:center; }
+  .meadow-preview { width:148px; height:148px; }
+  .meadow-map-list { grid-template-columns:1fr; width:100%; }
 }
 `
 
@@ -128,6 +176,10 @@ export class MeadowScene extends Phaser.Scene {
         onQuitToModes: () => this.scene.start("TaskSelect"),
       },
     )
+
+    requireEl<HTMLButtonElement>(shell.root, "[data-ui=abortLobby]").onclick = () => {
+      this.scene.start("TaskSelect")
+    }
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.disposeRuntime, this)
     this.events.once(Phaser.Scenes.Events.DESTROY, this.disposeRuntime, this)

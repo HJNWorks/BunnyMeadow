@@ -1,0 +1,14 @@
+{
+  "id": "w2_1_green_corridor",
+  "world": 2,
+  "index": 1,
+  "name": "Green Corridor",
+  "chunks": ["chunk_bamboo_start", "chunk_bamboo_shaft", "chunk_bamboo_pool"],
+  "playerSpawn": { "x": 100, "y": 900 },
+  "moonPool": { "chunk": 2, "x": 200, "y": 920 },
+  "exit": { "chunk": 2, "x": 820, "y": 920 },
+  "moonLine": "She is safe above the clouds. Climb when the water turns silver.",
+  "objective": "Climb the bamboo shafts. Bounce off the green walls.",
+  "wallBounce": true,
+  "sky": "#8fad6a"
+}
