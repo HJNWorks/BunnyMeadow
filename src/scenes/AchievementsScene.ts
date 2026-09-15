@@ -5,9 +5,9 @@ import { getPlatform } from "../core/platform"
 import { getSave } from "../core/session"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 
-export class CreditsScene extends Phaser.Scene {
+export class AchievementsScene extends Phaser.Scene {
   constructor() {
-    super("Credits")
+    super("Achievements")
   }
 
   create(): void {
@@ -29,10 +29,9 @@ export class CreditsScene extends Phaser.Scene {
       this,
       `
       <div class="bm-shell">
-        <h1>${t("credits.title")}</h1>
-        <p class="bm-tagline">Bunny Meadow. Family woodland adventure. Phaser 4 + Vite.</p>
-        <h2>${t("credits.achievements")}</h2>
+        <h1>${t("achievements.title")}</h1>
         <ul class="bm-list">${items}</ul>
+        <p class="bm-tagline">${t("achievements.footer")}</p>
         <div class="bm-actions bm-start">
           <button type="button" class="bm-btn ghost" data-ui="back">${t("common.back")}</button>
         </div>

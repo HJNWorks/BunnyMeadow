@@ -1,0 +1,12 @@
+{
+  "id": "chunk_meadow_start",
+  "width": 960,
+  "height": 1080,
+  "groundY": 980,
+  "platforms": [
+    { "x": 0, "y": 980, "w": 960, "h": 100 }
+  ],
+  "walls": [],
+  "enemies": [],
+  "color": "#c5d48a"
+}

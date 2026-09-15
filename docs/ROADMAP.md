@@ -16,7 +16,8 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | M1 meta shell + stub surface | done |
 | M2 Meadow arcade expansion | done |
 | M2 Moon Tasks (Night Watch + Hide and Seek) | done |
-| M3–M8 | not started; next = M3 Story W1 |
+| M3 Story World 1 vertical slice | done |
+| M4–M8 | not started; next = M4 Story content |
 
 ## Done
 
@@ -25,7 +26,7 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 - Phaser 4 + Vite + TypeScript scaffold; Pages npm build
 - First Meadow arcade port (`MeadowRuntime` / `MeadowScene`)
 - `core/platform` web implementation (`SaveStore`, Achievements, Window, Presence)
-- Design docs; DomShell; Title; Mode Select; Settings; Customize; Credits
+- Design docs; DomShell; Title; Mode Select; Settings; Customize; Achievements
 - Save/session/migrate; difficulty API; input (incl. `jump`); audio/i18n buses; contentFlags
 - Full scene registry created (later surfaces as stubs at M1 close)
 - Stub modules at M1 close: Spawner, ChunkAssembler, TaskRunner (filled or partially filled in M2; see below)
@@ -60,15 +61,15 @@ Later milestones must not invent a second version of these. M1 created them (fil
 | ModeSelect | menu HTML | live hub |
 | Settings | menu HTML | live |
 | Customize | menu HTML | live |
-| Credits | menu HTML | live (includes achievements list) |
+| Achievements | menu HTML | live (achievement list + short project credit) |
 | Meadow | play | live (data-driven arcade) |
-| WorldMap | menu HTML | stub card |
-| Story | play | stub scene |
+| WorldMap | menu HTML | live (World 1 level select) |
+| Story | play | live (Phaser side-scroll W1) |
 | TaskSelect | menu HTML | live (Night Watch, Hide and Seek) |
 | TaskRun | play | live (canvas TaskRuntime) |
 | Endless | play | stub scene |
 | Pause | overlay HTML | registered stub; Meadow and Tasks use inline pause cards (shared Pause scene unused) |
-| DialogueOverlay | overlay HTML | stub API, no lines |
+| DialogueOverlay | overlay HTML | live (two-line card; Moon Pool lines) |
 | Result | menu HTML | stub shell for post-level |
 
 Missing routes are forbidden. Locked or unfinished modes still navigate to a stub screen.
@@ -81,7 +82,7 @@ Missing routes are forbidden. Locked or unfinished modes still navigate to a stu
 | --- | --- | --- |
 | `meadow` | Meadow playable | true |
 | `tasks` | Moon Tasks selectable | true |
-| `storyWorld1` | Story W1 on web | false until M3 |
+| `storyWorld1` | Story W1 on web | true |
 | `storyFull` | Worlds 2–3 + finale | false (Steam / later) |
 | `endless` | Endless selectable | false until M5 |
 | `webFullStory` | Override to ship full story on web | false (confirm before M7) |
@@ -140,9 +141,9 @@ Shared `ModeContext`: active save, difficulty resolver, input, audio bus, `t()`,
 | Module | Status |
 | --- | --- |
 | `systems/Spawner.ts` | Meadow + Tasks subset live (chaser / patrol / ranged_lob); reach + fuller Story usage later |
-| `systems/ChunkAssembler.ts` | stub → M3 |
+| `systems/ChunkAssembler.ts` | live for W1 JSON chunks |
 | `modes/tasks/TaskRunner.ts` | live for Night Watch + Hide and Seek; other task ids typed but unregistered |
-| `scenes/DialogueOverlay.ts` | stub → M3 |
+| `scenes/DialogueOverlay.ts` | live (two-line overlay) |
 | `core/audio.ts` | volume bus; assets → M5 |
 | `core/i18n.ts` | `t(key)` + EN/DE/ZH-Hans files; full copy → M5 |
 | `core/platform/desktop.ts` | → M6 |
@@ -194,37 +195,11 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 ### M3 — Story vertical slice
 
-**Status: next**
+**Status: done**
 
-**Goal:** World 1 playable through Fox Hu cart chase.
+**Filled:** Achievements rename (Title); WorldMap + Story Phaser Arcade W1; ChunkAssembler JSON chunks; Moon Pool checkpoints + DialogueOverlay; Soft Paths, Hedge Maze, Cart Chase; `storyWorld1` true; `FOX_FOILED` / `WORLD1_CLEAR` on 1-3 clear.
 
-**Fills**
-
-- ChunkAssembler + Tiled/chunk path (`public/assets/tilemaps/`, chunk ids per [WORLDS.md](WORLDS.md))
-- `src/modes/story/` bodies (replace Story stub): run, jump, dash, wall bounce
-- Moon Pools writing `progress.story.checkpoints`
-- DialogueOverlay (two-line rule, [LORE.md](LORE.md) check); Chang'e Moon Pool one-liners from [STORY.md](STORY.md)
-- Levels 1-1 Soft Paths, 1-2 Hedge Maze, 1-3 Cart Chase (Fox Hu)
-- WorldMap live enough to pick W1 levels
-- Set `contentFlags.storyWorld1` true; gate Mode Select Story card like Tasks
-- Prefer routing Meadow/Task pause through shared `Pause` scene if Story will reuse it (optional within M3)
-
-**Prerequisites already in place (do not reinvent)**
-
-- Save `progress.story.*`, `jump` in bindings/input, Spawner + `enemies.json`, DomShell, ModeContext, difficulty API
-- Story scene key registered; Mode Select already routes Story → WorldMap stub
-
-**Must not reinvent:** `jump` bindings, DialogueOverlay mount pattern, save story fields.
-
-**Exit criteria:** clear W1; Moon Pool reload restores checkpoint; Fox Hu chase unlocks `FOX_FOILED`.
-
-**Suggested M3 session order**
-
-1. Data: W1 level JSON / chunk list + env kits for meadow/orchard
-2. ChunkAssembler minimum + StoryRuntime side-scroll physics (jump first)
-3. Moon Pool checkpoint write/read
-4. DialogueOverlay + 1-1 soft teach level
-5. 1-2 crow/wall bounce; 1-3 Fox Hu cart; WorldMap + `storyWorld1` flag
+**Exit criteria (met):** clear W1; Moon Pool checkpoint restore; Fox Hu chase unlocks `FOX_FOILED`.
 
 ### M4 — Story content complete
 
@@ -280,4 +255,4 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 ## Suggested next coding session
 
-Implement **M3** in the order above: chunk data → Story jump physics → Moon Pool checkpoints → DialogueOverlay → W1 levels → `storyWorld1` flag. Keep Meadow/Tasks canvas arcade separate; Story is Phaser side-scroll, not another MeadowRuntime clone.
+Start **M4**: Worlds 2–3, bosses, moon finale, epilogue. Keep ChunkAssembler/JSON chunk format; expand env kits. Do not reinvent WorldMap or boss-as-phases patterns.

@@ -1,0 +1,12 @@
+{
+  "id": "chunk_chase_a",
+  "width": 1200,
+  "height": 1080,
+  "groundY": 980,
+  "platforms": [
+    { "x": 0, "y": 980, "w": 1200, "h": 100 }
+  ],
+  "walls": [],
+  "enemies": [],
+  "color": "#b8c98a"
+}

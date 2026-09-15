@@ -1,0 +1,13 @@
+{
+  "id": "w1_3_cart_chase",
+  "world": 1,
+  "index": 3,
+  "name": "Cart Chase",
+  "chunks": ["chunk_chase_a", "chunk_chase_b"],
+  "playerSpawn": { "x": 100, "y": 900 },
+  "moonPool": { "chunk": 0, "x": 900, "y": 920 },
+  "exit": { "chunk": 1, "x": 1050, "y": 920 },
+  "moonLine": "Fox Hu runs. The basket waits at home.",
+  "objective": "Beat Fox Hu's cart to the burrow basket.",
+  "foxHu": { "startX": 400, "y": 900, "speed": 140 }
+}

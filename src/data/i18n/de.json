@@ -4,7 +4,7 @@
   "title.play": "Spielen",
   "title.settings": "Einstellungen",
   "title.customize": "Anpassen",
-  "title.credits": "Credits",
+  "title.achievements": "Erfolge",
   "mode.title": "Waehle einen Pfad",
   "mode.meadow": "Wiese",
   "mode.meadow.desc": "Karotten sammeln. Fuechse meiden. Heimkehren.",
@@ -32,7 +32,7 @@
   "customize.fur": "Fell",
   "customize.ears": "Ohren",
   "customize.accessory": "Accessoire",
-  "credits.title": "Credits",
-  "credits.achievements": "Erfolge",
+  "achievements.title": "Erfolge",
+  "achievements.footer": "Bunny Meadow. Familien-Waldabenteuer.",
   "common.back": "Zurueck"
 }

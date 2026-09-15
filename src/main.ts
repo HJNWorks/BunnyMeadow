@@ -6,18 +6,14 @@ import { TitleScene } from "./scenes/TitleScene"
 import { ModeSelectScene } from "./scenes/ModeSelectScene"
 import { SettingsScene } from "./scenes/SettingsScene"
 import { CustomizeScene } from "./scenes/CustomizeScene"
-import { CreditsScene } from "./scenes/CreditsScene"
+import { AchievementsScene } from "./scenes/AchievementsScene"
 import { MeadowScene } from "./modes/meadow/MeadowScene"
 import { TaskSelectScene } from "./modes/tasks/TaskSelectScene"
 import { TaskRunScene } from "./modes/tasks/TaskRunScene"
-import {
-  WorldMapScene,
-  StoryScene,
-  EndlessScene,
-  ResultScene,
-  PauseScene,
-  DialogueOverlayScene,
-} from "./scenes/stubs"
+import { WorldMapScene } from "./modes/story/WorldMapScene"
+import { StoryScene } from "./modes/story/StoryScene"
+import { DialogueOverlayScene } from "./scenes/DialogueOverlayScene"
+import { EndlessScene, ResultScene, PauseScene } from "./scenes/stubs"
 
 initPlatform()
 
@@ -27,6 +23,13 @@ const config: Phaser.Types.Core.GameConfig = {
   backgroundColor: "#1a2418",
   input: {
     gamepad: true,
+  },
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { x: 0, y: 1400 },
+      debug: false,
+    },
   },
   scale: {
     mode: Phaser.Scale.FIT,
@@ -41,7 +44,7 @@ const config: Phaser.Types.Core.GameConfig = {
     ModeSelectScene,
     SettingsScene,
     CustomizeScene,
-    CreditsScene,
+    AchievementsScene,
     MeadowScene,
     WorldMapScene,
     StoryScene,

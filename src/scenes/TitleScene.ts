@@ -19,7 +19,7 @@ export class TitleScene extends Phaser.Scene {
           <button type="button" class="bm-btn" data-ui="play">${t("title.play")}</button>
           <button type="button" class="bm-btn ghost" data-ui="settings">${t("title.settings")}</button>
           <button type="button" class="bm-btn ghost" data-ui="customize">${t("title.customize")}</button>
-          <button type="button" class="bm-btn ghost" data-ui="credits">${t("title.credits")}</button>
+          <button type="button" class="bm-btn ghost" data-ui="achievements">${t("title.achievements")}</button>
         </div>
       </div>
       `,
@@ -29,6 +29,6 @@ export class TitleScene extends Phaser.Scene {
     requireEl<HTMLButtonElement>(root, "[data-ui=play]").onclick = () => this.scene.start("ModeSelect")
     requireEl<HTMLButtonElement>(root, "[data-ui=settings]").onclick = () => this.scene.start("Settings")
     requireEl<HTMLButtonElement>(root, "[data-ui=customize]").onclick = () => this.scene.start("Customize")
-    requireEl<HTMLButtonElement>(root, "[data-ui=credits]").onclick = () => this.scene.start("Credits")
+    requireEl<HTMLButtonElement>(root, "[data-ui=achievements]").onclick = () => this.scene.start("Achievements")
   }
 }

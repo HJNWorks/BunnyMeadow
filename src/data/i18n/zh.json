@@ -4,7 +4,7 @@
   "title.play": "开始",
   "title.settings": "设置",
   "title.customize": "装扮",
-  "title.credits": "制作人员",
+  "title.achievements": "成就",
   "mode.title": "选择一条路",
   "mode.meadow": "草地",
   "mode.meadow.desc": "收集胡萝卜。躲开狐狸。回家。",
@@ -32,7 +32,7 @@
   "customize.fur": "毛色",
   "customize.ears": "耳朵",
   "customize.accessory": "配饰",
-  "credits.title": "制作人员",
-  "credits.achievements": "成就",
+  "achievements.title": "成就",
+  "achievements.footer": "Bunny Meadow。家庭向的林间冒险。",
   "common.back": "返回"
 }

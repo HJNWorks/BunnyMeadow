@@ -9,7 +9,7 @@ Boot -> Preload -> Title
   Title -> Mode Select
   Title -> Settings
   Title -> Customize
-  Title -> Credits
+  Title -> Achievements
 Mode Select -> Meadow | World Map | Task Select | Endless
 World Map -> Story -> Result -> World Map
 Task Select -> Task Run -> Task Select
@@ -28,15 +28,15 @@ DialogueOverlay can sit above Story or Meadow
 | ModeSelect | menu | hub; reads contentFlags |
 | Settings | menu | |
 | Customize | menu | |
-| Credits | menu | includes achievements list |
+| Achievements | menu | live (achievement list + short project credit) |
 | Meadow | play | live (data-driven arcade, M2) |
-| WorldMap | menu | stub until M3 |
-| Story | play | stub until M3 |
+| WorldMap | menu | live (World 1) |
+| Story | play | live (W1 side-scroll) |
 | TaskSelect | menu | live (M2: Night Watch, Hide and Seek) |
 | TaskRun | play | live (M2 TaskRuntime) |
 | Endless | play | stub until M5 |
 | Pause | overlay | stub registered; Meadow/Tasks use inline pause until shared Pause lands |
-| DialogueOverlay | overlay | stub until M3 |
+| DialogueOverlay | overlay | live (Moon Pool / two-line) |
 | Result | menu | stub shell until modes need it |
 
 Missing scenes are forbidden. Unfinished modes open their stub screen.

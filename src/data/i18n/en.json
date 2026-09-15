@@ -4,7 +4,7 @@
   "title.play": "Play",
   "title.settings": "Settings",
   "title.customize": "Customize",
-  "title.credits": "Credits",
+  "title.achievements": "Achievements",
   "mode.title": "Choose a path",
   "mode.meadow": "Meadow",
   "mode.meadow.desc": "Collect carrots. Dodge foxes. Come home.",
@@ -32,7 +32,7 @@
   "customize.fur": "Fur",
   "customize.ears": "Ears",
   "customize.accessory": "Accessory",
-  "credits.title": "Credits",
-  "credits.achievements": "Achievements",
+  "achievements.title": "Achievements",
+  "achievements.footer": "Bunny Meadow. Family woodland adventure.",
   "common.back": "Back"
 }

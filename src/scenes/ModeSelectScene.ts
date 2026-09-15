@@ -21,17 +21,17 @@ export class ModeSelectScene extends Phaser.Scene {
             <strong>${t("mode.meadow")}</strong>
             <span>${t("mode.meadow.desc")}</span>
           </button>
-          <button type="button" class="bm-card" data-ui="story">
+          <button type="button" class="bm-card" data-ui="story" ${flags.storyWorld1 ? "" : "disabled"}>
             <strong>${t("mode.story")}</strong>
-            <span>${t("mode.story.desc")}</span>
+            <span>${flags.storyWorld1 ? "World 1 · Meadow and Hedgerows" : t("mode.story.desc")}</span>
           </button>
           <button type="button" class="bm-card" data-ui="tasks" ${flags.tasks ? "" : "disabled"}>
             <strong>${t("mode.tasks")}</strong>
             <span>${flags.tasks ? t("mode.tasks.desc") : "Coming soon"}</span>
           </button>
-          <button type="button" class="bm-card" data-ui="endless">
+          <button type="button" class="bm-card" data-ui="endless" ${flags.endless ? "" : "disabled"}>
             <strong>${t("mode.endless")}</strong>
-            <span>${t("mode.endless.desc")}</span>
+            <span>${flags.endless ? t("mode.endless.desc") : "Coming soon"}</span>
           </button>
         </div>
         <div class="bm-actions bm-start">
@@ -44,11 +44,15 @@ export class ModeSelectScene extends Phaser.Scene {
     requireEl<HTMLButtonElement>(root, "[data-ui=meadow]").onclick = () => {
       if (flags.meadow) this.scene.start("Meadow")
     }
-    requireEl<HTMLButtonElement>(root, "[data-ui=story]").onclick = () => this.scene.start("WorldMap")
+    requireEl<HTMLButtonElement>(root, "[data-ui=story]").onclick = () => {
+      if (flags.storyWorld1) this.scene.start("WorldMap")
+    }
     requireEl<HTMLButtonElement>(root, "[data-ui=tasks]").onclick = () => {
       if (flags.tasks) this.scene.start("TaskSelect")
     }
-    requireEl<HTMLButtonElement>(root, "[data-ui=endless]").onclick = () => this.scene.start("Endless")
+    requireEl<HTMLButtonElement>(root, "[data-ui=endless]").onclick = () => {
+      if (flags.endless) this.scene.start("Endless")
+    }
     requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => this.scene.start("Title")
   }
 }

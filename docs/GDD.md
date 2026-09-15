@@ -100,7 +100,7 @@ Build order, stubs, and frozen contracts live in [ROADMAP.md](ROADMAP.md). Summa
 | M0 | Phaser scaffold, Meadow port, platform web impl, Pages build (done) |
 | M1 | Meta shell + full stub surface (done) |
 | M2 | Meadow maps + Spawner archetypes; Moon Tasks Night Watch + Hide and Seek; Carrot Rush retired (done) |
-| M3 | Story W1 on ChunkAssembler, Moon Pools, DialogueOverlay, Fox Hu chase |
+| M3 | Story W1 on ChunkAssembler, Moon Pools, DialogueOverlay, Fox Hu chase (done) |
 | M4 | Worlds 2–3, bosses, moon finale, epilogue; start Steamworks verification |
 | M5 | Endless, audio assets, i18n fill, polish |
 | M6 | Electron shell, steamworks.js, win/mac/linux builds |
