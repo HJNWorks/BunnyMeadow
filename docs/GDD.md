@@ -22,11 +22,13 @@ Reuse Meadow and Story systems. No new engines.
 
 | Task | Goal |
 | --- | --- |
-| Carrot Rush | Collect N carrots under a timer |
+| Carrot Rush | Collect N carrots under a timer *(retired from playable M2 set; overlaps Meadow arcade)* |
 | Hide and Seek | Find hidden kits on a Meadow map |
 | Night Watch | Survive waves near the burrow |
 | Lantern Run | Reach the peak before lanterns go out |
 | Daily Moon | Seeded task of the day |
+
+Playable on web after M2: Night Watch + Hide and Seek.
 
 ### Endless Meadow Run
 

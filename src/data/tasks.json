@@ -1,15 +1,16 @@
 {
   "tasks": [
     {
-      "id": "carrot_rush",
-      "name": "Carrot Rush",
-      "description": "Collect every carrot before the timer runs out.",
+      "id": "night_watch",
+      "name": "Night Watch",
+      "description": "Hold the burrow through waves of foxes until dawn.",
       "mapId": "meadow_home",
-      "kind": "carrot_rush",
-      "baseCarrotGoal": 10,
-      "baseTimerSeconds": 60,
-      "enemyCountScale": 0.55,
-      "pantryReward": 8
+      "kind": "night_watch",
+      "baseSurviveSeconds": 45,
+      "baseTimerSeconds": 45,
+      "enemyCountScale": 0.9,
+      "waveIntervalSeconds": 12,
+      "pantryReward": 10
     },
     {
       "id": "hide_and_seek",

@@ -14,7 +14,7 @@ const SHELL_HTML = `
   </header>
   <div class="meadow-bar">
     <span>Map <strong data-ui="mapName">Meadow Home</strong></span>
-    <span>Objective <strong data-ui="score">0 / 0</strong></span>
+    <span>Held <strong data-ui="score">0 / 0</strong></span>
     <span>Hearts <strong data-ui="hearts">♥ ♥ ♥</strong></span>
     <span>Dash <strong data-ui="dash">Ready</strong></span>
     <span data-ui="timerWrap">Timer <strong data-ui="timer"></strong></span>
@@ -85,14 +85,14 @@ const TASK_CSS = `
 export class TaskRunScene extends Phaser.Scene {
   private runtime: TaskRuntime | null = null
   private style: HTMLStyleElement | null = null
-  private taskId: TaskId = "carrot_rush"
+  private taskId: TaskId = "night_watch"
 
   constructor() {
     super("TaskRun")
   }
 
   init(data?: { taskId?: TaskId }): void {
-    this.taskId = data?.taskId ?? "carrot_rush"
+    this.taskId = data?.taskId ?? "night_watch"
   }
 
   create(): void {

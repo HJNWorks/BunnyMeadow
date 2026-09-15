@@ -106,6 +106,8 @@ export class TaskRuntime {
   private slowTime = false
   private autoDash = false
   private wonSaved = false
+  private waveTimer = 0
+  private waveIndex = 0
 
   private onPointerDown = (e: PointerEvent): void => {
     if (this.state === "playing") {
@@ -210,7 +212,7 @@ export class TaskRuntime {
     }
     this.playerName = save.player.name || "Mei"
     getInput().setBindings(save.settings.bindings)
-    this.goal = this.task.kind === "carrot_rush" ? this.task.carrotGoal : this.task.kitCount
+    this.goal = this.task.kind === "hide_and_seek" ? this.task.kitCount : this.task.timerSeconds
   }
 
   private showIntro(): void {
@@ -248,25 +250,13 @@ export class TaskRuntime {
     this.time = 0
     this.timerLeft = this.task.timerSeconds
     this.wonSaved = false
+    this.waveTimer = 0
+    this.waveIndex = 0
     this.particles = []
     this.carrots = []
     this.kits = []
 
-    if (this.task.kind === "carrot_rush") {
-      this.carrots = this.map.carrotSpawns.slice(0, this.task.carrotGoal).map((p) => ({
-        x: p.x,
-        y: p.y,
-        taken: false,
-      }))
-      while (this.carrots.length < this.task.carrotGoal) {
-        const i = this.carrots.length
-        this.carrots.push({
-          x: 245 + (i % 4) * 174,
-          y: 100 + Math.floor(i / 4) * 165,
-          taken: false,
-        })
-      }
-    } else {
+    if (this.task.kind === "hide_and_seek") {
       const spots = [...this.map.itemSpawns, ...this.map.carrotSpawns]
       for (let i = 0; i < this.task.kitCount; i += 1) {
         const spot = spots[i % spots.length]
@@ -300,9 +290,15 @@ export class TaskRuntime {
   }
 
   private sync(): void {
-    const label = this.task.kind === "carrot_rush" ? "Carrots" : "Kits"
-    this.ui.score.textContent = `${this.score} / ${this.goal}`
-    this.ui.score.parentElement?.setAttribute("data-label", label)
+    if (this.task.kind === "night_watch") {
+      const held = Math.min(
+        this.task.timerSeconds,
+        Math.max(0, this.task.timerSeconds - this.timerLeft),
+      )
+      this.ui.score.textContent = `${Math.floor(held)} / ${this.task.timerSeconds}s`
+    } else {
+      this.ui.score.textContent = `${this.score} / ${this.goal}`
+    }
     const empty = Math.max(0, this.maxHearts - this.health)
     this.ui.hearts.textContent = `${"♥ ".repeat(this.health)}${"♡ ".repeat(empty)}`.trim()
     this.ui.dash.textContent = this.cooldown > 0 ? `${this.cooldown.toFixed(1)}s` : "Ready"
@@ -314,7 +310,11 @@ export class TaskRuntime {
       if (timerWrap) {
         timerWrap.hidden = false
       }
-      this.ui.timer.textContent = `${Math.max(0, Math.ceil(this.timerLeft))}s`
+      const label =
+        this.task.kind === "night_watch"
+          ? `Dawn ${Math.max(0, Math.ceil(this.timerLeft))}s`
+          : `${Math.max(0, Math.ceil(this.timerLeft))}s`
+      this.ui.timer.textContent = label
     } else {
       this.ui.timer.hidden = true
       if (timerWrap) {
@@ -413,6 +413,10 @@ export class TaskRuntime {
     return Math.hypot(x - this.map.burrow.x, y - this.map.burrow.y) < this.map.safeRadius
   }
 
+  private chaseIgnoresBurrow(): boolean {
+    return this.task.kind === "night_watch"
+  }
+
   private hurt(): void {
     if (this.invulnerable > 0 || this.burst > 0 || this.invincible) {
       return
@@ -447,7 +451,7 @@ export class TaskRuntime {
       const dx = this.bunny.x - enemy.x
       const dy = this.bunny.y - enemy.y
       const distance = Math.hypot(dx, dy)
-      if (distance > sense || this.nearBurrow(this.bunny.x, this.bunny.y)) {
+      if (distance > sense || (!this.chaseIgnoresBurrow() && this.nearBurrow(this.bunny.x, this.bunny.y))) {
         fx = Math.cos(this.time * 0.5 + enemy.phase)
         fy = Math.sin(this.time * 0.7 + enemy.phase)
       } else if (distance > enemy.attackRange * 0.55) {
@@ -458,7 +462,7 @@ export class TaskRuntime {
       if (
         distance < enemy.attackRange &&
         enemy.attackTimer <= 0 &&
-        !this.nearBurrow(this.bunny.x, this.bunny.y)
+        (this.chaseIgnoresBurrow() || !this.nearBurrow(this.bunny.x, this.bunny.y))
       ) {
         const n = Math.hypot(dx, dy) || 1
         enemy.projectile = {
@@ -474,7 +478,7 @@ export class TaskRuntime {
       fx = this.bunny.x - enemy.x
       fy = this.bunny.y - enemy.y
       const distance = Math.hypot(fx, fy)
-      if (distance > sense || this.nearBurrow(this.bunny.x, this.bunny.y)) {
+      if (distance > sense || (!this.chaseIgnoresBurrow() && this.nearBurrow(this.bunny.x, this.bunny.y))) {
         fx = Math.cos(this.time * 0.65 + enemy.phase)
         fy = Math.sin(this.time * 0.9 + enemy.phase)
       }
@@ -546,9 +550,35 @@ export class TaskRuntime {
     if (this.timed) {
       this.timerLeft -= dt
       if (this.timerLeft <= 0) {
+        if (this.task.kind === "night_watch") {
+          this.state = "won"
+          void this.onWin()
+          this.modal(
+            "Dawn breaks.",
+            `${this.playerName} held the burrow through the night.`,
+            "Play again →",
+            true,
+          )
+          this.sync()
+          return
+        }
         this.state = "lost"
         this.modal("Time's up.", "The moon task slips away. Try a quicker hop.", "Try again →", true)
         return
+      }
+    }
+
+    if (this.task.kind === "night_watch") {
+      this.waveTimer += dt
+      if (this.waveTimer >= this.task.waveIntervalSeconds) {
+        this.waveTimer = 0
+        this.waveIndex += 1
+        const spot = this.map.enemySpawns[this.waveIndex % this.map.enemySpawns.length]
+        const id = this.task.enemyIds[this.waveIndex % this.task.enemyIds.length]
+        const spawned = this.spawner.spawn(id, spot.x, spot.y, this.waveIndex * 1.3)
+        if (spawned) {
+          this.enemies.push(spawned)
+        }
       }
     }
 
@@ -580,15 +610,7 @@ export class TaskRuntime {
       this.health = this.maxHearts
     }
 
-    if (this.task.kind === "carrot_rush") {
-      for (const c of this.carrots) {
-        if (!c.taken && Math.hypot(c.x - this.bunny.x, c.y - this.bunny.y) < 26) {
-          c.taken = true
-          this.score += 1
-          this.puff(c.x, c.y, "#ffce74")
-        }
-      }
-    } else {
+    if (this.task.kind === "hide_and_seek") {
       for (const kit of this.kits) {
         if (!kit.found && Math.hypot(kit.x - this.bunny.x, kit.y - this.bunny.y) < 28) {
           kit.found = true
@@ -612,7 +634,11 @@ export class TaskRuntime {
       return p.life > 0
     })
 
-    if (this.state === "playing" && this.score >= this.goal) {
+    if (
+      this.state === "playing" &&
+      this.task.kind === "hide_and_seek" &&
+      this.score >= this.goal
+    ) {
       this.state = "won"
       void this.onWin()
       this.modal(

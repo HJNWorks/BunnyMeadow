@@ -13,7 +13,7 @@ Four modes (Meadow, Story, Moon Tasks, Endless) share one save schema, one input
 | M0 scaffold + first Meadow port | done |
 | M1 meta shell + stub surface | done |
 | M2 Meadow arcade expansion | done |
-| M2 Moon Tasks (Carrot Rush + Hide and Seek) | done |
+| M2 Moon Tasks (Night Watch + Hide and Seek) | done |
 | M3–M8 | not started |
 
 ## Done
@@ -59,7 +59,7 @@ Later milestones must not invent a second version of these. M1 created them (fil
 | Meadow | play | live (data-driven arcade) |
 | WorldMap | menu HTML | stub card |
 | Story | play | stub scene |
-| TaskSelect | menu HTML | live (Carrot Rush, Hide and Seek) |
+| TaskSelect | menu HTML | live (Night Watch, Hide and Seek) |
 | TaskRun | play | live (canvas TaskRuntime) |
 | Endless | play | stub scene |
 | Pause | overlay HTML | registered stub; Meadow uses an inline pause card (shared Pause scene still unused) |
@@ -129,7 +129,7 @@ Shared `ModeContext`: active save, difficulty resolver, input, audio bus, `t()`,
 | --- | --- |
 | `systems/Spawner.ts` | Meadow subset live (chaser / patrol / ranged_lob); reach + Story usage later |
 | `systems/ChunkAssembler.ts` | stub → M3 |
-| `modes/tasks/TaskRunner.ts` | live for Carrot Rush + Hide and Seek; other task ids typed but unregistered |
+| `modes/tasks/TaskRunner.ts` | live for Night Watch + Hide and Seek; other task ids typed but unregistered |
 | `scenes/DialogueOverlay.ts` | stub → M3 |
 | `core/audio.ts` | volume bus; assets → M5 |
 | `core/i18n.ts` | `t(key)` + EN/DE/ZH-Hans files; full copy → M5 |
@@ -182,7 +182,7 @@ Originally one milestone with two tracks. Tracks are tracked separately so Story
 
 **Status: done**
 
-**Filled:** `tasks.json`, TaskRunner registry, TaskSelect/TaskRun scenes, TaskRuntime (Carrot Rush + Hide and Seek), `contentFlags.tasks` true, Mode Select gate, `tasksCompleted` + pantry on win.
+**Filled:** `tasks.json`, TaskRunner registry, TaskSelect/TaskRun scenes, TaskRuntime (Night Watch + Hide and Seek), `contentFlags.tasks` true, Mode Select gate, `tasksCompleted` + pantry on win. Carrot Rush retired (duplicated Meadow collect loop).
 
 **Exit criteria (met):** both tasks completable from Mode Select; progress persists; tasks flag enabled on web.
 

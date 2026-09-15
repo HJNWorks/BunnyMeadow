@@ -6,7 +6,7 @@ import type { DifficultyParams } from "../../core/difficulty"
 
 export type TaskId = "carrot_rush" | "hide_and_seek" | "night_watch" | "lantern_run" | "daily_moon"
 
-export type TaskKind = "carrot_rush" | "hide_and_seek"
+export type TaskKind = "night_watch" | "hide_and_seek"
 
 export type TaskDefRaw = {
   id: TaskId
@@ -15,10 +15,11 @@ export type TaskDefRaw = {
   mapId: string
   fallbackMapId?: string
   kind: TaskKind
-  baseCarrotGoal?: number
   baseKitCount?: number
+  baseSurviveSeconds?: number
   baseTimerSeconds: number
   enemyCountScale: number
+  waveIntervalSeconds?: number
   pantryReward: number
 }
 
@@ -28,16 +29,16 @@ export type ResolvedTask = {
   description: string
   kind: TaskKind
   mapId: string
-  carrotGoal: number
   kitCount: number
   timerSeconds: number
   enemyCount: number
   enemyIds: string[]
+  waveIntervalSeconds: number
   pantryReward: number
   difficulty: DifficultyParams
 }
 
-const PLAYABLE: TaskId[] = ["carrot_rush", "hide_and_seek"]
+const PLAYABLE: TaskId[] = ["night_watch", "hide_and_seek"]
 
 const defs = new Map(
   (tasksData.tasks as TaskDefRaw[]).map((task) => [task.id, task]),
@@ -63,21 +64,24 @@ export class TaskRunner {
     if (raw.fallbackMapId && !isMapUnlocked(save, mapId)) {
       mapId = raw.fallbackMapId
     }
-    const carrotGoal = Math.max(
-      4,
-      Math.round((raw.baseCarrotGoal ?? 10) * (0.75 + difficulty.enemyCountMultiplier * 0.25)),
-    )
     const kitCount = Math.max(
       3,
       Math.round((raw.baseKitCount ?? 5) * (0.8 + difficulty.enemyCountMultiplier * 0.2)),
     )
+    const surviveBase = raw.baseSurviveSeconds ?? raw.baseTimerSeconds
     const timerSeconds =
-      raw.baseTimerSeconds <= 0
-        ? 0
-        : Math.max(20, Math.round(raw.baseTimerSeconds * difficulty.timerMultiplier))
+      raw.kind === "night_watch"
+        ? Math.max(25, Math.round(surviveBase * (2 - difficulty.timerMultiplier * 0.5)))
+        : raw.baseTimerSeconds <= 0
+          ? 0
+          : Math.max(20, Math.round(raw.baseTimerSeconds * difficulty.timerMultiplier))
     const enemyCount = Math.max(
-      0,
+      1,
       Math.round(difficulty.enemyCount * raw.enemyCountScale * difficulty.enemyCountMultiplier),
+    )
+    const waveIntervalSeconds = Math.max(
+      6,
+      Math.round((raw.waveIntervalSeconds ?? 12) * difficulty.timerMultiplier),
     )
     return {
       ok: true,
@@ -87,11 +91,11 @@ export class TaskRunner {
         description: raw.description,
         kind: raw.kind,
         mapId,
-        carrotGoal: raw.kind === "carrot_rush" ? carrotGoal : 0,
         kitCount: raw.kind === "hide_and_seek" ? kitCount : 0,
         timerSeconds,
         enemyCount,
         enemyIds: [...difficulty.enemyIds],
+        waveIntervalSeconds,
         pantryReward: raw.pantryReward,
         difficulty,
       },
