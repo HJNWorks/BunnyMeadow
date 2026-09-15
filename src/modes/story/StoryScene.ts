@@ -63,7 +63,7 @@ const CSS = `
   background: transparent;
   pointer-events: none;
   overflow: hidden;
-  z-index: 35;
+  z-index: 50;
 }
 .bm-story-hud .bm-shell {
   max-width: none;
@@ -73,6 +73,7 @@ const CSS = `
 .bm-story-hud .meadow-header,
 .bm-story-hud .meadow-bar,
 .bm-story-hud .meadow-overlay,
+.bm-story-hud .meadow-overlay *,
 .bm-story-hud button {
   pointer-events: auto;
 }
@@ -136,7 +137,6 @@ export class StoryScene extends Phaser.Scene {
   private invincible = false
   private inDialogue = false
   private coach: ControlCoach | null = null
-  private shellTeardown: (() => void) | null = null
   private leaving = false
 
   constructor() {
@@ -170,7 +170,6 @@ export class StoryScene extends Phaser.Scene {
     document.head.appendChild(this.style)
 
     const shell = mountDomShell(this, SHELL, { keepCanvas: true, rootClass: "bm-story-hud" })
-    this.shellTeardown = shell.teardown
     this.hud = {
       hearts: requireEl(shell.root, "[data-ui=hearts]"),
       objective: requireEl(shell.root, "[data-ui=objective]"),
@@ -193,7 +192,9 @@ export class StoryScene extends Phaser.Scene {
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=pauseBtn]").onclick = () => this.setPaused(true)
     this.hud.resume.onclick = () => this.setPaused(false)
     this.hud.quit.onclick = () => this.leaveToWorldMap()
-    this.hud.play.onclick = () => {
+    const goMap = (event: Event): void => {
+      event.preventDefault()
+      event.stopPropagation()
       if (this.won) {
         this.leaveToWorldMap()
         return
@@ -204,6 +205,8 @@ export class StoryScene extends Phaser.Scene {
         this.lost = false
       }
     }
+    this.hud.play.addEventListener("click", goMap)
+    this.hud.play.addEventListener("pointerup", goMap)
 
     const save = getSave()
     const diff = getDifficulty(save)
@@ -370,17 +373,20 @@ export class StoryScene extends Phaser.Scene {
     }
     this.inDialogue = false
     this.paused = false
-    this.physics.world.isPaused = false
-    this.cleanupInput()
-    this.shellTeardown?.()
-    this.shellTeardown = null
-    this.time.delayedCall(0, () => {
-      this.scene.start("WorldMap")
-    })
+    if (this.physics.world) {
+      this.physics.world.isPaused = false
+    }
+    getInput().stop()
+    this.coach = null
+    this.style?.remove()
+    this.style = null
+    this.scene.start("WorldMap")
   }
 
   private cleanupInput = (): void => {
-    this.physics.world.isPaused = false
+    if (this.physics?.world) {
+      this.physics.world.isPaused = false
+    }
     getInput().stop()
     this.coach = null
     this.style?.remove()
