@@ -28,9 +28,9 @@ Path progress today: Worlds 1–3 each expose two clearable stations (Soft Paths
 | --- | --- | --- |
 | Burrow Eve | lore | Mid-Autumn setting |
 | Moon in the Pool | lore | Chang'e through water |
-| Soft Paws | controls | Move, jump, dash, pause |
+| Soft Paws | level | In-game intro hop; unlocks Soft Paths |
 
-Unlocks Soft Paths when complete. Station ids are stored in `progress.story.cleared`.
+Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progress.story.cleared`.
 
 ### World 1 — Meadow and Hedgerows
 

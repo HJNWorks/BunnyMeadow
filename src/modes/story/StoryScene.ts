@@ -217,7 +217,8 @@ export class StoryScene extends Phaser.Scene {
 
     this.hud.levelName.textContent = def.name
     this.hud.objective.textContent = def.objective
-    this.hud.worldLabel.textContent = `Story · World ${def.world}`
+    this.hud.worldLabel.textContent =
+      def.world === 0 ? "Story · Soft Paws" : `Story · World ${def.world}`
 
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=back]").onclick = () => this.leaveToWorldMap()
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=pauseBtn]").onclick = () => this.setPaused(true)
@@ -247,9 +248,11 @@ export class StoryScene extends Phaser.Scene {
     getInput().setBindings(save.settings.bindings)
     getInput().start()
 
-    const learned = save.progress.story.controlHints.filter(
-      (value): value is CoachAction => value === "move" || value === "jump" || value === "dash",
-    )
+    const learned = def.tutorial
+      ? []
+      : save.progress.story.controlHints.filter(
+          (value): value is CoachAction => value === "move" || value === "jump" || value === "dash",
+        )
     this.coach = new ControlCoach(
       this.hud.controlsFloat,
       this.hud.controlsDock,
@@ -747,9 +750,11 @@ export class StoryScene extends Phaser.Scene {
     this.hud.pausePanel.hidden = true
     this.hud.title.textContent = "Path clear"
     this.hud.message.textContent =
-      this.level.id === "w1_3_cart_chase"
-        ? "Fox Hu is foiled. World 1 rests."
-        : `${this.level.name} is done.`
+      this.level.id === "w0_controls"
+        ? "Paws ready. Soft Paths opens on the map."
+        : this.level.id === "w1_3_cart_chase"
+          ? "Fox Hu is foiled. World 1 rests."
+          : `${this.level.name} is done.`
     this.hud.play.textContent = "World Map →"
     this.hud.overlay.hidden = false
     this.hud.overlay.style.display = "flex"

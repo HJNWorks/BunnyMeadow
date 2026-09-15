@@ -53,13 +53,11 @@ const STATIONS: Record<string, StoryStation> = {
   },
   w0_controls: {
     id: "w0_controls",
-    kind: "controls",
+    kind: "level",
     title: "Soft Paws",
-    blurb: "How Mei hops the meadow.",
-    lines: [
-      "Move with A and D. Jump with Space. Dash with R. Pause with P.",
-      "Moon Pools mark where you continue after a tumble. Levels always restart at the start.",
-    ],
+    blurb: "In-game intro: move, jump, dash, then the burrow.",
+    lines: [],
+    levelId: "w0_controls",
   },
   w1_1_soft_paths: {
     id: "w1_1_soft_paths",

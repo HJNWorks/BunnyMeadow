@@ -1,0 +1,14 @@
+{
+  "id": "w0_controls",
+  "world": 0,
+  "index": 3,
+  "name": "Soft Paws",
+  "chunks": ["chunk_paws_move", "chunk_paws_jump", "chunk_paws_burrow"],
+  "playerSpawn": { "x": 120, "y": 900 },
+  "moonPool": { "chunk": 2, "x": 120, "y": 920 },
+  "exit": { "chunk": 2, "x": 860, "y": 920 },
+  "moonLine": "Soft paws remember soft grass. The burrow waits ahead.",
+  "objective": "Walk, jump, and dash. Meet a few meadow friends. Reach the burrow.",
+  "tutorial": true,
+  "sky": "#cfe0a0"
+}

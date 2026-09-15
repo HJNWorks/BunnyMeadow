@@ -181,7 +181,7 @@ export class WorldMapScene extends Phaser.Scene {
       rail.hidden = false
       tagline.textContent =
         world.id === "w0"
-          ? "Burrow Eve is story beats only (short text). Soft Paths starts playable levels."
+          ? "Two short story beats, then Soft Paws teaches hop in play."
           : "Follow the blossoms. Expand a world to open its stations."
       rail.innerHTML = stations
         .map((station, index) => this.stationButton(station, index))
@@ -313,9 +313,6 @@ export class WorldMapScene extends Phaser.Scene {
     if (!save.progress.story.cleared.includes(stationId)) {
       save.progress.story.cleared.push(stationId)
       await persistSave()
-    }
-    if (stationId === "w0_controls") {
-      this.expanded = "w1"
     }
     this.scene.restart()
   }

@@ -1,3 +1,4 @@
+import level00 from "../../data/story/w0/w0_controls.json"
 import level11 from "../../data/story/w1/w1_1_soft_paths.json"
 import level12 from "../../data/story/w1/w1_2_hedge_maze.json"
 import level13 from "../../data/story/w1/w1_3_cart_chase.json"
@@ -19,6 +20,7 @@ export type StoryLevelDef = {
   objective: string
   wallBounce?: boolean
   glide?: boolean
+  tutorial?: boolean
   sky?: string
   foxHu?: { startX: number; y: number; speed: number }
   ride?: {
@@ -30,6 +32,7 @@ export type StoryLevelDef = {
 }
 
 const LEVELS: StoryLevelDef[] = [
+  level00 as StoryLevelDef,
   level11 as StoryLevelDef,
   level12 as StoryLevelDef,
   level13 as StoryLevelDef,

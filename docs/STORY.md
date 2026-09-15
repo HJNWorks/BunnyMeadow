@@ -28,11 +28,11 @@ Path-map root. Three DomShell stations unlock World 1:
 
 | Station | Purpose |
 | --- | --- |
-| Burrow Eve | Mid-Autumn setting. Yue and the glowing blossom |
-| Moon in the Pool | Chang'e through water. Follow the blossoms |
-| Soft Paws | Controls: move, jump, dash, pause. Moon Pool continue rule |
+| Burrow Eve | Mid-Autumn setting. Yue and the glowing blossom (text beat) |
+| Moon in the Pool | Chang'e through water. Follow the blossoms (text beat) |
+| Soft Paws | Playable intro: move, jump, dash, hedgehog, fox, burrow exit |
 
-Completing Soft Paws unlocks Soft Paths. First-time input coach still appears in Soft Paths for muscle memory.
+Completing Soft Paws unlocks Soft Paths. Soft Paws always shows the control coach; Soft Paths keeps it for muscle memory if needed.
 
 ### 1. Prologue beat (told in World 0)
 
