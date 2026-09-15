@@ -102,9 +102,9 @@ const CSS = `
 .meadow-bar { display:flex; gap:14px; align-items:center; margin:0 0 8px; flex-wrap:wrap; }
 .meadow-bar .bm-btn { margin-left:auto; }
 .meadow-bar .bm-btn.ghost { margin-left:0; }
-.meadow-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#34563855; z-index:30; pointer-events:auto; }
-.meadow-overlay[hidden] { display:none; }
-.meadow-card { background:#fffaf0; padding:28px; border-radius:24px; max-width:420px; text-align:center; }
+.meadow-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#34563866; z-index:60; pointer-events:auto; }
+.meadow-overlay[hidden] { display:none !important; }
+.meadow-card { background:#fffaf0; padding:28px; border-radius:24px; max-width:420px; text-align:center; position:relative; z-index:61; }
 .meadow-pause-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
 ${CONTROL_COACH_CSS}
 `
@@ -136,6 +136,8 @@ export class StoryScene extends Phaser.Scene {
   private invincible = false
   private inDialogue = false
   private coach: ControlCoach | null = null
+  private shellTeardown: (() => void) | null = null
+  private leaving = false
 
   constructor() {
     super("Story")
@@ -160,6 +162,7 @@ export class StoryScene extends Phaser.Scene {
     this.poolClaimed = false
     this.inDialogue = false
     this.foxHu = null
+    this.leaving = false
     this.physics.world.isPaused = false
 
     this.style = document.createElement("style")
@@ -167,6 +170,7 @@ export class StoryScene extends Phaser.Scene {
     document.head.appendChild(this.style)
 
     const shell = mountDomShell(this, SHELL, { keepCanvas: true, rootClass: "bm-story-hud" })
+    this.shellTeardown = shell.teardown
     this.hud = {
       hearts: requireEl(shell.root, "[data-ui=hearts]"),
       objective: requireEl(shell.root, "[data-ui=objective]"),
@@ -185,20 +189,13 @@ export class StoryScene extends Phaser.Scene {
     this.hud.levelName.textContent = def.name
     this.hud.objective.textContent = def.objective
 
-    requireEl<HTMLButtonElement>(shell.root, "[data-ui=back]").onclick = () => {
-      this.cleanupInput()
-      this.scene.start("WorldMap")
-    }
+    requireEl<HTMLButtonElement>(shell.root, "[data-ui=back]").onclick = () => this.leaveToWorldMap()
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=pauseBtn]").onclick = () => this.setPaused(true)
     this.hud.resume.onclick = () => this.setPaused(false)
-    this.hud.quit.onclick = () => {
-      this.cleanupInput()
-      this.scene.start("WorldMap")
-    }
+    this.hud.quit.onclick = () => this.leaveToWorldMap()
     this.hud.play.onclick = () => {
       if (this.won) {
-        this.cleanupInput()
-        this.scene.start("WorldMap")
+        this.leaveToWorldMap()
         return
       }
       if (this.lost) {
@@ -360,6 +357,25 @@ export class StoryScene extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       delete (window as unknown as { __bmStory?: unknown }).__bmStory
       this.cleanupInput()
+    })
+  }
+
+  private leaveToWorldMap(): void {
+    if (this.leaving) {
+      return
+    }
+    this.leaving = true
+    if (this.scene.isActive("DialogueOverlay")) {
+      this.scene.stop("DialogueOverlay")
+    }
+    this.inDialogue = false
+    this.paused = false
+    this.physics.world.isPaused = false
+    this.cleanupInput()
+    this.shellTeardown?.()
+    this.shellTeardown = null
+    this.time.delayedCall(0, () => {
+      this.scene.start("WorldMap")
     })
   }
 
@@ -556,31 +572,21 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private async onExit(): Promise<void> {
-    if (this.won || this.lost) {
+    if (this.won || this.lost || this.leaving) {
       return
     }
     if (this.level.foxHu && this.foxHu && this.foxHu.x < this.exitZone.x - 40) {
       return
     }
     this.won = true
+    this.inDialogue = false
+    if (this.scene.isActive("DialogueOverlay")) {
+      this.scene.stop("DialogueOverlay")
+    }
+    this.player.setVelocity(0, 0)
     this.physics.world.isPaused = true
-    const save = getSave()
-    if (!save.progress.story.cleared.includes(this.level.id)) {
-      save.progress.story.cleared.push(this.level.id)
-    }
-    save.progress.story.level = Math.max(save.progress.story.level, this.level.index + 1)
-    addPantryCarrots(save, 12)
-    if (this.level.id === "w1_3_cart_chase") {
-      await getPlatform().achievements.unlock("FOX_FOILED")
-      await getPlatform().achievements.unlock("WORLD1_CLEAR")
-      if (!save.progress.achievements.includes("FOX_FOILED")) {
-        save.progress.achievements.push("FOX_FOILED")
-      }
-      if (!save.progress.achievements.includes("WORLD1_CLEAR")) {
-        save.progress.achievements.push("WORLD1_CLEAR")
-      }
-    }
-    await persistSave()
+    this.hud.controlsFloat.hidden = true
+    this.hud.pausePanel.hidden = true
     this.hud.title.textContent = "Path clear"
     this.hud.message.textContent =
       this.level.id === "w1_3_cart_chase"
@@ -588,6 +594,28 @@ export class StoryScene extends Phaser.Scene {
         : `${this.level.name} is done.`
     this.hud.play.textContent = "World Map →"
     this.hud.overlay.hidden = false
+
+    try {
+      const save = getSave()
+      if (!save.progress.story.cleared.includes(this.level.id)) {
+        save.progress.story.cleared.push(this.level.id)
+      }
+      save.progress.story.level = Math.max(save.progress.story.level, this.level.index + 1)
+      addPantryCarrots(save, 12)
+      if (this.level.id === "w1_3_cart_chase") {
+        await getPlatform().achievements.unlock("FOX_FOILED")
+        await getPlatform().achievements.unlock("WORLD1_CLEAR")
+        if (!save.progress.achievements.includes("FOX_FOILED")) {
+          save.progress.achievements.push("FOX_FOILED")
+        }
+        if (!save.progress.achievements.includes("WORLD1_CLEAR")) {
+          save.progress.achievements.push("WORLD1_CLEAR")
+        }
+      }
+      await persistSave()
+    } catch {
+      // Keep the win overlay available even if save fails.
+    }
   }
 
   update(_time: number, delta: number): void {
