@@ -26,11 +26,13 @@ const SHELL_HTML = `
     <div class="meadow-lobby" data-ui="lobby">
       <div class="meadow-lobby-card">
         <h2>Pre-run lobby</h2>
-        <p>Pick a map. Difficulty comes from Settings.</p>
+        <p>Pick a map and difficulty, then start.</p>
         <div class="meadow-lobby-row">
           <canvas data-ui="preview" width="140" height="140" aria-label="Bunny preview"></canvas>
           <div class="meadow-lobby-meta">
-            <div class="meadow-chip">Difficulty <strong data-ui="difficultyChip">hopper</strong></div>
+            <label class="meadow-diff-field" for="meadow-diff">Difficulty
+              <select id="meadow-diff" data-ui="difficultySelect"></select>
+            </label>
             <div class="meadow-map-list" data-ui="mapList"></div>
           </div>
         </div>
@@ -42,7 +44,10 @@ const SHELL_HTML = `
         <div class="emoji">🐰</div>
         <h2 data-ui="title">Hello, little hopper.</h2>
         <p data-ui="message">Gather carrots for your cozy burrow.</p>
-        <button type="button" class="bm-btn warm" data-ui="play">Let's hop →</button>
+        <div class="meadow-end-actions">
+          <button type="button" class="bm-btn warm" data-ui="play">Let's hop →</button>
+          <button type="button" class="bm-btn ghost" data-ui="toLobby" hidden>Pre-run lobby</button>
+        </div>
       </div>
     </div>
     <div class="meadow-overlay meadow-pause" data-ui="pausePanel" hidden>
@@ -84,8 +89,10 @@ const MEADOW_CSS = `
 .meadow-lobby-row { display:flex; gap:18px; align-items:flex-start; text-align:left; margin:18px 0; }
 .meadow-lobby-row canvas { flex:0 0 auto; border-radius:16px; background:#bed593; }
 .meadow-lobby-meta { flex:1; min-width:0; }
-.meadow-chip { display:inline-block; margin-bottom:10px; padding:6px 10px; border-radius:999px; background:#e8efd8; font-size:13px; }
+.meadow-diff-field { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; font-size:13px; color:#4f5f4c; }
+.meadow-diff-field select { font:14px system-ui; padding:8px 10px; border-radius:10px; border:1px solid #c9cfba; background:#fff; }
 .meadow-map-list { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.meadow-end-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
 .meadow-map-card { border:1px solid #c9cfba; background:#fff; border-radius:12px; padding:10px; text-align:left; cursor:pointer; }
 .meadow-map-card strong { display:block; font-size:14px; }
 .meadow-map-card span { font-size:12px; color:#71816e; }
@@ -139,9 +146,10 @@ export class MeadowScene extends Phaser.Scene {
         touchDash: requireEl(shell.root, "[data-ui=touchDash]"),
         lobby: requireEl(shell.root, "[data-ui=lobby]"),
         mapList: requireEl(shell.root, "[data-ui=mapList]"),
-        difficultyChip: requireEl(shell.root, "[data-ui=difficultyChip]"),
+        difficultySelect: requireEl(shell.root, "[data-ui=difficultySelect]"),
         preview: requireEl(shell.root, "[data-ui=preview]"),
         startRun: requireEl(shell.root, "[data-ui=startRun]"),
+        toLobby: requireEl(shell.root, "[data-ui=toLobby]"),
         pausePanel: requireEl(shell.root, "[data-ui=pausePanel]"),
         resume: requireEl(shell.root, "[data-ui=resume]"),
         openSettings: requireEl(shell.root, "[data-ui=openSettings]"),

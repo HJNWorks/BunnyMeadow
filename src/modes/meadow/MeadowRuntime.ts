@@ -1,12 +1,12 @@
 import { getPlatform } from "../../core/platform"
-import { getDifficulty, type DifficultyParams } from "../../core/difficulty"
+import { getDifficulty, listDifficultyIds, type DifficultyParams } from "../../core/difficulty"
 import { getInput } from "../../core/input"
 import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots, isMapUnlocked, syncMeadowMapUnlocks } from "../../core/unlocks"
 import { getMeadowMap, listMeadowMaps, type MeadowMapDef } from "../../core/maps"
 import { Spawner, type SpawnedEnemy } from "../../systems/Spawner"
 import { drawBunny, type BunnyCosmetics } from "../../render/drawBunny"
-import type { AccessoryOption, EarsOption, FurOption } from "../../core/save"
+import type { AccessoryOption, DifficultyId, EarsOption, FurOption } from "../../core/save"
 
 type GameState = "lobby" | "intro" | "playing" | "paused" | "lost" | "won"
 
@@ -54,9 +54,10 @@ export interface MeadowUi {
   touchDash: HTMLButtonElement
   lobby: HTMLElement
   mapList: HTMLElement
-  difficultyChip: HTMLElement
+  difficultySelect: HTMLSelectElement
   preview: HTMLCanvasElement
   startRun: HTMLButtonElement
+  toLobby: HTMLButtonElement
   pausePanel: HTMLElement
   resume: HTMLButtonElement
   openSettings: HTMLButtonElement
@@ -149,6 +150,7 @@ export class MeadowRuntime {
     getInput().start()
 
     this.ui.play.onclick = () => this.onPrimaryAction()
+    this.ui.toLobby.onclick = () => this.showLobby()
     this.ui.startRun.onclick = () => this.beginIntro()
     this.ui.pause.onclick = () => this.pause()
     this.ui.resume.onclick = () => {
@@ -159,6 +161,9 @@ export class MeadowRuntime {
     this.ui.openSettings.onclick = () => this.callbacks.onOpenSettings()
     this.ui.quitModes.onclick = () => this.callbacks.onQuitToModes()
     this.ui.touchDash.onclick = () => this.dash()
+    this.ui.difficultySelect.onchange = () => {
+      void this.onDifficultyChange()
+    }
 
     addEventListener("blur", this.onBlur)
     canvas.addEventListener("pointerdown", this.onPointerDown)
@@ -216,10 +221,29 @@ export class MeadowRuntime {
     this.state = "lobby"
     this.ui.overlay.hidden = true
     this.ui.pausePanel.hidden = true
+    this.ui.toLobby.hidden = true
     this.ui.lobby.hidden = false
-    this.ui.difficultyChip.textContent = getSave().settings.difficulty
+    this.fillDifficultySelect()
     this.renderMapCards()
     this.drawPreview()
+    this.sync()
+  }
+
+  private fillDifficultySelect(): void {
+    const current = getSave().settings.difficulty
+    this.ui.difficultySelect.innerHTML = listDifficultyIds()
+      .map(
+        (id) =>
+          `<option value="${id}" ${id === current ? "selected" : ""}>${id}</option>`,
+      )
+      .join("")
+  }
+
+  private async onDifficultyChange(): Promise<void> {
+    const save = getSave()
+    save.settings.difficulty = this.ui.difficultySelect.value as DifficultyId
+    await persistSave()
+    this.applySaveTuning()
     this.sync()
   }
 
@@ -266,6 +290,7 @@ export class MeadowRuntime {
       `Hello, ${this.playerName}.`,
       `Gather ${this.carrotGoal} carrots in ${this.map.name}.${timerNote} Watch for foxes, hedgehogs, and crows.`,
       "Let's hop →",
+      false,
     )
     this.sync()
   }
@@ -364,12 +389,19 @@ export class MeadowRuntime {
     }
   }
 
-  private modal(title: string, message: string, label: string): void {
+  private modal(
+    title: string,
+    message: string,
+    label: string,
+    showLobbyReturn = false,
+  ): void {
     this.ui.title.textContent = title
     this.ui.message.textContent = message
     this.ui.play.textContent = label
+    this.ui.toLobby.hidden = !showLobbyReturn
     this.ui.overlay.hidden = false
     this.ui.pausePanel.hidden = true
+    this.ui.lobby.hidden = true
   }
 
   private pause(): void {
@@ -468,6 +500,7 @@ export class MeadowRuntime {
         "A little rest, then retry.",
         "Dash past threats with Space, and recover near your burrow.",
         "Try again →",
+        true,
       )
     }
   }
@@ -573,6 +606,10 @@ export class MeadowRuntime {
         return
       }
     }
+    if (input.cancelPressed && (this.state === "won" || this.state === "lost")) {
+      this.showLobby()
+      return
+    }
     if (input.cancelPressed && this.state === "paused") {
       this.callbacks.onQuitToModes()
       return
@@ -593,7 +630,12 @@ export class MeadowRuntime {
       this.timerLeft -= dt
       if (this.timerLeft <= 0) {
         this.state = "lost"
-        this.modal("Time's up.", "The meadow grows quiet. Try a quicker hop next time.", "Try again →")
+        this.modal(
+          "Time's up.",
+          "The meadow grows quiet. Try a quicker hop next time.",
+          "Try again →",
+          true,
+        )
         return
       }
     }
@@ -677,6 +719,7 @@ export class MeadowRuntime {
         "Home, sweet burrow!",
         `${this.carrotGoal} crunchy carrots for ${this.playerName}. The meadow is a little sweeter with you in it.`,
         "Play again →",
+        true,
       )
     }
 
