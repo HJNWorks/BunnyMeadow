@@ -148,6 +148,8 @@ export class StoryScene extends Phaser.Scene {
   private wallBounce = false
   private glide = false
   private facing = 1
+  private airJumps = 1
+  private maxAirJumps = 1
   private checkpoint: { x: number; y: number } | null = null
   private poolClaimed = false
   private won = false
@@ -180,6 +182,7 @@ export class StoryScene extends Phaser.Scene {
     this.level = def
     this.wallBounce = !!def.wallBounce
     this.glide = !!def.glide
+    this.airJumps = this.maxAirJumps
     this.won = false
     this.lost = false
     this.paused = false
@@ -871,6 +874,9 @@ export class StoryScene extends Phaser.Scene {
 
     const body = this.player.body as Phaser.Physics.Arcade.Body
     const onFloor = body.blocked.down || body.touching.down
+    if (onFloor) {
+      this.airJumps = this.maxAirJumps
+    }
     let vx = input.moveX * (this.dashTime > 0 ? 480 : 260)
     if (input.moveX) {
       this.facing = input.moveX > 0 ? 1 : -1
@@ -885,11 +891,16 @@ export class StoryScene extends Phaser.Scene {
 
     if (this.wallBounce && (body.blocked.left || body.blocked.right) && !onFloor && input.jumpPressed) {
       const push = body.blocked.left ? 1 : -1
-      this.player.setVelocityY(-480)
-      this.player.setVelocityX(push * 320)
+      this.player.setVelocityY(-520)
+      this.player.setVelocityX(push * 340)
       this.facing = push
+      this.airJumps = this.maxAirJumps
     } else if (input.jumpPressed && onFloor) {
-      this.player.setVelocityY(-560)
+      this.player.setVelocityY(-720)
+      this.airJumps = this.maxAirJumps
+    } else if (input.jumpPressed && !onFloor && this.airJumps > 0) {
+      this.airJumps -= 1
+      this.player.setVelocityY(-640)
     }
 
     if (input.dashPressed && this.dashCooldown <= 0) {
