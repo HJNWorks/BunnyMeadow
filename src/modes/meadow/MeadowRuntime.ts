@@ -1,4 +1,8 @@
 import { getPlatform } from "../../core/platform"
+import { getDifficulty } from "../../core/difficulty"
+import { getInput } from "../../core/input"
+import { getSave, persistSave } from "../../core/session"
+import { addPantryCarrots } from "../../core/unlocks"
 
 type GameState = "intro" | "playing" | "paused" | "lost" | "won"
 
@@ -51,7 +55,6 @@ export class MeadowRuntime {
   private canvas: HTMLCanvasElement
   private ctx: CanvasRenderingContext2D
   private ui: MeadowUi
-  private keys = new Set<string>()
   private state: GameState = "intro"
   private bunny: Bunny = { x: 110, y: 300, dx: 1, dy: 0 }
   private carrots: Carrot[] = []
@@ -64,7 +67,12 @@ export class MeadowRuntime {
   }))
   private score = 0
   private health = 3
+  private maxHearts = 3
   private cooldown = 0
+  private dashCooldownMax = 2.2
+  private invulnMax = 1.8
+  private foxSpeed = 78
+  private detectionRadius = 240
   private burst = 0
   private invulnerable = 0
   private time = 0
@@ -72,30 +80,9 @@ export class MeadowRuntime {
   private target: Vec | null = null
   private raf = 0
   private disposed = false
-
-  private onKeyDown = (e: KeyboardEvent): void => {
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) {
-      e.preventDefault()
-    }
-    this.keys.add(e.code)
-    if (!e.repeat && e.code === "Space") {
-      this.dash()
-    }
-    if (!e.repeat && e.code === "KeyP") {
-      this.pause()
-    }
-  }
-
-  private onKeyUp = (e: KeyboardEvent): void => {
-    this.keys.delete(e.code)
-  }
-
-  private onBlur = (): void => {
-    this.keys.clear()
-    if (this.state === "playing") {
-      this.pause()
-    }
-  }
+  private invincible = false
+  private slowTime = false
+  private autoDash = false
 
   private onPointerDown = (e: PointerEvent): void => {
     if (this.state === "playing") {
@@ -114,6 +101,13 @@ export class MeadowRuntime {
     this.target = null
   }
 
+  private onBlur = (): void => {
+    getInput().clearKeys()
+    if (this.state === "playing") {
+      this.pause()
+    }
+  }
+
   constructor(canvas: HTMLCanvasElement, ui: MeadowUi) {
     const ctx = canvas.getContext("2d")
     if (!ctx) {
@@ -122,6 +116,19 @@ export class MeadowRuntime {
     this.canvas = canvas
     this.ctx = ctx
     this.ui = ui
+
+    const save = getSave()
+    const diff = getDifficulty(save)
+    this.maxHearts = diff.hearts
+    this.dashCooldownMax = diff.dashCooldown
+    this.invulnMax = diff.invulnerabilityWindow
+    this.foxSpeed = 78 * diff.enemySpeedMultiplier
+    this.detectionRadius = diff.detectionRadius
+    this.invincible = save.settings.accessibility.invincible
+    this.slowTime = save.settings.accessibility.slowTime
+    this.autoDash = save.settings.accessibility.autoDash
+    getInput().setBindings(save.settings.bindings)
+    getInput().start()
 
     this.ui.play.onclick = () => {
       if (this.state === "paused") {
@@ -133,8 +140,6 @@ export class MeadowRuntime {
     this.ui.pause.onclick = () => this.pause()
     this.ui.touchDash.onclick = () => this.dash()
 
-    addEventListener("keydown", this.onKeyDown)
-    addEventListener("keyup", this.onKeyUp)
     addEventListener("blur", this.onBlur)
     canvas.addEventListener("pointerdown", this.onPointerDown)
     canvas.addEventListener("pointermove", this.onPointerMove)
@@ -155,8 +160,7 @@ export class MeadowRuntime {
   dispose(): void {
     this.disposed = true
     cancelAnimationFrame(this.raf)
-    removeEventListener("keydown", this.onKeyDown)
-    removeEventListener("keyup", this.onKeyUp)
+    getInput().stop()
     removeEventListener("blur", this.onBlur)
     this.canvas.removeEventListener("pointerdown", this.onPointerDown)
     this.canvas.removeEventListener("pointermove", this.onPointerMove)
@@ -168,7 +172,7 @@ export class MeadowRuntime {
   private reset(): void {
     this.bunny = { x: 110, y: 300, dx: 1, dy: 0 }
     this.score = 0
-    this.health = 3
+    this.health = this.maxHearts
     this.cooldown = 0
     this.burst = 0
     this.invulnerable = 0
@@ -185,7 +189,7 @@ export class MeadowRuntime {
       { x: 520, y: 270, phase: 5 },
     ]
     this.target = null
-    this.keys.clear()
+    getInput().clearKeys()
     this.state = "playing"
     this.ui.overlay.hidden = true
     this.ui.pause.textContent = "Pause"
@@ -194,7 +198,8 @@ export class MeadowRuntime {
 
   private sync(): void {
     this.ui.score.textContent = `${this.score} / 12`
-    this.ui.hearts.textContent = `${"♥ ".repeat(this.health)}${"♡ ".repeat(3 - this.health)}`
+    const empty = Math.max(0, this.maxHearts - this.health)
+    this.ui.hearts.textContent = `${"♥ ".repeat(this.health)}${"♡ ".repeat(empty)}`.trim()
     this.ui.dash.textContent = this.cooldown > 0 ? `${this.cooldown.toFixed(1)}s` : "Ready"
   }
 
@@ -208,7 +213,7 @@ export class MeadowRuntime {
   private pause(): void {
     if (this.state === "playing") {
       this.state = "paused"
-      this.keys.clear()
+      getInput().clearKeys()
       this.target = null
       this.modal(
         "A moment in the meadow.",
@@ -226,7 +231,7 @@ export class MeadowRuntime {
   private dash(): void {
     if (this.state === "playing" && this.cooldown <= 0) {
       this.burst = 0.19
-      this.cooldown = 2.2
+      this.cooldown = this.dashCooldownMax
     }
   }
 
@@ -253,20 +258,45 @@ export class MeadowRuntime {
 
   private async unlock(id: string): Promise<void> {
     await getPlatform().achievements.unlock(id)
+    const save = getSave()
+    if (!save.progress.achievements.includes(id)) {
+      save.progress.achievements.push(id)
+    }
+  }
+
+  private async onWin(): Promise<void> {
+    await this.unlock("FIRST_HOP")
+    await this.unlock("HOME_SAFE")
+    const save = getSave()
+    addPantryCarrots(save, 12)
+    await persistSave()
   }
 
   private update(dt: number): void {
+    const input = getInput().snapshot()
+    if (input.pausePressed) {
+      this.pause()
+      return
+    }
+    if (input.confirmPressed && this.state !== "playing") {
+      if (this.state === "paused") {
+        this.pause()
+      } else {
+        this.reset()
+      }
+      return
+    }
+    if (input.dashPressed) {
+      this.dash()
+    }
+
     this.time += dt
     this.cooldown = Math.max(0, this.cooldown - dt)
     this.burst = Math.max(0, this.burst - dt)
     this.invulnerable = Math.max(0, this.invulnerable - dt)
 
-    let dx =
-      Number(this.keys.has("KeyD") || this.keys.has("ArrowRight")) -
-      Number(this.keys.has("KeyA") || this.keys.has("ArrowLeft"))
-    let dy =
-      Number(this.keys.has("KeyS") || this.keys.has("ArrowDown")) -
-      Number(this.keys.has("KeyW") || this.keys.has("ArrowUp"))
+    let dx = input.moveX
+    let dy = input.moveY
 
     if (!dx && !dy && this.target) {
       dx = this.target.x - this.bunny.x
@@ -303,16 +333,29 @@ export class MeadowRuntime {
       let fx = this.bunny.x - f.x
       let fy = this.bunny.y - f.y
       const distance = Math.hypot(fx, fy)
-      if (distance > 240 || Math.hypot(this.bunny.x - HOME.x, this.bunny.y - HOME.y) < 85) {
+      if (
+        distance > this.detectionRadius ||
+        Math.hypot(this.bunny.x - HOME.x, this.bunny.y - HOME.y) < 85
+      ) {
         fx = Math.cos(this.time * 0.65 + f.phase)
         fy = Math.sin(this.time * 0.9 + f.phase)
       }
       const norm = Math.hypot(fx, fy) || 1
-      f.x = Math.max(205, Math.min(W - 25, f.x + (fx / norm) * 78 * dt))
-      f.y = Math.max(40, Math.min(H - 30, f.y + (fy / norm) * 78 * dt))
-      if (distance < 30 && this.invulnerable <= 0 && this.burst <= 0) {
+      f.x = Math.max(205, Math.min(W - 25, f.x + (fx / norm) * this.foxSpeed * dt))
+      f.y = Math.max(40, Math.min(H - 30, f.y + (fy / norm) * this.foxSpeed * dt))
+
+      if (this.autoDash && distance < 40 && this.cooldown <= 0) {
+        this.dash()
+      }
+
+      if (
+        distance < 30 &&
+        this.invulnerable <= 0 &&
+        this.burst <= 0 &&
+        !this.invincible
+      ) {
         this.health -= 1
-        this.invulnerable = 1.8
+        this.invulnerable = this.invulnMax
         this.puff(this.bunny.x, this.bunny.y, "#fffaf0")
         if (this.health === 0) {
           this.state = "lost"
@@ -339,8 +382,7 @@ export class MeadowRuntime {
       Math.hypot(this.bunny.x - HOME.x, this.bunny.y - HOME.y) < 62
     ) {
       this.state = "won"
-      void this.unlock("FIRST_HOP")
-      void this.unlock("HOME_SAFE")
+      void this.onWin()
       this.modal(
         "Home, sweet burrow!",
         "Twelve crunchy carrots and one happy bunny. The meadow is a little sweeter with you in it.",
@@ -488,10 +530,15 @@ export class MeadowRuntime {
     if (this.disposed) {
       return
     }
-    const dt = Math.min((now - this.last) / 1000, 0.033)
+    let dt = Math.min((now - this.last) / 1000, 0.033)
     this.last = now
+    if (this.slowTime) {
+      dt *= 0.7
+    }
     if (this.state === "playing") {
       this.update(dt)
+    } else {
+      getInput().snapshot()
     }
     this.draw()
     this.raf = requestAnimationFrame((t) => this.frame(t))

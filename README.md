@@ -34,7 +34,7 @@ Production assets land in `dist/` with base path `/BunnyMeadow/` for GitHub Page
 | [docs/ENEMIES.md](docs/ENEMIES.md) | Archetypes and JSON schema |
 | [docs/UI.md](docs/UI.md) | Screens, HUD, save schema |
 | [docs/STEAM.md](docs/STEAM.md) | Electron + Steamworks plan |
-| [docs/ROADMAP.md](docs/ROADMAP.md) | What to build next (M1+) |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | Build order, frozen contracts, M1 stubs vs later fill-ins |
 
 ## Controls (Meadow)
 

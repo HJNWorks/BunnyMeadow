@@ -30,6 +30,17 @@ Gameplay never touches `localStorage` or `window` APIs directly. All IO goes thr
 
 `data/achievements.json` ids match the Steamworks achievement list one to one.
 
+### M1 contracts desktop must honor
+
+M6 implements `desktop.ts` only. It must not force gameplay or menu rewrites. Honor these M1 APIs as-is:
+
+- `SaveStore.read` / `write` / `remove` / `listKeys` — same keys as web (`bunnymeadow.save.*`, `bunnymeadow.settings`); files under `userData/saves` for Auto-Cloud
+- `Achievements.unlock` / `isUnlocked` / `listUnlocked` — ids from `achievements.json`
+- `Window.setFullscreen` / `isFullscreen` / `quit`
+- `Presence.set` / `clear` (may remain no-op until Rich Presence)
+- Input stays the shared action map (`move`, `dash`, `jump`, `pause`, `confirm`, `cancel`); Steam Input appears as a standard gamepad
+- `contentFlags` still gate Mode Select; desktop may set `storyFull` / `endless` without new scene keys
+
 ## Electron layout (M6)
 
 ```
@@ -86,12 +97,13 @@ Store page languages: EN, DE, ZH-Hans.
 
 ## Content split (assumption)
 
+Gated by `contentFlags` ([ROADMAP.md](ROADMAP.md)). Confirm before M7.
+
 | Build | Content |
 | --- | --- |
-| Web free | Meadow, Moon Tasks, Story World 1 |
-| Steam paid | Full story, Endless, achievements, cloud saves, controller polish |
-
-Confirm before M7.
+| Web free | Meadow, Moon Tasks, Story World 1 (`storyWorld1`) |
+| Steam paid | Full story (`storyFull`), Endless, achievement toasts, cloud saves, controller polish |
+| Optional | `webFullStory` ships full story on web without a Mode Select rewrite |
 
 ## Marketing and visibility
 

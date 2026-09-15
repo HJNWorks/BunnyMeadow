@@ -90,22 +90,30 @@ Ids in `src/data/achievements.json` match Steamworks one-to-one. Web tracks sile
 
 ## Milestones
 
+Build order, stubs, and frozen contracts live in [ROADMAP.md](ROADMAP.md). Summary:
+
 | Id | Scope |
 | --- | --- |
-| M0 | Phaser scaffold, Meadow port, platform web impl, Pages build |
-| M1 | Title, Mode Select, Settings, saves, difficulty, customize, gamepad, achievements |
-| M2 | Meadow maps, enemy archetypes, two Moon Tasks |
-| M3 | Story W1-1 vertical slice, Moon Pools, Fox Hu chase |
-| M4 | Worlds 1 to 3, bosses, moon finale, epilogue |
-| M5 | Endless, audio, localization, polish |
+| M0 | Phaser scaffold, Meadow port, platform web impl, Pages build (done) |
+| M1 | Meta shell + full stub surface (done) |
+| M2 | Meadow maps, enemy archetypes via Spawner, TaskRunner bodies (two tasks) |
+| M3 | Story W1 on ChunkAssembler, Moon Pools, DialogueOverlay, Fox Hu chase |
+| M4 | Worlds 2–3, bosses, moon finale, epilogue; start Steamworks verification |
+| M5 | Endless, audio assets, i18n fill, polish |
 | M6 | Electron shell, steamworks.js, win/mac/linux builds |
-| M7 | Steamworks verification, store assets, Coming Soon, demo, Next Fest |
+| M7 | Store assets, Coming Soon, demo, Next Fest |
 | M8 | SteamPipe, review, wishlist go/no-go, launch |
 
 ## Content split (assumption)
 
-Web free: Meadow, Moon Tasks, Story World 1. Steam paid: full story, Endless, achievements, cloud saves, controller polish. Confirm before M7.
+Controlled by `contentFlags` in [ROADMAP.md](ROADMAP.md), not hard-coded Mode Select branches.
+
+Default assumption until confirmed before M7:
+
+- Web free: Meadow, Moon Tasks, Story World 1 (`storyWorld1`)
+- Steam paid: full story (`storyFull`), Endless, achievements toast, cloud saves, controller polish
+- `webFullStory` may override shipping full story on the web later
 
 ## References
 
-- [STORY.md](STORY.md), [LORE.md](LORE.md), [WORLDS.md](WORLDS.md), [ENEMIES.md](ENEMIES.md), [UI.md](UI.md), [STEAM.md](STEAM.md), [ROADMAP.md](ROADMAP.md)
+- [ROADMAP.md](ROADMAP.md) (build order), [STORY.md](STORY.md), [LORE.md](LORE.md), [WORLDS.md](WORLDS.md), [ENEMIES.md](ENEMIES.md), [UI.md](UI.md), [STEAM.md](STEAM.md)

@@ -1,4 +1,8 @@
 import Phaser from "phaser"
+import { getAudio } from "../core/audio"
+import { setLanguage } from "../core/i18n"
+import { getInput } from "../core/input"
+import { initSession } from "../core/session"
 
 export class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -25,7 +29,11 @@ export class PreloadScene extends Phaser.Scene {
     })
   }
 
-  create(): void {
+  async create(): Promise<void> {
+    const save = await initSession()
+    setLanguage(save.settings.language)
+    getAudio().applyFromSave(save)
+    getInput().setBindings(save.settings.bindings)
     this.scene.start("Title")
   }
 }
