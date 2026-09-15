@@ -28,14 +28,14 @@ const SHELL_HTML = `
         <h2>Pre-run lobby</h2>
         <p>Pick a map and difficulty, then start.</p>
         <div class="meadow-lobby-row">
-          <canvas data-ui="preview" width="140" height="140" aria-label="Bunny preview"></canvas>
+          <canvas class="meadow-preview" data-ui="preview" width="336" height="336" aria-label="Bunny preview"></canvas>
           <div class="meadow-lobby-meta">
-            <div class="meadow-section-label">Difficulty</div>
-            <div class="meadow-diff-list" data-ui="difficultyList" role="listbox" aria-label="Difficulty"></div>
             <div class="meadow-section-label">Map</div>
             <div class="meadow-map-list" data-ui="mapList"></div>
           </div>
         </div>
+        <div class="meadow-section-label meadow-diff-heading">Difficulty</div>
+        <div class="meadow-diff-list" data-ui="difficultyList" role="listbox" aria-label="Difficulty"></div>
         <button type="button" class="bm-btn warm" data-ui="startRun">Start run →</button>
       </div>
     </div>
@@ -78,7 +78,7 @@ const MEADOW_CSS = `
 .meadow-bar .bm-btn { margin-left:auto; }
 .meadow-bar .bm-btn.ghost { margin-left:0; }
 .meadow-field { position:relative; overflow:hidden; border-radius:24px; box-shadow:0 14px 40px #415c3620; background:#b7ce88; }
-.meadow-field canvas { display:block; width:100%; aspect-ratio:16/9; touch-action:none; }
+.meadow-field > canvas[data-ui="canvas"] { display:block; width:100%; aspect-ratio:16/9; touch-action:none; }
 .meadow-overlay, .meadow-lobby { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:#34563835; backdrop-filter:blur(3px); }
 .meadow-overlay[hidden], .meadow-lobby[hidden] { display:none; }
 .meadow-card, .meadow-lobby-card { max-width:560px; margin:16px; text-align:center; background:#fffaf0; padding:28px; border-radius:24px; box-shadow:0 12px 30px #26432425; }
@@ -86,17 +86,31 @@ const MEADOW_CSS = `
 .meadow-card .emoji { font-size:36px; margin-bottom:12px; }
 .meadow-card h2, .meadow-lobby-card h2 { font:32px Georgia; margin:0 0 12px; }
 .meadow-card p, .meadow-lobby-card p { line-height:1.6; color:#71816e; }
-.meadow-lobby-row { display:flex; gap:18px; align-items:flex-start; text-align:left; margin:18px 0; }
-.meadow-lobby-row canvas { flex:0 0 auto; border-radius:16px; background:#bed593; }
-.meadow-lobby-meta { flex:1; min-width:0; }
+.meadow-lobby-row { display:flex; gap:18px; align-items:stretch; text-align:left; margin:18px 0 12px; }
+.meadow-preview {
+  flex:0 0 auto;
+  width:168px;
+  height:168px;
+  border-radius:16px;
+  background:#bed593;
+  display:block;
+}
+.meadow-lobby-meta { flex:1; min-width:0; display:flex; flex-direction:column; }
 .meadow-section-label { font:12px Georgia; letter-spacing:0.04em; color:#6a7a64; margin:0 0 8px; }
-.meadow-section-label + .meadow-map-list { margin-top:4px; }
-.meadow-diff-list { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+.meadow-diff-heading { margin-top:4px; text-align:center; }
+.meadow-diff-list {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  margin:0 0 18px;
+}
 .meadow-diff-chip {
+  flex:0 0 auto;
   border:1px solid #c9cfba;
   background:#fff;
   border-radius:999px;
-  padding:7px 12px;
+  padding:8px 14px;
   font:13px Georgia;
   color:#3d4934;
   cursor:pointer;
@@ -104,7 +118,7 @@ const MEADOW_CSS = `
 .meadow-diff-chip:hover { border-color:#8aaa6a; background:#f4f8ec; }
 .meadow-diff-chip.selected { border-color:#6a8f4e; background:#eef6e2; color:#2f4a28; }
 .meadow-diff-chip[data-id="hardcore"].selected { border-color:#a85a3a; background:#f7ebe4; color:#6a3220; }
-.meadow-map-list { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.meadow-map-list { display:grid; grid-template-columns:1fr 1fr; gap:8px; flex:1; }
 .meadow-end-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
 .meadow-map-card { border:1px solid #c9cfba; background:#fff; border-radius:12px; padding:10px; text-align:left; cursor:pointer; }
 .meadow-map-card strong { display:block; font-size:14px; }
@@ -122,7 +136,8 @@ const MEADOW_CSS = `
   .meadow-bar strong { font-size:15px; }
   .meadow-footer { flex-direction:column; }
   .meadow-lobby-row { flex-direction:column; align-items:center; }
-  .meadow-map-list { grid-template-columns:1fr; }
+  .meadow-preview { width:148px; height:148px; }
+  .meadow-map-list { grid-template-columns:1fr; width:100%; }
 }
 `
 

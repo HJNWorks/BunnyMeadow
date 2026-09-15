@@ -291,10 +291,25 @@ export class MeadowRuntime {
     if (!ctx) {
       return
     }
-    ctx.clearRect(0, 0, preview.width, preview.height)
+    const cssSize = 168
+    const dpr = Math.min(window.devicePixelRatio || 1, 3)
+    const pixel = Math.round(cssSize * dpr)
+    if (preview.width !== pixel || preview.height !== pixel) {
+      preview.width = pixel
+      preview.height = pixel
+    }
+    preview.style.width = `${cssSize}px`
+    preview.style.height = `${cssSize}px`
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    ctx.imageSmoothingEnabled = true
+    ctx.clearRect(0, 0, cssSize, cssSize)
     ctx.fillStyle = this.map.palette.grass
-    ctx.fillRect(0, 0, preview.width, preview.height)
-    drawBunny(ctx, preview.width / 2, preview.height / 2 + 8, this.cosmetics)
+    ctx.fillRect(0, 0, cssSize, cssSize)
+    ctx.save()
+    ctx.translate(cssSize / 2, cssSize / 2 + 10)
+    ctx.scale(2.15, 2.15)
+    drawBunny(ctx, 0, 0, this.cosmetics)
+    ctx.restore()
   }
 
   private beginIntro(): void {
