@@ -3,7 +3,7 @@
   "world": 1,
   "index": 2,
   "name": "Hedge Maze",
-  "chunks": ["chunk_orchard_a", "chunk_orchard_b", "chunk_meadow_pool"],
+  "chunks": ["chunk_orchard_a", "chunk_orchard_b", "chunk_hedge_end"],
   "playerSpawn": { "x": 100, "y": 900 },
   "moonPool": { "chunk": 1, "x": 100, "y": 920 },
   "exit": { "chunk": 2, "x": 820, "y": 920 },

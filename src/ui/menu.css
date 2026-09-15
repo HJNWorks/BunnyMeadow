@@ -173,6 +173,35 @@ html.a11y-reduced-motion *::after {
   font-size: 13px;
 }
 
+.bm-card-icon {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.bm-mode-icon {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #eef2e0;
+  color: var(--bm-accent);
+}
+
+.bm-card-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.bm-card-copy strong {
+  margin-bottom: 0;
+}
+
 .bm-field {
   display: flex;
   flex-direction: column;

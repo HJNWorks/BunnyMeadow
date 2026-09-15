@@ -3,6 +3,7 @@ import chunkMeadowGap from "../data/chunks/chunk_meadow_gap.json"
 import chunkMeadowPool from "../data/chunks/chunk_meadow_pool.json"
 import chunkOrchardA from "../data/chunks/chunk_orchard_a.json"
 import chunkOrchardB from "../data/chunks/chunk_orchard_b.json"
+import chunkHedgeEnd from "../data/chunks/chunk_hedge_end.json"
 import chunkChaseA from "../data/chunks/chunk_chase_a.json"
 import chunkChaseB from "../data/chunks/chunk_chase_b.json"
 
@@ -43,6 +44,7 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_meadow_pool: chunkMeadowPool as ChunkDef,
   chunk_orchard_a: chunkOrchardA as ChunkDef,
   chunk_orchard_b: chunkOrchardB as ChunkDef,
+  chunk_hedge_end: chunkHedgeEnd as ChunkDef,
   chunk_chase_a: chunkChaseA as ChunkDef,
   chunk_chase_b: chunkChaseB as ChunkDef,
 }
