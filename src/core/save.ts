@@ -60,6 +60,7 @@ export type SaveV1 = {
       level: number
       cleared: string[]
       checkpoints: Record<string, string>
+      controlHints: string[]
     }
     tasksCompleted: string[]
     endlessBest: number
@@ -127,6 +128,7 @@ export function createDefaultSave(slot = 0): SaveV1 {
         level: 1,
         cleared: [],
         checkpoints: {},
+        controlHints: [],
       },
       tasksCompleted: [],
       endlessBest: 0,
@@ -190,6 +192,12 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
             isObject(raw.progress.story.checkpoints)
               ? (raw.progress.story.checkpoints as Record<string, string>)
               : {},
+          controlHints:
+            isObject(raw.progress) &&
+            isObject(raw.progress.story) &&
+            Array.isArray(raw.progress.story.controlHints)
+              ? (raw.progress.story.controlHints as string[]).filter((value) => typeof value === "string")
+              : [],
         },
       },
     } as SaveV1

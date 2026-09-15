@@ -7,6 +7,7 @@ import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
 import { getPlatform } from "../../core/platform"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
+import { ControlCoach, CONTROL_COACH_CSS, type CoachAction } from "../../ui/ControlCoach"
 
 type Hud = {
   hearts: HTMLElement
@@ -19,6 +20,8 @@ type Hud = {
   pausePanel: HTMLElement
   resume: HTMLButtonElement
   quit: HTMLButtonElement
+  controlsDock: HTMLElement
+  controlsFloat: HTMLElement
 }
 
 const SHELL = `
@@ -32,10 +35,12 @@ const SHELL = `
   </header>
   <div class="meadow-bar">
     <span>Hearts <strong data-ui="hearts">♥ ♥ ♥</strong></span>
+    <div class="story-controls-dock" data-ui="controlsDock" hidden aria-label="Controls"></div>
     <button type="button" class="bm-btn" data-ui="pauseBtn">Pause</button>
     <button type="button" class="bm-btn ghost" data-ui="back">World Map</button>
   </div>
   <div class="story-field" data-ui="field"></div>
+  <div class="story-controls-float" data-ui="controlsFloat" hidden></div>
   <div class="meadow-overlay" data-ui="overlay" hidden>
     <div class="meadow-card">
       <h2 data-ui="title">Ready</h2>
@@ -82,12 +87,14 @@ const CSS = `
 .bm-story-hud .meadow-bar { margin-top: 10px; }
 .story-shell .story-field { display:none; }
 .meadow-header h1 { font-size:36px; margin:6px 0; }
-.meadow-bar { display:flex; gap:20px; align-items:center; margin:16px 0 8px; flex-wrap:wrap; }
+.meadow-bar { display:flex; gap:16px; align-items:center; margin:16px 0 8px; flex-wrap:wrap; }
 .meadow-bar .bm-btn { margin-left:auto; }
+.meadow-bar .bm-btn.ghost { margin-left:0; }
 .meadow-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#34563855; z-index:30; pointer-events:auto; }
 .meadow-overlay[hidden] { display:none; }
 .meadow-card { background:#fffaf0; padding:28px; border-radius:24px; max-width:420px; text-align:center; }
 .meadow-pause-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+${CONTROL_COACH_CSS}
 `
 
 export class StoryScene extends Phaser.Scene {
@@ -115,6 +122,7 @@ export class StoryScene extends Phaser.Scene {
   private lost = false
   private paused = false
   private invincible = false
+  private coach: ControlCoach | null = null
 
   constructor() {
     super("Story")
@@ -149,6 +157,8 @@ export class StoryScene extends Phaser.Scene {
       pausePanel: requireEl(shell.root, "[data-ui=pausePanel]"),
       resume: requireEl(shell.root, "[data-ui=resume]"),
       quit: requireEl(shell.root, "[data-ui=quit]"),
+      controlsDock: requireEl(shell.root, "[data-ui=controlsDock]"),
+      controlsFloat: requireEl(shell.root, "[data-ui=controlsFloat]"),
     }
 
     this.hud.levelName.textContent = def.name
@@ -184,6 +194,26 @@ export class StoryScene extends Phaser.Scene {
     this.invincible = save.settings.accessibility.invincible
     getInput().setBindings(save.settings.bindings)
     getInput().start()
+
+    const learned = save.progress.story.controlHints.filter(
+      (value): value is CoachAction => value === "move" || value === "jump" || value === "dash",
+    )
+    this.coach = new ControlCoach(
+      this.hud.controlsFloat,
+      this.hud.controlsDock,
+      save.settings.bindings,
+      learned,
+      {
+        reducedMotion: save.settings.accessibility.reducedMotion,
+        onLearned: (action) => {
+          const next = getSave()
+          if (!next.progress.story.controlHints.includes(action)) {
+            next.progress.story.controlHints.push(action)
+            void persistSave()
+          }
+        },
+      },
+    )
 
     const assembler = new ChunkAssembler()
     const world = assembler.assemble(def.chunks)
@@ -288,6 +318,7 @@ export class StoryScene extends Phaser.Scene {
 
   private cleanupInput = (): void => {
     getInput().stop()
+    this.coach = null
     this.style?.remove()
     this.style = null
   }
@@ -424,6 +455,9 @@ export class StoryScene extends Phaser.Scene {
       this.setPaused(true)
       return
     }
+
+    this.coach?.noteInput(input.moveX, input.jumpPressed, input.dashPressed)
+    this.coach?.followPlayer(this, this.player.x, this.player.y - 28)
 
     const body = this.player.body as Phaser.Physics.Arcade.Body
     const onFloor = body.blocked.down || body.touching.down
