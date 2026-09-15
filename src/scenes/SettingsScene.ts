@@ -10,8 +10,14 @@ import { getInput } from "../core/input"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 
 export class SettingsScene extends Phaser.Scene {
+  private returnTo = "Title"
+
   constructor() {
     super("Settings")
+  }
+
+  init(data?: { returnTo?: string }): void {
+    this.returnTo = data?.returnTo ?? "Title"
   }
 
   create(): void {
@@ -139,6 +145,7 @@ export class SettingsScene extends Phaser.Scene {
       this.scene.restart()
     }
 
-    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => this.scene.start("Title")
+    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () =>
+      this.scene.start(this.returnTo)
   }
 }

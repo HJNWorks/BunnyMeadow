@@ -18,6 +18,7 @@ Four modes (Meadow, Story, Moon Tasks, Endless) share one save schema, one input
 - Stub routes: WorldMap, Story, TaskSelect, TaskRun, Endless, Pause, DialogueOverlay, Result
 - Stub modules: Spawner, ChunkAssembler, TaskRunner shell
 - Meadow applies difficulty, accessibility, bindings, pantry persist
+- Meadow arcade expansion: cosmetics draw path, Hardcore, four map JSON + lobby, Spawner enemies/items, pause → Settings
 
 ## Frozen contracts
 
@@ -115,7 +116,7 @@ Shared `ModeContext`: active save, difficulty resolver, input, audio bus, `t()`,
 
 ### Difficulty API
 
-`getDifficulty(save)` returns merged preset + overrides from `difficulty.json`. Every mode uses this. Meadow applies hearts, fox speed, detection, dash cooldown, invuln, and a11y in M1 (not deferred to M2).
+`getDifficulty(save)` returns merged preset + overrides from `difficulty.json`. Every mode uses this. Meadow applies hearts, carrotGoal, timerSeconds, enemyIds/enemyCount, itemChance, fox/enemy speed, detection, dash cooldown, invuln, and a11y.
 
 ### HUD contract
 
@@ -162,19 +163,22 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 ### M2 — Meadow expansion + first Moon Tasks
 
+**Status: Meadow arcade expansion done (maps, difficulty/Hardcore, Spawner archetypes, cosmetics, lobby/pause). Moon Tasks still pending.**
+
 **Goal:** Data-driven Meadow maps and enemies; two tasks on the M1 TaskRunner.
 
 **Fills**
 
-- Meadow map JSON + three extra maps ([WORLDS.md](WORLDS.md))
-- Archetypes via Spawner: patrol, chaser, ranged_lob, reach ([ENEMIES.md](ENEMIES.md))
-- Pantry gates for maps / cosmetics (enforce unlock function from M1)
-- Carrot Rush + Hide and Seek on TaskRunner
-- Set `contentFlags.tasks` true
+- Meadow map JSON + three extra maps ([WORLDS.md](WORLDS.md)) — done
+- Archetypes via Spawner: patrol, chaser, ranged_lob (reach deferred with Story) — Meadow subset done
+- Pantry gates for maps / cosmetics (enforce unlock function from M1) — maps done
+- Carrot Rush + Hide and Seek on TaskRunner — pending
+- Set `contentFlags.tasks` true — pending until tasks ship
 
 **Must not reinvent:** TaskRunner entrypoint, difficulty API, enemy JSON schema.
 
 **Exit criteria:** second Meadow map playable; both tasks completable; pantry unlock changes Customize/Mode Select.
+*(Partial: Meadow maps + pantry map unlocks live. Tasks still open.)*
 
 ### M3 — Story vertical slice
 

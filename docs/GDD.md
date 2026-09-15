@@ -45,9 +45,12 @@ Presets in `src/data/difficulty.json`. All parameters editable in Settings.
 | Sprout | Young children, generous |
 | Hopper | Default family play |
 | Wildhare | Challenge |
-| Moonlit | Hardest, denser bosses |
+| Moonlit | Hardest standard preset |
+| Hardcore | One heart, short timer, dense enemies |
 
-Parameters: hearts, enemy count multiplier, enemy speed multiplier, detection radius, attack cooldown, dash cooldown, invulnerability window, checkpoint density, timer multipliers, boss phase count.
+Parameters: hearts, carrotGoal, timerSeconds (0 = untimed), enemyCount, enemyIds, itemChance, enemy count multiplier, enemy speed multiplier, detection radius, attack cooldown, dash cooldown, invulnerability window, checkpoint density, timer multipliers, boss phase count.
+
+Hardcore uses `hearts: 1`. Accessibility invincible still overrides contact damage when enabled.
 
 ## Accessibility (independent of preset)
 

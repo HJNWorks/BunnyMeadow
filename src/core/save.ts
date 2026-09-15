@@ -3,7 +3,7 @@ import { getPlatform } from "./platform"
 export type FurOption = "cream" | "brown" | "gray" | "moon-white"
 export type EarsOption = "upright" | "lop" | "tufted"
 export type AccessoryOption = "none" | "scarf" | "lantern" | "blossom"
-export type DifficultyId = "sprout" | "hopper" | "wildhare" | "moonlit"
+export type DifficultyId = "sprout" | "hopper" | "wildhare" | "moonlit" | "hardcore"
 export type LanguageId = "en" | "de" | "zh"
 
 export type Bindings = {

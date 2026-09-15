@@ -2,6 +2,11 @@
   "presets": {
     "sprout": {
       "hearts": 5,
+      "carrotGoal": 8,
+      "timerSeconds": 0,
+      "enemyCount": 2,
+      "enemyIds": ["fox"],
+      "itemChance": 0.55,
       "enemyCountMultiplier": 0.7,
       "enemySpeedMultiplier": 0.75,
       "detectionRadius": 180,
@@ -14,6 +19,11 @@
     },
     "hopper": {
       "hearts": 3,
+      "carrotGoal": 12,
+      "timerSeconds": 0,
+      "enemyCount": 3,
+      "enemyIds": ["fox", "hedgehog"],
+      "itemChance": 0.35,
       "enemyCountMultiplier": 1,
       "enemySpeedMultiplier": 1,
       "detectionRadius": 240,
@@ -26,6 +36,11 @@
     },
     "wildhare": {
       "hearts": 3,
+      "carrotGoal": 16,
+      "timerSeconds": 120,
+      "enemyCount": 4,
+      "enemyIds": ["fox", "hedgehog", "crow"],
+      "itemChance": 0.28,
       "enemyCountMultiplier": 1.25,
       "enemySpeedMultiplier": 1.2,
       "detectionRadius": 280,
@@ -38,6 +53,11 @@
     },
     "moonlit": {
       "hearts": 2,
+      "carrotGoal": 20,
+      "timerSeconds": 100,
+      "enemyCount": 5,
+      "enemyIds": ["fox", "hedgehog", "crow"],
+      "itemChance": 0.22,
       "enemyCountMultiplier": 1.5,
       "enemySpeedMultiplier": 1.35,
       "detectionRadius": 320,
@@ -46,6 +66,23 @@
       "invulnerabilityWindow": 1.1,
       "checkpointDensity": 0.7,
       "timerMultiplier": 0.8,
+      "bossPhaseCount": 4
+    },
+    "hardcore": {
+      "hearts": 1,
+      "carrotGoal": 16,
+      "timerSeconds": 75,
+      "enemyCount": 5,
+      "enemyIds": ["fox", "hedgehog", "crow"],
+      "itemChance": 0.12,
+      "enemyCountMultiplier": 1.6,
+      "enemySpeedMultiplier": 1.45,
+      "detectionRadius": 340,
+      "attackCooldown": 0.6,
+      "dashCooldown": 3,
+      "invulnerabilityWindow": 0.85,
+      "checkpointDensity": 0.5,
+      "timerMultiplier": 0.7,
       "bossPhaseCount": 4
     }
   },

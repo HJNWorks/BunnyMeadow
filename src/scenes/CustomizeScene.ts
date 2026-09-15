@@ -3,6 +3,7 @@ import { t } from "../core/i18n"
 import type { AccessoryOption, EarsOption, FurOption } from "../core/save"
 import { getSave, persistSave } from "../core/session"
 import { mountDomShell, requireEl } from "../ui/DomShell"
+import { drawBunny } from "../render/drawBunny"
 
 export class CustomizeScene extends Phaser.Scene {
   constructor() {
@@ -16,6 +17,7 @@ export class CustomizeScene extends Phaser.Scene {
       `
       <div class="bm-shell">
         <h1>${t("customize.title")}</h1>
+        <canvas data-ui="preview" width="180" height="180" aria-label="Bunny preview" style="display:block;margin:0 auto 16px;border-radius:16px;background:#bed593;"></canvas>
         <div class="bm-field">
           <label for="name">${t("customize.name")}</label>
           <input id="name" data-ui="name" value="${save.player.name}" maxlength="24" />
@@ -61,13 +63,37 @@ export class CustomizeScene extends Phaser.Scene {
       `,
     )
 
+    const preview = requireEl<HTMLCanvasElement>(root, "[data-ui=preview]")
+    const furEl = requireEl<HTMLSelectElement>(root, "[data-ui=fur]")
+    const earsEl = requireEl<HTMLSelectElement>(root, "[data-ui=ears]")
+    const accessoryEl = requireEl<HTMLSelectElement>(root, "[data-ui=accessory]")
+
+    const paint = (): void => {
+      const ctx = preview.getContext("2d")
+      if (!ctx) {
+        return
+      }
+      ctx.clearRect(0, 0, preview.width, preview.height)
+      ctx.fillStyle = "#bed593"
+      ctx.fillRect(0, 0, preview.width, preview.height)
+      drawBunny(ctx, preview.width / 2, preview.height / 2 + 10, {
+        fur: furEl.value as FurOption,
+        ears: earsEl.value as EarsOption,
+        accessory: accessoryEl.value as AccessoryOption,
+      })
+    }
+
+    furEl.onchange = paint
+    earsEl.onchange = paint
+    accessoryEl.onchange = paint
+    paint()
+
     requireEl<HTMLButtonElement>(root, "[data-ui=save]").onclick = async () => {
       const next = getSave()
       next.player.name = requireEl<HTMLInputElement>(root, "[data-ui=name]").value.trim() || "Mei"
-      next.player.fur = requireEl<HTMLSelectElement>(root, "[data-ui=fur]").value as FurOption
-      next.player.ears = requireEl<HTMLSelectElement>(root, "[data-ui=ears]").value as EarsOption
-      next.player.accessory = requireEl<HTMLSelectElement>(root, "[data-ui=accessory]")
-        .value as AccessoryOption
+      next.player.fur = furEl.value as FurOption
+      next.player.ears = earsEl.value as EarsOption
+      next.player.accessory = accessoryEl.value as AccessoryOption
       await persistSave()
       this.scene.start("Title")
     }
