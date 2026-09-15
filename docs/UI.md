@@ -12,9 +12,9 @@ Boot -> Preload -> Title
   Title -> Credits
 Mode Select -> Meadow | World Map | Task Select | Endless
 World Map -> Story -> Result -> World Map
-Task Select -> Task Run -> Result -> Task Select
+Task Select -> Task Run -> Task Select
 Endless -> Result -> Mode Select
-Any play -> Pause -> Resume | Settings | Quit to Mode Select
+Any play -> Pause (inline in Meadow/Tasks today; shared Pause scene stub) -> Resume | Settings | Quit
 DialogueOverlay can sit above Story or Meadow
 ```
 
@@ -29,13 +29,13 @@ DialogueOverlay can sit above Story or Meadow
 | Settings | menu | |
 | Customize | menu | |
 | Credits | menu | includes achievements list |
-| Meadow | play | live from M0/M1 |
+| Meadow | play | live (data-driven arcade, M2) |
 | WorldMap | menu | stub until M3 |
 | Story | play | stub until M3 |
-| TaskSelect | menu | stub until M2 |
-| TaskRun | play | runner shell M1; bodies M2+ |
+| TaskSelect | menu | live (M2: Night Watch, Hide and Seek) |
+| TaskRun | play | live (M2 TaskRuntime) |
 | Endless | play | stub until M5 |
-| Pause | overlay | shared |
+| Pause | overlay | stub registered; Meadow/Tasks use inline pause until shared Pause lands |
 | DialogueOverlay | overlay | stub until M3 |
 | Result | menu | stub shell until modes need it |
 
@@ -81,7 +81,7 @@ Gamepad: left stick / d-pad for move; South dash or confirm by context; West or 
 
 ## Customize
 
-Unlocked by pantry level. Cosmetics only. Unlock helper exists in M1; gates enforced from M2.
+Unlocked by pantry level. Cosmetics only. Unlock helpers exist from M1. Map unlocks are enforced for Meadow. Cosmetic option filtering in Customize UI is still open.
 
 | Slot | Options (seed) | Unlock |
 | --- | --- | --- |

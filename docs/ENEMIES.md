@@ -64,13 +64,15 @@ Example sketch for Crane Envoy:
 }
 ```
 
-## Seed roster for M2
+## Shipped roster (Meadow + Tasks)
+
+Used on web today via Spawner. `reach` and later archetypes remain M3+.
 
 | Id | Archetype | Mode |
 | --- | --- | --- |
-| fox | chaser | Meadow, Story W1 |
-| hedgehog | patrol | Meadow, Story W1 |
-| crow | ranged_lob | Story W1 |
+| fox | chaser | Meadow, Moon Tasks, Story W1 |
+| hedgehog | patrol | Meadow, Moon Tasks, Story W1 |
+| crow | ranged_lob | Meadow, Moon Tasks, Story W1 |
 | squirrel | ranged_lob | Story W1 |
 | heron | reach | Story W2 |
 | frog | patrol | Story W2 |

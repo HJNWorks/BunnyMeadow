@@ -18,17 +18,15 @@ Left-to-right platformer. Authored levels from reusable chunks. Moon Pool checkp
 
 ### Moon Tasks (short objectives, 1 to 3 minutes)
 
-Reuse Meadow and Story systems. No new engines.
+Reuse Meadow systems for the M2 set (canvas + maps + Spawner). No new engines. Story-backed tasks come later if needed.
 
-| Task | Goal |
-| --- | --- |
-| Carrot Rush | Collect N carrots under a timer *(retired from playable M2 set; overlaps Meadow arcade)* |
-| Hide and Seek | Find hidden kits on a Meadow map |
-| Night Watch | Survive waves near the burrow |
-| Lantern Run | Reach the peak before lanterns go out |
-| Daily Moon | Seeded task of the day |
-
-Playable on web after M2: Night Watch + Hide and Seek.
+| Task | Goal | Web status |
+| --- | --- | --- |
+| Night Watch | Survive waves near the burrow | playable (M2) |
+| Hide and Seek | Find hidden kits on a Meadow map | playable (M2) |
+| Carrot Rush | Collect N carrots under a timer | retired (overlaps Meadow arcade) |
+| Lantern Run | Reach the peak before lanterns go out | deferred |
+| Daily Moon | Seeded task of the day | deferred |
 
 ### Endless Meadow Run
 
@@ -101,7 +99,7 @@ Build order, stubs, and frozen contracts live in [ROADMAP.md](ROADMAP.md). Summa
 | --- | --- |
 | M0 | Phaser scaffold, Meadow port, platform web impl, Pages build (done) |
 | M1 | Meta shell + full stub surface (done) |
-| M2 | Meadow maps, enemy archetypes via Spawner, TaskRunner bodies (two tasks) |
+| M2 | Meadow maps + Spawner archetypes; Moon Tasks Night Watch + Hide and Seek; Carrot Rush retired (done) |
 | M3 | Story W1 on ChunkAssembler, Moon Pools, DialogueOverlay, Fox Hu chase |
 | M4 | Worlds 2–3, bosses, moon finale, epilogue; start Steamworks verification |
 | M5 | Endless, audio assets, i18n fill, polish |

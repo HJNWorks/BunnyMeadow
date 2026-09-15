@@ -50,7 +50,7 @@ Shared by Meadow, Story, Tasks, Endless. Each kit: tileset, palette, parallax la
 
 ## Meadow maps (arcade)
 
-JSON maps: obstacles, spawn points, safe zone, decorations.
+JSON maps: obstacles, spawn points, safe zone, decorations. All four ids below ship as files under `src/data/maps/`.
 
 | Id | Env | Unlock |
 | --- | --- | --- |
