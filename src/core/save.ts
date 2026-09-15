@@ -80,8 +80,8 @@ export const DEFAULT_BINDINGS: Bindings = {
   moveDown: ["KeyS", "ArrowDown"],
   moveLeft: ["KeyA", "ArrowLeft"],
   moveRight: ["KeyD", "ArrowRight"],
-  dash: ["Space"],
-  jump: ["KeyK"],
+  dash: ["KeyR"],
+  jump: ["Space"],
   pause: ["KeyP"],
   confirm: ["Enter"],
   cancel: ["Escape"],
@@ -186,12 +186,7 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
         story: {
           ...base.progress.story,
           ...(isObject(raw.progress) && isObject(raw.progress.story) ? raw.progress.story : {}),
-          checkpoints:
-            isObject(raw.progress) &&
-            isObject(raw.progress.story) &&
-            isObject(raw.progress.story.checkpoints)
-              ? (raw.progress.story.checkpoints as Record<string, string>)
-              : {},
+          checkpoints: {},
           controlHints:
             isObject(raw.progress) &&
             isObject(raw.progress.story) &&
@@ -201,6 +196,14 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
         },
       },
     } as SaveV1
+    const dash = merged.settings.bindings.dash ?? []
+    const jump = merged.settings.bindings.jump ?? []
+    const stockOldDash = dash.length === 1 && dash[0] === "Space"
+    const stockOldJump = jump.length === 1 && jump[0] === "KeyK"
+    if (stockOldDash && stockOldJump) {
+      merged.settings.bindings.dash = [...DEFAULT_BINDINGS.dash]
+      merged.settings.bindings.jump = [...DEFAULT_BINDINGS.jump]
+    }
     return merged
   } catch {
     return fallback

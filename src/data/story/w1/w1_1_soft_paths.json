@@ -8,5 +8,5 @@
   "moonPool": { "chunk": 2, "x": 180, "y": 920 },
   "exit": { "chunk": 2, "x": 820, "y": 920 },
   "moonLine": "Soft paths remember soft paws.",
-  "objective": "Reach the burrow. Dash and jump along the way."
+  "objective": "Reach the burrow. Jump with Space, dash with R."
 }

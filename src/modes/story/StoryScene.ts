@@ -239,7 +239,7 @@ export class StoryScene extends Phaser.Scene {
 
     this.cameras.main.setBounds(0, 0, world.width, 1080)
     this.cameras.main.setBackgroundColor("#b9c98a")
-    this.physics.world.setBounds(0, 0, world.width, 1080)
+    this.physics.world.setBounds(0, -200, world.width, 1400, true, true, true, false)
 
     for (const band of world.colors) {
       this.add
@@ -297,18 +297,9 @@ export class StoryScene extends Phaser.Scene {
       }
     }
 
-    const spawnKey = `w1:${def.id}`
-    const saved = save.progress.story.checkpoints[spawnKey]
-    let spawnX = def.playerSpawn.x
-    let spawnY = def.playerSpawn.y
-    if (saved) {
-      const [sx, sy] = saved.split(",").map(Number)
-      if (!Number.isNaN(sx) && !Number.isNaN(sy)) {
-        spawnX = sx
-        spawnY = sy
-        this.checkpoint = { x: sx, y: sy }
-      }
-    }
+    const spawnX = def.playerSpawn.x
+    const spawnY = def.playerSpawn.y
+    this.checkpoint = { x: spawnX, y: spawnY }
 
     this.player = this.physics.add.sprite(spawnX, spawnY, "story_bunny")
     this.player.setDisplaySize(48, 56)
@@ -521,12 +512,26 @@ export class StoryScene extends Phaser.Scene {
     this.player.setTint(0xffcccc)
     this.time.delayedCall(200, () => this.player.clearTint())
     if (this.health <= 0) {
-      this.lost = true
-      this.hud.title.textContent = "A soft tumble"
-      this.hud.message.textContent = "Try again from the Moon Pool."
-      this.hud.play.textContent = "Retry →"
-      this.hud.overlay.hidden = false
+      this.enterDeadState(
+        this.checkpoint &&
+          (this.checkpoint.x !== this.level.playerSpawn.x ||
+            this.checkpoint.y !== this.level.playerSpawn.y)
+          ? "Continue from the last Moon Pool."
+          : "Continue from the start.",
+      )
     }
+  }
+
+  private enterDeadState(message: string): void {
+    if (this.lost || this.won) {
+      return
+    }
+    this.lost = true
+    this.player.setVelocity(0, 0)
+    this.hud.title.textContent = "A soft tumble"
+    this.hud.message.textContent = message
+    this.hud.play.textContent = "Retry →"
+    this.hud.overlay.hidden = false
   }
 
   private respawn(): void {
@@ -534,20 +539,25 @@ export class StoryScene extends Phaser.Scene {
     this.player.setPosition(point.x, point.y)
     this.player.setVelocity(0, 0)
     this.health = this.maxHearts
-    this.invuln = 1
+    this.invuln = 1.2
     this.syncHearts()
+    this.player.clearTint()
   }
 
   private onMoonPool(): void {
-    if (this.poolTouched || this.won || this.lost) {
+    if (this.won || this.lost) {
+      return
+    }
+    const next = { x: this.moonPool.x, y: this.moonPool.y - 40 }
+    const same =
+      this.checkpoint &&
+      Math.abs(this.checkpoint.x - next.x) < 2 &&
+      Math.abs(this.checkpoint.y - next.y) < 2
+    this.checkpoint = next
+    if (same || this.poolTouched) {
       return
     }
     this.poolTouched = true
-    this.checkpoint = { x: this.moonPool.x, y: this.moonPool.y - 40 }
-    const save = getSave()
-    save.progress.story.checkpoints[`w1:${this.level.id}`] =
-      `${this.checkpoint.x},${this.checkpoint.y}`
-    void persistSave()
     this.scene.launch("DialogueOverlay", {
       lines: [this.level.moonLine],
       onDone: () => {
@@ -608,6 +618,17 @@ export class StoryScene extends Phaser.Scene {
 
     this.coach?.noteInput(input.moveX, input.jumpPressed, input.dashPressed)
     this.coach?.followPlayer(this, this.player.x, this.player.y - 28)
+
+    if (this.player.y > 1120) {
+      this.enterDeadState(
+        this.checkpoint &&
+          (this.checkpoint.x !== this.level.playerSpawn.x ||
+            this.checkpoint.y !== this.level.playerSpawn.y)
+          ? "Fall gently. Continue from the last Moon Pool."
+          : "Fall gently. Continue from the start.",
+      )
+      return
+    }
 
     const body = this.player.body as Phaser.Physics.Arcade.Body
     const onFloor = body.blocked.down || body.touching.down

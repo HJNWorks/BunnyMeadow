@@ -530,7 +530,7 @@ export class MeadowRuntime {
       this.state = "lost"
       this.modal(
         "A little rest, then retry.",
-        "Dash past threats with Space, and recover near your burrow.",
+        "Dash past threats with R, and recover near your burrow.",
         "Try again →",
         true,
       )

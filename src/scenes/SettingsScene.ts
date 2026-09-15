@@ -71,11 +71,11 @@ export class SettingsScene extends Phaser.Scene {
           .join("")}
         <div class="bm-field">
           <label>Dash key</label>
-          <input data-ui="dashKey" value="${save.settings.bindings.dash[0] ?? "Space"}" />
+          <input data-ui="dashKey" value="${save.settings.bindings.dash[0] ?? "KeyR"}" />
         </div>
         <div class="bm-field">
           <label>Jump key</label>
-          <input data-ui="jumpKey" value="${save.settings.bindings.jump[0] ?? "KeyK"}" />
+          <input data-ui="jumpKey" value="${save.settings.bindings.jump[0] ?? "Space"}" />
         </div>
         <div class="bm-field">
           <label>Pause key</label>
@@ -134,10 +134,10 @@ export class SettingsScene extends Phaser.Scene {
         ).checked
       }
       next.settings.bindings.dash = [
-        requireEl<HTMLInputElement>(root, "[data-ui=dashKey]").value || "Space",
+        requireEl<HTMLInputElement>(root, "[data-ui=dashKey]").value || "KeyR",
       ]
       next.settings.bindings.jump = [
-        requireEl<HTMLInputElement>(root, "[data-ui=jumpKey]").value || "KeyK",
+        requireEl<HTMLInputElement>(root, "[data-ui=jumpKey]").value || "Space",
       ]
       next.settings.bindings.pause = [
         requireEl<HTMLInputElement>(root, "[data-ui=pauseKey]").value || "KeyP",

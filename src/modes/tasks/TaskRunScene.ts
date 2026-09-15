@@ -48,7 +48,7 @@ const SHELL_HTML = `
   </div>
   <div class="meadow-touch"><button type="button" class="bm-btn" data-ui="touchDash">Dash</button></div>
   <footer class="meadow-footer">
-    <span><kbd>W A S D</kbd> move &nbsp; <kbd>Space</kbd> dash &nbsp; <kbd>P</kbd> pause</span>
+    <span><kbd>W A S D</kbd> move &nbsp; <kbd>R</kbd> dash &nbsp; <kbd>P</kbd> pause</span>
     <span>Touch: hold a spot to move.</span>
   </footer>
 </div>
