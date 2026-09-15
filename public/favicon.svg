@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Bunny Meadow">
+  <rect width="64" height="64" rx="14" fill="#2a3d2e"/>
+  <circle cx="34" cy="28" r="20" fill="#f0d98a"/>
+  <circle cx="40" cy="22" r="16" fill="#2a3d2e"/>
+  <ellipse cx="22" cy="18" rx="6" ry="16" fill="#fffaf0" transform="rotate(-18 22 18)"/>
+  <ellipse cx="34" cy="16" rx="6" ry="17" fill="#fffaf0" transform="rotate(12 34 16)"/>
+  <ellipse cx="22" cy="16" rx="2.4" ry="10" fill="#e8b3a6" transform="rotate(-18 22 16)"/>
+  <ellipse cx="34" cy="14" rx="2.4" ry="11" fill="#e8b3a6" transform="rotate(12 34 14)"/>
+  <ellipse cx="28" cy="38" rx="14" ry="13" fill="#fffaf0"/>
+  <circle cx="23" cy="36" r="2" fill="#3d4934"/>
+  <circle cx="33" cy="36" r="2" fill="#3d4934"/>
+  <ellipse cx="28" cy="41" rx="2.2" ry="1.6" fill="#db9f98"/>
+  <ellipse cx="20" cy="41" rx="3" ry="2" fill="#efc9b9"/>
+  <ellipse cx="36" cy="41" rx="3" ry="2" fill="#efc9b9"/>
+  <path d="M24 48 Q28 46 32 48" fill="none" stroke="#3d4934" stroke-width="1.4" stroke-linecap="round"/>
+</svg>
