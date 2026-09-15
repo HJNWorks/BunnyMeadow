@@ -63,6 +63,7 @@ const CSS = `
   background: transparent;
   pointer-events: none;
   overflow: hidden;
+  z-index: 35;
 }
 .bm-story-hud .bm-shell {
   max-width: none;
@@ -128,11 +129,12 @@ export class StoryScene extends Phaser.Scene {
   private wallBounce = false
   private facing = 1
   private checkpoint: { x: number; y: number } | null = null
-  private poolTouched = false
+  private poolClaimed = false
   private won = false
   private lost = false
   private paused = false
   private invincible = false
+  private inDialogue = false
   private coach: ControlCoach | null = null
 
   constructor() {
@@ -155,7 +157,8 @@ export class StoryScene extends Phaser.Scene {
     this.lost = false
     this.paused = false
     this.checkpoint = null
-    this.poolTouched = false
+    this.poolClaimed = false
+    this.inDialogue = false
     this.foxHu = null
     this.physics.world.isPaused = false
 
@@ -238,26 +241,14 @@ export class StoryScene extends Phaser.Scene {
     this.ensureStoryTextures()
 
     this.cameras.main.setBounds(0, 0, world.width, 1080)
-    this.cameras.main.setBackgroundColor("#b9c98a")
+    this.cameras.main.setBackgroundColor("#c5d48a")
     this.physics.world.setBounds(0, -200, world.width, 1400, true, true, true, false)
 
-    for (const band of world.colors) {
-      this.add
-        .rectangle(
-          band.x + band.width / 2,
-          540,
-          band.width,
-          1080,
-          Phaser.Display.Color.HexStringToColor(band.color).color,
-        )
-        .setDepth(-3)
-      this.add
-        .rectangle(band.x + band.width / 2, 200, band.width, 220, 0xeaf3c8, 0.28)
-        .setDepth(-2)
-      for (let i = 0; i < 3; i += 1) {
-        const cx = band.x + 140 + i * 280
-        this.add.ellipse(cx, 140 + (i % 2) * 30, 120, 36, 0xf4f7e8, 0.45).setDepth(-1)
-      }
+    this.add.rectangle(world.width / 2, 540, world.width, 1080, 0xc5d48a).setDepth(-3)
+    this.add.rectangle(world.width / 2, 200, world.width, 220, 0xeaf3c8, 0.22).setDepth(-2)
+    for (let i = 0; i < Math.ceil(world.width / 280); i += 1) {
+      const cx = 140 + i * 280
+      this.add.ellipse(cx, 130 + (i % 2) * 28, 120, 36, 0xf4f7e8, 0.4).setDepth(-1)
     }
 
     this.platforms = this.physics.add.staticGroup()
@@ -545,23 +536,21 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private onMoonPool(): void {
-    if (this.won || this.lost) {
+    if (this.won || this.lost || this.poolClaimed || this.inDialogue) {
       return
     }
-    const next = { x: this.moonPool.x, y: this.moonPool.y - 40 }
-    const same =
-      this.checkpoint &&
-      Math.abs(this.checkpoint.x - next.x) < 2 &&
-      Math.abs(this.checkpoint.y - next.y) < 2
-    this.checkpoint = next
-    if (same || this.poolTouched) {
-      return
-    }
-    this.poolTouched = true
+    this.poolClaimed = true
+    this.inDialogue = true
+    this.checkpoint = { x: this.moonPool.x, y: this.moonPool.y - 40 }
+    this.player.setVelocity(0, 0)
+    this.physics.world.isPaused = true
     this.scene.launch("DialogueOverlay", {
       lines: [this.level.moonLine],
       onDone: () => {
-        this.poolTouched = false
+        this.inDialogue = false
+        if (!this.paused && !this.won && !this.lost) {
+          this.physics.world.isPaused = false
+        }
       },
     })
   }
@@ -602,7 +591,7 @@ export class StoryScene extends Phaser.Scene {
   }
 
   update(_time: number, delta: number): void {
-    if (this.paused || this.won || this.lost || !this.player?.body) {
+    if (this.paused || this.won || this.lost || this.inDialogue || !this.player?.body) {
       return
     }
     const dt = delta / 1000
