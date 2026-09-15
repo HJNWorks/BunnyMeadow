@@ -54,7 +54,7 @@ export interface MeadowUi {
   touchDash: HTMLButtonElement
   lobby: HTMLElement
   mapList: HTMLElement
-  difficultySelect: HTMLSelectElement
+  difficultyList: HTMLElement
   preview: HTMLCanvasElement
   startRun: HTMLButtonElement
   toLobby: HTMLButtonElement
@@ -161,9 +161,6 @@ export class MeadowRuntime {
     this.ui.openSettings.onclick = () => this.callbacks.onOpenSettings()
     this.ui.quitModes.onclick = () => this.callbacks.onQuitToModes()
     this.ui.touchDash.onclick = () => this.dash()
-    this.ui.difficultySelect.onchange = () => {
-      void this.onDifficultyChange()
-    }
 
     addEventListener("blur", this.onBlur)
     canvas.addEventListener("pointerdown", this.onPointerDown)
@@ -223,27 +220,47 @@ export class MeadowRuntime {
     this.ui.pausePanel.hidden = true
     this.ui.toLobby.hidden = true
     this.ui.lobby.hidden = false
-    this.fillDifficultySelect()
+    this.fillDifficultyChips()
     this.renderMapCards()
     this.drawPreview()
     this.sync()
   }
 
-  private fillDifficultySelect(): void {
-    const current = getSave().settings.difficulty
-    this.ui.difficultySelect.innerHTML = listDifficultyIds()
-      .map(
-        (id) =>
-          `<option value="${id}" ${id === current ? "selected" : ""}>${id}</option>`,
-      )
-      .join("")
+  private difficultyLabel(id: DifficultyId): string {
+    const labels: Record<DifficultyId, string> = {
+      sprout: "Sprout",
+      hopper: "Hopper",
+      wildhare: "Wildhare",
+      moonlit: "Moonlit",
+      hardcore: "Hardcore",
+    }
+    return labels[id] ?? id
   }
 
-  private async onDifficultyChange(): Promise<void> {
+  private fillDifficultyChips(): void {
+    const current = getSave().settings.difficulty
+    this.ui.difficultyList.innerHTML = ""
+    for (const id of listDifficultyIds()) {
+      const btn = document.createElement("button")
+      btn.type = "button"
+      btn.className = `meadow-diff-chip${id === current ? " selected" : ""}`
+      btn.dataset.id = id
+      btn.setAttribute("role", "option")
+      btn.setAttribute("aria-selected", id === current ? "true" : "false")
+      btn.textContent = this.difficultyLabel(id)
+      btn.onclick = () => {
+        void this.onDifficultyChange(id)
+      }
+      this.ui.difficultyList.appendChild(btn)
+    }
+  }
+
+  private async onDifficultyChange(id: DifficultyId): Promise<void> {
     const save = getSave()
-    save.settings.difficulty = this.ui.difficultySelect.value as DifficultyId
+    save.settings.difficulty = id
     await persistSave()
     this.applySaveTuning()
+    this.fillDifficultyChips()
     this.sync()
   }
 
