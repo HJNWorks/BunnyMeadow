@@ -56,11 +56,35 @@ const SHELL = `
 `
 
 const CSS = `
-.story-shell .story-field { position:relative; height:0; }
+.bm-root.bm-story-hud {
+  background: transparent;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bm-story-hud .bm-shell {
+  max-width: none;
+  padding: 20px 28px 0;
+  pointer-events: none;
+}
+.bm-story-hud .meadow-header,
+.bm-story-hud .meadow-bar,
+.bm-story-hud .meadow-overlay,
+.bm-story-hud button {
+  pointer-events: auto;
+}
+.bm-story-hud .meadow-header,
+.bm-story-hud .meadow-bar {
+  background: #f5f1e6cc;
+  backdrop-filter: blur(4px);
+  border-radius: 16px;
+  padding: 12px 16px;
+}
+.bm-story-hud .meadow-bar { margin-top: 10px; }
+.story-shell .story-field { display:none; }
 .meadow-header h1 { font-size:36px; margin:6px 0; }
 .meadow-bar { display:flex; gap:20px; align-items:center; margin:16px 0 8px; flex-wrap:wrap; }
 .meadow-bar .bm-btn { margin-left:auto; }
-.meadow-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#34563855; z-index:30; }
+.meadow-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#34563855; z-index:30; pointer-events:auto; }
 .meadow-overlay[hidden] { display:none; }
 .meadow-card { background:#fffaf0; padding:28px; border-radius:24px; max-width:420px; text-align:center; }
 .meadow-pause-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
@@ -113,7 +137,7 @@ export class StoryScene extends Phaser.Scene {
     this.style.textContent = CSS
     document.head.appendChild(this.style)
 
-    const shell = mountDomShell(this, SHELL)
+    const shell = mountDomShell(this, SHELL, { keepCanvas: true, rootClass: "bm-story-hud" })
     this.hud = {
       hearts: requireEl(shell.root, "[data-ui=hearts]"),
       objective: requireEl(shell.root, "[data-ui=objective]"),
@@ -180,7 +204,10 @@ export class StoryScene extends Phaser.Scene {
         rect.h,
         rect.kind === "wall" ? 0x6a7a4a : 0x5c6b3a,
       )
+      this.physics.add.existing(block, true)
       this.platforms.add(block)
+      const body = block.body as Phaser.Physics.Arcade.StaticBody
+      body.updateFromGameObject()
     }
 
     const spawnKey = `w1:${def.id}`

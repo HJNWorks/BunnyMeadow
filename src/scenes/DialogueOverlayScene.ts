@@ -20,6 +20,7 @@ export class DialogueOverlayScene extends Phaser.Scene {
 
     this.style = document.createElement("style")
     this.style.textContent = `
+      .bm-root.bm-dialogue-root { background: transparent; pointer-events: none; overflow: hidden; }
       .bm-dialogue {
         position: fixed; inset: auto 0 8% 0; display:flex; justify-content:center; pointer-events:none; z-index:40;
       }
@@ -44,6 +45,7 @@ export class DialogueOverlayScene extends Phaser.Scene {
         </div>
       </div>
       `,
+      { keepCanvas: true, rootClass: "bm-dialogue-root" },
     )
 
     requireEl<HTMLButtonElement>(mounted.root, "[data-ui=continue]").onclick = () => {

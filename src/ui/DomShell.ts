@@ -22,12 +22,12 @@ export type DomShellHandle = {
 export function mountDomShell(
   scene: Phaser.Scene,
   html: string,
-  options: { center?: boolean; rootClass?: string } = {},
+  options: { center?: boolean; rootClass?: string; keepCanvas?: boolean } = {},
 ): DomShellHandle {
   ensureMenuCss()
 
   const parent = scene.game.canvas.parentElement
-  if (parent) {
+  if (parent && !options.keepCanvas) {
     parent.style.visibility = "hidden"
   }
 
@@ -40,7 +40,7 @@ export function mountDomShell(
 
   const teardown = (): void => {
     root.remove()
-    if (parent) {
+    if (parent && !options.keepCanvas) {
       parent.style.visibility = ""
     }
   }
