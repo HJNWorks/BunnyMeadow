@@ -14,7 +14,7 @@ Four modes (Meadow, Story, Moon Tasks, Endless) share one save schema, one input
 | M1 meta shell + stub surface | done |
 | M2 Meadow arcade expansion | done |
 | M2 Moon Tasks (Night Watch + Hide and Seek) | done |
-| M3–M8 | not started |
+| M3–M8 | not started; next = M3 Story W1 |
 
 ## Done
 
@@ -40,6 +40,13 @@ Shipped after M1. Counts as the Meadow half of original M2.
 - Spawner archetypes used in Meadow: chaser / patrol / ranged_lob; leaf / dew pickups
 - Pause overlay with Resume / Settings (return) / Quit to Modes; post-run replay + lobby return
 - HUD: map name, carrot goal, optional timer
+
+### M2 Tasks track — Moon Tasks
+
+- Playable: Night Watch (survive waves until dawn) + Hide and Seek (find kits)
+- Carrot Rush retired (same loop as Meadow collect)
+- `tasks.json` + TaskRunner; TaskSelect / TaskRun / TaskRuntime on Meadow canvas stack
+- `contentFlags.tasks` true; Mode Select gated; `tasksCompleted` + pantry on win
 
 ## Frozen contracts
 
@@ -186,25 +193,41 @@ Originally one milestone with two tracks. Tracks are tracked separately so Story
 
 **Exit criteria (met):** both tasks completable from Mode Select; progress persists; tasks flag enabled on web.
 
-**Deferred within M2:** Spawner `reach` archetype (with Story), full pantry enforcement for cosmetics beyond maps, Night Watch / Lantern Run / Daily Moon.
+**Deferred within M2 (still open, not blocking M3):** Spawner `reach` archetype, Lantern Run / Daily Moon, full pantry enforcement for cosmetics in Customize UI.
 
 ### M3 — Story vertical slice
+
+**Status: next**
 
 **Goal:** World 1 playable through Fox Hu cart chase.
 
 **Fills**
 
-- ChunkAssembler + Tiled/chunk path
-- Story physics: run, jump, dash, wall bounce
+- ChunkAssembler + Tiled/chunk path (`public/assets/tilemaps/`, chunk ids per [WORLDS.md](WORLDS.md))
+- `src/modes/story/` bodies (replace Story stub): run, jump, dash, wall bounce
 - Moon Pools writing `progress.story.checkpoints`
-- DialogueOverlay (two-line rule, [LORE.md](LORE.md) check)
-- Levels 1-1 … 1-3 per [WORLDS.md](WORLDS.md) / [STORY.md](STORY.md)
-- Set `contentFlags.storyWorld1` true
-- Prefer routing Meadow pause through shared `Pause` scene if Story will reuse it
+- DialogueOverlay (two-line rule, [LORE.md](LORE.md) check); Chang'e Moon Pool one-liners from [STORY.md](STORY.md)
+- Levels 1-1 Soft Paths, 1-2 Hedge Maze, 1-3 Cart Chase (Fox Hu)
+- WorldMap live enough to pick W1 levels
+- Set `contentFlags.storyWorld1` true; gate Mode Select Story card like Tasks
+- Prefer routing Meadow/Task pause through shared `Pause` scene if Story will reuse it (optional within M3)
+
+**Prerequisites already in place (do not reinvent)**
+
+- Save `progress.story.*`, `jump` in bindings/input, Spawner + `enemies.json`, DomShell, ModeContext, difficulty API
+- Story scene key registered; Mode Select already routes Story → WorldMap stub
 
 **Must not reinvent:** `jump` bindings, DialogueOverlay mount pattern, save story fields.
 
 **Exit criteria:** clear W1; Moon Pool reload restores checkpoint; Fox Hu chase unlocks `FOX_FOILED`.
+
+**Suggested M3 session order**
+
+1. Data: W1 level JSON / chunk list + env kits for meadow/orchard
+2. ChunkAssembler minimum + StoryRuntime side-scroll physics (jump first)
+3. Moon Pool checkpoint write/read
+4. DialogueOverlay + 1-1 soft teach level
+5. 1-2 crow/wall bounce; 1-3 Fox Hu cart; WorldMap + `storyWorld1` flag
 
 ### M4 — Story content complete
 
@@ -260,4 +283,4 @@ Originally one milestone with two tracks. Tracks are tracked separately so Story
 
 ## Suggested next coding session
 
-Start **M3 Story vertical slice**: ChunkAssembler + World 1 levels through Fox Hu cart chase. Do not invent a second input or save schema.
+Implement **M3** in the order above: chunk data → Story jump physics → Moon Pool checkpoints → DialogueOverlay → W1 levels → `storyWorld1` flag. Keep Meadow/Tasks canvas arcade separate; Story is Phaser side-scroll, not another MeadowRuntime clone.
