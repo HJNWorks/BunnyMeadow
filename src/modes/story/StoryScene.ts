@@ -353,7 +353,7 @@ export class StoryScene extends Phaser.Scene {
     ;(window as unknown as { __bmStory?: () => Record<string, number | boolean> }).__bmStory = () => ({
       x: this.player?.x ?? 0,
       y: this.player?.y ?? 0,
-      paused: this.physics.world.isPaused,
+      paused: !!this.physics.world?.isPaused,
       won: this.won,
       lost: this.lost,
     })
@@ -508,7 +508,9 @@ export class StoryScene extends Phaser.Scene {
 
   private setPaused(value: boolean): void {
     this.paused = value
-    this.physics.world.isPaused = value
+    if (this.physics.world) {
+      this.physics.world.isPaused = value
+    }
     this.hud.pausePanel.hidden = !value
     if (value) {
       getInput().clearKeys()
