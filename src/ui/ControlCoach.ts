@@ -214,7 +214,7 @@ export const CONTROL_COACH_CSS = `
   display:flex;
   gap:10px;
   align-items:flex-end;
-  z-index:25;
+  z-index:45;
   pointer-events:none;
 }
 .story-controls-float[hidden] { display:none; }

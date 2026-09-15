@@ -55,13 +55,23 @@ export class InputBus {
     this.keys.clear()
   }
 
+  private started = false
+
   start(): void {
+    if (this.started) {
+      return
+    }
+    this.started = true
     addEventListener("keydown", this.onKeyDown)
     addEventListener("keyup", this.onKeyUp)
     addEventListener("blur", this.onBlur)
   }
 
   stop(): void {
+    if (!this.started) {
+      return
+    }
+    this.started = false
     removeEventListener("keydown", this.onKeyDown)
     removeEventListener("keyup", this.onKeyUp)
     removeEventListener("blur", this.onBlur)
