@@ -13,7 +13,7 @@ Four modes (Meadow, Story, Moon Tasks, Endless) share one save schema, one input
 | M0 scaffold + first Meadow port | done |
 | M1 meta shell + stub surface | done |
 | M2 Meadow arcade expansion | done |
-| M2 Moon Tasks (Carrot Rush + Hide and Seek) | next |
+| M2 Moon Tasks (Carrot Rush + Hide and Seek) | done |
 | M3–M8 | not started |
 
 ## Done
@@ -59,8 +59,8 @@ Later milestones must not invent a second version of these. M1 created them (fil
 | Meadow | play | live (data-driven arcade) |
 | WorldMap | menu HTML | stub card |
 | Story | play | stub scene |
-| TaskSelect | menu HTML | stub card |
-| TaskRun | play | stub (runner shell exists, no task bodies) |
+| TaskSelect | menu HTML | live (Carrot Rush, Hide and Seek) |
+| TaskRun | play | live (canvas TaskRuntime) |
 | Endless | play | stub scene |
 | Pause | overlay HTML | registered stub; Meadow uses an inline pause card (shared Pause scene still unused) |
 | DialogueOverlay | overlay HTML | stub API, no lines |
@@ -75,7 +75,7 @@ Missing routes are forbidden. Locked or unfinished modes still navigate to a stu
 | Flag | Meaning | Default (web) |
 | --- | --- | --- |
 | `meadow` | Meadow playable | true |
-| `tasks` | Moon Tasks selectable | false until tasks ship |
+| `tasks` | Moon Tasks selectable | true |
 | `storyWorld1` | Story W1 on web | false until M3 |
 | `storyFull` | Worlds 2–3 + finale | false (Steam / later) |
 | `endless` | Endless selectable | false until M5 |
@@ -129,7 +129,7 @@ Shared `ModeContext`: active save, difficulty resolver, input, audio bus, `t()`,
 | --- | --- |
 | `systems/Spawner.ts` | Meadow subset live (chaser / patrol / ranged_lob); reach + Story usage later |
 | `systems/ChunkAssembler.ts` | stub → M3 |
-| `modes/tasks/TaskRunner.ts` | shell only → next (M2 tasks) |
+| `modes/tasks/TaskRunner.ts` | live for Carrot Rush + Hide and Seek; other task ids typed but unregistered |
 | `scenes/DialogueOverlay.ts` | stub → M3 |
 | `core/audio.ts` | volume bus; assets → M5 |
 | `core/i18n.ts` | `t(key)` + EN/DE/ZH-Hans files; full copy → M5 |
@@ -180,22 +180,13 @@ Originally one milestone with two tracks. Tracks are tracked separately so Story
 
 #### M2 Tasks track
 
-**Status: next**
+**Status: done**
 
-**Goal:** two playable Moon Tasks on the existing TaskRunner / TaskSelect / TaskRun stubs.
+**Filled:** `tasks.json`, TaskRunner registry, TaskSelect/TaskRun scenes, TaskRuntime (Carrot Rush + Hide and Seek), `contentFlags.tasks` true, Mode Select gate, `tasksCompleted` + pantry on win.
 
-**Fills**
+**Exit criteria (met):** both tasks completable from Mode Select; progress persists; tasks flag enabled on web.
 
-- Carrot Rush + Hide and Seek task bodies on `TaskRunner`
-- TaskSelect / TaskRun wired to runner (not stub cards)
-- Pantry gates for task-facing unlocks if needed
-- Set `contentFlags.tasks` true
-
-**Must not reinvent:** TaskRunner entrypoint, difficulty API, enemy JSON schema.
-
-**Exit criteria:** both tasks completable from Mode Select; `tasksCompleted` updates; tasks flag enabled on web.
-
-**Deferred within M2:** Spawner `reach` archetype (with Story), full pantry enforcement for cosmetics beyond maps.
+**Deferred within M2:** Spawner `reach` archetype (with Story), full pantry enforcement for cosmetics beyond maps, Night Watch / Lantern Run / Daily Moon.
 
 ### M3 — Story vertical slice
 
@@ -269,4 +260,4 @@ Originally one milestone with two tracks. Tracks are tracked separately so Story
 
 ## Suggested next coding session
 
-Implement **M2 Tasks track** only: TaskRunner bodies for Carrot Rush + Hide and Seek, wire TaskSelect/TaskRun, set `contentFlags.tasks` true. Do not start Story physics until that track’s exit criteria pass.
+Start **M3 Story vertical slice**: ChunkAssembler + World 1 levels through Fox Hu cart chase. Do not invent a second input or save schema.

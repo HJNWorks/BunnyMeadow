@@ -25,9 +25,9 @@ export class ModeSelectScene extends Phaser.Scene {
             <strong>${t("mode.story")}</strong>
             <span>${t("mode.story.desc")}</span>
           </button>
-          <button type="button" class="bm-card" data-ui="tasks">
+          <button type="button" class="bm-card" data-ui="tasks" ${flags.tasks ? "" : "disabled"}>
             <strong>${t("mode.tasks")}</strong>
-            <span>${t("mode.tasks.desc")}</span>
+            <span>${flags.tasks ? t("mode.tasks.desc") : "Coming soon"}</span>
           </button>
           <button type="button" class="bm-card" data-ui="endless">
             <strong>${t("mode.endless")}</strong>
@@ -45,7 +45,9 @@ export class ModeSelectScene extends Phaser.Scene {
       if (flags.meadow) this.scene.start("Meadow")
     }
     requireEl<HTMLButtonElement>(root, "[data-ui=story]").onclick = () => this.scene.start("WorldMap")
-    requireEl<HTMLButtonElement>(root, "[data-ui=tasks]").onclick = () => this.scene.start("TaskSelect")
+    requireEl<HTMLButtonElement>(root, "[data-ui=tasks]").onclick = () => {
+      if (flags.tasks) this.scene.start("TaskSelect")
+    }
     requireEl<HTMLButtonElement>(root, "[data-ui=endless]").onclick = () => this.scene.start("Endless")
     requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => this.scene.start("Title")
   }

@@ -11,13 +11,18 @@ import { mountDomShell, requireEl } from "../ui/DomShell"
 
 export class SettingsScene extends Phaser.Scene {
   private returnTo = "Title"
+  private returnData: Record<string, unknown> = {}
 
   constructor() {
     super("Settings")
   }
 
-  init(data?: { returnTo?: string }): void {
+  init(data?: { returnTo?: string; taskId?: string }): void {
     this.returnTo = data?.returnTo ?? "Title"
+    this.returnData = {}
+    if (data?.taskId) {
+      this.returnData.taskId = data.taskId
+    }
   }
 
   create(): void {
@@ -146,6 +151,6 @@ export class SettingsScene extends Phaser.Scene {
     }
 
     requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () =>
-      this.scene.start(this.returnTo)
+      this.scene.start(this.returnTo, this.returnData)
   }
 }

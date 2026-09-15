@@ -1,0 +1,27 @@
+{
+  "tasks": [
+    {
+      "id": "carrot_rush",
+      "name": "Carrot Rush",
+      "description": "Collect every carrot before the timer runs out.",
+      "mapId": "meadow_home",
+      "kind": "carrot_rush",
+      "baseCarrotGoal": 10,
+      "baseTimerSeconds": 60,
+      "enemyCountScale": 0.55,
+      "pantryReward": 8
+    },
+    {
+      "id": "hide_and_seek",
+      "name": "Hide and Seek",
+      "description": "Find all the hidden kits on the meadow.",
+      "mapId": "orchard_rows",
+      "fallbackMapId": "meadow_home",
+      "kind": "hide_and_seek",
+      "baseKitCount": 5,
+      "baseTimerSeconds": 0,
+      "enemyCountScale": 0.35,
+      "pantryReward": 10
+    }
+  ]
+}

@@ -8,11 +8,11 @@ import { SettingsScene } from "./scenes/SettingsScene"
 import { CustomizeScene } from "./scenes/CustomizeScene"
 import { CreditsScene } from "./scenes/CreditsScene"
 import { MeadowScene } from "./modes/meadow/MeadowScene"
+import { TaskSelectScene } from "./modes/tasks/TaskSelectScene"
+import { TaskRunScene } from "./modes/tasks/TaskRunScene"
 import {
   WorldMapScene,
   StoryScene,
-  TaskSelectScene,
-  TaskRunScene,
   EndlessScene,
   ResultScene,
   PauseScene,

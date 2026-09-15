@@ -1,6 +1,6 @@
 {
   "meadow": true,
-  "tasks": false,
+  "tasks": true,
   "storyWorld1": false,
   "storyFull": false,
   "endless": false,
