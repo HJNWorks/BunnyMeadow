@@ -1,0 +1,19 @@
+{
+  "name": "bunny-meadow",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Bunny Meadow — family woodland adventure",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "phaser": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.3.1"
+  }
+}

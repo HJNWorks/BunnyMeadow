@@ -1,0 +1,111 @@
+# Bunny Meadow — Game Design Document
+
+Family-tone woodland game. Phaser 4 + Vite + TypeScript. Web on GitHub Pages. Steam desktop long-term (Electron + steamworks.js).
+
+Audience: family / all ages (Mario or Kirby stakes). Light peril. Short readable dialogue. Kits (baby rabbits) may go missing by misunderstanding. No death, no predator kidnapping.
+
+First story release: 3 worlds x 3 levels plus a moon finale.
+
+## Modes
+
+### Meadow (arcade, top-down)
+
+Port of the current canvas game. Collect carrots, return to the burrow, dodge enemies. Gains maps, difficulty presets, enemy roster, unlockable bunny cosmetics. Entry point for younger players.
+
+### Story (side-scroller)
+
+Left-to-right platformer. Authored levels from reusable chunks. Moon Pool checkpoints. One boss per world. Hub is the burrow. See [STORY.md](STORY.md) and [WORLDS.md](WORLDS.md).
+
+### Moon Tasks (short objectives, 1 to 3 minutes)
+
+Reuse Meadow and Story systems. No new engines.
+
+| Task | Goal |
+| --- | --- |
+| Carrot Rush | Collect N carrots under a timer |
+| Hide and Seek | Find hidden kits on a Meadow map |
+| Night Watch | Survive waves near the burrow |
+| Lantern Run | Reach the peak before lanterns go out |
+| Daily Moon | Seeded task of the day |
+
+### Endless Meadow Run
+
+Infinite left-to-right runner from Story chunk prefabs. Rising difficulty. Local distance leaderboard only.
+
+## Meta progression
+
+Carrots from any mode feed the burrow pantry. Pantry levels unlock cosmetics and Meadow maps only. No gameplay power creep. Difficulty stays honest.
+
+## Difficulty (data-driven)
+
+Presets in `src/data/difficulty.json`. All parameters editable in Settings.
+
+| Preset | Intent |
+| --- | --- |
+| Sprout | Young children, generous |
+| Hopper | Default family play |
+| Wildhare | Challenge |
+| Moonlit | Hardest, denser bosses |
+
+Parameters: hearts, enemy count multiplier, enemy speed multiplier, detection radius, attack cooldown, dash cooldown, invulnerability window, checkpoint density, timer multipliers, boss phase count.
+
+## Accessibility (independent of preset)
+
+- Invincible mode
+- Slow time (0.7x)
+- Auto-dash on proximity
+- High-contrast palette
+- Reduced motion
+- Larger text
+- One-button touch mode
+
+## Achievements
+
+Ids in `src/data/achievements.json` match Steamworks one-to-one. Web tracks silently. Desktop activates via steamworks.js.
+
+| Id | Name | Trigger |
+| --- | --- | --- |
+| FIRST_HOP | First Hop | Finish any Meadow run |
+| BASKET_FULL | Basket Full | Collect 12 carrots in Meadow |
+| HOME_SAFE | Home Safe | Return to burrow with full basket |
+| WORLD1_CLEAR | Hedgerow Hopper | Clear Story World 1 |
+| WORLD2_CLEAR | Bamboo Runner | Clear Story World 2 |
+| WORLD3_CLEAR | Lantern Climber | Clear Story World 3 |
+| MOON_RETURN | Moon Return | Finish the moon finale |
+| FOX_FOILED | Fox Foiled | Beat Fox Hu cart chase |
+| CRANE_FRIEND | Crane Friend | Resolve the Crane Envoy fight |
+| TASK_DAILY | Daily Moon | Complete a Daily Moon task |
+| ENDLESS_1K | Long Meadow | Reach 1000 m in Endless |
+| PANTRY_5 | Full Pantry | Reach pantry level 5 |
+| ALL_MAPS | Every Path | Unlock all Meadow maps |
+| PERFECT_HEARTS | Soft Landing | Clear a Story level without losing a heart |
+
+## Scope guards
+
+- Art: vector/canvas or small pixel sprites made in-repo. No asset store dependency.
+- No backend, no accounts. Progress is local (Steam Cloud is file sync only).
+- Dialogue: two lines max per exchange.
+- Enemies and maps are data. New code means a new archetype and a doc entry first.
+- No folklore element without a [LORE.md](LORE.md) entry (canon / adapted / invented).
+
+## Milestones
+
+| Id | Scope |
+| --- | --- |
+| M0 | Phaser scaffold, Meadow port, platform web impl, Pages build |
+| M1 | Title, Mode Select, Settings, saves, difficulty, customize, gamepad, achievements |
+| M2 | Meadow maps, enemy archetypes, two Moon Tasks |
+| M3 | Story W1-1 vertical slice, Moon Pools, Fox Hu chase |
+| M4 | Worlds 1 to 3, bosses, moon finale, epilogue |
+| M5 | Endless, audio, localization, polish |
+| M6 | Electron shell, steamworks.js, win/mac/linux builds |
+| M7 | Steamworks verification, store assets, Coming Soon, demo, Next Fest |
+| M8 | SteamPipe, review, wishlist go/no-go, launch |
+
+## Content split (assumption)
+
+Web free: Meadow, Moon Tasks, Story World 1. Steam paid: full story, Endless, achievements, cloud saves, controller polish. Confirm before M7.
+
+## References
+
+- [STORY.md](STORY.md), [LORE.md](LORE.md), [WORLDS.md](WORLDS.md), [ENEMIES.md](ENEMIES.md), [UI.md](UI.md), [STEAM.md](STEAM.md)

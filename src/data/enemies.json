@@ -1,0 +1,62 @@
+{
+  "enemies": [
+    {
+      "id": "fox",
+      "archetype": "chaser",
+      "displayName": "Fox",
+      "senseRange": 240,
+      "attackRange": 30,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 78,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "fox_idle",
+        "move": "fox_run",
+        "attack": "fox_snap",
+        "hurt": "fox_hurt"
+      },
+      "notes": "Leaves burrow safe zone alone"
+    },
+    {
+      "id": "hedgehog",
+      "archetype": "patrol",
+      "displayName": "Hedgehog",
+      "senseRange": 0,
+      "attackRange": 24,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 40,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "hedgehog_idle",
+        "move": "hedgehog_walk",
+        "attack": "hedgehog_idle",
+        "hurt": "hedgehog_hurt"
+      }
+    },
+    {
+      "id": "crow",
+      "archetype": "ranged_lob",
+      "displayName": "Crow",
+      "senseRange": 260,
+      "attackRange": 220,
+      "telegraphTime": 0.45,
+      "cooldown": 1.8,
+      "speed": 55,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "crow_idle",
+        "move": "crow_fly",
+        "attack": "crow_throw",
+        "hurt": "crow_hurt"
+      }
+    }
+  ]
+}

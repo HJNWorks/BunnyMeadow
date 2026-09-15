@@ -1,0 +1,53 @@
+{
+  "presets": {
+    "sprout": {
+      "hearts": 5,
+      "enemyCountMultiplier": 0.7,
+      "enemySpeedMultiplier": 0.75,
+      "detectionRadius": 180,
+      "attackCooldown": 1.2,
+      "dashCooldown": 1.6,
+      "invulnerabilityWindow": 2.2,
+      "checkpointDensity": 1.4,
+      "timerMultiplier": 1.3,
+      "bossPhaseCount": 2
+    },
+    "hopper": {
+      "hearts": 3,
+      "enemyCountMultiplier": 1,
+      "enemySpeedMultiplier": 1,
+      "detectionRadius": 240,
+      "attackCooldown": 1,
+      "dashCooldown": 2.2,
+      "invulnerabilityWindow": 1.8,
+      "checkpointDensity": 1,
+      "timerMultiplier": 1,
+      "bossPhaseCount": 3
+    },
+    "wildhare": {
+      "hearts": 3,
+      "enemyCountMultiplier": 1.25,
+      "enemySpeedMultiplier": 1.2,
+      "detectionRadius": 280,
+      "attackCooldown": 0.85,
+      "dashCooldown": 2.5,
+      "invulnerabilityWindow": 1.4,
+      "checkpointDensity": 0.85,
+      "timerMultiplier": 0.9,
+      "bossPhaseCount": 3
+    },
+    "moonlit": {
+      "hearts": 2,
+      "enemyCountMultiplier": 1.5,
+      "enemySpeedMultiplier": 1.35,
+      "detectionRadius": 320,
+      "attackCooldown": 0.7,
+      "dashCooldown": 2.8,
+      "invulnerabilityWindow": 1.1,
+      "checkpointDensity": 0.7,
+      "timerMultiplier": 0.8,
+      "bossPhaseCount": 4
+    }
+  },
+  "defaultPreset": "hopper"
+}

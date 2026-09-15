@@ -1,0 +1,18 @@
+{
+  "achievements": [
+    { "id": "FIRST_HOP", "name": "First Hop", "description": "Finish any Meadow run." },
+    { "id": "BASKET_FULL", "name": "Basket Full", "description": "Collect 12 carrots in Meadow." },
+    { "id": "HOME_SAFE", "name": "Home Safe", "description": "Return to the burrow with a full basket." },
+    { "id": "WORLD1_CLEAR", "name": "Hedgerow Hopper", "description": "Clear Story World 1." },
+    { "id": "WORLD2_CLEAR", "name": "Bamboo Runner", "description": "Clear Story World 2." },
+    { "id": "WORLD3_CLEAR", "name": "Lantern Climber", "description": "Clear Story World 3." },
+    { "id": "MOON_RETURN", "name": "Moon Return", "description": "Finish the moon finale." },
+    { "id": "FOX_FOILED", "name": "Fox Foiled", "description": "Beat Fox Hu cart chase." },
+    { "id": "CRANE_FRIEND", "name": "Crane Friend", "description": "Resolve the Crane Envoy fight." },
+    { "id": "TASK_DAILY", "name": "Daily Moon", "description": "Complete a Daily Moon task." },
+    { "id": "ENDLESS_1K", "name": "Long Meadow", "description": "Reach 1000 m in Endless." },
+    { "id": "PANTRY_5", "name": "Full Pantry", "description": "Reach pantry level 5." },
+    { "id": "ALL_MAPS", "name": "Every Path", "description": "Unlock all Meadow maps." },
+    { "id": "PERFECT_HEARTS", "name": "Soft Landing", "description": "Clear a Story level without losing a heart." }
+  ]
+}
