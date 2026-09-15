@@ -319,7 +319,10 @@ export class StoryScene extends Phaser.Scene {
     const exit = assembler.worldPoint(world, def.exit)
     this.exitZone = this.add.image(exit.x, exit.y, "story_exit").setDepth(1)
     this.physics.add.existing(this.exitZone, true)
-    ;(this.exitZone.body as Phaser.Physics.Arcade.StaticBody).setSize(70, 70)
+    const exitBody = this.exitZone.body as Phaser.Physics.Arcade.StaticBody
+    exitBody.setSize(100, 100)
+    exitBody.setOffset(-10, -10)
+    exitBody.updateFromGameObject()
 
     this.physics.add.overlap(this.player, this.moonPool, () => this.onMoonPool())
     this.physics.add.overlap(this.player, this.exitZone, () => void this.onExit())
@@ -602,6 +605,8 @@ export class StoryScene extends Phaser.Scene {
         : `${this.level.name} is done.`
     this.hud.play.textContent = "World Map →"
     this.hud.overlay.hidden = false
+    this.hud.overlay.style.display = "flex"
+    this.hud.play.focus()
 
     try {
       const save = getSave()
@@ -643,6 +648,15 @@ export class StoryScene extends Phaser.Scene {
 
     this.coach?.noteInput(input.moveX, input.jumpPressed, input.dashPressed)
     this.coach?.followPlayer(this, this.player.x, this.player.y - 28)
+
+    if (
+      !this.won &&
+      Math.abs(this.player.x - this.exitZone.x) < 55 &&
+      Math.abs(this.player.y - this.exitZone.y) < 70
+    ) {
+      void this.onExit()
+      return
+    }
 
     if (this.player.y > 1120) {
       this.enterDeadState(
