@@ -87,6 +87,7 @@ const PATH_CSS = `
 .story-beat-card h2 { margin: 0 0 10px; font-size: 28px; font-weight: 400; }
 .story-beat-card p { margin: 0 0 10px; line-height: 1.45; }
 .story-beat-card .bm-btn { margin-top: 12px; }
+.story-path-dev { margin-left: auto; opacity: 0.72; font-size: 12px; }
 `
 
 export class WorldMapScene extends Phaser.Scene {
@@ -133,7 +134,7 @@ export class WorldMapScene extends Phaser.Scene {
       <div class="bm-shell bm-wide story-path-shell">
         <div class="bm-eyebrow">Story Path</div>
         <h1>Burrow to Moon</h1>
-        <p class="bm-tagline">Follow the blossoms. Expand a world to open its stations.</p>
+        <p class="bm-tagline" data-ui="pathTagline">Follow the blossoms. Expand a world to open its stations.</p>
         <div class="story-path-frame">
           <svg class="story-path-svg" viewBox="0 0 1000 420" aria-hidden="true">
             <path d="M80 320 C 220 300, 280 250, 360 230 S 520 180, 620 140 S 780 90, 900 70"
@@ -149,6 +150,7 @@ export class WorldMapScene extends Phaser.Scene {
         <div class="story-path-rail" data-ui="rail"></div>
         <div class="bm-actions bm-start">
           <button type="button" class="bm-btn ghost" data-ui="back">Modes</button>
+          <button type="button" class="bm-btn ghost story-path-dev" data-ui="devReset">Dev: clear story DONEs</button>
         </div>
       </div>
       <div class="story-beat" data-ui="beat" hidden>
@@ -165,6 +167,7 @@ export class WorldMapScene extends Phaser.Scene {
 
     this.beatRoot = requireEl<HTMLElement>(root, "[data-ui=beat]")
     const rail = requireEl<HTMLElement>(root, "[data-ui=rail]")
+    const tagline = requireEl<HTMLElement>(root, "[data-ui=pathTagline]")
 
     const renderRail = (): void => {
       const stations = listStations(this.expanded)
@@ -172,9 +175,14 @@ export class WorldMapScene extends Phaser.Scene {
       if (!world || world.status === "soon" || !isWorldUnlocked(getSave(), world.id)) {
         rail.hidden = true
         rail.innerHTML = ""
+        tagline.textContent = "Follow the blossoms. Expand a world to open its stations."
         return
       }
       rail.hidden = false
+      tagline.textContent =
+        world.id === "w0"
+          ? "Burrow Eve is story beats only (short text). Soft Paths starts playable levels."
+          : "Follow the blossoms. Expand a world to open its stations."
       rail.innerHTML = stations
         .map((station, index) => this.stationButton(station, index))
         .join("")
@@ -216,6 +224,10 @@ export class WorldMapScene extends Phaser.Scene {
       this.scene.start("ModeSelect")
     }
 
+    requireEl<HTMLButtonElement>(root, "[data-ui=devReset]").onclick = () => {
+      void this.clearStoryProgress()
+    }
+
     requireEl<HTMLButtonElement>(root, "[data-ui=beatContinue]").onclick = () => {
       void this.finishBeat()
     }
@@ -223,17 +235,39 @@ export class WorldMapScene extends Phaser.Scene {
     syncNodes()
   }
 
+  private async clearStoryProgress(): Promise<void> {
+    const save = getSave()
+    save.progress.story.cleared = []
+    save.progress.story.checkpoints = {}
+    save.progress.story.controlHints = []
+    save.progress.story.world = 1
+    save.progress.story.level = 1
+    await persistSave()
+    this.expanded = "w0"
+    this.scene.restart()
+  }
+
   private stationButton(station: StoryStation, index: number): string {
     const save = getSave()
     const unlocked = isStationUnlocked(save, station.id)
     const done = isStationCleared(save, station.id)
-    const label = station.soon ? "Soon" : done ? "Done" : unlocked ? "Open" : "Locked"
+    const kindLabel =
+      station.kind === "lore" ? "Story" : station.kind === "controls" ? "Controls" : "Level"
+    const label = station.soon
+      ? "Soon"
+      : done
+        ? "Done"
+        : unlocked
+          ? station.kind === "level"
+            ? "Open"
+            : "Read"
+          : "Locked"
     return `
       <button type="button" class="story-path-station" data-station="${station.id}" ${unlocked ? "" : "disabled"}>
         <span class="idx">${index + 1}</span>
         <span class="copy">
           <strong>${station.title}${done ? " ✓" : ""}${station.soon ? " · Soon" : ""}</strong>
-          <span>${station.soon ? "Coming soon" : station.blurb}</span>
+          <span>${station.soon ? "Coming soon" : `${kindLabel} · ${station.blurb}`}</span>
         </span>
         <span class="bm-eyebrow">${label}</span>
       </button>
