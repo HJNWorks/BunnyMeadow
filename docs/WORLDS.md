@@ -16,7 +16,19 @@ Shared by Meadow, Story, Tasks, Endless. Each kit: tileset, palette, parallax la
 | osmanthus | Osmanthus Peak | night | Wind, blossom fall, tiger path |
 | moon | Moon Garden | eternal night | Low gravity, Guanghan Palace, Wu Gang's tree |
 
-## Story level list
+## Story path map
+
+Story opens on an HTML/SVG landscape path from burrow toward the moon. Worlds are nodes. Expanding a live world shows its stations. Locked later worlds stay visible as dim nodes.
+
+### World 0 — Burrow Eve
+
+| Station | Kind | Notes |
+| --- | --- | --- |
+| Burrow Eve | lore | Mid-Autumn setting |
+| Moon in the Pool | lore | Chang'e through water |
+| Soft Paws | controls | Move, jump, dash, pause |
+
+Unlocks Soft Paths when complete. Station ids are stored in `progress.story.cleared`.
 
 ### World 1 — Meadow and Hedgerows
 

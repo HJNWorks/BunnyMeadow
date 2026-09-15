@@ -11,11 +11,12 @@ Boot -> Preload -> Title
   Title -> Customize
   Title -> Achievements
 Mode Select -> Meadow | World Map | Task Select | Endless
-World Map -> Story -> Result -> World Map
+World Map -> expand world -> Story level or W0 lore/controls beat -> World Map
 Task Select -> Task Run -> Task Select
 Endless -> Result -> Mode Select
 Any play -> Pause (inline in Meadow/Tasks today; shared Pause scene stub) -> Resume | Settings | Quit
 DialogueOverlay can sit above Story or Meadow
+StoryBeat panel sits above WorldMap for World 0 stations
 ```
 
 ### Scene registry (all real routes)
@@ -29,8 +30,8 @@ DialogueOverlay can sit above Story or Meadow
 | Settings | menu | |
 | Customize | menu | |
 | Achievements | menu | live (achievement list + short project credit) |
-| Meadow | play | live (data-driven arcade, M2) |
-| WorldMap | menu | live (World 1) |
+| Meadow | play | live (data-driven arcade, M2; entered from Moon Tasks) |
+| WorldMap | menu | live (burrow-to-moon path; W0 stations + W1 levels) |
 | Story | play | live (W1 side-scroll) |
 | TaskSelect | menu | live (M2: Night Watch, Hide and Seek) |
 | TaskRun | play | live (M2 TaskRuntime) |
@@ -71,8 +72,8 @@ All modes share these action names. Stored under `settings.bindings`.
 | Action | Default keyboard (seed) | Notes |
 | --- | --- | --- |
 | `move` | WASD + arrows | vector |
-| `dash` | Space | |
-| `jump` | KeyK or KeyZ | no-op in Meadow; required from M1 for Story |
+| `dash` | KeyR | |
+| `jump` | Space | no-op in Meadow; required for Story |
 | `pause` | KeyP | |
 | `confirm` | Enter / South face | menus |
 | `cancel` | Escape / East face | menus |
@@ -124,8 +125,8 @@ Three slots behind `SaveStore` (`core/platform`). Web: `localStorage`. Desktop: 
       "moveDown": ["KeyS", "ArrowDown"],
       "moveLeft": ["KeyA", "ArrowLeft"],
       "moveRight": ["KeyD", "ArrowRight"],
-      "dash": ["Space"],
-      "jump": ["KeyK"],
+      "dash": ["KeyR"],
+      "jump": ["Space"],
       "pause": ["KeyP"],
       "confirm": ["Enter"],
       "cancel": ["Escape"]
@@ -139,7 +140,8 @@ Three slots behind `SaveStore` (`core/platform`). Web: `localStorage`. Desktop: 
       "world": 1,
       "level": 1,
       "cleared": [],
-      "checkpoints": {}
+      "checkpoints": {},
+      "controlHints": []
     },
     "tasksCompleted": [],
     "endlessBest": 0,
@@ -149,6 +151,10 @@ Three slots behind `SaveStore` (`core/platform`). Web: `localStorage`. Desktop: 
 ```
 
 Migration: `migrateSave(raw) -> SaveV1`. Bump `version` and add a branch per old version. Never write without migrating first. Never add a parallel store for story/tasks/endless.
+
+`progress.story.cleared` holds World 0 station ids (`w0_setting`, `w0_lore_moon`, `w0_controls`) and level ids (`w1_1_soft_paths`, …). Saves that already cleared any `w1_*` level auto-gain the three W0 stations on migrate. Positional checkpoints are not persisted.
+
+World Map: SVG landscape path with expand/collapse world nodes. One world rail open at a time. W0 stations open a DomShell beat panel. Level stations start Story.
 
 Fields reserved for later milestones (must exist from M1): `progress.story.*`, `tasksCompleted`, `endlessBest`.
 

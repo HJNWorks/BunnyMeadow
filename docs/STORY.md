@@ -22,7 +22,19 @@ Dialogue rule: two lines max per exchange. Skippable. Moon Pool exchanges are on
 
 ## Five-act spine
 
-### 1. Prologue — Mid-Autumn eve, burrow
+### 0. World 0 — Burrow Eve (stations, no platforming)
+
+Path-map root. Three DomShell stations unlock World 1:
+
+| Station | Purpose |
+| --- | --- |
+| Burrow Eve | Mid-Autumn setting. Yue and the glowing blossom |
+| Moon in the Pool | Chang'e through water. Follow the blossoms |
+| Soft Paws | Controls: move, jump, dash, pause. Moon Pool continue rule |
+
+Completing Soft Paws unlocks Soft Paths. First-time input coach still appears in Soft Paths for muscle memory.
+
+### 1. Prologue beat (told in World 0)
 
 Calendar: [Mid-Autumn Festival](LORE.md#mid-autumn-festival-中秋節).
 

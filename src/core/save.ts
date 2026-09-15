@@ -204,6 +204,18 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
       merged.settings.bindings.dash = [...DEFAULT_BINDINGS.dash]
       merged.settings.bindings.jump = [...DEFAULT_BINDINGS.jump]
     }
+    if (!Array.isArray(merged.progress.story.cleared)) {
+      merged.progress.story.cleared = []
+    }
+    const cleared = merged.progress.story.cleared
+    const hasW1Progress = cleared.some((id) => typeof id === "string" && id.startsWith("w1_"))
+    if (hasW1Progress) {
+      for (const id of ["w0_setting", "w0_lore_moon", "w0_controls"]) {
+        if (!cleared.includes(id)) {
+          cleared.push(id)
+        }
+      }
+    }
     return merged
   } catch {
     return fallback
