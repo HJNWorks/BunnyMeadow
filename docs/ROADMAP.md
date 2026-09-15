@@ -4,29 +4,50 @@ Sequencing and build contracts. Design lives in [GDD.md](GDD.md), [STORY.md](STO
 
 ## North star
 
-Four modes (Meadow, Story, Moon Tasks, Endless) share one save schema, one input action map, one difficulty/enemy data layer, and one `ModeContext`. Menus and overlays are HTML/CSS for crisp text. Playfields are Phaser at 1920x1080 with `Scale.FIT`. Desktop/Steam plugs in through `core/platform` without gameplay touching `localStorage` or Electron APIs. M1 ships only Meadow as playable, but registers and stubs every later surface so M2–M8 fill stubs instead of inventing parallel systems.
+Four modes (Meadow, Story, Moon Tasks, Endless) share one save schema, one input action map, one difficulty/enemy data layer, and one `ModeContext`. Menus and overlays are HTML/CSS for crisp text. Playfields are Phaser at 1920x1080 with `Scale.FIT`. Desktop/Steam plugs in through `core/platform` without gameplay touching `localStorage` or Electron APIs. M1 ships only Meadow as playable, but registers and stubs every later surface so later milestones fill stubs instead of inventing parallel systems.
 
-## Done (M0 + M1)
+## Status snapshot
 
-- Phaser 4 + Vite + TypeScript scaffold
+| Milestone | Status |
+| --- | --- |
+| M0 scaffold + first Meadow port | done |
+| M1 meta shell + stub surface | done |
+| M2 Meadow arcade expansion | done |
+| M2 Moon Tasks (Carrot Rush + Hide and Seek) | next |
+| M3–M8 | not started |
+
+## Done
+
+### M0 + M1 — scaffold and meta shell
+
+- Phaser 4 + Vite + TypeScript scaffold; Pages npm build
 - Meadow arcade port (`MeadowRuntime` / `MeadowScene`)
 - `core/platform` web implementation (`SaveStore`, Achievements, Window, Presence)
-- Design docs and Pages npm build
-- Crisp HTML Title shell
-- M1 meta shell: DomShell, Mode Select, Settings, Customize, Credits
-- Save/session, difficulty, input (incl. jump), audio/i18n buses, contentFlags
+- Design docs
+- Crisp HTML Title shell; DomShell; Mode Select; Settings; Customize; Credits
+- Save/session/migrate; difficulty API; input (incl. jump); audio/i18n buses; contentFlags
 - Stub routes: WorldMap, Story, TaskSelect, TaskRun, Endless, Pause, DialogueOverlay, Result
-- Stub modules: Spawner, ChunkAssembler, TaskRunner shell
-- Meadow applies difficulty, accessibility, bindings, pantry persist
-- Meadow arcade expansion: cosmetics draw path, Hardcore, four map JSON + lobby, Spawner enemies/items, pause → Settings
+- Stub modules at M1 close: Spawner, ChunkAssembler, TaskRunner shell
+- Meadow applied difficulty, accessibility, bindings, pantry persist (basic arcade)
+
+### M2 Meadow track — arcade expansion
+
+Shipped after M1. Counts as the Meadow half of original M2.
+
+- Shared `drawBunny` cosmetics (Customize preview + Meadow)
+- Difficulty presets incl. Hardcore; `carrotGoal`, `timerSeconds`, `enemyIds` / `enemyCount`, `itemChance`
+- Four map JSON files + pre-run lobby (map + difficulty chips) + pantry map unlocks
+- Spawner archetypes used in Meadow: chaser / patrol / ranged_lob; leaf / dew pickups
+- Pause overlay with Resume / Settings (return) / Quit to Modes; post-run replay + lobby return
+- HUD: map name, carrot goal, optional timer
 
 ## Frozen contracts
 
-Later milestones must not invent a second version of these. M1 creates them (filled or stubbed). M2+ replaces stub bodies only.
+Later milestones must not invent a second version of these. M1 created them (filled or stubbed). Later milestones replace stub bodies only.
 
 ### Scene registry
 
-| Key | Kind | M1 state |
+| Key | Kind | State |
 | --- | --- | --- |
 | Boot | system | live |
 | Preload | system | live (also loads active save) |
@@ -35,13 +56,13 @@ Later milestones must not invent a second version of these. M1 creates them (fil
 | Settings | menu HTML | live |
 | Customize | menu HTML | live |
 | Credits | menu HTML | live (includes achievements list) |
-| Meadow | play | live |
-| WorldMap | menu HTML | stub card (“path continues later”) |
+| Meadow | play | live (data-driven arcade) |
+| WorldMap | menu HTML | stub card |
 | Story | play | stub scene |
 | TaskSelect | menu HTML | stub card |
-| TaskRun | play | stub (runner shell exists, no tasks) |
+| TaskRun | play | stub (runner shell exists, no task bodies) |
 | Endless | play | stub scene |
-| Pause | overlay HTML | shared; Meadow uses it |
+| Pause | overlay HTML | registered stub; Meadow uses an inline pause card (shared Pause scene still unused) |
 | DialogueOverlay | overlay HTML | stub API, no lines |
 | Result | menu HTML | stub shell for post-level |
 
@@ -49,12 +70,12 @@ Missing routes are forbidden. Locked or unfinished modes still navigate to a stu
 
 ### Content flags
 
-`src/data/contentFlags.json` (or equivalent in `core/contentFlags.ts`):
+`src/data/contentFlags.json` (via `core/ModeContext.ts`):
 
 | Flag | Meaning | Default (web) |
 | --- | --- | --- |
 | `meadow` | Meadow playable | true |
-| `tasks` | Moon Tasks selectable | false until M2 |
+| `tasks` | Moon Tasks selectable | false until tasks ship |
 | `storyWorld1` | Story W1 on web | false until M3 |
 | `storyFull` | Worlds 2–3 + finale | false (Steam / later) |
 | `endless` | Endless selectable | false until M5 |
@@ -66,7 +87,7 @@ Mode Select reads flags. It never hard-codes “delete Story for Steam”.
 
 Single schema in [UI.md](UI.md). Keys: `bunnymeadow.save.0..2`, `bunnymeadow.settings` (active slot).
 
-Fields M3–M5 fill that must exist from M1:
+Fields later milestones fill that must exist from M1:
 
 - `progress.story` (`world`, `level`, `cleared`, `checkpoints`)
 - `progress.tasksCompleted`
@@ -102,21 +123,21 @@ src/modes/endless/
 
 Shared `ModeContext`: active save, difficulty resolver, input, audio bus, `t()`, spawner, content flags.
 
-### Systems stubs (M1 empty modules)
+### Systems fill schedule
 
-| Module | Filled in |
+| Module | Status |
 | --- | --- |
-| `systems/Spawner.ts` | M2 (reads `enemies.json`) |
-| `systems/ChunkAssembler.ts` | M3 (Story + Endless chunks) |
-| `modes/tasks/TaskRunner.ts` | M1 shell; task bodies M2+ |
-| `scenes/DialogueOverlay.ts` | M3 |
-| `core/audio.ts` | M1 volume bus; assets M5 |
-| `core/i18n.ts` | M1 `t(key)` + EN/DE/ZH-Hans files; full copy M5 |
-| `core/platform/desktop.ts` | M6 |
+| `systems/Spawner.ts` | Meadow subset live (chaser / patrol / ranged_lob); reach + Story usage later |
+| `systems/ChunkAssembler.ts` | stub → M3 |
+| `modes/tasks/TaskRunner.ts` | shell only → next (M2 tasks) |
+| `scenes/DialogueOverlay.ts` | stub → M3 |
+| `core/audio.ts` | volume bus; assets → M5 |
+| `core/i18n.ts` | `t(key)` + EN/DE/ZH-Hans files; full copy → M5 |
+| `core/platform/desktop.ts` | → M6 |
 
 ### Difficulty API
 
-`getDifficulty(save)` returns merged preset + overrides from `difficulty.json`. Every mode uses this. Meadow applies hearts, carrotGoal, timerSeconds, enemyIds/enemyCount, itemChance, fox/enemy speed, detection, dash cooldown, invuln, and a11y.
+`getDifficulty(save)` returns merged preset + overrides from `difficulty.json`. Every mode uses this. Meadow applies hearts, carrotGoal, timerSeconds, enemyIds/enemyCount, itemChance, enemy speed, detection, dash cooldown, invuln, and a11y.
 
 ### HUD contract
 
@@ -134,51 +155,47 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 **Goal:** Hub, settings, save, and every later route exists. Only Meadow plays.
 
-**Must exist after**
-
-- DomShell + shared menu CSS
-- Title → Mode Select → Meadow; Back from Meadow → Mode Select
-- Settings, Customize, Credits (achievements list)
-- Save/session/migrate; pantry carrots on Meadow win
-- Difficulty + accessibility applied in Meadow
-- Input: keyboard + gamepad for `move` / `dash` / `jump` / `pause` / `confirm` / `cancel`
-- `core/audio.ts` volume bus (no assets)
-- `core/i18n.ts` with keys for menus
-- `contentFlags` driving Mode Select locks
-- Stub scenes: WorldMap, Story, TaskSelect, TaskRun, Endless, DialogueOverlay, Result
-- Stub modules: Spawner, ChunkAssembler, TaskRunner shell
-
-**Must stay stub**
-
-- No Story physics, no real maps beyond current Meadow, no task gameplay, no Endless runner, no dialogue lines, no audio files
-
-**Exit criteria**
+**Exit criteria (met)**
 
 - Reload keeps difficulty, cosmetics, slot, language, bindings
-- Mode Select is the hub; unfinished modes open stub screens (not 404 / missing scenes)
-- Gamepad can navigate menus and play Meadow
+- Mode Select is the hub; unfinished modes open stub screens
+- Input actions wired for keyboard + gamepad
 - Menus stay crisp HTML
+
+**Note:** Original M1 “must stay stub” barred real Meadow maps. That work moved into the M2 Meadow track below and is complete.
 
 **Later milestones must not reinvent:** save schema, input actions, scene keys, ModeContext, DomShell, contentFlags, audio/i18n module paths.
 
 ### M2 — Meadow expansion + first Moon Tasks
 
-**Status: Meadow arcade expansion done (maps, difficulty/Hardcore, Spawner archetypes, cosmetics, lobby/pause). Moon Tasks still pending.**
+Originally one milestone with two tracks. Tracks are tracked separately so Story (M3) does not wait on cosmetic Meadow polish.
 
-**Goal:** Data-driven Meadow maps and enemies; two tasks on the M1 TaskRunner.
+#### M2 Meadow track
+
+**Status: done**
+
+**Filled:** map JSON (4 maps), lobby, Hardcore + difficulty fields, Spawner Meadow archetypes, cosmetics, pantry map unlocks, pause/lobby UX.
+
+**Exit criteria (met):** second Meadow map playable; pantry unlocks maps; cosmetics visible in-run.
+
+#### M2 Tasks track
+
+**Status: next**
+
+**Goal:** two playable Moon Tasks on the existing TaskRunner / TaskSelect / TaskRun stubs.
 
 **Fills**
 
-- Meadow map JSON + three extra maps ([WORLDS.md](WORLDS.md)) — done
-- Archetypes via Spawner: patrol, chaser, ranged_lob (reach deferred with Story) — Meadow subset done
-- Pantry gates for maps / cosmetics (enforce unlock function from M1) — maps done
-- Carrot Rush + Hide and Seek on TaskRunner — pending
-- Set `contentFlags.tasks` true — pending until tasks ship
+- Carrot Rush + Hide and Seek task bodies on `TaskRunner`
+- TaskSelect / TaskRun wired to runner (not stub cards)
+- Pantry gates for task-facing unlocks if needed
+- Set `contentFlags.tasks` true
 
 **Must not reinvent:** TaskRunner entrypoint, difficulty API, enemy JSON schema.
 
-**Exit criteria:** second Meadow map playable; both tasks completable; pantry unlock changes Customize/Mode Select.
-*(Partial: Meadow maps + pantry map unlocks live. Tasks still open.)*
+**Exit criteria:** both tasks completable from Mode Select; `tasksCompleted` updates; tasks flag enabled on web.
+
+**Deferred within M2:** Spawner `reach` archetype (with Story), full pantry enforcement for cosmetics beyond maps.
 
 ### M3 — Story vertical slice
 
@@ -192,6 +209,7 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 - DialogueOverlay (two-line rule, [LORE.md](LORE.md) check)
 - Levels 1-1 … 1-3 per [WORLDS.md](WORLDS.md) / [STORY.md](STORY.md)
 - Set `contentFlags.storyWorld1` true
+- Prefer routing Meadow pause through shared `Pause` scene if Story will reuse it
 
 **Must not reinvent:** `jump` bindings, DialogueOverlay mount pattern, save story fields.
 
@@ -251,4 +269,4 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 ## Suggested next coding session
 
-Implement M2: Meadow map JSON, Spawner archetypes, TaskRunner bodies (Carrot Rush + Hide and Seek), pantry gates, set `contentFlags.tasks` true.
+Implement **M2 Tasks track** only: TaskRunner bodies for Carrot Rush + Hide and Seek, wire TaskSelect/TaskRun, set `contentFlags.tasks` true. Do not start Story physics until that track’s exit criteria pass.
