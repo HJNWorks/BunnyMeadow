@@ -8,6 +8,6 @@
   "moonPool": { "chunk": 1, "x": 100, "y": 920 },
   "exit": { "chunk": 2, "x": 820, "y": 920 },
   "moonLine": "Hedges hold secrets. Bounce, little hopper.",
-  "objective": "Wall-bounce past crows. Reach the exit.",
+  "objective": "Climb the ledges. Wall-bounce with Space while against a hedge.",
   "wallBounce": true
 }

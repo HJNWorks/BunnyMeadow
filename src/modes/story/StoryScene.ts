@@ -628,11 +628,11 @@ export class StoryScene extends Phaser.Scene {
 
     if (this.wallBounce && (body.blocked.left || body.blocked.right) && !onFloor && input.jumpPressed) {
       const push = body.blocked.left ? 1 : -1
-      this.player.setVelocityY(-440)
-      this.player.setVelocityX(push * 310)
+      this.player.setVelocityY(-480)
+      this.player.setVelocityX(push * 320)
       this.facing = push
     } else if (input.jumpPressed && onFloor) {
-      this.player.setVelocityY(-520)
+      this.player.setVelocityY(-560)
     }
 
     if (input.dashPressed && this.dashCooldown <= 0) {
