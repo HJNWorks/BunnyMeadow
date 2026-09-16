@@ -137,11 +137,36 @@ export class WorldMapScene extends Phaser.Scene {
         <p class="bm-tagline" data-ui="pathTagline">Follow the blossoms. Expand a world to open its stations.</p>
         <div class="story-path-frame">
           <svg class="story-path-svg" viewBox="0 0 1000 420" aria-hidden="true">
+            <!-- Soft wash underlay - layered strokes for ink wash feel -->
+            <path d="M78 322 C 218 302, 278 252, 358 232 S 518 182, 618 142 S 778 92, 898 72"
+              fill="none" stroke="#a5b47a" stroke-width="18" stroke-linecap="round" opacity="0.12"/>
             <path d="M80 320 C 220 300, 280 250, 360 230 S 520 180, 620 140 S 780 90, 900 70"
-              fill="none" stroke="#6f8048" stroke-width="10" stroke-linecap="round" opacity="0.35"/>
+              fill="none" stroke="#8a9f60" stroke-width="12" stroke-linecap="round" opacity="0.18"/>
+            <path d="M82 318 C 222 298, 282 248, 362 228 S 522 178, 622 138 S 782 88, 902 68"
+              fill="none" stroke="#6f8048" stroke-width="7" stroke-linecap="round" opacity="0.22"/>
+
+            <!-- Main ink spine - variable width feel through layering -->
             <path d="M80 320 C 220 300, 280 250, 360 230 S 520 180, 620 140 S 780 90, 900 70"
-              fill="none" stroke="#34583e" stroke-width="3" stroke-linecap="round" stroke-dasharray="10 14"/>
+              fill="none" stroke="#3d5c3a" stroke-width="4.5" stroke-linecap="round" opacity="0.7"/>
+            <path d="M80 320 C 220 300, 280 250, 360 230 S 520 180, 620 140 S 780 90, 900 70"
+              fill="none" stroke="#34583e" stroke-width="2.5" stroke-linecap="round" opacity="0.95"/>
+
+            <!-- Feather barbs - organic branching strokes with tapered feel -->
+            <!-- Barb near burrow-to-meadow midpoint -->
+            <path d="M175 295 Q155 275, 148 260" fill="none" stroke="#4a6b45" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+            <path d="M190 288 Q200 265, 195 250" fill="none" stroke="#34583e" stroke-width="1.2" stroke-linecap="round" opacity="0.45"/>
+            <!-- Barb near meadow-to-bamboo midpoint -->
+            <path d="M435 210 Q420 190, 405 182" fill="none" stroke="#4a6b45" stroke-width="1.8" stroke-linecap="round" opacity="0.48"/>
+            <path d="M455 200 Q470 178, 480 168" fill="none" stroke="#34583e" stroke-width="1.3" stroke-linecap="round" opacity="0.42"/>
+            <!-- Barb near bamboo-to-lantern midpoint -->
+            <path d="M665 148 Q650 128, 638 118" fill="none" stroke="#4a6b45" stroke-width="1.6" stroke-linecap="round" opacity="0.45"/>
+            <path d="M680 140 Q695 122, 710 115" fill="none" stroke="#34583e" stroke-width="1.1" stroke-linecap="round" opacity="0.4"/>
+            <!-- Barb near lantern-to-moon midpoint -->
+            <path d="M810 102 Q795 85, 785 75" fill="none" stroke="#4a6b45" stroke-width="1.4" stroke-linecap="round" opacity="0.42"/>
+
+            <!-- Moon glow -->
             <circle cx="900" cy="70" r="28" fill="#fff6c8" stroke="#e0c56a" stroke-width="3"/>
+            <!-- Burrow marks -->
             <circle cx="80" cy="320" r="18" fill="#6a5538"/>
             <ellipse cx="80" cy="332" rx="34" ry="12" fill="#4a3828" opacity="0.55"/>
           </svg>
