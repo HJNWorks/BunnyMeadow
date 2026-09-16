@@ -6,9 +6,7 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
-## [0.2.0] - 2026-09-16
-
-Iteration I1. Endless scenery is no longer a fixed function of distance.
+Iteration I1 is in the tree. Version stays at 0.1.0 until I2-I4 ship with it.
 
 ### Added
 
@@ -53,6 +51,5 @@ GitHub Pages.
 
 - Audio assets and DE/ZH-Hans string fill remain from M5 (iteration I4).
 
-[Unreleased]: https://github.com/HJNWorks/BunnyMeadow/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/HJNWorks/BunnyMeadow/releases/tag/v0.2.0
+[Unreleased]: https://github.com/HJNWorks/BunnyMeadow/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/HJNWorks/BunnyMeadow/releases/tag/v0.1.0

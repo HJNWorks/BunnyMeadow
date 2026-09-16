@@ -45,9 +45,9 @@ A local `commit-msg` hook and a CI check enforce this format. See
 
 ## Versioning
 
-Semantic versioning, pre-1.0 while in development: bump the minor for new systems or
-content, the patch for fixes and tuning. Record changes in [CHANGELOG.md](CHANGELOG.md)
-and tag each shipped iteration `vX.Y.Z`.
+Semantic versioning, pre-1.0 while in development. Record changes under Unreleased in
+[CHANGELOG.md](CHANGELOG.md). Tag a version after a track of work (for example I1-I4),
+not after every iteration. Minor for a new track, patch for fixes.
 
 ## Contribution terms
 

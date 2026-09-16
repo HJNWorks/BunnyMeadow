@@ -240,12 +240,12 @@ web build before the desktop and store milestones resume.
 | Iteration | Theme | Summary |
 | --- | --- | --- |
 | I0 | Repo hygiene | done: proprietary LICENSE, CONTRIBUTING, CHANGELOG, expanded README, CI on PRs, Conventional Commits (commitlint + husky), `v0.1.0` tag. |
-| I1 | Biome route + shorter bands | done (`v0.2.0`): seeded route walker, `bandMeters`, tier jitter. Water and dusk can appear before 400 m. |
+| I1 | Biome route + shorter bands | done (unreleased): seeded route walker, `bandMeters`, tier jitter. Water and dusk can appear before 400 m. |
 | I2 | Creatures + items in data | Chunk enemy/item slots; per-biome rosters and item tables; first non-carrot items. |
 | I3 | Theme + rendering | palettes.json, sky lerp on bridge chunks, weather presets, cheap night lighting, layered mist wall. |
 | I4 | Audio + i18n | Close the open M5 items: audio assets on the bus, DE/ZH-Hans fill. |
 
-Each iteration ships to Pages on its own and tags a version (see Repo hygiene below).
+Each iteration can ship to Pages on its own. The version tag for this track waits until I4.
 
 ### M6 — Desktop shell
 
@@ -320,7 +320,8 @@ any local commands run on Windows.
 
 - Semantic versioning on `package.json` `version` (`0.1.0`), pre-1.0 while the game is in
   development: bump minor for new content or systems, patch for fixes and tuning.
-- Tag each Pages ship with `vX.Y.Z`. `v0.1.0` marks the M0-M5 web build.
+- Tag a version after a track of work, not after every iteration. `v0.1.0` marks the M0-M5
+  web build. I1-I4 share the next tag when that track closes.
 - [CHANGELOG.md](../CHANGELOG.md) (Keep a Changelog format) records each tag. This also seeds
   Steam patch notes later.
 
@@ -372,4 +373,4 @@ any local commands run on Windows.
 
 ## Suggested next coding session
 
-I1 is done (`v0.2.0`): Endless walks a seeded biome graph with shorter bands and tier jitter. Next is iteration [I2](iterations/i2-creatures-items.md): enemy and item slots, per-biome rosters, first non-carrot items. Then I3 (theme and rendering), I4 (audio and i18n). Desktop and store milestones (M6–M8) resume after that.
+I1 is done (still 0.1.0). Endless walks a seeded biome graph with shorter bands and tier jitter. Next is iteration [I2](iterations/i2-creatures-items.md): enemy and item slots, per-biome rosters, first non-carrot items. Then I3 (theme and rendering), I4 (audio and i18n). Tag the next version after I4. Desktop and store milestones (M6–M8) resume after that.

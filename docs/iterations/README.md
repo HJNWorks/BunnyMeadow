@@ -19,7 +19,7 @@ and the milestone list stay in [../ROADMAP.md](../ROADMAP.md).
 | Iteration | Theme | Turns these `planned` into `live` |
 | --- | --- | --- |
 | I0 (done) | Repo hygiene | LICENSE, CONTRIBUTING, CHANGELOG, CI on PRs, Conventional Commits, `v0.1.0` |
-| [I1](i1-biome-route.md) (done) | Biome route and shorter bands | route walker, `bandMeters`, tier jitter (`v0.2.0`) |
+| [I1](i1-biome-route.md) (done) | Biome route and shorter bands | route walker, `bandMeters`, tier jitter |
 | [I2](i2-creatures-items.md) | Creatures and items in data | enemy/item slots, biome rosters, item catalog |
 | [I3](i3-theme-rendering.md) | Theme and rendering | palettes.json, sky lerp, weather, night lighting |
 | [I4](i4-audio-i18n.md) | Audio and i18n | the remaining open M5 items |
