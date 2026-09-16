@@ -6,7 +6,8 @@
   "description": "Bunny Meadow — family woodland adventure",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "check:path": "node scripts/check-path-layout.mjs",
+    "build": "npm run check:path && tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

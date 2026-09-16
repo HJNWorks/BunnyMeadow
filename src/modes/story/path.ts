@@ -159,8 +159,8 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Soft paths, hedges, and Fox Hu's cart.",
     status: "live",
     stationIds: ["w1_1_soft_paths", "w1_2_hedge_maze", "w1_3_cart_chase"],
-    x: 30,
-    y: 60,
+    x: 29,
+    y: 61,
   },
   {
     id: "w2",
@@ -179,8 +179,8 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Festival lights and a tiger road.",
     status: "live",
     stationIds: ["w3_1_paper_lights", "w3_2_tiger_road", "w3_3_crane_summit"],
-    x: 58,
-    y: 34,
+    x: 64,
+    y: 32,
   },
   {
     id: "moon",
@@ -189,8 +189,8 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Quiet moon garden. Yue waits under the tree.",
     status: "live",
     stationIds: ["moon_guanghan"],
-    x: 80,
-    y: 20,
+    x: 82,
+    y: 18,
   },
 ]
 
@@ -207,6 +207,29 @@ function worldPlayableCleared(save: SaveV1, ids: readonly string[]): boolean {
 
 export function listWorlds(): StoryWorldNode[] {
   return [...WORLDS]
+}
+
+export function findOverlappingWorldNodes(
+  frameW = 980,
+  frameH = 420,
+  cardW = 160,
+  cardH = 96,
+): string[] {
+  const halfW = (cardW / frameW) * 50
+  const halfH = (cardH / frameH) * 50
+  const hits: string[] = []
+  for (let i = 0; i < WORLDS.length; i += 1) {
+    for (let j = i + 1; j < WORLDS.length; j += 1) {
+      const a = WORLDS[i]
+      const b = WORLDS[j]
+      const overlapX = Math.abs(a.x - b.x) < halfW * 2
+      const overlapY = Math.abs(a.y - b.y) < halfH * 2
+      if (overlapX && overlapY) {
+        hits.push(`${a.title} overlaps ${b.title} (dx=${Math.abs(a.x - b.x).toFixed(1)} dy=${Math.abs(a.y - b.y).toFixed(1)})`)
+      }
+    }
+  }
+  return hits
 }
 
 export function getWorld(id: StoryWorldId): StoryWorldNode | undefined {
