@@ -6,14 +6,14 @@
   "chunks": ["chunk_raft_a", "chunk_raft_b"],
   "playerSpawn": { "x": 100, "y": 900 },
   "moonPool": { "chunk": 0, "x": 120, "y": 920 },
-  "exit": { "chunk": 1, "x": 840, "y": 948 },
+  "exit": { "chunk": 1, "x": 860, "y": 948 },
   "moonLine": "The heron watches the silver current. Soft dash, soft win.",
   "objective": "Dash the Heron Fisher three times. Reach the far bank.",
   "sky": "#4f7684",
   "boss": {
     "kind": "heron",
     "hitsNeeded": 3,
-    "x": 1500,
-    "y": 820
+    "x": 1780,
+    "y": 910
   }
 }

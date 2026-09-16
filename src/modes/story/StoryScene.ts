@@ -157,6 +157,9 @@ export class StoryScene extends Phaser.Scene {
   private bossHits = 0
   private bossNeeded = 0
   private bossCooldown = 0
+  private heronPerchY = 910
+  private heronMinX = 1680
+  private heronMaxX = 1900
   private cranePhase: "dive" | "bow" | "done" = "dive"
   private craneDives = 0
   private epilogueStep = 0
@@ -217,6 +220,9 @@ export class StoryScene extends Phaser.Scene {
     this.bossHits = 0
     this.bossNeeded = 0
     this.bossCooldown = 0
+    this.heronPerchY = 910
+    this.heronMinX = 1680
+    this.heronMaxX = 1900
     this.cranePhase = "dive"
     this.craneDives = 0
     this.epilogueStep = 0
@@ -394,8 +400,11 @@ export class StoryScene extends Phaser.Scene {
       sprite.setTint(mover.tint ?? 0x8b5a2b)
       sprite.setDepth(3)
       sprite.setImmovable(true)
-      ;(sprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
-      ;(sprite.body as Phaser.Physics.Arcade.Body).setSize(mover.w, mover.h)
+      const body = sprite.body as Phaser.Physics.Arcade.Body
+      body.setAllowGravity(false)
+      body.setGravity(0, 0)
+      body.setSize(sprite.frame.width, sprite.frame.height)
+      body.updateFromGameObject()
       this.physics.add.collider(this.player, sprite)
       this.movers.push({
         sprite,
@@ -434,8 +443,11 @@ export class StoryScene extends Phaser.Scene {
       sprite.setDisplaySize(def.ride.w, def.ride.h)
       sprite.setDepth(4)
       sprite.setImmovable(true)
-      ;(sprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
-      ;(sprite.body as Phaser.Physics.Arcade.Body).setSize(def.ride.w, def.ride.h)
+      const rideBody = sprite.body as Phaser.Physics.Arcade.Body
+      rideBody.setAllowGravity(false)
+      rideBody.setGravity(0, 0)
+      rideBody.setSize(sprite.frame.width, sprite.frame.height)
+      rideBody.updateFromGameObject()
       this.physics.add.collider(this.player, sprite)
       this.ride = {
         sprite,
@@ -505,11 +517,21 @@ export class StoryScene extends Phaser.Scene {
 
     if (def.boss?.kind === "heron") {
       this.bossNeeded = def.boss.hitsNeeded ?? 3
-      this.bossSprite = this.physics.add.sprite(def.boss.x ?? 1500, def.boss.y ?? 820, "story_heron")
+      const hx = def.boss.x ?? 1780
+      const hy = def.boss.y ?? 910
+      this.heronPerchY = hy
+      this.heronMinX = hx - 100
+      this.heronMaxX = hx + 120
+      this.bossSprite = this.physics.add.sprite(hx, hy, "story_heron")
       this.bossSprite.setDisplaySize(64, 72)
       this.bossSprite.setData("archetype", "heron_boss")
       this.bossSprite.setImmovable(true)
-      ;(this.bossSprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
+      this.bossSprite.setDepth(6)
+      const heronBody = this.bossSprite.body as Phaser.Physics.Arcade.Body
+      heronBody.setAllowGravity(false)
+      heronBody.setGravity(0, 0)
+      heronBody.setSize(48, 56)
+      heronBody.setOffset(8, 8)
       this.enemies.add(this.bossSprite)
       this.hud.bossHits.hidden = false
       this.syncBossHits()
@@ -895,18 +917,23 @@ export class StoryScene extends Phaser.Scene {
     if (!this.bossSprite || this.bossCooldown > 0 || this.won) {
       return
     }
+    if (this.bossSprite.getData("archetype") === "heron_done") {
+      return
+    }
     if (this.dashTime <= 0) {
       this.hurt()
       return
     }
     this.bossHits += 1
-    this.bossCooldown = 0.7
+    this.bossCooldown = 0.55
     this.bossSprite.setTint(0xffffff)
     this.time.delayedCall(120, () => this.bossSprite?.clearTint())
     this.syncBossHits()
     if (this.bossHits >= this.bossNeeded) {
       this.bossSprite.setAlpha(0.45)
       this.bossSprite.setData("archetype", "heron_done")
+      this.bossSprite.setVelocity(0, 0)
+      this.hud.objective.textContent = "Burrow open. Hop in."
     }
   }
 
@@ -916,8 +943,28 @@ export class StoryScene extends Phaser.Scene {
       return
     }
     if (this.level.boss.kind === "heron") {
+      const body = this.bossSprite.body as Phaser.Physics.Arcade.Body
+      body.setAllowGravity(false)
+      body.setGravity(0, 0)
+      this.bossSprite.y = this.heronPerchY
+      if (this.bossSprite.getData("archetype") === "heron_done") {
+        this.bossSprite.setVelocity(0, 0)
+        return
+      }
       const dx = this.player.x - this.bossSprite.x
-      this.bossSprite.setVelocityX(Math.sign(dx) * 55)
+      const chase = Math.abs(dx) > 28 ? Math.sign(dx) * 70 : 0
+      this.bossSprite.setVelocityX(chase)
+      this.bossSprite.x = Phaser.Math.Clamp(this.bossSprite.x, this.heronMinX, this.heronMaxX)
+      this.bossSprite.y = this.heronPerchY
+      body.updateFromGameObject()
+      if (
+        this.dashTime > 0 &&
+        this.bossCooldown <= 0 &&
+        Math.abs(this.player.x - this.bossSprite.x) < 70 &&
+        Math.abs(this.player.y - this.bossSprite.y) < 80
+      ) {
+        this.tryHitHeron()
+      }
       return
     }
     if (this.level.boss.kind !== "crane") {
@@ -1153,8 +1200,8 @@ export class StoryScene extends Phaser.Scene {
 
     if (
       !this.won &&
-      Math.abs(this.player.x - this.exitZone.x) < 90 &&
-      Math.abs(this.player.y - this.exitZone.y) < 110
+      Math.abs(this.player.x - this.exitZone.x) < 120 &&
+      Math.abs(this.player.y - this.exitZone.y) < 140
     ) {
       void this.onExit()
       return
