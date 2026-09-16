@@ -5,26 +5,22 @@ The player sets the pace under a difficulty-scaled mist wall that trails behind 
 speeds up with distance. Hub: [../../GDD.md](../../GDD.md). World model:
 [../../universe/README.md](../../universe/README.md).
 
-This page is the target design. The current build is described inline as "today" and the
-gaps are what the iterations in [../../iterations/README.md](../../iterations/README.md)
-close.
+This page is the target design. Route and tier axes are live (I1). Slot filler, skins,
+and seed-entry UI remain planned. Gaps are what the later iterations in
+[../../iterations/README.md](../../iterations/README.md) close.
 
 ## Problem this design fixes
 
-Two facts about the current build:
+Before I1, two facts made every run read the same:
 
-1. Environments advance by absolute distance only: fixed bands at 400, 800, 1200, 1700,
-   2200 m in `src/data/endless.json`. A typical Moonlit run ends near 145 m (see
-   [tuning.md](tuning.md)), so a player never leaves the meadow band. The Riverbank
-   "water region" is effectively unreachable.
-2. Tier is a pure function of distance (`tierForMeters` in
-   `src/modes/endless/EndlessGenerator.ts`), so every run of one difficulty shows the
-   same escalation. Enemies are also baked into each chunk file, so the same layout
-   always carries the same mobs in the same biome.
+1. Environments advanced by absolute distance only: fixed bands at 400, 800, 1200, 1700,
+   2200 m. A typical Moonlit run ended near 145 m (see [tuning.md](tuning.md)), so a
+   player never left the meadow band.
+2. Tier was a pure function of distance, so two seeds of the same preset showed the same
+   escalation. Enemies are still baked into each chunk file (I2).
 
-The result reads as "always the same pattern, and very hard". The design below makes runs
-vary by seed, lets later environments appear early, and separates layout from biome and
-from enemies.
+I1 replaces (1) and (2) with a seeded route walker and tier jitter. Slot filler and
+layout skins wait for later iterations.
 
 ## Three independent axes
 
@@ -40,14 +36,13 @@ flowchart LR
   roster --> segment
 ```
 
-1. Route walker: which biome comes next. Seeded walk over the biome graph
-   ([../../universe/biome-graph.md](../../universe/biome-graph.md)) instead of fixed
-   distance bands. Band lengths are drawn from a per-difficulty `bandMeters` range, and
-   an altitude-climb bias grows with distance so water and dusk can appear early while
-   runs still trend upward.
-2. Tier picker: how demanding the layout is. Still rises with distance, but with a seeded
-   jitter of plus or minus one tier and the existing breather cadence, so two runs at the
-   same metre differ.
+1. Route walker (live, I1): which biome comes next. Seeded walk over the biome graph
+   ([../../universe/biome-graph.md](../../universe/biome-graph.md)). Band lengths are
+   drawn from a per-difficulty `bandMeters` range, and an altitude-climb bias grows with
+   distance so water and dusk can appear early while runs still trend upward.
+2. Tier picker (live, I1): how demanding the layout is. Still rises with distance, with a
+   seeded jitter of plus or minus one tier and the existing breather cadence, so two runs
+   at the same metre differ.
 3. Slot filler: which enemies and items occupy the chunk. Chunks declare slots (see
    [chunk-contract.md](chunk-contract.md)); the filler draws from the current biome's
    roster ([../../creatures/README.md](../../creatures/README.md)) and item table
@@ -63,9 +58,8 @@ hazard vocabulary allows, and the same biome can present many enemy mixes.
   a player can replay or share a seed, and a daily seed derived from the date so everyone
   gets the same route once a day.
 - The three axes each draw from the same stream in a fixed order, so adding an axis does
-  not change how an old seed reads only if the draw order is preserved; otherwise seeds
-  reset at the iteration that lands the route walker. This is called out in
-  [../../iterations/i1-biome-route.md](../../iterations/i1-biome-route.md).
+  not change how an old seed reads only if the draw order is preserved. I1 reset seeds
+  because the walker and jitter consume extra rng draws. Old 0.1.0 seeds do not replay.
 
 ## The mist wall
 

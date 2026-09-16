@@ -6,6 +6,27 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-16
+
+Iteration I1. Endless scenery is no longer a fixed function of distance.
+
+### Added
+
+- Seeded biome-graph route walker with per-difficulty `bandMeters` so water and dusk can
+  appear before 400 m.
+- Plus or minus one tier jitter on streamed chunks.
+
+### Changed
+
+- Endless sky and HUD follow the chunk the player is in, not a metre cutoff.
+- Old 0.1.0 Endless seeds do not replay (extra rng draws).
+
+### Known open items
+
+- Enemy and item slots, biome rosters (I2).
+- Palettes, sky lerp, weather (I3).
+- Audio assets and DE/ZH-Hans string fill (I4).
+
 ## [0.1.0] - 2026-09-16
 
 First tagged release. Story milestones M0-M5 complete; the game is web-playable on
@@ -30,9 +51,8 @@ GitHub Pages.
 
 ### Known open items
 
-- Endless runs read the same and later biomes are hard to reach (addressed in iteration
-  I1; see `docs/modes/endless/design.md`).
 - Audio assets and DE/ZH-Hans string fill remain from M5 (iteration I4).
 
-[Unreleased]: https://github.com/HJNWorks/BunnyMeadow/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/HJNWorks/BunnyMeadow/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/HJNWorks/BunnyMeadow/releases/tag/v0.2.0
 [0.1.0]: https://github.com/HJNWorks/BunnyMeadow/releases/tag/v0.1.0

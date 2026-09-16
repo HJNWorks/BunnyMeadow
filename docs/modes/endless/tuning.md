@@ -25,8 +25,16 @@ Meaning:
 - breatherEvery: every Nth chunk is forced down to tier 2 or lower for a rest.
 - carrotChance: probability a chunk carrot slot is filled.
 
-The environment schedule is separate and by absolute distance: meadow < 400, orchard < 800,
-bamboo < 1200, riverbank < 1700, lantern < 2200, osmanthus beyond.
+Environment change is no longer this table. The route walker uses `bandMeters` and
+`biomeGraph`. `envSchedule` stays in the JSON unused.
+
+| Preset | bandMeters (min-max) |
+| --- | --- |
+| sprout | 120-260 |
+| hopper | 110-240 |
+| wildhare | 100-220 |
+| moonlit | 90-220 |
+| hardcore | 80-200 |
 
 ## The finding
 
@@ -40,34 +48,21 @@ the lobby screenshot in the project history). Two consequences:
    runs never reach, so the difficulty that is felt comes from the chase speed and enemy
    density at low tiers, not from tier progression. The run reads as "flat and hard".
 
-## What the redesign changes
+## What I1 changed
 
-The three-axis design in [design.md](design.md) decouples scenery change from distance:
+The three-axis design in [design.md](design.md) decouples scenery change from distance.
+Route and tier are live:
 
-- Environment change moves from the fixed distance schedule to the route walker with a
-  per-difficulty `bandMeters` range. Proposed starting ranges, to be tuned:
-
-  | Preset | bandMeters (min-max) |
-  | --- | --- |
-  | sprout | 120-260 |
-  | hopper | 110-240 |
-  | wildhare | 100-220 |
-  | moonlit | 90-220 |
-  | hardcore | 80-200 |
-
-  With Moonlit ending near 145 m, a 90-220 m range means a run changes scenery roughly once
-  before it ends, so most runs see at least one biome shift and can reach water early via a
-  lateral edge.
-
-- Tier gains a seeded jitter of plus or minus one around `tierForMeters`, bounded to 1-5, so
-  two runs at the same metre differ.
-
-- The osmanthus rung keeps a rising tier floor so long runs never get easier, which is the
-  existing intent of the open-ended final band.
+- Environment change uses the route walker and the `bandMeters` table above. With Moonlit
+  ending near 145 m, a 90-220 m range means a run changes scenery roughly once before it
+  ends, so most runs see at least one biome shift and can reach water early via a lateral
+  edge.
+- Tier has a seeded jitter of plus or minus one around `tierForMeters`, bounded to 1-5.
+- The osmanthus rung still trends upward because late climb bias favors up-edges.
 
 ## Open tuning questions
 
 - Whether to lower Moonlit and Hardcore chase speed slightly now that scenery changes sooner,
   so a run lasts long enough to see two or three biomes.
 - Whether `bandMeters` should shrink with distance so late runs cycle scenery faster.
-- These are scheduled in [../../iterations/i1-biome-route.md](../../iterations/i1-biome-route.md).
+- Chase-speed retune is out of I1. Revisit if runs still die before a second biome.

@@ -86,16 +86,14 @@ JSON maps: obstacles, spawn points, safe zone, decorations. All four ids below s
 
 ## Endless environment schedule
 
-Endless reuses the environment kits, shifting by distance. Tuning lives in `src/data/endless.json`; chunks live in `src/data/chunks/endless/` named `endless_<env>_t<tier>_<a|b>` (plus `endless_start`), tiers 1 (gentle) to 5 (double jump + dash gaps).
+Endless reuses the environment kits. A seeded route walker (I1, live) holds each rung for a
+`bandMeters` band drawn from the difficulty, then steps to an adjacent biome. Tuning and the
+graph live in `src/data/endless.json`. Chunks live in `src/data/chunks/endless/` named
+`endless_<env>_t<tier>_<a|b>` (plus `endless_start`), tiers 1 (gentle) to 5 (double jump + dash
+gaps). See [universe/biome-graph.md](universe/biome-graph.md) and
+[modes/endless/design.md](modes/endless/design.md).
 
-| Meters | Env | Notes |
-| --- | --- | --- |
-| 0–400 | meadow | Gentle steps, warm-up |
-| 400–800 | orchard | Wider gaps, patrols |
-| 800–1200 | bamboo | Pillars and wall-bounce shafts |
-| 1200–1700 | riverbank | Water spans bridged by drifting logs |
-| 1700–2200 | lantern | Glide enabled (hold jump) |
-| 2200+ | osmanthus | Peak; tier floor keeps rising |
+`envSchedule` remains in the JSON as an unused fallback. It is not what the walker reads.
 
 ## Day / night and weather
 

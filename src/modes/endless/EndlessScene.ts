@@ -10,7 +10,7 @@ import { ENDLESS_CHUNKS, type ChunkDef } from "../../systems/ChunkAssembler"
 import {
   EndlessGenerator,
   METER_PER_PX,
-  getEnvBand,
+  getEnvKit,
   getTuning,
   type EndlessTuning,
 } from "./EndlessGenerator"
@@ -216,6 +216,7 @@ export class EndlessScene extends Phaser.Scene {
         <div class="bm-eyebrow">Endless</div>
         <h1>Meadow Run</h1>
         <p class="bm-tagline">Run right. The mist chases. Environments shift from meadow to the peak.</p>
+        <p class="bm-tagline">Scores stay on this device. Each difficulty keeps only its top 10 runs.</p>
         <div class="bm-field">
           <label>Difficulty</label>
           <div class="meadow-diff-list" data-ui="diffList" role="listbox">${chips}</div>
@@ -250,7 +251,8 @@ export class EndlessScene extends Phaser.Scene {
           `<tr><td>${i + 1}</td><td>${run.name}</td><td>${run.distance} m</td><td>#${run.seed}</td></tr>`,
       )
       .join("")
-    return `<table class="endless-board"><thead><tr><th>#</th><th>Name</th><th>Distance</th><th>Seed</th></tr></thead><tbody>${rows}</tbody></table>`
+    return `<table class="endless-board"><thead><tr><th>#</th><th>Name</th><th>Distance</th><th>Seed</th></tr></thead><tbody>${rows}</tbody></table>
+      <p class="bm-tagline">Local top 10 on ${DIFF_LABEL[preset]}. Runs below 10th are dropped.</p>`
   }
 
   private async selectDifficulty(id: DifficultyId): Promise<void> {
@@ -294,8 +296,8 @@ export class EndlessScene extends Phaser.Scene {
     this.physics.world.gravity.y = 1400
     this.physics.world.setBounds(0, -600, 1_000_000, 5000, true, false, false, false)
     this.cameras.main.setBounds(0, 0, 1_000_000, 1080)
-    this.cameras.main.setBackgroundColor(getEnvBand(0).sky)
-    this.currentEnv = getEnvBand(0).env
+    this.currentEnv = this.generator.env
+    this.cameras.main.setBackgroundColor(getEnvKit(this.currentEnv).sky)
 
     this.platforms = this.physics.add.staticGroup()
     this.enemies = this.physics.add.group()
@@ -337,7 +339,7 @@ export class EndlessScene extends Phaser.Scene {
 
     this.spawnSegment(this.startChunk(), 0)
     while (this.nextOriginX < this.spawnX + 3200) {
-      this.spawnSegment(this.generator.next(this.distanceM), this.nextOriginX)
+      this.spawnSegment(this.generator.next(this.nextOriginX / METER_PER_PX), this.nextOriginX)
     }
 
     this.chaseX = this.spawnX - 700
@@ -636,15 +638,18 @@ export class EndlessScene extends Phaser.Scene {
     this.maxX = Math.max(this.maxX, this.player.x)
     this.distanceM = Math.floor(this.maxX / METER_PER_PX)
 
-    const band = getEnvBand(this.distanceM)
-    if (band.env !== this.currentEnv) {
-      this.currentEnv = band.env
-      this.cameras.main.setBackgroundColor(band.sky)
+    const here = this.segments.find(
+      (s) => this.player.x >= s.originX && this.player.x < s.originX + s.width,
+    )
+    const kit = getEnvKit(here?.env ?? this.generator.env)
+    if (kit.env !== this.currentEnv) {
+      this.currentEnv = kit.env
+      this.cameras.main.setBackgroundColor(kit.sky)
     }
-    this.playerState.glide = band.env === "lantern"
+    this.playerState.glide = kit.env === "lantern"
     if (this.hud) {
-      this.hud.env.textContent = band.name
-      const showHint = band.env === "lantern"
+      this.hud.env.textContent = kit.name
+      const showHint = kit.env === "lantern"
       this.hud.hint.hidden = !showHint
       if (showHint) {
         this.hud.hint.textContent = "Hold jump to glide between lanterns."
@@ -652,7 +657,7 @@ export class EndlessScene extends Phaser.Scene {
     }
 
     while (this.nextOriginX < this.player.x + 3200) {
-      this.spawnSegment(this.generator.next(this.distanceM), this.nextOriginX)
+      this.spawnSegment(this.generator.next(this.nextOriginX / METER_PER_PX), this.nextOriginX)
     }
     while (this.segments.length > 0 && this.segments[0].originX + this.segments[0].width < this.chaseX - 400) {
       const seg = this.segments.shift()

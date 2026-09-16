@@ -1,6 +1,11 @@
 import endlessData from "../../data/endless.json"
 import { ENDLESS_CHUNKS, type ChunkDef, type EndlessEnv } from "../../systems/ChunkAssembler"
 
+export type BandMeters = {
+  min: number
+  max: number
+}
+
 export type EndlessTuning = {
   chaseSpeed: number
   chaseRampPer100m: number
@@ -9,24 +14,37 @@ export type EndlessTuning = {
   tierRampMeters: number
   breatherEvery: number
   carrotChance: number
+  bandMeters: BandMeters
 }
 
-export type EnvBand = {
+export type EnvKit = {
   env: EndlessEnv
-  untilM: number
   sky: string
   name: string
 }
 
-const ENV_SCHEDULE = endlessData.envSchedule as EnvBand[]
+type GraphNode = {
+  sky: string
+  name: string
+}
 
-export function getEnvBand(distanceM: number): EnvBand {
-  for (const band of ENV_SCHEDULE) {
-    if (distanceM < band.untilM) {
-      return band
-    }
-  }
-  return ENV_SCHEDULE[ENV_SCHEDULE.length - 1]
+type GraphEdge = {
+  from: EndlessEnv
+  to: EndlessEnv
+  climb: number
+}
+
+type BiomeGraph = {
+  nodes: Record<string, GraphNode>
+  edges: GraphEdge[]
+}
+
+const BIOME_GRAPH = endlessData.biomeGraph as BiomeGraph
+
+export function getEnvKit(env: string): EnvKit {
+  const key = BIOME_GRAPH.nodes[env] ? env : "meadow"
+  const node = BIOME_GRAPH.nodes[key]
+  return { env: key as EndlessEnv, sky: node.sky, name: node.name }
 }
 
 export function getTuning(preset: string): EndlessTuning {
@@ -52,19 +70,85 @@ export class EndlessGenerator {
   private tuning: EndlessTuning
   private lastId = ""
   private produced = 0
+  private currentEnv: EndlessEnv = "meadow"
+  private bandUntilM = 0
+  private sameInARow = 1
 
   constructor(public readonly seed: number, preset: string) {
     this.rng = mulberry32(seed)
     this.tuning = getTuning(preset)
+    this.bandUntilM = this.drawBandLength()
+  }
+
+  get env(): EndlessEnv {
+    return this.currentEnv
   }
 
   get startChunkId(): string {
     return "endless_start"
   }
 
+  private drawBandLength(): number {
+    const { min, max } = this.tuning.bandMeters
+    return min + Math.floor(this.rng() * (max - min + 1))
+  }
+
+  private outgoing(env: EndlessEnv): GraphEdge[] {
+    return BIOME_GRAPH.edges.filter((e) => e.from === env)
+  }
+
+  private climbBias(distanceM: number): number {
+    return Math.min(2, distanceM / 400)
+  }
+
+  private edgeWeight(edge: GraphEdge, distanceM: number): number {
+    return Math.max(0.05, 1 + (this.climbBias(distanceM) - 1) * edge.climb)
+  }
+
+  private pickEdge(distanceM: number): GraphEdge | null {
+    const edges = this.outgoing(this.currentEnv)
+    if (edges.length === 0) {
+      return null
+    }
+    const allowed = edges.filter((e) => {
+      if (e.to !== this.currentEnv) {
+        return true
+      }
+      return this.sameInARow < 2
+    })
+    const pool = allowed.length > 0 ? allowed : edges
+    const weights = pool.map((e) => this.edgeWeight(e, distanceM))
+    const total = weights.reduce((sum, w) => sum + w, 0)
+    let roll = this.rng() * total
+    for (let i = 0; i < pool.length; i += 1) {
+      roll -= weights[i]
+      if (roll <= 0) {
+        return pool[i]
+      }
+    }
+    return pool[pool.length - 1]
+  }
+
+  private stepRoute(distanceM: number): void {
+    const edge = this.pickEdge(distanceM)
+    if (!edge) {
+      this.sameInARow += 1
+      this.bandUntilM = distanceM + this.drawBandLength()
+      return
+    }
+    if (edge.to === this.currentEnv) {
+      this.sameInARow += 1
+    } else {
+      this.currentEnv = edge.to
+      this.sameInARow = 1
+    }
+    this.bandUntilM = distanceM + this.drawBandLength()
+  }
+
   private tierForMeters(distanceM: number): number {
     const raw = this.tuning.startTier + Math.floor(distanceM / this.tuning.tierRampMeters)
-    return Math.max(1, Math.min(5, raw))
+    const jitter = Math.floor(this.rng() * 3) - 1
+    return Math.max(1, Math.min(5, raw + jitter))
   }
 
   private candidates(env: EndlessEnv, tier: number): ChunkDef[] {
@@ -92,13 +176,15 @@ export class EndlessGenerator {
   }
 
   next(distanceM: number): ChunkDef {
-    const band = getEnvBand(distanceM)
+    if (distanceM >= this.bandUntilM) {
+      this.stepRoute(distanceM)
+    }
     let tier = this.tierForMeters(distanceM)
     this.produced += 1
     if (this.tuning.breatherEvery > 0 && this.produced % this.tuning.breatherEvery === 0) {
       tier = Math.min(tier, 2)
     }
-    const chunk = this.pick(band.env, tier)
+    const chunk = this.pick(this.currentEnv, tier)
     this.lastId = chunk.id
     return chunk
   }

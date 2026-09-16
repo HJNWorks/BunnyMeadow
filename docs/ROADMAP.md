@@ -19,7 +19,7 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | M3 Story World 1 vertical slice | done |
 | M4 Story content complete | done |
 | M5 Endless mode | done (audio assets + i18n fill still open) |
-| Web iterations I1–I4 | in progress (current focus; see [iterations/README.md](iterations/README.md)) |
+| Web iterations I1–I4 | I0 and I1 done. I2–I4 next (see [iterations/README.md](iterations/README.md)) |
 | M6–M8 desktop + store | postponed to the end, after the web iterations |
 
 ## Current phase
@@ -240,7 +240,7 @@ web build before the desktop and store milestones resume.
 | Iteration | Theme | Summary |
 | --- | --- | --- |
 | I0 | Repo hygiene | done: proprietary LICENSE, CONTRIBUTING, CHANGELOG, expanded README, CI on PRs, Conventional Commits (commitlint + husky), `v0.1.0` tag. |
-| I1 | Biome route + shorter bands | Seeded route walker over the biome graph replaces fixed distance bands; tier jitter. Fixes "always the same pattern" and unreachable water. |
+| I1 | Biome route + shorter bands | done (`v0.2.0`): seeded route walker, `bandMeters`, tier jitter. Water and dusk can appear before 400 m. |
 | I2 | Creatures + items in data | Chunk enemy/item slots; per-biome rosters and item tables; first non-carrot items. |
 | I3 | Theme + rendering | palettes.json, sky lerp on bridge chunks, weather presets, cheap night lighting, layered mist wall. |
 | I4 | Audio + i18n | Close the open M5 items: audio assets on the bus, DE/ZH-Hans fill. |
@@ -372,4 +372,4 @@ any local commands run on Windows.
 
 ## Suggested next coding session
 
-Repo hygiene is in place (I0): LICENSE, CONTRIBUTING, CHANGELOG, CI on PRs, Conventional Commits, `v0.1.0`. Use Conventional Commits from here on. Next is iteration [I1](iterations/i1-biome-route.md): replace the fixed distance bands with a seeded route walker and add tier jitter, so runs vary by seed and reach water early. Then I2 (creatures and items in data), I3 (theme and rendering), I4 (audio and i18n). Desktop and store milestones (M6–M8) resume after that.
+I1 is done (`v0.2.0`): Endless walks a seeded biome graph with shorter bands and tier jitter. Next is iteration [I2](iterations/i2-creatures-items.md): enemy and item slots, per-biome rosters, first non-carrot items. Then I3 (theme and rendering), I4 (audio and i18n). Desktop and store milestones (M6–M8) resume after that.

@@ -41,8 +41,8 @@ Values above are descriptive placeholders. Concrete hex is authored in
 At a biome change the sky should not snap. On a bridge chunk
 ([../universe/biome-graph.md](../universe/biome-graph.md)) the sky and fog tokens lerp from
 the source biome's value on the left edge to the destination's on the right edge, driven by
-the player's x within the bridge. Today, with no bridges, Endless snaps the sky at a band
-boundary (`getEnvBand`), which is the behaviour to replace.
+the player's x within the bridge. Today, with no bridges, Endless snaps the sky when the player enters a new rung
+(`getEnvKit`). I3 replaces that snap with a lerp on a bridge chunk.
 
 ## Derivation from the five axes
 

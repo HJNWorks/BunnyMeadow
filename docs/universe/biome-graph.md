@@ -49,30 +49,27 @@ teaches no new verb and hosts no boss.
 | osmanthus -> cloudsea | bridge_osmanthus_cloudsea | planned |
 | cloudsea -> moon | bridge_cloudsea_moon | planned |
 
-Until bridges ship, Endless does an instant palette snap at a band boundary, which
-is the current behaviour (`getEnvBand` returns a hard band by distance in
-`src/modes/endless/EndlessGenerator.ts`).
+Until bridges ship (I3), Endless does an instant palette snap when the player enters a
+new rung.
 
-## Endless route walker (planned)
+## Endless route walker (live, I1)
 
-Today Endless picks the environment purely from distance: fixed bands at 400, 800,
-1200, 1700, 2200 m in `src/data/endless.json`. Because a typical Moonlit run ends
-near 145 m (see [../modes/endless/tuning.md](../modes/endless/tuning.md)), only the
-meadow band is ever seen. The route walker replaces fixed bands with a seeded walk.
+The walker in `src/modes/endless/EndlessGenerator.ts` reads `biomeGraph` and
+`bandMeters` from `src/data/endless.json`. I1 omits tunnels, cloudsea, moon, key items,
+and bridge chunks (no live content for those yet).
 
-Rules:
+Rules in force:
 
-1. Start at `meadow` (or `tunnels` on a dark-seed roll).
+1. Start at `meadow`.
 2. Hold the current rung for a band length drawn from the difficulty's
-   `bandMeters` range (for example Moonlit 90-220 m). Shorter ranges mean faster
-   scenery change.
-3. At a band boundary, choose an outgoing edge from the current node. Edge weights
-   come from an altitude-climb bias that grows with distance: early on, lateral and
-   back-edges are likely, so water and dusk can appear before 400 m. Later, up-edges
-   dominate so runs still trend toward the peak.
-4. Never repeat the same rung more than twice in a row.
-5. Sky and moon edges are closed unless the run holds the matching key item.
-6. Insert the bridge chunk for the chosen edge before the first chunk of the new rung.
+   `bandMeters` range (for example Moonlit 90-220 m).
+3. At a band boundary, choose an outgoing edge. Weight is `max(0.05, 1 + (climbBias - 1) * climb)`
+   with `climbBias = min(2, distanceM / 400)`. Early runs favor lateral and dip edges
+   (meadow to riverbank). Later runs favor up-edges.
+4. Never stay on the same rung more than twice in a row if another edge exists.
+5. Sky and moon edges stay closed (no live chunks, no key item yet).
+6. No bridge chunk. The next biome's layout starts immediately. Sky snaps when the
+   player enters that band.
 
 The walker only decides the biome sequence. Layout tier is a separate axis (see
 [../modes/endless/design.md](../modes/endless/design.md)), so the same layout can be

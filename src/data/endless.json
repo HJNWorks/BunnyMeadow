@@ -8,6 +8,28 @@
     { "env": "lantern", "untilM": 2200, "sky": "#3d4560", "name": "Lantern Village" },
     { "env": "osmanthus", "untilM": 100000, "sky": "#40364a", "name": "Osmanthus Peak" }
   ],
+  "biomeGraph": {
+    "nodes": {
+      "meadow": { "sky": "#c5d48a", "name": "Meadow" },
+      "orchard": { "sky": "#b8c47a", "name": "Orchard" },
+      "bamboo": { "sky": "#5f7a52", "name": "Bamboo Grove" },
+      "riverbank": { "sky": "#6b94a0", "name": "Riverbank" },
+      "lantern": { "sky": "#3d4560", "name": "Lantern Village" },
+      "osmanthus": { "sky": "#40364a", "name": "Osmanthus Peak" }
+    },
+    "edges": [
+      { "from": "meadow", "to": "orchard", "climb": 1 },
+      { "from": "meadow", "to": "riverbank", "climb": 0 },
+      { "from": "orchard", "to": "bamboo", "climb": 1 },
+      { "from": "orchard", "to": "riverbank", "climb": 0 },
+      { "from": "bamboo", "to": "riverbank", "climb": 0 },
+      { "from": "bamboo", "to": "lantern", "climb": 1 },
+      { "from": "riverbank", "to": "bamboo", "climb": 1 },
+      { "from": "riverbank", "to": "lantern", "climb": 1 },
+      { "from": "lantern", "to": "osmanthus", "climb": 1 },
+      { "from": "osmanthus", "to": "lantern", "climb": -1 }
+    ]
+  },
   "difficulty": {
     "sprout": {
       "chaseSpeed": 0,
@@ -16,7 +38,8 @@
       "startTier": 1,
       "tierRampMeters": 500,
       "breatherEvery": 4,
-      "carrotChance": 0.85
+      "carrotChance": 0.85,
+      "bandMeters": { "min": 120, "max": 260 }
     },
     "hopper": {
       "chaseSpeed": 70,
@@ -25,7 +48,8 @@
       "startTier": 1,
       "tierRampMeters": 380,
       "breatherEvery": 5,
-      "carrotChance": 0.6
+      "carrotChance": 0.6,
+      "bandMeters": { "min": 110, "max": 240 }
     },
     "wildhare": {
       "chaseSpeed": 95,
@@ -34,7 +58,8 @@
       "startTier": 2,
       "tierRampMeters": 320,
       "breatherEvery": 6,
-      "carrotChance": 0.5
+      "carrotChance": 0.5,
+      "bandMeters": { "min": 100, "max": 220 }
     },
     "moonlit": {
       "chaseSpeed": 120,
@@ -43,7 +68,8 @@
       "startTier": 2,
       "tierRampMeters": 260,
       "breatherEvery": 7,
-      "carrotChance": 0.4
+      "carrotChance": 0.4,
+      "bandMeters": { "min": 90, "max": 220 }
     },
     "hardcore": {
       "chaseSpeed": 150,
@@ -52,7 +78,8 @@
       "startTier": 3,
       "tierRampMeters": 220,
       "breatherEvery": 8,
-      "carrotChance": 0.3
+      "carrotChance": 0.3,
+      "bandMeters": { "min": 80, "max": 200 }
     }
   }
 }
