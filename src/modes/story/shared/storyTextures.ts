@@ -204,40 +204,87 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     carrot.destroy()
   }
 
-  if (!scene.textures.exists("chase_fox")) {
-    const fox = scene.make.graphics({ x: 0, y: 0 })
-    fox.fillStyle(0xff6a18, 0.55)
-    fox.fillEllipse(22, 34, 36, 22)
-    fox.fillStyle(0xff9a1a, 0.85)
-    fox.fillEllipse(34, 32, 28, 16)
-    fox.fillStyle(0xffe066, 0.9)
-    fox.fillEllipse(44, 30, 16, 10)
-    fox.fillStyle(0xe07030, 1)
-    fox.fillEllipse(78, 42, 44, 26)
-    fox.fillStyle(0xf2a35a, 1)
-    fox.fillEllipse(78, 38, 36, 18)
-    fox.fillStyle(0xfff4dc, 1)
-    fox.fillEllipse(86, 46, 16, 10)
-    fox.fillStyle(0xdf8b4c, 1)
-    fox.fillCircle(108, 30, 16)
-    fox.fillStyle(0xc45a2a, 1)
-    fox.fillTriangle(100, 18, 96, 4, 108, 16)
-    fox.fillTriangle(112, 16, 118, 2, 122, 18)
-    fox.fillStyle(0xf2a35a, 1)
-    fox.fillTriangle(102, 16, 100, 8, 108, 16)
-    fox.fillTriangle(114, 15, 118, 6, 120, 16)
-    fox.fillStyle(0xe8c090, 1)
-    fox.fillEllipse(118, 34, 12, 8)
-    fox.fillStyle(0x2a2010, 1)
-    fox.fillCircle(114, 28, 2.4)
-    fox.fillStyle(0x3a2010, 1)
-    fox.fillTriangle(124, 34, 136, 36, 124, 38)
-    fox.fillStyle(0xc45a2a, 1)
-    fox.fillRect(64, 52, 8, 14)
-    fox.fillRect(86, 52, 8, 14)
-    fox.fillRect(98, 50, 7, 14)
-    fox.generateTexture("chase_fox", 140, 72)
-    fox.destroy()
+  if (scene.textures.exists("chase_fox")) {
+    scene.textures.remove("chase_fox")
+  }
+  const canvas = document.createElement("canvas")
+  canvas.width = 160
+  canvas.height = 96
+  const ctx = canvas.getContext("2d")
+  if (ctx) {
+    ctx.clearRect(0, 0, 160, 96)
+    const flame = (x: number, y: number, rx: number, ry: number, color: string) => {
+      ctx.fillStyle = color
+      ctx.beginPath()
+      ctx.ellipse(x, y, rx, ry, -0.4, 0, Math.PI * 2)
+      ctx.fill()
+    }
+    flame(28, 52, 26, 16, "#c42810")
+    flame(40, 48, 22, 14, "#ff5a12")
+    flame(54, 44, 16, 11, "#ff9a1a")
+    flame(66, 40, 11, 8, "#ffe066")
+    ctx.fillStyle = "#c45a2a"
+    ctx.beginPath()
+    ctx.ellipse(96, 58, 28, 18, 0, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = "#e8883c"
+    ctx.beginPath()
+    ctx.ellipse(100, 54, 24, 14, 0, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = "#fff4dc"
+    ctx.beginPath()
+    ctx.ellipse(108, 64, 10, 7, 0, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = "#df8b4c"
+    ctx.beginPath()
+    ctx.arc(128, 42, 18, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = "#c45a2a"
+    ctx.beginPath()
+    ctx.moveTo(118, 28)
+    ctx.lineTo(114, 8)
+    ctx.lineTo(130, 26)
+    ctx.closePath()
+    ctx.fill()
+    ctx.beginPath()
+    ctx.moveTo(132, 26)
+    ctx.lineTo(142, 6)
+    ctx.lineTo(146, 28)
+    ctx.closePath()
+    ctx.fill()
+    ctx.fillStyle = "#f2a35a"
+    ctx.beginPath()
+    ctx.moveTo(120, 26)
+    ctx.lineTo(118, 14)
+    ctx.lineTo(128, 26)
+    ctx.closePath()
+    ctx.fill()
+    ctx.beginPath()
+    ctx.moveTo(134, 25)
+    ctx.lineTo(141, 12)
+    ctx.lineTo(144, 26)
+    ctx.closePath()
+    ctx.fill()
+    ctx.fillStyle = "#f0c8a0"
+    ctx.beginPath()
+    ctx.ellipse(140, 46, 9, 6, 0.2, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = "#2a2010"
+    ctx.beginPath()
+    ctx.arc(134, 40, 2.6, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = "#3a2010"
+    ctx.beginPath()
+    ctx.moveTo(148, 46)
+    ctx.lineTo(159, 48)
+    ctx.lineTo(148, 51)
+    ctx.closePath()
+    ctx.fill()
+    ctx.fillStyle = "#a84820"
+    ctx.fillRect(84, 70, 8, 16)
+    ctx.fillRect(104, 70, 8, 16)
+    ctx.fillRect(118, 68, 7, 16)
+    scene.textures.addCanvas("chase_fox", canvas)
   }
 
   if (!scene.textures.exists("chase_ember")) {

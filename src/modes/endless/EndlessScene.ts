@@ -348,8 +348,8 @@ export class EndlessScene extends Phaser.Scene {
       .setOrigin(1, 0.5)
       .setDepth(20)
       .setScrollFactor(1)
-    this.chaseFox = this.add.image(0, 520, "chase_fox").setDepth(22)
-    this.chaseFox.setDisplaySize(118, 62)
+    this.chaseFox = this.add.image(0, 520, "chase_fox").setDepth(24)
+    this.chaseFox.setDisplaySize(150, 90)
 
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12)
     this.cameras.main.setDeadzone(120, 80)
@@ -697,7 +697,7 @@ export class EndlessScene extends Phaser.Scene {
     }
     const foxY = this.player.y + 6
     if (this.chaseFox) {
-      this.chaseFox.setPosition(this.chaseX - 28, foxY)
+      this.chaseFox.setPosition(this.chaseX + 42, foxY)
     }
     this.spawnEmbers(dt, foxY)
     const playerLeft = (this.player.body as Phaser.Physics.Arcade.Body).left
@@ -710,8 +710,8 @@ export class EndlessScene extends Phaser.Scene {
     this.emberTimer += dt
     while (this.emberTimer > 0.028) {
       this.emberTimer -= 0.028
-      const ember = this.add.image(this.chaseX - 70 - Math.random() * 24, foxY + (Math.random() - 0.4) * 28, "chase_ember")
-      ember.setDepth(21)
+      const ember = this.add.image(this.chaseX + 8 - Math.random() * 18, foxY + (Math.random() - 0.35) * 30, "chase_ember")
+      ember.setDepth(23)
       ember.setScale(0.7 + Math.random() * 0.8)
       this.embers.push({
         sprite: ember,
