@@ -79,6 +79,19 @@ JSON maps: obstacles, spawn points, safe zone, decorations. All four ids below s
 - Story: Tiled `.tmj` under `public/assets/tilemaps/`, assembled from chunk prefabs so Endless can reuse them
 - Chunk ids mirror environment kits (`chunk_meadow_a`, `chunk_bamboo_gap`, ...)
 
+## Endless environment schedule
+
+Endless reuses the environment kits, shifting by distance. Tuning lives in `src/data/endless.json`; chunks live in `src/data/chunks/endless/` named `endless_<env>_t<tier>_<a|b>` (plus `endless_start`), tiers 1 (gentle) to 5 (double jump + dash gaps).
+
+| Meters | Env | Notes |
+| --- | --- | --- |
+| 0–400 | meadow | Gentle steps, warm-up |
+| 400–800 | orchard | Wider gaps, patrols |
+| 800–1200 | bamboo | Pillars and wall-bounce shafts |
+| 1200–1700 | riverbank | Water spans bridged by drifting logs |
+| 1700–2200 | lantern | Glide enabled (hold jump) |
+| 2200+ | osmanthus | Peak; tier floor keeps rising |
+
 ## Day / night and weather
 
 Story levels lock time of day per world. Meadow can offer day and dusk variants. Weather (pollen, drizzle, blossom fall, lantern ash) is a system flag on the env kit, not a separate engine.

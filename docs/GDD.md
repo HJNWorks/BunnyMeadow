@@ -30,7 +30,7 @@ Reuse Meadow systems for the M2 set (canvas + maps + Spawner). No new engines. S
 
 ### Endless Meadow Run
 
-Infinite left-to-right runner from Story chunk prefabs. Rising difficulty. Local distance leaderboard only.
+Infinite left-to-right runner from Story chunk prefabs. Free player pace under a difficulty-scaled mist chase wall (Sprout: no chase pressure; other presets speed the wall up with distance). Environments shift over distance from meadow through orchard, bamboo, riverbank, lantern (glide), to osmanthus peak, then hold at the peak with the tier floor rising. Layouts stream from pre-authored, build-validated chunk tiers (`src/data/chunks/endless/`, gated by `scripts/check-endless-chunks.mjs`) so a run is never impossible. Falls and water cost a heart and respawn ahead of the wall. Local per-difficulty distance leaderboard only (`progress.endlessRuns`), no accounts. Carrots collected feed the pantry.
 
 ## Meta progression
 

@@ -8,7 +8,8 @@
     "dev": "vite",
     "check:path": "node scripts/check-path-layout.mjs",
     "check:jumps": "node scripts/check-jump-reach.mjs",
-    "build": "npm run check:path && npm run check:jumps && tsc --noEmit && vite build",
+    "check:endless": "node scripts/check-endless-chunks.mjs",
+    "build": "npm run check:path && npm run check:jumps && npm run check:endless && tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

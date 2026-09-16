@@ -46,6 +46,23 @@ export type ChunkHazard = ChunkRect & {
   current?: number
 }
 
+export type ChunkCarrot = { x: number; y: number }
+
+export type EndlessEnv =
+  | "meadow"
+  | "orchard"
+  | "bamboo"
+  | "riverbank"
+  | "lantern"
+  | "osmanthus"
+
+export type ChunkEndlessMeta = {
+  env: EndlessEnv
+  tier: number
+  entryY: number
+  exitY: number
+}
+
 export type ChunkDef = {
   id: string
   width: number
@@ -56,6 +73,8 @@ export type ChunkDef = {
   enemies: ChunkEnemySpawn[]
   movers?: ChunkMover[]
   hazards?: ChunkHazard[]
+  carrots?: ChunkCarrot[]
+  endless?: ChunkEndlessMeta
   color: string
 }
 
@@ -67,6 +86,8 @@ export type AssembledMover = ChunkMover & { worldX: number; worldY: number }
 
 export type AssembledHazard = ChunkHazard & { worldX: number; worldY: number }
 
+export type AssembledCarrot = ChunkCarrot & { worldX: number; worldY: number }
+
 export type AssembledLevel = {
   width: number
   height: number
@@ -75,6 +96,7 @@ export type AssembledLevel = {
   enemies: AssembledEnemy[]
   movers: AssembledMover[]
   hazards: AssembledHazard[]
+  carrots: AssembledCarrot[]
   chunkOrigins: number[]
   colors: { x: number; width: number; color: string }[]
 }
@@ -111,6 +133,20 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_moon_b: chunkMoonB as ChunkDef,
 }
 
+const endlessModules = import.meta.glob<{ default: ChunkDef }>(
+  "../data/chunks/endless/*.json",
+  { eager: true },
+)
+
+export const ENDLESS_CHUNKS: ChunkDef[] = []
+for (const mod of Object.values(endlessModules)) {
+  const def = mod.default
+  REGISTRY[def.id] = def
+  if (def.endless) {
+    ENDLESS_CHUNKS.push(def)
+  }
+}
+
 export class ChunkAssembler {
   getChunk(id: ChunkId): ChunkDef | undefined {
     return REGISTRY[id]
@@ -121,6 +157,7 @@ export class ChunkAssembler {
     const enemies: AssembledEnemy[] = []
     const movers: AssembledMover[] = []
     const hazards: AssembledHazard[] = []
+    const carrots: AssembledCarrot[] = []
     const chunkOrigins: number[] = []
     const colors: { x: number; width: number; color: string }[] = []
     let x = 0
@@ -163,6 +200,13 @@ export class ChunkAssembler {
           worldY: h.y,
         })
       }
+      for (const c of chunk.carrots ?? []) {
+        carrots.push({
+          ...c,
+          worldX: x + c.x,
+          worldY: c.y,
+        })
+      }
       x += chunk.width
     }
 
@@ -174,6 +218,7 @@ export class ChunkAssembler {
       enemies,
       movers,
       hazards,
+      carrots,
       chunkOrigins,
       colors,
     }

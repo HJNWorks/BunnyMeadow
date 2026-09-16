@@ -3,7 +3,7 @@
   "tasks": true,
   "storyWorld1": true,
   "storyFull": true,
-  "endless": false,
+  "endless": true,
   "webFullStory": true,
   "storyMapArt": true
 }

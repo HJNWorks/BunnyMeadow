@@ -18,7 +18,8 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | M2 Moon Tasks (Night Watch + Hide and Seek) | done |
 | M3 Story World 1 vertical slice | done |
 | M4 Story content complete | done |
-| M5–M8 | not started; next = M5 Endless / audio / i18n |
+| M5 Endless mode | done (audio assets + i18n fill still open) |
+| M6–M8 | not started |
 
 ## Done
 
@@ -68,7 +69,7 @@ Later milestones must not invent a second version of these. M1 created them (fil
 | Story | play | live (Phaser side-scroll full story) |
 | TaskSelect | menu HTML | live (Night Watch, Hide and Seek) |
 | TaskRun | play | live (canvas TaskRuntime) |
-| Endless | play | stub scene |
+| Endless | play | live (chunk-streamed runner with chase wall) |
 | Pause | overlay HTML | registered stub; Meadow and Tasks use inline pause cards (shared Pause scene unused) |
 | DialogueOverlay | overlay HTML | live (two-line card; Moon Pool lines) |
 | Result | menu HTML | stub shell for post-level |
@@ -85,7 +86,7 @@ Missing routes are forbidden. Locked or unfinished modes still navigate to a stu
 | `tasks` | Moon Tasks selectable | true |
 | `storyWorld1` | Story W1 on web | true |
 | `storyFull` | Worlds 2–3 + finale | true (web after M4) |
-| `endless` | Endless selectable | false until M5 |
+| `endless` | Endless selectable | true (M5) |
 | `webFullStory` | Ship full story on web | true (M4) |
 
 Mode Select reads flags. It never hard-codes “delete Story for Steam”.
@@ -214,11 +215,13 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 **Goal:** Endless on ChunkAssembler; shippable feel on web.
 
-**Fills:** EndlessScene body; music/sfx hooked to audio bus; DE/ZH-Hans string fill; polish. Set `contentFlags.endless` true.
+**Filled (Endless):** shared side-scroll kit extracted to `src/modes/story/shared/` (playerController, enemyKit, moversHazards, storyTextures) and reused by Story and Endless; endless chunk contract (`endless` metadata + `carrots`) on `ChunkDef`; glob-registered `src/data/chunks/endless/*.json` (35 tiered chunks) with `scripts/check-endless-chunks.mjs` in the build; seeded `EndlessGenerator` + `src/data/endless.json` (env schedule + per-difficulty chase/tier tuning); `EndlessScene` lobby (difficulty chips + local leaderboard), streaming segments, difficulty-scaled chase wall, hearts/respawn, lantern glide, carrots to pantry; `progress.endlessRuns` per preset in save/migrate; `contentFlags.endless` true.
+
+**Still open:** music/sfx assets on the audio bus; DE/ZH-Hans string fill; broader polish.
 
 **Must not reinvent:** ChunkAssembler, audio bus API, i18n `t()`.
 
-**Exit criteria:** Endless distance saves to `endlessBest`; language switch updates menus; `ENDLESS_1K` possible.
+**Exit criteria:** Endless distance saves to `endlessBest` (met); `ENDLESS_1K` at 1000 m (met); language switch updates menus (existing).
 
 ### M6 — Desktop shell
 
@@ -254,4 +257,4 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 ## Suggested next coding session
 
-Full story path is clearable through Guanghan. Next: Endless on ChunkAssembler, audio assets, i18n fill (M5). Steamworks registration stays parallel.
+Endless is live (chunk-streamed runner with a chase wall and local leaderboard). Next: audio assets on the bus and DE/ZH-Hans string fill to close M5, then M6 desktop shell. Steamworks registration stays parallel.

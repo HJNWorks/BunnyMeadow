@@ -13,7 +13,8 @@ import { TaskRunScene } from "./modes/tasks/TaskRunScene"
 import { WorldMapScene } from "./modes/story/WorldMapScene"
 import { StoryScene } from "./modes/story/StoryScene"
 import { DialogueOverlayScene } from "./scenes/DialogueOverlayScene"
-import { EndlessScene, ResultScene, PauseScene } from "./scenes/stubs"
+import { EndlessScene } from "./modes/endless/EndlessScene"
+import { ResultScene, PauseScene } from "./scenes/stubs"
 
 initPlatform()
 

@@ -1,0 +1,58 @@
+{
+  "meterPerPx": 24,
+  "envSchedule": [
+    { "env": "meadow", "untilM": 400, "sky": "#c5d48a", "name": "Meadow" },
+    { "env": "orchard", "untilM": 800, "sky": "#b8c47a", "name": "Orchard" },
+    { "env": "bamboo", "untilM": 1200, "sky": "#5f7a52", "name": "Bamboo Grove" },
+    { "env": "riverbank", "untilM": 1700, "sky": "#6b94a0", "name": "Riverbank" },
+    { "env": "lantern", "untilM": 2200, "sky": "#3d4560", "name": "Lantern Village" },
+    { "env": "osmanthus", "untilM": 100000, "sky": "#40364a", "name": "Osmanthus Peak" }
+  ],
+  "difficulty": {
+    "sprout": {
+      "chaseSpeed": 0,
+      "chaseRampPer100m": 0,
+      "chaseMaxBehind": 1000,
+      "startTier": 1,
+      "tierRampMeters": 500,
+      "breatherEvery": 4,
+      "carrotChance": 0.85
+    },
+    "hopper": {
+      "chaseSpeed": 70,
+      "chaseRampPer100m": 6,
+      "chaseMaxBehind": 780,
+      "startTier": 1,
+      "tierRampMeters": 380,
+      "breatherEvery": 5,
+      "carrotChance": 0.6
+    },
+    "wildhare": {
+      "chaseSpeed": 95,
+      "chaseRampPer100m": 8,
+      "chaseMaxBehind": 700,
+      "startTier": 2,
+      "tierRampMeters": 320,
+      "breatherEvery": 6,
+      "carrotChance": 0.5
+    },
+    "moonlit": {
+      "chaseSpeed": 120,
+      "chaseRampPer100m": 10,
+      "chaseMaxBehind": 620,
+      "startTier": 2,
+      "tierRampMeters": 260,
+      "breatherEvery": 7,
+      "carrotChance": 0.4
+    },
+    "hardcore": {
+      "chaseSpeed": 150,
+      "chaseRampPer100m": 12,
+      "chaseMaxBehind": 540,
+      "startTier": 3,
+      "tierRampMeters": 220,
+      "breatherEvery": 8,
+      "carrotChance": 0.3
+    }
+  }
+}

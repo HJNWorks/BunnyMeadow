@@ -35,7 +35,7 @@ StoryBeat panel sits above WorldMap for World 0 stations
 | Story | play | live (full story side-scroll through Guanghan) |
 | TaskSelect | menu | live (M2: Night Watch, Hide and Seek) |
 | TaskRun | play | live (M2 TaskRuntime) |
-| Endless | play | stub until M5 |
+| Endless | play | live (M5: chunk-streamed runner, chase wall, local leaderboard) |
 | Pause | overlay | stub registered; Meadow/Tasks use inline pause until shared Pause lands |
 | DialogueOverlay | overlay | live (Moon Pool / two-line) |
 | Result | menu | stub shell until modes need it |
@@ -156,7 +156,7 @@ Migration: `migrateSave(raw) -> SaveV1`. Bump `version` and add a branch per old
 
 World Map: SVG ink-brush path with expand/collapse world nodes. One world rail open at a time. W0 stations open a DomShell beat panel. Level stations start Story. Badges show cleared/total per world (3/3 when bosses are done; moon when unlocked).
 
-Fields reserved for later milestones (must exist from M1): `progress.story.*`, `tasksCompleted`, `endlessBest`.
+Fields reserved for later milestones (must exist from M1): `progress.story.*`, `tasksCompleted`, `endlessBest`. M5 adds `progress.endlessRuns` (per-difficulty top-10 `{ name, distance, seed, date }`), sanitized in `migrateSave`.
 
 ## Storage keys (web)
 

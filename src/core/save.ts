@@ -33,6 +33,13 @@ export type AccessibilitySettings = {
   oneButtonTouch: boolean
 }
 
+export type EndlessRun = {
+  name: string
+  distance: number
+  seed: number
+  date: string
+}
+
 export type SaveV1 = {
   version: 1
   slot: number
@@ -64,6 +71,7 @@ export type SaveV1 = {
     }
     tasksCompleted: string[]
     endlessBest: number
+    endlessRuns: Record<DifficultyId, EndlessRun[]>
     achievements: string[]
   }
 }
@@ -132,6 +140,13 @@ export function createDefaultSave(slot = 0): SaveV1 {
       },
       tasksCompleted: [],
       endlessBest: 0,
+      endlessRuns: {
+        sprout: [],
+        hopper: [],
+        wildhare: [],
+        moonlit: [],
+        hardcore: [],
+      },
       achievements: [],
     },
   }
@@ -206,6 +221,29 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
     }
     if (!Array.isArray(merged.progress.story.cleared)) {
       merged.progress.story.cleared = []
+    }
+    const presets: DifficultyId[] = ["sprout", "hopper", "wildhare", "moonlit", "hardcore"]
+    const rawRuns = isObject(merged.progress.endlessRuns)
+      ? (merged.progress.endlessRuns as Record<string, unknown>)
+      : {}
+    const runs = {} as Record<DifficultyId, EndlessRun[]>
+    for (const preset of presets) {
+      const list = Array.isArray(rawRuns[preset]) ? (rawRuns[preset] as unknown[]) : []
+      runs[preset] = list
+        .filter(
+          (entry): entry is EndlessRun =>
+            isObject(entry) &&
+            typeof entry.name === "string" &&
+            typeof entry.distance === "number" &&
+            typeof entry.seed === "number" &&
+            typeof entry.date === "string",
+        )
+        .sort((a, b) => b.distance - a.distance)
+        .slice(0, 10)
+    }
+    merged.progress.endlessRuns = runs
+    if (typeof merged.progress.endlessBest !== "number") {
+      merged.progress.endlessBest = 0
     }
     const cleared = merged.progress.story.cleared
     const hasW1Progress = cleared.some((id) => typeof id === "string" && id.startsWith("w1_"))

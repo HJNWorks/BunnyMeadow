@@ -1,0 +1,73 @@
+{
+  "id": "endless_riverbank_t3_b",
+  "width": 960,
+  "height": 1080,
+  "groundY": 980,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 980,
+      "w": 240,
+      "h": 100
+    },
+    {
+      "x": 720,
+      "y": 980,
+      "w": 240,
+      "h": 100
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "crow",
+      "x": 480,
+      "y": 560
+    }
+  ],
+  "movers": [
+    {
+      "x": 300,
+      "y": 900,
+      "w": 130,
+      "h": 28,
+      "axis": "y",
+      "amplitude": 55,
+      "speed": 1.2,
+      "tint": 10066176
+    },
+    {
+      "x": 520,
+      "y": 900,
+      "w": 130,
+      "h": 28,
+      "axis": "y",
+      "amplitude": 55,
+      "speed": 1.35,
+      "tint": 10066176
+    }
+  ],
+  "hazards": [
+    {
+      "x": 240,
+      "y": 1000,
+      "w": 480,
+      "h": 80,
+      "kind": "water",
+      "current": 30
+    }
+  ],
+  "carrots": [
+    {
+      "x": 380,
+      "y": 840
+    }
+  ],
+  "endless": {
+    "env": "riverbank",
+    "tier": 3,
+    "entryY": 980,
+    "exitY": 980
+  },
+  "color": "#6b94a0"
+}

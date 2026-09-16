@@ -6,9 +6,23 @@ import { getInput } from "../../core/input"
 import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
 import { getPlatform } from "../../core/platform"
-import { drawBunny } from "../../render/drawBunny"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
 import { ControlCoach, CONTROL_COACH_CSS, type CoachAction } from "../../ui/ControlCoach"
+import { ensureStoryTextures } from "./shared/storyTextures"
+import {
+  createPlayerState,
+  tickPlayerTimers,
+  updatePlayerMovement,
+  type PlayerState,
+} from "./shared/playerController"
+import { spawnEnemy, updateEnemies } from "./shared/enemyKit"
+import {
+  applyWaterPhysics,
+  createMovers,
+  createWaterHazards,
+  updateMovers,
+  type MoverState,
+} from "./shared/moversHazards"
 
 type Hud = {
   hearts: HTMLElement
@@ -30,15 +44,6 @@ type Hud = {
   epilogueContinue: HTMLButtonElement
 }
 
-type MoverState = {
-  sprite: Phaser.Physics.Arcade.Image
-  baseX: number
-  baseY: number
-  axis: "x" | "y"
-  amplitude: number
-  speed: number
-  phase: number
-}
 
 type RideState = {
   sprite: Phaser.Physics.Arcade.Image
@@ -168,13 +173,7 @@ export class StoryScene extends Phaser.Scene {
   private health = 3
   private maxHearts = 3
   private invuln = 0
-  private dashCooldown = 0
-  private dashTime = 0
-  private wallBounce = false
-  private glide = false
-  private facing = 1
-  private airJumps = 1
-  private maxAirJumps = 1
+  private playerState: PlayerState = createPlayerState()
   private checkpoint: { x: number; y: number } | null = null
   private poolClaimed = false
   private won = false
@@ -185,11 +184,9 @@ export class StoryScene extends Phaser.Scene {
   private coach: ControlCoach | null = null
   private leaving = false
   private movers: MoverState[] = []
-  private hazards: Phaser.GameObjects.Rectangle[] = []
   private ride: RideState | null = null
   private exitHintAt = 0
   private waterGrace = 0
-  private baseGravity = 1200
 
   constructor() {
     super("Story")
@@ -206,9 +203,10 @@ export class StoryScene extends Phaser.Scene {
       return
     }
     this.level = def
-    this.wallBounce = !!def.wallBounce
-    this.glide = !!def.glide
-    this.airJumps = this.maxAirJumps
+    this.playerState = createPlayerState({
+      wallBounce: !!def.wallBounce,
+      glide: !!def.glide,
+    })
     this.won = false
     this.lost = false
     this.paused = false
@@ -228,7 +226,6 @@ export class StoryScene extends Phaser.Scene {
     this.epilogueStep = 0
     this.leaving = false
     this.movers = []
-    this.hazards = []
     this.ride = null
     this.exitHintAt = 0
     this.waterGrace = 0
@@ -318,17 +315,17 @@ export class StoryScene extends Phaser.Scene {
     const assembler = new ChunkAssembler()
     const world = assembler.assemble(def.chunks)
     this.worldWidth = world.width
-    this.ensureStoryTextures()
+    ensureStoryTextures(this)
 
     const skyHex = def.sky ?? world.colors[0]?.color ?? "#c5d48a"
     const skyNum = Number.parseInt(skyHex.replace("#", ""), 16)
     this.cameras.main.setBounds(0, 0, world.width, 1080)
     this.cameras.main.setBackgroundColor(skyHex)
     this.physics.world.setBounds(0, -200, world.width, 1400, true, true, true, false)
-    this.baseGravity = this.physics.world.gravity.y || 1200
+    this.playerState.baseGravity = this.physics.world.gravity.y || 1200
     if (def.lowGravity) {
-      this.physics.world.gravity.y = this.baseGravity * 0.42
-      this.baseGravity = this.physics.world.gravity.y
+      this.physics.world.gravity.y = this.playerState.baseGravity * 0.42
+      this.playerState.baseGravity = this.physics.world.gravity.y
     }
 
     this.add.rectangle(world.width / 2, 540, world.width, 1080, skyNum).setDepth(-3)
@@ -398,51 +395,11 @@ export class StoryScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, this.platforms)
 
-    for (const mover of world.movers) {
-      const sprite = this.physics.add.image(
-        mover.worldX + mover.w / 2,
-        mover.worldY + mover.h / 2,
-        "story_log",
-      )
-      sprite.setDisplaySize(mover.w, mover.h)
-      sprite.setTint(mover.tint ?? 0x8b5a2b)
-      sprite.setDepth(3)
-      sprite.setImmovable(true)
-      const body = sprite.body as Phaser.Physics.Arcade.Body
-      body.setAllowGravity(false)
-      body.setGravity(0, 0)
-      body.setSize(sprite.frame.width, sprite.frame.height)
-      body.updateFromGameObject()
-      this.physics.add.collider(this.player, sprite)
-      this.movers.push({
-        sprite,
-        baseX: mover.worldX + mover.w / 2,
-        baseY: mover.worldY + mover.h / 2,
-        axis: mover.axis,
-        amplitude: mover.amplitude,
-        speed: mover.speed,
-        phase: Math.random() * Math.PI * 2,
-      })
-    }
+    this.movers = createMovers(this, world.movers, this.player)
 
-    for (const hazard of world.hazards) {
-      const water = this.add.rectangle(
-        hazard.worldX + hazard.w / 2,
-        hazard.worldY + hazard.h / 2,
-        hazard.w,
-        hazard.h,
-        0x4a90b8,
-        0.45,
-      )
-      water.setDepth(0.5)
-      water.setData("current", hazard.current ?? 0)
-      water.setData("kind", hazard.kind)
-      this.physics.add.existing(water, true)
-      this.hazards.push(water)
-      this.physics.add.overlap(this.player, water, () => {
-        this.onWater(water)
-      })
-    }
+    createWaterHazards(this, world.hazards, this.player, (water) => {
+      this.onWater(water)
+    })
 
     if (def.ride && def.ride.waypoints.length > 0) {
       const points = def.ride.waypoints.map((point) => assembler.worldPoint(world, point))
@@ -470,7 +427,7 @@ export class StoryScene extends Phaser.Scene {
     this.projectiles = this.physics.add.group()
 
     for (const e of world.enemies) {
-      this.spawnEnemy(e.id, e.worldX, e.worldY)
+      spawnEnemy(this, e.id, e.worldX, e.worldY, this.platforms, this.enemies)
     }
 
     const pool = assembler.worldPoint(world, def.moonPool)
@@ -499,7 +456,7 @@ export class StoryScene extends Phaser.Scene {
         return
       }
       if (arch === "foxhu") {
-        if (this.dashTime > 0) {
+        if (this.playerState.dashTime > 0) {
           this.tipFoxCart(body)
           return
         }
@@ -605,233 +562,6 @@ export class StoryScene extends Phaser.Scene {
     this.style = null
   }
 
-  private ensureStoryTextures(): void {
-    if (!this.textures.exists("story_bunny")) {
-      const g = this.make.graphics({ x: 0, y: 0 })
-      g.fillStyle(0xfffaf0, 1)
-      g.fillEllipse(20, 28, 36, 40)
-      g.fillStyle(0xf0c3b4, 1)
-      g.fillEllipse(8, 12, 12, 18)
-      g.fillEllipse(32, 12, 12, 18)
-      g.fillStyle(0xfffaf0, 1)
-      g.fillEllipse(8, 14, 8, 12)
-      g.fillEllipse(32, 14, 8, 12)
-      g.fillStyle(0xe8b3a6, 1)
-      g.fillEllipse(20, 34, 10, 8)
-      g.fillStyle(0x304c39, 1)
-      g.fillCircle(13, 24, 2.5)
-      g.fillCircle(27, 24, 2.5)
-      g.generateTexture("story_bunny", 40, 48)
-      g.destroy()
-    }
-
-    const save = getSave()
-    const playerKey = "story_player"
-    if (this.textures.exists(playerKey)) {
-      this.textures.remove(playerKey)
-    }
-    const canvas = document.createElement("canvas")
-    canvas.width = 64
-    canvas.height = 72
-    const ctx = canvas.getContext("2d")
-    if (ctx) {
-      drawBunny(ctx, 32, 40, {
-        fur: save.player.fur,
-        ears: save.player.ears,
-        accessory: save.player.accessory,
-      })
-      this.textures.addCanvas(playerKey, canvas)
-    }
-
-    if (!this.textures.exists("story_ground")) {
-      const dirt = this.make.graphics({ x: 0, y: 0 })
-      dirt.fillStyle(0x6a7540, 1)
-      dirt.fillRect(0, 0, 64, 64)
-      dirt.fillStyle(0x80924f, 1)
-      dirt.fillRect(0, 0, 64, 14)
-      dirt.fillStyle(0x556234, 1)
-      dirt.fillCircle(18, 30, 5)
-      dirt.fillCircle(44, 46, 4)
-      dirt.fillCircle(30, 52, 3)
-      dirt.generateTexture("story_ground", 64, 64)
-      dirt.destroy()
-    }
-
-    if (!this.textures.exists("story_hedge")) {
-      const hedge = this.make.graphics({ x: 0, y: 0 })
-      hedge.fillStyle(0x35532c, 1)
-      hedge.fillRect(8, 18, 24, 46)
-      hedge.fillStyle(0x4d6f3d, 1)
-      hedge.fillEllipse(20, 14, 36, 26)
-      hedge.fillEllipse(8, 30, 22, 20)
-      hedge.fillEllipse(32, 34, 24, 22)
-      hedge.fillStyle(0x6f8f52, 1)
-      hedge.fillEllipse(18, 10, 16, 12)
-      hedge.generateTexture("story_hedge", 40, 64)
-      hedge.destroy()
-    }
-
-    if (!this.textures.exists("story_exit")) {
-      const hole = this.make.graphics({ x: 0, y: 0 })
-      hole.fillStyle(0x5a4330, 1)
-      hole.fillEllipse(40, 52, 74, 50)
-      hole.fillStyle(0x241810, 1)
-      hole.fillEllipse(40, 54, 50, 34)
-      hole.fillStyle(0x7a6248, 1)
-      hole.fillEllipse(40, 40, 60, 18)
-      hole.generateTexture("story_exit", 80, 90)
-      hole.destroy()
-    }
-
-    if (!this.textures.exists("story_pool")) {
-      const poolGfx = this.make.graphics({ x: 0, y: 0 })
-      poolGfx.fillStyle(0x5fb4d6, 1)
-      poolGfx.fillEllipse(40, 20, 74, 30)
-      poolGfx.fillStyle(0x9fdcf0, 0.8)
-      poolGfx.fillEllipse(40, 16, 54, 16)
-      poolGfx.fillStyle(0xe8f8ff, 0.7)
-      poolGfx.fillEllipse(28, 14, 18, 8)
-      poolGfx.generateTexture("story_pool", 80, 36)
-      poolGfx.destroy()
-    }
-
-    if (!this.textures.exists("story_crow")) {
-      const crow = this.make.graphics({ x: 0, y: 0 })
-      crow.fillStyle(0x2a2a32, 1)
-      crow.fillEllipse(18, 18, 28, 18)
-      crow.fillTriangle(4, 16, 0, 12, 8, 14)
-      crow.fillStyle(0xf2f2f2, 1)
-      crow.fillCircle(22, 14, 2)
-      crow.generateTexture("story_crow", 36, 28)
-      crow.destroy()
-    }
-
-    if (!this.textures.exists("story_log")) {
-      const log = this.make.graphics({ x: 0, y: 0 })
-      log.fillStyle(0x8b5a2b, 1)
-      log.fillRoundedRect(0, 4, 64, 24, 10)
-      log.fillStyle(0xa8733a, 1)
-      log.fillRoundedRect(4, 8, 56, 10, 6)
-      log.generateTexture("story_log", 64, 32)
-      log.destroy()
-    }
-
-    if (!this.textures.exists("story_tiger")) {
-      const tiger = this.make.graphics({ x: 0, y: 0 })
-      tiger.fillStyle(0xe2953a, 1)
-      tiger.fillRoundedRect(18, 14, 70, 26, 10)
-      tiger.fillStyle(0x2a2010, 1)
-      tiger.fillRect(34, 16, 5, 22)
-      tiger.fillRect(50, 16, 5, 22)
-      tiger.fillRect(66, 16, 5, 22)
-      tiger.fillStyle(0xe8a84a, 1)
-      tiger.fillCircle(22, 18, 14)
-      tiger.fillStyle(0xd48430, 1)
-      tiger.fillEllipse(14, 6, 7, 10)
-      tiger.fillEllipse(28, 6, 7, 10)
-      tiger.fillStyle(0xf0b868, 1)
-      tiger.fillEllipse(14, 7, 3, 5)
-      tiger.fillEllipse(28, 7, 3, 5)
-      tiger.fillStyle(0x2a2010, 1)
-      tiger.fillCircle(16, 16, 2)
-      tiger.fillStyle(0xc45a2a, 1)
-      tiger.fillTriangle(6, 20, 0, 22, 8, 24)
-      tiger.fillStyle(0xd48430, 1)
-      tiger.fillRect(28, 38, 8, 8)
-      tiger.fillRect(58, 38, 8, 8)
-      tiger.fillRect(74, 38, 8, 8)
-      tiger.generateTexture("story_tiger", 100, 48)
-      tiger.destroy()
-    }
-
-    if (!this.textures.exists("story_cart")) {
-      const cart = this.make.graphics({ x: 0, y: 0 })
-      cart.fillStyle(0x8b5a2b, 1)
-      cart.fillRoundedRect(4, 16, 90, 28, 6)
-      cart.fillStyle(0xdf8b4c, 1)
-      cart.fillEllipse(70, 14, 28, 22)
-      cart.fillStyle(0xf2a35a, 1)
-      cart.fillCircle(18, 48, 10)
-      cart.fillCircle(78, 48, 10)
-      cart.fillStyle(0xe07030, 1)
-      cart.fillCircle(62, 10, 4)
-      cart.generateTexture("story_cart", 100, 60)
-      cart.destroy()
-    }
-
-    if (!this.textures.exists("story_heron")) {
-      const heron = this.make.graphics({ x: 0, y: 0 })
-      heron.fillStyle(0xd8e0e8, 1)
-      heron.fillEllipse(24, 36, 28, 40)
-      heron.fillStyle(0xb0bcc8, 1)
-      heron.fillTriangle(24, 8, 18, 28, 30, 28)
-      heron.fillStyle(0xe8a040, 1)
-      heron.fillTriangle(24, 6, 40, 10, 24, 14)
-      heron.fillStyle(0x304050, 1)
-      heron.fillCircle(28, 22, 2)
-      heron.generateTexture("story_heron", 48, 64)
-      heron.destroy()
-    }
-
-    if (!this.textures.exists("story_crane")) {
-      const crane = this.make.graphics({ x: 0, y: 0 })
-      crane.fillStyle(0xf4f6f8, 1)
-      crane.fillEllipse(36, 28, 48, 26)
-      crane.fillStyle(0xe8ecf0, 1)
-      crane.fillTriangle(10, 28, 0, 18, 16, 22)
-      crane.fillTriangle(62, 28, 72, 18, 56, 22)
-      crane.fillStyle(0xc04040, 1)
-      crane.fillCircle(48, 24, 3)
-      crane.fillStyle(0x304050, 1)
-      crane.fillCircle(42, 22, 2)
-      crane.generateTexture("story_crane", 72, 48)
-      crane.destroy()
-    }
-  }
-
-  private spawnEnemy(id: string, x: number, y: number): void {
-    const texture = id === "crow" ? "story_crow" : "story_bunny"
-    const sprite = this.physics.add.sprite(x, y, texture)
-    sprite.setDisplaySize(id === "crow" ? 36 : 36, id === "crow" ? 28 : 36)
-    if (id === "fox") {
-      sprite.setTint(0xdf8b4c)
-      sprite.setData("archetype", "chaser")
-      sprite.setData("speed", 90)
-    } else if (id === "crow") {
-      sprite.setData("archetype", "ranged_lob")
-      sprite.setData("speed", 40)
-      sprite.setData("cooldown", 0)
-      ;(sprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
-    } else {
-      sprite.setTint(0xa8845c)
-      sprite.setData("archetype", "patrol")
-      sprite.setData("speed", 45)
-      sprite.setData("dir", 1)
-    }
-    sprite.setCollideWorldBounds(true)
-    this.physics.add.collider(sprite, this.platforms)
-    this.enemies.add(sprite)
-  }
-
-  private patrolHasFloorAhead(enemy: Phaser.Physics.Arcade.Sprite, dir: number): boolean {
-    const body = enemy.body as Phaser.Physics.Arcade.Body
-    const probeX = dir > 0 ? body.right + 6 : body.left - 6
-    const probeY = body.bottom + 6
-    for (const obj of this.platforms.getChildren()) {
-      const plat = obj as Phaser.GameObjects.GameObject & {
-        body?: Phaser.Physics.Arcade.StaticBody
-      }
-      const pb = plat.body
-      if (!pb) {
-        continue
-      }
-      if (probeX >= pb.left && probeX <= pb.right && probeY >= pb.top && probeY <= pb.bottom + 8) {
-        return true
-      }
-    }
-    return false
-  }
-
   private nearestRidePathPoint(x: number, y: number): { x: number; y: number } {
     if (!this.ride || this.ride.points.length === 0) {
       return { x, y }
@@ -928,7 +658,7 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private hurt(): void {
-    if (this.invuln > 0 || this.invincible || this.won || this.lost || this.dashTime > 0) {
+    if (this.invuln > 0 || this.invincible || this.won || this.lost || this.playerState.dashTime > 0) {
       return
     }
     this.health -= 1
@@ -993,17 +723,8 @@ export class StoryScene extends Phaser.Scene {
     if (this.won || this.lost) {
       return
     }
-    const body = this.player.body as Phaser.Physics.Arcade.Body
-    if (body.blocked.down || body.touching.down) {
-      return
-    }
-    const current = Number(water.getData("current") || 0)
-    if (current !== 0) {
-      body.velocity.x += current * 0.04
-    }
-    body.velocity.y = Math.min(body.velocity.y, 120)
-    const bounds = water.getBounds()
-    if (this.player.y > bounds.centerY + 10) {
+    const belowSurface = applyWaterPhysics(this.player, water)
+    if (belowSurface) {
       this.waterGrace += 0.016
       if (this.waterGrace > 0.35) {
         this.waterGrace = 0
@@ -1058,7 +779,7 @@ export class StoryScene extends Phaser.Scene {
     if (this.bossSprite.getData("archetype") === "heron_done") {
       return
     }
-    if (this.dashTime <= 0) {
+    if (this.playerState.dashTime <= 0) {
       if (this.bossCooldown <= 0) {
         this.bossCooldown = 0.85
         this.hurt()
@@ -1105,7 +826,7 @@ export class StoryScene extends Phaser.Scene {
       this.bossSprite.y = Phaser.Math.Clamp(this.bossSprite.y, 520, 920)
       body.updateFromGameObject()
       if (
-        this.dashTime > 0 &&
+        this.playerState.dashTime > 0 &&
         this.bossCooldown <= 0 &&
         Math.abs(this.player.x - this.bossSprite.x) < 90 &&
         Math.abs(this.player.y - this.bossSprite.y) < 100
@@ -1130,7 +851,7 @@ export class StoryScene extends Phaser.Scene {
     } else if (this.bossCooldown > 0 && this.diveLine?.visible) {
       this.bossSprite.setVelocityY(480)
       if (this.bossSprite.y >= this.player.y - 20) {
-        if (Math.abs(this.bossSprite.x - this.player.x) < 55 && this.dashTime <= 0) {
+        if (Math.abs(this.bossSprite.x - this.player.x) < 55 && this.playerState.dashTime <= 0) {
           this.hurt()
         }
         this.diveLine.setVisible(false)
@@ -1284,31 +1005,11 @@ export class StoryScene extends Phaser.Scene {
     }
     const dt = delta / 1000
     this.invuln = Math.max(0, this.invuln - dt)
-    this.dashCooldown = Math.max(0, this.dashCooldown - dt)
-    this.dashTime = Math.max(0, this.dashTime - dt)
+    tickPlayerTimers(this.playerState, dt)
     this.waterGrace = Math.max(0, this.waterGrace - dt * 0.5)
     this.updateBoss(dt)
 
-    for (const mover of this.movers) {
-      mover.phase += dt * mover.speed
-      const offset = Math.sin(mover.phase) * mover.amplitude
-      const nextX = mover.axis === "x" ? mover.baseX + offset : mover.baseX
-      const nextY = mover.axis === "y" ? mover.baseY + offset : mover.baseY
-      const dx = nextX - mover.sprite.x
-      const dy = nextY - mover.sprite.y
-      mover.sprite.setPosition(nextX, nextY)
-      ;(mover.sprite.body as Phaser.Physics.Arcade.Body).updateFromGameObject()
-      const body = this.player.body as Phaser.Physics.Arcade.Body
-      if (body.blocked.down || body.touching.down) {
-        const onMover =
-          Math.abs(this.player.x - mover.sprite.x) < mover.sprite.displayWidth * 0.55 &&
-          Math.abs(this.player.y - (mover.sprite.y - mover.sprite.displayHeight * 0.5)) < 40
-        if (onMover) {
-          this.player.x += dx
-          this.player.y += dy
-        }
-      }
-    }
+    updateMovers(this.movers, this.player, dt)
 
     if (this.ride) {
       this.updateTigerRide(dt)
@@ -1345,87 +1046,8 @@ export class StoryScene extends Phaser.Scene {
       return
     }
 
-    const body = this.player.body as Phaser.Physics.Arcade.Body
-    const onFloor = body.blocked.down || body.touching.down
-    if (onFloor) {
-      this.airJumps = this.maxAirJumps
-    }
-    let vx = input.moveX * (this.dashTime > 0 ? 480 : 260)
-    if (input.moveX) {
-      this.facing = input.moveX > 0 ? 1 : -1
-    }
+    updatePlayerMovement(this.player, input, this.playerState)
 
-    if (this.glide && !onFloor && input.jumpHeld && body.velocity.y > 0) {
-      body.setGravityY(this.baseGravity * 0.22)
-      body.velocity.y = Math.min(body.velocity.y, 90)
-    } else {
-      body.setGravityY(this.baseGravity)
-    }
-
-    if (this.wallBounce && (body.blocked.left || body.blocked.right) && !onFloor && input.jumpPressed) {
-      const push = body.blocked.left ? 1 : -1
-      this.player.setVelocityY(-520)
-      this.player.setVelocityX(push * 340)
-      this.facing = push
-      this.airJumps = this.maxAirJumps
-    } else if (input.jumpPressed && onFloor) {
-      this.player.setVelocityY(-720)
-      this.airJumps = this.maxAirJumps
-    } else if (input.jumpPressed && !onFloor && this.airJumps > 0) {
-      this.airJumps -= 1
-      this.player.setVelocityY(-640)
-    }
-
-    if (input.dashPressed && this.dashCooldown <= 0) {
-      this.dashTime = 0.16
-      this.dashCooldown = getDifficulty(getSave()).dashCooldown * 0.7
-    }
-
-    if (this.dashTime > 0) {
-      this.player.setVelocityX(this.facing * 520)
-    } else {
-      this.player.setVelocityX(vx)
-    }
-
-    this.enemies.getChildren().forEach((obj) => {
-      const enemy = obj as Phaser.Physics.Arcade.Sprite
-      if (!enemy.active || !enemy.body) {
-        return
-      }
-      const arch = enemy.getData("archetype") as string
-      const speed = Number(enemy.getData("speed") || 40)
-      if (arch === "patrol") {
-        let dir = Number(enemy.getData("dir") || 1)
-        const body = enemy.body as Phaser.Physics.Arcade.Body
-        const onFloor = body.blocked.down || body.touching.down
-        if (body.blocked.left || body.blocked.right || (onFloor && !this.patrolHasFloorAhead(enemy, dir))) {
-          dir *= -1
-          enemy.setData("dir", dir)
-        }
-        enemy.setVelocityX(dir * speed)
-      } else if (arch === "chaser" || arch === "foxhu") {
-        const dx = this.player.x - enemy.x
-        enemy.setVelocityX(Math.sign(dx) * speed)
-        if (arch === "foxhu") {
-          enemy.setVelocityX(speed)
-        }
-      } else if (arch === "ranged_lob") {
-        let cd = Number(enemy.getData("cooldown") || 0) - dt
-        if (cd <= 0 && Math.abs(this.player.x - enemy.x) < 420) {
-          const shot = this.physics.add.image(enemy.x, enemy.y, "story_bunny")
-          shot.setDisplaySize(14, 14)
-          shot.setTint(0x4a3a2a)
-          const dx = this.player.x - enemy.x
-          const dy = this.player.y - enemy.y
-          const n = Math.hypot(dx, dy) || 1
-          shot.setVelocity((dx / n) * 220, (dy / n) * 180 - 80)
-          this.projectiles.add(shot)
-          this.time.delayedCall(2000, () => shot.destroy())
-          cd = 1.8
-        }
-        enemy.setData("cooldown", cd)
-        enemy.setVelocityX(0)
-      }
-    })
+    updateEnemies(this, this.enemies, this.projectiles, this.platforms, this.player, dt)
   }
 }
