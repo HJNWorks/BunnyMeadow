@@ -330,10 +330,16 @@ export class StoryScene extends Phaser.Scene {
     }
 
     this.add.rectangle(world.width / 2, 540, world.width, 1080, skyNum).setDepth(-3)
-    this.add.rectangle(world.width / 2, 200, world.width, 220, 0xeaf3c8, 0.18).setDepth(-2)
-    for (let i = 0; i < Math.ceil(world.width / 280); i += 1) {
-      const cx = 140 + i * 280
-      this.add.ellipse(cx, 130 + (i % 2) * 28, 120, 36, 0xf4f7e8, 0.28).setDepth(-1)
+    const skyR = (skyNum >> 16) & 0xff
+    const skyG = (skyNum >> 8) & 0xff
+    const skyB = skyNum & 0xff
+    const skyBright = (skyR + skyG + skyB) / 3
+    if (skyBright >= 110) {
+      this.add.rectangle(world.width / 2, 200, world.width, 220, 0xeaf3c8, 0.18).setDepth(-2)
+      for (let i = 0; i < Math.ceil(world.width / 280); i += 1) {
+        const cx = 140 + i * 280
+        this.add.ellipse(cx, 130 + (i % 2) * 28, 120, 36, 0xf4f7e8, 0.28).setDepth(-1)
+      }
     }
 
     this.platforms = this.physics.add.staticGroup()
