@@ -799,6 +799,25 @@ export class StoryScene extends Phaser.Scene {
     this.enemies.add(sprite)
   }
 
+  private patrolHasFloorAhead(enemy: Phaser.Physics.Arcade.Sprite, dir: number): boolean {
+    const body = enemy.body as Phaser.Physics.Arcade.Body
+    const probeX = dir > 0 ? body.right + 6 : body.left - 6
+    const probeY = body.bottom + 6
+    for (const obj of this.platforms.getChildren()) {
+      const plat = obj as Phaser.GameObjects.GameObject & {
+        body?: Phaser.Physics.Arcade.StaticBody
+      }
+      const pb = plat.body
+      if (!pb) {
+        continue
+      }
+      if (probeX >= pb.left && probeX <= pb.right && probeY >= pb.top && probeY <= pb.bottom + 8) {
+        return true
+      }
+    }
+    return false
+  }
+
   private syncHearts(): void {
     const empty = Math.max(0, this.maxHearts - this.health)
     this.hud.hearts.textContent = `${"♥ ".repeat(this.health)}${"♡ ".repeat(empty)}`.trim()
@@ -1306,11 +1325,13 @@ export class StoryScene extends Phaser.Scene {
       const speed = Number(enemy.getData("speed") || 40)
       if (arch === "patrol") {
         let dir = Number(enemy.getData("dir") || 1)
-        enemy.setVelocityX(dir * speed)
-        if (enemy.body.blocked.left || enemy.body.blocked.right) {
+        const body = enemy.body as Phaser.Physics.Arcade.Body
+        const onFloor = body.blocked.down || body.touching.down
+        if (body.blocked.left || body.blocked.right || (onFloor && !this.patrolHasFloorAhead(enemy, dir))) {
           dir *= -1
           enemy.setData("dir", dir)
         }
+        enemy.setVelocityX(dir * speed)
       } else if (arch === "chaser" || arch === "foxhu") {
         const dx = this.player.x - enemy.x
         enemy.setVelocityX(Math.sign(dx) * speed)
