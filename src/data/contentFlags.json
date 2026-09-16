@@ -4,5 +4,6 @@
   "storyWorld1": true,
   "storyFull": true,
   "endless": false,
-  "webFullStory": true
+  "webFullStory": true,
+  "storyMapArt": true
 }

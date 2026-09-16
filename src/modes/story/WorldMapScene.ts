@@ -1,4 +1,5 @@
 import Phaser from "phaser"
+import { getContentFlags } from "../../core/ModeContext"
 import { getSave, persistSave } from "../../core/session"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
 import { buildInkBrushSvg, inkProgressForWorlds } from "../../ui/inkBrushPath"
@@ -11,12 +12,15 @@ import {
   listStations,
   listWorlds,
   worldClearCount,
+  type StoryPathLayout,
   type StoryStation,
   type StoryWorldId,
 } from "./path"
 
+const MAP_LAYOUT_KEY = "bunnymeadow.storyMapLayout"
+
 const PATH_CSS = `
-.story-path-shell { max-width: 980px; }
+.story-path-shell { max-width: 1100px; }
 .story-path-frame {
   position: relative;
   margin-top: 18px;
@@ -28,7 +32,18 @@ const PATH_CSS = `
     linear-gradient(160deg, #e7f0c8 0%, #d5e3a8 42%, #c5d48a 100%);
   min-height: 420px;
 }
+.story-path-frame.is-art {
+  aspect-ratio: 1672 / 941;
+  min-height: 0;
+  border-color: #3d456088;
+  background-color: #1a2233;
+  background-image: var(--story-map-art);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .story-path-svg, .story-ink-svg { width: 100%; height: 420px; display: block; }
+.story-path-frame.is-art .story-ink-svg { display: none; }
 .story-ink-drawn .story-ink-stroke {
   stroke-dasharray: 1200;
   stroke-dashoffset: 1200;
@@ -65,15 +80,30 @@ const PATH_CSS = `
   box-shadow: 0 8px 18px #2a3d2418;
   z-index: 2;
 }
+.story-path-frame.is-art .story-path-node {
+  min-width: 96px;
+  max-width: 124px;
+  padding: 7px 9px;
+  border-radius: 14px;
+  background: #fffaf0f5;
+  box-shadow: 0 6px 16px #14203355;
+}
+.story-path-frame.is-art .story-path-node strong { font-size: 12px; }
+.story-path-frame.is-art .story-path-node span { font-size: 10px; }
+.story-path-frame.is-art .story-path-node .story-path-badge { font-size: 9px; margin-top: 4px; }
 .story-path-node strong { display:block; font-size: 14px; margin-bottom: 2px; }
 .story-path-node span { display:block; font-size: 11px; color: #71816e; line-height: 1.3; }
 .story-path-node .story-path-badge {
   display:inline-block; margin-top:6px; font-size:10px; font-weight:700;
   letter-spacing:0.04em; text-transform:uppercase; color:#34583e;
 }
-.story-path-node.is-soon { opacity: 0.62; cursor: default; }
+.story-path-node.is-soon { opacity: 0.72; cursor: default; }
 .story-path-node.is-locked { opacity: 0.72; }
 .story-path-node.is-open { border-color: #34583e; box-shadow: 0 0 0 2px #34583e33; }
+.story-path-frame.is-art .story-path-node.is-open {
+  border-color: #f0c35a;
+  box-shadow: 0 0 0 2px #f0c35a66;
+}
 .story-path-rail {
   margin-top: 16px;
   display: grid;
@@ -112,9 +142,28 @@ const PATH_CSS = `
 .story-path-dev { margin-left: auto; opacity: 0.72; font-size: 12px; }
 `
 
+function readLayoutPreference(fallback: StoryPathLayout): StoryPathLayout {
+  try {
+    const raw = sessionStorage.getItem(MAP_LAYOUT_KEY)
+    if (raw === "ink" || raw === "art") {
+      return raw
+    }
+  } catch {
+  }
+  return fallback
+}
+
+function writeLayoutPreference(layout: StoryPathLayout): void {
+  try {
+    sessionStorage.setItem(MAP_LAYOUT_KEY, layout)
+  } catch {
+  }
+}
+
 export class WorldMapScene extends Phaser.Scene {
   private expanded: StoryWorldId = "w0"
   private beatRoot: HTMLElement | null = null
+  private layout: StoryPathLayout = "ink"
 
   constructor() {
     super("WorldMap")
@@ -122,9 +171,12 @@ export class WorldMapScene extends Phaser.Scene {
 
   create(): void {
     const save = getSave()
+    const flags = getContentFlags()
+    const defaultLayout: StoryPathLayout = flags.storyMapArt ? "art" : "ink"
+    this.layout = flags.storyMapArt ? readLayoutPreference(defaultLayout) : "ink"
     this.expanded = defaultExpandedWorld(save)
 
-    const worlds = listWorlds()
+    const worlds = listWorlds(this.layout)
     const inkPoints = worlds.map((world) => ({
       x: (world.x / 100) * 1000,
       y: (world.y / 100) * 420,
@@ -138,6 +190,7 @@ export class WorldMapScene extends Phaser.Scene {
       ghostInk: "#6f804844",
     })
 
+    const artUrl = `${import.meta.env.BASE_URL}Story-Background.png`
     const nodes = worlds
       .map((world) => {
         const unlocked = isWorldUnlocked(save, world.id)
@@ -147,7 +200,9 @@ export class WorldMapScene extends Phaser.Scene {
         const badge = soon
           ? "Soon"
           : unlocked
-            ? `${counts.done}/${counts.total}`
+            ? counts.total > 0
+              ? `${counts.done}/${counts.total}`
+              : "Open"
             : "Locked"
         return `
           <button type="button"
@@ -170,13 +225,20 @@ export class WorldMapScene extends Phaser.Scene {
         <div class="bm-eyebrow">Story Path</div>
         <h1>Burrow to Moon</h1>
         <p class="bm-tagline" data-ui="pathTagline">Follow the blossoms. Expand a world to open its stations.</p>
-        <div class="story-path-frame">
+        <div class="story-path-frame${this.layout === "art" ? " is-art" : ""}" data-ui="frame" style="--story-map-art: url('${artUrl}')">
           ${inkSvg}
           ${nodes}
         </div>
         <div class="story-path-rail" data-ui="rail"></div>
         <div class="bm-actions bm-start">
           <button type="button" class="bm-btn ghost" data-ui="back">Modes</button>
+          ${
+            flags.storyMapArt
+              ? `<button type="button" class="bm-btn ghost story-path-dev" data-ui="toggleMap">${
+                  this.layout === "art" ? "Test: ink path" : "Test: painted map"
+                }</button>`
+              : ""
+          }
           <button type="button" class="bm-btn ghost story-path-dev" data-ui="devReset">Dev: clear story DONEs</button>
         </div>
       </div>
@@ -198,11 +260,14 @@ export class WorldMapScene extends Phaser.Scene {
 
     const renderRail = (): void => {
       const stations = listStations(this.expanded)
-      const world = listWorlds().find((entry) => entry.id === this.expanded)
+      const world = listWorlds(this.layout).find((entry) => entry.id === this.expanded)
       if (!world || world.status === "soon" || !isWorldUnlocked(getSave(), world.id)) {
         rail.hidden = true
         rail.innerHTML = ""
-        tagline.textContent = "Follow the blossoms. Expand a world to open its stations."
+        tagline.textContent =
+          this.layout === "art"
+            ? "Painted map test. Nodes sit on the dirt platforms. Ink path still available."
+            : "Follow the blossoms. Expand a world to open its stations."
         return
       }
       rail.hidden = false
@@ -249,6 +314,15 @@ export class WorldMapScene extends Phaser.Scene {
 
     requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
       this.scene.start("ModeSelect")
+    }
+
+    const toggleMap = root.querySelector("[data-ui=toggleMap]") as HTMLButtonElement | null
+    if (toggleMap) {
+      toggleMap.onclick = () => {
+        const next: StoryPathLayout = this.layout === "art" ? "ink" : "art"
+        writeLayoutPreference(next)
+        this.scene.restart()
+      }
     }
 
     requireEl<HTMLButtonElement>(root, "[data-ui=devReset]").onclick = () => {

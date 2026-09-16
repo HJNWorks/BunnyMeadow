@@ -1,6 +1,8 @@
 import type { SaveV1 } from "../../core/save"
 
-export type StoryWorldId = "w0" | "w1" | "w2" | "w3" | "moon"
+export type StoryWorldId = "w0" | "w1" | "w2" | "w3" | "w4" | "moon"
+
+export type StoryPathLayout = "ink" | "art"
 
 export type StoryStationKind = "lore" | "controls" | "level"
 
@@ -26,6 +28,25 @@ export type StoryWorldNode = {
   stationIds: string[]
   x: number
   y: number
+}
+
+type WorldDef = Omit<StoryWorldNode, "x" | "y">
+
+const INK_POS: Partial<Record<StoryWorldId, { x: number; y: number }>> = {
+  w0: { x: 12, y: 78 },
+  w1: { x: 29, y: 61 },
+  w2: { x: 46, y: 46 },
+  w3: { x: 64, y: 32 },
+  moon: { x: 82, y: 18 },
+}
+
+const ART_POS: Record<StoryWorldId, { x: number; y: number }> = {
+  w0: { x: 24, y: 78 },
+  w1: { x: 24, y: 48 },
+  w2: { x: 48, y: 70 },
+  w3: { x: 53, y: 33 },
+  w4: { x: 78, y: 46 },
+  moon: { x: 84, y: 23 },
 }
 
 const STATIONS: Record<string, StoryStation> = {
@@ -141,7 +162,7 @@ const STATIONS: Record<string, StoryStation> = {
   },
 }
 
-const WORLDS: StoryWorldNode[] = [
+const WORLD_DEFS: WorldDef[] = [
   {
     id: "w0",
     world: 0,
@@ -149,8 +170,6 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Setting, moon lore, and soft paws.",
     status: "live",
     stationIds: ["w0_setting", "w0_lore_moon", "w0_controls"],
-    x: 12,
-    y: 78,
   },
   {
     id: "w1",
@@ -159,8 +178,6 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Soft paths, hedges, and Fox Hu's cart.",
     status: "live",
     stationIds: ["w1_1_soft_paths", "w1_2_hedge_maze", "w1_3_cart_chase"],
-    x: 29,
-    y: 61,
   },
   {
     id: "w2",
@@ -169,8 +186,6 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Dusk water and tall green walls.",
     status: "live",
     stationIds: ["w2_1_green_corridor", "w2_2_floating_logs", "w2_3_raft_gauntlet"],
-    x: 46,
-    y: 46,
   },
   {
     id: "w3",
@@ -179,8 +194,14 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Festival lights and a tiger road.",
     status: "live",
     stationIds: ["w3_1_paper_lights", "w3_2_tiger_road", "w3_3_crane_summit"],
-    x: 64,
-    y: 32,
+  },
+  {
+    id: "w4",
+    world: 4,
+    title: "Open Platform",
+    tagline: "Empty template for a later world.",
+    status: "soon",
+    stationIds: [],
   },
   {
     id: "moon",
@@ -189,10 +210,18 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Quiet moon garden. Yue waits under the tree.",
     status: "live",
     stationIds: ["moon_guanghan"],
-    x: 82,
-    y: 18,
   },
 ]
+
+function positionedWorlds(layout: StoryPathLayout): StoryWorldNode[] {
+  return WORLD_DEFS.flatMap((def) => {
+    const pos = layout === "art" ? ART_POS[def.id] : INK_POS[def.id]
+    if (!pos) {
+      return []
+    }
+    return [{ ...def, x: pos.x, y: pos.y }]
+  })
+}
 
 const W0_IDS = ["w0_setting", "w0_lore_moon", "w0_controls"] as const
 const W1_CHAIN = ["w1_1_soft_paths", "w1_2_hedge_maze", "w1_3_cart_chase"] as const
@@ -205,23 +234,25 @@ function worldPlayableCleared(save: SaveV1, ids: readonly string[]): boolean {
   return ids.every((id) => cleared.has(id))
 }
 
-export function listWorlds(): StoryWorldNode[] {
-  return [...WORLDS]
+export function listWorlds(layout: StoryPathLayout = "ink"): StoryWorldNode[] {
+  return positionedWorlds(layout)
 }
 
 export function findOverlappingWorldNodes(
+  layout: StoryPathLayout = "ink",
   frameW = 980,
   frameH = 420,
   cardW = 160,
   cardH = 96,
 ): string[] {
+  const worlds = positionedWorlds(layout)
   const halfW = (cardW / frameW) * 50
   const halfH = (cardH / frameH) * 50
   const hits: string[] = []
-  for (let i = 0; i < WORLDS.length; i += 1) {
-    for (let j = i + 1; j < WORLDS.length; j += 1) {
-      const a = WORLDS[i]
-      const b = WORLDS[j]
+  for (let i = 0; i < worlds.length; i += 1) {
+    for (let j = i + 1; j < worlds.length; j += 1) {
+      const a = worlds[i]
+      const b = worlds[j]
       const overlapX = Math.abs(a.x - b.x) < halfW * 2
       const overlapY = Math.abs(a.y - b.y) < halfH * 2
       if (overlapX && overlapY) {
@@ -232,8 +263,8 @@ export function findOverlappingWorldNodes(
   return hits
 }
 
-export function getWorld(id: StoryWorldId): StoryWorldNode | undefined {
-  return WORLDS.find((world) => world.id === id)
+export function getWorld(id: StoryWorldId, layout: StoryPathLayout = "ink"): StoryWorldNode | undefined {
+  return positionedWorlds(layout).find((world) => world.id === id)
 }
 
 export function getStation(id: string): StoryStation | undefined {
@@ -241,7 +272,7 @@ export function getStation(id: string): StoryStation | undefined {
 }
 
 export function listStations(worldId: StoryWorldId): StoryStation[] {
-  const world = getWorld(worldId)
+  const world = WORLD_DEFS.find((entry) => entry.id === worldId)
   if (!world) {
     return []
   }
@@ -254,7 +285,7 @@ export function isW0Complete(save: SaveV1): boolean {
 }
 
 export function isWorldUnlocked(save: SaveV1, worldId: StoryWorldId): boolean {
-  const world = getWorld(worldId)
+  const world = WORLD_DEFS.find((entry) => entry.id === worldId)
   if (!world) {
     return false
   }
@@ -272,6 +303,9 @@ export function isWorldUnlocked(save: SaveV1, worldId: StoryWorldId): boolean {
   }
   if (worldId === "w3") {
     return isW0Complete(save) && worldPlayableCleared(save, W2_CHAIN)
+  }
+  if (worldId === "w4") {
+    return false
   }
   if (worldId === "moon") {
     return isW0Complete(save) && worldPlayableCleared(save, W3_CHAIN)
