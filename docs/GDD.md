@@ -1,5 +1,10 @@
 # Bunny Meadow — Game Design Document
 
+This is the design hub. Deeper subtrees live under the [docs index](README.md): the derived
+world model in [universe/](universe/README.md), the bestiary in [creatures/](creatures/README.md),
+collectibles in [items/](items/README.md), Endless detail in [modes/endless/](modes/endless/design.md),
+and the visual language in [rendering/](rendering/README.md). Build order is in [ROADMAP.md](ROADMAP.md).
+
 Family-tone woodland game. Phaser 4 + Vite + TypeScript. Web on GitHub Pages. Steam desktop long-term (Electron + steamworks.js).
 
 Audience: family / all ages (Mario or Kirby stakes). Light peril. Short readable dialogue. Kits (baby rabbits) may go missing by misunderstanding. No death, no predator kidnapping.

@@ -2,6 +2,10 @@
 
 New enemies are data plus a spritesheet. New code only when adding an archetype. Schema lives in `src/data/enemies.json`.
 
+This page is the data-schema hub. The bestiary with one page per creature, per-biome rosters,
+folk (bosses and NPCs) and the kits lives in [creatures/README.md](creatures/README.md).
+Player verbs and how items change them are in [creatures/abilities.md](creatures/abilities.md).
+
 ## Archetypes
 
 | Archetype | Examples | Behavior |

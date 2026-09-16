@@ -1,6 +1,6 @@
 # Bunny Meadow — Implementation Roadmap
 
-Sequencing and build contracts. Design lives in [GDD.md](GDD.md), [STORY.md](STORY.md), [WORLDS.md](WORLDS.md), [ENEMIES.md](ENEMIES.md), [UI.md](UI.md), [STEAM.md](STEAM.md), [LORE.md](LORE.md).
+Sequencing and build contracts. Design lives in [GDD.md](GDD.md), [STORY.md](STORY.md), [WORLDS.md](WORLDS.md), [ENEMIES.md](ENEMIES.md), [UI.md](UI.md), [STEAM.md](STEAM.md), [LORE.md](LORE.md). The derived world model, bestiary, items, Endless detail and rendering language live under the [docs index](README.md). Ongoing web work is tracked as numbered iterations in [iterations/README.md](iterations/README.md).
 
 ## North star
 
@@ -19,7 +19,16 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | M3 Story World 1 vertical slice | done |
 | M4 Story content complete | done |
 | M5 Endless mode | done (audio assets + i18n fill still open) |
-| M6–M8 | not started |
+| Web iterations I1–I4 | in progress (current focus; see [iterations/README.md](iterations/README.md)) |
+| M6–M8 desktop + store | postponed to the end, after the web iterations |
+
+## Current phase
+
+Story milestones M0–M5 are done. The current focus is a run of web iterations (I1–I4)
+that deepen the web build: seeded Endless routes, data-backed creatures and items, a
+per-biome rendering language, then the remaining audio and i18n fill. The desktop and
+store milestones (M6–M8) keep their numbers and sit at the end; they resume once the
+web build is where it should be. See [iterations/README.md](iterations/README.md).
 
 ## Done
 
@@ -223,7 +232,24 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 **Exit criteria:** Endless distance saves to `endlessBest` (met); `ENDLESS_1K` at 1000 m (met); language switch updates menus (existing).
 
+### Web iterations I1–I4 (current)
+
+Detail per iteration in [iterations/README.md](iterations/README.md). These deepen the
+web build before the desktop and store milestones resume.
+
+| Iteration | Theme | Summary |
+| --- | --- | --- |
+| I1 | Biome route + shorter bands | Seeded route walker over the biome graph replaces fixed distance bands; tier jitter. Fixes "always the same pattern" and unreachable water. |
+| I2 | Creatures + items in data | Chunk enemy/item slots; per-biome rosters and item tables; first non-carrot items. |
+| I3 | Theme + rendering | palettes.json, sky lerp on bridge chunks, weather presets, cheap night lighting, layered mist wall. |
+| I4 | Audio + i18n | Close the open M5 items: audio assets on the bus, DE/ZH-Hans fill. |
+
+Each iteration ships to Pages on its own and tags a version (see Repo hygiene below).
+
 ### M6 — Desktop shell
+
+**Status: postponed** (resumes after web iterations I1–I4). Retained at the end of the
+roadmap with its number unchanged. Electron transfer notes are in the section below.
 
 **Goal:** Electron + steamworks.js; `desktop.ts` behind existing platform interface.
 
@@ -235,6 +261,8 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 ### M7 — Steam presence
 
+**Status: postponed** (resumes after M6). Retained at the end with its number unchanged.
+
 **Goal:** Store page and demo without rewriting Mode Select.
 
 **Fills:** capsules, trailer, Coming Soon (≥2 weeks), demo app id (World 1), Next Fest entry. Confirm `webFullStory` / content split.
@@ -243,7 +271,86 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 ### M8 — Release
 
+**Status: postponed** (resumes after M7). Retained at the end with its number unchanged.
+
 **Goal:** SteamPipe depots, Valve review, wishlist go/no-go, launch, patch window.
+
+## Electron transfer (what carries over)
+
+The web build was designed so M6 swaps a backend, not the game. Full plan in [STEAM.md](STEAM.md).
+
+**Transfers directly, unchanged:**
+
+- All gameplay: Phaser scenes, modes, `systems/`, `entities/`, `render/`. They already run in a
+  Chromium page; Electron is a Chromium page.
+- The whole `src/` app loads from the same Vite build output (`dist/`). Electron points its
+  `BrowserWindow` at that build.
+- The platform interface (`core/platform/index.ts` + `types.ts`). Gameplay never touches
+  `localStorage` or `window` directly, so only a new `desktop.ts` backend is added beside `web.ts`.
+- Data layer (`src/data/`): difficulty, enemies, chunks, maps, contentFlags, i18n. No change.
+- Input action map (`move`, `dash`, `jump`, `pause`, `confirm`, `cancel`). Steam Input appears as a
+  standard gamepad.
+- Achievement ids (`data/achievements.json`) already match the intended Steamworks list one to one.
+
+**Should be re-implemented for desktop (the `desktop.ts` backend only):**
+
+- SaveStore: JSON files under `app.getPath("userData")/saves` instead of `localStorage`, for Steam
+  Auto-Cloud. Same keys.
+- Achievements: `client.achievement.activate(id)` instead of the silent local set.
+- Window: real fullscreen/borderless/quit via `BrowserWindow` instead of the Fullscreen API no-ops.
+- Presence: optional Rich Presence.
+
+**New, desktop-only (not a rewrite of anything web):**
+
+- `desktop/main.ts`, `desktop/preload.ts`, `steam_appid.txt`, `electron-builder.yml` (the `desktop/`
+  folder exists but is empty today).
+- steamworks.js init and overlay enable in `main.ts`.
+- A CI job that builds win/mac/linux artifacts and an optional SteamPipe upload.
+
+**Do not port to desktop:** the GitHub Pages workflow and the `.nojekyll` / base-path handling are
+web-only. Keep the web build shipping in parallel; desktop is an additional target, not a replacement.
+
+## Repo hygiene and workflow
+
+Practices to adopt now, while iterating on the web build, so desktop and store work later is clean.
+Assume PowerShell syntax for any local commands run on Windows.
+
+### Versioning
+
+- Semantic versioning on `package.json` `version` (currently `0.1.0`), pre-1.0 while the game is in
+  development: bump minor for new content or systems, patch for fixes and tuning.
+- Tag each Pages ship with `vX.Y.Z` (no tags exist yet). One tag per shipped iteration.
+- Keep a `CHANGELOG.md` (Keep a Changelog format) so each tag has human-readable notes. This also
+  seeds Steam patch notes later.
+
+### GitHub workflows
+
+- Existing: `.github/workflows/pages.yml` builds and deploys on push to `main`.
+- Add a `ci.yml` that runs on pull requests and on `main`: `npm ci` then `npm run build` (which
+  already chains `check:path`, `check:jumps`, `check:endless`, `tsc --noEmit`, `vite build`). This
+  makes the build gate a required check, not only a deploy step.
+- Add a `release.yml` (later, at M6) for the desktop build matrix and artifact upload.
+- Consider a lightweight lint/format step (Prettier or Biome) in `ci.yml` so style is enforced, not
+  argued.
+
+### Standardized commit messages
+
+- Adopt Conventional Commits: `type(scope): summary`, for example `feat(endless): seeded biome route`,
+  `fix(endless): start input bus so keys move the rabbit`, `docs(universe): add biome graph`.
+- Types: `feat`, `fix`, `docs`, `refactor`, `perf`, `chore`, `build`, `ci`.
+- Scopes track the code map: `meadow`, `story`, `tasks`, `endless`, `core`, `data`, `render`, `ci`,
+  `docs`.
+- This makes minor-versus-patch bumps and changelog generation mechanical.
+
+### Branch and PR flow
+
+- Short-lived feature branches per iteration item, PR into `main`, CI green before merge.
+- `main` stays deployable (it auto-ships to Pages).
+
+### Repo layout notes
+
+- `desktop/` is committed but empty; it is the placeholder for the M6 shell.
+- `dist/` and `node_modules/` are build/output and should stay ignored (`.gitignore` present).
 
 ## Working rules
 
@@ -257,4 +364,4 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 ## Suggested next coding session
 
-Endless is live (chunk-streamed runner with a chase wall and local leaderboard). Next: audio assets on the bus and DE/ZH-Hans string fill to close M5, then M6 desktop shell. Steamworks registration stays parallel.
+Endless is live (chunk-streamed runner with a chase wall and local leaderboard) but every run reads the same and later biomes are unreachable. Next is iteration [I1](iterations/i1-biome-route.md): replace the fixed distance bands with a seeded route walker and add tier jitter, so runs vary by seed and reach water early. Then I2 (creatures and items in data), I3 (theme and rendering), I4 (audio and i18n). Desktop and store milestones (M6–M8) resume after that. Adopt the repo hygiene above (semver tags, CI on PRs, Conventional Commits) starting with I1.
