@@ -34,6 +34,10 @@ export type ChunkRect = { x: number; y: number; w: number; h: number }
 
 export type ChunkEnemySpawn = { id: string; x: number; y: number }
 
+export type ChunkEnemySlot = { x: number; y: number; allow: string[]; minTier: number }
+
+export type ChunkItemSlot = { x: number; y: number; allow: string[]; minTier: number }
+
 export type ChunkMover = ChunkRect & {
   axis: "x" | "y"
   amplitude: number
@@ -70,10 +74,12 @@ export type ChunkDef = {
   groundY: number
   platforms: ChunkRect[]
   walls: ChunkRect[]
-  enemies: ChunkEnemySpawn[]
+  enemies?: ChunkEnemySpawn[]
+  enemySlots?: ChunkEnemySlot[]
   movers?: ChunkMover[]
   hazards?: ChunkHazard[]
   carrots?: ChunkCarrot[]
+  itemSlots?: ChunkItemSlot[]
   endless?: ChunkEndlessMeta
   color: string
 }
@@ -177,7 +183,7 @@ export class ChunkAssembler {
       for (const w of chunk.walls) {
         platforms.push({ x: x + w.x, y: w.y, w: w.w, h: w.h, kind: "wall" })
       }
-      for (const e of chunk.enemies) {
+      for (const e of chunk.enemies ?? []) {
         enemies.push({
           id: e.id,
           x: e.x,

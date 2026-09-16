@@ -83,4 +83,4 @@ Used on web today via Spawner. `reach` and later archetypes remain M3+.
 | owl | diver | Story W3 (enemy only) |
 | cat | reach | Story W3 |
 | bees | swarm | Meadow optional |
-| goat | blocker | Story W2 optional |
+| goat | blocker | Endless (bamboo, osmanthus) |

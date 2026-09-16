@@ -4,6 +4,8 @@
       "id": "fox",
       "archetype": "chaser",
       "displayName": "Fox",
+      "homeBiomes": ["meadow", "orchard"],
+      "minTier": 1,
       "senseRange": 240,
       "attackRange": 30,
       "telegraphTime": 0,
@@ -24,6 +26,8 @@
       "id": "hedgehog",
       "archetype": "patrol",
       "displayName": "Hedgehog",
+      "homeBiomes": ["meadow", "orchard"],
+      "minTier": 1,
       "senseRange": 0,
       "attackRange": 24,
       "telegraphTime": 0,
@@ -43,6 +47,8 @@
       "id": "crow",
       "archetype": "ranged_lob",
       "displayName": "Crow",
+      "homeBiomes": ["meadow", "orchard", "bamboo", "riverbank", "lantern"],
+      "minTier": 2,
       "senseRange": 260,
       "attackRange": 220,
       "telegraphTime": 0.45,
@@ -56,6 +62,27 @@
         "move": "crow_fly",
         "attack": "crow_throw",
         "hurt": "crow_hurt"
+      }
+    },
+    {
+      "id": "goat",
+      "archetype": "blocker",
+      "displayName": "Goat",
+      "homeBiomes": ["bamboo", "osmanthus"],
+      "minTier": 3,
+      "senseRange": 180,
+      "attackRange": 40,
+      "telegraphTime": 0.35,
+      "cooldown": 1.2,
+      "speed": 110,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "goat_idle",
+        "move": "goat_run",
+        "attack": "goat_charge",
+        "hurt": "goat_hurt"
       }
     }
   ]

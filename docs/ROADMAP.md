@@ -19,7 +19,7 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | M3 Story World 1 vertical slice | done |
 | M4 Story content complete | done |
 | M5 Endless mode | done (audio assets + i18n fill still open) |
-| Web iterations I1–I4 | I0 and I1 done. I2–I4 next (see [iterations/README.md](iterations/README.md)) |
+| Web iterations I1–I4 | I0-I2 done. I3–I4 next (see [iterations/README.md](iterations/README.md)) |
 | M6–M8 desktop + store | postponed to the end, after the web iterations |
 
 ## Current phase
@@ -241,7 +241,7 @@ web build before the desktop and store milestones resume.
 | --- | --- | --- |
 | I0 | Repo hygiene | done: proprietary LICENSE, CONTRIBUTING, CHANGELOG, expanded README, CI on PRs, Conventional Commits (commitlint + husky), `v0.1.0` tag. |
 | I1 | Biome route + shorter bands | done (unreleased): seeded route walker, `bandMeters`, tier jitter. Water and dusk can appear before 400 m. |
-| I2 | Creatures + items in data | Chunk enemy/item slots; per-biome rosters and item tables; first non-carrot items. |
+| I2 | Creatures + items in data | done (unreleased): slots, biome rosters, mooncake / blossom / lantern mist push, goat blocker. |
 | I3 | Theme + rendering | palettes.json, sky lerp on bridge chunks, weather presets, cheap night lighting, layered mist wall. |
 | I4 | Audio + i18n | Close the open M5 items: audio assets on the bus, DE/ZH-Hans fill. |
 
@@ -373,4 +373,7 @@ any local commands run on Windows.
 
 ## Suggested next coding session
 
-I1 is done (still 0.1.0). Endless walks a seeded biome graph with shorter bands and tier jitter. Next is iteration [I2](iterations/i2-creatures-items.md): enemy and item slots, per-biome rosters, first non-carrot items. Then I3 (theme and rendering), I4 (audio and i18n). Tag the next version after I4. Desktop and store milestones (M6–M8) resume after that.
+I1 and I2 are done (still 0.1.0). Endless walks a seeded biome graph and fills enemy and
+item slots from biome data. Next is iteration [I3](iterations/i3-theme-rendering.md):
+palettes, sky lerp, weather, night lighting. Then I4 (audio and i18n). Tag the next
+version after I4. Desktop and store milestones (M6–M8) resume after that.

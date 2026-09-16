@@ -20,6 +20,13 @@ export function spawnEnemy(
     sprite.setData("speed", 40)
     sprite.setData("cooldown", 0)
     ;(sprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
+  } else if (id === "goat") {
+    sprite.setTint(0xd6c4a8)
+    sprite.setDisplaySize(44, 40)
+    sprite.setData("archetype", "blocker")
+    sprite.setData("speed", 110)
+    sprite.setData("stun", 0)
+    sprite.setData("charging", 0)
   } else {
     sprite.setTint(0xa8845c)
     sprite.setData("archetype", "patrol")
@@ -101,6 +108,29 @@ export function updateEnemies(
       }
       enemy.setData("cooldown", cd)
       enemy.setVelocityX(0)
+    } else if (arch === "blocker") {
+      let stun = Number(enemy.getData("stun") || 0) - dt
+      let charging = Number(enemy.getData("charging") || 0)
+      const body = enemy.body as Phaser.Physics.Arcade.Body
+      if (stun > 0) {
+        enemy.setVelocityX(0)
+        enemy.setData("stun", stun)
+        return
+      }
+      if (charging === 0 && Math.abs(target.x - enemy.x) < 220) {
+        charging = Math.sign(target.x - enemy.x) || 1
+        enemy.setData("charging", charging)
+      }
+      if (charging !== 0) {
+        enemy.setVelocityX(charging * speed)
+        if (body.blocked.left || body.blocked.right) {
+          enemy.setData("charging", 0)
+          enemy.setData("stun", 0.7)
+          enemy.setVelocityX(0)
+        }
+      } else {
+        enemy.setVelocityX(0)
+      }
     }
   })
 }

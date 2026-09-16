@@ -1,6 +1,6 @@
 # Wildlife — Goat
 
-Status: planned. Class: Wildlife. Archetype: blocker. Hub: [../README.md](../README.md).
+Status: live (Endless). Class: Wildlife. Archetype: blocker. Hub: [../README.md](../README.md).
 No folklore role; plain wildlife. Listed as a Story W2 optional in [../../ENEMIES.md](../../ENEMIES.md).
 
 | Field | Value |

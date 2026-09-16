@@ -51,30 +51,29 @@ Two couplings block the design in [design.md](design.md):
 2. `endless.env` is baked into the file and the id, so a layout is welded to one biome and
    cannot be reskinned.
 
-## Planned extension: slots
+## Slots (live, I2)
 
-Replace fixed `enemies` and `carrots` with typed slots the generator fills. Keep the old
-fields readable during migration so existing chunks still load.
+Chunks declare `enemySlots` and `itemSlots`. The generator fills them from the biome
+roster and item table. Legacy `enemies` and `carrots` stay on disk and are treated as
+slots if the new fields are missing.
 
 ```json
 {
   "enemySlots": [
-    { "x": 480, "y": 560, "allow": ["ranged_lob", "diver"], "minTier": 2 }
+    { "x": 480, "y": 560, "allow": ["ranged_lob"], "minTier": 2 }
   ],
   "itemSlots": [
-    { "x": 380, "y": 840, "allow": ["currency"], "minTier": 1 },
-    { "x": 620, "y": 520, "allow": ["run-buff", "restore"], "minTier": 3 }
+    { "x": 380, "y": 840, "allow": ["currency", "restore", "run-buff"], "minTier": 1 }
   ]
 }
 ```
 
 - An enemy slot names a position, which archetypes may fill it, and a minimum tier.
-- The generator picks a concrete creature from the current biome roster
-  ([../../creatures/README.md](../../creatures/README.md)) whose archetype is in `allow`
-  and whose own min tier is satisfied.
-- Item slots work the same against the biome item table
-  ([../../items/placement.md](../../items/placement.md)).
-- An empty roll leaves the slot empty, which is how runs stay varied.
+- The generator picks a creature whose home biome, archetype, and min tier match. If none
+  match the archetype, it falls back to any roster creature for that biome.
+- Item slots roll against the biome table in `src/data/items.json`. `carrotChance` is the
+  chance the slot fills at all. Empty rolls stay empty.
+- Skinnable layouts (one layout, many biomes) wait for I3.
 
 ## Planned extension: skinnable layouts
 

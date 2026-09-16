@@ -1,0 +1,17 @@
+{
+  "mistPushMeters": 80,
+  "catalog": [
+    { "id": "carrot", "category": "currency", "weightKey": "carrot" },
+    { "id": "mooncake", "category": "restore", "weightKey": "mooncake" },
+    { "id": "osmanthus_blossom", "category": "run-buff", "weightKey": "blossom" },
+    { "id": "lantern", "category": "run-buff", "weightKey": "lantern" }
+  ],
+  "biomes": {
+    "meadow": { "carrot": 10 },
+    "orchard": { "carrot": 10, "mooncake": 1 },
+    "bamboo": { "carrot": 10, "lantern": 1 },
+    "riverbank": { "carrot": 10, "mooncake": 1 },
+    "lantern": { "carrot": 10, "lantern": 3, "mooncake": 1 },
+    "osmanthus": { "carrot": 6, "blossom": 3, "mooncake": 1 }
+  }
+}

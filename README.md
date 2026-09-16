@@ -11,9 +11,8 @@ Play on GitHub Pages: [hjnworks.github.io/BunnyMeadow](https://hjnworks.github.i
 ## Status
 
 Version 0.1.0. Story milestones M0-M5 are done: Meadow arcade, Moon Tasks, the full
-Story through the moon finale, and Endless are web-playable. I1 (seeded Endless biome
-route) is in the tree. The next version tag waits until I2-I4 land. Desktop and store
-milestones (M6-M8) resume after. See [docs/ROADMAP.md](docs/ROADMAP.md).
+Story through the moon finale, and Endless are web-playable. I1 (seeded biome route) and
+I2 (slots, items, goat) are in the tree. The next version tag waits until I3-I4 land.
 
 ## Develop
 

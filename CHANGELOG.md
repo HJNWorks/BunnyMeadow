@@ -6,22 +6,26 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
-Iteration I1 is in the tree. Version stays at 0.1.0 until I2-I4 ship with it.
+Iterations I1 and I2 are in the tree. Version stays at 0.1.0 until I3-I4 ship with them.
 
 ### Added
 
 - Seeded biome-graph route walker with per-difficulty `bandMeters` so water and dusk can
   appear before 400 m.
 - Plus or minus one tier jitter on streamed chunks.
+- Enemy and item slots filled from biome rosters (`enemies.json` homeBiomes/minTier) and
+  `items.json` tables.
+- Mooncake (restore a heart), osmanthus blossom (one extra glide), lantern (push mist 80 m).
+- Goat blocker on bamboo and osmanthus.
 
 ### Changed
 
 - Endless sky and HUD follow the chunk the player is in, not a metre cutoff.
-- Old 0.1.0 Endless seeds do not replay (extra rng draws).
+- Seeds from the original 0.1.0 Endless build do not replay (walker, jitter, and slot
+  rolls consume extra rng draws).
 
 ### Known open items
 
-- Enemy and item slots, biome rosters (I2).
 - Palettes, sky lerp, weather (I3).
 - Audio assets and DE/ZH-Hans string fill (I4).
 

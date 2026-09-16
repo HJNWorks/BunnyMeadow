@@ -42,7 +42,7 @@ verb for a short time. Full catalog: [../items/catalog.md](../items/catalog.md).
 | Item | Effect on a verb | Duration |
 | --- | --- | --- |
 | osmanthus blossom | grants one extra glide charge (a second float) | until used |
-| lantern | widens the light radius and pushes the mist wall back N metres | timed |
+| lantern | pushes the mist wall back 80 m | instant |
 | dew | slow-time so a jump or dash reads easier | short |
 | mooncake | restores one heart, no verb change | instant |
 | moon letter | key: unlocks the sky/moon edges in Endless | held |

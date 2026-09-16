@@ -5,7 +5,7 @@ The player sets the pace under a difficulty-scaled mist wall that trails behind 
 speeds up with distance. Hub: [../../GDD.md](../../GDD.md). World model:
 [../../universe/README.md](../../universe/README.md).
 
-This page is the target design. Route and tier axes are live (I1). Slot filler, skins,
+This page is the target design. Route, tier, and slot-fill axes are live (I1-I2). Skins
 and seed-entry UI remain planned. Gaps are what the later iterations in
 [../../iterations/README.md](../../iterations/README.md) close.
 
@@ -17,10 +17,10 @@ Before I1, two facts made every run read the same:
    2200 m. A typical Moonlit run ended near 145 m (see [tuning.md](tuning.md)), so a
    player never left the meadow band.
 2. Tier was a pure function of distance, so two seeds of the same preset showed the same
-   escalation. Enemies are still baked into each chunk file (I2).
+   escalation. Enemies used to be baked into each chunk file.
 
-I1 replaces (1) and (2) with a seeded route walker and tier jitter. Slot filler and
-layout skins wait for later iterations.
+I1 replaced distance bands with a seeded route walker and tier jitter. I2 fills slots
+from biome rosters and item tables. Layout skins wait for I3.
 
 ## Three independent axes
 
@@ -43,8 +43,8 @@ flowchart LR
 2. Tier picker (live, I1): how demanding the layout is. Still rises with distance, with a
    seeded jitter of plus or minus one tier and the existing breather cadence, so two runs
    at the same metre differ.
-3. Slot filler: which enemies and items occupy the chunk. Chunks declare slots (see
-   [chunk-contract.md](chunk-contract.md)); the filler draws from the current biome's
+3. Slot filler (live, I2): which enemies and items occupy the chunk. Chunks declare slots
+   (see [chunk-contract.md](chunk-contract.md)); the filler draws from the current biome's
    roster ([../../creatures/README.md](../../creatures/README.md)) and item table
    ([../../items/placement.md](../../items/placement.md)).
 
@@ -58,8 +58,8 @@ hazard vocabulary allows, and the same biome can present many enemy mixes.
   a player can replay or share a seed, and a daily seed derived from the date so everyone
   gets the same route once a day.
 - The three axes each draw from the same stream in a fixed order, so adding an axis does
-  not change how an old seed reads only if the draw order is preserved. I1 reset seeds
-  because the walker and jitter consume extra rng draws. Old 0.1.0 seeds do not replay.
+  not change how an old seed reads only if the draw order is preserved. I1 and I2 reset
+  seeds because the walker, jitter, and slot filler consume extra rng draws.
 
 ## The mist wall
 

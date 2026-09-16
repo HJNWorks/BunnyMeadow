@@ -1,5 +1,13 @@
 import endlessData from "../../data/endless.json"
-import { ENDLESS_CHUNKS, type ChunkDef, type EndlessEnv } from "../../systems/ChunkAssembler"
+import enemiesData from "../../data/enemies.json"
+import itemsData from "../../data/items.json"
+import {
+  ENDLESS_CHUNKS,
+  type ChunkDef,
+  type ChunkEnemySlot,
+  type ChunkItemSlot,
+  type EndlessEnv,
+} from "../../systems/ChunkAssembler"
 
 export type BandMeters = {
   min: number
@@ -23,6 +31,15 @@ export type EnvKit = {
   name: string
 }
 
+export type FilledEnemy = { id: string; x: number; y: number }
+export type FilledItem = { id: string; x: number; y: number }
+
+export type FilledChunk = {
+  chunk: ChunkDef
+  enemies: FilledEnemy[]
+  items: FilledItem[]
+}
+
 type GraphNode = {
   sky: string
   name: string
@@ -39,7 +56,24 @@ type BiomeGraph = {
   edges: GraphEdge[]
 }
 
+type EnemyDef = {
+  id: string
+  archetype: string
+  homeBiomes?: string[]
+  minTier?: number
+}
+
+type ItemDef = {
+  id: string
+  category: string
+  weightKey: string
+}
+
 const BIOME_GRAPH = endlessData.biomeGraph as BiomeGraph
+const ENEMY_ROSTER = enemiesData.enemies as EnemyDef[]
+const ITEM_CATALOG = itemsData.catalog as ItemDef[]
+const ITEM_BIOMES = itemsData.biomes as Record<string, Record<string, number>>
+export const MIST_PUSH_METERS = (itemsData as { mistPushMeters?: number }).mistPushMeters ?? 80
 
 export function getEnvKit(env: string): EnvKit {
   const key = BIOME_GRAPH.nodes[env] ? env : "meadow"
@@ -175,7 +209,7 @@ export class EndlessGenerator {
     return ENDLESS_CHUNKS[0]
   }
 
-  next(distanceM: number): ChunkDef {
+  next(distanceM: number): FilledChunk {
     if (distanceM >= this.bandUntilM) {
       this.stepRoute(distanceM)
     }
@@ -186,7 +220,105 @@ export class EndlessGenerator {
     }
     const chunk = this.pick(this.currentEnv, tier)
     this.lastId = chunk.id
-    return chunk
+    return this.fill(chunk, this.currentEnv, tier)
+  }
+
+  fill(chunk: ChunkDef, env: EndlessEnv, tier: number): FilledChunk {
+    const enemySlots = this.enemySlotsOf(chunk)
+    const itemSlots = this.itemSlotsOf(chunk)
+    const enemies: FilledEnemy[] = []
+    for (const slot of enemySlots) {
+      if (slot.minTier > tier) {
+        continue
+      }
+      const id = this.pickEnemyId(env, slot.allow, tier)
+      if (id) {
+        enemies.push({ id, x: slot.x, y: slot.y })
+      }
+    }
+    const items: FilledItem[] = []
+    for (const slot of itemSlots) {
+      if (slot.minTier > tier) {
+        continue
+      }
+      if (this.rng() >= this.tuning.carrotChance) {
+        continue
+      }
+      const id = this.pickItemId(env, slot.allow)
+      if (id) {
+        items.push({ id, x: slot.x, y: slot.y })
+      }
+    }
+    return { chunk, enemies, items }
+  }
+
+  private enemySlotsOf(chunk: ChunkDef): ChunkEnemySlot[] {
+    if (chunk.enemySlots && chunk.enemySlots.length > 0) {
+      return chunk.enemySlots
+    }
+    return (chunk.enemies ?? []).map((e) => {
+      const def = ENEMY_ROSTER.find((r) => r.id === e.id)
+      return {
+        x: e.x,
+        y: e.y,
+        allow: [def?.archetype ?? "patrol"],
+        minTier: 1,
+      }
+    })
+  }
+
+  private itemSlotsOf(chunk: ChunkDef): ChunkItemSlot[] {
+    if (chunk.itemSlots && chunk.itemSlots.length > 0) {
+      return chunk.itemSlots
+    }
+    return (chunk.carrots ?? []).map((c) => ({
+      x: c.x,
+      y: c.y,
+      allow: ["currency"],
+      minTier: 1,
+    }))
+  }
+
+  private pickEnemyId(env: EndlessEnv, allow: string[], tier: number): string | null {
+    const home = ENEMY_ROSTER.filter(
+      (e) =>
+        (e.homeBiomes ?? []).includes(env) &&
+        (e.minTier ?? 1) <= tier &&
+        allow.includes(e.archetype),
+    )
+    const pool = home.length > 0
+      ? home
+      : ENEMY_ROSTER.filter((e) => (e.homeBiomes ?? []).includes(env) && (e.minTier ?? 1) <= tier)
+    if (pool.length === 0) {
+      return null
+    }
+    return pool[Math.floor(this.rng() * pool.length)].id
+  }
+
+  private pickItemId(env: EndlessEnv, allow: string[]): string | null {
+    const weights = ITEM_BIOMES[env] ?? ITEM_BIOMES.meadow
+    const options: { id: string; w: number }[] = []
+    for (const item of ITEM_CATALOG) {
+      if (!allow.includes(item.category)) {
+        continue
+      }
+      const w = weights[item.weightKey] ?? 0
+      if (w > 0) {
+        options.push({ id: item.id, w })
+      }
+    }
+    if (options.length === 0) {
+      return null
+    }
+    const total = options.reduce((sum, o) => sum + o.w, 0)
+    let roll = this.rng() * total
+    for (const o of options) {
+      roll -= o.w
+      if (roll <= 0) {
+        return o.id
+      }
+    }
+    return options[options.length - 1].id
   }
 
   rollCarrot(): boolean {

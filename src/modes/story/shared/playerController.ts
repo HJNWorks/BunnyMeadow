@@ -10,6 +10,8 @@ export type PlayerState = {
   airJumps: number
   maxAirJumps: number
   glide: boolean
+  glideCharges: number
+  usedGlideCharge: boolean
   wallBounce: boolean
   baseGravity: number
 }
@@ -22,6 +24,8 @@ export function createPlayerState(overrides: Partial<PlayerState> = {}): PlayerS
     airJumps: 1,
     maxAirJumps: 1,
     glide: false,
+    glideCharges: 0,
+    usedGlideCharge: false,
     wallBounce: false,
     baseGravity: 1200,
     ...overrides,
@@ -42,13 +46,21 @@ export function updatePlayerMovement(
   const onFloor = body.blocked.down || body.touching.down
   if (onFloor) {
     state.airJumps = state.maxAirJumps
+    if (state.usedGlideCharge) {
+      state.glideCharges = Math.max(0, state.glideCharges - 1)
+      state.usedGlideCharge = false
+    }
   }
   const vx = input.moveX * (state.dashTime > 0 ? 480 : 260)
   if (input.moveX) {
     state.facing = input.moveX > 0 ? 1 : -1
   }
 
-  if (state.glide && !onFloor && input.jumpHeld && body.velocity.y > 0) {
+  const canGlide = state.glide || state.glideCharges > 0
+  if (canGlide && !onFloor && input.jumpHeld && body.velocity.y > 0) {
+    if (!state.glide && state.glideCharges > 0) {
+      state.usedGlideCharge = true
+    }
     body.setGravityY(state.baseGravity * 0.22)
     body.velocity.y = Math.min(body.velocity.y, 90)
   } else {

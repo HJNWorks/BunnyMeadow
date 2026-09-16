@@ -15,15 +15,15 @@ Render cues are the visual language from [../rendering/effects.md](../rendering/
 | Rarity | common |
 | Render cue | orange pickup with a soft bob; collect pop |
 
-The staple. Placed today as fixed `carrots` arrays in chunk JSON and rolled by
-`carrotChance` per difficulty in `src/data/endless.json`.
+The staple. Endless item slots roll the biome table in `src/data/items.json`. `carrotChance`
+is the chance a slot is filled at all.
 
 ## mooncake
 
 | Field | Value |
 | --- | --- |
 | Category | restore |
-| Status | planned |
+| Status | live |
 | Effect | Restores one heart, up to the run maximum |
 | Duration | instant |
 | Home biomes | orchard, riverbank, lantern, osmanthus |
@@ -37,7 +37,7 @@ Most valuable on the Riverbank, where water costs hearts. Ties to the Mid-Autumn
 | Field | Value |
 | --- | --- |
 | Category | run-buff |
-| Status | planned |
+| Status | live |
 | Effect | Grants one extra glide charge (a second float) |
 | Duration | until used |
 | Home biomes | osmanthus, cloudsea |
@@ -52,8 +52,8 @@ starts the story ([../creatures/folk/wu-gang.md](../creatures/folk/wu-gang.md)).
 | Field | Value |
 | --- | --- |
 | Category | run-buff |
-| Status | planned |
-| Effect | Widens the light radius in dark rungs and pushes the Endless mist wall back N metres |
+| Status | live |
+| Effect | Pushes the Endless mist wall back 80 m. Light radius waits for I3. |
 | Duration | timed |
 | Home biomes | lantern, bamboo, burrow-tunnels |
 | Rarity | uncommon |

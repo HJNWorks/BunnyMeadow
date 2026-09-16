@@ -175,6 +175,35 @@ for (const file of files) {
       errors.push(`${label}: enemy ${enemy.id} at ${enemy.x},${enemy.y} not on a platform`)
     }
   }
+
+  const ARCHETYPES = new Set(["patrol", "chaser", "ranged_lob", "reach", "diver", "swarm", "blocker", "boss"])
+  const ITEM_CATS = new Set(["currency", "restore", "run-buff", "key", "cosmetic"])
+  for (const slot of chunk.enemySlots ?? []) {
+    if (slot.x < 0 || slot.x > width) {
+      errors.push(`${label}: enemySlot x ${slot.x} out of bounds`)
+    }
+    if (!Number.isInteger(slot.minTier) || slot.minTier < 1 || slot.minTier > 5) {
+      errors.push(`${label}: enemySlot minTier ${slot.minTier} not in 1-5`)
+    }
+    for (const a of slot.allow ?? []) {
+      if (!ARCHETYPES.has(a)) {
+        errors.push(`${label}: enemySlot allow unknown archetype "${a}"`)
+      }
+    }
+  }
+  for (const slot of chunk.itemSlots ?? []) {
+    if (slot.x < 0 || slot.x > width) {
+      errors.push(`${label}: itemSlot x ${slot.x} out of bounds`)
+    }
+    if (!Number.isInteger(slot.minTier) || slot.minTier < 1 || slot.minTier > 5) {
+      errors.push(`${label}: itemSlot minTier ${slot.minTier} not in 1-5`)
+    }
+    for (const a of slot.allow ?? []) {
+      if (!ITEM_CATS.has(a)) {
+        errors.push(`${label}: itemSlot allow unknown category "${a}"`)
+      }
+    }
+  }
 }
 
 console.log(`Endless chunks: ${files.length} files, ${seenIds.size} ids.`)

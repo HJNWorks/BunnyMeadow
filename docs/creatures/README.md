@@ -33,9 +33,8 @@ new creature of an existing archetype is data. From [../ENEMIES.md](../ENEMIES.m
 
 ## Wildlife by biome
 
-This is the roster the Endless generator will draw from once chunks declare enemy
-slots instead of fixed enemies (see [../modes/endless/chunk-contract.md](../modes/endless/chunk-contract.md)).
-Each cell lists the home biomes and the minimum tier at which the creature appears.
+This is the roster Endless draws from via slots (I2, live). Each row lists home biomes
+and the minimum tier at which the creature appears.
 
 | Creature | Archetype | Home biomes | Min tier | Status |
 | --- | --- | --- | --- | --- |
@@ -48,7 +47,7 @@ Each cell lists the home biomes and the minimum tier at which the creature appea
 | carp | patrol (water) | riverbank | 3 | idea |
 | cat | reach | lantern, osmanthus | 3 | live (Story) |
 | owl | diver | lantern, osmanthus | 3 | live (Story) |
-| goat | blocker | bamboo, osmanthus | 3 | planned |
+| goat | blocker | bamboo, osmanthus | 3 | live |
 | boar | blocker | orchard, bamboo | 3 | idea |
 | tortoise | patrol | meadow, riverbank | 1 | idea |
 | magpie | diver | cloudsea | 4 | idea |

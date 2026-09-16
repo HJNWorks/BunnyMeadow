@@ -49,5 +49,27 @@
     "entryY": 980,
     "exitY": 980
   },
-  "color": "#40364a"
+  "color": "#40364a",
+  "enemySlots": [
+    {
+      "x": 480,
+      "y": 560,
+      "allow": [
+        "ranged_lob"
+      ],
+      "minTier": 3
+    }
+  ],
+  "itemSlots": [
+    {
+      "x": 240,
+      "y": 760,
+      "allow": [
+        "currency",
+        "restore",
+        "run-buff"
+      ],
+      "minTier": 1
+    }
+  ]
 }

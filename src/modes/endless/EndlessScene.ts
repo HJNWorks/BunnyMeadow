@@ -6,13 +6,15 @@ import type { DifficultyId } from "../../core/save"
 import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
 import { mountDomShell, requireEl, type DomShellHandle } from "../../ui/DomShell"
-import { ENDLESS_CHUNKS, type ChunkDef } from "../../systems/ChunkAssembler"
+import { ENDLESS_CHUNKS } from "../../systems/ChunkAssembler"
 import {
   EndlessGenerator,
   METER_PER_PX,
+  MIST_PUSH_METERS,
   getEnvKit,
   getTuning,
   type EndlessTuning,
+  type FilledChunk,
 } from "./EndlessGenerator"
 import { ensureStoryTextures } from "../story/shared/storyTextures"
 import {
@@ -45,7 +47,7 @@ type Segment = {
   objects: Phaser.GameObjects.GameObject[]
   enemies: Phaser.Physics.Arcade.Sprite[]
   moverStates: MoverState[]
-  carrots: Phaser.GameObjects.Image[]
+  pickups: { sprite: Phaser.GameObjects.Image; id: string }[]
 }
 
 const DIFF_LABEL: Record<DifficultyId, string> = {
@@ -178,6 +180,7 @@ export class EndlessScene extends Phaser.Scene {
   private currentEnv = "meadow"
   private paused = false
   private ended = false
+  private hintFlash = 0
 
   constructor() {
     super("Endless")
@@ -337,7 +340,7 @@ export class EndlessScene extends Phaser.Scene {
       this.hurt()
     })
 
-    this.spawnSegment(this.startChunk(), 0)
+    this.spawnSegment(this.startFilled(), 0)
     while (this.nextOriginX < this.spawnX + 3200) {
       this.spawnSegment(this.generator.next(this.nextOriginX / METER_PER_PX), this.nextOriginX)
     }
@@ -365,9 +368,12 @@ export class EndlessScene extends Phaser.Scene {
     this.updateHud()
   }
 
-  private startChunk(): ChunkDef {
+  private startFilled(): FilledChunk {
     const start = ENDLESS_CHUNKS.find((c) => c.id === "endless_start")
-    return start ?? this.generator.next(0)
+    if (start) {
+      return this.generator.fill(start, "meadow", 1)
+    }
+    return this.generator.next(0)
   }
 
   private mountHud(): void {
@@ -397,7 +403,8 @@ export class EndlessScene extends Phaser.Scene {
       this.scene.start("ModeSelect")
   }
 
-  private spawnSegment(chunk: ChunkDef, originX: number): void {
+  private spawnSegment(filled: FilledChunk, originX: number): void {
+    const chunk = filled.chunk
     const seg: Segment = {
       originX,
       width: chunk.width,
@@ -405,7 +412,7 @@ export class EndlessScene extends Phaser.Scene {
       objects: [],
       enemies: [],
       moverStates: [],
-      carrots: [],
+      pickups: [],
     }
 
     const band = this.add
@@ -473,18 +480,22 @@ export class EndlessScene extends Phaser.Scene {
       }
     }
 
-    for (const e of chunk.enemies ?? []) {
+    for (const e of filled.enemies) {
       const sprite = spawnEnemy(this, e.id, originX + e.x, e.y, this.platforms, this.enemies)
       seg.enemies.push(sprite)
     }
 
-    for (const c of chunk.carrots ?? []) {
-      if (originX > 0 && !this.generator.rollCarrot()) {
-        continue
+    for (const item of filled.items) {
+      const sprite = this.add.image(originX + item.x, item.y, "story_carrot").setDepth(2)
+      if (item.id === "mooncake") {
+        sprite.setTint(0xe8c45a)
+      } else if (item.id === "osmanthus_blossom") {
+        sprite.setTint(0xf2d4e8)
+      } else if (item.id === "lantern") {
+        sprite.setTint(0xf08a3a)
       }
-      const carrot = this.add.image(originX + c.x, c.y, "story_carrot").setDepth(2)
-      seg.carrots.push(carrot)
-      seg.objects.push(carrot)
+      seg.pickups.push({ sprite, id: item.id })
+      seg.objects.push(sprite)
     }
 
     this.segments.push(seg)
@@ -647,12 +658,17 @@ export class EndlessScene extends Phaser.Scene {
       this.cameras.main.setBackgroundColor(kit.sky)
     }
     this.playerState.glide = kit.env === "lantern"
+    this.hintFlash = Math.max(0, this.hintFlash - dt)
     if (this.hud) {
       this.hud.env.textContent = kit.name
-      const showHint = kit.env === "lantern"
-      this.hud.hint.hidden = !showHint
-      if (showHint) {
-        this.hud.hint.textContent = "Hold jump to glide between lanterns."
+      if (this.hintFlash > 0) {
+        this.hud.hint.hidden = false
+      } else {
+        const showHint = kit.env === "lantern"
+        this.hud.hint.hidden = !showHint
+        if (showHint) {
+          this.hud.hint.textContent = "Hold jump to glide between lanterns."
+        }
       }
     }
 
@@ -680,7 +696,7 @@ export class EndlessScene extends Phaser.Scene {
     updatePlayerMovement(this.player, input, this.playerState)
 
     this.advanceChase(dt)
-    this.collectCarrots()
+    this.collectPickups()
 
     if (this.player.y > 1160) {
       this.loseHeartAndRespawn("fall")
@@ -740,16 +756,41 @@ export class EndlessScene extends Phaser.Scene {
     }
   }
 
-  private collectCarrots(): void {
+  private collectPickups(): void {
     for (const seg of this.segments) {
-      for (const carrot of seg.carrots) {
-        if (!carrot.active) {
+      for (const pickup of seg.pickups) {
+        if (!pickup.sprite.active) {
           continue
         }
-        if (Math.abs(carrot.x - this.player.x) < 34 && Math.abs(carrot.y - this.player.y) < 40) {
-          carrot.destroy()
-          this.carrotsCollected += 1
+        if (Math.abs(pickup.sprite.x - this.player.x) < 34 && Math.abs(pickup.sprite.y - this.player.y) < 40) {
+          pickup.sprite.destroy()
+          this.applyItem(pickup.id)
         }
+      }
+    }
+  }
+
+  private applyItem(id: string): void {
+    if (id === "carrot") {
+      this.carrotsCollected += 1
+      return
+    }
+    if (id === "mooncake") {
+      this.health = Math.min(this.maxHearts, this.health + 1)
+      this.updateHud()
+      return
+    }
+    if (id === "osmanthus_blossom") {
+      this.playerState.glideCharges += 1
+      return
+    }
+    if (id === "lantern") {
+      const floor = this.spawnX - 700
+      this.chaseX = Math.max(floor, this.chaseX - MIST_PUSH_METERS * METER_PER_PX)
+      this.hintFlash = 1.6
+      if (this.hud) {
+        this.hud.hint.hidden = false
+        this.hud.hint.textContent = "The mist falls back."
       }
     }
   }

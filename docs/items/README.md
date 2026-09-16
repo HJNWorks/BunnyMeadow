@@ -28,9 +28,9 @@ Full entries on [catalog.md](catalog.md).
 | Item | Category | Effect | Status |
 | --- | --- | --- | --- |
 | carrot | currency | pantry currency | live |
-| mooncake | restore | restores one heart | planned |
-| osmanthus blossom | run-buff | one extra glide charge | planned |
-| lantern | run-buff | light radius + pushes the mist back | planned |
+| mooncake | restore | restores one heart | live |
+| osmanthus blossom | run-buff | one extra glide charge | live |
+| lantern | run-buff | pushes the mist back 80 m (light radius waits for I3) | live |
 | dew | run-buff | short slow-time | idea |
 | moon letter | key | opens the sky/moon edges in Endless | idea |
 | cosmetic drop | cosmetic | unlocks a Customize option | idea |
@@ -42,5 +42,6 @@ that weights what fills a slot. This is the same slot idea used for enemies. See
 [placement.md](placement.md) and the chunk contract at
 [../modes/endless/chunk-contract.md](../modes/endless/chunk-contract.md).
 
-Today only carrots exist, placed as fixed `carrots` arrays in chunk JSON, rolled by a
-single `carrotChance` per difficulty. The item table replaces that single chance.
+Today carrots, mooncakes, blossoms, and lanterns come from item slots filled by
+`EndlessGenerator.fill` against `src/data/items.json`. `carrotChance` is the chance a
+slot is filled. Empty rolls stay empty.
