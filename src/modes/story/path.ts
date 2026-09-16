@@ -140,7 +140,7 @@ const STATIONS: Record<string, StoryStation> = {
     id: "w3_2_tiger_road",
     kind: "level",
     title: "Tiger Road",
-    blurb: "Ride the tiger across the gaps. Hop when you must.",
+    blurb: "Hop on the tiger. It comes to you, then rides the water gaps.",
     lines: [],
     levelId: "w3_2_tiger_road",
   },

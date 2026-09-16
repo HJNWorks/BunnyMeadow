@@ -43,8 +43,9 @@ type MoverState = {
 type RideState = {
   sprite: Phaser.Physics.Arcade.Image
   points: { x: number; y: number }[]
-  index: number
   speed: number
+  carrying: boolean
+  destIndex: number
 }
 
 const SHELL = `
@@ -459,8 +460,9 @@ export class StoryScene extends Phaser.Scene {
       this.ride = {
         sprite,
         points,
-        index: 0,
         speed: def.ride.speed,
+        carrying: false,
+        destIndex: points.length - 1,
       }
     }
 
@@ -716,17 +718,29 @@ export class StoryScene extends Phaser.Scene {
 
     if (!this.textures.exists("story_tiger")) {
       const tiger = this.make.graphics({ x: 0, y: 0 })
-      tiger.fillStyle(0xe0a040, 1)
-      tiger.fillRoundedRect(4, 8, 88, 28, 10)
-      tiger.fillStyle(0x3a2a18, 1)
-      tiger.fillRect(18, 10, 6, 24)
-      tiger.fillRect(40, 10, 6, 24)
-      tiger.fillRect(62, 10, 6, 24)
-      tiger.fillStyle(0xf0c060, 1)
-      tiger.fillCircle(12, 16, 10)
+      tiger.fillStyle(0xe2953a, 1)
+      tiger.fillRoundedRect(18, 14, 70, 26, 10)
       tiger.fillStyle(0x2a2010, 1)
-      tiger.fillCircle(8, 14, 2)
-      tiger.generateTexture("story_tiger", 100, 40)
+      tiger.fillRect(34, 16, 5, 22)
+      tiger.fillRect(50, 16, 5, 22)
+      tiger.fillRect(66, 16, 5, 22)
+      tiger.fillStyle(0xe8a84a, 1)
+      tiger.fillCircle(22, 18, 14)
+      tiger.fillStyle(0xd48430, 1)
+      tiger.fillEllipse(14, 6, 7, 10)
+      tiger.fillEllipse(28, 6, 7, 10)
+      tiger.fillStyle(0xf0b868, 1)
+      tiger.fillEllipse(14, 7, 3, 5)
+      tiger.fillEllipse(28, 7, 3, 5)
+      tiger.fillStyle(0x2a2010, 1)
+      tiger.fillCircle(16, 16, 2)
+      tiger.fillStyle(0xc45a2a, 1)
+      tiger.fillTriangle(6, 20, 0, 22, 8, 24)
+      tiger.fillStyle(0xd48430, 1)
+      tiger.fillRect(28, 38, 8, 8)
+      tiger.fillRect(58, 38, 8, 8)
+      tiger.fillRect(74, 38, 8, 8)
+      tiger.generateTexture("story_tiger", 100, 48)
       tiger.destroy()
     }
 
@@ -816,6 +830,85 @@ export class StoryScene extends Phaser.Scene {
       }
     }
     return false
+  }
+
+  private nearestRidePathPoint(x: number, y: number): { x: number; y: number } {
+    if (!this.ride || this.ride.points.length === 0) {
+      return { x, y }
+    }
+    if (this.ride.points.length === 1) {
+      return { ...this.ride.points[0] }
+    }
+    let best = { x: this.ride.points[0].x, y: this.ride.points[0].y }
+    let bestDist = Number.POSITIVE_INFINITY
+    for (let i = 0; i < this.ride.points.length - 1; i += 1) {
+      const a = this.ride.points[i]
+      const b = this.ride.points[i + 1]
+      const abx = b.x - a.x
+      const aby = b.y - a.y
+      const len2 = abx * abx + aby * aby || 1
+      const t = Math.max(0, Math.min(1, ((x - a.x) * abx + (y - a.y) * aby) / len2))
+      const px = a.x + abx * t
+      const py = a.y + aby * t
+      const dist = Math.hypot(px - x, py - y)
+      if (dist < bestDist) {
+        bestDist = dist
+        best = { x: px, y: py }
+      }
+    }
+    return best
+  }
+
+  private playerOnTiger(): boolean {
+    if (!this.ride) {
+      return false
+    }
+    const body = this.player.body as Phaser.Physics.Arcade.Body
+    if (!(body.blocked.down || body.touching.down)) {
+      return false
+    }
+    return (
+      Math.abs(this.player.x - this.ride.sprite.x) < this.ride.sprite.displayWidth * 0.58 &&
+      Math.abs(this.player.y - (this.ride.sprite.y - this.ride.sprite.displayHeight * 0.45)) < 52
+    )
+  }
+
+  private updateTigerRide(dt: number): void {
+    if (!this.ride) {
+      return
+    }
+    const onRide = this.playerOnTiger()
+    if (onRide && !this.ride.carrying) {
+      this.ride.carrying = true
+      const first = this.ride.points[0]
+      const last = this.ride.points[this.ride.points.length - 1]
+      const midX = (first.x + last.x) / 2
+      this.ride.destIndex = this.player.x < midX ? this.ride.points.length - 1 : 0
+    }
+    if (!onRide) {
+      this.ride.carrying = false
+    }
+
+    const target = this.ride.carrying
+      ? this.ride.points[this.ride.destIndex]
+      : this.nearestRidePathPoint(this.player.x, this.player.y - 40)
+    const dx = target.x - this.ride.sprite.x
+    const dy = target.y - this.ride.sprite.y
+    const dist = Math.hypot(dx, dy) || 1
+    const speed = this.ride.carrying ? this.ride.speed : this.ride.speed * 1.25
+    const step = Math.min(speed * dt, dist)
+    const mx = (dx / dist) * step
+    const my = (dy / dist) * step
+    if (dist > 3) {
+      this.ride.sprite.x += mx
+      this.ride.sprite.y += my
+      this.ride.sprite.setFlipX(mx < 0)
+    }
+    ;(this.ride.sprite.body as Phaser.Physics.Arcade.Body).updateFromGameObject()
+    if (onRide && dist > 3) {
+      this.player.x += mx
+      this.player.y += my
+    }
   }
 
   private syncHearts(): void {
@@ -1218,29 +1311,7 @@ export class StoryScene extends Phaser.Scene {
     }
 
     if (this.ride) {
-      const target = this.ride.points[this.ride.index]
-      const dx = target.x - this.ride.sprite.x
-      const dy = target.y - this.ride.sprite.y
-      const dist = Math.hypot(dx, dy) || 1
-      const step = Math.min(this.ride.speed * dt, dist)
-      const mx = (dx / dist) * step
-      const my = (dy / dist) * step
-      this.ride.sprite.x += mx
-      this.ride.sprite.y += my
-      ;(this.ride.sprite.body as Phaser.Physics.Arcade.Body).updateFromGameObject()
-      const body = this.player.body as Phaser.Physics.Arcade.Body
-      if (body.blocked.down || body.touching.down) {
-        const onRide =
-          Math.abs(this.player.x - this.ride.sprite.x) < this.ride.sprite.displayWidth * 0.55 &&
-          Math.abs(this.player.y - (this.ride.sprite.y - this.ride.sprite.displayHeight * 0.5)) < 48
-        if (onRide) {
-          this.player.x += mx
-          this.player.y += my
-        }
-      }
-      if (dist < 8) {
-        this.ride.index = Math.min(this.ride.index + 1, this.ride.points.length - 1)
-      }
+      this.updateTigerRide(dt)
     }
 
     const input = getInput().snapshot()
