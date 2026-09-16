@@ -22,7 +22,7 @@ and the milestone list stay in [../ROADMAP.md](../ROADMAP.md).
 | [I1](i1-biome-route.md) (done) | Biome route and shorter bands | route walker, `bandMeters`, tier jitter |
 | [I2](i2-creatures-items.md) (done) | Creatures and items in data | enemy/item slots, biome rosters, item catalog |
 | [I3](i3-theme-rendering.md) (done) | Theme and rendering | palettes.json, sky lerp, weather, night lighting |
-| [I4](i4-audio-i18n.md) | Audio and i18n | the remaining open M5 items |
+| [I4](i4-audio-i18n.md) (done) | Audio and i18n | the remaining open M5 items |
 
 ## Relationship to milestones
 

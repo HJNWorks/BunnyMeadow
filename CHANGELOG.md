@@ -6,7 +6,9 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
-Iterations I1-I3 are in the tree. Version stays at 0.1.0 until I4 ships with them.
+## [0.2.0] - 2026-09-16
+
+Web iterations I1-I4. Closes the last M5 leftovers (audio assets and i18n fill).
 
 ### Added
 
@@ -20,6 +22,10 @@ Iterations I1-I3 are in the tree. Version stays at 0.1.0 until I4 ships with the
 - `palettes.json` six-token kits plus hour and weather for the live rungs and moon.
 - Weather specks, multiply night overlay, and lantern glow on Story and Endless.
 - Ten Endless bridge chunks with sky and night lerp. Layered fog-coloured mist bands.
+- Procedural Web Audio on the existing bus: pentatonic loops for menu, meadow, dusk,
+  night, and moon, plus jump, dash, pickup, hurt, heart, mist, confirm, and cancel.
+- DE and ZH-Hans copy for menus, HUD, World Map, Story overlay and epilogue, Endless
+  lobby and results, and on-screen item hints, with `{name}` interpolation in `t()`.
 
 ### Changed
 
@@ -27,10 +33,6 @@ Iterations I1-I3 are in the tree. Version stays at 0.1.0 until I4 ships with the
 - Seeds from the original 0.1.0 Endless build do not replay (walker, jitter, slot rolls,
   and queued bridges consume extra rng draws).
 - Story and Endless platform grass tints come from the palette ground token.
-
-### Known open items
-
-- Audio assets and DE/ZH-Hans string fill (I4).
 
 ## [0.1.0] - 2026-09-16
 
@@ -54,9 +56,6 @@ GitHub Pages.
 - Repo hygiene: proprietary LICENSE, CONTRIBUTING guide, this changelog, a CI workflow,
   and Conventional Commits enforcement.
 
-### Known open items
-
-- Audio assets and DE/ZH-Hans string fill remain from M5 (iteration I4).
-
-[Unreleased]: https://github.com/HJNWorks/BunnyMeadow/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/HJNWorks/BunnyMeadow/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/HJNWorks/BunnyMeadow/releases/tag/v0.2.0
 [0.1.0]: https://github.com/HJNWorks/BunnyMeadow/releases/tag/v0.1.0

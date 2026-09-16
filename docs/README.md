@@ -75,9 +75,9 @@ entry there.
 
 ## Versioning rules
 
-- Story milestones M0-M5 are done. The remaining desktop and store milestones
-  (M6-M8) are postponed while the web build keeps iterating. See [ROADMAP.md](ROADMAP.md).
-- Ongoing web work is tracked as numbered iterations I1-I4 under [iterations/](iterations/README.md).
+- Story milestones M0-M5 are done. Web iterations I1-I4 are done (`v0.2.0`). The remaining
+  desktop and store milestones (M6-M8) are postponed. See [ROADMAP.md](ROADMAP.md).
+- Web iterations I1-I4 live under [iterations/](iterations/README.md).
   Each iteration has one page listing its data and doc deltas.
 - Design pages describe the target. Iteration pages describe the change that moves
   `src/` toward that target. When an iteration ships, its facts graduate from

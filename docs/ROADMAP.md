@@ -18,17 +18,14 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | M2 Moon Tasks (Night Watch + Hide and Seek) | done |
 | M3 Story World 1 vertical slice | done |
 | M4 Story content complete | done |
-| M5 Endless mode | done (audio assets + i18n fill still open) |
-| Web iterations I1–I4 | I0-I3 done. I4 next (see [iterations/README.md](iterations/README.md)) |
+| M5 Endless mode | done |
+| Web iterations I1–I4 | done (tagged `v0.2.0`) |
 | M6–M8 desktop + store | postponed to the end, after the web iterations |
 
 ## Current phase
 
-Story milestones M0–M5 are done. The current focus is a run of web iterations (I1–I4)
-that deepen the web build: seeded Endless routes, data-backed creatures and items, a
-per-biome rendering language, then the remaining audio and i18n fill. The desktop and
-store milestones (M6–M8) keep their numbers and sit at the end; they resume once the
-web build is where it should be. See [iterations/README.md](iterations/README.md).
+Story milestones M0–M5 and web iterations I1–I4 are done. The remaining work is the postponed
+desktop and store milestones (M6–M8). See [iterations/README.md](iterations/README.md).
 
 ## Done
 
@@ -155,8 +152,8 @@ Shared `ModeContext`: active save, difficulty resolver, input, audio bus, `t()`,
 | `systems/ChunkAssembler.ts` | live for W1 JSON chunks |
 | `modes/tasks/TaskRunner.ts` | live for Night Watch + Hide and Seek; other task ids typed but unregistered |
 | `scenes/DialogueOverlay.ts` | live (two-line overlay) |
-| `core/audio.ts` | volume bus; assets → M5 |
-| `core/i18n.ts` | `t(key)` + EN/DE/ZH-Hans files; full copy → M5 |
+| `core/audio.ts` | live (procedural Web Audio loops and sfx on the existing bus) |
+| `core/i18n.ts` | live (`t(key, vars?)` + EN/DE/ZH-Hans fill) |
 | `core/platform/desktop.ts` | → M6 |
 
 ### Difficulty API
@@ -226,26 +223,26 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 **Filled (Endless):** shared side-scroll kit extracted to `src/modes/story/shared/` (playerController, enemyKit, moversHazards, storyTextures) and reused by Story and Endless; endless chunk contract (`endless` metadata + `carrots`) on `ChunkDef`; glob-registered `src/data/chunks/endless/*.json` (35 tiered chunks) with `scripts/check-endless-chunks.mjs` in the build; seeded `EndlessGenerator` + `src/data/endless.json` (env schedule + per-difficulty chase/tier tuning); `EndlessScene` lobby (difficulty chips + local leaderboard), streaming segments, difficulty-scaled chase wall, hearts/respawn, lantern glide, carrots to pantry; `progress.endlessRuns` per preset in save/migrate; `contentFlags.endless` true.
 
-**Still open:** music/sfx assets on the audio bus; DE/ZH-Hans string fill; broader polish.
+**Filled (I4):** procedural Web Audio on the existing bus (music groups + sfx ids); DE/ZH-Hans in-run copy through `t(key, vars?)`.
 
 **Must not reinvent:** ChunkAssembler, audio bus API, i18n `t()`.
 
-**Exit criteria:** Endless distance saves to `endlessBest` (met); `ENDLESS_1K` at 1000 m (met); language switch updates menus (existing).
+**Exit criteria:** Endless distance saves to `endlessBest` (met); `ENDLESS_1K` at 1000 m (met); language switch updates menus and in-run copy (I4).
 
-### Web iterations I1–I4 (current)
+### Web iterations I1–I4 (done)
 
-Detail per iteration in [iterations/README.md](iterations/README.md). These deepen the
+Detail per iteration in [iterations/README.md](iterations/README.md). These deepened the
 web build before the desktop and store milestones resume.
 
 | Iteration | Theme | Summary |
 | --- | --- | --- |
 | I0 | Repo hygiene | done: proprietary LICENSE, CONTRIBUTING, CHANGELOG, expanded README, CI on PRs, Conventional Commits (commitlint + husky), `v0.1.0` tag. |
-| I1 | Biome route + shorter bands | done (unreleased): seeded route walker, `bandMeters`, tier jitter. Water and dusk can appear before 400 m. |
-| I2 | Creatures + items in data | done (unreleased): slots, biome rosters, mooncake / blossom / lantern mist push, goat blocker. |
-| I3 | Theme + rendering | done (unreleased): palettes.json, weather and night on Story and Endless, Endless bridges / sky lerp / layered mist. |
-| I4 | Audio + i18n | Close the open M5 items: audio assets on the bus, DE/ZH-Hans fill. |
+| I1 | Biome route + shorter bands | done: seeded route walker, `bandMeters`, tier jitter. Water and dusk can appear before 400 m. |
+| I2 | Creatures + items in data | done: slots, biome rosters, mooncake / blossom / lantern mist push, goat blocker. |
+| I3 | Theme + rendering | done: palettes.json, weather and night on Story and Endless, Endless bridges / sky lerp / layered mist. |
+| I4 | Audio + i18n | done: procedural Web Audio on the bus, DE/ZH-Hans fill. Tagged `v0.2.0`. |
 
-Each iteration can ship to Pages on its own. The version tag for this track waits until I4.
+Each iteration can ship to Pages on its own. I1-I4 share the `v0.2.0` tag.
 
 ### M6 — Desktop shell
 
@@ -318,10 +315,10 @@ any local commands run on Windows.
 
 ### Versioning (live)
 
-- Semantic versioning on `package.json` `version` (`0.1.0`), pre-1.0 while the game is in
+- Semantic versioning on `package.json` `version` (`0.2.0`), pre-1.0 while the game is in
   development: bump minor for new content or systems, patch for fixes and tuning.
 - Tag a version after a track of work, not after every iteration. `v0.1.0` marks the M0-M5
-  web build. I1-I4 share the next tag when that track closes.
+  web build. `v0.2.0` marks web iterations I1-I4.
 - [CHANGELOG.md](../CHANGELOG.md) (Keep a Changelog format) records each tag. This also seeds
   Steam patch notes later.
 
@@ -373,6 +370,6 @@ any local commands run on Windows.
 
 ## Suggested next coding session
 
-I1-I3 are done (still 0.1.0). Next is iteration [I4](iterations/i4-audio-i18n.md):
-audio assets and DE/ZH-Hans string fill. Tag the next version after I4. Desktop and
-store milestones (M6-M8) resume after that.
+Web iterations I1-I4 are done (`v0.2.0`). Next is the postponed desktop milestone
+[M6](#m6--desktop-shell): Electron behind the existing platform interface. Store work
+(M7-M8) stays after that.

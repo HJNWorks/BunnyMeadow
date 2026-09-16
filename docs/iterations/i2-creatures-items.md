@@ -1,6 +1,6 @@
 # Iteration I2 — Creatures and Items in Data
 
-Status: done (unreleased, still 0.1.0). Hub: [README.md](README.md). Contract:
+Status: done (shipped in v0.2.0). Hub: [README.md](README.md). Contract:
 [../modes/endless/chunk-contract.md](../modes/endless/chunk-contract.md).
 
 ## Shipped

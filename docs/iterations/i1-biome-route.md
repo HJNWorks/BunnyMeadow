@@ -1,6 +1,6 @@
 # Iteration I1 — Biome Route and Shorter Bands
 
-Status: done (unreleased, still 0.1.0). Hub: [README.md](README.md). Design: [../modes/endless/design.md](../modes/endless/design.md).
+Status: done (shipped in v0.2.0). Hub: [README.md](README.md). Design: [../modes/endless/design.md](../modes/endless/design.md).
 
 ## Why first
 

@@ -1,6 +1,6 @@
 # Iteration I3 — Theme and Rendering
 
-Goal: make biomes look distinct and transitions smooth. Palettes in data, sky lerp on bridges,
+Status: done (shipped in v0.2.0). Palettes in data, sky lerp on bridges,
 weather presets, and cheap night lighting. Hub: [README.md](README.md). Rendering:
 [../rendering/README.md](../rendering/README.md).
 
