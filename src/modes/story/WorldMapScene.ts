@@ -2,6 +2,8 @@ import Phaser from "phaser"
 import { getContentFlags } from "../../core/ModeContext"
 import { getSave, persistSave } from "../../core/session"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
+import { t } from "../../core/i18n"
+import { getAudio } from "../../core/audio"
 import { buildInkBrushSvg, inkProgressForWorlds } from "../../ui/inkBrushPath"
 import {
   defaultExpandedWorld,
@@ -170,6 +172,7 @@ export class WorldMapScene extends Phaser.Scene {
   }
 
   create(): void {
+    getAudio().playMusic("menu")
     const save = getSave()
     const flags = getContentFlags()
     const defaultLayout: StoryPathLayout = flags.storyMapArt ? "art" : "ink"
@@ -198,20 +201,20 @@ export class WorldMapScene extends Phaser.Scene {
         const soon = world.status === "soon"
         const open = this.expanded === world.id
         const badge = soon
-          ? "Soon"
+          ? t("common.soon")
           : unlocked
             ? counts.total > 0
               ? `${counts.done}/${counts.total}`
-              : "Open"
-            : "Locked"
+              : t("common.open")
+            : t("common.locked")
         return `
           <button type="button"
             class="story-path-node${soon ? " is-soon" : ""}${!unlocked && !soon ? " is-locked" : ""}${open ? " is-open" : ""}"
             style="left:${world.x}%; top:${world.y}%"
             data-world="${world.id}"
             ${soon ? "disabled" : ""}>
-            <strong>${world.title}</strong>
-            <span>${world.tagline}</span>
+            <strong>${t(`story.world.${world.id}.title`)}</strong>
+            <span>${t(`story.world.${world.id}.tagline`)}</span>
             <em class="story-path-badge">${badge}</em>
           </button>
         `
@@ -222,32 +225,32 @@ export class WorldMapScene extends Phaser.Scene {
       this,
       `
       <div class="bm-shell bm-wide story-path-shell">
-        <div class="bm-eyebrow">Story Path</div>
-        <h1>Burrow to Moon</h1>
-        <p class="bm-tagline" data-ui="pathTagline">Follow the blossoms. Expand a world to open its stations.</p>
+        <div class="bm-eyebrow">${t("story.path.eyebrow")}</div>
+        <h1>${t("story.path.title")}</h1>
+        <p class="bm-tagline" data-ui="pathTagline">${t("story.path.tagline")}</p>
         <div class="story-path-frame${this.layout === "art" ? " is-art" : ""}" data-ui="frame" style="--story-map-art: url('${artUrl}')">
           ${inkSvg}
           ${nodes}
         </div>
         <div class="story-path-rail" data-ui="rail"></div>
         <div class="bm-actions bm-start">
-          <button type="button" class="bm-btn ghost" data-ui="back">Modes</button>
+          <button type="button" class="bm-btn ghost" data-ui="back">${t("common.modes")}</button>
           ${
             flags.storyMapArt
               ? `<button type="button" class="bm-btn ghost story-path-dev" data-ui="toggleMap">${
-                  this.layout === "art" ? "Test: ink path" : "Test: painted map"
+                  this.layout === "art" ? t("story.path.ink") : t("story.path.art")
                 }</button>`
               : ""
           }
-          <button type="button" class="bm-btn ghost story-path-dev" data-ui="devReset">Dev: clear story DONEs</button>
+          <button type="button" class="bm-btn ghost story-path-dev" data-ui="devReset">${t("story.path.devReset")}</button>
         </div>
       </div>
       <div class="story-beat" data-ui="beat" hidden>
         <div class="story-beat-card">
-          <div class="bm-eyebrow" data-ui="beatEyebrow">World 0</div>
-          <h2 data-ui="beatTitle">Beat</h2>
+          <div class="bm-eyebrow" data-ui="beatEyebrow">${t("story.path.kind.lore")}</div>
+          <h2 data-ui="beatTitle"></h2>
           <div data-ui="beatBody"></div>
-          <button type="button" class="bm-btn warm" data-ui="beatContinue">Continue</button>
+          <button type="button" class="bm-btn warm" data-ui="beatContinue">${t("common.continue")}</button>
         </div>
       </div>
       <style>${PATH_CSS}</style>
@@ -265,16 +268,12 @@ export class WorldMapScene extends Phaser.Scene {
         rail.hidden = true
         rail.innerHTML = ""
         tagline.textContent =
-          this.layout === "art"
-            ? "Painted map test. Nodes sit on the dirt platforms. Ink path still available."
-            : "Follow the blossoms. Expand a world to open its stations."
+          this.layout === "art" ? t("story.path.taglineArt") : t("story.path.tagline")
         return
       }
       rail.hidden = false
       tagline.textContent =
-        world.id === "w0"
-          ? "Two short story beats, then Soft Paws teaches hop in play."
-          : "Follow the blossoms. Expand a world to open its stations."
+        world.id === "w0" ? t("story.path.taglineW0") : t("story.path.tagline")
       rail.innerHTML = stations
         .map((station, index) => this.stationButton(station, index))
         .join("")
@@ -307,18 +306,21 @@ export class WorldMapScene extends Phaser.Scene {
         if (!isWorldUnlocked(getSave(), world.id)) {
           return
         }
+        getAudio().playSfx("confirm")
         this.expanded = world.id
         syncNodes()
       }
     }
 
     requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
+      getAudio().playSfx("cancel")
       this.scene.start("ModeSelect")
     }
 
     const toggleMap = root.querySelector("[data-ui=toggleMap]") as HTMLButtonElement | null
     if (toggleMap) {
       toggleMap.onclick = () => {
+        getAudio().playSfx("confirm")
         const next: StoryPathLayout = this.layout === "art" ? "ink" : "art"
         writeLayoutPreference(next)
         this.scene.restart()
@@ -326,10 +328,12 @@ export class WorldMapScene extends Phaser.Scene {
     }
 
     requireEl<HTMLButtonElement>(root, "[data-ui=devReset]").onclick = () => {
+      getAudio().playSfx("confirm")
       void this.clearStoryProgress()
     }
 
     requireEl<HTMLButtonElement>(root, "[data-ui=beatContinue]").onclick = () => {
+      getAudio().playSfx("confirm")
       void this.finishBeat()
     }
 
@@ -353,22 +357,29 @@ export class WorldMapScene extends Phaser.Scene {
     const unlocked = isStationUnlocked(save, station.id)
     const done = isStationCleared(save, station.id)
     const kindLabel =
-      station.kind === "lore" ? "Story" : station.kind === "controls" ? "Controls" : "Level"
+      station.kind === "lore"
+        ? t("story.path.kind.lore")
+        : station.kind === "controls"
+          ? t("story.path.kind.controls")
+          : t("story.path.kind.level")
     const label = station.soon
-      ? "Soon"
+      ? t("common.soon")
       : done
-        ? "Done"
+        ? t("common.done")
         : unlocked
           ? station.kind === "level"
-            ? "Open"
-            : "Read"
-          : "Locked"
+            ? t("common.open")
+            : t("common.read")
+          : t("common.locked")
+    const blurb = t(`story.station.${station.id}.blurb`)
+    const titleKey = station.levelId ? `story.level.${station.levelId}.name` : `story.station.${station.id}.title`
+    const shownTitle = t(titleKey)
     return `
       <button type="button" class="story-path-station" data-station="${station.id}" ${unlocked ? "" : "disabled"}>
         <span class="idx">${index + 1}</span>
         <span class="copy">
-          <strong>${station.title}${done ? " ✓" : ""}${station.soon ? " · Soon" : ""}</strong>
-          <span>${station.soon ? "Coming soon" : `${kindLabel} · ${station.blurb}`}</span>
+          <strong>${shownTitle}${done ? " ✓" : ""}${station.soon ? ` · ${t("common.soon")}` : ""}</strong>
+          <span>${station.soon ? t("mode.soon") : `${kindLabel} · ${station.levelId ? t(`story.level.${station.levelId}.objective`) : blurb}`}</span>
         </span>
         <span class="bm-eyebrow">${label}</span>
       </button>
@@ -380,6 +391,7 @@ export class WorldMapScene extends Phaser.Scene {
     if (!station || !isStationUnlocked(getSave(), station.id)) {
       return
     }
+    getAudio().playSfx("confirm")
     if (station.kind === "level" && station.levelId && !station.soon) {
       this.scene.start("Story", { levelId: station.levelId })
       return
@@ -393,9 +405,10 @@ export class WorldMapScene extends Phaser.Scene {
     }
     this.beatRoot.dataset.stationId = station.id
     requireEl(this.beatRoot, "[data-ui=beatEyebrow]").textContent =
-      station.kind === "controls" ? "Controls" : "World 0"
-    requireEl(this.beatRoot, "[data-ui=beatTitle]").textContent = station.title
-    requireEl(this.beatRoot, "[data-ui=beatBody]").innerHTML = station.lines
+      station.kind === "controls" ? t("story.path.kind.controls") : t("story.world.w0.title")
+    requireEl(this.beatRoot, "[data-ui=beatTitle]").textContent = t(`story.station.${station.id}.title`)
+    requireEl(this.beatRoot, "[data-ui=beatBody]").innerHTML = [0, 1]
+      .map((index) => t(`story.station.${station.id}.line${index}`))
       .map((line) => `<p>${line}</p>`)
       .join("")
     this.beatRoot.hidden = false

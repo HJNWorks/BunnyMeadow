@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import { getContentFlags } from "../core/ModeContext"
 import { t } from "../core/i18n"
+import { getAudio } from "../core/audio"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 
 export class ModeSelectScene extends Phaser.Scene {
@@ -9,6 +10,7 @@ export class ModeSelectScene extends Phaser.Scene {
   }
 
   create(): void {
+    getAudio().playMusic("menu")
     const flags = getContentFlags()
     const tasksLive = flags.tasks || flags.meadow
     const { root } = mountDomShell(
@@ -29,7 +31,7 @@ export class ModeSelectScene extends Phaser.Scene {
             </span>
             <span class="bm-card-copy">
               <strong>${t("mode.story")}</strong>
-              <span>${flags.storyFull || flags.webFullStory ? "Burrow to Guanghan · full path" : flags.storyWorld1 ? "World 1 · Meadow and Hedgerows" : t("mode.story.desc")}</span>
+              <span>${flags.storyFull || flags.webFullStory ? t("mode.story.full") : flags.storyWorld1 ? t("mode.story.world1") : t("mode.story.desc")}</span>
             </span>
           </button>
           <button type="button" class="bm-card bm-card-icon" data-ui="tasks" ${tasksLive ? "" : "disabled"}>
@@ -43,7 +45,7 @@ export class ModeSelectScene extends Phaser.Scene {
             </span>
             <span class="bm-card-copy">
               <strong>${t("mode.tasks")}</strong>
-              <span>${tasksLive ? t("mode.tasks.desc") : "Coming soon"}</span>
+              <span>${tasksLive ? t("mode.tasks.desc") : t("mode.soon")}</span>
             </span>
           </button>
           <button type="button" class="bm-card bm-card-icon" data-ui="endless" ${flags.endless ? "" : "disabled"}>
@@ -55,7 +57,7 @@ export class ModeSelectScene extends Phaser.Scene {
             </span>
             <span class="bm-card-copy">
               <strong>${t("mode.endless")}</strong>
-              <span>${flags.endless ? t("mode.endless.desc") : "Coming soon"}</span>
+              <span>${flags.endless ? t("mode.endless.desc") : t("mode.soon")}</span>
             </span>
           </button>
         </div>
@@ -67,14 +69,26 @@ export class ModeSelectScene extends Phaser.Scene {
     )
 
     requireEl<HTMLButtonElement>(root, "[data-ui=story]").onclick = () => {
-      if (flags.storyWorld1) this.scene.start("WorldMap")
+      if (flags.storyWorld1) {
+        getAudio().playSfx("confirm")
+        this.scene.start("WorldMap")
+      }
     }
     requireEl<HTMLButtonElement>(root, "[data-ui=tasks]").onclick = () => {
-      if (tasksLive) this.scene.start("TaskSelect")
+      if (tasksLive) {
+        getAudio().playSfx("confirm")
+        this.scene.start("TaskSelect")
+      }
     }
     requireEl<HTMLButtonElement>(root, "[data-ui=endless]").onclick = () => {
-      if (flags.endless) this.scene.start("Endless")
+      if (flags.endless) {
+        getAudio().playSfx("confirm")
+        this.scene.start("Endless")
+      }
     }
-    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => this.scene.start("Title")
+    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
+      getAudio().playSfx("cancel")
+      this.scene.start("Title")
+    }
   }
 }

@@ -5,6 +5,8 @@ import { addPantryCarrots } from "../../core/unlocks"
 import { getMeadowMap, type MeadowMapDef } from "../../core/maps"
 import { Spawner, type SpawnedEnemy } from "../../systems/Spawner"
 import { drawBunny, type BunnyCosmetics } from "../../render/drawBunny"
+import { t } from "../../core/i18n"
+import { getAudio } from "../../core/audio"
 import type { AccessoryOption, EarsOption, FurOption } from "../../core/save"
 import type { ResolvedTask, TaskId } from "./TaskRunner"
 
@@ -153,11 +155,15 @@ export class TaskRuntime {
     this.applyTuning()
     getInput().start()
 
-    this.ui.play.onclick = () => this.onPrimaryAction()
+    this.ui.play.onclick = () => {
+      getAudio().playSfx("confirm")
+      this.onPrimaryAction()
+    }
     this.ui.toSelect.onclick = () => this.callbacks.onQuitToSelect()
     this.ui.pause.onclick = () => this.pause()
     this.ui.resume.onclick = () => {
       if (this.state === "paused") {
+        getAudio().playSfx("confirm")
         this.pause()
       }
     }
@@ -219,9 +225,9 @@ export class TaskRuntime {
     this.state = "intro"
     this.ui.pausePanel.hidden = true
     this.modal(
-      this.task.name,
-      this.task.description,
-      "Let's hop →",
+      t(`task.${this.task.id}.name`),
+      t(`task.${this.task.id}.desc`),
+      t("meadow.intro.play"),
       false,
     )
     this.sync()
@@ -285,7 +291,7 @@ export class TaskRuntime {
     this.state = "playing"
     this.ui.overlay.hidden = true
     this.ui.pausePanel.hidden = true
-    this.ui.pause.textContent = "Pause"
+    this.ui.pause.textContent = t("common.pause")
     this.sync()
   }
 
@@ -301,9 +307,9 @@ export class TaskRuntime {
     }
     const empty = Math.max(0, this.maxHearts - this.health)
     this.ui.hearts.textContent = `${"♥ ".repeat(this.health)}${"♡ ".repeat(empty)}`.trim()
-    this.ui.dash.textContent = this.cooldown > 0 ? `${this.cooldown.toFixed(1)}s` : "Ready"
-    this.ui.mapName.textContent = this.map.name
-    this.ui.taskName.textContent = this.task.name
+    this.ui.dash.textContent = this.cooldown > 0 ? `${this.cooldown.toFixed(1)}s` : t("common.ready")
+    this.ui.mapName.textContent = t(`map.${this.map.id}`)
+    this.ui.taskName.textContent = t(`task.${this.task.id}.name`)
     const timerWrap = this.ui.timer.parentElement
     if (this.timed) {
       this.ui.timer.hidden = false
@@ -340,11 +346,11 @@ export class TaskRuntime {
       this.target = null
       this.ui.overlay.hidden = true
       this.ui.pausePanel.hidden = false
-      this.ui.pause.textContent = "Resume"
+      this.ui.pause.textContent = t("common.resume")
     } else if (this.state === "paused") {
       this.state = "playing"
       this.ui.pausePanel.hidden = true
-      this.ui.pause.textContent = "Pause"
+      this.ui.pause.textContent = t("common.pause")
     }
   }
 
@@ -352,6 +358,7 @@ export class TaskRuntime {
     if (this.state === "playing" && this.cooldown <= 0) {
       this.burst = 0.19
       this.cooldown = this.dashCooldownMax
+      getAudio().playSfx("dash")
     }
   }
 
@@ -424,12 +431,14 @@ export class TaskRuntime {
     this.health -= 1
     this.invulnerable = this.invulnMax
     this.puff(this.bunny.x, this.bunny.y, "#fffaf0")
+    getAudio().playSfx("hurt")
+    getAudio().playSfx("heart")
     if (this.health <= 0) {
       this.state = "lost"
       this.modal(
-        "A little rest, then retry.",
-        "Try again when you are ready.",
-        "Try again →",
+        t("meadow.lost.title"),
+        t("task.lost.body"),
+        t("meadow.lost.retry"),
         true,
       )
     }
@@ -554,16 +563,16 @@ export class TaskRuntime {
           this.state = "won"
           void this.onWin()
           this.modal(
-            "Dawn breaks.",
-            `${this.playerName} held the burrow through the night.`,
-            "Play again →",
+            t("task.dawn.title"),
+            t("task.dawn.body", { name: this.playerName }),
+            t("meadow.win.play"),
             true,
           )
           this.sync()
           return
         }
         this.state = "lost"
-        this.modal("Time's up.", "The moon task slips away. Try a quicker hop.", "Try again →", true)
+        this.modal(t("meadow.time.title"), t("task.time.body"), t("meadow.lost.retry"), true)
         return
       }
     }
@@ -615,6 +624,7 @@ export class TaskRuntime {
         if (!kit.found && Math.hypot(kit.x - this.bunny.x, kit.y - this.bunny.y) < 28) {
           kit.found = true
           this.score += 1
+          getAudio().playSfx("pickup")
           this.puff(kit.x, kit.y, "#f2a0b8")
         }
       }
@@ -642,9 +652,9 @@ export class TaskRuntime {
       this.state = "won"
       void this.onWin()
       this.modal(
-        "Task complete!",
-        `${this.playerName} finished ${this.task.name}. Pantry carrots tucked away.`,
-        "Play again →",
+        t("task.win.title"),
+        t("task.win.body", { name: this.playerName, task: t(`task.${this.task.id}.name`) }),
+        t("meadow.win.play"),
         true,
       )
     }

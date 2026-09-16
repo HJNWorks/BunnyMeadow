@@ -26,6 +26,7 @@ export class SettingsScene extends Phaser.Scene {
   }
 
   create(): void {
+    getAudio().playMusic("menu")
     const save = getSave()
     const diffs = listDifficultyIds()
     const { root } = mountDomShell(
@@ -36,7 +37,7 @@ export class SettingsScene extends Phaser.Scene {
         <div class="bm-field">
           <label for="difficulty">${t("settings.difficulty")}</label>
           <select id="difficulty" data-ui="difficulty">
-            ${diffs.map((id) => `<option value="${id}" ${save.settings.difficulty === id ? "selected" : ""}>${id}</option>`).join("")}
+            ${diffs.map((id) => `<option value="${id}" ${save.settings.difficulty === id ? "selected" : ""}>${t(`diff.${id}`)}</option>`).join("")}
           </select>
         </div>
         <div class="bm-field">
@@ -65,20 +66,20 @@ export class SettingsScene extends Phaser.Scene {
             (key) => `
           <label class="bm-check">
             <input type="checkbox" data-a11y="${key}" ${save.settings.accessibility[key] ? "checked" : ""} />
-            ${key}
+            ${t(`a11y.${key}`)}
           </label>`,
           )
           .join("")}
         <div class="bm-field">
-          <label>Dash key</label>
+          <label>${t("settings.dashKey")}</label>
           <input data-ui="dashKey" value="${save.settings.bindings.dash[0] ?? "KeyR"}" />
         </div>
         <div class="bm-field">
-          <label>Jump key</label>
+          <label>${t("settings.jumpKey")}</label>
           <input data-ui="jumpKey" value="${save.settings.bindings.jump[0] ?? "Space"}" />
         </div>
         <div class="bm-field">
-          <label>Pause key</label>
+          <label>${t("settings.pauseKey")}</label>
           <input data-ui="pauseKey" value="${save.settings.bindings.pause[0] ?? "KeyP"}" />
         </div>
         <div class="bm-actions bm-start">
@@ -109,6 +110,7 @@ export class SettingsScene extends Phaser.Scene {
     }
 
     requireEl<HTMLButtonElement>(root, "[data-ui=save]").onclick = async () => {
+      getAudio().playSfx("confirm")
       const next = getSave()
       next.settings.difficulty = requireEl<HTMLSelectElement>(root, "[data-ui=difficulty]")
         .value as DifficultyId
@@ -150,7 +152,9 @@ export class SettingsScene extends Phaser.Scene {
       this.scene.restart()
     }
 
-    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () =>
+    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
+      getAudio().playSfx("cancel")
       this.scene.start(this.returnTo, this.returnData)
+    }
   }
 }

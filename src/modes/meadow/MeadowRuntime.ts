@@ -6,6 +6,8 @@ import { addPantryCarrots, isMapUnlocked, syncMeadowMapUnlocks } from "../../cor
 import { getMeadowMap, listMeadowMaps, type MeadowMapDef } from "../../core/maps"
 import { Spawner, type SpawnedEnemy } from "../../systems/Spawner"
 import { drawBunny, type BunnyCosmetics } from "../../render/drawBunny"
+import { t } from "../../core/i18n"
+import { getAudio } from "../../core/audio"
 import type { AccessoryOption, DifficultyId, EarsOption, FurOption } from "../../core/save"
 
 type GameState = "lobby" | "intro" | "playing" | "paused" | "lost" | "won"
@@ -149,12 +151,22 @@ export class MeadowRuntime {
     this.applySaveTuning()
     getInput().start()
 
-    this.ui.play.onclick = () => this.onPrimaryAction()
-    this.ui.toLobby.onclick = () => this.showLobby()
-    this.ui.startRun.onclick = () => this.beginIntro()
+    this.ui.play.onclick = () => {
+      getAudio().playSfx("confirm")
+      this.onPrimaryAction()
+    }
+    this.ui.toLobby.onclick = () => {
+      getAudio().playSfx("cancel")
+      this.showLobby()
+    }
+    this.ui.startRun.onclick = () => {
+      getAudio().playSfx("confirm")
+      this.beginIntro()
+    }
     this.ui.pause.onclick = () => this.pause()
     this.ui.resume.onclick = () => {
       if (this.state === "paused") {
+        getAudio().playSfx("confirm")
         this.pause()
       }
     }
@@ -227,14 +239,7 @@ export class MeadowRuntime {
   }
 
   private difficultyLabel(id: DifficultyId): string {
-    const labels: Record<DifficultyId, string> = {
-      sprout: "Sprout",
-      hopper: "Hopper",
-      wildhare: "Wildhare",
-      moonlit: "Moonlit",
-      hardcore: "Hardcore",
-    }
-    return labels[id] ?? id
+    return t(`diff.${id}`)
   }
 
   private fillDifficultyChips(): void {
@@ -273,7 +278,7 @@ export class MeadowRuntime {
       btn.type = "button"
       btn.className = `meadow-map-card${this.selectedMapId === map.id ? " selected" : ""}${unlocked ? "" : " locked"}`
       btn.disabled = !unlocked
-      btn.innerHTML = `<strong>${map.name}</strong><span>${unlocked ? map.env : "locked"}</span>`
+      btn.innerHTML = `<strong>${t(`map.${map.id}`)}</strong><span>${unlocked ? t(`env.${map.env}`) : t("common.locked")}</span>`
       btn.onclick = () => {
         this.selectedMapId = map.id
         this.map = getMeadowMap(map.id)
@@ -317,11 +322,17 @@ export class MeadowRuntime {
     this.map = getMeadowMap(this.selectedMapId)
     this.ui.lobby.hidden = true
     this.state = "intro"
-    const timerNote = this.timed ? ` Timer: ${this.diff.timerSeconds}s.` : ""
+    const timerNote = this.timed
+      ? t("meadow.intro.timer", { seconds: this.diff.timerSeconds })
+      : ""
     this.modal(
-      `Hello, ${this.playerName}.`,
-      `Gather ${this.carrotGoal} carrots in ${this.map.name}.${timerNote} Watch for foxes, hedgehogs, and crows.`,
-      "Let's hop →",
+      t("meadow.intro.title", { name: this.playerName }),
+      t("meadow.intro.body", {
+        goal: this.carrotGoal,
+        map: t(`map.${this.map.id}`),
+        timer: timerNote,
+      }),
+      t("meadow.intro.play"),
       false,
     )
     this.sync()
@@ -395,7 +406,7 @@ export class MeadowRuntime {
     this.ui.overlay.hidden = true
     this.ui.pausePanel.hidden = true
     this.ui.lobby.hidden = true
-    this.ui.pause.textContent = "Pause"
+    this.ui.pause.textContent = t("common.pause")
     this.sync()
   }
 
@@ -403,8 +414,8 @@ export class MeadowRuntime {
     this.ui.score.textContent = `${this.score} / ${this.carrotGoal}`
     const empty = Math.max(0, this.maxHearts - this.health)
     this.ui.hearts.textContent = `${"♥ ".repeat(this.health)}${"♡ ".repeat(empty)}`.trim()
-    this.ui.dash.textContent = this.cooldown > 0 ? `${this.cooldown.toFixed(1)}s` : "Ready"
-    this.ui.mapName.textContent = this.map.name
+    this.ui.dash.textContent = this.cooldown > 0 ? `${this.cooldown.toFixed(1)}s` : t("common.ready")
+    this.ui.mapName.textContent = t(`map.${this.map.id}`)
     const timerWrap = this.ui.timer.parentElement
     if (this.timed) {
       this.ui.timer.hidden = false
@@ -443,11 +454,11 @@ export class MeadowRuntime {
       this.target = null
       this.ui.overlay.hidden = true
       this.ui.pausePanel.hidden = false
-      this.ui.pause.textContent = "Resume"
+      this.ui.pause.textContent = t("common.resume")
     } else if (this.state === "paused") {
       this.state = "playing"
       this.ui.pausePanel.hidden = true
-      this.ui.pause.textContent = "Pause"
+      this.ui.pause.textContent = t("common.pause")
     }
   }
 
@@ -455,6 +466,7 @@ export class MeadowRuntime {
     if (this.state === "playing" && this.cooldown <= 0) {
       this.burst = 0.19
       this.cooldown = this.dashCooldownMax
+      getAudio().playSfx("dash")
     }
   }
 
@@ -526,12 +538,14 @@ export class MeadowRuntime {
     this.health -= 1
     this.invulnerable = this.invulnMax
     this.puff(this.bunny.x, this.bunny.y, "#fffaf0")
+    getAudio().playSfx("hurt")
+    getAudio().playSfx("heart")
     if (this.health <= 0) {
       this.state = "lost"
       this.modal(
-        "A little rest, then retry.",
-        "Dash past threats with R, and recover near your burrow.",
-        "Try again →",
+        t("meadow.lost.title"),
+        t("meadow.lost.body"),
+        t("meadow.lost.retry"),
         true,
       )
     }
@@ -663,9 +677,9 @@ export class MeadowRuntime {
       if (this.timerLeft <= 0) {
         this.state = "lost"
         this.modal(
-          "Time's up.",
-          "The meadow grows quiet. Try a quicker hop next time.",
-          "Try again →",
+          t("meadow.time.title"),
+          t("meadow.time.body"),
+          t("meadow.lost.retry"),
           true,
         )
         return
@@ -706,6 +720,7 @@ export class MeadowRuntime {
       if (!c.taken && Math.hypot(c.x - this.bunny.x, c.y - this.bunny.y) < 26) {
         c.taken = true
         this.score += 1
+        getAudio().playSfx("pickup")
         this.puff(c.x, c.y, "#ffce74")
         if (this.score === this.carrotGoal) {
           void this.unlock("BASKET_FULL")
@@ -716,6 +731,7 @@ export class MeadowRuntime {
     for (const item of this.pickups) {
       if (!item.taken && Math.hypot(item.x - this.bunny.x, item.y - this.bunny.y) < 24) {
         item.taken = true
+        getAudio().playSfx("pickup")
         if (item.kind === "leaf") {
           this.health = Math.min(this.maxHearts, this.health + 1)
           this.puff(item.x, item.y, "#8fbf6a")
@@ -748,9 +764,9 @@ export class MeadowRuntime {
       this.state = "won"
       void this.onWin()
       this.modal(
-        "Home, sweet burrow!",
-        `${this.carrotGoal} crunchy carrots for ${this.playerName}. The meadow is a little sweeter with you in it.`,
-        "Play again →",
+        t("meadow.win.title"),
+        t("meadow.win.body", { name: this.playerName, goal: this.carrotGoal }),
+        t("meadow.win.play"),
         true,
       )
     }
@@ -862,7 +878,7 @@ export class MeadowRuntime {
     ctx.fillStyle = "#fffaf0"
     ctx.font = "14px Georgia"
     ctx.textAlign = "center"
-    ctx.fillText(`${this.playerName}'s burrow`, burrow.x, burrow.y + 48)
+    ctx.fillText(t("meadow.burrow", { name: this.playerName }), burrow.x, burrow.y + 48)
 
     for (const c of this.carrots) {
       if (c.taken) {

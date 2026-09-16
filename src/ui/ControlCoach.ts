@@ -1,5 +1,6 @@
 import type Phaser from "phaser"
 import type { Bindings } from "../core/save"
+import { t } from "../core/i18n"
 
 export type CoachAction = "move" | "jump" | "dash"
 
@@ -65,17 +66,17 @@ export class ControlCoach {
           ...primaryCodes(bindings.moveLeft, 1),
           ...primaryCodes(bindings.moveRight, 1),
         ],
-        label: "Move",
+        label: t("coach.move"),
       },
       {
         action: "jump",
         keys: primaryCodes(bindings.jump, 1),
-        label: "Jump",
+        label: t("coach.jump"),
       },
       {
         action: "dash",
         keys: primaryCodes(bindings.dash, 1),
-        label: "Dash",
+        label: t("coach.dash"),
       },
     ]
 

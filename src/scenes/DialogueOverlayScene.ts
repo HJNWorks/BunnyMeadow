@@ -1,6 +1,8 @@
 import Phaser from "phaser"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 import { getInput } from "../core/input"
+import { t } from "../core/i18n"
+import { getAudio } from "../core/audio"
 
 export type DialoguePayload = {
   lines: string[]
@@ -50,7 +52,7 @@ export class DialogueOverlayScene extends Phaser.Scene {
       <div class="bm-dialogue">
         <div class="bm-dialogue-card">
           ${body || "<p>...</p>"}
-          <button type="button" class="bm-btn warm" data-ui="continue">Continue</button>
+          <button type="button" class="bm-btn warm" data-ui="continue">${t("common.continue")}</button>
         </div>
       </div>
       `,
@@ -68,7 +70,10 @@ export class DialogueOverlayScene extends Phaser.Scene {
       done?.()
     }
 
-    requireEl<HTMLButtonElement>(mounted.root, "[data-ui=continue]").onclick = () => close()
+    requireEl<HTMLButtonElement>(mounted.root, "[data-ui=continue]").onclick = () => {
+      getAudio().playSfx("confirm")
+      close()
+    }
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.style?.remove()
@@ -89,6 +94,7 @@ export class DialogueOverlayScene extends Phaser.Scene {
     const snap = getInput().snapshot()
     if (snap.confirmPressed || snap.jumpPressed) {
       if (!this.closed) {
+        getAudio().playSfx("confirm")
         this.closed = true
         const done = this.onDone
         this.onDone = null

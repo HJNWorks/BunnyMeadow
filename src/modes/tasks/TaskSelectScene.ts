@@ -3,6 +3,7 @@ import { mountDomShell, requireEl } from "../../ui/DomShell"
 import { TaskRunner, type TaskId } from "./TaskRunner"
 import { getContentFlags } from "../../core/ModeContext"
 import { t } from "../../core/i18n"
+import { getAudio } from "../../core/audio"
 
 const TASK_ICONS: Record<string, string> = {
   night_watch: `
@@ -54,6 +55,7 @@ export class TaskSelectScene extends Phaser.Scene {
   }
 
   create(): void {
+    getAudio().playMusic("menu")
     const flags = getContentFlags()
     const runner = new TaskRunner()
 
@@ -75,8 +77,8 @@ export class TaskSelectScene extends Phaser.Scene {
         }
         return modeCard({
           attr: `data-task="${id}"`,
-          title: def.name,
-          desc: def.description,
+          title: t(`task.${id}.name`),
+          desc: t(`task.${id}.desc`),
           icon: TASK_ICONS[id] ?? MEADOW_ICON,
         })
       })
@@ -86,12 +88,12 @@ export class TaskSelectScene extends Phaser.Scene {
       this,
       `
       <div class="bm-shell">
-        <div class="bm-eyebrow">Moon Tasks</div>
-        <h1>Short hops</h1>
-        <p class="bm-tagline">Meadow free-play and short moon goals.</p>
+        <div class="bm-eyebrow">${t("tasks.select.eyebrow")}</div>
+        <h1>${t("tasks.select.title")}</h1>
+        <p class="bm-tagline">${t("tasks.select.tagline")}</p>
         <div class="bm-grid">${meadowCard}${cards}</div>
         <div class="bm-actions bm-start">
-          <button type="button" class="bm-btn ghost" data-ui="back">Back</button>
+          <button type="button" class="bm-btn ghost" data-ui="back">${t("common.back")}</button>
         </div>
       </div>
       `,
@@ -99,7 +101,10 @@ export class TaskSelectScene extends Phaser.Scene {
 
     const meadowBtn = root.querySelector("[data-ui=meadow]") as HTMLButtonElement | null
     if (meadowBtn) {
-      meadowBtn.onclick = () => this.scene.start("Meadow")
+      meadowBtn.onclick = () => {
+        getAudio().playSfx("confirm")
+        this.scene.start("Meadow")
+      }
     }
 
     for (const id of runner.list()) {
@@ -108,11 +113,13 @@ export class TaskSelectScene extends Phaser.Scene {
         continue
       }
       btn.onclick = () => {
+        getAudio().playSfx("confirm")
         this.scene.start("TaskRun", { taskId: id as TaskId })
       }
     }
 
     requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
+      getAudio().playSfx("cancel")
       this.scene.start("ModeSelect")
     }
   }

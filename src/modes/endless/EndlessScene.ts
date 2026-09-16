@@ -7,11 +7,12 @@ import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
 import { mountDomShell, requireEl, type DomShellHandle } from "../../ui/DomShell"
 import { ENDLESS_CHUNKS } from "../../systems/ChunkAssembler"
+import { t } from "../../core/i18n"
+import { getAudio, musicIdForEnv } from "../../core/audio"
 import {
   EndlessGenerator,
   METER_PER_PX,
   MIST_PUSH_METERS,
-  getEnvKit,
   getTuning,
   type EndlessTuning,
   type FilledChunk,
@@ -63,46 +64,44 @@ type Segment = {
   pickups: { sprite: Phaser.GameObjects.Image; id: string }[]
 }
 
-const DIFF_LABEL: Record<DifficultyId, string> = {
-  sprout: "Sprout",
-  hopper: "Hopper",
-  wildhare: "Wildhare",
-  moonlit: "Moonlit",
-  hardcore: "Hardcore",
+function diffLabel(id: DifficultyId): string {
+  return t(`diff.${id}`)
 }
 
-const HUD_HTML = `
+function hudHtml(): string {
+  return `
 <div class="bm-shell bm-wide endless-shell">
   <div class="meadow-header endless-bar">
-    <span>Distance <strong data-ui="dist">0 m</strong></span>
-    <span>Best <strong data-ui="best">0 m</strong></span>
-    <span>Hearts <strong data-ui="hearts">♥ ♥ ♥</strong></span>
-    <span data-ui="env">Meadow</span>
-    <button type="button" class="bm-btn" data-ui="pauseBtn">Pause</button>
+    <span>${t("hud.distance")} <strong data-ui="dist">0 m</strong></span>
+    <span>${t("hud.best")} <strong data-ui="best">0 m</strong></span>
+    <span>${t("hud.hearts")} <strong data-ui="hearts">♥ ♥ ♥</strong></span>
+    <span data-ui="env">${t("env.meadow")}</span>
+    <button type="button" class="bm-btn" data-ui="pauseBtn">${t("common.pause")}</button>
   </div>
   <div class="endless-hint" data-ui="hint" hidden></div>
   <div class="meadow-overlay" data-ui="pausePanel" hidden>
     <div class="meadow-card">
-      <h2>Paused</h2>
+      <h2>${t("common.pause")}</h2>
       <div class="meadow-pause-actions">
-        <button type="button" class="bm-btn warm" data-ui="resume">Resume</button>
-        <button type="button" class="bm-btn ghost" data-ui="quit">Quit to Lobby</button>
+        <button type="button" class="bm-btn warm" data-ui="resume">${t("common.resume")}</button>
+        <button type="button" class="bm-btn ghost" data-ui="quit">${t("endless.pause.quit")}</button>
       </div>
     </div>
   </div>
   <div class="meadow-overlay" data-ui="result" hidden>
     <div class="meadow-card">
-      <h2 data-ui="resultTitle">Caught!</h2>
+      <h2 data-ui="resultTitle">${t("endless.result.caught")}</h2>
       <p data-ui="resultBody"></p>
       <div class="meadow-pause-actions">
-        <button type="button" class="bm-btn warm" data-ui="retry">Run again</button>
-        <button type="button" class="bm-btn" data-ui="toLobby">Lobby</button>
-        <button type="button" class="bm-btn ghost" data-ui="toModes">Modes</button>
+        <button type="button" class="bm-btn warm" data-ui="retry">${t("endless.result.retry")}</button>
+        <button type="button" class="bm-btn" data-ui="toLobby">${t("endless.result.lobby")}</button>
+        <button type="button" class="bm-btn ghost" data-ui="toModes">${t("common.modes")}</button>
       </div>
     </div>
   </div>
 </div>
 `
+}
 
 const CSS = `
 .bm-root.bm-endless-hud {
@@ -211,6 +210,7 @@ export class EndlessScene extends Phaser.Scene {
     this.style.textContent = CSS
     document.head.appendChild(this.style)
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      getAudio().stopMusic()
       getInput().stop()
       this.style?.remove()
       this.style = null
@@ -224,11 +224,12 @@ export class EndlessScene extends Phaser.Scene {
 
   private showLobby(): void {
     this.state = "lobby"
+    getAudio().playMusic("menu")
     const save = getSave()
     const chips = listDifficultyIds()
       .map((id) => {
         const selected = id === save.settings.difficulty ? " selected" : ""
-        return `<button type="button" class="meadow-diff-chip${selected}" data-diff="${id}">${DIFF_LABEL[id]}</button>`
+        return `<button type="button" class="meadow-diff-chip${selected}" data-diff="${id}">${diffLabel(id)}</button>`
       })
       .join("")
     const board = this.leaderboardHtml(save.settings.difficulty)
@@ -236,18 +237,18 @@ export class EndlessScene extends Phaser.Scene {
       this,
       `
       <div class="bm-shell bm-wide endless-lobby">
-        <div class="bm-eyebrow">Endless</div>
-        <h1>Meadow Run</h1>
-        <p class="bm-tagline">Run right. The mist chases. Environments shift from meadow to the peak.</p>
-        <p class="bm-tagline">Scores stay on this device. Each difficulty keeps only its top 10 runs.</p>
+        <div class="bm-eyebrow">${t("endless.lobby.eyebrow")}</div>
+        <h1>${t("endless.lobby.title")}</h1>
+        <p class="bm-tagline">${t("endless.lobby.tagline")}</p>
+        <p class="bm-tagline">${t("endless.lobby.scores")}</p>
         <div class="bm-field">
-          <label>Difficulty</label>
+          <label>${t("settings.difficulty")}</label>
           <div class="meadow-diff-list" data-ui="diffList" role="listbox">${chips}</div>
         </div>
         <div class="endless-board-wrap" data-ui="board">${board}</div>
         <div class="bm-actions bm-start">
-          <button type="button" class="bm-btn warm" data-ui="start">Start run</button>
-          <button type="button" class="bm-btn ghost" data-ui="back">Modes</button>
+          <button type="button" class="bm-btn warm" data-ui="start">${t("endless.lobby.start")}</button>
+          <button type="button" class="bm-btn ghost" data-ui="back">${t("common.modes")}</button>
         </div>
       </div>
       `,
@@ -258,15 +259,21 @@ export class EndlessScene extends Phaser.Scene {
         void this.selectDifficulty(btn.dataset.diff as DifficultyId)
       }
     })
-    requireEl<HTMLButtonElement>(root, "[data-ui=start]").onclick = () => this.startRun()
-    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => this.scene.start("ModeSelect")
+    requireEl<HTMLButtonElement>(root, "[data-ui=start]").onclick = () => {
+      getAudio().playSfx("confirm")
+      this.startRun()
+    }
+    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
+      getAudio().playSfx("cancel")
+      this.scene.start("ModeSelect")
+    }
   }
 
   private leaderboardHtml(preset: DifficultyId): string {
     const save = getSave()
     const runs = save.progress.endlessRuns[preset] ?? []
     if (runs.length === 0) {
-      return `<p class="bm-tagline">No runs yet on ${DIFF_LABEL[preset]}. Best overall: ${save.progress.endlessBest} m.</p>`
+      return `<p class="bm-tagline">${t("endless.lobby.empty", { diff: diffLabel(preset), best: save.progress.endlessBest })}</p>`
     }
     const rows = runs
       .map(
@@ -274,8 +281,8 @@ export class EndlessScene extends Phaser.Scene {
           `<tr><td>${i + 1}</td><td>${run.name}</td><td>${run.distance} m</td><td>#${run.seed}</td></tr>`,
       )
       .join("")
-    return `<table class="endless-board"><thead><tr><th>#</th><th>Name</th><th>Distance</th><th>Seed</th></tr></thead><tbody>${rows}</tbody></table>
-      <p class="bm-tagline">Local top 10 on ${DIFF_LABEL[preset]}. Runs below 10th are dropped.</p>`
+    return `<table class="endless-board"><thead><tr><th>#</th><th>${t("endless.lobby.col.name")}</th><th>${t("endless.lobby.col.distance")}</th><th>${t("endless.lobby.col.seed")}</th></tr></thead><tbody>${rows}</tbody></table>
+      <p class="bm-tagline">${t("endless.lobby.top", { diff: diffLabel(preset) })}</p>`
   }
 
   private async selectDifficulty(id: DifficultyId): Promise<void> {
@@ -328,6 +335,7 @@ export class EndlessScene extends Phaser.Scene {
     this.weather = null
     this.mistBands = []
     this.applyTheme(this.currentEnv, getPalette(this.currentEnv), true)
+    getAudio().playMusic(musicIdForEnv(this.currentEnv))
 
     this.platforms = this.physics.add.staticGroup()
     this.enemies = this.physics.add.group()
@@ -401,7 +409,7 @@ export class EndlessScene extends Phaser.Scene {
   }
 
   private mountHud(): void {
-    this.hudShell = mountDomShell(this, HUD_HTML, {
+    this.hudShell = mountDomShell(this, hudHtml(), {
       keepCanvas: true,
       rootClass: "bm-endless-hud",
     })
@@ -419,12 +427,22 @@ export class EndlessScene extends Phaser.Scene {
     }
     requireEl<HTMLButtonElement>(root, "[data-ui=pauseBtn]").onclick = () => this.setPaused(true)
     requireEl<HTMLButtonElement>(root, "[data-ui=resume]").onclick = () => this.setPaused(false)
-    requireEl<HTMLButtonElement>(root, "[data-ui=quit]").onclick = () => this.returnToLobby()
-    requireEl<HTMLButtonElement>(root, "[data-ui=retry]").onclick = () =>
+    requireEl<HTMLButtonElement>(root, "[data-ui=quit]").onclick = () => {
+      getAudio().playSfx("cancel")
+      this.returnToLobby()
+    }
+    requireEl<HTMLButtonElement>(root, "[data-ui=retry]").onclick = () => {
+      getAudio().playSfx("confirm")
       this.scene.start("Endless", { autoStart: true })
-    requireEl<HTMLButtonElement>(root, "[data-ui=toLobby]").onclick = () => this.returnToLobby()
-    requireEl<HTMLButtonElement>(root, "[data-ui=toModes]").onclick = () =>
+    }
+    requireEl<HTMLButtonElement>(root, "[data-ui=toLobby]").onclick = () => {
+      getAudio().playSfx("cancel")
+      this.returnToLobby()
+    }
+    requireEl<HTMLButtonElement>(root, "[data-ui=toModes]").onclick = () => {
+      getAudio().playSfx("cancel")
       this.scene.start("ModeSelect")
+    }
   }
 
   private spawnSegment(filled: FilledChunk, originX: number): void {
@@ -561,16 +579,20 @@ export class EndlessScene extends Phaser.Scene {
     this.updateHud()
     this.player.setTint(0xffcccc)
     this.time.delayedCall(200, () => this.player.clearTint())
+    getAudio().playSfx("hurt")
+    getAudio().playSfx("heart")
     if (this.health <= 0) {
-      this.endRun("The mist and beasts win this time.")
+      this.endRun(t("endless.end.beasts"))
     }
   }
 
   private loseHeartAndRespawn(reason: "fall" | "water"): void {
     this.health -= 1
     this.updateHud()
+    getAudio().playSfx("hurt")
+    getAudio().playSfx("heart")
     if (this.health <= 0) {
-      this.endRun(reason === "water" ? "A cold splash ends the run." : "You tumble into the dark.")
+      this.endRun(reason === "water" ? t("endless.end.water") : t("endless.end.fall"))
       return
     }
     const x = Math.max(this.safeSpot.x, this.chaseX + 160)
@@ -609,6 +631,7 @@ export class EndlessScene extends Phaser.Scene {
     this.state = "dead"
     this.physics.world.isPaused = true
     this.player.setVelocity(0, 0)
+    getAudio().playSfx("mist")
     void this.recordRun(message)
   }
 
@@ -636,9 +659,15 @@ export class EndlessScene extends Phaser.Scene {
     }
     await persistSave()
     if (this.hud) {
-      this.hud.resultTitle.textContent = isBest ? "New best!" : "Caught!"
-      const rankText = rank > 0 && rank <= 10 ? ` Leaderboard #${rank}.` : ""
-      this.hud.resultBody.textContent = `${message} You reached ${distance} m on ${DIFF_LABEL[preset]}.${rankText} Carrots: ${this.carrotsCollected}.`
+      this.hud.resultTitle.textContent = isBest ? t("endless.result.best") : t("endless.result.caught")
+      const rankText = rank > 0 && rank <= 10 ? t("endless.result.rank", { n: rank }) : ""
+      this.hud.resultBody.textContent = t("endless.result.body", {
+        message,
+        distance,
+        diff: diffLabel(preset),
+        rank: rankText,
+        carrots: this.carrotsCollected,
+      })
       this.hud.result.hidden = false
     }
   }
@@ -677,19 +706,19 @@ export class EndlessScene extends Phaser.Scene {
     )
     this.syncTheme(here)
     const lookEnv = this.lookEnv(here)
-    const kit = getEnvKit(lookEnv)
+    getAudio().playMusic(musicIdForEnv(lookEnv))
     this.playerState.glide =
       lookEnv === "lantern" || here?.env === "lantern" || here?.bridgeTo === "lantern"
     this.hintFlash = Math.max(0, this.hintFlash - dt)
     if (this.hud) {
-      this.hud.env.textContent = kit.name
+      this.hud.env.textContent = t(`env.${lookEnv}`)
       if (this.hintFlash > 0) {
         this.hud.hint.hidden = false
       } else {
         const showHint = lookEnv === "lantern"
         this.hud.hint.hidden = !showHint
         if (showHint) {
-          this.hud.hint.textContent = "Hold jump to glide between lanterns."
+          this.hud.hint.textContent = t("endless.hint.glide")
         }
       }
     }
@@ -748,7 +777,7 @@ export class EndlessScene extends Phaser.Scene {
     this.spawnEmbers(dt, foxY)
     const playerLeft = (this.player.body as Phaser.Physics.Arcade.Body).left
     if (this.chaseX >= playerLeft) {
-      this.endRun("The mist catches your paws.")
+      this.endRun(t("endless.end.mist"))
     }
   }
 
@@ -789,6 +818,7 @@ export class EndlessScene extends Phaser.Scene {
         }
         if (Math.abs(pickup.sprite.x - this.player.x) < 34 && Math.abs(pickup.sprite.y - this.player.y) < 40) {
           pickup.sprite.destroy()
+          getAudio().playSfx("pickup")
           this.applyItem(pickup.id)
         }
       }
@@ -803,21 +833,27 @@ export class EndlessScene extends Phaser.Scene {
     if (id === "mooncake") {
       this.health = Math.min(this.maxHearts, this.health + 1)
       this.updateHud()
+      this.flashHint("endless.hint.mooncake")
       return
     }
     if (id === "osmanthus_blossom") {
       this.playerState.glideCharges += 1
+      this.flashHint("endless.hint.blossom")
       return
     }
     if (id === "lantern") {
       const floor = this.spawnX - 700
       this.chaseX = Math.max(floor, this.chaseX - MIST_PUSH_METERS * METER_PER_PX)
       this.glowTimer = 1.6
-      this.hintFlash = 1.6
-      if (this.hud) {
-        this.hud.hint.hidden = false
-        this.hud.hint.textContent = "The mist falls back."
-      }
+      this.flashHint("endless.hint.mist")
+    }
+  }
+
+  private flashHint(key: string): void {
+    this.hintFlash = 1.6
+    if (this.hud) {
+      this.hud.hint.hidden = false
+      this.hud.hint.textContent = t(key)
     }
   }
 

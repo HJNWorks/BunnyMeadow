@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import achievementsData from "../data/achievements.json"
 import { t } from "../core/i18n"
+import { getAudio } from "../core/audio"
 import { getPlatform } from "../core/platform"
 import { getSave } from "../core/session"
 import { mountDomShell, requireEl } from "../ui/DomShell"
@@ -11,6 +12,7 @@ export class AchievementsScene extends Phaser.Scene {
   }
 
   create(): void {
+    getAudio().playMusic("menu")
     const save = getSave()
     const unlocked = new Set(save.progress.achievements)
 
@@ -21,7 +23,7 @@ export class AchievementsScene extends Phaser.Scene {
     const items = achievementsData.achievements
       .map((item) => {
         const got = unlocked.has(item.id)
-        return `<li class="${got ? "" : "locked"}"><strong>${item.name}</strong> — ${item.description}${got ? "" : " (locked)"}</li>`
+        return `<li class="${got ? "" : "locked"}"><strong>${t(`ach.${item.id}.name`)}</strong> — ${t(`ach.${item.id}.desc`)}${got ? "" : ` (${t("achievements.locked")})`}</li>`
       })
       .join("")
 
@@ -39,6 +41,9 @@ export class AchievementsScene extends Phaser.Scene {
       `,
     )
 
-    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => this.scene.start("Title")
+    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
+      getAudio().playSfx("cancel")
+      this.scene.start("Title")
+    }
   }
 }

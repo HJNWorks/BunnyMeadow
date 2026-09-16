@@ -19,6 +19,13 @@ export function getLanguage(): LanguageId {
   return language
 }
 
-export function t(key: string): string {
-  return tables[language][key] ?? tables.en[key] ?? key
+export function t(key: string, vars?: Record<string, string | number>): string {
+  const raw = tables[language][key] ?? tables.en[key] ?? key
+  if (!vars) {
+    return raw
+  }
+  return raw.replace(/\{(\w+)\}/g, (_all, name: string) => {
+    const value = vars[name]
+    return value === undefined ? `{${name}}` : String(value)
+  })
 }

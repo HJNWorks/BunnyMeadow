@@ -33,6 +33,7 @@ export class PreloadScene extends Phaser.Scene {
     const save = await initSession()
     setLanguage(save.settings.language)
     getAudio().applyFromSave(save)
+    getAudio().listenForUnlock()
     getInput().setBindings(save.settings.bindings)
     this.scene.start("Title")
   }

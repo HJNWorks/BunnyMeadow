@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import { t } from "../core/i18n"
+import { getAudio } from "../core/audio"
 import type { AccessoryOption, EarsOption, FurOption } from "../core/save"
 import { getSave, persistSave } from "../core/session"
 import { mountDomShell, requireEl } from "../ui/DomShell"
@@ -11,13 +12,14 @@ export class CustomizeScene extends Phaser.Scene {
   }
 
   create(): void {
+    getAudio().playMusic("menu")
     const save = getSave()
     const { root } = mountDomShell(
       this,
       `
       <div class="bm-shell">
         <h1>${t("customize.title")}</h1>
-        <canvas data-ui="preview" width="180" height="180" aria-label="Bunny preview" style="display:block;margin:0 auto 16px;border-radius:16px;background:#bed593;"></canvas>
+        <canvas data-ui="preview" width="180" height="180" aria-label="${t("common.preview")}" style="display:block;margin:0 auto 16px;border-radius:16px;background:#bed593;"></canvas>
         <div class="bm-field">
           <label for="name">${t("customize.name")}</label>
           <input id="name" data-ui="name" value="${save.player.name}" maxlength="24" />
@@ -28,7 +30,7 @@ export class CustomizeScene extends Phaser.Scene {
             ${(["cream", "brown", "gray", "moon-white"] as FurOption[])
               .map(
                 (v) =>
-                  `<option value="${v}" ${save.player.fur === v ? "selected" : ""}>${v}</option>`,
+                  `<option value="${v}" ${save.player.fur === v ? "selected" : ""}>${t(`customize.fur.${v}`)}</option>`,
               )
               .join("")}
           </select>
@@ -39,7 +41,7 @@ export class CustomizeScene extends Phaser.Scene {
             ${(["upright", "lop", "tufted"] as EarsOption[])
               .map(
                 (v) =>
-                  `<option value="${v}" ${save.player.ears === v ? "selected" : ""}>${v}</option>`,
+                  `<option value="${v}" ${save.player.ears === v ? "selected" : ""}>${t(`customize.ears.${v}`)}</option>`,
               )
               .join("")}
           </select>
@@ -50,7 +52,7 @@ export class CustomizeScene extends Phaser.Scene {
             ${(["none", "scarf", "lantern", "blossom"] as AccessoryOption[])
               .map(
                 (v) =>
-                  `<option value="${v}" ${save.player.accessory === v ? "selected" : ""}>${v}</option>`,
+                  `<option value="${v}" ${save.player.accessory === v ? "selected" : ""}>${t(`customize.accessory.${v}`)}</option>`,
               )
               .join("")}
           </select>
@@ -89,6 +91,7 @@ export class CustomizeScene extends Phaser.Scene {
     paint()
 
     requireEl<HTMLButtonElement>(root, "[data-ui=save]").onclick = async () => {
+      getAudio().playSfx("confirm")
       const next = getSave()
       next.player.name = requireEl<HTMLInputElement>(root, "[data-ui=name]").value.trim() || "Mei"
       next.player.fur = furEl.value as FurOption
@@ -98,6 +101,9 @@ export class CustomizeScene extends Phaser.Scene {
       this.scene.start("Title")
     }
 
-    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => this.scene.start("Title")
+    requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
+      getAudio().playSfx("cancel")
+      this.scene.start("Title")
+    }
   }
 }

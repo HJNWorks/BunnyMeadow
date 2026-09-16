@@ -1,69 +1,73 @@
 import Phaser from "phaser"
 import { MeadowRuntime } from "./MeadowRuntime"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
+import { t } from "../../core/i18n"
+import { getAudio } from "../../core/audio"
 
-const SHELL_HTML = `
+function shellHtml(): string {
+  return `
 <div class="bm-shell bm-wide meadow-shell">
   <header class="meadow-header">
     <div>
-      <div class="bm-eyebrow">Arcade</div>
+      <div class="bm-eyebrow">${t("meadow.arcade")}</div>
       <h1>Bunny Meadow<span>.</span></h1>
-      <p class="bm-tagline">Collect carrots. Dash past foxes. Come home soft.</p>
+      <p class="bm-tagline">${t("meadow.tagline")}</p>
     </div>
   </header>
   <div class="meadow-bar">
-    <span>Carrots <strong data-ui="score">0</strong></span>
-    <span>Hearts <strong data-ui="hearts">♥ ♥ ♥</strong></span>
-    <span>Dash <strong data-ui="dash">Ready</strong></span>
-    <span>Map <strong data-ui="mapName">Meadow Home</strong></span>
+    <span>${t("hud.carrots")} <strong data-ui="score">0</strong></span>
+    <span>${t("hud.hearts")} <strong data-ui="hearts">♥ ♥ ♥</strong></span>
+    <span>${t("hud.dash")} <strong data-ui="dash">${t("common.ready")}</strong></span>
+    <span>${t("hud.map")} <strong data-ui="mapName">${t("map.meadow_home")}</strong></span>
     <span data-ui="timer"></span>
-    <button type="button" class="bm-btn" data-ui="pause">Pause</button>
+    <button type="button" class="bm-btn" data-ui="pause">${t("common.pause")}</button>
   </div>
   <div class="meadow-field">
     <canvas data-ui="canvas" width="960" height="540" aria-label="Bunny Meadow"></canvas>
     <div class="meadow-lobby" data-ui="lobby">
       <div class="meadow-lobby-card">
-        <h2>Pre-run lobby</h2>
-        <p>Pick a map and difficulty, then start.</p>
+        <h2>${t("meadow.lobby.title")}</h2>
+        <p>${t("meadow.lobby.body")}</p>
         <div class="meadow-lobby-row">
-          <canvas class="meadow-preview" data-ui="preview" width="336" height="336" aria-label="Bunny preview"></canvas>
+          <canvas class="meadow-preview" data-ui="preview" width="336" height="336" aria-label="${t("common.preview")}"></canvas>
           <div class="meadow-lobby-meta">
-            <div class="meadow-section-label">Map</div>
+            <div class="meadow-section-label">${t("meadow.lobby.map")}</div>
             <div class="meadow-map-list" data-ui="mapList"></div>
           </div>
         </div>
-        <div class="meadow-section-label meadow-diff-heading">Difficulty</div>
-        <div class="meadow-diff-list" data-ui="difficultyList" role="listbox" aria-label="Difficulty"></div>
+        <div class="meadow-section-label meadow-diff-heading">${t("settings.difficulty")}</div>
+        <div class="meadow-diff-list" data-ui="difficultyList" role="listbox" aria-label="${t("settings.difficulty")}"></div>
         <div class="meadow-lobby-actions">
-          <button type="button" class="bm-btn ghost" data-ui="abortLobby">Back to Moon Tasks</button>
-          <button type="button" class="bm-btn warm" data-ui="startRun">Start run →</button>
+          <button type="button" class="bm-btn ghost" data-ui="abortLobby">${t("meadow.lobby.abort")}</button>
+          <button type="button" class="bm-btn warm" data-ui="startRun">${t("meadow.lobby.start")}</button>
         </div>
       </div>
     </div>
     <div class="meadow-overlay" data-ui="overlay" hidden>
       <div class="meadow-card">
-        <h2 data-ui="title">Ready</h2>
+        <h2 data-ui="title">${t("common.ready")}</h2>
         <p data-ui="message"></p>
         <div class="meadow-end-actions">
-          <button type="button" class="bm-btn warm" data-ui="play">Play again</button>
-          <button type="button" class="bm-btn ghost" data-ui="toLobby">Lobby</button>
+          <button type="button" class="bm-btn warm" data-ui="play">${t("meadow.win.play")}</button>
+          <button type="button" class="bm-btn ghost" data-ui="toLobby">${t("meadow.lobby.toLobby")}</button>
         </div>
       </div>
     </div>
     <div class="meadow-overlay meadow-pause" data-ui="pausePanel" hidden>
       <div class="meadow-card">
-        <h2>Paused</h2>
+        <h2>${t("common.pause")}</h2>
         <div class="meadow-pause-actions">
-          <button type="button" class="bm-btn warm" data-ui="resume">Resume</button>
-          <button type="button" class="bm-btn ghost" data-ui="openSettings">Settings</button>
-          <button type="button" class="bm-btn ghost" data-ui="quitModes">Quit to Moon Tasks</button>
+          <button type="button" class="bm-btn warm" data-ui="resume">${t("common.resume")}</button>
+          <button type="button" class="bm-btn ghost" data-ui="openSettings">${t("common.settings")}</button>
+          <button type="button" class="bm-btn ghost" data-ui="quitModes">${t("meadow.quit")}</button>
         </div>
       </div>
     </div>
   </div>
-  <button type="button" class="bm-btn meadow-touch" data-ui="touchDash">Dash</button>
+  <button type="button" class="bm-btn meadow-touch" data-ui="touchDash">${t("hud.dash")}</button>
 </div>
 `
+}
 
 const MEADOW_CSS = `
 .meadow-shell { max-width:1080px; }
@@ -139,11 +143,12 @@ export class MeadowScene extends Phaser.Scene {
   }
 
   create(): void {
+    getAudio().playMusic("meadow")
     this.style = document.createElement("style")
     this.style.textContent = MEADOW_CSS
     document.head.appendChild(this.style)
 
-    const shell = mountDomShell(this, SHELL_HTML)
+    const shell = mountDomShell(this, shellHtml())
     const canvas = requireEl<HTMLCanvasElement>(shell.root, "[data-ui=canvas]")
 
     this.runtime = new MeadowRuntime(
@@ -172,16 +177,26 @@ export class MeadowScene extends Phaser.Scene {
         quitModes: requireEl(shell.root, "[data-ui=quitModes]"),
       },
       {
-        onOpenSettings: () => this.scene.start("Settings", { returnTo: "Meadow" }),
-        onQuitToModes: () => this.scene.start("TaskSelect"),
+        onOpenSettings: () => {
+          getAudio().playSfx("confirm")
+          this.scene.start("Settings", { returnTo: "Meadow" })
+        },
+        onQuitToModes: () => {
+          getAudio().playSfx("cancel")
+          this.scene.start("TaskSelect")
+        },
       },
     )
 
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=abortLobby]").onclick = () => {
+      getAudio().playSfx("cancel")
       this.scene.start("TaskSelect")
     }
 
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.disposeRuntime, this)
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      getAudio().stopMusic()
+      this.disposeRuntime()
+    })
     this.events.once(Phaser.Scenes.Events.DESTROY, this.disposeRuntime, this)
   }
 

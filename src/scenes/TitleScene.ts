@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 import { t } from "../core/i18n"
+import { getAudio } from "../core/audio"
 
 export class TitleScene extends Phaser.Scene {
   constructor() {
@@ -8,6 +9,7 @@ export class TitleScene extends Phaser.Scene {
   }
 
   create(): void {
+    getAudio().playMusic("menu")
     const { root } = mountDomShell(
       this,
       `
@@ -26,9 +28,21 @@ export class TitleScene extends Phaser.Scene {
       { center: true },
     )
 
-    requireEl<HTMLButtonElement>(root, "[data-ui=play]").onclick = () => this.scene.start("ModeSelect")
-    requireEl<HTMLButtonElement>(root, "[data-ui=settings]").onclick = () => this.scene.start("Settings")
-    requireEl<HTMLButtonElement>(root, "[data-ui=customize]").onclick = () => this.scene.start("Customize")
-    requireEl<HTMLButtonElement>(root, "[data-ui=achievements]").onclick = () => this.scene.start("Achievements")
+    requireEl<HTMLButtonElement>(root, "[data-ui=play]").onclick = () => {
+      getAudio().playSfx("confirm")
+      this.scene.start("ModeSelect")
+    }
+    requireEl<HTMLButtonElement>(root, "[data-ui=settings]").onclick = () => {
+      getAudio().playSfx("confirm")
+      this.scene.start("Settings")
+    }
+    requireEl<HTMLButtonElement>(root, "[data-ui=customize]").onclick = () => {
+      getAudio().playSfx("confirm")
+      this.scene.start("Customize")
+    }
+    requireEl<HTMLButtonElement>(root, "[data-ui=achievements]").onclick = () => {
+      getAudio().playSfx("confirm")
+      this.scene.start("Achievements")
+    }
   }
 }

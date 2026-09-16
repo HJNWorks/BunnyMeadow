@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 import { t } from "../core/i18n"
+import { getAudio } from "../core/audio"
 
 export function createStubScene(key: string, backScene = "ModeSelect"): new () => Phaser.Scene {
   return class StubScene extends Phaser.Scene {
@@ -9,6 +10,7 @@ export function createStubScene(key: string, backScene = "ModeSelect"): new () =
     }
 
     create(): void {
+      getAudio().playMusic("menu")
       const { root } = mountDomShell(
         this,
         `
@@ -24,6 +26,7 @@ export function createStubScene(key: string, backScene = "ModeSelect"): new () =
         { center: true },
       )
       requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
+        getAudio().playSfx("cancel")
         this.scene.start(backScene)
       }
     }

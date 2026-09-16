@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import { getDifficulty } from "../../../core/difficulty"
+import { getAudio } from "../../../core/audio"
 import type { InputSnapshot } from "../../../core/input"
 import { getSave } from "../../../core/session"
 
@@ -73,17 +74,21 @@ export function updatePlayerMovement(
     player.setVelocityX(push * 340)
     state.facing = push
     state.airJumps = state.maxAirJumps
+    getAudio().playSfx("jump")
   } else if (input.jumpPressed && onFloor) {
     player.setVelocityY(-720)
     state.airJumps = state.maxAirJumps
+    getAudio().playSfx("jump")
   } else if (input.jumpPressed && !onFloor && state.airJumps > 0) {
     state.airJumps -= 1
     player.setVelocityY(-640)
+    getAudio().playSfx("jump")
   }
 
   if (input.dashPressed && state.dashCooldown <= 0) {
     state.dashTime = 0.16
     state.dashCooldown = getDifficulty(getSave()).dashCooldown * 0.7
+    getAudio().playSfx("dash")
   }
 
   if (state.dashTime > 0) {

@@ -6,6 +6,8 @@ import { getInput } from "../../core/input"
 import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
 import { getPlatform } from "../../core/platform"
+import { t } from "../../core/i18n"
+import { getAudio, musicIdForEnv } from "../../core/audio"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
 import { ControlCoach, CONTROL_COACH_CSS, type CoachAction } from "../../ui/ControlCoach"
 import { ensureStoryTextures } from "./shared/storyTextures"
@@ -64,47 +66,49 @@ type RideState = {
   destIndex: number
 }
 
-const SHELL = `
+function shellHtml(): string {
+  return `
 <div class="bm-shell bm-wide story-shell">
   <header class="meadow-header">
-    <div class="bm-eyebrow" data-ui="worldLabel">Story</div>
-    <h1 data-ui="levelName">Soft Paths</h1>
-    <p class="bm-tagline" data-ui="objective">Reach the burrow.</p>
+    <div class="bm-eyebrow" data-ui="worldLabel">${t("mode.story")}</div>
+    <h1 data-ui="levelName"></h1>
+    <p class="bm-tagline" data-ui="objective"></p>
   </header>
   <div class="meadow-bar">
-    <span>Hearts <strong data-ui="hearts">♥ ♥ ♥</strong></span>
+    <span>${t("hud.hearts")} <strong data-ui="hearts">♥ ♥ ♥</strong></span>
     <span data-ui="bossHits" hidden></span>
-    <div class="story-controls-dock" data-ui="controlsDock" hidden aria-label="Controls"></div>
-    <button type="button" class="bm-btn" data-ui="pauseBtn">Pause</button>
-    <button type="button" class="bm-btn ghost" data-ui="back">World Map</button>
+    <div class="story-controls-dock" data-ui="controlsDock" hidden aria-label="${t("common.controls")}"></div>
+    <button type="button" class="bm-btn" data-ui="pauseBtn">${t("story.hud.pause")}</button>
+    <button type="button" class="bm-btn ghost" data-ui="back">${t("story.hud.back")}</button>
   </div>
   <div class="story-field" data-ui="field"></div>
   <div class="story-controls-float" data-ui="controlsFloat" hidden></div>
   <div class="meadow-overlay" data-ui="overlay" hidden>
     <div class="meadow-card">
-      <h2 data-ui="title">Ready</h2>
+      <h2 data-ui="title">${t("common.ready")}</h2>
       <p data-ui="message"></p>
-      <button type="button" class="bm-btn warm" data-ui="play">Continue</button>
+      <button type="button" class="bm-btn warm" data-ui="play">${t("common.continue")}</button>
     </div>
   </div>
   <div class="meadow-overlay" data-ui="epilogue" hidden>
     <div class="meadow-card" style="max-width:520px;text-align:left;font:18px Georgia,serif">
-      <div class="bm-eyebrow">Epilogue</div>
+      <div class="bm-eyebrow">${t("story.epilogue.eyebrow")}</div>
       <div data-ui="epilogueBody"></div>
-      <button type="button" class="bm-btn warm" data-ui="epilogueContinue" style="margin-top:14px">Continue</button>
+      <button type="button" class="bm-btn warm" data-ui="epilogueContinue" style="margin-top:14px">${t("common.continue")}</button>
     </div>
   </div>
   <div class="meadow-overlay" data-ui="pausePanel" hidden>
     <div class="meadow-card">
-      <h2>Paused</h2>
+      <h2>${t("common.pause")}</h2>
       <div class="meadow-pause-actions">
-        <button type="button" class="bm-btn warm" data-ui="resume">Resume</button>
-        <button type="button" class="bm-btn ghost" data-ui="quit">Quit to World Map</button>
+        <button type="button" class="bm-btn warm" data-ui="resume">${t("story.hud.resume")}</button>
+        <button type="button" class="bm-btn ghost" data-ui="quit">${t("story.hud.quit")}</button>
       </div>
     </div>
   </div>
 </div>
 `
+}
 
 const CSS = `
 .bm-root.bm-story-hud {
@@ -249,7 +253,7 @@ export class StoryScene extends Phaser.Scene {
     this.style.textContent = CSS
     document.head.appendChild(this.style)
 
-    const shell = mountDomShell(this, SHELL, { keepCanvas: true, rootClass: "bm-story-hud" })
+    const shell = mountDomShell(this, shellHtml(), { keepCanvas: true, rootClass: "bm-story-hud" })
     this.hud = {
       hearts: requireEl(shell.root, "[data-ui=hearts]"),
       objective: requireEl(shell.root, "[data-ui=objective]"),
@@ -270,19 +274,32 @@ export class StoryScene extends Phaser.Scene {
       epilogueContinue: requireEl(shell.root, "[data-ui=epilogueContinue]"),
     }
 
-    this.hud.levelName.textContent = def.name
-    this.hud.objective.textContent = def.objective
+    this.hud.levelName.textContent = t(`story.level.${def.id}.name`)
+    this.hud.objective.textContent = t(`story.level.${def.id}.objective`)
     this.hud.worldLabel.textContent =
-      def.world === 0 ? "Story · Soft Paws" : `Story · World ${def.world}`
+      def.world === 0 ? t("story.hud.world0") : t("story.hud.world", { n: def.world })
 
-    requireEl<HTMLButtonElement>(shell.root, "[data-ui=back]").onclick = () => this.leaveToWorldMap()
+    requireEl<HTMLButtonElement>(shell.root, "[data-ui=back]").onclick = () => {
+      getAudio().playSfx("cancel")
+      this.leaveToWorldMap()
+    }
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=pauseBtn]").onclick = () => this.setPaused(true)
-    this.hud.resume.onclick = () => this.setPaused(false)
-    this.hud.quit.onclick = () => this.leaveToWorldMap()
-    this.hud.epilogueContinue.onclick = () => this.advanceEpilogue()
+    this.hud.resume.onclick = () => {
+      getAudio().playSfx("confirm")
+      this.setPaused(false)
+    }
+    this.hud.quit.onclick = () => {
+      getAudio().playSfx("cancel")
+      this.leaveToWorldMap()
+    }
+    this.hud.epilogueContinue.onclick = () => {
+      getAudio().playSfx("confirm")
+      this.advanceEpilogue()
+    }
     const goMap = (event: Event): void => {
       event.preventDefault()
       event.stopPropagation()
+      getAudio().playSfx("confirm")
       if (this.won) {
         this.leaveToWorldMap()
         return
@@ -332,6 +349,7 @@ export class StoryScene extends Phaser.Scene {
     ensureStoryTextures(this)
 
     const env = def.env ?? storyEnvForLevel(def.world, def.index, def.id)
+    getAudio().playMusic(musicIdForEnv(env))
     const palette = { ...getPalette(env) }
     if (def.sky) {
       palette.sky = def.sky
@@ -547,6 +565,7 @@ export class StoryScene extends Phaser.Scene {
       lost: this.lost,
     })
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      getAudio().stopMusic()
       delete (window as unknown as { __bmStory?: unknown }).__bmStory
       this.cleanupInput()
     })
@@ -686,13 +705,15 @@ export class StoryScene extends Phaser.Scene {
     this.syncHearts()
     this.player.setTint(0xffcccc)
     this.time.delayedCall(200, () => this.player.clearTint())
+    getAudio().playSfx("hurt")
+    getAudio().playSfx("heart")
     if (this.health <= 0) {
       this.enterDeadState(
         this.checkpoint &&
           (this.checkpoint.x !== this.level.playerSpawn.x ||
             this.checkpoint.y !== this.level.playerSpawn.y)
-          ? "Continue from the last Moon Pool."
-          : "Continue from the start.",
+          ? t("story.dead.pool")
+          : t("story.dead.start"),
       )
     }
   }
@@ -703,9 +724,9 @@ export class StoryScene extends Phaser.Scene {
     }
     this.lost = true
     this.player.setVelocity(0, 0)
-    this.hud.title.textContent = "A soft tumble"
+    this.hud.title.textContent = t("story.dead.title")
     this.hud.message.textContent = message
-    this.hud.play.textContent = "Retry →"
+    this.hud.play.textContent = t("story.dead.retry")
     this.hud.overlay.hidden = false
   }
 
@@ -729,7 +750,7 @@ export class StoryScene extends Phaser.Scene {
     this.player.setVelocity(0, 0)
     this.physics.world.isPaused = true
     this.scene.launch("DialogueOverlay", {
-      lines: [this.level.moonLine],
+      lines: [t(`story.level.${this.level.id}.moon`)],
       onDone: () => {
         this.inDialogue = false
         if (!this.paused && !this.won && !this.lost) {
@@ -752,8 +773,8 @@ export class StoryScene extends Phaser.Scene {
           this.checkpoint &&
             (this.checkpoint.x !== this.level.playerSpawn.x ||
               this.checkpoint.y !== this.level.playerSpawn.y)
-            ? "The river is soft. Continue from the last Moon Pool."
-            : "The river is soft. Continue from the start.",
+            ? t("story.dead.waterPool")
+            : t("story.dead.waterStart"),
         )
       }
     }
@@ -781,14 +802,17 @@ export class StoryScene extends Phaser.Scene {
     }
     this.hud.bossHits.hidden = false
     if (this.level.boss.kind === "heron") {
-      this.hud.bossHits.textContent = `Heron ${this.bossHits}/${this.bossNeeded}`
+      this.hud.bossHits.textContent = t("story.boss.heron", {
+        hits: this.bossHits,
+        need: this.bossNeeded,
+      })
       return
     }
     if (this.level.boss.kind === "crane") {
       this.hud.bossHits.textContent =
         this.cranePhase === "bow" || this.cranePhase === "done"
-          ? "Crane bows · exit open"
-          : `Dives ${this.craneDives}/${this.bossNeeded}`
+          ? t("story.boss.craneBow")
+          : t("story.boss.dives", { hits: this.craneDives, need: this.bossNeeded })
     }
   }
 
@@ -818,7 +842,7 @@ export class StoryScene extends Phaser.Scene {
       this.bossSprite.setAlpha(0.45)
       this.bossSprite.setData("archetype", "heron_done")
       this.bossSprite.setVelocity(0, 0)
-      this.hud.objective.textContent = "Burrow open. Hop in."
+      this.hud.objective.textContent = t("story.exit.open")
     }
   }
 
@@ -887,7 +911,7 @@ export class StoryScene extends Phaser.Scene {
           this.inDialogue = true
           this.physics.world.isPaused = true
           this.scene.launch("DialogueOverlay", {
-            lines: ["The Crane Envoy bows. It knows the mistake.", "Ride when you are ready."],
+            lines: [t("story.crane.line0"), t("story.crane.line1")],
             onDone: () => {
               this.inDialogue = false
               if (!this.paused && !this.won && !this.lost) {
@@ -908,10 +932,10 @@ export class StoryScene extends Phaser.Scene {
 
   private showEpilogue(): void {
     this.epilogueLines = [
-      "Yue plays under Wu Gang's tree with the Jade Rabbit.",
-      "Chang'e asks Mei to stay. The palace is quiet and lonely.",
-      "Mei offers a mooncake and a promise: every full moon the burrow will wave.",
-      "The Crane Envoy carries them home. Kits watch the moon together.",
+      t("story.epilogue.0"),
+      t("story.epilogue.1"),
+      t("story.epilogue.2"),
+      t("story.epilogue.3"),
     ]
     this.epilogueStep = 0
     this.hud.overlay.hidden = true
@@ -931,13 +955,13 @@ export class StoryScene extends Phaser.Scene {
 
   private exitBlockedReason(): string | null {
     if (this.level.foxHu && this.foxHu && this.foxHu.x < this.exitZone.x - 40) {
-      return "Beat Fox Hu's cart to the burrow."
+      return t("story.exit.fox")
     }
     if (this.level.boss?.kind === "heron" && this.bossHits < this.bossNeeded) {
-      return `Dash the heron first (${this.bossHits}/${this.bossNeeded}).`
+      return t("story.exit.heron", { hits: this.bossHits, need: this.bossNeeded })
     }
     if (this.level.boss?.kind === "crane" && this.cranePhase === "dive") {
-      return "Dodge the dives until the Crane bows."
+      return t("story.exit.crane")
     }
     return null
   }
@@ -1002,18 +1026,18 @@ export class StoryScene extends Phaser.Scene {
       return
     }
 
-    this.hud.title.textContent = "Path clear"
+    this.hud.title.textContent = t("story.win.title")
     this.hud.message.textContent =
       this.level.id === "w0_controls"
-        ? "Paws ready. Soft Paths opens on the map."
+        ? t("story.win.w0")
         : this.level.id === "w1_3_cart_chase"
-          ? "Fox Hu is foiled. World 1 rests."
+          ? t("story.win.w1")
           : this.level.id === "w2_3_raft_gauntlet"
-            ? "Heron Fisher yields the river."
+            ? t("story.win.w2")
             : this.level.id === "w3_3_crane_summit"
-              ? "The Crane Envoy offers a ride to the moon."
-              : `${this.level.name} is done.`
-    this.hud.play.textContent = "World Map →"
+              ? t("story.win.w3")
+              : t("story.win.generic", { name: t(`story.level.${this.level.id}.name`) })
+    this.hud.play.textContent = t("story.win.map")
     this.hud.overlay.hidden = false
     this.hud.overlay.style.display = "flex"
     this.hud.play.focus()
@@ -1060,8 +1084,8 @@ export class StoryScene extends Phaser.Scene {
         this.checkpoint &&
           (this.checkpoint.x !== this.level.playerSpawn.x ||
             this.checkpoint.y !== this.level.playerSpawn.y)
-          ? "Fall gently. Continue from the last Moon Pool."
-          : "Fall gently. Continue from the start.",
+          ? t("story.dead.fallPool")
+          : t("story.dead.fallStart"),
       )
       return
     }
