@@ -66,11 +66,13 @@ export function buildInkBrushSvg(points: InkPoint[], opts: InkBrushOptions = {})
       <circle cx="${bx + 4}" cy="${by}" r="1.6" fill="#3d4934"/>
       <ellipse cx="${bx}" cy="${by + 4}" rx="2" ry="1.4" fill="#db9f98"/>
     </g>`
+  const moonX = Math.min(width - 52, end.x + 78)
+  const moonY = Math.max(48, end.y - 6)
   const moon = `
     <g class="story-ink-moon" pointer-events="none">
-      <circle cx="${end.x}" cy="${end.y}" r="34" fill="#fff6c8" stroke="#d7b45a" stroke-width="2.5"/>
-      <circle cx="${end.x + 10}" cy="${end.y - 6}" r="10" fill="#f0e2a8" opacity="0.55"/>
-      <text x="${end.x}" y="${end.y + 54}" text-anchor="middle" fill="${ink}" font-size="17" font-family="Georgia, serif" opacity="0.72">月亮</text>
+      <circle cx="${moonX}" cy="${moonY}" r="36" fill="#fff6c8" stroke="#d7b45a" stroke-width="2.5"/>
+      <circle cx="${moonX + 11}" cy="${moonY - 7}" r="11" fill="#f0e2a8" opacity="0.55"/>
+      <text x="${moonX}" y="${moonY + 56}" text-anchor="middle" fill="${ink}" font-size="17" font-family="Georgia, serif" opacity="0.72">月亮</text>
     </g>`
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" class="story-ink-svg" aria-hidden="true">

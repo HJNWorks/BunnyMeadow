@@ -24,7 +24,7 @@ const PATH_CSS = `
   border: 1px solid #cbd2ba;
   overflow: hidden;
   background:
-    radial-gradient(circle at 88% 12%, #fff8d6 0%, transparent 28%),
+    radial-gradient(circle at 92% 10%, #fff8d6 0%, transparent 22%),
     linear-gradient(160deg, #e7f0c8 0%, #d5e3a8 42%, #c5d48a 100%);
   min-height: 420px;
 }

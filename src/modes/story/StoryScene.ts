@@ -183,6 +183,7 @@ export class StoryScene extends Phaser.Scene {
   private movers: MoverState[] = []
   private hazards: Phaser.GameObjects.Rectangle[] = []
   private ride: RideState | null = null
+  private exitHintAt = 0
   private waterGrace = 0
   private baseGravity = 1200
 
@@ -223,6 +224,7 @@ export class StoryScene extends Phaser.Scene {
     this.movers = []
     this.hazards = []
     this.ride = null
+    this.exitHintAt = 0
     this.waterGrace = 0
     this.physics.world.isPaused = false
 
@@ -459,8 +461,8 @@ export class StoryScene extends Phaser.Scene {
     this.exitZone = this.add.image(exit.x, exit.y, "story_exit").setDepth(1)
     this.physics.add.existing(this.exitZone, true)
     const exitBody = this.exitZone.body as Phaser.Physics.Arcade.StaticBody
-    exitBody.setSize(100, 100)
-    exitBody.setOffset(-10, -10)
+    exitBody.setSize(120, 120)
+    exitBody.setOffset(-20, -20)
     exitBody.updateFromGameObject()
 
     this.physics.add.overlap(this.player, this.moonPool, () => this.onMoonPool())
@@ -992,17 +994,30 @@ export class StoryScene extends Phaser.Scene {
     this.hud.epilogueBody.innerHTML = `<p>${this.epilogueLines[this.epilogueStep]}</p>`
   }
 
+  private exitBlockedReason(): string | null {
+    if (this.level.foxHu && this.foxHu && this.foxHu.x < this.exitZone.x - 40) {
+      return "Beat Fox Hu's cart to the burrow."
+    }
+    if (this.level.boss?.kind === "heron" && this.bossHits < this.bossNeeded) {
+      return `Dash the heron first (${this.bossHits}/${this.bossNeeded}).`
+    }
+    if (this.level.boss?.kind === "crane" && this.cranePhase === "dive") {
+      return "Dodge the dives until the Crane bows."
+    }
+    return null
+  }
+
   private async onExit(): Promise<void> {
     if (this.won || this.lost || this.leaving) {
       return
     }
-    if (this.level.foxHu && this.foxHu && this.foxHu.x < this.exitZone.x - 40) {
-      return
-    }
-    if (this.level.boss?.kind === "heron" && this.bossHits < this.bossNeeded) {
-      return
-    }
-    if (this.level.boss?.kind === "crane" && this.cranePhase === "dive") {
+    const blocked = this.exitBlockedReason()
+    if (blocked) {
+      const now = this.time.now
+      if (now - this.exitHintAt > 1600) {
+        this.exitHintAt = now
+        this.hud.objective.textContent = blocked
+      }
       return
     }
     this.won = true
@@ -1138,8 +1153,8 @@ export class StoryScene extends Phaser.Scene {
 
     if (
       !this.won &&
-      Math.abs(this.player.x - this.exitZone.x) < 55 &&
-      Math.abs(this.player.y - this.exitZone.y) < 70
+      Math.abs(this.player.x - this.exitZone.x) < 90 &&
+      Math.abs(this.player.y - this.exitZone.y) < 110
     ) {
       void this.onExit()
       return

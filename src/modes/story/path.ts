@@ -159,8 +159,8 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Soft paths, hedges, and Fox Hu's cart.",
     status: "live",
     stationIds: ["w1_1_soft_paths", "w1_2_hedge_maze", "w1_3_cart_chase"],
-    x: 32,
-    y: 58,
+    x: 30,
+    y: 60,
   },
   {
     id: "w2",
@@ -169,8 +169,8 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Dusk water and tall green walls.",
     status: "live",
     stationIds: ["w2_1_green_corridor", "w2_2_floating_logs", "w2_3_raft_gauntlet"],
-    x: 52,
-    y: 44,
+    x: 48,
+    y: 46,
   },
   {
     id: "w3",
@@ -179,8 +179,8 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Festival lights and a tiger road.",
     status: "live",
     stationIds: ["w3_1_paper_lights", "w3_2_tiger_road", "w3_3_crane_summit"],
-    x: 70,
-    y: 30,
+    x: 64,
+    y: 32,
   },
   {
     id: "moon",
@@ -189,8 +189,8 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Quiet moon garden. Yue waits under the tree.",
     status: "live",
     stationIds: ["moon_guanghan"],
-    x: 88,
-    y: 16,
+    x: 76,
+    y: 22,
   },
 ]
 

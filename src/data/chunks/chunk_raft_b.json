@@ -15,7 +15,7 @@
     { "x": 460, "y": 820, "w": 140, "h": 28, "axis": "y", "amplitude": 55, "speed": 1.4, "tint": 10066176 }
   ],
   "hazards": [
-    { "x": 160, "y": 930, "w": 560, "h": 150, "kind": "water", "current": 40 }
+    { "x": 160, "y": 980, "w": 540, "h": 100, "kind": "water", "current": 40 }
   ],
   "color": "#4f7684"
 }
