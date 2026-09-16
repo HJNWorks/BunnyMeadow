@@ -9,8 +9,9 @@ All notable changes to this project are recorded here. The format follows
 ### Added
 
 - Guanghan boss Han: duck under roofs, eat a mooncake for a timed warmth buff, dash to
-  clear five spirit hearts. Frost spears, then starfall, then both. Shared top-right
-  item tray for timed buffs (Story warmth, Endless lantern glow).
+  clear five spirit hearts. Han roams the sky and aims frost/star fans at Mei. Shared
+  top-right item tray for timed buffs (Story warmth, Endless lantern glow). Boss loop
+  `boss` on the audio bus. Spirit hearts at top center. Silhouette shifts with enrage.
 
 ## [0.2.0] - 2026-09-16
 

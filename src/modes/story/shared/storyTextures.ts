@@ -191,22 +191,40 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     crane.destroy()
   }
 
-  if (!scene.textures.exists("story_han")) {
-    const han = scene.make.graphics({ x: 0, y: 0 })
-    han.fillStyle(0xb8c8d8, 0.55)
-    han.fillEllipse(40, 70, 52, 86)
-    han.fillStyle(0xd8e4ee, 0.8)
-    han.fillEllipse(40, 38, 36, 40)
-    han.fillStyle(0x8aa0b4, 0.9)
-    han.fillTriangle(22, 22, 18, 6, 32, 20)
-    han.fillTriangle(58, 22, 62, 6, 48, 20)
-    han.fillStyle(0x2a3d4c, 1)
-    han.fillCircle(32, 38, 3)
-    han.fillCircle(48, 38, 3)
-    han.fillStyle(0xc8d8e4, 0.35)
-    han.fillEllipse(40, 78, 20, 28)
-    han.generateTexture("story_han", 80, 120)
-    han.destroy()
+  if (!scene.textures.exists("story_han_0")) {
+    const looks = [
+      { body: 0xb8c8d8, head: 0xd8e4ee, horn: 0x8aa0b4, eye: 0x2a3d4c, core: 0xc8d8e4, a: 0.55, extra: false },
+      { body: 0x9eb4c8, head: 0xc8d8e8, horn: 0x6a88a4, eye: 0x1a3048, core: 0xa8c8e0, a: 0.64, extra: false },
+      { body: 0x7a98b8, head: 0xb0c8dc, horn: 0x4a6888, eye: 0x7ec8ff, core: 0x88b0d0, a: 0.74, extra: true },
+      { body: 0x5a6a98, head: 0x8aa0c8, horn: 0x3a4068, eye: 0xa8e0ff, core: 0x6070b0, a: 0.84, extra: true },
+      { body: 0x2a2848, head: 0x4a4870, horn: 0x1a1028, eye: 0xe8f4ff, core: 0x8890d8, a: 0.94, extra: true },
+    ]
+    looks.forEach((look, rage) => {
+      const han = scene.make.graphics({ x: 0, y: 0 })
+      const grow = rage * 3
+      han.fillStyle(look.body, look.a)
+      han.fillEllipse(40, 70, 52 + grow, 86 + grow)
+      han.fillStyle(look.head, Math.min(1, look.a + 0.2))
+      han.fillEllipse(40, 38, 36 + grow * 0.4, 40 + grow * 0.3)
+      han.fillStyle(look.horn, 0.95)
+      const horn = 16 + rage * 6
+      han.fillTriangle(22, 22, 16 - rage, 6 - horn, 32, 20)
+      han.fillTriangle(58, 22, 64 + rage, 6 - horn, 48, 20)
+      if (look.extra) {
+        han.fillTriangle(28, 18, 24, 4 - rage * 2, 34, 16)
+        han.fillTriangle(52, 18, 56, 4 - rage * 2, 46, 16)
+      }
+      han.fillStyle(look.eye, 1)
+      han.fillCircle(32, 38, 3 + Math.min(2, rage))
+      han.fillCircle(48, 38, 3 + Math.min(2, rage))
+      han.fillStyle(look.core, 0.4 + rage * 0.1)
+      han.fillEllipse(40, 78, 18 + grow, 26 + grow)
+      han.generateTexture(`story_han_${rage}`, 80, 120)
+      if (rage === 0) {
+        han.generateTexture("story_han", 80, 120)
+      }
+      han.destroy()
+    })
   }
 
   if (!scene.textures.exists("story_frost")) {

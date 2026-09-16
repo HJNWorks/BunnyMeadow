@@ -11,7 +11,7 @@ of Vast Cold. Hub: [../README.md](../README.md). Finale beats: [../../STORY.md](
 | Hour | eternal night (never changes) |
 | Lore anchor | Chang'e, Jade Rabbit, Wu Gang, Guanghan Gong ([../../LORE.md](../../LORE.md#change-嫦娥)) |
 | Movement verb | low gravity |
-| Hazard vocabulary | frost spears, starfall |
+| Hazard vocabulary | radial frost and star fans |
 
 ## Feel
 

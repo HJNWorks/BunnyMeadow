@@ -22,7 +22,8 @@ i18n:
 ## Shipped
 
 - Procedural Web Audio on the existing bus: master / music / sfx gains, first-gesture unlock,
-  pentatonic loops for `menu`, `meadow`, `dusk`, `night`, and `moon`, and the eight sfx ids.
+  pentatonic loops for `menu`, `meadow`, `dusk`, `night`, and `moon`, a `boss` ostinato with
+  drone for Guanghan, and the eight sfx ids.
 - `t(key, vars?)` interpolation. Same key set in EN, DE, and ZH-Hans for menus, HUD, World Map,
   Story overlay and epilogue, Endless lobby and results, and on-screen item hints.
 

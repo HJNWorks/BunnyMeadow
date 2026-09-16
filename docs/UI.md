@@ -52,6 +52,7 @@ Missing scenes are forbidden. Unfinished modes open their stub screen.
 | Objective | One short line |
 | Timer | Tasks and speedruns |
 | Item tray | Top-right icon plus remaining seconds for every timed buff |
+| Boss hearts | Guanghan: Han's five spirit hearts, top center |
 
 Modes compose the same components. Meadow keeps its bar layout as one consumer. Story and others reuse the contract. The item tray is `src/ui/ItemTray.ts`. Story shows mooncake warmth on Guanghan. Endless shows lantern glow. Instant effects (heal, pantry carrot, extra glide charge) do not take a slot.
 

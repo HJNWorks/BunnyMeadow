@@ -58,6 +58,7 @@ type Hud = {
   epilogueBody: HTMLElement
   epilogueContinue: HTMLButtonElement
   itemTray: HTMLElement
+  hanHearts: HTMLElement
 }
 
 
@@ -85,6 +86,7 @@ function shellHtml(): string {
     <button type="button" class="bm-btn ghost" data-ui="back">${t("story.hud.back")}</button>
   </div>
   <div class="bm-item-tray" data-ui="itemTray" hidden></div>
+  <div class="story-han-hearts" data-ui="hanHearts" hidden></div>
   <div class="story-field" data-ui="field"></div>
   <div class="story-controls-float" data-ui="controlsFloat" hidden></div>
   <div class="meadow-overlay" data-ui="overlay" hidden>
@@ -166,6 +168,19 @@ const CSS = `
 ${CONTROL_COACH_CSS}
 ${ITEM_TRAY_CSS}
 .bm-story-hud .bm-item-tray { top: 168px; }
+.story-han-hearts {
+  position: fixed;
+  top: 168px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 56;
+  pointer-events: none;
+  font: 800 26px Georgia, "Times New Roman", serif;
+  letter-spacing: 0.18em;
+  color: #f7fbff;
+  text-shadow: 0 1px 0 #0d1420, 0 6px 16px #152033aa;
+}
+.story-han-hearts[hidden] { display: none; }
 `
 
 export class StoryScene extends Phaser.Scene {
@@ -281,6 +296,7 @@ export class StoryScene extends Phaser.Scene {
       epilogueBody: requireEl(shell.root, "[data-ui=epilogueBody]"),
       epilogueContinue: requireEl(shell.root, "[data-ui=epilogueContinue]"),
       itemTray: bindItemTray(shell.root),
+      hanHearts: requireEl(shell.root, "[data-ui=hanHearts]"),
     }
 
     this.hud.levelName.textContent = t(`story.level.${def.id}.name`)
@@ -574,14 +590,16 @@ export class StoryScene extends Phaser.Scene {
       this.han = new HanFight(
         this,
         def.boss.x ?? 1620,
-        def.boss.y ?? 700,
+        def.boss.y ?? 380,
         this.player,
         this.projectiles,
         this.worldWidth,
       )
       this.enemies.add(this.han.sprite)
-      this.hud.bossHits.hidden = false
+      this.hud.bossHits.hidden = true
+      this.hud.hanHearts.hidden = false
       this.syncBossHits()
+      getAudio().playMusic("boss")
     }
 
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12)
@@ -596,6 +614,9 @@ export class StoryScene extends Phaser.Scene {
       lost: this.lost,
       health: this.health,
       hanHearts: this.han?.hearts ?? -1,
+      hanX: this.han?.sprite.x ?? -1,
+      hanY: this.han?.sprite.y ?? -1,
+      hanTex: this.han?.sprite.texture.key ?? "",
       warmth: this.han?.warmth ?? 0,
       cakeX: this.han?.cakePos()?.x ?? -1,
       cakeY: this.han?.cakePos()?.y ?? -1,
@@ -840,8 +861,22 @@ export class StoryScene extends Phaser.Scene {
   private syncBossHits(): void {
     if (!this.level.boss) {
       this.hud.bossHits.hidden = true
+      this.hud.hanHearts.hidden = true
       return
     }
+    if (this.level.boss.kind === "han" && this.han) {
+      this.hud.bossHits.hidden = true
+      this.hud.hanHearts.hidden = false
+      const full = this.han.hearts
+      const empty = Math.max(0, this.han.needed - this.han.hearts)
+      this.hud.hanHearts.textContent = `${"♥".repeat(full)}${"♡".repeat(empty)}`
+      this.hud.hanHearts.setAttribute("aria-label", t("story.boss.han", {
+        hearts: this.han.hearts,
+        need: this.han.needed,
+      }))
+      return
+    }
+    this.hud.hanHearts.hidden = true
     this.hud.bossHits.hidden = false
     if (this.level.boss.kind === "heron") {
       this.hud.bossHits.textContent = t("story.boss.heron", {
@@ -856,12 +891,6 @@ export class StoryScene extends Phaser.Scene {
           ? t("story.boss.craneBow")
           : t("story.boss.dives", { hits: this.craneDives, need: this.bossNeeded })
       return
-    }
-    if (this.level.boss.kind === "han" && this.han) {
-      this.hud.bossHits.textContent = t("story.boss.han", {
-        hearts: this.han.hearts,
-        need: this.han.needed,
-      })
     }
   }
 
@@ -908,6 +937,7 @@ export class StoryScene extends Phaser.Scene {
       this.syncBossHits()
       if (this.han.settled) {
         this.hud.objective.textContent = t("story.exit.open")
+        getAudio().playMusic("moon")
       }
     }
   }
@@ -926,8 +956,8 @@ export class StoryScene extends Phaser.Scene {
       this.han.update(dt)
       if (
         this.playerState.dashTime > 0 &&
-        Math.abs(this.player.x - this.han.sprite.x) < 90 &&
-        Math.abs(this.player.y - this.han.sprite.y) < 140
+        Math.abs(this.player.x - this.han.sprite.x) < 110 &&
+        Math.abs(this.player.y - this.han.sprite.y) < 150
       ) {
         this.tryHitHan()
       }

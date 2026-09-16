@@ -16,17 +16,16 @@ mooncake starts a short warmth buff (about 3 s). Only a dash into Han while that
 buff is live removes one spirit heart. A bare dash does nothing to him and still costs
 Mei a heart on contact.
 
-Projectiles stay night-themed:
+Projectiles stay night-themed and fire from Han toward Mei as a radial fan:
 
-- 5 and 4 hearts: frost spears, horizontal, mixed short-short-long rhythms. Stay in
-  the low pit under the roofs.
-- 3 and 2 hearts: starfall, downward moon-needles. Run between impacts or float over
-  low sweeps.
+- 5 and 4 hearts: frost spears in a tight cone aimed at Mei.
+- 3 and 2 hearts: star needles in a wider cone.
 - 1 heart: both at once.
 - 0: settles. Exit and the four epilogue cards are unchanged.
 
-Every lost heart enrages him (tighter volley gaps, same types as the current mode).
-Low gravity stays. Cakes spawn in the open, not under roofs.
+Han roams the sky rather than holding one perch. Every lost heart enrages him
+(tighter volley gaps, more spikes, a darker larger silhouette). Low gravity stays.
+Cakes spawn in the open, not under roofs. Spirit hearts sit at the top center.
 
 ## Guard
 

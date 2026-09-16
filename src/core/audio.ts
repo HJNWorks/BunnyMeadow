@@ -1,6 +1,6 @@
 import type { SaveV1 } from "./save"
 
-export type MusicId = "menu" | "meadow" | "dusk" | "night" | "moon"
+export type MusicId = "menu" | "meadow" | "dusk" | "night" | "moon" | "boss"
 
 type OscType = OscillatorType
 
@@ -8,6 +8,8 @@ type MusicPattern = {
   notes: number[]
   dur: number
   type: OscType
+  drone?: number[]
+  droneType?: OscType
 }
 
 type SfxSpec = {
@@ -24,6 +26,13 @@ const MUSIC: Record<MusicId, MusicPattern> = {
   dusk: { notes: [220, 277, 330, 277, 247, 330, 370, 220], dur: 0.52, type: "sine" },
   night: { notes: [174, 220, 196, 261, 220, 311, 261, 174], dur: 0.6, type: "sine" },
   moon: { notes: [155, 196, 185, 233, 196, 277, 233, 155], dur: 0.68, type: "sine" },
+  boss: {
+    notes: [196, 233, 220, 277, 247, 311, 277, 185, 196, 247, 220, 294, 247, 330, 277, 165],
+    drone: [73, 73, 65, 73, 82, 73, 65, 55, 73, 73, 65, 73, 82, 73, 98, 55],
+    dur: 0.24,
+    type: "sawtooth",
+    droneType: "triangle",
+  },
 }
 
 const SFX: Record<string, SfxSpec> = {
@@ -182,16 +191,31 @@ export class AudioBus {
     }
     const pattern = MUSIC[this.currentMusic]
     while (this.nextNote < this.ctx.currentTime + 0.9) {
-      const freq = pattern.notes[this.noteIndex % pattern.notes.length]
-      this.beep(
-        freq,
-        freq * 1.01,
-        pattern.dur * 0.78,
-        pattern.type,
-        this.musicGain,
-        0.55,
-        this.nextNote,
-      )
+      const i = this.noteIndex % pattern.notes.length
+      const freq = pattern.notes[i]
+      if (freq > 1) {
+        this.beep(
+          freq,
+          freq * 1.02,
+          pattern.dur * 0.72,
+          pattern.type,
+          this.musicGain,
+          pattern.drone ? 0.42 : 0.55,
+          this.nextNote,
+        )
+      }
+      const drone = pattern.drone?.[i] ?? 0
+      if (drone > 1) {
+        this.beep(
+          drone,
+          drone * 0.98,
+          pattern.dur * 0.92,
+          pattern.droneType ?? "triangle",
+          this.musicGain,
+          0.62,
+          this.nextNote,
+        )
+      }
       this.nextNote += pattern.dur
       this.noteIndex += 1
     }
