@@ -79,10 +79,9 @@ const STATIONS: Record<string, StoryStation> = {
     id: "w1_3_cart_chase",
     kind: "level",
     title: "Cart Chase",
-    blurb: "Fox Hu's carrot cart waits.",
+    blurb: "Beat Fox Hu's cart to the burrow basket.",
     lines: [],
     levelId: "w1_3_cart_chase",
-    soon: true,
   },
   w2_1_green_corridor: {
     id: "w2_1_green_corridor",
@@ -104,10 +103,9 @@ const STATIONS: Record<string, StoryStation> = {
     id: "w2_3_raft_gauntlet",
     kind: "level",
     title: "Raft Gauntlet",
-    blurb: "Heron Fisher waits on the rafts.",
+    blurb: "Dash the Heron Fisher three times on the rafts.",
     lines: [],
     levelId: "w2_3_raft_gauntlet",
-    soon: true,
   },
   w3_1_paper_lights: {
     id: "w3_1_paper_lights",
@@ -129,10 +127,17 @@ const STATIONS: Record<string, StoryStation> = {
     id: "w3_3_crane_summit",
     kind: "level",
     title: "Crane Summit",
-    blurb: "The Crane Envoy waits above the blossoms.",
+    blurb: "Dodge dives. When the Crane bows, accept the ride.",
     lines: [],
     levelId: "w3_3_crane_summit",
-    soon: true,
+  },
+  moon_guanghan: {
+    id: "moon_guanghan",
+    kind: "level",
+    title: "Guanghan",
+    blurb: "Quiet moon garden. Find Yue under the osmanthus tree.",
+    lines: [],
+    levelId: "moon_guanghan",
   },
 }
 
@@ -141,7 +146,7 @@ const WORLDS: StoryWorldNode[] = [
     id: "w0",
     world: 0,
     title: "Burrow Eve",
-    tagline: "Setting, moon lore, and soft controls.",
+    tagline: "Setting, moon lore, and soft paws.",
     status: "live",
     stationIds: ["w0_setting", "w0_lore_moon", "w0_controls"],
     x: 12,
@@ -181,19 +186,19 @@ const WORLDS: StoryWorldNode[] = [
     id: "moon",
     world: "moon",
     title: "Guanghan Palace",
-    tagline: "Quiet moon garden. Path continues later.",
-    status: "soon",
-    stationIds: [],
+    tagline: "Quiet moon garden. Yue waits under the tree.",
+    status: "live",
+    stationIds: ["moon_guanghan"],
     x: 88,
     y: 16,
   },
 ]
 
 const W0_IDS = ["w0_setting", "w0_lore_moon", "w0_controls"] as const
-
-const W1_PLAYABLE = ["w1_1_soft_paths", "w1_2_hedge_maze"] as const
-const W2_PLAYABLE = ["w2_1_green_corridor", "w2_2_floating_logs"] as const
-const W3_PLAYABLE = ["w3_1_paper_lights", "w3_2_tiger_road"] as const
+const W1_CHAIN = ["w1_1_soft_paths", "w1_2_hedge_maze", "w1_3_cart_chase"] as const
+const W2_CHAIN = ["w2_1_green_corridor", "w2_2_floating_logs", "w2_3_raft_gauntlet"] as const
+const W3_CHAIN = ["w3_1_paper_lights", "w3_2_tiger_road", "w3_3_crane_summit"] as const
+const MOON_CHAIN = ["moon_guanghan"] as const
 
 function worldPlayableCleared(save: SaveV1, ids: readonly string[]): boolean {
   const cleared = new Set(save.progress.story.cleared)
@@ -240,10 +245,13 @@ export function isWorldUnlocked(save: SaveV1, worldId: StoryWorldId): boolean {
     return isW0Complete(save)
   }
   if (worldId === "w2") {
-    return isW0Complete(save) && worldPlayableCleared(save, W1_PLAYABLE)
+    return isW0Complete(save) && worldPlayableCleared(save, W1_CHAIN)
   }
   if (worldId === "w3") {
-    return isW0Complete(save) && worldPlayableCleared(save, W2_PLAYABLE)
+    return isW0Complete(save) && worldPlayableCleared(save, W2_CHAIN)
+  }
+  if (worldId === "moon") {
+    return isW0Complete(save) && worldPlayableCleared(save, W3_CHAIN)
   }
   return false
 }
@@ -270,21 +278,28 @@ export function isStationUnlocked(save: SaveV1, stationId: string): boolean {
     return false
   }
   if (stationId.startsWith("w1_")) {
-    const prev = previousInChain(W1_PLAYABLE, stationId)
+    const prev = previousInChain(W1_CHAIN, stationId)
     return prev === null || cleared.has(prev)
   }
   if (stationId.startsWith("w2_")) {
-    if (!worldPlayableCleared(save, W1_PLAYABLE)) {
+    if (!worldPlayableCleared(save, W1_CHAIN)) {
       return false
     }
-    const prev = previousInChain(W2_PLAYABLE, stationId)
+    const prev = previousInChain(W2_CHAIN, stationId)
     return prev === null || cleared.has(prev)
   }
   if (stationId.startsWith("w3_")) {
-    if (!worldPlayableCleared(save, W2_PLAYABLE)) {
+    if (!worldPlayableCleared(save, W2_CHAIN)) {
       return false
     }
-    const prev = previousInChain(W3_PLAYABLE, stationId)
+    const prev = previousInChain(W3_CHAIN, stationId)
+    return prev === null || cleared.has(prev)
+  }
+  if (stationId.startsWith("moon_")) {
+    if (!worldPlayableCleared(save, W3_CHAIN)) {
+      return false
+    }
+    const prev = previousInChain(MOON_CHAIN, stationId)
     return prev === null || cleared.has(prev)
   }
   return false
@@ -321,14 +336,17 @@ export function defaultExpandedWorld(save: SaveV1): StoryWorldId {
   if (!isW0Complete(save)) {
     return "w0"
   }
-  if (!worldPlayableCleared(save, W1_PLAYABLE)) {
+  if (!worldPlayableCleared(save, W1_CHAIN)) {
     return "w1"
   }
-  if (!worldPlayableCleared(save, W2_PLAYABLE)) {
+  if (!worldPlayableCleared(save, W2_CHAIN)) {
     return "w2"
   }
-  if (!worldPlayableCleared(save, W3_PLAYABLE)) {
+  if (!worldPlayableCleared(save, W3_CHAIN)) {
     return "w3"
   }
-  return "w3"
+  if (!worldPlayableCleared(save, MOON_CHAIN)) {
+    return "moon"
+  }
+  return "moon"
 }

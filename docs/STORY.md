@@ -50,6 +50,8 @@ Enemies: foxes, crows, hedgehogs. [Fox Hu](LORE.md#fox-spirits--huli-jing-狐狸
 
 Boss: Fox Hu's carrot cart chase.
 
+Live stations: Soft Paths, Hedge Maze, Cart Chase.
+
 Lesson mechanics: run, jump, dash, wall bounce.
 
 Moon Pool sample:
@@ -62,9 +64,9 @@ Enemies: herons, frogs, carp. Falling bamboo.
 
 Mei learns Yue is fine but "above the clouds".
 
-Boss: the Heron Fisher on the river rafts (invented). Soon.
+Boss: the Heron Fisher on the river rafts (invented).
 
-Live stations: Green Corridor (bamboo wall bounce), Floating Logs (moving logs + river current).
+Live stations: Green Corridor (bamboo wall bounce), Floating Logs (moving logs + river current), Raft Gauntlet (three dash hits on the heron).
 
 Moon Pool sample:
 
@@ -76,9 +78,9 @@ Mid-Autumn lanterns, cats, owls (ordinary night enemies only), fireworks.
 
 [Lord Rabbit](LORE.md#tuer-ye--lord-rabbit-兔兒爺) lends his tiger for the ascent.
 
-Boss: the Crane Envoy. It realizes the mistake and carries Mei up. Soon.
+Boss: the Crane Envoy. It realizes the mistake and carries Mei up.
 
-Live stations: Paper Lights (hold jump to glide), Tiger Road (scripted tiger ride).
+Live stations: Paper Lights (hold jump to glide), Tiger Road (scripted tiger ride), Crane Summit (dive telegraph, soft bow exit).
 
 Mechanics: lantern glide, tiger ride, wind.
 

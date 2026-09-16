@@ -2,7 +2,7 @@
   "meadow": true,
   "tasks": true,
   "storyWorld1": true,
-  "storyFull": false,
+  "storyFull": true,
   "endless": false,
-  "webFullStory": false
+  "webFullStory": true
 }

@@ -14,6 +14,7 @@ type Hud = {
   objective: HTMLElement
   levelName: HTMLElement
   worldLabel: HTMLElement
+  bossHits: HTMLElement
   overlay: HTMLElement
   title: HTMLElement
   message: HTMLElement
@@ -23,6 +24,9 @@ type Hud = {
   quit: HTMLButtonElement
   controlsDock: HTMLElement
   controlsFloat: HTMLElement
+  epilogue: HTMLElement
+  epilogueBody: HTMLElement
+  epilogueContinue: HTMLButtonElement
 }
 
 type MoverState = {
@@ -51,6 +55,7 @@ const SHELL = `
   </header>
   <div class="meadow-bar">
     <span>Hearts <strong data-ui="hearts">♥ ♥ ♥</strong></span>
+    <span data-ui="bossHits" hidden></span>
     <div class="story-controls-dock" data-ui="controlsDock" hidden aria-label="Controls"></div>
     <button type="button" class="bm-btn" data-ui="pauseBtn">Pause</button>
     <button type="button" class="bm-btn ghost" data-ui="back">World Map</button>
@@ -62,6 +67,13 @@ const SHELL = `
       <h2 data-ui="title">Ready</h2>
       <p data-ui="message"></p>
       <button type="button" class="bm-btn warm" data-ui="play">Continue</button>
+    </div>
+  </div>
+  <div class="meadow-overlay" data-ui="epilogue" hidden>
+    <div class="meadow-card" style="max-width:520px;text-align:left;font:18px Georgia,serif">
+      <div class="bm-eyebrow">Epilogue</div>
+      <div data-ui="epilogueBody"></div>
+      <button type="button" class="bm-btn warm" data-ui="epilogueContinue" style="margin-top:14px">Continue</button>
     </div>
   </div>
   <div class="meadow-overlay" data-ui="pausePanel" hidden>
@@ -140,6 +152,15 @@ export class StoryScene extends Phaser.Scene {
   private moonPool!: Phaser.GameObjects.Image
   private exitZone!: Phaser.GameObjects.Image
   private foxHu: Phaser.Physics.Arcade.Sprite | null = null
+  private bossSprite: Phaser.Physics.Arcade.Sprite | null = null
+  private diveLine: Phaser.GameObjects.Rectangle | null = null
+  private bossHits = 0
+  private bossNeeded = 0
+  private bossCooldown = 0
+  private cranePhase: "dive" | "bow" | "done" = "dive"
+  private craneDives = 0
+  private epilogueStep = 0
+  private epilogueLines: string[] = []
   private health = 3
   private maxHearts = 3
   private invuln = 0
@@ -190,6 +211,14 @@ export class StoryScene extends Phaser.Scene {
     this.poolClaimed = false
     this.inDialogue = false
     this.foxHu = null
+    this.bossSprite = null
+    this.diveLine = null
+    this.bossHits = 0
+    this.bossNeeded = 0
+    this.bossCooldown = 0
+    this.cranePhase = "dive"
+    this.craneDives = 0
+    this.epilogueStep = 0
     this.leaving = false
     this.movers = []
     this.hazards = []
@@ -207,6 +236,7 @@ export class StoryScene extends Phaser.Scene {
       objective: requireEl(shell.root, "[data-ui=objective]"),
       levelName: requireEl(shell.root, "[data-ui=levelName]"),
       worldLabel: requireEl(shell.root, "[data-ui=worldLabel]"),
+      bossHits: requireEl(shell.root, "[data-ui=bossHits]"),
       overlay: requireEl(shell.root, "[data-ui=overlay]"),
       title: requireEl(shell.root, "[data-ui=title]"),
       message: requireEl(shell.root, "[data-ui=message]"),
@@ -216,6 +246,9 @@ export class StoryScene extends Phaser.Scene {
       quit: requireEl(shell.root, "[data-ui=quit]"),
       controlsDock: requireEl(shell.root, "[data-ui=controlsDock]"),
       controlsFloat: requireEl(shell.root, "[data-ui=controlsFloat]"),
+      epilogue: requireEl(shell.root, "[data-ui=epilogue]"),
+      epilogueBody: requireEl(shell.root, "[data-ui=epilogueBody]"),
+      epilogueContinue: requireEl(shell.root, "[data-ui=epilogueContinue]"),
     }
 
     this.hud.levelName.textContent = def.name
@@ -227,6 +260,7 @@ export class StoryScene extends Phaser.Scene {
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=pauseBtn]").onclick = () => this.setPaused(true)
     this.hud.resume.onclick = () => this.setPaused(false)
     this.hud.quit.onclick = () => this.leaveToWorldMap()
+    this.hud.epilogueContinue.onclick = () => this.advanceEpilogue()
     const goMap = (event: Event): void => {
       event.preventDefault()
       event.stopPropagation()
@@ -283,6 +317,10 @@ export class StoryScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor(skyHex)
     this.physics.world.setBounds(0, -200, world.width, 1400, true, true, true, false)
     this.baseGravity = this.physics.world.gravity.y || 1200
+    if (def.lowGravity) {
+      this.physics.world.gravity.y = this.baseGravity * 0.42
+      this.baseGravity = this.physics.world.gravity.y
+    }
 
     this.add.rectangle(world.width / 2, 540, world.width, 1080, skyNum).setDepth(-3)
     this.add.rectangle(world.width / 2, 200, world.width, 220, 0xeaf3c8, 0.18).setDepth(-2)
@@ -428,11 +466,24 @@ export class StoryScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.moonPool, () => this.onMoonPool())
     this.physics.add.overlap(this.player, this.exitZone, () => void this.onExit())
     this.physics.add.overlap(this.player, this.enemies, (_p, enemy) => {
-      this.hurt()
       const body = enemy as Phaser.Physics.Arcade.Sprite
-      if (body.getData("archetype") === "foxhu") {
-        this.hurt()
+      const arch = body.getData("archetype") as string
+      if (arch === "heron_boss") {
+        this.tryHitHeron()
+        return
       }
+      if (arch === "crane_boss" || arch === "heron_done") {
+        return
+      }
+      if (arch === "foxhu") {
+        if (this.dashTime > 0) {
+          this.tipFoxCart(body)
+          return
+        }
+        this.hurt()
+        return
+      }
+      this.hurt()
     })
     this.physics.add.overlap(this.player, this.projectiles, (_p, shot) => {
       ;(shot as Phaser.Physics.Arcade.Image).destroy()
@@ -440,14 +491,40 @@ export class StoryScene extends Phaser.Scene {
     })
 
     if (def.foxHu) {
-      this.foxHu = this.physics.add.sprite(def.foxHu.startX, def.foxHu.y, "story_bunny")
-      this.foxHu.setTint(0xdf8b4c)
-      this.foxHu.setDisplaySize(56, 40)
+      this.foxHu = this.physics.add.sprite(def.foxHu.startX, def.foxHu.y, "story_cart")
+      this.foxHu.setDisplaySize(88, 48)
       this.foxHu.setData("archetype", "foxhu")
       this.foxHu.setData("speed", def.foxHu.speed)
       this.foxHu.setImmovable(true)
       ;(this.foxHu.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
+      ;(this.foxHu.body as Phaser.Physics.Arcade.Body).setSize(80, 40)
       this.enemies.add(this.foxHu)
+    }
+
+    if (def.boss?.kind === "heron") {
+      this.bossNeeded = def.boss.hitsNeeded ?? 3
+      this.bossSprite = this.physics.add.sprite(def.boss.x ?? 1500, def.boss.y ?? 820, "story_heron")
+      this.bossSprite.setDisplaySize(64, 72)
+      this.bossSprite.setData("archetype", "heron_boss")
+      this.bossSprite.setImmovable(true)
+      ;(this.bossSprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
+      this.enemies.add(this.bossSprite)
+      this.hud.bossHits.hidden = false
+      this.syncBossHits()
+    }
+
+    if (def.boss?.kind === "crane") {
+      this.bossNeeded = def.boss.divesNeeded ?? 3
+      this.bossSprite = this.physics.add.sprite(def.boss.x ?? 1400, def.boss.y ?? 400, "story_crane")
+      this.bossSprite.setDisplaySize(72, 56)
+      this.bossSprite.setData("archetype", "crane_boss")
+      this.bossSprite.setImmovable(true)
+      ;(this.bossSprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
+      this.enemies.add(this.bossSprite)
+      this.diveLine = this.add.rectangle(0, 0, 8, 220, 0xffe08a, 0.55).setDepth(6).setVisible(false)
+      this.hud.bossHits.hidden = false
+      this.syncBossHits()
+      this.bossCooldown = 1.2
     }
 
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12)
@@ -605,6 +682,50 @@ export class StoryScene extends Phaser.Scene {
       tiger.generateTexture("story_tiger", 100, 40)
       tiger.destroy()
     }
+
+    if (!this.textures.exists("story_cart")) {
+      const cart = this.make.graphics({ x: 0, y: 0 })
+      cart.fillStyle(0x8b5a2b, 1)
+      cart.fillRoundedRect(4, 16, 90, 28, 6)
+      cart.fillStyle(0xdf8b4c, 1)
+      cart.fillEllipse(70, 14, 28, 22)
+      cart.fillStyle(0xf2a35a, 1)
+      cart.fillCircle(18, 48, 10)
+      cart.fillCircle(78, 48, 10)
+      cart.fillStyle(0xe07030, 1)
+      cart.fillCircle(62, 10, 4)
+      cart.generateTexture("story_cart", 100, 60)
+      cart.destroy()
+    }
+
+    if (!this.textures.exists("story_heron")) {
+      const heron = this.make.graphics({ x: 0, y: 0 })
+      heron.fillStyle(0xd8e0e8, 1)
+      heron.fillEllipse(24, 36, 28, 40)
+      heron.fillStyle(0xb0bcc8, 1)
+      heron.fillTriangle(24, 8, 18, 28, 30, 28)
+      heron.fillStyle(0xe8a040, 1)
+      heron.fillTriangle(24, 6, 40, 10, 24, 14)
+      heron.fillStyle(0x304050, 1)
+      heron.fillCircle(28, 22, 2)
+      heron.generateTexture("story_heron", 48, 64)
+      heron.destroy()
+    }
+
+    if (!this.textures.exists("story_crane")) {
+      const crane = this.make.graphics({ x: 0, y: 0 })
+      crane.fillStyle(0xf4f6f8, 1)
+      crane.fillEllipse(36, 28, 48, 26)
+      crane.fillStyle(0xe8ecf0, 1)
+      crane.fillTriangle(10, 28, 0, 18, 16, 22)
+      crane.fillTriangle(62, 28, 72, 18, 56, 22)
+      crane.fillStyle(0xc04040, 1)
+      crane.fillCircle(48, 24, 3)
+      crane.fillStyle(0x304050, 1)
+      crane.fillCircle(42, 22, 2)
+      crane.generateTexture("story_crane", 72, 48)
+      crane.destroy()
+    }
   }
 
   private spawnEnemy(id: string, x: number, y: number): void {
@@ -735,11 +856,153 @@ export class StoryScene extends Phaser.Scene {
     }
   }
 
+  private tipFoxCart(cart: Phaser.Physics.Arcade.Sprite): void {
+    if (this.bossCooldown > 0) {
+      return
+    }
+    this.bossCooldown = 0.45
+    const slowed = Math.max(40, Number(cart.getData("speed") || 150) * 0.35)
+    cart.setData("speed", slowed)
+    cart.setVelocityX(slowed * 0.2)
+    cart.setTint(0xffd0a0)
+    this.time.delayedCall(500, () => {
+      cart.clearTint()
+      cart.setData("speed", this.level.foxHu?.speed ?? 150)
+    })
+  }
+
+  private syncBossHits(): void {
+    if (!this.level.boss) {
+      this.hud.bossHits.hidden = true
+      return
+    }
+    this.hud.bossHits.hidden = false
+    if (this.level.boss.kind === "heron") {
+      this.hud.bossHits.textContent = `Heron ${this.bossHits}/${this.bossNeeded}`
+      return
+    }
+    if (this.level.boss.kind === "crane") {
+      this.hud.bossHits.textContent =
+        this.cranePhase === "bow" || this.cranePhase === "done"
+          ? "Crane bows · exit open"
+          : `Dives ${this.craneDives}/${this.bossNeeded}`
+    }
+  }
+
+  private tryHitHeron(): void {
+    if (!this.bossSprite || this.bossCooldown > 0 || this.won) {
+      return
+    }
+    if (this.dashTime <= 0) {
+      this.hurt()
+      return
+    }
+    this.bossHits += 1
+    this.bossCooldown = 0.7
+    this.bossSprite.setTint(0xffffff)
+    this.time.delayedCall(120, () => this.bossSprite?.clearTint())
+    this.syncBossHits()
+    if (this.bossHits >= this.bossNeeded) {
+      this.bossSprite.setAlpha(0.45)
+      this.bossSprite.setData("archetype", "heron_done")
+    }
+  }
+
+  private updateBoss(dt: number): void {
+    this.bossCooldown = Math.max(0, this.bossCooldown - dt)
+    if (!this.bossSprite || !this.level.boss) {
+      return
+    }
+    if (this.level.boss.kind === "heron") {
+      const dx = this.player.x - this.bossSprite.x
+      this.bossSprite.setVelocityX(Math.sign(dx) * 55)
+      return
+    }
+    if (this.level.boss.kind !== "crane") {
+      return
+    }
+    if (this.cranePhase === "bow" || this.cranePhase === "done") {
+      this.bossSprite.setVelocity(0, 0)
+      this.diveLine?.setVisible(false)
+      return
+    }
+    if (this.bossCooldown > 0.5 && this.diveLine) {
+      this.diveLine.setVisible(true)
+      this.diveLine.setPosition(this.player.x, this.player.y - 40)
+      this.bossSprite.setPosition(this.player.x, Math.min(this.bossSprite.y, this.player.y - 150))
+      this.bossSprite.setVelocity(0, 0)
+    } else if (this.bossCooldown > 0 && this.diveLine?.visible) {
+      this.bossSprite.setVelocityY(480)
+      if (this.bossSprite.y >= this.player.y - 20) {
+        if (Math.abs(this.bossSprite.x - this.player.x) < 55 && this.dashTime <= 0) {
+          this.hurt()
+        }
+        this.diveLine.setVisible(false)
+        this.craneDives += 1
+        this.syncBossHits()
+        this.bossSprite.setVelocity(0, 0)
+        this.bossSprite.y = this.player.y - 140
+        this.bossCooldown = 0
+        if (this.craneDives >= this.bossNeeded) {
+          this.cranePhase = "bow"
+          this.bossSprite.setTint(0xfff0d0)
+          this.syncBossHits()
+          this.inDialogue = true
+          this.physics.world.isPaused = true
+          this.scene.launch("DialogueOverlay", {
+            lines: ["The Crane Envoy bows. It knows the mistake.", "Ride when you are ready."],
+            onDone: () => {
+              this.inDialogue = false
+              if (!this.paused && !this.won && !this.lost) {
+                this.physics.world.isPaused = false
+              }
+            },
+          })
+        } else {
+          this.bossCooldown = 1.7
+        }
+      }
+    } else if (this.bossCooldown <= 0) {
+      this.bossCooldown = 1.9
+      this.bossSprite.setPosition(this.player.x, this.player.y - 180)
+      this.bossSprite.setVelocity(0, 0)
+    }
+  }
+
+  private showEpilogue(): void {
+    this.epilogueLines = [
+      "Yue plays under Wu Gang's tree with the Jade Rabbit.",
+      "Chang'e asks Mei to stay. The palace is quiet and lonely.",
+      "Mei offers a mooncake and a promise: every full moon the burrow will wave.",
+      "The Crane Envoy carries them home. Kits watch the moon together.",
+    ]
+    this.epilogueStep = 0
+    this.hud.overlay.hidden = true
+    this.hud.epilogue.hidden = false
+    this.hud.epilogueBody.innerHTML = `<p>${this.epilogueLines[0]}</p>`
+  }
+
+  private advanceEpilogue(): void {
+    this.epilogueStep += 1
+    if (this.epilogueStep >= this.epilogueLines.length) {
+      this.hud.epilogue.hidden = true
+      this.leaveToWorldMap()
+      return
+    }
+    this.hud.epilogueBody.innerHTML = `<p>${this.epilogueLines[this.epilogueStep]}</p>`
+  }
+
   private async onExit(): Promise<void> {
     if (this.won || this.lost || this.leaving) {
       return
     }
     if (this.level.foxHu && this.foxHu && this.foxHu.x < this.exitZone.x - 40) {
+      return
+    }
+    if (this.level.boss?.kind === "heron" && this.bossHits < this.bossNeeded) {
+      return
+    }
+    if (this.level.boss?.kind === "crane" && this.cranePhase === "dive") {
       return
     }
     this.won = true
@@ -751,17 +1014,6 @@ export class StoryScene extends Phaser.Scene {
     this.physics.world.isPaused = true
     this.hud.controlsFloat.hidden = true
     this.hud.pausePanel.hidden = true
-    this.hud.title.textContent = "Path clear"
-    this.hud.message.textContent =
-      this.level.id === "w0_controls"
-        ? "Paws ready. Soft Paths opens on the map."
-        : this.level.id === "w1_3_cart_chase"
-          ? "Fox Hu is foiled. World 1 rests."
-          : `${this.level.name} is done.`
-    this.hud.play.textContent = "World Map →"
-    this.hud.overlay.hidden = false
-    this.hud.overlay.style.display = "flex"
-    this.hud.play.focus()
 
     try {
       const save = getSave()
@@ -770,20 +1022,51 @@ export class StoryScene extends Phaser.Scene {
       }
       save.progress.story.level = Math.max(save.progress.story.level, this.level.index + 1)
       addPantryCarrots(save, 12)
+      const unlock = async (id: string): Promise<void> => {
+        await getPlatform().achievements.unlock(id)
+        if (!save.progress.achievements.includes(id)) {
+          save.progress.achievements.push(id)
+        }
+      }
       if (this.level.id === "w1_3_cart_chase") {
-        await getPlatform().achievements.unlock("FOX_FOILED")
-        await getPlatform().achievements.unlock("WORLD1_CLEAR")
-        if (!save.progress.achievements.includes("FOX_FOILED")) {
-          save.progress.achievements.push("FOX_FOILED")
-        }
-        if (!save.progress.achievements.includes("WORLD1_CLEAR")) {
-          save.progress.achievements.push("WORLD1_CLEAR")
-        }
+        await unlock("FOX_FOILED")
+        await unlock("WORLD1_CLEAR")
+      }
+      if (this.level.id === "w2_3_raft_gauntlet") {
+        await unlock("WORLD2_CLEAR")
+      }
+      if (this.level.id === "w3_3_crane_summit") {
+        await unlock("CRANE_FRIEND")
+        await unlock("WORLD3_CLEAR")
+      }
+      if (this.level.id === "moon_guanghan") {
+        await unlock("MOON_RETURN")
       }
       await persistSave()
     } catch {
       // Keep the win overlay available even if save fails.
     }
+
+    if (this.level.epilogue) {
+      this.showEpilogue()
+      return
+    }
+
+    this.hud.title.textContent = "Path clear"
+    this.hud.message.textContent =
+      this.level.id === "w0_controls"
+        ? "Paws ready. Soft Paths opens on the map."
+        : this.level.id === "w1_3_cart_chase"
+          ? "Fox Hu is foiled. World 1 rests."
+          : this.level.id === "w2_3_raft_gauntlet"
+            ? "Heron Fisher yields the river."
+            : this.level.id === "w3_3_crane_summit"
+              ? "The Crane Envoy offers a ride to the moon."
+              : `${this.level.name} is done.`
+    this.hud.play.textContent = "World Map →"
+    this.hud.overlay.hidden = false
+    this.hud.overlay.style.display = "flex"
+    this.hud.play.focus()
   }
 
   update(_time: number, delta: number): void {
@@ -795,6 +1078,7 @@ export class StoryScene extends Phaser.Scene {
     this.dashCooldown = Math.max(0, this.dashCooldown - dt)
     this.dashTime = Math.max(0, this.dashTime - dt)
     this.waterGrace = Math.max(0, this.waterGrace - dt * 0.5)
+    this.updateBoss(dt)
 
     for (const mover of this.movers) {
       mover.phase += dt * mover.speed

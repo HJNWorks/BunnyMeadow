@@ -31,8 +31,8 @@ StoryBeat panel sits above WorldMap for World 0 stations
 | Customize | menu | |
 | Achievements | menu | live (achievement list + short project credit) |
 | Meadow | play | live (data-driven arcade, M2; entered from Moon Tasks) |
-| WorldMap | menu | live (burrow-to-moon path; W0 stations + W1 levels) |
-| Story | play | live (W1 side-scroll) |
+| WorldMap | menu | live (burrow-to-moon path; W0–W3 + moon) |
+| Story | play | live (full story side-scroll through Guanghan) |
 | TaskSelect | menu | live (M2: Night Watch, Hide and Seek) |
 | TaskRun | play | live (M2 TaskRuntime) |
 | Endless | play | stub until M5 |
@@ -154,7 +154,7 @@ Migration: `migrateSave(raw) -> SaveV1`. Bump `version` and add a branch per old
 
 `progress.story.cleared` holds World 0 station ids (`w0_setting`, `w0_lore_moon`, `w0_controls`) and level ids (`w1_1_soft_paths`, …). Saves that already cleared any `w1_*` level auto-gain the three W0 stations on migrate. Positional checkpoints are not persisted.
 
-World Map: SVG landscape path with expand/collapse world nodes. One world rail open at a time. W0 stations open a DomShell beat panel. Level stations start Story.
+World Map: SVG ink-brush path with expand/collapse world nodes. One world rail open at a time. W0 stations open a DomShell beat panel. Level stations start Story. Badges show cleared/total per world (3/3 when bosses are done; moon when unlocked).
 
 Fields reserved for later milestones (must exist from M1): `progress.story.*`, `tasksCompleted`, `endlessBest`.
 

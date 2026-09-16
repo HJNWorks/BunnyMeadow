@@ -2,7 +2,7 @@
 
 Play on GitHub Pages: [hjnworks.github.io/BunnyMeadow](https://hjnworks.github.io/BunnyMeadow/)
 
-Family woodland adventure. Phaser 4 + Vite + TypeScript. Meadow arcade mode ships now. Story, Moon Tasks, Endless and Steam desktop are planned. See [docs/GDD.md](docs/GDD.md).
+Family woodland adventure. Phaser 4 + Vite + TypeScript. Meadow arcade, Moon Tasks, and full Story (through Guanghan) ship on web. Endless and Steam desktop are planned. See [docs/GDD.md](docs/GDD.md).
 
 ## Develop
 

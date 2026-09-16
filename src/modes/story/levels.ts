@@ -4,8 +4,19 @@ import level12 from "../../data/story/w1/w1_2_hedge_maze.json"
 import level13 from "../../data/story/w1/w1_3_cart_chase.json"
 import level21 from "../../data/story/w2/w2_1_green_corridor.json"
 import level22 from "../../data/story/w2/w2_2_floating_logs.json"
+import level23 from "../../data/story/w2/w2_3_raft_gauntlet.json"
 import level31 from "../../data/story/w3/w3_1_paper_lights.json"
 import level32 from "../../data/story/w3/w3_2_tiger_road.json"
+import level33 from "../../data/story/w3/w3_3_crane_summit.json"
+import levelMoon from "../../data/story/moon/moon_guanghan.json"
+
+export type StoryBossDef = {
+  kind: "fox_cart" | "heron" | "crane"
+  hitsNeeded?: number
+  divesNeeded?: number
+  x?: number
+  y?: number
+}
 
 export type StoryLevelDef = {
   id: string
@@ -21,8 +32,11 @@ export type StoryLevelDef = {
   wallBounce?: boolean
   glide?: boolean
   tutorial?: boolean
+  lowGravity?: boolean
+  epilogue?: boolean
   sky?: string
   foxHu?: { startX: number; y: number; speed: number }
+  boss?: StoryBossDef
   ride?: {
     w: number
     h: number
@@ -38,8 +52,11 @@ const LEVELS: StoryLevelDef[] = [
   level13 as StoryLevelDef,
   level21 as StoryLevelDef,
   level22 as StoryLevelDef,
+  level23 as StoryLevelDef,
   level31 as StoryLevelDef,
   level32 as StoryLevelDef,
+  level33 as StoryLevelDef,
+  levelMoon as StoryLevelDef,
 ]
 
 export function listStoryLevels(): StoryLevelDef[] {

@@ -21,6 +21,12 @@ import chunkOsmanthusPool from "../data/chunks/chunk_osmanthus_pool.json"
 import chunkPawsMove from "../data/chunks/chunk_paws_move.json"
 import chunkPawsJump from "../data/chunks/chunk_paws_jump.json"
 import chunkPawsBurrow from "../data/chunks/chunk_paws_burrow.json"
+import chunkRaftA from "../data/chunks/chunk_raft_a.json"
+import chunkRaftB from "../data/chunks/chunk_raft_b.json"
+import chunkCraneA from "../data/chunks/chunk_crane_a.json"
+import chunkCraneB from "../data/chunks/chunk_crane_b.json"
+import chunkMoonA from "../data/chunks/chunk_moon_a.json"
+import chunkMoonB from "../data/chunks/chunk_moon_b.json"
 
 export type ChunkId = string
 
@@ -97,6 +103,12 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_paws_move: chunkPawsMove as ChunkDef,
   chunk_paws_jump: chunkPawsJump as ChunkDef,
   chunk_paws_burrow: chunkPawsBurrow as ChunkDef,
+  chunk_raft_a: chunkRaftA as ChunkDef,
+  chunk_raft_b: chunkRaftB as ChunkDef,
+  chunk_crane_a: chunkCraneA as ChunkDef,
+  chunk_crane_b: chunkCraneB as ChunkDef,
+  chunk_moon_a: chunkMoonA as ChunkDef,
+  chunk_moon_b: chunkMoonB as ChunkDef,
 }
 
 export class ChunkAssembler {

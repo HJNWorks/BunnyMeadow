@@ -1,0 +1,20 @@
+{
+  "id": "chunk_raft_a",
+  "width": 960,
+  "height": 1080,
+  "groundY": 980,
+  "platforms": [
+    { "x": 0, "y": 980, "w": 220, "h": 100 },
+    { "x": 780, "y": 980, "w": 180, "h": 100 }
+  ],
+  "walls": [],
+  "enemies": [],
+  "movers": [
+    { "x": 280, "y": 900, "w": 150, "h": 28, "axis": "x", "amplitude": 60, "speed": 1.1, "tint": 10066176 },
+    { "x": 520, "y": 860, "w": 150, "h": 28, "axis": "y", "amplitude": 45, "speed": 1.3, "tint": 10066176 }
+  ],
+  "hazards": [
+    { "x": 220, "y": 940, "w": 560, "h": 140, "kind": "water", "current": 35 }
+  ],
+  "color": "#5f8794"
+}

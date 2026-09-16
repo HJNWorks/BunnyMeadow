@@ -9,5 +9,6 @@
   "exit": { "chunk": 1, "x": 1050, "y": 920 },
   "moonLine": "Fox Hu runs. The basket waits at home.",
   "objective": "Beat Fox Hu's cart to the burrow basket.",
-  "foxHu": { "startX": 400, "y": 900, "speed": 140 }
+  "foxHu": { "startX": 280, "y": 900, "speed": 150 },
+  "boss": { "kind": "fox_cart" }
 }

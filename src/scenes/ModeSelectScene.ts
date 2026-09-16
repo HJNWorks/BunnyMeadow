@@ -29,7 +29,7 @@ export class ModeSelectScene extends Phaser.Scene {
             </span>
             <span class="bm-card-copy">
               <strong>${t("mode.story")}</strong>
-              <span>${flags.storyWorld1 ? "World 1 · Meadow and Hedgerows" : t("mode.story.desc")}</span>
+              <span>${flags.storyFull || flags.webFullStory ? "Burrow to Guanghan · full path" : flags.storyWorld1 ? "World 1 · Meadow and Hedgerows" : t("mode.story.desc")}</span>
             </span>
           </button>
           <button type="button" class="bm-card bm-card-icon" data-ui="tasks" ${tasksLive ? "" : "disabled"}>

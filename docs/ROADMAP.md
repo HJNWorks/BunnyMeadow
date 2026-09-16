@@ -6,7 +6,7 @@ Sequencing and build contracts. Design lives in [GDD.md](GDD.md), [STORY.md](STO
 
 Four modes (Meadow, Story, Moon Tasks, Endless) share one save schema, one input action map, one difficulty/enemy data layer, and one `ModeContext`. Menus and overlays are HTML/CSS for crisp text. Playfields target Phaser at 1920x1080 with `Scale.FIT`. Desktop/Steam plugs in through `core/platform` without gameplay touching `localStorage` or Electron APIs.
 
-Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and Seek). Story and Endless remain flag-gated stubs until later milestones fill them. Every later surface was registered in M1 so milestones replace stub bodies instead of inventing parallel systems.
+Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and Seek). Full Story ships on web after M4 (`storyFull` / `webFullStory`). Endless remains flag-gated until M5. Every later surface was registered in M1 so milestones replace stub bodies instead of inventing parallel systems.
 
 ## Status snapshot
 
@@ -17,7 +17,8 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | M2 Meadow arcade expansion | done |
 | M2 Moon Tasks (Night Watch + Hide and Seek) | done |
 | M3 Story World 1 vertical slice | done |
-| M4–M8 | not started; next = M4 Story content |
+| M4 Story content complete | done |
+| M5–M8 | not started; next = M5 Endless / audio / i18n |
 
 ## Done
 
@@ -63,8 +64,8 @@ Later milestones must not invent a second version of these. M1 created them (fil
 | Customize | menu HTML | live |
 | Achievements | menu HTML | live (achievement list + short project credit) |
 | Meadow | play | live (data-driven arcade) |
-| WorldMap | menu HTML | live (World 1 level select) |
-| Story | play | live (Phaser side-scroll W1) |
+| WorldMap | menu HTML | live (burrow-to-moon path; W0–W3 + moon) |
+| Story | play | live (Phaser side-scroll full story) |
 | TaskSelect | menu HTML | live (Night Watch, Hide and Seek) |
 | TaskRun | play | live (canvas TaskRuntime) |
 | Endless | play | stub scene |
@@ -83,9 +84,9 @@ Missing routes are forbidden. Locked or unfinished modes still navigate to a stu
 | `meadow` | Meadow playable | true |
 | `tasks` | Moon Tasks selectable | true |
 | `storyWorld1` | Story W1 on web | true |
-| `storyFull` | Worlds 2–3 + finale | false (Steam / later) |
+| `storyFull` | Worlds 2–3 + finale | true (web after M4) |
 | `endless` | Endless selectable | false until M5 |
-| `webFullStory` | Override to ship full story on web | false (confirm before M7) |
+| `webFullStory` | Ship full story on web | true (M4) |
 
 Mode Select reads flags. It never hard-codes “delete Story for Steam”.
 
@@ -203,13 +204,11 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 ### M4 — Story content complete
 
-**Goal:** Bosses (Cart Chase, Raft Gauntlet, Crane Summit), moon finale, epilogue.
+**Status: done**
 
-**Fills:** remaining boss levels, Heron Fisher, Crane Envoy, Guanghan finale, epilogue. Start Steamworks verification in parallel ([STEAM.md](STEAM.md)). Optionally set `storyFull` for desktop builds only.
+**Filled:** Cart Chase (Fox Hu race + dash tip), Raft Gauntlet (Heron Fisher 3 dash hits), Crane Summit (dive telegraph + bow exit), Guanghan low-gravity + DomShell epilogue; path unlocks after each world boss then moon; `FOX_FOILED` / `WORLD*_CLEAR` / `CRANE_FRIEND` / `MOON_RETURN`; `storyFull` + `webFullStory` true. Steamworks registration remains a parallel human track ([STEAM.md](STEAM.md)).
 
-**Must not reinvent:** path-map WorldMap, ChunkAssembler movers/hazards, boss-as-phases-in-enemies-data pattern.
-
-**Exit criteria:** full story clearable; `MOON_RETURN` unlocks.
+**Exit criteria (met):** full story clearable; `MOON_RETURN` unlocks on Guanghan clear.
 
 ### M5 — Endless, audio assets, i18n fill, polish
 
@@ -255,4 +254,4 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 ## Suggested next coding session
 
-Six non-boss path stations are live (W1–W3 × 2). Next Story work: boss levels (Cart Chase, Raft Gauntlet, Crane Summit), then Guanghan finale and epilogue. Keep ChunkAssembler movers/hazards and path-map WorldMap.
+Full story path is clearable through Guanghan. Next: Endless on ChunkAssembler, audio assets, i18n fill (M5). Steamworks registration stays parallel.

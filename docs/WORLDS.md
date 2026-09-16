@@ -20,7 +20,7 @@ Shared by Meadow, Story, Tasks, Endless. Each kit: tileset, palette, parallax la
 
 Story opens on an HTML/SVG landscape path from burrow toward the moon. Worlds are nodes. Expanding a live world shows its stations. Locked later worlds stay visible as dim nodes.
 
-Path progress today: Worlds 1–3 each expose two clearable stations (Soft Paths, Hedge Maze, Green Corridor, Floating Logs, Paper Lights, Tiger Road). Boss stations and Guanghan stay Soon. Clearing both playable stations of a world unlocks the next.
+Path progress: Worlds 1–3 each expose three clearable stations (two platformers + boss). Guanghan is live after Crane Summit. Next world (and the moon) unlock only after that world's boss is cleared. Saves that cleared W1 2/2 before Cart Chase remain on World 1 until Cart is done.
 
 ### World 0 — Burrow Eve
 
@@ -38,7 +38,7 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 | --- | --- | --- | --- | --- |
 | 1-1 Soft Paths | meadow | run, jump, dash | Moon Pool | live |
 | 1-2 Hedge Maze | orchard | wall bounce, crow lob | Moon Pool | live |
-| 1-3 Cart Chase | meadow | boss: Fox Hu cart | World clear | soon |
+| 1-3 Cart Chase | meadow | boss: Fox Hu cart | World clear | live |
 
 ### World 2 — Bamboo Grove and River
 
@@ -46,7 +46,7 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 | --- | --- | --- | --- | --- |
 | 2-1 Green Corridor | bamboo | wall jump | Moon Pool | live |
 | 2-2 Floating Logs | riverbank | log ride, current | Moon Pool | live |
-| 2-3 Raft Gauntlet | riverbank | boss: Heron Fisher | World clear | soon |
+| 2-3 Raft Gauntlet | riverbank | boss: Heron Fisher | World clear | live |
 
 ### World 3 — Lantern Village and Osmanthus Peak
 
@@ -54,13 +54,13 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 | --- | --- | --- | --- | --- |
 | 3-1 Paper Lights | lantern | lantern glide | Moon Pool | live |
 | 3-2 Tiger Road | osmanthus | tiger ride (Tu'er Ye) | Moon Pool | live |
-| 3-3 Crane Summit | osmanthus | boss: Crane Envoy | Ride to moon | soon |
+| 3-3 Crane Summit | osmanthus | boss: Crane Envoy | Ride to moon | live |
 
 ### Finale
 
-| Level | Env | Teach | Exit |
-| --- | --- | --- | --- |
-| M-1 Guanghan | moon | low gravity, quiet platforming | Dialogue + epilogue |
+| Level | Env | Teach | Exit | Status |
+| --- | --- | --- | --- | --- |
+| M-1 Guanghan | moon | low gravity, quiet platforming | DomShell epilogue + MOON_RETURN | live |
 
 ## Meadow maps (arcade)
 
