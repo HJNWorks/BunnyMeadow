@@ -213,7 +213,7 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 **Status: done**
 
-**Filled:** Cart Chase (Fox Hu race + dash tip), Raft Gauntlet (Heron Fisher 3 dash hits), Crane Summit (dive telegraph + bow exit), Guanghan low-gravity + DomShell epilogue; path unlocks after each world boss then moon; `FOX_FOILED` / `WORLD*_CLEAR` / `CRANE_FRIEND` / `MOON_RETURN`; `storyFull` + `webFullStory` true. Steamworks registration remains a parallel human track ([STEAM.md](STEAM.md)).
+**Filled:** Cart Chase (Fox Hu race + dash tip), Raft Gauntlet (Heron Fisher 3 dash hits), Crane Summit (dive telegraph + bow exit), Guanghan (Han, mooncake warmth dash, five spirit hearts) + DomShell epilogue; path unlocks after each world boss then moon; `FOX_FOILED` / `WORLD*_CLEAR` / `CRANE_FRIEND` / `MOON_RETURN`; `storyFull` + `webFullStory` true. Steamworks registration remains a parallel human track ([STEAM.md](STEAM.md)).
 
 **Exit criteria (met):** full story clearable; `MOON_RETURN` unlocks on Guanghan clear.
 

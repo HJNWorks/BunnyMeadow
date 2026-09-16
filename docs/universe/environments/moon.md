@@ -11,13 +11,13 @@ of Vast Cold. Hub: [../README.md](../README.md). Finale beats: [../../STORY.md](
 | Hour | eternal night (never changes) |
 | Lore anchor | Chang'e, Jade Rabbit, Wu Gang, Guanghan Gong ([../../LORE.md](../../LORE.md#change-嫦娥)) |
 | Movement verb | low gravity |
-| Hazard vocabulary | void |
+| Hazard vocabulary | frost spears, starfall |
 
 ## Feel
 
-Low gravity, quiet platforming, the Guanghan Palace and Wu Gang's tree. This is a
-calm rung, the reward after the climb. No boss. Floats replace running; falls read as
-gentle drifts, not deaths.
+Low gravity, layered roofs, and a duck-and-dash gauntlet against Han, an old ghost of
+Vast Cold. Floats replace running. Falls read as gentle drifts, not deaths. The gift
+beat and epilogue still play after he settles.
 
 ## Roster
 
@@ -27,8 +27,9 @@ Folk (see [../../creatures/folk/](../../creatures/folk/)):
 
 | NPC | Role |
 | --- | --- |
-| Chang'e | mentor, asks Mei to stay |
-| Jade Rabbit (Yutu) | looks after Yue, comic NPC |
+| Han | invented Vast Cold ghost, five-heart warmth-dash boss ([../../creatures/folk/han.md](../../creatures/folk/han.md)) |
+| Chang'e | mentor, asks Mei to stay after Han settles |
+| Jade Rabbit (Yutu) | looks after Yue, comic NPC. Excuse for cakes, not an HP bar |
 | Wu Gang | chops the self-healing osmanthus tree |
 | moon toad | optional background |
 
@@ -36,7 +37,7 @@ Folk (see [../../creatures/folk/](../../creatures/folk/)):
 
 | Item | Weight | Notes |
 | --- | --- | --- |
-| mooncake | the gift beat | given by Mei, not collected |
+| mooncake | warmth ammo, then the gift beat | eaten in the open to dash Han. Endless still heals |
 
 ## Endless status
 

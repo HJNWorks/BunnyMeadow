@@ -65,6 +65,7 @@ Named characters. Bosses are one folk per world; palace NPCs are non-hostile.
 | Fox Hu | World 1 boss, recurring trickster | meadow | adapted |
 | Heron Fisher | World 2 boss | riverbank | invented |
 | Crane Envoy | World 3 boss, then ally | osmanthus / cloudsea | adapted |
+| Han | Moon boss, old Vast Cold ghost | moon | invented |
 | Tu'er Ye (Lord Rabbit) | ally, lends the tiger | lantern | canon |
 | Chang'e | mentor, finale | moon | canon |
 | Jade Rabbit (Yutu) | palace NPC | moon | canon |

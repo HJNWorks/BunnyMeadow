@@ -4,12 +4,18 @@
   "index": 1,
   "name": "Guanghan",
   "chunks": ["chunk_moon_a", "chunk_moon_b"],
-  "playerSpawn": { "x": 100, "y": 900 },
-  "moonPool": { "chunk": 0, "x": 200, "y": 920 },
-  "exit": { "chunk": 1, "x": 860, "y": 920 },
-  "moonLine": "Yue is safe under the tree. The palace is quiet.",
-  "objective": "Hop the quiet moon garden. Find Yue under the osmanthus.",
+  "playerSpawn": { "x": 180, "y": 930 },
+  "moonPool": { "chunk": 0, "x": 40, "y": 920 },
+  "exit": { "chunk": 1, "x": 860, "y": 800 },
+  "moonLine": "The old cold kept guests. I did not.",
+  "objective": "Duck the frost. Eat a mooncake, then dash Han.",
   "sky": "#151b2e",
   "lowGravity": true,
-  "epilogue": true
+  "epilogue": true,
+  "boss": {
+    "kind": "han",
+    "hitsNeeded": 5,
+    "x": 1620,
+    "y": 700
+  }
 }

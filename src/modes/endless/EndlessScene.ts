@@ -6,6 +6,7 @@ import type { DifficultyId } from "../../core/save"
 import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
 import { mountDomShell, requireEl, type DomShellHandle } from "../../ui/DomShell"
+import { ITEM_TRAY_CSS, bindItemTray, renderItemTray } from "../../ui/ItemTray"
 import { ENDLESS_CHUNKS } from "../../systems/ChunkAssembler"
 import { t } from "../../core/i18n"
 import { getAudio, musicIdForEnv } from "../../core/audio"
@@ -78,6 +79,7 @@ function hudHtml(): string {
     <span data-ui="env">${t("env.meadow")}</span>
     <button type="button" class="bm-btn" data-ui="pauseBtn">${t("common.pause")}</button>
   </div>
+  <div class="bm-item-tray" data-ui="itemTray" hidden></div>
   <div class="endless-hint" data-ui="hint" hidden></div>
   <div class="meadow-overlay" data-ui="pausePanel" hidden>
     <div class="meadow-card">
@@ -142,7 +144,9 @@ const CSS = `
   text-align: left; padding: 6px 10px; border-bottom: 1px solid #e3e7d4; font-size: 14px;
 }
 .endless-lobby .meadow-diff-chip.selected { background: #34583e; color: #fffaf0; }
-`
+` + ITEM_TRAY_CSS
+
+const LANTERN_GLOW_S = 1.6
 
 export class EndlessScene extends Phaser.Scene {
   private state: "lobby" | "playing" | "dead" = "lobby"
@@ -159,6 +163,7 @@ export class EndlessScene extends Phaser.Scene {
     result: HTMLElement
     resultTitle: HTMLElement
     resultBody: HTMLElement
+    itemTray: HTMLElement
   } | null = null
 
   private platforms!: Phaser.Physics.Arcade.StaticGroup
@@ -424,6 +429,7 @@ export class EndlessScene extends Phaser.Scene {
       result: requireEl(root, "[data-ui=result]"),
       resultTitle: requireEl(root, "[data-ui=resultTitle]"),
       resultBody: requireEl(root, "[data-ui=resultBody]"),
+      itemTray: bindItemTray(root),
     }
     requireEl<HTMLButtonElement>(root, "[data-ui=pauseBtn]").onclick = () => this.setPaused(true)
     requireEl<HTMLButtonElement>(root, "[data-ui=resume]").onclick = () => this.setPaused(false)
@@ -681,6 +687,15 @@ export class EndlessScene extends Phaser.Scene {
     this.hud.best.textContent = `${Math.max(save.progress.endlessBest, this.distanceM)} m`
     const empty = Math.max(0, this.maxHearts - this.health)
     this.hud.hearts.textContent = `${"♥ ".repeat(this.health)}${"♡ ".repeat(empty)}`.trim()
+    renderItemTray(this.hud.itemTray, this.trayBuffs())
+  }
+
+  private trayBuffs(): { id: string; remaining: number; duration: number }[] {
+    const buffs: { id: string; remaining: number; duration: number }[] = []
+    if (this.glowTimer > 0) {
+      buffs.push({ id: "lantern", remaining: this.glowTimer, duration: LANTERN_GLOW_S })
+    }
+    return buffs
   }
 
   update(_time: number, delta: number): void {
@@ -844,7 +859,7 @@ export class EndlessScene extends Phaser.Scene {
     if (id === "lantern") {
       const floor = this.spawnX - 700
       this.chaseX = Math.max(floor, this.chaseX - MIST_PUSH_METERS * METER_PER_PX)
-      this.glowTimer = 1.6
+      this.glowTimer = LANTERN_GLOW_S
       this.flashHint("endless.hint.mist")
     }
   }

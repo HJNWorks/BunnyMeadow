@@ -17,7 +17,7 @@ Player verbs and how items change them are in [creatures/abilities.md](creatures
 | diver | owl, magpie, Crane Envoy (boss) | Circles, then dives along a shown line |
 | swarm | bees | Slow cloud. Area denial. Dash passes through |
 | blocker | goat, boar | Charges when the player crosses its line. Stunned on wall hit |
-| boss | Fox Hu, Heron Fisher, Crane Envoy | Scripted phases composed from the above |
+| boss | Fox Hu, Heron Fisher, Crane Envoy, Han | Scripted phases composed from the above |
 
 Owls use `diver` as ordinary night enemies only. They are never Moon servants. See [LORE.md](LORE.md).
 

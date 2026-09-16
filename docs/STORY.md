@@ -15,6 +15,7 @@ Dialogue rule: two lines max per exchange. Skippable. Moon Pool exchanges are on
 | Chang'e (the Moon) | Mentor through water reflections. Gentle, lonely | [canon](LORE.md#change-嫦娥) |
 | Jade Rabbit (Yutu) | Moon Palace NPC. Pounds the elixir. Looks after Yue | [canon](LORE.md#jade-rabbit--yutu-玉兔) |
 | Crane Envoy | Moon's messenger. Antagonist by mistake | [adapted](LORE.md#cranes-as-immortal-messengers) |
+| Han | Old ghost of Vast Cold. Palace habit of keeping guests | invented |
 | Fox Hu | Recurring trickster. Steals carrots | [adapted](LORE.md#fox-spirits--huli-jing-狐狸精) |
 | Lord Rabbit (Tu'er Ye) | World 3 ally on his tiger | [canon](LORE.md#tuer-ye--lord-rabbit-兔兒爺) |
 | Wu Gang | Finale NPC. Chops the self-healing osmanthus tree | [canon](LORE.md#wu-gang-吳剛) |
@@ -90,9 +91,14 @@ Moon Pool sample:
 
 ### 5. Finale — Guanghan Palace (low gravity)
 
+[Han](creatures/folk/han.md), an old ghost of Vast Cold, keeps guests in the layered
+roofs. Duck frost spears, eat a mooncake in the open, dash him while the warmth lasts.
+Five spirit hearts. Starfall after the second hit, both volleys on the last heart.
+Chang'e does not throw spears.
+
 Yue is safe, playing with the [Jade Rabbit](LORE.md#jade-rabbit--yutu-玉兔) under [Wu Gang's](LORE.md#wu-gang-吳剛) tree. Optional [moon toad](LORE.md#moon-toad--chanchu-蟾蜍) in the background.
 
-Chang'e asks Mei to stay because the palace is quiet ([loneliness is canon](LORE.md#change-嫦娥)).
+After Han settles, Chang'e asks Mei to stay because the palace is quiet ([loneliness is canon](LORE.md#change-嫦娥)).
 
 Mei offers a mooncake and a promise: every full moon the burrow will look up and wave. Gift beat inspired by [Sasa Jataka](LORE.md#sasa-jataka-jataka-316) (labeled, not Chinese canon).
 
@@ -116,7 +122,7 @@ Why rabbits sit and watch the moon. Family reunion under the full moon. Fade on 
 | 1 | Fox Hu cart chase | Reach the burrow basket first / tip the cart | Comic |
 | 2 | Heron Fisher | Survive raft gauntlet, land a dash on the heron three times | Sporty |
 | 3 | Crane Envoy | Dodge dives, then accept the ride when it bows | Soft resolution |
-| Moon | none | Dialogue and gift | Quiet |
+| Moon | Han | Eat a mooncake, dash while warmth lasts, five spirit hearts, then the gift beat | Quiet gauntlet |
 
 ## Per-level beats
 

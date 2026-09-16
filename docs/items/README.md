@@ -28,7 +28,7 @@ Full entries on [catalog.md](catalog.md).
 | Item | Category | Effect | Status |
 | --- | --- | --- | --- |
 | carrot | currency | pantry currency | live |
-| mooncake | restore | restores one heart | live |
+| mooncake | restore | restores one heart in Endless. Story Guanghan: timed warmth dash | live |
 | osmanthus blossom | run-buff | one extra glide charge | live |
 | lantern | run-buff | pushes the mist back 80 m, brief lantern glow | live |
 | dew | run-buff | short slow-time | idea |

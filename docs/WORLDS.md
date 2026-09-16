@@ -65,7 +65,7 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| M-1 Guanghan | moon | low gravity, quiet platforming | DomShell epilogue + MOON_RETURN | live |
+| M-1 Guanghan | moon | low gravity, duck roofs, mooncake warmth dash vs Han | DomShell epilogue + MOON_RETURN | live |
 
 ## Meadow maps (arcade)
 

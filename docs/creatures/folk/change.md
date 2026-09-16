@@ -19,4 +19,4 @@ Home rung: the Moon ([../../universe/environments/moon.md](../../universe/enviro
 ## Guard
 
 Reflections are her only channel. Keep exchanges to one line. Do not contradict her
-loneliness and authority.
+loneliness and authority. She is not the Guanghan HP bar. That is [Han](han.md).

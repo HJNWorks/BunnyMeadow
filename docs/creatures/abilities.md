@@ -42,9 +42,9 @@ verb for a short time. Full catalog: [../items/catalog.md](../items/catalog.md).
 | Item | Effect on a verb | Duration |
 | --- | --- | --- |
 | osmanthus blossom | grants one extra glide charge (a second float) | until used |
-| lantern | pushes the mist wall back 80 m | instant |
+| lantern | pushes the mist wall back 80 m. HUD tray while the ~1.6 s glow lasts | instant + timed |
 | dew | slow-time so a jump or dash reads easier | short |
-| mooncake | restores one heart, no verb change | instant |
+| mooncake | Endless: restores one heart. Guanghan: timed warmth so a dash can tag Han | instant / ~3 s |
 | moon letter | key: unlocks the sky/moon edges in Endless | held |
 
 ## Accessibility overrides

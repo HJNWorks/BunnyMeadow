@@ -11,7 +11,7 @@ import level33 from "../../data/story/w3/w3_3_crane_summit.json"
 import levelMoon from "../../data/story/moon/moon_guanghan.json"
 
 export type StoryBossDef = {
-  kind: "fox_cart" | "heron" | "crane"
+  kind: "fox_cart" | "heron" | "crane" | "han"
   hitsNeeded?: number
   divesNeeded?: number
   x?: number

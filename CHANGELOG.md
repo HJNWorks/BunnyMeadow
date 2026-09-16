@@ -6,6 +6,12 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Guanghan boss Han: duck under roofs, eat a mooncake for a timed warmth buff, dash to
+  clear five spirit hearts. Frost spears, then starfall, then both. Shared top-right
+  item tray for timed buffs (Story warmth, Endless lantern glow).
+
 ## [0.2.0] - 2026-09-16
 
 Web iterations I1-I4. Closes the last M5 leftovers (audio assets and i18n fill).

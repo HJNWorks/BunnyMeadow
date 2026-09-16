@@ -122,6 +122,7 @@ Status values:
 | Moon Pools | Checkpoint puddles that light at night and speak with Chang'e's voice | Reflections as the only channel. Short dialogue |
 | Osmanthus blossom fall | A glowing blossom from Wu Gang's tree drifts to earth and starts the plot | Wu Gang's tree is canon. The fall event is invented |
 | Heron Fisher | World 2 boss. Invented animal antagonist | Fine. Herons are ordinary wildlife, not folklore deities |
+| Han | Moon boss. Old invented ghost of Vast Cold. The palace's habit of keeping guests | Must not be Chang'e, Yue, Yutu, Wu Gang, or the moon toad. No fire or water kit |
 | Burrow pantry | Meta progression invent | Fine |
 
 ## Canon vs invention table (quick)
@@ -140,4 +141,4 @@ Status values:
 | Mid-Autumn props (mooncakes, lanterns, osmanthus) | canon |
 | Japanese mochi rabbit | forbidden |
 | Sasa Jataka gift beat | invented inspiration (labeled) |
-| Mei, Yue, Moon Pools, Heron Fisher | invented |
+| Mei, Yue, Moon Pools, Heron Fisher, Han | invented |

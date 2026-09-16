@@ -191,6 +191,56 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     crane.destroy()
   }
 
+  if (!scene.textures.exists("story_han")) {
+    const han = scene.make.graphics({ x: 0, y: 0 })
+    han.fillStyle(0xb8c8d8, 0.55)
+    han.fillEllipse(40, 70, 52, 86)
+    han.fillStyle(0xd8e4ee, 0.8)
+    han.fillEllipse(40, 38, 36, 40)
+    han.fillStyle(0x8aa0b4, 0.9)
+    han.fillTriangle(22, 22, 18, 6, 32, 20)
+    han.fillTriangle(58, 22, 62, 6, 48, 20)
+    han.fillStyle(0x2a3d4c, 1)
+    han.fillCircle(32, 38, 3)
+    han.fillCircle(48, 38, 3)
+    han.fillStyle(0xc8d8e4, 0.35)
+    han.fillEllipse(40, 78, 20, 28)
+    han.generateTexture("story_han", 80, 120)
+    han.destroy()
+  }
+
+  if (!scene.textures.exists("story_frost")) {
+    const frost = scene.make.graphics({ x: 0, y: 0 })
+    frost.fillStyle(0xc8e8ff, 1)
+    frost.fillTriangle(2, 8, 44, 4, 44, 12)
+    frost.fillStyle(0xf4fbff, 1)
+    frost.fillTriangle(10, 8, 40, 6, 40, 10)
+    frost.generateTexture("story_frost", 48, 16)
+    frost.destroy()
+  }
+
+  if (!scene.textures.exists("story_star")) {
+    const star = scene.make.graphics({ x: 0, y: 0 })
+    star.fillStyle(0xf2e6a4, 1)
+    star.fillTriangle(8, 2, 2, 28, 14, 28)
+    star.fillStyle(0xfff8d0, 1)
+    star.fillTriangle(8, 6, 5, 22, 11, 22)
+    star.generateTexture("story_star", 16, 32)
+    star.destroy()
+  }
+
+  if (!scene.textures.exists("story_mooncake")) {
+    const cake = scene.make.graphics({ x: 0, y: 0 })
+    cake.fillStyle(0xd4a017, 1)
+    cake.fillCircle(14, 14, 12)
+    cake.fillStyle(0xf0d078, 1)
+    cake.fillCircle(14, 14, 8)
+    cake.fillStyle(0xb8860b, 1)
+    cake.fillCircle(14, 14, 3)
+    cake.generateTexture("story_mooncake", 28, 28)
+    cake.destroy()
+  }
+
   if (!scene.textures.exists("story_carrot")) {
     const carrot = scene.make.graphics({ x: 0, y: 0 })
     carrot.fillStyle(0xe8822c, 1)

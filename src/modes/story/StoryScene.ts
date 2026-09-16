@@ -10,6 +10,7 @@ import { t } from "../../core/i18n"
 import { getAudio, musicIdForEnv } from "../../core/audio"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
 import { ControlCoach, CONTROL_COACH_CSS, type CoachAction } from "../../ui/ControlCoach"
+import { ITEM_TRAY_CSS, bindItemTray, renderItemTray, type TrayBuff } from "../../ui/ItemTray"
 import { ensureStoryTextures } from "./shared/storyTextures"
 import {
   createPlayerState,
@@ -18,6 +19,7 @@ import {
   type PlayerState,
 } from "./shared/playerController"
 import { spawnEnemy, updateEnemies } from "./shared/enemyKit"
+import { HAN_WARMTH, HanFight } from "./shared/hanBoss"
 import {
   applyWaterPhysics,
   createMovers,
@@ -55,6 +57,7 @@ type Hud = {
   epilogue: HTMLElement
   epilogueBody: HTMLElement
   epilogueContinue: HTMLButtonElement
+  itemTray: HTMLElement
 }
 
 
@@ -81,6 +84,7 @@ function shellHtml(): string {
     <button type="button" class="bm-btn" data-ui="pauseBtn">${t("story.hud.pause")}</button>
     <button type="button" class="bm-btn ghost" data-ui="back">${t("story.hud.back")}</button>
   </div>
+  <div class="bm-item-tray" data-ui="itemTray" hidden></div>
   <div class="story-field" data-ui="field"></div>
   <div class="story-controls-float" data-ui="controlsFloat" hidden></div>
   <div class="meadow-overlay" data-ui="overlay" hidden>
@@ -160,6 +164,8 @@ const CSS = `
 .meadow-card { background:#fffaf0; padding:28px; border-radius:24px; max-width:420px; text-align:center; position:relative; z-index:61; }
 .meadow-pause-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
 ${CONTROL_COACH_CSS}
+${ITEM_TRAY_CSS}
+.bm-story-hud .bm-item-tray { top: 168px; }
 `
 
 export class StoryScene extends Phaser.Scene {
@@ -183,6 +189,7 @@ export class StoryScene extends Phaser.Scene {
   private worldWidth = 1920
   private cranePhase: "dive" | "bow" | "done" = "dive"
   private craneDives = 0
+  private han: HanFight | null = null
   private epilogueStep = 0
   private epilogueLines: string[] = []
   private health = 3
@@ -241,6 +248,7 @@ export class StoryScene extends Phaser.Scene {
     this.worldWidth = 1920
     this.cranePhase = "dive"
     this.craneDives = 0
+    this.han = null
     this.epilogueStep = 0
     this.leaving = false
     this.movers = []
@@ -272,6 +280,7 @@ export class StoryScene extends Phaser.Scene {
       epilogue: requireEl(shell.root, "[data-ui=epilogue]"),
       epilogueBody: requireEl(shell.root, "[data-ui=epilogueBody]"),
       epilogueContinue: requireEl(shell.root, "[data-ui=epilogueContinue]"),
+      itemTray: bindItemTray(shell.root),
     }
 
     this.hud.levelName.textContent = t(`story.level.${def.id}.name`)
@@ -490,6 +499,10 @@ export class StoryScene extends Phaser.Scene {
         this.tryHitHeron()
         return
       }
+      if (arch === "han_boss") {
+        this.tryHitHan()
+        return
+      }
       if (arch === "crane_boss" || arch === "heron_done") {
         return
       }
@@ -506,6 +519,9 @@ export class StoryScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.projectiles, (_p, shot) => {
       ;(shot as Phaser.Physics.Arcade.Image).destroy()
       this.hurt()
+    })
+    this.physics.add.overlap(this.projectiles, this.platforms, (shot) => {
+      ;(shot as Phaser.Physics.Arcade.Image).destroy()
     })
 
     if (def.foxHu) {
@@ -553,16 +569,39 @@ export class StoryScene extends Phaser.Scene {
       this.bossCooldown = 1.2
     }
 
+    if (def.boss?.kind === "han") {
+      this.bossNeeded = def.boss.hitsNeeded ?? 5
+      this.han = new HanFight(
+        this,
+        def.boss.x ?? 1620,
+        def.boss.y ?? 700,
+        this.player,
+        this.projectiles,
+        this.worldWidth,
+      )
+      this.enemies.add(this.han.sprite)
+      this.hud.bossHits.hidden = false
+      this.syncBossHits()
+    }
+
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12)
     this.cameras.main.setDeadzone(90, 60)
     this.cameras.main.setZoom(1.25)
     this.syncHearts()
-    ;(window as unknown as { __bmStory?: () => Record<string, number | boolean> }).__bmStory = () => ({
+    ;(window as unknown as { __bmStory?: () => Record<string, number | boolean | string> }).__bmStory = () => ({
       x: this.player?.x ?? 0,
       y: this.player?.y ?? 0,
       paused: !!this.physics.world?.isPaused,
       won: this.won,
       lost: this.lost,
+      health: this.health,
+      hanHearts: this.han?.hearts ?? -1,
+      warmth: this.han?.warmth ?? 0,
+      cakeX: this.han?.cakePos()?.x ?? -1,
+      cakeY: this.han?.cakePos()?.y ?? -1,
+      settled: this.han?.settled ? 1 : 0,
+      inDialogue: this.inDialogue ? 1 : 0,
+      objective: this.hud.objective.textContent ?? "",
     })
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       getAudio().stopMusic()
@@ -696,8 +735,11 @@ export class StoryScene extends Phaser.Scene {
     }
   }
 
-  private hurt(): void {
-    if (this.invuln > 0 || this.invincible || this.won || this.lost || this.playerState.dashTime > 0) {
+  private hurt(opts?: { ignoreDash?: boolean }): void {
+    if (this.invuln > 0 || this.invincible || this.won || this.lost) {
+      return
+    }
+    if (!opts?.ignoreDash && this.playerState.dashTime > 0) {
       return
     }
     this.health -= 1
@@ -813,6 +855,13 @@ export class StoryScene extends Phaser.Scene {
         this.cranePhase === "bow" || this.cranePhase === "done"
           ? t("story.boss.craneBow")
           : t("story.boss.dives", { hits: this.craneDives, need: this.bossNeeded })
+      return
+    }
+    if (this.level.boss.kind === "han" && this.han) {
+      this.hud.bossHits.textContent = t("story.boss.han", {
+        hearts: this.han.hearts,
+        need: this.han.needed,
+      })
     }
   }
 
@@ -846,8 +895,44 @@ export class StoryScene extends Phaser.Scene {
     }
   }
 
+  private tryHitHan(): void {
+    if (!this.han || this.won) {
+      return
+    }
+    const result = this.han.tryDashHit(this.playerState.dashTime)
+    if (result === "hurt") {
+      this.hurt({ ignoreDash: true })
+      return
+    }
+    if (result === "hit") {
+      this.syncBossHits()
+      if (this.han.settled) {
+        this.hud.objective.textContent = t("story.exit.open")
+      }
+    }
+  }
+
+  private syncItemTray(): void {
+    const buffs: TrayBuff[] = []
+    if (this.han && this.han.warmth > 0) {
+      buffs.push({ id: "mooncake", remaining: this.han.warmth, duration: HAN_WARMTH })
+    }
+    renderItemTray(this.hud.itemTray, buffs)
+  }
+
   private updateBoss(dt: number): void {
     this.bossCooldown = Math.max(0, this.bossCooldown - dt)
+    if (this.han && this.level.boss?.kind === "han") {
+      this.han.update(dt)
+      if (
+        this.playerState.dashTime > 0 &&
+        Math.abs(this.player.x - this.han.sprite.x) < 90 &&
+        Math.abs(this.player.y - this.han.sprite.y) < 140
+      ) {
+        this.tryHitHan()
+      }
+      return
+    }
     if (!this.bossSprite || !this.level.boss) {
       return
     }
@@ -963,6 +1048,9 @@ export class StoryScene extends Phaser.Scene {
     if (this.level.boss?.kind === "crane" && this.cranePhase === "dive") {
       return t("story.exit.crane")
     }
+    if (this.level.boss?.kind === "han" && this.han && !this.han.settled) {
+      return t("story.exit.han")
+    }
     return null
   }
 
@@ -1052,6 +1140,8 @@ export class StoryScene extends Phaser.Scene {
     tickPlayerTimers(this.playerState, dt)
     this.waterGrace = Math.max(0, this.waterGrace - dt * 0.5)
     this.updateBoss(dt)
+    this.syncItemTray()
+    this.han?.tryEatCake()
 
     updateMovers(this.movers, this.player, dt)
 
