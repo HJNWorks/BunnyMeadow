@@ -1,10 +1,11 @@
 const g = 1200
 const RUN = 260
-const DASH = 420
+const DASH = 520
 const DASH_T = 0.16
 const J1 = 720
 const J2 = 640
 const DT = 1 / 240
+const MAX_VX = 560
 const G_GLIDE = g * 0.22
 const VY_CAP = 90
 
@@ -16,7 +17,6 @@ function traj({ glide, djAt, dashAt }) {
   let t = 0
   let aj = 1
   let dashLeft = 0
-  const samples = []
   while (t < 5) {
     if (dashAt != null && dashLeft <= 0 && t + DT / 2 >= dashAt && t - DT / 2 < dashAt) {
       dashLeft = DASH_T
@@ -39,56 +39,62 @@ function traj({ glide, djAt, dashAt }) {
         vy = VY_CAP
       }
     }
-    if (vx > 420) {
-      vx = 420
+    if (vx > MAX_VX) {
+      vx = MAX_VX
     }
     vy += grav * DT
     x += vx * DT
     y += vy * DT
     t += DT
-    samples.push({ x, y, vy, t })
-    if (t > 0.25 && y > 220) {
-      break
+    if (t > 0.2 && y >= 0 && vy > 0) {
+      return x
+    }
+    if (y > 220) {
+      return x
     }
   }
-  return samples
+  return x
 }
 
-function maxReach(glide, dy) {
-  const targetY = -dy
-  let best = { x: 0 }
-  for (let dj = 0.05; dj <= 1.6; dj += 0.03) {
-    for (let da = 0; da <= 2; da += 0.03) {
-      const s = traj({ glide, djAt: dj, dashAt: da })
-      for (let i = 1; i < s.length; i += 1) {
-        if (s[i].vy <= 0) {
-          continue
-        }
-        if (s[i - 1].y < targetY && s[i].y >= targetY) {
-          if (s[i].x > best.x) {
-            best = { x: s[i].x, dj, da, t: s[i].t }
-          }
-          break
-        }
+function bestReach({ useDj, useDash, glide }) {
+  if (!useDj && !useDash) {
+    return traj({ glide, djAt: null, dashAt: null })
+  }
+  let best = 0
+  for (let dj = 0.08; dj <= 1.5; dj += 0.04) {
+    for (let da = 0; da <= 1.8; da += 0.04) {
+      const x = traj({
+        glide,
+        djAt: useDj ? dj : null,
+        dashAt: useDash ? da : null,
+      })
+      if (x > best) {
+        best = x
       }
     }
   }
   return best
 }
 
-const dy = 80
-const noglide = maxReach(false, dy)
-const hard = Math.floor(noglide.x * 0.82)
-console.log("Assumes StoryScene: jump -720 / air -640, run 260, dash clamped to maxVelocity.x 420, dash 0.16s")
-console.log("For landing", dy, "px higher than takeoff:")
-console.log("  perfect double+dash reach", noglide.x.toFixed(0), "px (dj", noglide.dj.toFixed(2), "dash", noglide.da.toFixed(2) + ")")
-console.log("  recommended hard edge gap", hard, "px (82% of max)")
-console.log("  Paper Lights P4->P5 uses edge gap 480, dy +80")
-if (480 > noglide.x) {
-  console.error("FAIL: configured gap exceeds physical max")
+const single = bestReach({ useDj: false, useDash: false, glide: false })
+const doubleDash = bestReach({ useDj: true, useDash: true, glide: false })
+const configuredGap = 210 + 960 - (600 + 170)
+const hard = Math.floor(single + (doubleDash - single) * 0.35)
+
+console.log("Story jump model: run", RUN, "dash", DASH, "maxVx", MAX_VX, "jump", J1, "air", J2)
+console.log("same-height reach: single", single.toFixed(0), "| double+dash", doubleDash.toFixed(0))
+console.log("playable hard gap target", hard, "(35% from single toward double+dash)")
+console.log("Paper Lights P4->P5 edge gap", configuredGap, "dy 0")
+
+if (configuredGap <= single) {
+  console.error("FAIL: gap is single-jumpable; not a skill check")
   process.exit(1)
 }
-if (Math.abs(480 - hard) > 40) {
-  console.warn("WARN: configured gap drifted from hard target", hard)
+if (configuredGap > doubleDash * 0.9) {
+  console.error("FAIL: gap too close to theoretical max for real play")
+  process.exit(1)
+}
+if (Math.abs(configuredGap - hard) > 50) {
+  console.warn("WARN: configured gap", configuredGap, "vs target", hard)
 }
 console.log("Jump reach check ok.")

@@ -381,7 +381,7 @@ export class StoryScene extends Phaser.Scene {
     this.player.setDisplaySize(48, 56)
     this.player.setCollideWorldBounds(true)
     this.player.setBounce(0)
-    this.player.setMaxVelocity(420, 900)
+    this.player.setMaxVelocity(560, 900)
     this.player.setDepth(5)
     const playerBody = this.player.body as Phaser.Physics.Arcade.Body
     playerBody.setSize(26, 38)
