@@ -178,6 +178,7 @@ export class EndlessScene extends Phaser.Scene {
     this.style.textContent = CSS
     document.head.appendChild(this.style)
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      getInput().stop()
       this.style?.remove()
       this.style = null
     })
@@ -268,6 +269,11 @@ export class EndlessScene extends Phaser.Scene {
     this.maxHearts = diff.hearts
     this.health = diff.hearts
     this.invincible = save.settings.accessibility.invincible
+    getInput().setBindings(save.settings.bindings)
+    getInput().start()
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur()
+    }
     const preset = save.settings.difficulty
     this.tuning = getTuning(preset)
     const seed = Math.floor(Math.random() * 90000) + 1000
