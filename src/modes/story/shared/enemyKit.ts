@@ -8,14 +8,25 @@ export function spawnEnemy(
   platforms: Phaser.Physics.Arcade.StaticGroup,
   enemies: Phaser.Physics.Arcade.Group,
 ): Phaser.Physics.Arcade.Sprite {
-  const texture = id === "crow" ? "story_crow" : "story_bunny"
+  const texture =
+    id === "crow"
+      ? "story_crow"
+      : id === "frost_wisp"
+        ? "story_wisp"
+        : id === "ice_spit"
+          ? "story_ice"
+          : id === "gale_magpie"
+            ? "story_magpie"
+            : "story_bunny"
   const sprite = scene.physics.add.sprite(x, y, texture)
-  sprite.setDisplaySize(id === "crow" ? 36 : 36, id === "crow" ? 28 : 36)
+  sprite.setData("id", id)
   if (id === "fox") {
+    sprite.setDisplaySize(36, 36)
     sprite.setTint(0xdf8b4c)
     sprite.setData("archetype", "chaser")
     sprite.setData("speed", 90)
   } else if (id === "crow") {
+    sprite.setDisplaySize(36, 28)
     sprite.setData("archetype", "ranged_lob")
     sprite.setData("speed", 40)
     sprite.setData("cooldown", 0)
@@ -27,14 +38,41 @@ export function spawnEnemy(
     sprite.setData("speed", 110)
     sprite.setData("stun", 0)
     sprite.setData("charging", 0)
+  } else if (id === "frost_wisp") {
+    sprite.setDisplaySize(52, 36)
+    sprite.setData("archetype", "swarm")
+    sprite.setData("speed", 28)
+    sprite.setData("homeX", x)
+    sprite.setData("homeY", y)
+    sprite.setData("hoverT", Math.random() * Math.PI * 2)
+    ;(sprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
+  } else if (id === "ice_spit") {
+    sprite.setDisplaySize(32, 32)
+    sprite.setData("archetype", "ranged_lob")
+    sprite.setData("speed", 0)
+    sprite.setData("cooldown", 0.4)
+  } else if (id === "gale_magpie") {
+    sprite.setDisplaySize(40, 28)
+    sprite.setData("archetype", "diver")
+    sprite.setData("speed", 160)
+    sprite.setData("homeX", x)
+    sprite.setData("homeY", y)
+    sprite.setData("phase", "hover")
+    sprite.setData("timer", 0.8 + Math.random() * 0.8)
+    sprite.setData("hoverT", Math.random() * Math.PI * 2)
+    ;(sprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
   } else {
+    sprite.setDisplaySize(36, 36)
     sprite.setTint(0xa8845c)
     sprite.setData("archetype", "patrol")
     sprite.setData("speed", 45)
     sprite.setData("dir", 1)
   }
   sprite.setCollideWorldBounds(true)
-  scene.physics.add.collider(sprite, platforms)
+  const airborne = id === "frost_wisp" || id === "gale_magpie" || id === "crow"
+  if (!airborne) {
+    scene.physics.add.collider(sprite, platforms)
+  }
   enemies.add(sprite)
   return sprite
 }
@@ -95,16 +133,19 @@ export function updateEnemies(
     } else if (arch === "ranged_lob") {
       let cd = Number(enemy.getData("cooldown") || 0) - dt
       if (cd <= 0 && Math.abs(target.x - enemy.x) < 420) {
-        const shot = scene.physics.add.image(enemy.x, enemy.y, "story_bunny")
-        shot.setDisplaySize(14, 14)
-        shot.setTint(0x4a3a2a)
+        const ice = enemy.getData("id") === "ice_spit"
+        const shot = scene.physics.add.image(enemy.x, enemy.y, ice ? "story_frost" : "story_bunny")
+        shot.setDisplaySize(ice ? 28 : 14, ice ? 12 : 14)
+        if (!ice) {
+          shot.setTint(0x4a3a2a)
+        }
         const dx = target.x - enemy.x
         const dy = target.y - enemy.y
         const n = Math.hypot(dx, dy) || 1
         shot.setVelocity((dx / n) * 220, (dy / n) * 180 - 80)
         projectiles.add(shot)
         scene.time.delayedCall(2000, () => shot.destroy())
-        cd = 1.8
+        cd = ice ? 1.7 : 1.8
       }
       enemy.setData("cooldown", cd)
       enemy.setVelocityX(0)
@@ -131,6 +172,53 @@ export function updateEnemies(
       } else {
         enemy.setVelocityX(0)
       }
+    } else if (arch === "swarm") {
+      const hoverT = Number(enemy.getData("hoverT") || 0) + dt
+      enemy.setData("hoverT", hoverT)
+      const homeX = Number(enemy.getData("homeX") ?? enemy.x)
+      const homeY = Number(enemy.getData("homeY") ?? enemy.y)
+      enemy.setVelocity(
+        Math.sin(hoverT) * speed,
+        Math.cos(hoverT * 0.8) * (speed * 0.6) + (homeY - enemy.y) * 0.4,
+      )
+      if (Math.abs(enemy.x - homeX) > 90) {
+        enemy.setVelocityX(Math.sign(homeX - enemy.x) * speed)
+      }
+    } else if (arch === "diver") {
+      let phase = String(enemy.getData("phase") || "hover")
+      let timer = Number(enemy.getData("timer") || 0) - dt
+      const homeX = Number(enemy.getData("homeX") ?? enemy.x)
+      const homeY = Number(enemy.getData("homeY") ?? enemy.y)
+      const hoverT = Number(enemy.getData("hoverT") || 0) + dt
+      enemy.setData("hoverT", hoverT)
+      if (phase === "hover") {
+        enemy.setVelocity(Math.sin(hoverT) * 50, Math.cos(hoverT) * 28)
+        if (timer <= 0 && Math.abs(target.x - enemy.x) < 420) {
+          phase = "dive"
+          timer = 0.7
+          const dx = target.x - enemy.x
+          const dy = target.y - enemy.y
+          const n = Math.hypot(dx, dy) || 1
+          enemy.setVelocity((dx / n) * speed, (dy / n) * speed)
+        }
+      } else if (phase === "dive") {
+        if (timer <= 0) {
+          phase = "return"
+          timer = 1.1
+        }
+      } else {
+        const dx = homeX - enemy.x
+        const dy = homeY - enemy.y
+        const n = Math.hypot(dx, dy) || 1
+        enemy.setVelocity((dx / n) * 90, (dy / n) * 90)
+        if (n < 24) {
+          phase = "hover"
+          timer = 0.9 + Math.random() * 0.7
+          enemy.setPosition(homeX, homeY)
+        }
+      }
+      enemy.setData("phase", phase)
+      enemy.setData("timer", timer)
     }
   })
 }

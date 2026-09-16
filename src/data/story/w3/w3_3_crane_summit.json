@@ -7,8 +7,8 @@
   "playerSpawn": { "x": 100, "y": 900 },
   "moonPool": { "chunk": 0, "x": 200, "y": 920 },
   "exit": { "chunk": 1, "x": 860, "y": 920 },
-  "moonLine": "The messenger bows. A ride waits above the blossoms.",
-  "objective": "Dodge the dives. When the Crane bows, step to the exit.",
+  "moonLine": "The messenger bows. A ride waits at the foot of the stair.",
+  "objective": "Dodge the dives. When the Crane bows, ride to the Cloud Stair.",
   "sky": "#322940",
   "boss": {
     "kind": "crane",

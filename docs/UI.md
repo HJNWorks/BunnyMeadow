@@ -31,7 +31,7 @@ StoryBeat panel sits above WorldMap for World 0 stations
 | Customize | menu | |
 | Achievements | menu | live (achievement list + short project credit) |
 | Meadow | play | live (data-driven arcade, M2; entered from Moon Tasks) |
-| WorldMap | menu | live (burrow-to-moon path; W0–W3 + moon) |
+| WorldMap | menu | live (burrow-to-moon path; W0–W4 + moon) |
 | Story | play | live (full story side-scroll through Guanghan) |
 | TaskSelect | menu | live (M2: Night Watch, Hide and Seek) |
 | TaskRun | play | live (M2 TaskRuntime) |

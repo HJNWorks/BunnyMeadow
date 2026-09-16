@@ -7,7 +7,8 @@ LORE: [adapted](../../LORE.md#cranes-as-immortal-messengers). Story: [../../STOR
 
 The Moon's messenger, sent to bring the fallen osmanthus blossom back. It mistakes the
 glowing kit Yue for the blossom and carries Yue toward the moon. It is an antagonist by
-misunderstanding, not malice, and becomes the ally who carries Mei up and later home.
+misunderstanding, not malice, and becomes the ally who carries Mei to the Cloud Stair
+and later home from Guanghan.
 
 ## Boss encounter
 

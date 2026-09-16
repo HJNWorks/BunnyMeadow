@@ -109,6 +109,69 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     crow.destroy()
   }
 
+  if (!scene.textures.exists("story_bridge")) {
+    const bridge = scene.make.graphics({ x: 0, y: 0 })
+    bridge.fillStyle(0xb8c8d4, 1)
+    bridge.fillRoundedRect(0, 6, 64, 14, 3)
+    bridge.fillStyle(0xd8e4ee, 1)
+    bridge.fillRect(4, 8, 12, 8)
+    bridge.fillRect(24, 8, 12, 8)
+    bridge.fillRect(44, 8, 12, 8)
+    bridge.lineStyle(2, 0x8aa0b0, 0.9)
+    bridge.lineBetween(4, 0, 8, 8)
+    bridge.lineBetween(60, 0, 56, 8)
+    bridge.generateTexture("story_bridge", 64, 22)
+    bridge.destroy()
+  }
+
+  if (!scene.textures.exists("story_wisp")) {
+    const wisp = scene.make.graphics({ x: 0, y: 0 })
+    wisp.fillStyle(0xd8ecff, 0.55)
+    wisp.fillEllipse(26, 18, 48, 30)
+    wisp.fillStyle(0xf4fbff, 0.7)
+    wisp.fillEllipse(22, 16, 22, 16)
+    wisp.generateTexture("story_wisp", 52, 36)
+    wisp.destroy()
+  }
+
+  if (!scene.textures.exists("story_ice")) {
+    const ice = scene.make.graphics({ x: 0, y: 0 })
+    ice.fillStyle(0xa8d4f0, 1)
+    ice.fillTriangle(16, 2, 4, 30, 28, 30)
+    ice.fillStyle(0xe8f6ff, 1)
+    ice.fillTriangle(16, 8, 10, 26, 22, 26)
+    ice.generateTexture("story_ice", 32, 32)
+    ice.destroy()
+  }
+
+  if (!scene.textures.exists("story_magpie")) {
+    const magpie = scene.make.graphics({ x: 0, y: 0 })
+    magpie.fillStyle(0x1a1a22, 1)
+    magpie.fillEllipse(20, 16, 28, 16)
+    magpie.fillTriangle(4, 16, 0, 10, 8, 14)
+    magpie.fillStyle(0xf4f4f8, 1)
+    magpie.fillEllipse(24, 18, 14, 10)
+    magpie.fillStyle(0x2a2a32, 1)
+    magpie.fillTriangle(34, 16, 48, 12, 36, 20)
+    magpie.fillStyle(0xf2f2f2, 1)
+    magpie.fillCircle(26, 12, 2)
+    magpie.generateTexture("story_magpie", 48, 28)
+    magpie.destroy()
+  }
+
+  if (!scene.textures.exists("story_gale")) {
+    const gale = scene.make.graphics({ x: 0, y: 0 })
+    gale.fillStyle(0xc8dcec, 0.35)
+    gale.fillRect(0, 0, 80, 240)
+    gale.fillStyle(0xe8f4ff, 0.5)
+    gale.fillEllipse(40, 40, 50, 28)
+    gale.fillEllipse(28, 100, 44, 24)
+    gale.fillEllipse(48, 160, 52, 26)
+    gale.fillEllipse(32, 210, 40, 22)
+    gale.generateTexture("story_gale", 80, 240)
+    gale.destroy()
+  }
+
   if (!scene.textures.exists("story_log")) {
     const log = scene.make.graphics({ x: 0, y: 0 })
     log.fillStyle(0x8b5a2b, 1)

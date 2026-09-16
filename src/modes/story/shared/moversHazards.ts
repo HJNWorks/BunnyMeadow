@@ -21,7 +21,7 @@ export function createMovers(
     const sprite = scene.physics.add.image(
       mover.worldX + mover.w / 2,
       mover.worldY + mover.h / 2,
-      "story_log",
+      mover.kind === "bridge" ? "story_bridge" : "story_log",
     )
     sprite.setDisplaySize(mover.w, mover.h)
     sprite.setTint(mover.tint ?? 0x8b5a2b)

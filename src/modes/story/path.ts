@@ -37,6 +37,7 @@ const INK_POS: Partial<Record<StoryWorldId, { x: number; y: number }>> = {
   w1: { x: 29, y: 61 },
   w2: { x: 46, y: 46 },
   w3: { x: 64, y: 32 },
+  w4: { x: 81, y: 50 },
   moon: { x: 82, y: 18 },
 }
 
@@ -148,9 +149,33 @@ const STATIONS: Record<string, StoryStation> = {
     id: "w3_3_crane_summit",
     kind: "level",
     title: "Crane Summit",
-    blurb: "Dodge dives. When the Crane bows, accept the ride.",
+    blurb: "Dodge dives. When the Crane bows, ride to the Cloud Stair.",
     lines: [],
     levelId: "w3_3_crane_summit",
+  },
+  w4_1_first_steps: {
+    id: "w4_1_first_steps",
+    kind: "level",
+    title: "First Steps",
+    blurb: "Climb the first cloud steps. One hanging bridge. Soft frost.",
+    lines: [],
+    levelId: "w4_1_first_steps",
+  },
+  w4_2_no_return: {
+    id: "w4_2_no_return",
+    kind: "level",
+    title: "No Return",
+    blurb: "The stair climbs. No Moon Pool. A fall restarts the station.",
+    lines: [],
+    levelId: "w4_2_no_return",
+  },
+  w4_3_closing_gale: {
+    id: "w4_3_closing_gale",
+    kind: "level",
+    title: "Closing Gale",
+    blurb: "Reach the palace gate before the storm wall closes.",
+    lines: [],
+    levelId: "w4_3_closing_gale",
   },
   moon_guanghan: {
     id: "moon_guanghan",
@@ -198,10 +223,10 @@ const WORLD_DEFS: WorldDef[] = [
   {
     id: "w4",
     world: 4,
-    title: "Open Platform",
-    tagline: "Empty template for a later world.",
-    status: "soon",
-    stationIds: [],
+    title: "Cloud Stair",
+    tagline: "Wind, frost, and the last walk before the palace.",
+    status: "live",
+    stationIds: ["w4_1_first_steps", "w4_2_no_return", "w4_3_closing_gale"],
   },
   {
     id: "moon",
@@ -227,6 +252,7 @@ const W0_IDS = ["w0_setting", "w0_lore_moon", "w0_controls"] as const
 const W1_CHAIN = ["w1_1_soft_paths", "w1_2_hedge_maze", "w1_3_cart_chase"] as const
 const W2_CHAIN = ["w2_1_green_corridor", "w2_2_floating_logs", "w2_3_raft_gauntlet"] as const
 const W3_CHAIN = ["w3_1_paper_lights", "w3_2_tiger_road", "w3_3_crane_summit"] as const
+const W4_CHAIN = ["w4_1_first_steps", "w4_2_no_return", "w4_3_closing_gale"] as const
 const MOON_CHAIN = ["moon_guanghan"] as const
 
 function worldPlayableCleared(save: SaveV1, ids: readonly string[]): boolean {
@@ -305,10 +331,10 @@ export function isWorldUnlocked(save: SaveV1, worldId: StoryWorldId): boolean {
     return isW0Complete(save) && worldPlayableCleared(save, W2_CHAIN)
   }
   if (worldId === "w4") {
-    return false
+    return isW0Complete(save) && worldPlayableCleared(save, W3_CHAIN)
   }
   if (worldId === "moon") {
-    return isW0Complete(save) && worldPlayableCleared(save, W3_CHAIN)
+    return isW0Complete(save) && worldPlayableCleared(save, W4_CHAIN)
   }
   return false
 }
@@ -352,8 +378,15 @@ export function isStationUnlocked(save: SaveV1, stationId: string): boolean {
     const prev = previousInChain(W3_CHAIN, stationId)
     return prev === null || cleared.has(prev)
   }
-  if (stationId.startsWith("moon_")) {
+  if (stationId.startsWith("w4_")) {
     if (!worldPlayableCleared(save, W3_CHAIN)) {
+      return false
+    }
+    const prev = previousInChain(W4_CHAIN, stationId)
+    return prev === null || cleared.has(prev)
+  }
+  if (stationId.startsWith("moon_")) {
+    if (!worldPlayableCleared(save, W4_CHAIN)) {
       return false
     }
     const prev = previousInChain(MOON_CHAIN, stationId)
@@ -401,6 +434,9 @@ export function defaultExpandedWorld(save: SaveV1): StoryWorldId {
   }
   if (!worldPlayableCleared(save, W3_CHAIN)) {
     return "w3"
+  }
+  if (!worldPlayableCleared(save, W4_CHAIN)) {
+    return "w4"
   }
   if (!worldPlayableCleared(save, MOON_CHAIN)) {
     return "moon"

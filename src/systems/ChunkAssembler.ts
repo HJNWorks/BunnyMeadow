@@ -27,6 +27,12 @@ import chunkCraneA from "../data/chunks/chunk_crane_a.json"
 import chunkCraneB from "../data/chunks/chunk_crane_b.json"
 import chunkMoonA from "../data/chunks/chunk_moon_a.json"
 import chunkMoonB from "../data/chunks/chunk_moon_b.json"
+import chunkStairStart from "../data/chunks/chunk_stair_start.json"
+import chunkStairAscent from "../data/chunks/chunk_stair_ascent.json"
+import chunkStairMidA from "../data/chunks/chunk_stair_mid_a.json"
+import chunkStairMidB from "../data/chunks/chunk_stair_mid_b.json"
+import chunkStairGaleA from "../data/chunks/chunk_stair_gale_a.json"
+import chunkStairGaleB from "../data/chunks/chunk_stair_gale_b.json"
 
 export type ChunkId = string
 
@@ -43,6 +49,7 @@ export type ChunkMover = ChunkRect & {
   amplitude: number
   speed: number
   tint?: number
+  kind?: "log" | "bridge"
 }
 
 export type ChunkHazard = ChunkRect & {
@@ -138,6 +145,12 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_crane_b: chunkCraneB as ChunkDef,
   chunk_moon_a: chunkMoonA as ChunkDef,
   chunk_moon_b: chunkMoonB as ChunkDef,
+  chunk_stair_start: chunkStairStart as ChunkDef,
+  chunk_stair_ascent: chunkStairAscent as ChunkDef,
+  chunk_stair_mid_a: chunkStairMidA as ChunkDef,
+  chunk_stair_mid_b: chunkStairMidB as ChunkDef,
+  chunk_stair_gale_a: chunkStairGaleA as ChunkDef,
+  chunk_stair_gale_b: chunkStairGaleB as ChunkDef,
 }
 
 const endlessModules = import.meta.glob<{ default: ChunkDef }>(

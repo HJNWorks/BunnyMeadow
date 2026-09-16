@@ -11,7 +11,7 @@ HP bar. After he settles into mist, the existing gift beat still plays.
 
 ## Boss encounter
 
-Guanghan, World 4 finale. Spirit hearts start at 5/5. Mei cannot attack. A consumed
+Guanghan, moon finale after the Cloud Stair. Spirit hearts start at 5/5. Mei cannot attack. A consumed
 mooncake starts a short warmth buff (about 3 s). Only a dash into Han while that
 buff is live removes one spirit heart. A bare dash does nothing to him and still costs
 Mei a heart on contact.

@@ -20,14 +20,14 @@ flowchart LR
   bamboo --> lantern
   lantern --> osmanthus
   osmanthus --> lantern
-  osmanthus --> cloudsea[CloudSea_planned]
+  osmanthus --> cloudsea[CloudSea]
   cloudsea --> moon[MoonGarden]
 ```
 
 Edges are directed by default up the Ladder. Two back-edges exist on purpose so a
-route can dip and re-climb: `osmanthus -> lantern` and `riverbank -> bamboo`. Sky
-and moon (`cloudsea`, `moon`) are reachable in Story only, or in Endless only after
-a key item unlocks them (see [../items/catalog.md](../items/catalog.md)).
+route can dip and re-climb: `osmanthus -> lantern` and `riverbank -> bamboo`. Cloud
+Sea is live in Story (World 4). Endless still keeps `cloudsea` and `moon` closed
+until a key item unlocks them (see [../items/catalog.md](../items/catalog.md)).
 
 ## Bridge chunks
 
@@ -93,5 +93,5 @@ same table the creature rosters key off.
 | riverbank | current, gaps | drifting logs (x and y) | water |
 | lantern | gaps | horizontal drift | glide zones |
 | osmanthus | gaps, wind, void | wind gusts | rising floor |
-| cloudsea | wind, void | wind platforms | sky |
+| cloudsea | wind, void, frost | hanging bridges, wind platforms | Cloud Stair |
 | moon | void | low-gravity floats | low gravity |

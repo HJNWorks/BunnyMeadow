@@ -8,14 +8,24 @@ import level23 from "../../data/story/w2/w2_3_raft_gauntlet.json"
 import level31 from "../../data/story/w3/w3_1_paper_lights.json"
 import level32 from "../../data/story/w3/w3_2_tiger_road.json"
 import level33 from "../../data/story/w3/w3_3_crane_summit.json"
+import level41 from "../../data/story/w4/w4_1_first_steps.json"
+import level42 from "../../data/story/w4/w4_2_no_return.json"
+import level43 from "../../data/story/w4/w4_3_closing_gale.json"
 import levelMoon from "../../data/story/moon/moon_guanghan.json"
 
 export type StoryBossDef = {
-  kind: "fox_cart" | "heron" | "crane" | "han"
+  kind: "fox_cart" | "heron" | "crane" | "gale" | "han"
   hitsNeeded?: number
   divesNeeded?: number
   x?: number
   y?: number
+}
+
+export type StoryLeftChase = {
+  kind: "fox_cart" | "gale"
+  startX: number
+  y: number
+  speed: number
 }
 
 export type StoryLevelDef = {
@@ -25,7 +35,7 @@ export type StoryLevelDef = {
   name: string
   chunks: string[]
   playerSpawn: { x: number; y: number }
-  moonPool: { chunk: number; x: number; y: number }
+  moonPool?: { chunk: number; x: number; y: number }
   exit: { chunk: number; x: number; y: number }
   moonLine: string
   objective: string
@@ -34,9 +44,11 @@ export type StoryLevelDef = {
   tutorial?: boolean
   lowGravity?: boolean
   epilogue?: boolean
+  noCheckpoint?: boolean
   sky?: string
   env?: string
   foxHu?: { startX: number; y: number; speed: number }
+  leftChase?: StoryLeftChase
   boss?: StoryBossDef
   ride?: {
     w: number
@@ -57,6 +69,9 @@ const LEVELS: StoryLevelDef[] = [
   level31 as StoryLevelDef,
   level32 as StoryLevelDef,
   level33 as StoryLevelDef,
+  level41 as StoryLevelDef,
+  level42 as StoryLevelDef,
+  level43 as StoryLevelDef,
   levelMoon as StoryLevelDef,
 ]
 

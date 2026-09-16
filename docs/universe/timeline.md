@@ -22,7 +22,7 @@ flowchart LR
 | Golden hour | Orchard | Hedge Maze. The chase begins in earnest. |
 | Dusk | Bamboo Grove, Riverbank | World 2. "She is safe above the clouds." |
 | Night | Lantern Village | World 3 begins. Festival lanterns. Tu'er Ye and the tiger. |
-| Deep night | Osmanthus Peak, Cloud Sea (planned) | Crane Summit. The ride up. |
+| Deep night | Osmanthus Peak, Cloud Sea | Crane Summit. Ride to the Cloud Stair. World 4 climb. |
 | Eternal night | Moon Garden | Guanghan Palace finale. |
 
 The moon's hour never changes: Guanghan is the Palace of Vast Cold and holds an

@@ -1,0 +1,17 @@
+{
+  "id": "w4_3_closing_gale",
+  "world": 4,
+  "index": 3,
+  "name": "Closing Gale",
+  "chunks": ["chunk_stair_gale_a", "chunk_stair_gale_b"],
+  "playerSpawn": { "x": 80, "y": 870 },
+  "exit": { "chunk": 1, "x": 880, "y": 220 },
+  "moonLine": "The old cold turns guests. Walk anyway.",
+  "objective": "Reach the palace gate before the gale closes.",
+  "glide": true,
+  "noCheckpoint": true,
+  "env": "cloudsea",
+  "sky": "#4a6888",
+  "leftChase": { "kind": "gale", "startX": -40, "y": 540, "speed": 72 },
+  "boss": { "kind": "gale" }
+}

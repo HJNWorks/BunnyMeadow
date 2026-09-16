@@ -192,9 +192,11 @@ export class StoryScene extends Phaser.Scene {
   private player!: Phaser.Physics.Arcade.Sprite
   private enemies!: Phaser.Physics.Arcade.Group
   private projectiles!: Phaser.Physics.Arcade.Group
-  private moonPool!: Phaser.GameObjects.Image
+  private moonPool: Phaser.GameObjects.Image | null = null
   private exitZone!: Phaser.GameObjects.Image
   private foxHu: Phaser.Physics.Arcade.Sprite | null = null
+  private galeWall: Phaser.Physics.Arcade.Sprite | null = null
+  private galeSpeed = 0
   private bossSprite: Phaser.Physics.Arcade.Sprite | null = null
   private diveLine: Phaser.GameObjects.Rectangle | null = null
   private bossHits = 0
@@ -254,6 +256,9 @@ export class StoryScene extends Phaser.Scene {
     this.poolClaimed = false
     this.inDialogue = false
     this.foxHu = null
+    this.galeWall = null
+    this.galeSpeed = 0
+    this.moonPool = null
     this.bossSprite = null
     this.diveLine = null
     this.bossHits = 0
@@ -302,7 +307,11 @@ export class StoryScene extends Phaser.Scene {
     this.hud.levelName.textContent = t(`story.level.${def.id}.name`)
     this.hud.objective.textContent = t(`story.level.${def.id}.objective`)
     this.hud.worldLabel.textContent =
-      def.world === 0 ? t("story.hud.world0") : t("story.hud.world", { n: def.world })
+      def.epilogue || def.id.startsWith("moon")
+        ? t("story.hud.moon")
+        : def.world === 0
+          ? t("story.hud.world0")
+          : t("story.hud.world", { n: def.world })
 
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=back]").onclick = () => {
       getAudio().playSfx("cancel")
@@ -493,10 +502,13 @@ export class StoryScene extends Phaser.Scene {
       spawnEnemy(this, e.id, e.worldX, e.worldY, this.platforms, this.enemies)
     }
 
-    const pool = assembler.worldPoint(world, def.moonPool)
-    this.moonPool = this.add.image(pool.x, pool.y, "story_pool").setDepth(1)
-    this.physics.add.existing(this.moonPool, true)
-    ;(this.moonPool.body as Phaser.Physics.Arcade.StaticBody).setSize(70, 28)
+    if (def.moonPool && !def.noCheckpoint) {
+      const pool = assembler.worldPoint(world, def.moonPool)
+      this.moonPool = this.add.image(pool.x, pool.y, "story_pool").setDepth(1)
+      this.physics.add.existing(this.moonPool, true)
+      ;(this.moonPool.body as Phaser.Physics.Arcade.StaticBody).setSize(70, 28)
+      this.physics.add.overlap(this.player, this.moonPool, () => this.onMoonPool())
+    }
 
     const exit = assembler.worldPoint(world, def.exit)
     this.exitZone = this.add.image(exit.x, exit.y, "story_exit").setDepth(1)
@@ -506,7 +518,6 @@ export class StoryScene extends Phaser.Scene {
     exitBody.setOffset(-20, -20)
     exitBody.updateFromGameObject()
 
-    this.physics.add.overlap(this.player, this.moonPool, () => this.onMoonPool())
     this.physics.add.overlap(this.player, this.exitZone, () => void this.onExit())
     this.physics.add.overlap(this.player, this.enemies, (_p, enemy) => {
       const body = enemy as Phaser.Physics.Arcade.Sprite
@@ -525,6 +536,17 @@ export class StoryScene extends Phaser.Scene {
       if (arch === "foxhu") {
         if (this.playerState.dashTime > 0) {
           this.tipFoxCart(body)
+          return
+        }
+        this.hurt()
+        return
+      }
+      if (arch === "gale") {
+        this.enterDeadState(t("story.dead.gale"))
+        return
+      }
+      if (arch === "swarm") {
+        if (this.playerState.dashTime > 0) {
           return
         }
         this.hurt()
@@ -549,6 +571,22 @@ export class StoryScene extends Phaser.Scene {
       ;(this.foxHu.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
       ;(this.foxHu.body as Phaser.Physics.Arcade.Body).setSize(80, 40)
       this.enemies.add(this.foxHu)
+    }
+
+    if (def.leftChase?.kind === "gale") {
+      this.galeSpeed = def.leftChase.speed
+      this.galeWall = this.physics.add.sprite(def.leftChase.startX, def.leftChase.y, "story_gale")
+      this.galeWall.setDisplaySize(160, 1080)
+      this.galeWall.setData("archetype", "gale")
+      this.galeWall.setImmovable(true)
+      this.galeWall.setDepth(8)
+      this.galeWall.setAlpha(0.72)
+      this.galeWall.setCollideWorldBounds(false)
+      const galeBody = this.galeWall.body as Phaser.Physics.Arcade.Body
+      galeBody.setAllowGravity(false)
+      galeBody.setSize(this.galeWall.frame.width, this.galeWall.frame.height)
+      galeBody.updateFromGameObject()
+      this.enemies.add(this.galeWall)
     }
 
     if (def.boss?.kind === "heron") {
@@ -771,14 +809,25 @@ export class StoryScene extends Phaser.Scene {
     getAudio().playSfx("hurt")
     getAudio().playSfx("heart")
     if (this.health <= 0) {
-      this.enterDeadState(
-        this.checkpoint &&
-          (this.checkpoint.x !== this.level.playerSpawn.x ||
-            this.checkpoint.y !== this.level.playerSpawn.y)
-          ? t("story.dead.pool")
-          : t("story.dead.start"),
-      )
+      this.enterDeadState(this.restartCopy("hearts"))
     }
+  }
+
+  private restartCopy(kind: "hearts" | "fall" | "water"): string {
+    if (this.level.noCheckpoint) {
+      return t("story.dead.cloud")
+    }
+    const fromPool =
+      !!this.checkpoint &&
+      (this.checkpoint.x !== this.level.playerSpawn.x ||
+        this.checkpoint.y !== this.level.playerSpawn.y)
+    if (kind === "fall") {
+      return fromPool ? t("story.dead.fallPool") : t("story.dead.fallStart")
+    }
+    if (kind === "water") {
+      return fromPool ? t("story.dead.waterPool") : t("story.dead.waterStart")
+    }
+    return fromPool ? t("story.dead.pool") : t("story.dead.start")
   }
 
   private enterDeadState(message: string): void {
@@ -804,6 +853,9 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private onMoonPool(): void {
+    if (!this.moonPool || this.level.noCheckpoint) {
+      return
+    }
     if (this.won || this.lost || this.poolClaimed || this.inDialogue) {
       return
     }
@@ -832,13 +884,7 @@ export class StoryScene extends Phaser.Scene {
       this.waterGrace += 0.016
       if (this.waterGrace > 0.35) {
         this.waterGrace = 0
-        this.enterDeadState(
-          this.checkpoint &&
-            (this.checkpoint.x !== this.level.playerSpawn.x ||
-              this.checkpoint.y !== this.level.playerSpawn.y)
-            ? t("story.dead.waterPool")
-            : t("story.dead.waterStart"),
-        )
+        this.enterDeadState(this.restartCopy("water"))
       }
     }
   }
@@ -874,6 +920,11 @@ export class StoryScene extends Phaser.Scene {
         hearts: this.han.hearts,
         need: this.han.needed,
       }))
+      return
+    }
+    if (this.level.boss.kind === "gale") {
+      this.hud.bossHits.hidden = true
+      this.hud.hanHearts.hidden = true
       return
     }
     this.hud.hanHearts.hidden = true
@@ -1154,7 +1205,9 @@ export class StoryScene extends Phaser.Scene {
             ? t("story.win.w2")
             : this.level.id === "w3_3_crane_summit"
               ? t("story.win.w3")
-              : t("story.win.generic", { name: t(`story.level.${this.level.id}.name`) })
+              : this.level.id === "w4_3_closing_gale"
+                ? t("story.win.w4")
+                : t("story.win.generic", { name: t(`story.level.${this.level.id}.name`) })
     this.hud.play.textContent = t("story.win.map")
     this.hud.overlay.hidden = false
     this.hud.overlay.style.display = "flex"
@@ -1174,6 +1227,14 @@ export class StoryScene extends Phaser.Scene {
     this.han?.tryEatCake()
 
     updateMovers(this.movers, this.player, dt)
+
+    if (this.galeWall) {
+      this.galeWall.setVelocityX(this.galeSpeed)
+      if (this.player.x <= this.galeWall.x + this.galeWall.displayWidth * 0.42) {
+        this.enterDeadState(t("story.dead.gale"))
+        return
+      }
+    }
 
     if (this.ride) {
       this.updateTigerRide(dt)
@@ -1200,13 +1261,7 @@ export class StoryScene extends Phaser.Scene {
     }
 
     if (this.player.y > 1120) {
-      this.enterDeadState(
-        this.checkpoint &&
-          (this.checkpoint.x !== this.level.playerSpawn.x ||
-            this.checkpoint.y !== this.level.playerSpawn.y)
-          ? t("story.dead.fallPool")
-          : t("story.dead.fallStart"),
-      )
+      this.enterDeadState(this.restartCopy("fall"))
       return
     }
 

@@ -50,7 +50,9 @@ and the minimum tier at which the creature appears.
 | goat | blocker | bamboo, osmanthus | 3 | live |
 | boar | blocker | orchard, bamboo | 3 | idea |
 | tortoise | patrol | meadow, riverbank | 1 | idea |
-| magpie | diver | cloudsea | 4 | idea |
+| magpie | diver | cloudsea | 4 | live (Story) |
+| frost wisp | swarm | cloudsea | 4 | live (Story) |
+| ice spit | ranged_lob | cloudsea | 4 | live (Story) |
 | bees | swarm | meadow, orchard | 2 | idea |
 
 Guard: owls are ill omens in tradition and must never serve the Moon. They are
@@ -65,6 +67,7 @@ Named characters. Bosses are one folk per world; palace NPCs are non-hostile.
 | Fox Hu | World 1 boss, recurring trickster | meadow | adapted |
 | Heron Fisher | World 2 boss | riverbank | invented |
 | Crane Envoy | World 3 boss, then ally | osmanthus / cloudsea | adapted |
+| Closing Gale | World 4 chase event | cloudsea | invented |
 | Han | Moon boss, old Vast Cold ghost | moon | invented |
 | Tu'er Ye (Lord Rabbit) | ally, lends the tiger | lantern | canon |
 | Chang'e | mentor, finale | moon | canon |

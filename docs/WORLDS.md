@@ -1,6 +1,6 @@
 # Bunny Meadow — Worlds and Environments
 
-Story first release: 3 worlds x 3 levels plus moon finale. Hub is the burrow.
+Story first release: 4 worlds x 3 levels plus moon finale. Hub is the burrow.
 
 This page is the story path map. The full derived world model, with one page per environment
 and how Endless walks between them, lives in [universe/README.md](universe/README.md)
@@ -19,13 +19,14 @@ Shared by Meadow, Story, Tasks, Endless. Each kit: tileset, palette, parallax la
 | riverbank | Riverbank | dusk | Logs, current, rafts |
 | lantern | Lantern Village | night | Festival stalls, lanterns |
 | osmanthus | Osmanthus Peak | night | Wind, blossom fall, tiger path |
+| cloudsea | Cloud Sea | deep night | Cloud Stair, hanging bridges, frost, void |
 | moon | Moon Garden | eternal night | Low gravity, Guanghan Palace, Wu Gang's tree |
 
 ## Story path map
 
 Story opens on an HTML/SVG landscape path from burrow toward the moon. Worlds are nodes. Expanding a live world shows its stations. Locked later worlds stay visible as dim nodes.
 
-Path progress: Worlds 1–3 each expose three clearable stations (two platformers + boss). Guanghan is live after Crane Summit. Next world (and the moon) unlock only after that world's boss is cleared. Saves that cleared W1 2/2 before Cart Chase remain on World 1 until Cart is done.
+Path progress: Worlds 1–4 each expose three clearable stations (two platformers + boss or chase). Guanghan unlocks after Closing Gale. Next world (and the moon) unlock only after that world's last station is cleared. Saves that cleared W1 2/2 before Cart Chase remain on World 1 until Cart is done.
 
 ### World 0 — Burrow Eve
 
@@ -59,7 +60,15 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 | --- | --- | --- | --- | --- |
 | 3-1 Paper Lights | lantern | lantern glide | Moon Pool | live |
 | 3-2 Tiger Road | osmanthus | tiger ride (Tu'er Ye) | Moon Pool | live |
-| 3-3 Crane Summit | osmanthus | boss: Crane Envoy | Ride to moon | live |
+| 3-3 Crane Summit | osmanthus | boss: Crane Envoy | Ride to the Cloud Stair | live |
+
+### World 4 — Cloud Stair
+
+| Level | Env | Teach | Exit | Status |
+| --- | --- | --- | --- | --- |
+| 4-1 First Steps | cloudsea | stair climb, one hanging bridge | Moon Pool near spawn | live |
+| 4-2 No Return | cloudsea | denser frost, two bridges, no mid save | Station restart on fall | live |
+| 4-3 Closing Gale | cloudsea | left storm wall (Fox Hu timing) | Palace gate / world clear | live |
 
 ### Finale
 

@@ -12,6 +12,9 @@ All notable changes to this project are recorded here. The format follows
   clear five spirit hearts. Han roams the sky and aims frost/star fans at Mei. Shared
   top-right item tray for timed buffs (Story warmth, Endless lantern glow). Boss loop
   `boss` on the audio bus. Spirit hearts at top center. Silhouette shifts with enrage.
+- World 4 Cloud Stair between Crane Summit and Guanghan: three stations, hanging
+  bridges, frost wisps, ice spit, gale magpies. 4-2 and 4-3 have no Moon Pool. 4-3 is
+  a left-closing gale. Moon unlocks after Closing Gale.
 
 ## [0.2.0] - 2026-09-16
 

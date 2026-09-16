@@ -50,7 +50,7 @@ export function musicIdForEnv(env: string): MusicId {
   if (env === "moon") {
     return "moon"
   }
-  if (env === "lantern" || env === "osmanthus") {
+  if (env === "lantern" || env === "osmanthus" || env === "cloudsea") {
     return "night"
   }
   if (env === "bamboo" || env === "riverbank") {

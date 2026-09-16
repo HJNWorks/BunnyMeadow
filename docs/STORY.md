@@ -21,7 +21,7 @@ Dialogue rule: two lines max per exchange. Skippable. Moon Pool exchanges are on
 | Wu Gang | Finale NPC. Chops the self-healing osmanthus tree | [canon](LORE.md#wu-gang-吳剛) |
 | Moon toad | Optional background in the palace | [canon](LORE.md#moon-toad--chanchu-蟾蜍) |
 
-## Five-act spine
+## Story spine
 
 ### 0. World 0 — Burrow Eve (stations, no platforming)
 
@@ -79,7 +79,7 @@ Mid-Autumn lanterns, cats, owls (ordinary night enemies only), fireworks.
 
 [Lord Rabbit](LORE.md#tuer-ye--lord-rabbit-兔兒爺) lends his tiger for the ascent.
 
-Boss: the Crane Envoy. It realizes the mistake and carries Mei up.
+Boss: the Crane Envoy. It realizes the mistake and carries Mei to the foot of the Cloud Stair, not the palace door.
 
 Live stations: Paper Lights (hold jump to glide), Tiger Road (scripted tiger ride), Crane Summit (dive telegraph, soft bow exit).
 
@@ -89,7 +89,23 @@ Moon Pool sample:
 
 > The festival lights reach higher than fear. Ask the armored rabbit.
 
-### 5. Finale — Guanghan Palace (low gravity)
+### 5. World 4 — Cloud Stair (deep night)
+
+The last walk. Wind, void, frost wisps, ice spit, and gale magpies. Hanging bridges
+sway. One fall fails the station. Soft copy ("the cloud took you").
+
+Live stations: First Steps (short stair, one bridge, a pool near spawn), No Return
+(no Moon Pool, denser ice, two bridges), Closing Gale (left storm wall like Fox Hu's
+cart. Reach the palace gate).
+
+Boss: the Closing Gale, a weather event, not a named immortal
+([creatures/folk/closing-gale.md](creatures/folk/closing-gale.md)).
+
+Moon Pool sample (4-1 only):
+
+> The steps turn guests back. Keep your paws on the stone.
+
+### 6. Finale — Guanghan Palace (low gravity)
 
 [Han](creatures/folk/han.md), an old ghost of Vast Cold, keeps guests in the layered
 roofs. Duck frost spears, eat a mooncake in the open, dash him while the warmth lasts.
@@ -114,6 +130,7 @@ Why rabbits sit and watch the moon. Family reunion under the full moon. Fade on 
 - Touching it saves progress and may play one Chang'e line.
 - Skip with confirm or face button.
 - No cutscene lock longer than two seconds unless the player chooses to read.
+- Exception: Cloud Stair 4-2 and 4-3 have no pool. A fall or a catch restarts the station.
 
 ## Boss encounters (summary)
 
@@ -122,8 +139,9 @@ Why rabbits sit and watch the moon. Family reunion under the full moon. Fade on 
 | 1 | Fox Hu cart chase | Reach the burrow basket first / tip the cart | Comic |
 | 2 | Heron Fisher | Survive raft gauntlet, land a dash on the heron three times | Sporty |
 | 3 | Crane Envoy | Dodge dives, then accept the ride when it bows | Soft resolution |
+| 4 | Closing Gale | Reach the palace gate before the storm wall | Timed chase |
 | Moon | Han | Eat a mooncake, dash while warmth lasts, five spirit hearts, then the gift beat | Quiet gauntlet |
 
 ## Per-level beats
 
-See [WORLDS.md](WORLDS.md) for the 3 x 3 plus finale list with environment kits and taught mechanics.
+See [WORLDS.md](WORLDS.md) for the 4 x 3 plus finale list with environment kits and taught mechanics.

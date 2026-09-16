@@ -15,6 +15,7 @@ The verbs Mei has, where each is taught, and how items change them. Hub:
 | log ride | stand on a drifting mover | Riverbank | live |
 | tiger ride | scripted mount | Lantern (Tiger Road) | live |
 | glide | hold jump | Lantern (Paper Lights) | live |
+| stair climb / bridge sway | jump, stand on a hanging mover | Cloud Stair | live |
 | low-gravity float | jump under low gravity | Moon | live |
 
 Each rung teaches exactly one new verb (its movement axis in

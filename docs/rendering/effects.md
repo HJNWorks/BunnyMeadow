@@ -17,6 +17,7 @@ Weather is a named particle preset chosen per biome and gated by hour
 | fireflies | rising warm points | lantern |
 | lantern ash | slow falling embers | lantern |
 | blossom | four-petal blossoms drifting | osmanthus, moon |
+| snow | white specks blown left | cloud-sea |
 | wind streaks | horizontal gust lines | osmanthus, cloud-sea |
 | cloud wisps | foreground cloud drift | cloud-sea |
 | star drift | slow star parallax | moon, cloud-sea |

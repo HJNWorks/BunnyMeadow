@@ -123,6 +123,9 @@ Status values:
 | Osmanthus blossom fall | A glowing blossom from Wu Gang's tree drifts to earth and starts the plot | Wu Gang's tree is canon. The fall event is invented |
 | Heron Fisher | World 2 boss. Invented animal antagonist | Fine. Herons are ordinary wildlife, not folklore deities |
 | Han | Moon boss. Old invented ghost of Vast Cold. The palace's habit of keeping guests | Must not be Chang'e, Yue, Yutu, Wu Gang, or the moon toad. No fire or water kit |
+| Cloud Stair (云梯) | Invented geography between Osmanthus Peak and Guanghan. Crane drop-off, then a walk | Must not replace the palace or Chang'e's authority. Fengbo is not dramatized |
+| Frost wisps (霜魄) | Invented ice spirits on the Cloud Stair | Not canon snow gods |
+| Closing Gale | Invented weather event. Left chase wall on World 4-3 | Not a named immortal HP bar. Not Chang'e throwing weather |
 | Burrow pantry | Meta progression invent | Fine |
 
 ## Canon vs invention table (quick)
@@ -141,4 +144,4 @@ Status values:
 | Mid-Autumn props (mooncakes, lanterns, osmanthus) | canon |
 | Japanese mochi rabbit | forbidden |
 | Sasa Jataka gift beat | invented inspiration (labeled) |
-| Mei, Yue, Moon Pools, Heron Fisher, Han | invented |
+| Mei, Yue, Moon Pools, Heron Fisher, Han, Cloud Stair, frost wisps, Closing Gale | invented |

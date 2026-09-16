@@ -3,7 +3,7 @@ import palettesData from "../../../data/palettes.json"
 
 export type PaletteHour = "afternoon" | "golden" | "dusk" | "night" | "deepNight" | "eternal"
 
-export type WeatherPreset = "pollen" | "leaves" | "drizzle" | "fireflies" | "lanternAsh" | "blossom"
+export type WeatherPreset = "pollen" | "leaves" | "drizzle" | "fireflies" | "lanternAsh" | "blossom" | "snow"
 
 export type Palette = {
   sky: string
@@ -106,8 +106,11 @@ export function createWeather(
             ? 0xe8a060
             : preset === "leaves"
               ? 0xc4a050
-              : 0xe8f0c8
+              : preset === "snow"
+                ? 0xe8f4ff
+                : 0xe8f0c8
   const rise = preset === "fireflies"
+  const wind = preset === "snow"
   for (let i = 0; i < count; i += 1) {
     const sprite = scene.add.image(Math.random() * worldWidth, Math.random() * 1080, "theme_speck")
     sprite.setDepth(18)
@@ -116,8 +119,8 @@ export function createWeather(
     sprite.setScale(preset === "drizzle" ? 0.4 : 0.7)
     specks.push({
       sprite,
-      vx: reducedMotion ? 0 : (Math.random() - 0.5) * (rise ? 18 : 40),
-      vy: reducedMotion ? 0 : rise ? -20 - Math.random() * 24 : 40 + Math.random() * 50,
+      vx: reducedMotion ? 0 : wind ? -48 - Math.random() * 36 : (Math.random() - 0.5) * (rise ? 18 : 40),
+      vy: reducedMotion ? 0 : rise ? -20 - Math.random() * 24 : (wind ? 16 : 40) + Math.random() * 50,
       life: 2 + Math.random() * 4,
     })
   }
@@ -181,8 +184,11 @@ export function createLanternGlow(scene: Phaser.Scene): Phaser.GameObjects.Image
 }
 
 export function storyEnvForLevel(world: number, index: number, id: string): string {
-  if (id.startsWith("moon") || world === 4) {
+  if (id.startsWith("moon")) {
     return "moon"
+  }
+  if (world === 4) {
+    return "cloudsea"
   }
   if (world === 0) {
     return "meadow"

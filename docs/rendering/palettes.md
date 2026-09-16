@@ -17,7 +17,8 @@ Code: `src/modes/story/shared/themeKit.ts` (Story and Endless).
 | fog | the mist wall and any haze at this rung |
 
 Each live rung also stores `hour` (`afternoon` | `golden` | `dusk` | `night` | `deepNight` | `eternal`)
-and `weather` (a preset id). Tunnels and cloud-sea are omitted until those rungs have playable chunks.
+and `weather` (a preset id). Tunnels are omitted until that rung has playable chunks.
+Cloud Sea is live in Story.
 
 ## Live values (I3)
 
@@ -32,6 +33,7 @@ Hex lives in `src/data/palettes.json`. Story may still override `sky` per level.
 | lantern | #3d4560 | #2c3348 | #5a4638 | #3a322c | #e07040 | #5a5870 | night | fireflies |
 | osmanthus | #40364a | #322940 | #2a3828 | #3a3838 | #e8c45a | #6a6878 | deepNight | blossom |
 | moon | #151b2e | #1a2438 | #3a5a52 | #6a6e72 | #7ec8a0 | #3a4868 | eternal | blossom |
+| cloudsea | #6a88b8 | #8aa8c8 | #c8d8e8 | #9aa8b4 | #e8f4ff | #d0e0f0 | deepNight | snow |
 
 Night overlay strength from hour: afternoon and golden 0, dusk 0.25, night 0.45, deepNight 0.55,
 eternal 0.5.

@@ -71,7 +71,7 @@ Later milestones must not invent a second version of these. M1 created them (fil
 | Customize | menu HTML | live |
 | Achievements | menu HTML | live (achievement list + short project credit) |
 | Meadow | play | live (data-driven arcade) |
-| WorldMap | menu HTML | live (burrow-to-moon path; W0–W3 + moon) |
+| WorldMap | menu HTML | live (burrow-to-moon path; W0–W4 + moon) |
 | Story | play | live (Phaser side-scroll full story) |
 | TaskSelect | menu HTML | live (Night Watch, Hide and Seek) |
 | TaskRun | play | live (canvas TaskRuntime) |

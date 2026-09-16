@@ -1,0 +1,15 @@
+{
+  "id": "w4_1_first_steps",
+  "world": 4,
+  "index": 1,
+  "name": "First Steps",
+  "chunks": ["chunk_stair_start", "chunk_stair_ascent"],
+  "playerSpawn": { "x": 80, "y": 890 },
+  "moonPool": { "chunk": 0, "x": 220, "y": 920 },
+  "exit": { "chunk": 1, "x": 860, "y": 380 },
+  "moonLine": "The steps turn guests back. Keep your paws on the stone.",
+  "objective": "Climb the first cloud steps. Cross one hanging bridge.",
+  "glide": true,
+  "env": "cloudsea",
+  "sky": "#6a88b8"
+}

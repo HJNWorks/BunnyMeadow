@@ -23,7 +23,7 @@ One night, one ascent. The rungs, low to high:
 | 4 | Riverbank | valley floor | dusk | live |
 | 5 | Lantern Village | foothill town | night | live |
 | 6 | Osmanthus Peak | mountain | deep night | live |
-| 7 | Cloud Sea | sky | deep night | planned |
+| 7 | Cloud Sea | sky | deep night | live (Story) |
 | 8 | Moon Garden | moon | eternal night | live |
 
 Riverbank sits at a valley floor between hills and foothills: the climb dips to
@@ -41,7 +41,7 @@ consistent by construction.
 | Altitude | underground, ground, low hills, hills, valley, town, mountain, sky, moon |
 | Hour | afternoon, golden hour, dusk, night, deep night, eternal night |
 | Lore anchor | which [LORE.md](../LORE.md) entry lives on this rung |
-| Movement verb | run, jump, wall bounce, log ride, tiger ride, glide, low gravity |
+| Movement verb | run, jump, wall bounce, log ride, tiger ride, glide, stair climb, low gravity |
 | Hazard vocabulary | gaps, shafts, current, wind, void |
 
 Derivation rules:
@@ -58,7 +58,7 @@ Derivation rules:
 
 | Mode | Route through the Ladder |
 | --- | --- |
-| Story | Fixed. World 0 = rung 0/1 stations, World 1 = rungs 1-2, World 2 = rungs 3-4, World 3 = rungs 5-6, finale = rung 8. See [../WORLDS.md](../WORLDS.md). |
+| Story | Fixed. World 0 = rung 0/1 stations, World 1 = rungs 1-2, World 2 = rungs 3-4, World 3 = rungs 5-6, World 4 = rung 7, finale = rung 8. See [../WORLDS.md](../WORLDS.md). |
 | Endless | Seeded. A route walker steps between adjacent rungs; band lengths and altitude weighting come from difficulty. See [../modes/endless/design.md](../modes/endless/design.md). |
 | Meadow (arcade) | Single rung as a top-down backdrop, chosen by map. |
 | Moon Tasks | Single rung, reusing Meadow backdrops. |

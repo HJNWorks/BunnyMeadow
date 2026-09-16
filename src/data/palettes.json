@@ -68,5 +68,15 @@
     "fog": "#3a4868",
     "hour": "eternal",
     "weather": "blossom"
+  },
+  "cloudsea": {
+    "sky": "#6a88b8",
+    "far": "#8aa8c8",
+    "mid": "#c8d8e8",
+    "ground": "#9aa8b4",
+    "accent": "#e8f4ff",
+    "fog": "#d0e0f0",
+    "hour": "deepNight",
+    "weather": "snow"
   }
 }

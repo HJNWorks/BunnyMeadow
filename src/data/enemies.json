@@ -84,6 +84,70 @@
         "attack": "goat_charge",
         "hurt": "goat_hurt"
       }
+    },
+    {
+      "id": "frost_wisp",
+      "archetype": "swarm",
+      "displayName": "Frost Wisp",
+      "homeBiomes": ["cloudsea"],
+      "minTier": 4,
+      "senseRange": 0,
+      "attackRange": 36,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 28,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "wisp_idle",
+        "move": "wisp_drift",
+        "attack": "wisp_idle",
+        "hurt": "wisp_idle"
+      },
+      "notes": "Dash passes through"
+    },
+    {
+      "id": "ice_spit",
+      "archetype": "ranged_lob",
+      "displayName": "Ice Spit",
+      "homeBiomes": ["cloudsea"],
+      "minTier": 4,
+      "senseRange": 280,
+      "attackRange": 240,
+      "telegraphTime": 0.4,
+      "cooldown": 1.7,
+      "speed": 0,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "ice_idle",
+        "move": "ice_idle",
+        "attack": "ice_spit",
+        "hurt": "ice_hurt"
+      }
+    },
+    {
+      "id": "gale_magpie",
+      "archetype": "diver",
+      "displayName": "Gale Magpie",
+      "homeBiomes": ["cloudsea"],
+      "minTier": 4,
+      "senseRange": 320,
+      "attackRange": 280,
+      "telegraphTime": 0.35,
+      "cooldown": 1.6,
+      "speed": 160,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "magpie_idle",
+        "move": "magpie_fly",
+        "attack": "magpie_dive",
+        "hurt": "magpie_hurt"
+      }
     }
   ]
 }

@@ -1,0 +1,26 @@
+# Wildlife — Frost Wisp
+
+Status: live (Story World 4). Class: Wildlife. Archetype: swarm. Hub: [../README.md](../README.md).
+Invented ice spirit (霜魄). Not a canon snow god.
+
+| Field | Value |
+| --- | --- |
+| Home biomes | cloudsea |
+| Active hour | deep night |
+| Min tier | 4 |
+| Hearts | n/a (cloud) |
+| Safe from above | no (airborne) |
+
+## Behaviour
+
+A slow drifting frost cloud that denies a step or a bridge. It has no single body
+to defeat. Route around it, or dash through. A dash passes safely.
+
+## Telegraph and counter
+
+Telegraph: a pale haze on the stair. Counter: dash straight through, or wait for
+the cloud to drift off the step.
+
+## Silhouette rule
+
+Loose oval mist, not a person. Reads as weather with a bite, not a named ghost.

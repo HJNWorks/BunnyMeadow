@@ -1,8 +1,8 @@
-# Wildlife — Magpie
+# Wildlife — Magpie (Gale Magpie)
 
-Status: idea. Class: Wildlife. Archetype: diver. Hub: [../README.md](../README.md).
-Plain wildlife. Magpies carry auspicious associations in Chinese symbolism, so a
-non-hostile cameo is also an option; treat any hostile use as ordinary wildlife.
+Status: live (Story World 4). Class: Wildlife. Archetype: diver. Hub: [../README.md](../README.md).
+Plain wildlife. Magpies carry auspicious associations in Chinese symbolism. Hostile
+use here is ordinary wind-borne wildlife, not a Qixi love plot.
 
 | Field | Value |
 | --- | --- |
@@ -14,19 +14,15 @@ non-hostile cameo is also an option; treat any hostile use as ordinary wildlife.
 
 ## Behaviour
 
-Idea: a sky diver for the Cloud Sea rung, sweeping across wind gusts and diving along a
-shown line. The only enemy planned for a rung that is otherwise about wind and glide.
+A sky diver for the Cloud Stair. It hovers on the wind, then dives along Mei's
+line. The only winged enemy on a rung that is otherwise frost and void.
 
 ## Telegraph and counter
 
-Telegraph: a banking turn and a drawn dive line. Counter: glide off the line during
-the bank.
+Telegraph: a short hover, then a committed dive. Counter: step off the line, or
+glide past during the hover.
 
 ## Silhouette rule
 
-Long tail, sharp wings. The banking turn reads before the dive commits.
-
-## Open questions
-
-If magpies read as auspicious, the Cloud Sea may want no enemy at all. Decide in
-[../../iterations/i2-creatures-items.md](../../iterations/i2-creatures-items.md).
+Long tail, sharp wings, black and white. The banking hover reads before the dive
+commits.

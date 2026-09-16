@@ -9,7 +9,7 @@ Family-tone woodland game. Phaser 4 + Vite + TypeScript. Web on GitHub Pages. St
 
 Audience: family / all ages (Mario or Kirby stakes). Light peril. Short readable dialogue. Kits (baby rabbits) may go missing by misunderstanding. No death, no predator kidnapping.
 
-First story release: 3 worlds x 3 levels plus a moon finale.
+First story release: 4 worlds x 3 levels plus a moon finale.
 
 ## Modes
 
@@ -19,7 +19,7 @@ Port of the current canvas game. Collect carrots, return to the burrow, dodge en
 
 ### Story (side-scroller)
 
-Left-to-right platformer. Authored levels from reusable chunks. Moon Pool checkpoints. One boss per world. Hub is the burrow. See [STORY.md](STORY.md) and [WORLDS.md](WORLDS.md).
+Left-to-right platformer. Authored levels from reusable chunks. Moon Pool checkpoints (Cloud Stair 4-2 and 4-3 restart the station). One boss or chase per world. Hub is the burrow. See [STORY.md](STORY.md) and [WORLDS.md](WORLDS.md).
 
 ### Moon Tasks (short objectives, 1 to 3 minutes)
 

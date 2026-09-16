@@ -1,0 +1,31 @@
+{
+  "id": "chunk_stair_mid_a",
+  "width": 960,
+  "height": 1080,
+  "groundY": 1080,
+  "platforms": [
+    { "x": 90, "y": 800, "w": 130, "h": 24 },
+    { "x": 280, "y": 700, "w": 90, "h": 24 },
+    { "x": 640, "y": 580, "w": 90, "h": 24 },
+    { "x": 840, "y": 500, "w": 120, "h": 24 }
+  ],
+  "walls": [],
+  "enemies": [
+    { "id": "frost_wisp", "x": 500, "y": 580 },
+    { "id": "ice_spit", "x": 680, "y": 548 }
+  ],
+  "movers": [
+    {
+      "x": 420,
+      "y": 640,
+      "w": 180,
+      "h": 16,
+      "axis": "x",
+      "amplitude": 40,
+      "speed": 1.2,
+      "tint": 13158624,
+      "kind": "bridge"
+    }
+  ],
+  "color": "#7a98b8"
+}
