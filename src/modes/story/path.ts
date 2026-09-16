@@ -179,7 +179,7 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Festival lights and a tiger road.",
     status: "live",
     stationIds: ["w3_1_paper_lights", "w3_2_tiger_road", "w3_3_crane_summit"],
-    x: 68,
+    x: 58,
     y: 34,
   },
   {
@@ -189,7 +189,7 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Quiet moon garden. Yue waits under the tree.",
     status: "live",
     stationIds: ["moon_guanghan"],
-    x: 78,
+    x: 80,
     y: 20,
   },
 ]
