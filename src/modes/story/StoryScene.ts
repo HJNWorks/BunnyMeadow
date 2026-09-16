@@ -858,8 +858,11 @@ export class StoryScene extends Phaser.Scene {
     if (this.won || this.lost) {
       return
     }
-    const current = Number(water.getData("current") || 0)
     const body = this.player.body as Phaser.Physics.Arcade.Body
+    if (body.blocked.down || body.touching.down) {
+      return
+    }
+    const current = Number(water.getData("current") || 0)
     if (current !== 0) {
       body.velocity.x += current * 0.04
     }
@@ -1204,7 +1207,9 @@ export class StoryScene extends Phaser.Scene {
       Math.abs(this.player.y - this.exitZone.y) < 140
     ) {
       void this.onExit()
-      return
+      if (this.won) {
+        return
+      }
     }
 
     if (this.player.y > 1120) {
