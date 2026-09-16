@@ -6,7 +6,7 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
-Iterations I1 and I2 are in the tree. Version stays at 0.1.0 until I3-I4 ship with them.
+Iterations I1-I3 are in the tree. Version stays at 0.1.0 until I4 ships with them.
 
 ### Added
 
@@ -17,16 +17,19 @@ Iterations I1 and I2 are in the tree. Version stays at 0.1.0 until I3-I4 ship wi
   `items.json` tables.
 - Mooncake (restore a heart), osmanthus blossom (one extra glide), lantern (push mist 80 m).
 - Goat blocker on bamboo and osmanthus.
+- `palettes.json` six-token kits plus hour and weather for the live rungs and moon.
+- Weather specks, multiply night overlay, and lantern glow on Story and Endless.
+- Ten Endless bridge chunks with sky and night lerp. Layered fog-coloured mist bands.
 
 ### Changed
 
 - Endless sky and HUD follow the chunk the player is in, not a metre cutoff.
-- Seeds from the original 0.1.0 Endless build do not replay (walker, jitter, and slot
-  rolls consume extra rng draws).
+- Seeds from the original 0.1.0 Endless build do not replay (walker, jitter, slot rolls,
+  and queued bridges consume extra rng draws).
+- Story and Endless platform grass tints come from the palette ground token.
 
 ### Known open items
 
-- Palettes, sky lerp, weather (I3).
 - Audio assets and DE/ZH-Hans string fill (I4).
 
 ## [0.1.0] - 2026-09-16

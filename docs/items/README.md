@@ -30,7 +30,7 @@ Full entries on [catalog.md](catalog.md).
 | carrot | currency | pantry currency | live |
 | mooncake | restore | restores one heart | live |
 | osmanthus blossom | run-buff | one extra glide charge | live |
-| lantern | run-buff | pushes the mist back 80 m (light radius waits for I3) | live |
+| lantern | run-buff | pushes the mist back 80 m, brief lantern glow | live |
 | dew | run-buff | short slow-time | idea |
 | moon letter | key | opens the sky/moon edges in Endless | idea |
 | cosmetic drop | cosmetic | unlocks a Customize option | idea |

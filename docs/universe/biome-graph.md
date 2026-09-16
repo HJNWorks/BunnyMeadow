@@ -36,27 +36,31 @@ rung on its left third and the destination rung on its right third, with the sky
 token lerped across (see [../rendering/palettes.md](../rendering/palettes.md)). It
 teaches no new verb and hosts no boss.
 
-| Edge | Bridge chunk id (proposed) | Status |
+| Edge | Bridge chunk id | Status |
 | --- | --- | --- |
-| meadow -> orchard | bridge_meadow_orchard | planned |
-| orchard -> bamboo | bridge_orchard_bamboo | planned |
-| orchard -> riverbank | bridge_orchard_riverbank | planned |
-| bamboo -> riverbank | bridge_bamboo_riverbank | planned |
-| riverbank -> lantern | bridge_riverbank_lantern | planned |
-| bamboo -> lantern | bridge_bamboo_lantern | planned |
-| lantern -> osmanthus | bridge_lantern_osmanthus | planned |
-| tunnels -> meadow | bridge_tunnels_meadow | planned |
+| meadow -> orchard | bridge_meadow_orchard | live |
+| meadow -> riverbank | bridge_meadow_riverbank | live |
+| orchard -> bamboo | bridge_orchard_bamboo | live |
+| orchard -> riverbank | bridge_orchard_riverbank | live |
+| bamboo -> riverbank | bridge_bamboo_riverbank | live |
+| bamboo -> lantern | bridge_bamboo_lantern | live |
+| riverbank -> bamboo | bridge_riverbank_bamboo | live |
+| riverbank -> lantern | bridge_riverbank_lantern | live |
+| lantern -> osmanthus | bridge_lantern_osmanthus | live |
+| osmanthus -> lantern | bridge_osmanthus_lantern | live |
+| tunnels -> meadow | bridge_tunnels_meadow | planned (no playable tunnels) |
 | osmanthus -> cloudsea | bridge_osmanthus_cloudsea | planned |
 | cloudsea -> moon | bridge_cloudsea_moon | planned |
 
-Until bridges ship (I3), Endless does an instant palette snap when the player enters a
-new rung.
+Live bridges are short pad chunks (`width` 640, no enemies). The walker queues
+`bridge_<from>_<to>` on `stepRoute`. If a file is missing, the destination layout is the
+lerp span. Off-bridge, sky still snaps to the current kit.
 
 ## Endless route walker (live, I1)
 
 The walker in `src/modes/endless/EndlessGenerator.ts` reads `biomeGraph` and
-`bandMeters` from `src/data/endless.json`. I1 omits tunnels, cloudsea, moon, key items,
-and bridge chunks (no live content for those yet).
+`bandMeters` from `src/data/endless.json`. I1 omitted tunnels, cloudsea, moon, and key
+items. I3 adds live bridge chunks for the six playable rungs.
 
 Rules in force:
 
@@ -68,8 +72,8 @@ Rules in force:
    (meadow to riverbank). Later runs favor up-edges.
 4. Never stay on the same rung more than twice in a row if another edge exists.
 5. Sky and moon edges stay closed (no live chunks, no key item yet).
-6. No bridge chunk. The next biome's layout starts immediately. Sky snaps when the
-   player enters that band.
+6. On a biome change, queue `bridge_<from>_<to>` before destination layouts. Sky and
+   night lerp while the player is on that chunk.
 
 The walker only decides the biome sequence. Layout tier is a separate axis (see
 [../modes/endless/design.md](../modes/endless/design.md)), so the same layout can be

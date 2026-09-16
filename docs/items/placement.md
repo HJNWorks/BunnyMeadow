@@ -41,5 +41,5 @@ A slot's `allow` list intersects the table: only items in both can appear.
 ## The lantern and the mist wall
 
 On pickup, Endless moves the chase wall back 80 m (`mistPushMeters` in `items.json`),
-clamped so the wall cannot pass behind the run start. Light radius waits for I3. The HUD
-shows a short line when the wall recedes.
+clamped so the wall cannot pass behind the run start. A ~1.6 s additive glow follows the
+player (I3). The HUD shows a short line when the wall recedes.

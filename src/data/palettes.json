@@ -1,0 +1,72 @@
+{
+  "meadow": {
+    "sky": "#c5d48a",
+    "far": "#b8c97a",
+    "mid": "#8fad5c",
+    "ground": "#6b5338",
+    "accent": "#e07a32",
+    "fog": "#d7e0c8",
+    "hour": "afternoon",
+    "weather": "pollen"
+  },
+  "orchard": {
+    "sky": "#b8c47a",
+    "far": "#c4b05a",
+    "mid": "#7a9a48",
+    "ground": "#6a4e32",
+    "accent": "#c44a3a",
+    "fog": "#e4d8b0",
+    "hour": "golden",
+    "weather": "leaves"
+  },
+  "bamboo": {
+    "sky": "#5f7a52",
+    "far": "#4a6342",
+    "mid": "#3d6a3a",
+    "ground": "#3a3228",
+    "accent": "#d4a24a",
+    "fog": "#8a9a80",
+    "hour": "dusk",
+    "weather": "leaves"
+  },
+  "riverbank": {
+    "sky": "#6b94a0",
+    "far": "#5a8490",
+    "mid": "#6a8a62",
+    "ground": "#4a3c30",
+    "accent": "#8a6a48",
+    "fog": "#b0c4c8",
+    "hour": "dusk",
+    "weather": "drizzle"
+  },
+  "lantern": {
+    "sky": "#3d4560",
+    "far": "#2c3348",
+    "mid": "#5a4638",
+    "ground": "#3a322c",
+    "accent": "#e07040",
+    "fog": "#5a5870",
+    "hour": "night",
+    "weather": "fireflies"
+  },
+  "osmanthus": {
+    "sky": "#40364a",
+    "far": "#322940",
+    "mid": "#2a3828",
+    "ground": "#3a3838",
+    "accent": "#e8c45a",
+    "fog": "#6a6878",
+    "hour": "deepNight",
+    "weather": "blossom"
+  },
+  "moon": {
+    "sky": "#151b2e",
+    "far": "#1a2438",
+    "mid": "#3a5a52",
+    "ground": "#6a6e72",
+    "accent": "#7ec8a0",
+    "fog": "#3a4868",
+    "hour": "eternal",
+    "weather": "blossom"
+  }
+}

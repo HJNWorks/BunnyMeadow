@@ -31,6 +31,18 @@ import {
   updateMovers,
   type MoverState,
 } from "../story/shared/moversHazards"
+import {
+  applySky,
+  createLanternGlow,
+  createNightOverlay,
+  createWeather,
+  getPalette,
+  hexToNum,
+  lerpHex,
+  nightStrength,
+  type Palette,
+  type WeatherHandle,
+} from "../story/shared/themeKit"
 
 type Ember = {
   sprite: Phaser.GameObjects.Image
@@ -44,6 +56,7 @@ type Segment = {
   originX: number
   width: number
   env: string
+  bridgeTo?: string
   objects: Phaser.GameObjects.GameObject[]
   enemies: Phaser.Physics.Arcade.Sprite[]
   moverStates: MoverState[]
@@ -164,9 +177,16 @@ export class EndlessScene extends Phaser.Scene {
   private maxX = 0
   private distanceM = 0
   private chaseX = 0
-  private chaseFog: Phaser.GameObjects.Rectangle | null = null
+  private mistBands: Phaser.GameObjects.Rectangle[] = []
   private chaseFox: Phaser.GameObjects.Image | null = null
   private embers: Ember[] = []
+  private skyFar: Phaser.GameObjects.Rectangle | null = null
+  private weather: WeatherHandle | null = null
+  private weatherEnv = ""
+  private nightOverlay: Phaser.GameObjects.Rectangle | null = null
+  private lanternGlow: Phaser.GameObjects.Image | null = null
+  private glowTimer = 0
+  private reducedMotion = false
   private emberTimer = 0
 
   private health = 3
@@ -300,7 +320,14 @@ export class EndlessScene extends Phaser.Scene {
     this.physics.world.setBounds(0, -600, 1_000_000, 5000, true, false, false, false)
     this.cameras.main.setBounds(0, 0, 1_000_000, 1080)
     this.currentEnv = this.generator.env
-    this.cameras.main.setBackgroundColor(getEnvKit(this.currentEnv).sky)
+    this.reducedMotion = save.settings.accessibility.reducedMotion
+    this.glowTimer = 0
+    this.weatherEnv = ""
+    this.skyFar = null
+    this.nightOverlay = null
+    this.weather = null
+    this.mistBands = []
+    this.applyTheme(this.currentEnv, getPalette(this.currentEnv), true)
 
     this.platforms = this.physics.add.staticGroup()
     this.enemies = this.physics.add.group()
@@ -348,13 +375,10 @@ export class EndlessScene extends Phaser.Scene {
     this.chaseX = this.spawnX - 700
     this.embers = []
     this.emberTimer = 0
-    this.chaseFog = this.add
-      .rectangle(0, 540, 4000, 1400, 0x3a140c, 0.42)
-      .setOrigin(1, 0.5)
-      .setDepth(20)
-      .setScrollFactor(1)
+    this.buildMist(getPalette(this.currentEnv))
     this.chaseFox = this.add.image(0, 520, "chase_fox").setDepth(24)
     this.chaseFox.setDisplaySize(150, 90)
+    this.lanternGlow = createLanternGlow(this)
 
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12)
     this.cameras.main.setDeadzone(120, 80)
@@ -405,10 +429,13 @@ export class EndlessScene extends Phaser.Scene {
 
   private spawnSegment(filled: FilledChunk, originX: number): void {
     const chunk = filled.chunk
+    const env = chunk.endless?.env ?? "meadow"
+    const palette = getPalette(env)
     const seg: Segment = {
       originX,
       width: chunk.width,
-      env: chunk.endless?.env ?? "meadow",
+      env,
+      bridgeTo: chunk.endless?.bridgeTo,
       objects: [],
       enemies: [],
       moverStates: [],
@@ -416,7 +443,7 @@ export class EndlessScene extends Phaser.Scene {
     }
 
     const band = this.add
-      .rectangle(originX + chunk.width / 2, 540, chunk.width, 1080, this.colorToNum(chunk.color), 0.16)
+      .rectangle(originX + chunk.width / 2, 540, chunk.width, 1080, hexToNum(palette.mid), 0.16)
       .setDepth(-2)
     seg.objects.push(band)
 
@@ -434,7 +461,7 @@ export class EndlessScene extends Phaser.Scene {
       ;(block.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject()
       seg.objects.push(block)
       const grass = this.add
-        .rectangle(originX + rect.x + rect.w / 2, rect.y + 6, rect.w, 12, 0x7d9450)
+        .rectangle(originX + rect.x + rect.w / 2, rect.y + 6, rect.w, 12, hexToNum(palette.ground))
         .setDepth(1.5)
       seg.objects.push(grass)
     }
@@ -510,10 +537,6 @@ export class EndlessScene extends Phaser.Scene {
       enemy.destroy()
     }
     this.movers = this.movers.filter((m) => !seg.moverStates.includes(m))
-  }
-
-  private colorToNum(hex: string): number {
-    return Number.parseInt(hex.replace("#", ""), 16) || 0x5a6a4a
   }
 
   private onWater(water: Phaser.GameObjects.Rectangle): void {
@@ -652,19 +675,18 @@ export class EndlessScene extends Phaser.Scene {
     const here = this.segments.find(
       (s) => this.player.x >= s.originX && this.player.x < s.originX + s.width,
     )
-    const kit = getEnvKit(here?.env ?? this.generator.env)
-    if (kit.env !== this.currentEnv) {
-      this.currentEnv = kit.env
-      this.cameras.main.setBackgroundColor(kit.sky)
-    }
-    this.playerState.glide = kit.env === "lantern"
+    this.syncTheme(here)
+    const lookEnv = this.lookEnv(here)
+    const kit = getEnvKit(lookEnv)
+    this.playerState.glide =
+      lookEnv === "lantern" || here?.env === "lantern" || here?.bridgeTo === "lantern"
     this.hintFlash = Math.max(0, this.hintFlash - dt)
     if (this.hud) {
       this.hud.env.textContent = kit.name
       if (this.hintFlash > 0) {
         this.hud.hint.hidden = false
       } else {
-        const showHint = kit.env === "lantern"
+        const showHint = lookEnv === "lantern"
         this.hud.hint.hidden = !showHint
         if (showHint) {
           this.hud.hint.textContent = "Hold jump to glide between lanterns."
@@ -695,6 +717,9 @@ export class EndlessScene extends Phaser.Scene {
 
     updatePlayerMovement(this.player, input, this.playerState)
 
+    this.weather?.update(dt, this.cameras.main.scrollX)
+    this.tickLanternGlow(dt)
+
     this.advanceChase(dt)
     this.collectPickups()
 
@@ -713,8 +738,8 @@ export class EndlessScene extends Phaser.Scene {
     if (this.chaseX < minX) {
       this.chaseX = minX
     }
-    if (this.chaseFog) {
-      this.chaseFog.setPosition(this.chaseX, 540)
+    for (let i = 0; i < this.mistBands.length; i += 1) {
+      this.mistBands[i].setPosition(this.chaseX - i * 36, 540)
     }
     const foxY = this.player.y + 6
     if (this.chaseFox) {
@@ -787,11 +812,114 @@ export class EndlessScene extends Phaser.Scene {
     if (id === "lantern") {
       const floor = this.spawnX - 700
       this.chaseX = Math.max(floor, this.chaseX - MIST_PUSH_METERS * METER_PER_PX)
+      this.glowTimer = 1.6
       this.hintFlash = 1.6
       if (this.hud) {
         this.hud.hint.hidden = false
         this.hud.hint.textContent = "The mist falls back."
       }
+    }
+  }
+
+  private lookEnv(here: Segment | undefined): string {
+    if (!here) {
+      return this.generator.env
+    }
+    if (here.bridgeTo) {
+      const t = (this.player.x - here.originX) / Math.max(1, here.width)
+      return t >= 0.5 ? here.bridgeTo : here.env
+    }
+    return here.env
+  }
+
+  private syncTheme(here: Segment | undefined): void {
+    if (here?.bridgeTo) {
+      const t = Math.max(0, Math.min(1, (this.player.x - here.originX) / Math.max(1, here.width)))
+      const from = getPalette(here.env)
+      const to = getPalette(here.bridgeTo)
+      this.applyLerpedTheme(from, to, t)
+      this.tintMist(lerpHex(from.fog, to.fog, t))
+      this.currentEnv = this.lookEnv(here)
+      return
+    }
+    const env = here?.env ?? this.generator.env
+    const palette = getPalette(env)
+    this.applyTheme(env, palette, env !== this.weatherEnv)
+    this.tintMist(palette.fog)
+    this.currentEnv = env
+  }
+
+  private applyTheme(env: string, palette: Palette, rebuildWeather: boolean): void {
+    this.cameras.main.setBackgroundColor(palette.sky)
+    if (!this.skyFar) {
+      this.skyFar = applySky(this, palette)
+    } else {
+      this.skyFar.setFillStyle(hexToNum(palette.far), 0.55)
+    }
+    const strength = nightStrength(palette.hour)
+    if (!this.nightOverlay) {
+      this.nightOverlay = createNightOverlay(this, strength)
+    } else {
+      this.nightOverlay.setAlpha(strength)
+      this.nightOverlay.setVisible(strength > 0)
+    }
+    if (rebuildWeather) {
+      this.weather?.destroy()
+      this.weather = createWeather(this, palette.weather, 1920, this.reducedMotion)
+      this.weatherEnv = env
+    }
+  }
+
+  private applyLerpedTheme(from: Palette, to: Palette, t: number): void {
+    this.cameras.main.setBackgroundColor(lerpHex(from.sky, to.sky, t))
+    if (!this.skyFar) {
+      this.skyFar = applySky(this, from)
+    }
+    this.skyFar.setFillStyle(hexToNum(lerpHex(from.far, to.far, t)), 0.55)
+    const strength = nightStrength(from.hour) * (1 - t) + nightStrength(to.hour) * t
+    if (!this.nightOverlay) {
+      this.nightOverlay = createNightOverlay(this, strength)
+    } else {
+      this.nightOverlay.setAlpha(strength)
+      this.nightOverlay.setVisible(strength > 0)
+    }
+  }
+
+  private buildMist(palette: Palette): void {
+    for (const band of this.mistBands) {
+      band.destroy()
+    }
+    this.mistBands = []
+    const widths = this.reducedMotion ? [3200] : [3600, 2800, 2000]
+    const alphas = this.reducedMotion ? [0.4] : [0.18, 0.28, 0.4]
+    for (let i = 0; i < widths.length; i += 1) {
+      const band = this.add
+        .rectangle(0, 540, widths[i], 1400, hexToNum(palette.fog), alphas[i])
+        .setOrigin(1, 0.5)
+        .setDepth(20 + i * 0.1)
+        .setScrollFactor(1)
+      this.mistBands.push(band)
+    }
+  }
+
+  private tintMist(fogHex: string): void {
+    const color = hexToNum(fogHex)
+    for (const band of this.mistBands) {
+      band.setFillStyle(color, band.alpha)
+    }
+  }
+
+  private tickLanternGlow(dt: number): void {
+    if (!this.lanternGlow) {
+      return
+    }
+    this.glowTimer = Math.max(0, this.glowTimer - dt)
+    if (this.glowTimer > 0) {
+      this.lanternGlow.setVisible(true)
+      this.lanternGlow.setPosition(this.player.x, this.player.y)
+      this.lanternGlow.setAlpha(Math.min(1, this.glowTimer / 0.35))
+    } else {
+      this.lanternGlow.setVisible(false)
     }
   }
 }

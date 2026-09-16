@@ -23,6 +23,17 @@ import {
   updateMovers,
   type MoverState,
 } from "./shared/moversHazards"
+import {
+  applySky,
+  createLanternGlow,
+  createNightOverlay,
+  createWeather,
+  getPalette,
+  hexToNum,
+  nightStrength,
+  storyEnvForLevel,
+  type WeatherHandle,
+} from "./shared/themeKit"
 
 type Hud = {
   hearts: HTMLElement
@@ -174,6 +185,9 @@ export class StoryScene extends Phaser.Scene {
   private maxHearts = 3
   private invuln = 0
   private playerState: PlayerState = createPlayerState()
+  private weather: WeatherHandle | null = null
+  private lanternGlow: Phaser.GameObjects.Image | null = null
+  private lanternGlowAlways = false
   private checkpoint: { x: number; y: number } | null = null
   private poolClaimed = false
   private won = false
@@ -317,10 +331,13 @@ export class StoryScene extends Phaser.Scene {
     this.worldWidth = world.width
     ensureStoryTextures(this)
 
-    const skyHex = def.sky ?? world.colors[0]?.color ?? "#c5d48a"
-    const skyNum = Number.parseInt(skyHex.replace("#", ""), 16)
+    const env = def.env ?? storyEnvForLevel(def.world, def.index, def.id)
+    const palette = { ...getPalette(env) }
+    if (def.sky) {
+      palette.sky = def.sky
+    }
     this.cameras.main.setBounds(0, 0, world.width, 1080)
-    this.cameras.main.setBackgroundColor(skyHex)
+    applySky(this, palette)
     this.physics.world.setBounds(0, -200, world.width, 1400, true, true, true, false)
     this.playerState.baseGravity = this.physics.world.gravity.y || 1200
     if (def.lowGravity) {
@@ -328,12 +345,15 @@ export class StoryScene extends Phaser.Scene {
       this.playerState.baseGravity = this.physics.world.gravity.y
     }
 
-    this.add.rectangle(world.width / 2, 540, world.width, 1080, skyNum).setDepth(-3)
-    const skyR = (skyNum >> 16) & 0xff
-    const skyG = (skyNum >> 8) & 0xff
-    const skyB = skyNum & 0xff
-    const skyBright = (skyR + skyG + skyB) / 3
-    if (skyBright >= 110) {
+    const reducedMotion = save.settings.accessibility.reducedMotion
+    this.weather = createWeather(this, palette.weather, world.width, reducedMotion)
+    createNightOverlay(this, nightStrength(palette.hour))
+    this.lanternGlowAlways = env === "lantern"
+    this.lanternGlow = createLanternGlow(this)
+    this.lanternGlow.setVisible(this.lanternGlowAlways)
+    this.lanternGlow.setAlpha(this.lanternGlowAlways ? 0.55 : 1)
+
+    if (nightStrength(palette.hour) <= 0) {
       this.add.rectangle(world.width / 2, 200, world.width, 220, 0xeaf3c8, 0.18).setDepth(-2)
       for (let i = 0; i < Math.ceil(world.width / 280); i += 1) {
         const cx = 140 + i * 280
@@ -373,7 +393,7 @@ export class StoryScene extends Phaser.Scene {
         this.platforms.add(block)
         ;(block.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject()
         this.add
-          .rectangle(rect.x + rect.w / 2, rect.y + 6, rect.w, 12, 0x7d9450)
+          .rectangle(rect.x + rect.w / 2, rect.y + 6, rect.w, 12, hexToNum(palette.ground))
           .setDepth(1.5)
       }
     }
@@ -1049,5 +1069,10 @@ export class StoryScene extends Phaser.Scene {
     updatePlayerMovement(this.player, input, this.playerState)
 
     updateEnemies(this, this.enemies, this.projectiles, this.platforms, this.player, dt)
+
+    this.weather?.update(dt, this.cameras.main.scrollX)
+    if (this.lanternGlow && (this.lanternGlowAlways || this.lanternGlow.visible)) {
+      this.lanternGlow.setPosition(this.player.x, this.player.y)
+    }
   }
 }

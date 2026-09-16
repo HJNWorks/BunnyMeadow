@@ -107,6 +107,7 @@ export class EndlessGenerator {
   private currentEnv: EndlessEnv = "meadow"
   private bandUntilM = 0
   private sameInARow = 1
+  private pendingBridge: ChunkDef | null = null
 
   constructor(public readonly seed: number, preset: string) {
     this.rng = mulberry32(seed)
@@ -173,8 +174,14 @@ export class EndlessGenerator {
     if (edge.to === this.currentEnv) {
       this.sameInARow += 1
     } else {
+      const from = this.currentEnv
       this.currentEnv = edge.to
       this.sameInARow = 1
+      const bridgeId = `bridge_${from}_${edge.to}`
+      const bridge = ENDLESS_CHUNKS.find((c) => c.id === bridgeId)
+      if (bridge) {
+        this.pendingBridge = bridge
+      }
     }
     this.bandUntilM = distanceM + this.drawBandLength()
   }
@@ -186,7 +193,9 @@ export class EndlessGenerator {
   }
 
   private candidates(env: EndlessEnv, tier: number): ChunkDef[] {
-    return ENDLESS_CHUNKS.filter((c) => c.endless?.env === env && c.endless?.tier === tier)
+    return ENDLESS_CHUNKS.filter(
+      (c) => c.endless?.env === env && c.endless?.tier === tier && !c.endless.bridgeTo,
+    )
   }
 
   private pick(env: EndlessEnv, tier: number): ChunkDef {
@@ -201,7 +210,11 @@ export class EndlessGenerator {
       }
     }
     const anyEnv = ENDLESS_CHUNKS.filter(
-      (c) => c.endless && c.endless.tier <= tier && c.id !== this.lastId,
+      (c) =>
+        c.endless &&
+        !c.endless.bridgeTo &&
+        c.endless.tier <= tier &&
+        c.id !== this.lastId,
     )
     if (anyEnv.length > 0) {
       return anyEnv[Math.floor(this.rng() * anyEnv.length)]
@@ -212,6 +225,13 @@ export class EndlessGenerator {
   next(distanceM: number): FilledChunk {
     if (distanceM >= this.bandUntilM) {
       this.stepRoute(distanceM)
+    }
+    if (this.pendingBridge) {
+      const bridge = this.pendingBridge
+      this.pendingBridge = null
+      this.produced += 1
+      this.lastId = bridge.id
+      return this.fill(bridge, bridge.endless?.env ?? this.currentEnv, 1)
     }
     let tier = this.tierForMeters(distanceM)
     this.produced += 1

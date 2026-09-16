@@ -35,6 +35,7 @@ export type StoryLevelDef = {
   lowGravity?: boolean
   epilogue?: boolean
   sky?: string
+  env?: string
   foxHu?: { startX: number; y: number; speed: number }
   boss?: StoryBossDef
   ride?: {

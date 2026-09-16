@@ -107,7 +107,12 @@ for (const file of files) {
     errors.push(`${label}: no exit pad (reaches x=${width}, w>=${ENTRY_PAD_MIN}, top=${meta.exitY})`)
   }
 
-  if (entry && exit) {
+  const isBridge = String(id).startsWith("bridge_")
+  if (isBridge && meta.bridgeTo && !ENVS.has(meta.bridgeTo)) {
+    errors.push(`${label}: bad bridgeTo "${meta.bridgeTo}"`)
+  }
+
+  if (entry && exit && !isBridge) {
     const entryNode = { left: entry.x, right: entry.x + entry.w, top: entry.y }
     const exitNode = { left: exit.x, right: exit.x + exit.w, top: exit.y }
     const targets = nodes.filter((n) => n !== undefined)
@@ -136,6 +141,10 @@ for (const file of files) {
     if (!solved) {
       errors.push(`${label}: no reachable path entry->exit within tier ${tier} limits`)
     }
+  }
+
+  if (isBridge) {
+    continue
   }
 
   for (const water of chunk.hazards ?? []) {

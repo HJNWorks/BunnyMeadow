@@ -65,6 +65,7 @@ export type ChunkEndlessMeta = {
   tier: number
   entryY: number
   exitY: number
+  bridgeTo?: EndlessEnv
 }
 
 export type ChunkDef = {

@@ -5,8 +5,8 @@ The player sets the pace under a difficulty-scaled mist wall that trails behind 
 speeds up with distance. Hub: [../../GDD.md](../../GDD.md). World model:
 [../../universe/README.md](../../universe/README.md).
 
-This page is the target design. Route, tier, and slot-fill axes are live (I1-I2). Skins
-and seed-entry UI remain planned. Gaps are what the later iterations in
+This page is the target design. Route, tier, slot-fill, and palette tints are live
+(I1-I3). Full skinnable layouts and seed-entry UI remain planned. Gaps are what the later iterations in
 [../../iterations/README.md](../../iterations/README.md) close.
 
 ## Problem this design fixes
@@ -20,7 +20,7 @@ Before I1, two facts made every run read the same:
    escalation. Enemies used to be baked into each chunk file.
 
 I1 replaced distance bands with a seeded route walker and tier jitter. I2 fills slots
-from biome rosters and item tables. Layout skins wait for I3.
+from biome rosters and item tables. I3 tints from palettes and queues bridge chunks.
 
 ## Three independent axes
 

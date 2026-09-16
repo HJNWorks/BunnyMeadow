@@ -89,7 +89,7 @@ JSON maps: obstacles, spawn points, safe zone, decorations. All four ids below s
 Endless reuses the environment kits. A seeded route walker (I1, live) holds each rung for a
 `bandMeters` band drawn from the difficulty, then steps to an adjacent biome. Tuning and the
 graph live in `src/data/endless.json`. Chunks live in `src/data/chunks/endless/` named
-`endless_<env>_t<tier>_<a|b>` (plus `endless_start`), tiers 1 (gentle) to 5 (double jump + dash
+`endless_<env>_t<tier>_<a|b>` (plus `endless_start` and `bridge_<from>_<to>`), tiers 1 (gentle) to 5 (double jump + dash
 gaps). See [universe/biome-graph.md](universe/biome-graph.md) and
 [modes/endless/design.md](modes/endless/design.md).
 
@@ -97,4 +97,5 @@ gaps). See [universe/biome-graph.md](universe/biome-graph.md) and
 
 ## Day / night and weather
 
-Story levels lock time of day per world. Meadow can offer day and dusk variants. Weather (pollen, drizzle, blossom fall, lantern ash) is a system flag on the env kit, not a separate engine.
+Story levels lock time of day per world. Palettes in `src/data/palettes.json` set hour and
+weather. Meadow arcade and Moon Tasks do not use that kit.

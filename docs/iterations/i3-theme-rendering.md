@@ -38,4 +38,9 @@ calls during a bridge, atlas memory during a fast route walk.
 
 ## Ship
 
-Build gate passes; ship to Pages; tag a minor version.
+In the tree on 0.1.0. No version tag until I4. Pages when asked.
+
+## Graduated (done)
+
+Palettes, weather, and night are live on Story and Endless. Bridges, sky lerp, and layered
+mist are Endless-only. Meadow and Tasks are unchanged.

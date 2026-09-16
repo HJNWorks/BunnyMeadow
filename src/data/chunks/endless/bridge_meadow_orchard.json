@@ -1,0 +1,33 @@
+{
+  "id": "bridge_meadow_orchard",
+  "width": 640,
+  "height": 1080,
+  "groundY": 980,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 980,
+      "w": 640,
+      "h": 100
+    },
+    {
+      "x": 220,
+      "y": 900,
+      "w": 200,
+      "h": 24
+    }
+  ],
+  "walls": [],
+  "enemies": [],
+  "carrots": [],
+  "enemySlots": [],
+  "itemSlots": [],
+  "endless": {
+    "env": "meadow",
+    "bridgeTo": "orchard",
+    "tier": 1,
+    "entryY": 980,
+    "exitY": 980
+  },
+  "color": "#c5d48a"
+}

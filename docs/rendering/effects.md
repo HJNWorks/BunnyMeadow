@@ -1,7 +1,8 @@
 # Rendering — Effects
 
 Weather, night lighting, and the mist wall. Each is a reusable system keyed off a biome or an
-hour, not a bespoke per-level effect. Hub: [README.md](README.md).
+hour, not a bespoke per-level effect. Hub: [README.md](README.md). Shared kit:
+`src/modes/story/shared/themeKit.ts` (I3, live on Story and Endless).
 
 ## Weather presets
 
@@ -50,8 +51,10 @@ The Endless chase is the signature effect. Design target:
   flash, so the player reads the reward ([../items/placement.md](../items/placement.md)).
 - A shader is optional and only if layered sprites underperform on a low-end Deck.
 
-The current build draws the fox chase marker in front of the mist with a fire trail (recent
-project history). The wall design above keeps that fox as the leading motif on the wall's edge.
+Endless draws two or three fog-coloured bands (one under reduced motion), the fox motif on
+the leading edge, and embers. A lantern pickup still pushes `chaseX` and starts a ~1.6 s
+additive glow on the player. Story Paper Lights uses a weaker constant glow. Meadow and Tasks
+are unchanged.
 
 ## Reduced motion summary
 

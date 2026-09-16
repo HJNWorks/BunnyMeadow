@@ -73,7 +73,8 @@ slots if the new fields are missing.
   match the archetype, it falls back to any roster creature for that biome.
 - Item slots roll against the biome table in `src/data/items.json`. `carrotChance` is the
   chance the slot fills at all. Empty rolls stay empty.
-- Skinnable layouts (one layout, many biomes) wait for I3.
+- I3 tints wash and grass from the biome palette. One layout serving many biomes is still
+  later.
 
 ## Planned extension: skinnable layouts
 

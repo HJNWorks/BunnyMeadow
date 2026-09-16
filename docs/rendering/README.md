@@ -16,26 +16,20 @@ reader knows what is settled. Hub: [../GDD.md](../GDD.md).
 
 | Decision | Where | Status |
 | --- | --- | --- |
-| Per-biome palette token set | [palettes.md](palettes.md) | decided (tokens named), values open |
-| Sky colour lerps across a bridge chunk | [palettes.md](palettes.md) | planned |
-| Weather as reusable particle presets | [effects.md](effects.md) | planned |
-| Night as a multiply overlay with light radii | [effects.md](effects.md) | planned |
-| Mist wall as layered scrolling sprites, shader optional | [effects.md](effects.md) | planned |
+| Per-biome palette token set | [palettes.md](palettes.md) | live (`palettes.json`) |
+| Sky colour lerps across a bridge chunk | [palettes.md](palettes.md) | live (Endless bridges) |
+| Weather as reusable particle presets | [effects.md](effects.md) | live (Story + Endless) |
+| Night as a multiply overlay with light radii | [effects.md](effects.md) | live (cheap overlay + lantern glow) |
+| Mist wall as layered scrolling sprites, shader optional | [effects.md](effects.md) | live (layered bands, no shader) |
 | Telegraph grammar: flash colour + pose hold + shadow line | [animation.md](animation.md) | decided |
 | Frame budgets per creature state | [animation.md](animation.md) | decided |
 | Squash/stretch and screen-shake budgets | [animation.md](animation.md) | decided |
 | Atlas and draw-call budgets | [performance.md](performance.md) | planned |
 
-## Open questions to resolve before art is final
+## Open questions that remain after I3
 
-- Whether biome palettes are authored as data (a `palettes.json`) or as constants next to
-  the environment kits. Leaning data, so a rung can be reskinned at runtime for Endless.
-- Whether the mist wall justifies a shader, or whether layered sprites read well enough on a
-  low-end Deck.
-- Whether night lighting is a real light system or a cheap multiply plus additive lantern
-  sprites. Leaning cheap.
-
-These graduate to decided in [../iterations/i3-theme-rendering.md](../iterations/i3-theme-rendering.md).
+- Whether the mist wall later needs a shader on a low-end Deck (layered rects are the live path).
+- Full skinnable layouts (one JSON, many biomes) still wait. I3 only tints from the palette.
 
 ## Pages
 

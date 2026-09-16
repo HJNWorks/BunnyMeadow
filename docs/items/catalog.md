@@ -53,7 +53,7 @@ starts the story ([../creatures/folk/wu-gang.md](../creatures/folk/wu-gang.md)).
 | --- | --- |
 | Category | run-buff |
 | Status | live |
-| Effect | Pushes the Endless mist wall back 80 m. Light radius waits for I3. |
+| Effect | Pushes the Endless mist wall back 80 m. About 1.6 s of additive lantern glow on the player. |
 | Duration | timed |
 | Home biomes | lantern, bamboo, burrow-tunnels |
 | Rarity | uncommon |

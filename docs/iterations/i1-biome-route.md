@@ -35,6 +35,4 @@ Seeds from 0.1.0 do not replay. The walker and jitter consume extra rng draws.
 
 ## Still later
 
-- Bridge chunks and the sky lerp (snap remains until I3).
-- Enemy and item slots (I2).
 - Tunnels, cloudsea, moon, and key-gated edges.

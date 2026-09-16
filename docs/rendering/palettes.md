@@ -2,7 +2,8 @@
 
 Every biome renders from the same six colour tokens, so a new rung is coherent by filling a
 table rather than hand-picking colours per level. Hub: [README.md](README.md). Biomes:
-[../universe/environments/](../universe/environments/).
+[../universe/environments/](../universe/environments/). Data: `src/data/palettes.json`.
+Code: `src/modes/story/shared/themeKit.ts` (Story and Endless).
 
 ## The token set
 
@@ -10,48 +11,34 @@ table rather than hand-picking colours per level. Hub: [README.md](README.md). B
 | --- | --- |
 | sky | the backdrop fill and the far gradient top |
 | far | distant parallax layer (hills, clouds, palace) |
-| mid | mid parallax layer (trees, stalls, stalks) |
-| ground | the platform and ground fill |
+| mid | mid parallax layer (trees, stalls, stalks) and Endless wash |
+| ground | the platform grass tint |
 | accent | props, pickups highlight, signage |
 | fog | the mist wall and any haze at this rung |
 
-## Current values
+Each live rung also stores `hour` (`afternoon` | `golden` | `dusk` | `night` | `deepNight` | `eternal`)
+and `weather` (a preset id). Tunnels and cloud-sea are omitted until those rungs have playable chunks.
 
-Only the sky token exists today, as `sky` in `src/data/endless.json`, plus a per-chunk
-`color` fallback. The rest are proposed and should move into a `palettes.json` so Endless can
-reskin a layout at runtime ([../modes/endless/chunk-contract.md](../modes/endless/chunk-contract.md)).
+## Live values (I3)
 
-| Biome | sky (today) | far | mid | ground | accent | fog |
-| --- | --- | --- | --- | --- | --- | --- |
-| burrow-tunnels | (none) | dark loam | root brown | packed earth | warm entrance glow | dust grey |
-| meadow | #c5d48a | soft hill green | grass green | earth | carrot orange | pale mist |
-| orchard | #b8c47a | golden hill | fruit-tree green | earth | apple red | warm haze |
-| bamboo | #5f7a52 | dusk ridge | bamboo green | shadowed earth | lantern amber | dusk grey |
-| riverbank | #6b94a0 | dusk water | reed green | mud | log brown | river mist |
-| lantern | #3d4560 | night hill | stall wood | cobble | lantern red-gold | night haze |
-| osmanthus | #40364a | peak silhouette | pine dark | rock | blossom gold | wind grey |
-| cloud-sea | (proposed) | star field | pale cloud | cloud shelf | moon silver | cloud white |
-| moon | (proposed) | star field | palace jade | moon grey | jade green | cold blue |
+Hex lives in `src/data/palettes.json`. Story may still override `sky` per level.
 
-Values above are descriptive placeholders. Concrete hex is authored in
-[../iterations/i3-theme-rendering.md](../iterations/i3-theme-rendering.md).
+| Biome | sky | far | mid | ground | accent | fog | hour | weather |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| meadow | #c5d48a | #b8c97a | #8fad5c | #6b5338 | #e07a32 | #d7e0c8 | afternoon | pollen |
+| orchard | #b8c47a | #c4b05a | #7a9a48 | #6a4e32 | #c44a3a | #e4d8b0 | golden | leaves |
+| bamboo | #5f7a52 | #4a6342 | #3d6a3a | #3a3228 | #d4a24a | #8a9a80 | dusk | leaves |
+| riverbank | #6b94a0 | #5a8490 | #6a8a62 | #4a3c30 | #8a6a48 | #b0c4c8 | dusk | drizzle |
+| lantern | #3d4560 | #2c3348 | #5a4638 | #3a322c | #e07040 | #5a5870 | night | fireflies |
+| osmanthus | #40364a | #322940 | #2a3828 | #3a3838 | #e8c45a | #6a6878 | deepNight | blossom |
+| moon | #151b2e | #1a2438 | #3a5a52 | #6a6e72 | #7ec8a0 | #3a4868 | eternal | blossom |
+
+Night overlay strength from hour: afternoon and golden 0, dusk 0.25, night 0.45, deepNight 0.55,
+eternal 0.5.
 
 ## Sky lerp across bridges
 
-At a biome change the sky should not snap. On a bridge chunk
-([../universe/biome-graph.md](../universe/biome-graph.md)) the sky and fog tokens lerp from
-the source biome's value on the left edge to the destination's on the right edge, driven by
-the player's x within the bridge. Today, with no bridges, Endless snaps the sky when the player enters a new rung
-(`getEnvKit`). I3 replaces that snap with a lerp on a bridge chunk.
-
-## Derivation from the five axes
-
-Palette is read off the altitude and hour axes ([../universe/README.md](../universe/README.md)):
-
-- Hour sets the sky and far brightness: afternoon and golden are warm and light, dusk cools,
-  night and deep night darken and shift blue.
-- Altitude sets the ground and mid content: underground loam, ground grass, hills bamboo,
-  town cobble, mountain rock, sky cloud, moon grey.
-- The accent is the biome's signature prop colour (carrot, apple, lantern, blossom).
-
-This keeps a new rung's palette a lookup, not a fresh art decision.
+On an Endless chunk whose `endless.bridgeTo` is set, camera sky, far wash, night overlay, and
+mist fog lerp from the source palette to the destination by the player's local x. Off a
+bridge, the kit snaps to the chunk the player is in. Story does not lerp. Meadow and Tasks
+do not use this kit.

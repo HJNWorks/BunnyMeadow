@@ -28,11 +28,9 @@ Code:
 
 - [../modes/endless/chunk-contract.md](../modes/endless/chunk-contract.md): slots and filler.
 - [../creatures/README.md](../creatures/README.md): biome rosters in `enemies.json`.
-- [../items/README.md](../items/README.md): mooncake, blossom, lantern (mist push, no light
-  radius yet).
+- [../items/README.md](../items/README.md): mooncake, blossom, lantern (mist push + glow).
 
 ## Still later
 
-- Skinnable layouts and palettes (I3).
-- Real lantern light radius (I3).
+- One layout serving many biomes.
 - Squirrel, heron, owl, cat, carp, bees, dew, moon letter.
