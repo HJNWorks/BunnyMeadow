@@ -239,6 +239,7 @@ web build before the desktop and store milestones resume.
 
 | Iteration | Theme | Summary |
 | --- | --- | --- |
+| I0 | Repo hygiene | done: proprietary LICENSE, CONTRIBUTING, CHANGELOG, expanded README, CI on PRs, Conventional Commits (commitlint + husky), `v0.1.0` tag. |
 | I1 | Biome route + shorter bands | Seeded route walker over the biome graph replaces fixed distance bands; tier jitter. Fixes "always the same pattern" and unreachable water. |
 | I2 | Creatures + items in data | Chunk enemy/item slots; per-biome rosters and item tables; first non-carrot items. |
 | I3 | Theme + rendering | palettes.json, sky lerp on bridge chunks, weather presets, cheap night lighting, layered mist wall. |
@@ -312,35 +313,42 @@ web-only. Keep the web build shipping in parallel; desktop is an additional targ
 
 ## Repo hygiene and workflow
 
-Practices to adopt now, while iterating on the web build, so desktop and store work later is clean.
-Assume PowerShell syntax for any local commands run on Windows.
+Established in iteration I0 so desktop and store work later is clean. Assume PowerShell syntax for
+any local commands run on Windows.
 
-### Versioning
+### Versioning (live)
 
-- Semantic versioning on `package.json` `version` (currently `0.1.0`), pre-1.0 while the game is in
+- Semantic versioning on `package.json` `version` (`0.1.0`), pre-1.0 while the game is in
   development: bump minor for new content or systems, patch for fixes and tuning.
-- Tag each Pages ship with `vX.Y.Z` (no tags exist yet). One tag per shipped iteration.
-- Keep a `CHANGELOG.md` (Keep a Changelog format) so each tag has human-readable notes. This also
-  seeds Steam patch notes later.
+- Tag each Pages ship with `vX.Y.Z`. `v0.1.0` marks the M0-M5 web build.
+- [CHANGELOG.md](../CHANGELOG.md) (Keep a Changelog format) records each tag. This also seeds
+  Steam patch notes later.
 
-### GitHub workflows
+### GitHub workflows (live)
 
-- Existing: `.github/workflows/pages.yml` builds and deploys on push to `main`.
-- Add a `ci.yml` that runs on pull requests and on `main`: `npm ci` then `npm run build` (which
-  already chains `check:path`, `check:jumps`, `check:endless`, `tsc --noEmit`, `vite build`). This
-  makes the build gate a required check, not only a deploy step.
-- Add a `release.yml` (later, at M6) for the desktop build matrix and artifact upload.
-- Consider a lightweight lint/format step (Prettier or Biome) in `ci.yml` so style is enforced, not
-  argued.
+- `.github/workflows/pages.yml` builds and deploys on push to `main` (deploy job).
+- `.github/workflows/ci.yml` runs on pull requests and on `main`: `npm ci` then `npm run build`
+  (which chains `check:path`, `check:jumps`, `check:endless`, `tsc --noEmit`, `vite build`), plus a
+  commitlint check on PR commits. The build gate is now a required check, not only a deploy step.
+- Still planned: a `release.yml` at M6 for the desktop build matrix and artifact upload; a
+  lightweight lint/format step (Prettier or Biome) if style needs enforcing.
 
-### Standardized commit messages
+### Standardized commit messages (live)
 
-- Adopt Conventional Commits: `type(scope): summary`, for example `feat(endless): seeded biome route`,
+- Conventional Commits: `type(scope): summary`, for example `feat(endless): seeded biome route`,
   `fix(endless): start input bus so keys move the rabbit`, `docs(universe): add biome graph`.
 - Types: `feat`, `fix`, `docs`, `refactor`, `perf`, `chore`, `build`, `ci`.
 - Scopes track the code map: `meadow`, `story`, `tasks`, `endless`, `core`, `data`, `render`, `ci`,
   `docs`.
-- This makes minor-versus-patch bumps and changelog generation mechanical.
+- Enforced by [commitlint.config.js](../commitlint.config.js): locally through a husky `commit-msg`
+  hook, and in CI on PRs. See [CONTRIBUTING.md](../CONTRIBUTING.md).
+
+### Licensing and contributing (live)
+
+- [LICENSE](../LICENSE): source-available, all rights reserved, contributions assigned to the
+  project. Compatible with a later paid Steam build.
+- [CONTRIBUTING.md](../CONTRIBUTING.md) and [.github/pull_request_template.md](../.github/pull_request_template.md)
+  cover the branch/PR flow, commit standard, and contribution terms.
 
 ### Branch and PR flow
 
@@ -364,4 +372,4 @@ Assume PowerShell syntax for any local commands run on Windows.
 
 ## Suggested next coding session
 
-Endless is live (chunk-streamed runner with a chase wall and local leaderboard) but every run reads the same and later biomes are unreachable. Next is iteration [I1](iterations/i1-biome-route.md): replace the fixed distance bands with a seeded route walker and add tier jitter, so runs vary by seed and reach water early. Then I2 (creatures and items in data), I3 (theme and rendering), I4 (audio and i18n). Desktop and store milestones (M6–M8) resume after that. Adopt the repo hygiene above (semver tags, CI on PRs, Conventional Commits) starting with I1.
+Repo hygiene is in place (I0): LICENSE, CONTRIBUTING, CHANGELOG, CI on PRs, Conventional Commits, `v0.1.0`. Use Conventional Commits from here on. Next is iteration [I1](iterations/i1-biome-route.md): replace the fixed distance bands with a seeded route walker and add tier jitter, so runs vary by seed and reach water early. Then I2 (creatures and items in data), I3 (theme and rendering), I4 (audio and i18n). Desktop and store milestones (M6–M8) resume after that.
