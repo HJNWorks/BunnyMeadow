@@ -6,6 +6,7 @@ import { getInput } from "../../core/input"
 import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
 import { getPlatform } from "../../core/platform"
+import { drawBunny } from "../../render/drawBunny"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
 import { ControlCoach, CONTROL_COACH_CSS, type CoachAction } from "../../ui/ControlCoach"
 
@@ -383,7 +384,8 @@ export class StoryScene extends Phaser.Scene {
     const spawnY = def.playerSpawn.y
     this.checkpoint = { x: spawnX, y: spawnY }
 
-    this.player = this.physics.add.sprite(spawnX, spawnY, "story_bunny")
+    const playerTexture = this.textures.exists("story_player") ? "story_player" : "story_bunny"
+    this.player = this.physics.add.sprite(spawnX, spawnY, playerTexture)
     this.player.setDisplaySize(48, 56)
     this.player.setCollideWorldBounds(true)
     this.player.setBounce(0)
@@ -619,6 +621,24 @@ export class StoryScene extends Phaser.Scene {
       g.fillCircle(27, 24, 2.5)
       g.generateTexture("story_bunny", 40, 48)
       g.destroy()
+    }
+
+    const save = getSave()
+    const playerKey = "story_player"
+    if (this.textures.exists(playerKey)) {
+      this.textures.remove(playerKey)
+    }
+    const canvas = document.createElement("canvas")
+    canvas.width = 64
+    canvas.height = 72
+    const ctx = canvas.getContext("2d")
+    if (ctx) {
+      drawBunny(ctx, 32, 40, {
+        fur: save.player.fur,
+        ears: save.player.ears,
+        accessory: save.player.accessory,
+      })
+      this.textures.addCanvas(playerKey, canvas)
     }
 
     if (!this.textures.exists("story_ground")) {
@@ -1269,10 +1289,11 @@ export class StoryScene extends Phaser.Scene {
     if (input.dashPressed && this.dashCooldown <= 0) {
       this.dashTime = 0.16
       this.dashCooldown = getDifficulty(getSave()).dashCooldown * 0.7
-      this.player.setVelocityX(this.facing * 520)
     }
 
-    if (this.dashTime <= 0) {
+    if (this.dashTime > 0) {
+      this.player.setVelocityX(this.facing * 520)
+    } else {
       this.player.setVelocityX(vx)
     }
 

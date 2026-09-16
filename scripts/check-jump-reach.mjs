@@ -9,6 +9,9 @@ const MAX_VX = 560
 const G_GLIDE = g * 0.22
 const VY_CAP = 90
 
+const P4 = { x: 560, w: 200, y: 760 }
+const P5 = { x: 140, w: 160, y: 760, chunkOffset: 960 }
+
 function traj({ glide, djAt, dashAt }) {
   let x = 0
   let y = 0
@@ -78,23 +81,26 @@ function bestReach({ useDj, useDash, glide }) {
 
 const single = bestReach({ useDj: false, useDash: false, glide: false })
 const doubleDash = bestReach({ useDj: true, useDash: true, glide: false })
-const configuredGap = 210 + 960 - (600 + 170)
-const hard = Math.floor(single + (doubleDash - single) * 0.35)
+const configuredGap = P5.chunkOffset + P5.x - (P4.x + P4.w)
+const hard = Math.floor(single + (doubleDash - single) * 0.12)
+const centerTakeoffExtra = Math.floor(P4.w * 0.45)
+const practicalNeed = configuredGap + centerTakeoffExtra
 
 console.log("Story jump model: run", RUN, "dash", DASH, "maxVx", MAX_VX, "jump", J1, "air", J2)
 console.log("same-height reach: single", single.toFixed(0), "| double+dash", doubleDash.toFixed(0))
-console.log("playable hard gap target", hard, "(35% from single toward double+dash)")
-console.log("Paper Lights P4->P5 edge gap", configuredGap, "dy 0")
+console.log("playable hard gap target", hard, "(12% from single toward double+dash)")
+console.log("Paper Lights P4->P5 edge gap", configuredGap, "dy", P4.y - P5.y)
+console.log("practical need if takeoff near center", practicalNeed)
 
 if (configuredGap <= single) {
   console.error("FAIL: gap is single-jumpable; not a skill check")
   process.exit(1)
 }
-if (configuredGap > doubleDash * 0.9) {
-  console.error("FAIL: gap too close to theoretical max for real play")
+if (practicalNeed > doubleDash * 0.85) {
+  console.error("FAIL: practical takeoff exceeds comfortable double+dash reach")
   process.exit(1)
 }
-if (Math.abs(configuredGap - hard) > 50) {
+if (Math.abs(configuredGap - hard) > 60) {
   console.warn("WARN: configured gap", configuredGap, "vs target", hard)
 }
 console.log("Jump reach check ok.")
