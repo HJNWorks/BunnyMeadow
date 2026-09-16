@@ -157,9 +157,8 @@ export class StoryScene extends Phaser.Scene {
   private bossHits = 0
   private bossNeeded = 0
   private bossCooldown = 0
-  private heronPerchY = 910
-  private heronMinX = 1680
-  private heronMaxX = 1900
+  private heronFlyY = 700
+  private worldWidth = 1920
   private cranePhase: "dive" | "bow" | "done" = "dive"
   private craneDives = 0
   private epilogueStep = 0
@@ -220,9 +219,8 @@ export class StoryScene extends Phaser.Scene {
     this.bossHits = 0
     this.bossNeeded = 0
     this.bossCooldown = 0
-    this.heronPerchY = 910
-    this.heronMinX = 1680
-    this.heronMaxX = 1900
+    this.heronFlyY = 700
+    this.worldWidth = 1920
     this.cranePhase = "dive"
     this.craneDives = 0
     this.epilogueStep = 0
@@ -317,6 +315,7 @@ export class StoryScene extends Phaser.Scene {
 
     const assembler = new ChunkAssembler()
     const world = assembler.assemble(def.chunks)
+    this.worldWidth = world.width
     this.ensureStoryTextures()
 
     const skyHex = def.sky ?? world.colors[0]?.color ?? "#c5d48a"
@@ -517,11 +516,9 @@ export class StoryScene extends Phaser.Scene {
 
     if (def.boss?.kind === "heron") {
       this.bossNeeded = def.boss.hitsNeeded ?? 3
-      const hx = def.boss.x ?? 1780
-      const hy = def.boss.y ?? 910
-      this.heronPerchY = hy
-      this.heronMinX = hx - 100
-      this.heronMaxX = hx + 120
+      const hx = def.boss.x ?? 700
+      const hy = def.boss.y ?? 700
+      this.heronFlyY = hy
       this.bossSprite = this.physics.add.sprite(hx, hy, "story_heron")
       this.bossSprite.setDisplaySize(64, 72)
       this.bossSprite.setData("archetype", "heron_boss")
@@ -530,8 +527,8 @@ export class StoryScene extends Phaser.Scene {
       const heronBody = this.bossSprite.body as Phaser.Physics.Arcade.Body
       heronBody.setAllowGravity(false)
       heronBody.setGravity(0, 0)
-      heronBody.setSize(48, 56)
-      heronBody.setOffset(8, 8)
+      heronBody.setSize(this.bossSprite.frame.width, this.bossSprite.frame.height)
+      heronBody.updateFromGameObject()
       this.enemies.add(this.bossSprite)
       this.hud.bossHits.hidden = false
       this.syncBossHits()
@@ -917,14 +914,20 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private tryHitHeron(): void {
-    if (!this.bossSprite || this.bossCooldown > 0 || this.won) {
+    if (!this.bossSprite || this.won) {
       return
     }
     if (this.bossSprite.getData("archetype") === "heron_done") {
       return
     }
     if (this.dashTime <= 0) {
-      this.hurt()
+      if (this.bossCooldown <= 0) {
+        this.bossCooldown = 0.85
+        this.hurt()
+      }
+      return
+    }
+    if (this.bossCooldown > 0) {
       return
     }
     this.bossHits += 1
@@ -949,22 +952,25 @@ export class StoryScene extends Phaser.Scene {
       const body = this.bossSprite.body as Phaser.Physics.Arcade.Body
       body.setAllowGravity(false)
       body.setGravity(0, 0)
-      this.bossSprite.y = this.heronPerchY
       if (this.bossSprite.getData("archetype") === "heron_done") {
         this.bossSprite.setVelocity(0, 0)
         return
       }
+      const bob = Math.sin(this.time.now / 380) * 36
+      const targetY = this.heronFlyY + bob
       const dx = this.player.x - this.bossSprite.x
-      const chase = Math.abs(dx) > 28 ? Math.sign(dx) * 70 : 0
-      this.bossSprite.setVelocityX(chase)
-      this.bossSprite.x = Phaser.Math.Clamp(this.bossSprite.x, this.heronMinX, this.heronMaxX)
-      this.bossSprite.y = this.heronPerchY
+      const dy = targetY - this.bossSprite.y
+      const chaseX = Math.abs(dx) > 20 ? Math.sign(dx) * 140 : 0
+      const chaseY = Math.abs(dy) > 8 ? Math.sign(dy) * 55 : 0
+      this.bossSprite.setVelocity(chaseX, chaseY)
+      this.bossSprite.x = Phaser.Math.Clamp(this.bossSprite.x, 80, this.worldWidth - 80)
+      this.bossSprite.y = Phaser.Math.Clamp(this.bossSprite.y, 520, 920)
       body.updateFromGameObject()
       if (
         this.dashTime > 0 &&
         this.bossCooldown <= 0 &&
-        Math.abs(this.player.x - this.bossSprite.x) < 70 &&
-        Math.abs(this.player.y - this.bossSprite.y) < 80
+        Math.abs(this.player.x - this.bossSprite.x) < 90 &&
+        Math.abs(this.player.y - this.bossSprite.y) < 100
       ) {
         this.tryHitHeron()
       }

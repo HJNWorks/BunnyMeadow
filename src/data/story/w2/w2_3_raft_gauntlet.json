@@ -4,16 +4,16 @@
   "index": 3,
   "name": "Raft Gauntlet",
   "chunks": ["chunk_raft_a", "chunk_raft_b"],
-  "playerSpawn": { "x": 100, "y": 900 },
-  "moonPool": { "chunk": 0, "x": 120, "y": 920 },
-  "exit": { "chunk": 1, "x": 860, "y": 948 },
+  "playerSpawn": { "x": 120, "y": 860 },
+  "moonPool": { "chunk": 0, "x": 120, "y": 870 },
+  "exit": { "chunk": 1, "x": 860, "y": 870 },
   "moonLine": "The heron watches the silver current. Soft dash, soft win.",
-  "objective": "Dash the Heron Fisher three times. Reach the far bank.",
+  "objective": "Dash the flying Heron Fisher three times, then hop the burrow log.",
   "sky": "#4f7684",
   "boss": {
     "kind": "heron",
     "hitsNeeded": 3,
-    "x": 1780,
-    "y": 910
+    "x": 700,
+    "y": 700
   }
 }
