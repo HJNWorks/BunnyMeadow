@@ -150,7 +150,7 @@ const WORLDS: StoryWorldNode[] = [
     status: "live",
     stationIds: ["w0_setting", "w0_lore_moon", "w0_controls"],
     x: 12,
-    y: 72,
+    y: 78,
   },
   {
     id: "w1",

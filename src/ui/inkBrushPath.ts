@@ -50,18 +50,24 @@ export function buildInkBrushSvg(points: InkPoint[], opts: InkBrushOptions = {})
 
   const start = points[0]
   const end = points[points.length - 1]
+  const bx = start.x - 8
+  const by = start.y - 78
   const sprout = `
-    <g fill="${ink}" opacity="0.88">
-      <ellipse cx="${start.x}" cy="${start.y + 14}" rx="26" ry="10" opacity="0.32"/>
-      <path d="M${start.x} ${start.y + 8}
-        C ${start.x - 6} ${start.y - 4}, ${start.x - 14} ${start.y - 18}, ${start.x - 10} ${start.y - 28}
-        C ${start.x - 2} ${start.y - 18}, ${start.x + 2} ${start.y - 8}, ${start.x} ${start.y + 8} Z"/>
-      <path d="M${start.x} ${start.y + 4}
-        C ${start.x + 8} ${start.y - 6}, ${start.x + 16} ${start.y - 16}, ${start.x + 12} ${start.y - 26}
-        C ${start.x + 4} ${start.y - 14}, ${start.x - 1} ${start.y - 4}, ${start.x} ${start.y + 4} Z"/>
+    <g class="story-ink-burrow" pointer-events="none" aria-hidden="true">
+      <ellipse cx="${bx}" cy="${by + 28}" rx="38" ry="14" fill="#5c6b3a" opacity="0.28"/>
+      <ellipse cx="${bx}" cy="${by + 18}" rx="34" ry="20" fill="#6a5538"/>
+      <ellipse cx="${bx}" cy="${by + 14}" rx="22" ry="14" fill="#2a2218"/>
+      <ellipse cx="${bx}" cy="${by + 2}" rx="13" ry="12" fill="#fffaf0"/>
+      <ellipse cx="${bx - 9}" cy="${by - 14}" rx="5" ry="12" fill="#fffaf0" transform="rotate(-16 ${bx - 9} ${by - 14})"/>
+      <ellipse cx="${bx + 9}" cy="${by - 16}" rx="5" ry="13" fill="#fffaf0" transform="rotate(12 ${bx + 9} ${by - 16})"/>
+      <ellipse cx="${bx - 9}" cy="${by - 13}" rx="2" ry="7" fill="#e8b3a6" transform="rotate(-16 ${bx - 9} ${by - 13})"/>
+      <ellipse cx="${bx + 9}" cy="${by - 15}" rx="2" ry="8" fill="#e8b3a6" transform="rotate(12 ${bx + 9} ${by - 15})"/>
+      <circle cx="${bx - 4}" cy="${by}" r="1.6" fill="#3d4934"/>
+      <circle cx="${bx + 4}" cy="${by}" r="1.6" fill="#3d4934"/>
+      <ellipse cx="${bx}" cy="${by + 4}" rx="2" ry="1.4" fill="#db9f98"/>
     </g>`
   const moon = `
-    <g>
+    <g class="story-ink-moon" pointer-events="none">
       <circle cx="${end.x}" cy="${end.y}" r="34" fill="#fff6c8" stroke="#d7b45a" stroke-width="2.5"/>
       <circle cx="${end.x + 10}" cy="${end.y - 6}" r="10" fill="#f0e2a8" opacity="0.55"/>
       <text x="${end.x}" y="${end.y + 54}" text-anchor="middle" fill="${ink}" font-size="17" font-family="Georgia, serif" opacity="0.72">月亮</text>
