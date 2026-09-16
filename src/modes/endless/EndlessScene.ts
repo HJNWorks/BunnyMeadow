@@ -30,6 +30,14 @@ import {
   type MoverState,
 } from "../story/shared/moversHazards"
 
+type Ember = {
+  sprite: Phaser.GameObjects.Image
+  vx: number
+  vy: number
+  life: number
+  maxLife: number
+}
+
 type Segment = {
   originX: number
   width: number
@@ -155,7 +163,9 @@ export class EndlessScene extends Phaser.Scene {
   private distanceM = 0
   private chaseX = 0
   private chaseFog: Phaser.GameObjects.Rectangle | null = null
-  private chaseFace: Phaser.GameObjects.Ellipse | null = null
+  private chaseFox: Phaser.GameObjects.Image | null = null
+  private embers: Ember[] = []
+  private emberTimer = 0
 
   private health = 3
   private maxHearts = 3
@@ -331,12 +341,15 @@ export class EndlessScene extends Phaser.Scene {
     }
 
     this.chaseX = this.spawnX - 700
+    this.embers = []
+    this.emberTimer = 0
     this.chaseFog = this.add
-      .rectangle(0, 540, 4000, 1400, 0x241a2e, 0.55)
+      .rectangle(0, 540, 4000, 1400, 0x3a140c, 0.42)
       .setOrigin(1, 0.5)
       .setDepth(20)
       .setScrollFactor(1)
-    this.chaseFace = this.add.ellipse(0, 520, 60, 46, 0xd05a3a, 0.9).setDepth(21)
+    this.chaseFox = this.add.image(0, 520, "chase_fox").setDepth(22)
+    this.chaseFox.setDisplaySize(118, 62)
 
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12)
     this.cameras.main.setDeadzone(120, 80)
@@ -374,10 +387,10 @@ export class EndlessScene extends Phaser.Scene {
     }
     requireEl<HTMLButtonElement>(root, "[data-ui=pauseBtn]").onclick = () => this.setPaused(true)
     requireEl<HTMLButtonElement>(root, "[data-ui=resume]").onclick = () => this.setPaused(false)
-    requireEl<HTMLButtonElement>(root, "[data-ui=quit]").onclick = () => this.scene.restart()
+    requireEl<HTMLButtonElement>(root, "[data-ui=quit]").onclick = () => this.returnToLobby()
     requireEl<HTMLButtonElement>(root, "[data-ui=retry]").onclick = () =>
-      this.scene.restart({ autoStart: true })
-    requireEl<HTMLButtonElement>(root, "[data-ui=toLobby]").onclick = () => this.scene.restart()
+      this.scene.start("Endless", { autoStart: true })
+    requireEl<HTMLButtonElement>(root, "[data-ui=toLobby]").onclick = () => this.returnToLobby()
     requireEl<HTMLButtonElement>(root, "[data-ui=toModes]").onclick = () =>
       this.scene.start("ModeSelect")
   }
@@ -530,6 +543,17 @@ export class EndlessScene extends Phaser.Scene {
     this.invuln = 1.2
   }
 
+  private returnToLobby(): void {
+    this.paused = false
+    this.ended = false
+    this.state = "lobby"
+    if (this.physics?.world) {
+      this.physics.world.isPaused = false
+    }
+    getInput().stop()
+    this.scene.start("Endless")
+  }
+
   private setPaused(value: boolean): void {
     if (this.state !== "playing" && value) {
       return
@@ -671,12 +695,43 @@ export class EndlessScene extends Phaser.Scene {
     if (this.chaseFog) {
       this.chaseFog.setPosition(this.chaseX, 540)
     }
-    if (this.chaseFace) {
-      this.chaseFace.setPosition(this.chaseX - 30, this.player.y)
+    const foxY = this.player.y + 6
+    if (this.chaseFox) {
+      this.chaseFox.setPosition(this.chaseX - 28, foxY)
     }
+    this.spawnEmbers(dt, foxY)
     const playerLeft = (this.player.body as Phaser.Physics.Arcade.Body).left
     if (this.chaseX >= playerLeft) {
       this.endRun("The mist catches your paws.")
+    }
+  }
+
+  private spawnEmbers(dt: number, foxY: number): void {
+    this.emberTimer += dt
+    while (this.emberTimer > 0.028) {
+      this.emberTimer -= 0.028
+      const ember = this.add.image(this.chaseX - 70 - Math.random() * 24, foxY + (Math.random() - 0.4) * 28, "chase_ember")
+      ember.setDepth(21)
+      ember.setScale(0.7 + Math.random() * 0.8)
+      this.embers.push({
+        sprite: ember,
+        vx: -80 - Math.random() * 140,
+        vy: (Math.random() - 0.6) * 50,
+        life: 0.45 + Math.random() * 0.35,
+        maxLife: 0.8,
+      })
+    }
+    for (let i = this.embers.length - 1; i >= 0; i -= 1) {
+      const ember = this.embers[i]
+      ember.life -= dt
+      ember.sprite.x += ember.vx * dt
+      ember.sprite.y += ember.vy * dt
+      ember.sprite.setAlpha(Math.max(0, ember.life / ember.maxLife))
+      ember.sprite.setScale(Math.max(0.2, ember.sprite.scale * (1 - dt * 1.4)))
+      if (ember.life <= 0) {
+        ember.sprite.destroy()
+        this.embers.splice(i, 1)
+      }
     }
   }
 
