@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import { getSave, persistSave } from "../../core/session"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
+import { buildInkBrushSvg, inkProgressForWorlds } from "../../ui/inkBrushPath"
 import {
   defaultExpandedWorld,
   getStation,
@@ -27,7 +28,27 @@ const PATH_CSS = `
     linear-gradient(160deg, #e7f0c8 0%, #d5e3a8 42%, #c5d48a 100%);
   min-height: 420px;
 }
-.story-path-svg { width: 100%; height: 420px; display: block; }
+.story-path-svg, .story-ink-svg { width: 100%; height: 420px; display: block; }
+.story-ink-drawn .story-ink-stroke {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: story-ink-draw 1.6s ease forwards;
+}
+.story-ink-drawn .story-ink-ribbon {
+  opacity: 0;
+  animation: story-ink-fade 1.2s ease 0.2s forwards;
+}
+.story-ink-ghost { pointer-events: none; }
+@keyframes story-ink-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes story-ink-fade {
+  to { opacity: 0.18; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-ink-drawn .story-ink-stroke,
+  .story-ink-drawn .story-ink-ribbon { animation: none; stroke-dashoffset: 0; opacity: 0.18; }
+}
 .story-path-node {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -42,6 +63,7 @@ const PATH_CSS = `
   text-align: left;
   cursor: pointer;
   box-shadow: 0 8px 18px #2a3d2418;
+  z-index: 2;
 }
 .story-path-node strong { display:block; font-size: 14px; margin-bottom: 2px; }
 .story-path-node span { display:block; font-size: 11px; color: #71816e; line-height: 1.3; }
@@ -103,6 +125,19 @@ export class WorldMapScene extends Phaser.Scene {
     this.expanded = defaultExpandedWorld(save)
 
     const worlds = listWorlds()
+    const inkPoints = worlds.map((world) => ({
+      x: (world.x / 100) * 1000,
+      y: (world.y / 100) * 420,
+    }))
+    const progress = inkProgressForWorlds(worlds, (id) => isWorldUnlocked(save, id as StoryWorldId))
+    const inkSvg = buildInkBrushSvg(inkPoints, {
+      progress,
+      feathers: 5,
+      seed: 11,
+      ink: "#2c3a28",
+      ghostInk: "#6f804844",
+    })
+
     const nodes = worlds
       .map((world) => {
         const unlocked = isWorldUnlocked(save, world.id)
@@ -136,6 +171,7 @@ export class WorldMapScene extends Phaser.Scene {
         <h1>Burrow to Moon</h1>
         <p class="bm-tagline" data-ui="pathTagline">Follow the blossoms. Expand a world to open its stations.</p>
         <div class="story-path-frame">
+<<<<<<< HEAD
           <svg class="story-path-svg" viewBox="0 0 1000 420" aria-hidden="true">
             <!-- Soft wash underlay - layered strokes for ink wash feel -->
             <path d="M78 322 C 218 302, 278 252, 358 232 S 518 182, 618 142 S 778 92, 898 72"
@@ -170,6 +206,9 @@ export class WorldMapScene extends Phaser.Scene {
             <circle cx="80" cy="320" r="18" fill="#6a5538"/>
             <ellipse cx="80" cy="332" rx="34" ry="12" fill="#4a3828" opacity="0.55"/>
           </svg>
+=======
+          ${inkSvg}
+>>>>>>> 39d8dc0 (Draw the story path as calligraphy ink brush strokes.)
           ${nodes}
         </div>
         <div class="story-path-rail" data-ui="rail"></div>
