@@ -169,7 +169,7 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Dusk water and tall green walls.",
     status: "live",
     stationIds: ["w2_1_green_corridor", "w2_2_floating_logs", "w2_3_raft_gauntlet"],
-    x: 48,
+    x: 46,
     y: 46,
   },
   {
@@ -179,8 +179,8 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Festival lights and a tiger road.",
     status: "live",
     stationIds: ["w3_1_paper_lights", "w3_2_tiger_road", "w3_3_crane_summit"],
-    x: 64,
-    y: 32,
+    x: 62,
+    y: 34,
   },
   {
     id: "moon",
@@ -189,8 +189,8 @@ const WORLDS: StoryWorldNode[] = [
     tagline: "Quiet moon garden. Yue waits under the tree.",
     status: "live",
     stationIds: ["moon_guanghan"],
-    x: 76,
-    y: 22,
+    x: 86,
+    y: 20,
   },
 ]
 

@@ -49,7 +49,6 @@ export function buildInkBrushSvg(points: InkPoint[], opts: InkBrushOptions = {})
   const restGroup = rest.length >= 2 ? featherGroup(rest, feathers, seed + 19, ghostInk, 0.5) : ""
 
   const start = points[0]
-  const end = points[points.length - 1]
   const bx = start.x - 8
   const by = start.y - 78
   const sprout = `
@@ -66,8 +65,8 @@ export function buildInkBrushSvg(points: InkPoint[], opts: InkBrushOptions = {})
       <circle cx="${bx + 4}" cy="${by}" r="1.6" fill="#3d4934"/>
       <ellipse cx="${bx}" cy="${by + 4}" rx="2" ry="1.4" fill="#db9f98"/>
     </g>`
-  const moonX = Math.min(width - 52, end.x + 78)
-  const moonY = Math.max(48, end.y - 6)
+  const moonX = width - 46
+  const moonY = 52
   const moon = `
     <g class="story-ink-moon" pointer-events="none">
       <circle cx="${moonX}" cy="${moonY}" r="36" fill="#fff6c8" stroke="#d7b45a" stroke-width="2.5"/>
