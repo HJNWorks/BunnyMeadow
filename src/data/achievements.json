@@ -6,6 +6,7 @@
     { "id": "WORLD1_CLEAR", "name": "Hedgerow Hopper", "description": "Clear Story World 1." },
     { "id": "WORLD2_CLEAR", "name": "Bamboo Runner", "description": "Clear Story World 2." },
     { "id": "WORLD3_CLEAR", "name": "Lantern Climber", "description": "Clear Story World 3." },
+    { "id": "WORLD4_CLEAR", "name": "Cloud Step", "description": "Clear Story World 4." },
     { "id": "MOON_RETURN", "name": "Moon Return", "description": "Finish the moon finale." },
     { "id": "FOX_FOILED", "name": "Fox Foiled", "description": "Beat Fox Hu cart chase." },
     { "id": "CRANE_FRIEND", "name": "Crane Friend", "description": "Resolve the Crane Envoy fight." },

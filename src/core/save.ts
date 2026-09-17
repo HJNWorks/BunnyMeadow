@@ -49,6 +49,7 @@ export type SaveV1 = {
     fur: FurOption
     ears: EarsOption
     accessory: AccessoryOption
+    equippedDash: string
   }
   settings: {
     difficulty: DifficultyId
@@ -110,6 +111,7 @@ export function createDefaultSave(slot = 0): SaveV1 {
       fur: "cream",
       ears: "upright",
       accessory: "none",
+      equippedDash: "meadow",
     },
     settings: {
       difficulty: "hopper",
@@ -246,6 +248,9 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
       merged.progress.endlessBest = 0
     }
     merged.settings.audio.muted = merged.settings.audio.muted === true
+    if (typeof merged.player.equippedDash !== "string" || !merged.player.equippedDash) {
+      merged.player.equippedDash = "meadow"
+    }
     const cleared = merged.progress.story.cleared
     const hasW1Progress = cleared.some((id) => typeof id === "string" && id.startsWith("w1_"))
     if (hasW1Progress) {

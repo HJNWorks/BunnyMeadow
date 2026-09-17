@@ -13,6 +13,13 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Dash cosmetic on Customize next to fur, ears, and accessory (`meadow`, `carrot`, `gale`,
+  `moon`). Looks are visual only (stretch, afterimages, particles) and unlock with
+  achievements. `WORLD4_CLEAR` on Closing Gale. Story map editor Phase A slice: selectable
+  hedges, palette/weather/water/sky, meadow-native critters. Dash look editor and asset
+  workshop in Settings. Local Vite write-back to `src/data` while `npm run dev` is running.
+  Editor contract: `docs/editor/README.md`.
+
 - Guanghan boss Han: duck under roofs, eat a mooncake for a timed warmth buff, dash to
   clear five spirit hearts. Han roams the sky and aims frost/star fans at Mei. Shared
   top-right item tray for timed buffs (Story warmth, Endless lantern glow). Boss loop

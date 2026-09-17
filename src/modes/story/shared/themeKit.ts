@@ -30,6 +30,29 @@ type Speck = {
 
 const PALETTES = palettesData as Record<string, Palette>
 
+export function listPaletteIds(): string[] {
+  return Object.keys(PALETTES)
+}
+
+export const WEATHER_PRESETS: WeatherPreset[] = [
+  "pollen",
+  "leaves",
+  "drizzle",
+  "fireflies",
+  "lanternAsh",
+  "blossom",
+  "snow",
+]
+
+export const PALETTE_HOURS: PaletteHour[] = [
+  "afternoon",
+  "golden",
+  "dusk",
+  "night",
+  "deepNight",
+  "eternal",
+]
+
 const NIGHT_STRENGTH: Record<PaletteHour, number> = {
   afternoon: 0,
   golden: 0,

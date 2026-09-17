@@ -69,7 +69,7 @@ Story and Endless keep the Phaser canvas inside a letterbox between the HTML bar
 - Accessibility toggles (see [GDD.md](GDD.md))
 - Language: EN, DE, ZH-Hans (`t(key)` from M1)
 - Fullscreen and resolution (desktop)
-- Story map editor (`contentFlags.storyMapEditor`, default on). Lists every playable Story station from `listStoryLevels()` (Soft Paws, Worlds 1-4, Guanghan). Meadow and Endless stay out. **Play** opens Story with fail-off (no retry overlay from falls, water, gale, or empty hearts). **Build** drags platforms, walls, bridges, critters, items, spawn, Moon Pool, and exit (snap 10 px) with an inspector. **Undo** restores the selected object to the first snapshot taken when it was selected. All drags and field edits on that object collapse into one restore. **Set active** writes the overlay so World Map Story on this browser uses it in place of the shipped JSON. **Map width** extends the station. Critter and item pickers list wildlife and live pickups native to the biome, plus the rest of the roster. **Clear overlay** drops local edits for that id. Persistence is `localStorage` key `bunnymeadow.editor.overlay.v1`, not SaveV1. Editor sessions do not write `cleared`, pantry, or achievements. Remove later by setting the flag false or deleting `src/modes/story/editor/` plus the Settings and Story hooks.
+- Story map editor (`contentFlags.storyMapEditor`, default on). Lists every playable Story station from `listStoryLevels()` (Soft Paws, Worlds 1-4, Guanghan). Meadow and Endless stay out. **Play** opens Story with fail-off (no retry overlay from falls, water, gale, or empty hearts). **Build** drags platforms, walls, bridges, hedges, water, grass, lanterns, critters, items, spawn, Moon Pool, and exit (snap 10 px) with an inspector (rotation, asset, palette, weather, sky). **Undo** restores the selected object to the first snapshot taken when it was selected. All drags and field edits on that object collapse into one restore. **Set active** writes the overlay so World Map Story on this browser uses it in place of the shipped JSON. GitHub Pages cannot write `src/data`. **Copy JSON** downloads a bundle to paste into `src/data/story/` and `src/data/chunks/`. Local `npm run dev` may also POST that bundle to `src/data/editor-out/`. **Map width** extends the station. Critter and item pickers list wildlife and live pickups native to the biome, plus the rest of the roster. Meadow native is fox, hedgehog, crow, carrot. **Clear overlay** drops local edits for that id. Persistence is `localStorage` key `bunnymeadow.editor.overlay.v1`, not SaveV1. Dash look editing is the same Settings block (`bunnymeadow.dash.overlay.v1`). Asset workshop is `contentFlags.assetWorkshop`. Editor sessions do not write `cleared`, pantry, or achievements. Remove later by setting the flags false or deleting `src/modes/story/editor/` plus the Settings and Story hooks. Expansion contract: [editor/README.md](editor/README.md).
 
 ## Input actions (bindings)
 
@@ -96,6 +96,7 @@ Unlocked by pantry level. Cosmetics only. Unlock helpers exist from M1. Map unlo
 | Fur | cream, brown, gray, moon-white | pantry 1+ |
 | Ears | upright, lop, tufted | pantry 2+ |
 | Accessory | none, scarf, lantern, blossom | pantry 3+ |
+| Dash | meadow (always), carrot (`BASKET_FULL`), gale (`WORLD4_CLEAR`), moon (`MOON_RETURN`) | achievement |
 
 ## Save schema v1
 

@@ -24,6 +24,7 @@ reader knows what is settled. Hub: [../GDD.md](../GDD.md).
 | Telegraph grammar: flash colour + pose hold + shadow line | [animation.md](animation.md) | decided |
 | Frame budgets per creature state | [animation.md](animation.md) | decided |
 | Squash/stretch and screen-shake budgets | [animation.md](animation.md) | decided |
+| Dash cosmetic (stretch + particles, achievement unlock) | [animation.md](animation.md) | live (`dashes.json`) |
 | Atlas and draw-call budgets | [performance.md](performance.md) | planned |
 
 ## Open questions that remain after I3
@@ -36,4 +37,5 @@ reader knows what is settled. Hub: [../GDD.md](../GDD.md).
 - [palettes.md](palettes.md) - the colour token set per biome and the sky lerp.
 - [effects.md](effects.md) - weather, night lighting, and the mist wall.
 - [animation.md](animation.md) - frame budgets, telegraph grammar, squash/stretch, shake.
+- [../editor/README.md](../editor/README.md) - map overlay, dash look spec, workshop, write-back.
 - [performance.md](performance.md) - atlas, draw-call and particle budgets.

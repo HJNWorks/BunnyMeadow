@@ -4,7 +4,14 @@ import { getAudio } from "../core/audio"
 import type { AccessoryOption, EarsOption, FurOption } from "../core/save"
 import { getSave, persistSave } from "../core/session"
 import { mountDomShell, requireEl } from "../ui/DomShell"
-import { drawBunny } from "../render/drawBunny"
+import {
+  filterLiveDashParticles,
+  isDashUnlocked,
+  listShippedDashes,
+  paintDashPreview,
+  resolveDashDef,
+  type CanvasDashParticle,
+} from "../fx/dash"
 
 export class CustomizeScene extends Phaser.Scene {
   constructor() {
@@ -14,6 +21,8 @@ export class CustomizeScene extends Phaser.Scene {
   create(): void {
     getAudio().playMusic("menu")
     const save = getSave()
+    const dashes = listShippedDashes()
+    const equipped = save.player.equippedDash || "meadow"
     const { root } = mountDomShell(
       this,
       `
@@ -57,6 +66,25 @@ export class CustomizeScene extends Phaser.Scene {
               .join("")}
           </select>
         </div>
+        <div class="bm-field">
+          <label for="dash">${t("customize.dash")}</label>
+          <select id="dash" data-ui="dash">
+            ${dashes
+              .map((def) => {
+                const unlocked = isDashUnlocked(def.id, save.progress.achievements)
+                const label = t(`customize.dash.${def.id}`)
+                const text = unlocked
+                  ? label
+                  : t("customize.dash.locked", {
+                      name: def.unlockAchievement ? t(`ach.${def.unlockAchievement}.name`) : label,
+                    })
+                const selected = def.id === equipped ? "selected" : ""
+                const disabled = unlocked ? "" : "disabled"
+                return `<option value="${def.id}" ${selected} ${disabled}>${text}</option>`
+              })
+              .join("")}
+          </select>
+        </div>
         <div class="bm-actions bm-start">
           <button type="button" class="bm-btn warm" data-ui="save">${t("settings.save")}</button>
           <button type="button" class="bm-btn ghost" data-ui="back">${t("common.back")}</button>
@@ -69,40 +97,80 @@ export class CustomizeScene extends Phaser.Scene {
     const furEl = requireEl<HTMLSelectElement>(root, "[data-ui=fur]")
     const earsEl = requireEl<HTMLSelectElement>(root, "[data-ui=ears]")
     const accessoryEl = requireEl<HTMLSelectElement>(root, "[data-ui=accessory]")
+    const dashEl = requireEl<HTMLSelectElement>(root, "[data-ui=dash]")
+    const reducedMotion = save.settings.accessibility.reducedMotion
+    let particles: CanvasDashParticle[] = []
+    let elapsed = 0
+    let raf = 0
+    let running = true
 
-    const paint = (): void => {
+    const cosmetics = () => ({
+      fur: furEl.value as FurOption,
+      ears: earsEl.value as EarsOption,
+      accessory: accessoryEl.value as AccessoryOption,
+    })
+
+    const paint = (dt: number): void => {
       const ctx = preview.getContext("2d")
       if (!ctx) {
         return
       }
-      ctx.clearRect(0, 0, preview.width, preview.height)
-      ctx.fillStyle = "#bed593"
-      ctx.fillRect(0, 0, preview.width, preview.height)
-      drawBunny(ctx, preview.width / 2, preview.height / 2 + 10, {
-        fur: furEl.value as FurOption,
-        ears: earsEl.value as EarsOption,
-        accessory: accessoryEl.value as AccessoryOption,
-      })
+      elapsed += dt
+      particles = filterLiveDashParticles(particles)
+      paintDashPreview(
+        ctx,
+        preview.width,
+        preview.height,
+        cosmetics(),
+        resolveDashDef(dashEl.value),
+        elapsed,
+        reducedMotion,
+        particles,
+      )
     }
 
-    furEl.onchange = paint
-    earsEl.onchange = paint
-    accessoryEl.onchange = paint
-    paint()
+    const loop = (now: number): void => {
+      if (!running) {
+        return
+      }
+      paint(1 / 60)
+      raf = window.requestAnimationFrame(() => loop(now))
+    }
+    paint(0)
+    raf = window.requestAnimationFrame(loop)
+
+    furEl.onchange = () => paint(0)
+    earsEl.onchange = () => paint(0)
+    accessoryEl.onchange = () => paint(0)
+    dashEl.onchange = () => {
+      particles = []
+      paint(0)
+    }
+
+    const stop = (): void => {
+      running = false
+      window.cancelAnimationFrame(raf)
+    }
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, stop)
+    this.events.once(Phaser.Scenes.Events.DESTROY, stop)
 
     requireEl<HTMLButtonElement>(root, "[data-ui=save]").onclick = async () => {
       getAudio().playSfx("confirm")
+      stop()
       const next = getSave()
       next.player.name = requireEl<HTMLInputElement>(root, "[data-ui=name]").value.trim() || "Mei"
       next.player.fur = furEl.value as FurOption
       next.player.ears = earsEl.value as EarsOption
       next.player.accessory = accessoryEl.value as AccessoryOption
+      const dashId = dashEl.value
+      next.player.equippedDash = isDashUnlocked(dashId, next.progress.achievements) ? dashId : "meadow"
       await persistSave()
       this.scene.start("Title")
     }
 
     requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
       getAudio().playSfx("cancel")
+      stop()
       this.scene.start("Title")
     }
   }

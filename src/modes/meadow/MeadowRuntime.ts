@@ -6,6 +6,15 @@ import { addPantryCarrots, isMapUnlocked, syncMeadowMapUnlocks } from "../../cor
 import { getMeadowMap, listMeadowMaps, type MeadowMapDef } from "../../core/maps"
 import { Spawner, type SpawnedEnemy } from "../../systems/Spawner"
 import { drawBunny, type BunnyCosmetics } from "../../render/drawBunny"
+import {
+  drawDashParticle,
+  equippedDashDef,
+  filterLiveDashParticles,
+  spawnDashParticles,
+  tickCanvasDashParticles,
+  type CanvasDashParticle,
+  type DashDef,
+} from "../../fx/dash"
 import { t } from "../../core/i18n"
 import { getAudio } from "../../core/audio"
 import type { AccessoryOption, DifficultyId, EarsOption, FurOption } from "../../core/save"
@@ -113,6 +122,10 @@ export class MeadowRuntime {
   private invincible = false
   private slowTime = false
   private autoDash = false
+  private dashDef: DashDef = equippedDashDef()
+  private dashParticles: CanvasDashParticle[] = []
+  private reducedMotion = false
+  private dashFacing = 1
 
   private onPointerDown = (e: PointerEvent): void => {
     if (this.state === "playing") {
@@ -212,6 +225,8 @@ export class MeadowRuntime {
     this.invincible = save.settings.accessibility.invincible
     this.slowTime = save.settings.accessibility.slowTime
     this.autoDash = save.settings.accessibility.autoDash
+    this.reducedMotion = save.settings.accessibility.reducedMotion
+    this.dashDef = equippedDashDef()
     this.cosmetics = {
       fur: save.player.fur as FurOption,
       ears: save.player.ears as EarsOption,
@@ -361,6 +376,7 @@ export class MeadowRuntime {
     this.time = 0
     this.timerLeft = this.diff.timerSeconds
     this.particles = []
+    this.dashParticles = []
     this.carrots = this.map.carrotSpawns.slice(0, this.carrotGoal).map((p) => ({
       x: p.x,
       y: p.y,
@@ -467,6 +483,16 @@ export class MeadowRuntime {
       this.burst = 0.19
       this.cooldown = this.dashCooldownMax
       getAudio().playSfx("dash")
+      const facing = this.bunny.dx >= 0 ? 1 : -1
+      this.dashFacing = facing || 1
+      spawnDashParticles(
+        this.dashParticles,
+        this.bunny.x,
+        this.bunny.y,
+        this.dashFacing,
+        this.dashDef,
+        this.reducedMotion,
+      )
     }
   }
 
@@ -755,6 +781,8 @@ export class MeadowRuntime {
       p.y += p.vy * dt
       return p.life > 0
     })
+    tickCanvasDashParticles(this.dashParticles, dt)
+    this.dashParticles = filterLiveDashParticles(this.dashParticles)
 
     if (
       this.state === "playing" &&
@@ -917,11 +945,20 @@ export class MeadowRuntime {
     }
 
     if (this.invulnerable <= 0 || Math.floor(this.time * 12) % 2 === 0) {
-      drawBunny(this.ctx, this.bunny.x, this.bunny.y, this.cosmetics)
+      ctx.save()
+      ctx.translate(this.bunny.x, this.bunny.y)
+      if (this.burst > 0) {
+        ctx.scale(this.reducedMotion ? 1.05 : this.dashDef.stretchX, 1)
+      }
+      drawBunny(this.ctx, 0, 0, this.cosmetics)
+      ctx.restore()
     }
 
     for (const p of this.particles) {
       this.ellipse(p.x, p.y, 3, 3, p.color)
+    }
+    for (const p of this.dashParticles) {
+      drawDashParticle(ctx, p)
     }
   }
 

@@ -6,5 +6,6 @@
   "endless": true,
   "webFullStory": true,
   "storyMapArt": true,
-  "storyMapEditor": true
+  "storyMapEditor": true,
+  "assetWorkshop": true
 }

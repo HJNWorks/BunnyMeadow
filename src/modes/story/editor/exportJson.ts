@@ -12,7 +12,11 @@ export type EditorExportBundle = {
     playerSpawn: { x: number; y: number }
     moonPool?: { chunk: number; x: number; y: number }
     exit: { chunk: number; x: number; y: number }
+    env?: string
+    sky?: string
   }
+  look?: EditorLevelOverlay["look"]
+  decor?: EditorLevelOverlay["decor"]
   chunks: Record<string, ChunkDef>
 }
 
@@ -33,6 +37,7 @@ export function buildExportBundle(
     copy.walls = []
     copy.enemies = []
     copy.movers = []
+    copy.hazards = []
     chunks[id] = copy
   }
 
@@ -90,6 +95,23 @@ export function buildExportBundle(
     })
   }
 
+  for (const hazard of overlay.hazards ?? []) {
+    const anchor = worldToAnchor(world, hazard.worldX, hazard.worldY)
+    const id = world.chunks[anchor.chunk]
+    if (!id || !chunks[id]) {
+      continue
+    }
+    chunks[id].hazards = chunks[id].hazards ?? []
+    chunks[id].hazards.push({
+      x: anchor.x,
+      y: hazard.worldY,
+      w: hazard.w,
+      h: hazard.h,
+      kind: "water",
+      current: hazard.current,
+    })
+  }
+
   const lastId = world.chunks[world.chunks.length - 1]
   if (lastId && chunks[lastId]) {
     const origin = world.chunkOrigins[world.chunkOrigins.length - 1] ?? 0
@@ -117,7 +139,11 @@ export function buildExportBundle(
       playerSpawn: { ...overlay.playerSpawn },
       moonPool,
       exit,
+      env: overlay.look?.env,
+      sky: overlay.look?.sky,
     },
+    look: overlay.look,
+    decor: overlay.decor,
     chunks,
   }
 }

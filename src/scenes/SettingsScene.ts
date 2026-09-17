@@ -10,6 +10,9 @@ import { getInput } from "../core/input"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 import { listStoryLevels } from "../modes/story/levels"
 import { clearOverlay, isEditorEnabled, startEditor } from "../modes/story/editor"
+import { dashLookEditorHtml, bindDashLookEditor } from "../fx/dash/DashLookPanel"
+import { workshopHtml, bindWorkshop } from "../fx/workshop/WorkshopPanel"
+import { getContentFlags } from "../core/ModeContext"
 
 export class SettingsScene extends Phaser.Scene {
   private returnTo = "Title"
@@ -93,7 +96,11 @@ export class SettingsScene extends Phaser.Scene {
           <button type="button" class="bm-btn ghost" data-ui="editorClear">${t("editor.clear")}</button>
         </div>
         <p class="bm-tagline" data-ui="editorStatus"></p>
+        ${dashLookEditorHtml()}
           `
+          : ""}
+        ${getContentFlags().assetWorkshop
+          ? workshopHtml()
           : ""}
         <div class="bm-field">
           <label>${t("settings.dashKey")}</label>
@@ -198,6 +205,12 @@ export class SettingsScene extends Phaser.Scene {
         clearOverlay(levelSelect.value)
         status.textContent = t("editor.cleared")
       }
+      const stopDash = bindDashLookEditor(root)
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, stopDash)
+      this.events.once(Phaser.Scenes.Events.DESTROY, stopDash)
+    }
+    if (getContentFlags().assetWorkshop) {
+      bindWorkshop(root)
     }
   }
 }

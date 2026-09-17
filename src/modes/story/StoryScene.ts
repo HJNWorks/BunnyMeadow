@@ -1,14 +1,14 @@
 import Phaser from "phaser"
 import { ChunkAssembler } from "../../systems/ChunkAssembler"
 import { getStoryLevel, type StoryLevelDef } from "./levels"
-import {
-  applyOverlay,
+import { applyOverlay,
   cloneStoryLevel,
   getOverlay,
   isEditorEnabled,
   mountBuildHud,
   type EditorMode,
 } from "./editor"
+import { spawnDecorItem } from "./editor/spawnDecor"
 import { getDifficulty } from "../../core/difficulty"
 import { getInput } from "../../core/input"
 import { getSave, persistSave } from "../../core/session"
@@ -18,6 +18,7 @@ import { t } from "../../core/i18n"
 import { getAudio, musicIdForEnv } from "../../core/audio"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
 import { attachPlayfieldFrame, measureChromeInsets } from "../../ui/playfieldFrame"
+import { equippedDashDef, PhaserDashFx } from "../../fx/dash"
 import { ControlCoach, CONTROL_COACH_CSS, type CoachAction } from "../../ui/ControlCoach"
 import { ITEM_TRAY_CSS, bindItemTray, renderItemTray, type TrayBuff } from "../../ui/ItemTray"
 import { ensureStoryTextures } from "./shared/storyTextures"
@@ -45,7 +46,9 @@ import {
   hexToNum,
   nightStrength,
   storyEnvForLevel,
+  type PaletteHour,
   type WeatherHandle,
+  type WeatherPreset,
 } from "./shared/themeKit"
 
 type Hud = {
@@ -242,6 +245,9 @@ export class StoryScene extends Phaser.Scene {
   private editorMode: EditorMode | null = null
   private pickups!: Phaser.Physics.Arcade.StaticGroup
   private glowTimer = 0
+  private dashFx: PhaserDashFx | null = null
+  private decorSprites: Phaser.GameObjects.Image[] = []
+  private waterRects: Phaser.GameObjects.Rectangle[] = []
 
   constructor() {
     super("Story")
@@ -426,11 +432,18 @@ export class StoryScene extends Phaser.Scene {
     this.worldWidth = world.width
     ensureStoryTextures(this)
 
-    const env = def.env ?? storyEnvForLevel(def.world, def.index, def.id)
+    const look = isEditorEnabled() ? getOverlay(def.id)?.look : undefined
+    const env = look?.env ?? def.env ?? storyEnvForLevel(def.world, def.index, def.id)
     getAudio().playMusic(musicIdForEnv(env))
     const palette = { ...getPalette(env) }
-    if (def.sky) {
-      palette.sky = def.sky
+    if (look?.sky ?? def.sky) {
+      palette.sky = look?.sky ?? def.sky ?? palette.sky
+    }
+    if (look?.hour) {
+      palette.hour = look.hour as PaletteHour
+    }
+    if (look?.weather) {
+      palette.weather = look.weather as WeatherPreset
     }
     this.cameras.main.setBounds(0, 0, world.width, 1080)
     applySky(this, palette)
@@ -443,8 +456,9 @@ export class StoryScene extends Phaser.Scene {
 
     const reducedMotion = save.settings.accessibility.reducedMotion
     this.weather = createWeather(this, palette.weather, world.width, reducedMotion)
-    createNightOverlay(this, nightStrength(palette.hour))
-    this.lanternGlowAlways = env === "lantern"
+    const night = look?.night === false ? 0 : nightStrength(palette.hour)
+    createNightOverlay(this, night)
+    this.lanternGlowAlways = look?.lanternGlow ?? env === "lantern"
     this.lanternGlow = createLanternGlow(this)
     this.lanternGlow.setVisible(this.lanternGlowAlways)
     this.lanternGlow.setAlpha(this.lanternGlowAlways ? 0.55 : 1)
@@ -464,7 +478,8 @@ export class StoryScene extends Phaser.Scene {
         continue
       }
       if (rect.kind === "wall") {
-        if (this.editorMode !== "build") {
+        const hasDecor = (world.decor ?? []).length > 0
+        if (this.editorMode !== "build" && !hasDecor) {
           const tiles = Math.max(1, Math.ceil(rect.h / 56))
           for (let n = 0; n < tiles; n += 1) {
             const y = rect.y + 28 + n * 56
@@ -509,6 +524,15 @@ export class StoryScene extends Phaser.Scene {
       }
     }
 
+    this.decorSprites = []
+    for (let i = 0; i < (world.decor ?? []).length; i += 1) {
+      const item = world.decor[i]
+      if (!item) {
+        continue
+      }
+      this.decorSprites.push(spawnDecorItem(this, item, i))
+    }
+
     const spawnX = def.playerSpawn.x
     const spawnY = def.playerSpawn.y
     this.checkpoint = { x: spawnX, y: spawnY }
@@ -524,6 +548,8 @@ export class StoryScene extends Phaser.Scene {
     const playerBody = this.player.body as Phaser.Physics.Arcade.Body
     playerBody.setSize(26, 38)
     playerBody.setOffset(7, 8)
+    this.dashFx?.destroy()
+    this.dashFx = new PhaserDashFx(this, equippedDashDef(), reducedMotion)
 
     this.physics.add.collider(this.player, this.platforms)
 
@@ -533,8 +559,12 @@ export class StoryScene extends Phaser.Scene {
       state.sprite.setData("editIndex", index)
     })
 
-    createWaterHazards(this, world.hazards, this.player, (water) => {
+    this.waterRects = createWaterHazards(this, world.hazards, this.player, (water) => {
       this.onWater(water)
+    })
+    this.waterRects.forEach((water, index) => {
+      water.setData("editKind", "hazard")
+      water.setData("editIndex", index)
     })
 
     if (def.ride && def.ride.waypoints.length > 0) {
@@ -775,6 +805,8 @@ export class StoryScene extends Phaser.Scene {
         movers: this.movers,
         enemies: this.enemies,
         pickups: this.pickups,
+        decor: this.decorSprites,
+        waters: this.waterRects,
         env,
         mode: this.editorMode,
       })
@@ -811,6 +843,8 @@ export class StoryScene extends Phaser.Scene {
       getAudio().stopMusic()
       delete (window as unknown as { __bmStory?: unknown }).__bmStory
       this.cleanupInput()
+      this.dashFx?.destroy()
+      this.dashFx = null
       this.style?.remove()
       this.style = null
     })
@@ -1406,6 +1440,9 @@ export class StoryScene extends Phaser.Scene {
         await unlock("CRANE_FRIEND")
         await unlock("WORLD3_CLEAR")
       }
+      if (this.level.id === "w4_3_closing_gale") {
+        await unlock("WORLD4_CLEAR")
+      }
       if (this.level.id === "moon_guanghan") {
         await unlock("MOON_RETURN")
       }
@@ -1495,6 +1532,7 @@ export class StoryScene extends Phaser.Scene {
     }
 
     updatePlayerMovement(this.player, input, this.playerState)
+    this.dashFx?.tick(this.player, this.playerState.dashTime, this.playerState.facing, dt)
 
     updateEnemies(this, this.enemies, this.projectiles, this.platforms, this.player, dt)
 

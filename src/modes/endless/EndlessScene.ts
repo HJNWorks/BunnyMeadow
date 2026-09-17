@@ -7,6 +7,7 @@ import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
 import { mountDomShell, requireEl, type DomShellHandle } from "../../ui/DomShell"
 import { attachPlayfieldFrame, measureChromeInsets } from "../../ui/playfieldFrame"
+import { equippedDashDef, PhaserDashFx } from "../../fx/dash"
 import { ITEM_TRAY_CSS, bindItemTray, renderItemTray } from "../../ui/ItemTray"
 import { ENDLESS_CHUNKS } from "../../systems/ChunkAssembler"
 import { t } from "../../core/i18n"
@@ -193,6 +194,7 @@ export class EndlessScene extends Phaser.Scene {
   private glowTimer = 0
   private reducedMotion = false
   private emberTimer = 0
+  private dashFx: PhaserDashFx | null = null
 
   private health = 3
   private maxHearts = 3
@@ -218,6 +220,8 @@ export class EndlessScene extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       getAudio().stopMusic()
       getInput().stop()
+      this.dashFx?.destroy()
+      this.dashFx = null
       this.style?.remove()
       this.style = null
     })
@@ -367,6 +371,8 @@ export class EndlessScene extends Phaser.Scene {
     pb.setOffset(7, 8)
     this.physics.add.collider(this.player, this.platforms)
     this.playerState = createPlayerState({ wallBounce: true, baseGravity: 1400 })
+    this.dashFx?.destroy()
+    this.dashFx = new PhaserDashFx(this, equippedDashDef(), this.reducedMotion)
 
     this.physics.add.overlap(this.player, this.enemies, (_p, enemy) => {
       const sprite = enemy as Phaser.Physics.Arcade.Sprite
@@ -770,6 +776,7 @@ export class EndlessScene extends Phaser.Scene {
     }
 
     updatePlayerMovement(this.player, input, this.playerState)
+    this.dashFx?.tick(this.player, this.playerState.dashTime, this.playerState.facing, dt)
 
     this.weather?.update(dt, this.cameras.main.scrollX)
     this.tickLanternGlow(dt)

@@ -24,10 +24,10 @@ export const ITEM_LABELS: Record<string, string> = {
 }
 
 const CRITTERS_BY_BIOME: Record<string, string[]> = {
-  meadow: ["fox", "hedgehog", "crow", "squirrel", "bees", "tortoise"],
-  orchard: ["fox", "hedgehog", "crow", "squirrel", "bees", "boar"],
-  bamboo: ["crow", "squirrel", "frog", "goat", "boar"],
-  riverbank: ["crow", "frog", "heron", "tortoise"],
+  meadow: ["fox", "hedgehog", "crow"],
+  orchard: ["fox", "hedgehog", "crow", "squirrel"],
+  bamboo: ["crow", "squirrel", "frog", "goat"],
+  riverbank: ["crow", "frog", "heron"],
   lantern: ["crow", "cat", "owl"],
   osmanthus: ["cat", "owl", "goat"],
   cloudsea: ["frost_wisp", "ice_spit", "gale_magpie"],

@@ -1,0 +1,60 @@
+{
+  "dashes": [
+    {
+      "id": "meadow",
+      "unlockAchievement": null,
+      "tint": "#d7e0c8",
+      "stretchX": 1.2,
+      "afterimages": 2,
+      "particle": {
+        "shape": "speck",
+        "count": 8,
+        "life": 0.28,
+        "spread": 16,
+        "color": "#e8f0c8"
+      }
+    },
+    {
+      "id": "carrot",
+      "unlockAchievement": "BASKET_FULL",
+      "tint": "#e07a32",
+      "stretchX": 1.18,
+      "afterimages": 2,
+      "particle": {
+        "shape": "carrot",
+        "count": 7,
+        "life": 0.32,
+        "spread": 18,
+        "color": "#f0a04a"
+      }
+    },
+    {
+      "id": "gale",
+      "unlockAchievement": "WORLD4_CLEAR",
+      "tint": "#c8d8e8",
+      "stretchX": 1.28,
+      "afterimages": 3,
+      "particle": {
+        "shape": "streak",
+        "count": 10,
+        "life": 0.22,
+        "spread": 22,
+        "color": "#e8f4ff"
+      }
+    },
+    {
+      "id": "moon",
+      "unlockAchievement": "MOON_RETURN",
+      "tint": "#d4e4f2",
+      "stretchX": 1.16,
+      "afterimages": 3,
+      "particle": {
+        "shape": "crescent",
+        "count": 8,
+        "life": 0.36,
+        "spread": 20,
+        "color": "#f7fbff"
+      }
+    }
+  ]
+}

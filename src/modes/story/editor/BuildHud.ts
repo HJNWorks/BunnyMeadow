@@ -1,9 +1,10 @@
 import Phaser from "phaser"
-import type { AssembledLevel, AssembledRect } from "../../../systems/ChunkAssembler"
+import type { AssembledDecor, AssembledHazard, AssembledLevel, AssembledRect } from "../../../systems/ChunkAssembler"
 import { t } from "../../../core/i18n"
 import { getAudio } from "../../../core/audio"
 import { mountDomShell, requireEl } from "../../../ui/DomShell"
-import { downloadEditorJson } from "./exportJson"
+import { writeRepoFile } from "../../../core/devWrite"
+import { downloadEditorJson, buildExportBundle } from "./exportJson"
 import type { StoryLevelDef } from "../levels"
 import type { MoverState } from "../shared/moversHazards"
 import {
@@ -20,6 +21,14 @@ import {
   CRITTER_LABELS,
   ITEM_LABELS,
 } from "./roster"
+import { defaultDecor, DECOR_LABELS, PLATFORM_ASSETS } from "./placeables"
+import {
+  listPaletteIds,
+  PALETTE_HOURS,
+  WEATHER_PRESETS,
+  type PaletteHour,
+  type WeatherPreset,
+} from "../shared/themeKit"
 
 export type EditorMode = "play" | "build"
 
@@ -34,11 +43,13 @@ export type EditorSession = {
   movers: MoverState[]
   enemies: Phaser.Physics.Arcade.Group
   pickups: Phaser.Physics.Arcade.StaticGroup
+  decor: Phaser.GameObjects.Image[]
+  waters: Phaser.GameObjects.Rectangle[]
   env: string
   mode: EditorMode
 }
 
-type SelKind = "spawn" | "pool" | "exit" | "platform" | "mover" | "enemy" | "pickup"
+type SelKind = "spawn" | "pool" | "exit" | "platform" | "mover" | "enemy" | "pickup" | "decor" | "hazard"
 
 type Selection = { kind: SelKind; index: number }
 
@@ -125,9 +136,26 @@ export function mountBuildHud(session: EditorSession): void {
         <label>${t("editor.field.y")} <input data-ui="y" type="number" step="10" /></label>
         <label>${t("editor.field.w")} <input data-ui="w" type="number" step="10" /></label>
         <label>${t("editor.field.h")} <input data-ui="h" type="number" step="10" /></label>
+        <label>${t("editor.field.rot")} <input data-ui="rot" type="number" step="5" /></label>
+        <label>${t("editor.field.asset")}
+          <select data-ui="asset" class="wide"></select>
+        </label>
         <label>${t("editor.field.id")}
           <select data-ui="id" class="wide"></select>
         </label>
+        <label>${t("editor.field.current")} <input data-ui="current" type="number" step="10" /></label>
+        <label>${t("editor.look.env")}
+          <select data-ui="lookEnv" class="wide"></select>
+        </label>
+        <label>${t("editor.look.sky")} <input data-ui="lookSky" type="text" class="wide" /></label>
+        <label>${t("editor.look.hour")}
+          <select data-ui="lookHour" class="wide"></select>
+        </label>
+        <label>${t("editor.look.weather")}
+          <select data-ui="lookWeather" class="wide"></select>
+        </label>
+        <label class="bm-check"><input type="checkbox" data-ui="lookNight" /> ${t("editor.look.night")}</label>
+        <label class="bm-check"><input type="checkbox" data-ui="lookGlow" /> ${t("editor.look.glow")}</label>
         <label>${t("editor.mapWidth")} <input data-ui="mapWidth" type="number" step="10" min="480" /></label>
         <button type="button" class="bm-btn ghost" data-ui="undo">${t("editor.undo")}</button>
         <button type="button" class="bm-btn ghost" data-ui="delete">${t("editor.delete")}</button>
@@ -140,6 +168,10 @@ export function mountBuildHud(session: EditorSession): void {
         <button type="button" class="bm-btn" data-ui="addBridge">${t("editor.addBridge")}</button>
         <button type="button" class="bm-btn" data-ui="addEnemy">${t("editor.addEnemy")}</button>
         <button type="button" class="bm-btn" data-ui="addItem">${t("editor.addItem")}</button>
+        <button type="button" class="bm-btn" data-ui="addHedge">${t("editor.addHedge")}</button>
+        <button type="button" class="bm-btn" data-ui="addWater">${t("editor.addWater")}</button>
+        <button type="button" class="bm-btn" data-ui="addGrass">${t("editor.addGrass")}</button>
+        <button type="button" class="bm-btn" data-ui="addLantern">${t("editor.addLantern")}</button>
         <button type="button" class="bm-btn warm" data-ui="setActive">${t("editor.setActive")}</button>
         <button type="button" class="bm-btn ghost" data-ui="copyJson">${t("editor.copyJson")}</button>
         <button type="button" class="bm-btn ghost" data-ui="back">${t("editor.back")}</button>
@@ -162,10 +194,29 @@ export function mountBuildHud(session: EditorSession): void {
   const yInput = requireEl<HTMLInputElement>(root, "[data-ui=y]")
   const wInput = requireEl<HTMLInputElement>(root, "[data-ui=w]")
   const hInput = requireEl<HTMLInputElement>(root, "[data-ui=h]")
+  const rotInput = requireEl<HTMLInputElement>(root, "[data-ui=rot]")
+  const assetInput = requireEl<HTMLSelectElement>(root, "[data-ui=asset]")
   const idInput = requireEl<HTMLSelectElement>(root, "[data-ui=id]")
+  const currentInput = requireEl<HTMLInputElement>(root, "[data-ui=current]")
+  const lookEnv = requireEl<HTMLSelectElement>(root, "[data-ui=lookEnv]")
+  const lookSky = requireEl<HTMLInputElement>(root, "[data-ui=lookSky]")
+  const lookHour = requireEl<HTMLSelectElement>(root, "[data-ui=lookHour]")
+  const lookWeather = requireEl<HTMLSelectElement>(root, "[data-ui=lookWeather]")
+  const lookNight = requireEl<HTMLInputElement>(root, "[data-ui=lookNight]")
+  const lookGlow = requireEl<HTMLInputElement>(root, "[data-ui=lookGlow]")
   const mapWidthInput = requireEl<HTMLInputElement>(root, "[data-ui=mapWidth]")
   const statusEl = requireEl<HTMLElement>(root, "[data-ui=status]")
-  const addBtns = ["addPlatform", "addWall", "addBridge", "addEnemy", "addItem"] as const
+  const addBtns = [
+    "addPlatform",
+    "addWall",
+    "addBridge",
+    "addEnemy",
+    "addItem",
+    "addHedge",
+    "addWater",
+    "addGrass",
+    "addLantern",
+  ] as const
   for (const ui of addBtns) {
     requireEl<HTMLButtonElement>(root, `[data-ui=${ui}]`).hidden = session.mode !== "build"
   }
@@ -184,6 +235,17 @@ export function mountBuildHud(session: EditorSession): void {
   let panY = 0
   let panScrollX = 0
   let panScrollY = 0
+
+  overlay.decor = overlay.decor ?? []
+  overlay.hazards = overlay.hazards ?? []
+  overlay.look = overlay.look ?? { env: session.env }
+
+  lookEnv.innerHTML = listPaletteIds()
+    .map((id) => `<option value="${id}">${id}</option>`)
+    .join("")
+  lookHour.innerHTML = PALETTE_HOURS.map((id) => `<option value="${id}">${id}</option>`).join("")
+  lookWeather.innerHTML = WEATHER_PRESETS.map((id) => `<option value="${id}">${id}</option>`).join("")
+  assetInput.innerHTML = PLATFORM_ASSETS.map((id) => `<option value="${id}">${id}</option>`).join("")
 
   const persist = (): void => {
     setOverlay(session.level.id, overlay)
@@ -216,6 +278,14 @@ export function mountBuildHud(session: EditorSession): void {
       const pickup = overlay.pickups[sel.index]
       return pickup ? cloneJson(pickup) : null
     }
+    if (sel.kind === "decor") {
+      const item = overlay.decor?.[sel.index]
+      return item ? cloneJson(item) : null
+    }
+    if (sel.kind === "hazard") {
+      const item = overlay.hazards?.[sel.index]
+      return item ? cloneJson(item) : null
+    }
     const enemy = overlay.enemies[sel.index]
     return enemy ? cloneJson(enemy) : null
   }
@@ -243,6 +313,14 @@ export function mountBuildHud(session: EditorSession): void {
     }
     if (sel.kind === "pickup") {
       overlay.pickups[sel.index] = cloneJson(snap as EditorPickup)
+      return
+    }
+    if (sel.kind === "decor" && overlay.decor) {
+      overlay.decor[sel.index] = cloneJson(snap as AssembledDecor)
+      return
+    }
+    if (sel.kind === "hazard" && overlay.hazards) {
+      overlay.hazards[sel.index] = cloneJson(snap as AssembledHazard)
       return
     }
     overlay.enemies[sel.index] = cloneJson(snap as (typeof overlay.enemies)[number])
@@ -358,6 +436,24 @@ export function mountBuildHud(session: EditorSession): void {
         sprite.setData("itemId", data.id)
         refreshBody(sprite)
       }
+    } else if (selected.kind === "decor") {
+      const data = overlay.decor?.[selected.index]
+      const sprite = session.decor[selected.index]
+      if (data && sprite) {
+        sprite.setPosition(data.x + data.w / 2, data.y + data.h / 2)
+        sprite.setDisplaySize(data.w, data.h)
+        sprite.setAngle(data.rotation ?? 0)
+      }
+    } else if (selected.kind === "hazard") {
+      const data = overlay.hazards?.[selected.index]
+      const water = session.waters[selected.index]
+      if (data && water) {
+        water.setPosition(data.worldX + data.w / 2, data.worldY + data.h / 2)
+        water.setSize(data.w, data.h)
+        water.setDisplaySize(data.w, data.h)
+        water.setData("current", data.current ?? 0)
+        refreshBody(water)
+      }
     }
   }
 
@@ -395,6 +491,16 @@ export function mountBuildHud(session: EditorSession): void {
       if (pickup) {
         marks.strokeCircle(pickup.worldX, pickup.worldY, 22)
       }
+    } else if (selected.kind === "decor") {
+      const item = overlay.decor?.[selected.index]
+      if (item) {
+        marks.strokeRect(item.x, item.y, item.w, item.h)
+      }
+    } else if (selected.kind === "hazard") {
+      const item = overlay.hazards?.[selected.index]
+      if (item) {
+        marks.strokeRect(item.worldX, item.worldY, item.w, item.h)
+      }
     }
   }
 
@@ -420,30 +526,72 @@ export function mountBuildHud(session: EditorSession): void {
     )
   }
 
+  const fillLook = (): void => {
+    lookEnv.value = overlay.look?.env ?? session.env
+    lookSky.value = overlay.look?.sky ?? ""
+    lookHour.value = overlay.look?.hour ?? ""
+    lookWeather.value = overlay.look?.weather ?? ""
+    lookNight.checked = overlay.look?.night !== false
+    lookGlow.checked = overlay.look?.lanternGlow === true
+  }
+
   const fillInspect = (): void => {
     mapWidthInput.value = String(overlay.worldWidth)
+    fillLook()
     const idLabel = idInput.closest("label")
+    const assetLabel = assetInput.closest("label")
+    const rotLabel = rotInput.closest("label")
+    const currentLabel = currentInput.closest("label")
     if (!selected) {
       hint.textContent = t("editor.selected.none")
       xInput.disabled = true
       yInput.disabled = true
       wInput.disabled = true
       hInput.disabled = true
+      rotInput.disabled = true
+      assetInput.disabled = true
       idInput.disabled = true
+      currentInput.disabled = true
       if (idLabel) {
         idLabel.hidden = true
+      }
+      if (assetLabel) {
+        assetLabel.hidden = true
+      }
+      if (rotLabel) {
+        rotLabel.hidden = true
+      }
+      if (currentLabel) {
+        currentLabel.hidden = true
       }
       syncUndo()
       return
     }
     xInput.disabled = false
     yInput.disabled = false
-    wInput.disabled = selected.kind !== "platform" && selected.kind !== "mover"
-    hInput.disabled = wInput.disabled
+    const sizeKind =
+      selected.kind === "platform" ||
+      selected.kind === "mover" ||
+      selected.kind === "decor" ||
+      selected.kind === "hazard"
+    wInput.disabled = !sizeKind
+    hInput.disabled = !sizeKind
+    rotInput.disabled = selected.kind !== "decor" && selected.kind !== "platform"
+    assetInput.disabled = selected.kind !== "decor" && selected.kind !== "platform"
+    currentInput.disabled = selected.kind !== "hazard"
     const idKind = selected.kind === "enemy" || selected.kind === "pickup"
     idInput.disabled = !idKind
     if (idLabel) {
       idLabel.hidden = !idKind
+    }
+    if (assetLabel) {
+      assetLabel.hidden = assetInput.disabled
+    }
+    if (rotLabel) {
+      rotLabel.hidden = rotInput.disabled
+    }
+    if (currentLabel) {
+      currentLabel.hidden = currentInput.disabled
     }
     if (selected.kind === "enemy" || selected.kind === "pickup") {
       fillIdSelect(selected.kind)
@@ -473,6 +621,8 @@ export function mountBuildHud(session: EditorSession): void {
       yInput.value = String(rect.y)
       wInput.value = String(rect.w)
       hInput.value = String(rect.h)
+      rotInput.value = String(rect.rotation ?? 0)
+      assetInput.value = rect.asset ?? (rect.kind === "wall" ? "hedge" : "ground")
     } else if (selected.kind === "mover") {
       const mover = overlay.movers[selected.index]
       if (!mover) {
@@ -504,6 +654,31 @@ export function mountBuildHud(session: EditorSession): void {
       xInput.value = String(pickup.worldX)
       yInput.value = String(pickup.worldY)
       idInput.value = pickup.id
+    } else if (selected.kind === "decor") {
+      const item = overlay.decor?.[selected.index]
+      if (!item) {
+        syncUndo()
+        return
+      }
+      hint.textContent = DECOR_LABELS[item.kind] ?? t("editor.kind.decor")
+      xInput.value = String(item.x)
+      yInput.value = String(item.y)
+      wInput.value = String(item.w)
+      hInput.value = String(item.h)
+      rotInput.value = String(item.rotation ?? 0)
+      assetInput.value = item.asset ?? "hedge"
+    } else if (selected.kind === "hazard") {
+      const item = overlay.hazards?.[selected.index]
+      if (!item) {
+        syncUndo()
+        return
+      }
+      hint.textContent = t("editor.kind.water")
+      xInput.value = String(item.worldX)
+      yInput.value = String(item.worldY)
+      wInput.value = String(item.w)
+      hInput.value = String(item.h)
+      currentInput.value = String(item.current ?? 0)
     }
     drawMarks()
     syncUndo()
@@ -557,6 +732,30 @@ export function mountBuildHud(session: EditorSession): void {
         return { kind: "mover", index: i }
       }
     }
+    for (let i = (overlay.decor ?? []).length - 1; i >= 0; i -= 1) {
+      const item = overlay.decor?.[i]
+      if (
+        item &&
+        wx >= item.x &&
+        wx <= item.x + item.w &&
+        wy >= item.y &&
+        wy <= item.y + item.h
+      ) {
+        return { kind: "decor", index: i }
+      }
+    }
+    for (let i = (overlay.hazards ?? []).length - 1; i >= 0; i -= 1) {
+      const item = overlay.hazards?.[i]
+      if (
+        item &&
+        wx >= item.worldX &&
+        wx <= item.worldX + item.w &&
+        wy >= item.worldY &&
+        wy <= item.worldY + item.h
+      ) {
+        return { kind: "hazard", index: i }
+      }
+    }
     for (let i = overlay.platforms.length - 1; i >= 0; i -= 1) {
       const rect = overlay.platforms[i]
       if (rect && hitRect(wx, wy, rect)) {
@@ -608,6 +807,21 @@ export function mountBuildHud(session: EditorSession): void {
         pickup.x = local.x
         pickup.y = y
       }
+    } else if (sel.kind === "decor") {
+      const item = overlay.decor?.[sel.index]
+      if (item) {
+        item.x = x
+        item.y = y
+      }
+    } else if (sel.kind === "hazard") {
+      const item = overlay.hazards?.[sel.index]
+      if (item) {
+        const local = worldToAnchor(session.world, x, y)
+        item.worldX = x
+        item.worldY = y
+        item.x = local.x
+        item.y = y
+      }
     }
     selected = sel
     syncSelection()
@@ -631,6 +845,8 @@ export function mountBuildHud(session: EditorSession): void {
         rect.y = y
         rect.w = w
         rect.h = h
+        rect.rotation = Number(rotInput.value) || 0
+        rect.asset = assetInput.value as AssembledRect["asset"]
       }
     } else if (selected.kind === "mover") {
       const mover = overlay.movers[selected.index]
@@ -663,6 +879,28 @@ export function mountBuildHud(session: EditorSession): void {
         pickup.y = y
         pickup.id = idInput.value
       }
+    } else if (selected.kind === "decor") {
+      const item = overlay.decor?.[selected.index]
+      if (item) {
+        item.x = x
+        item.y = y
+        item.w = w
+        item.h = h
+        item.rotation = Number(rotInput.value) || 0
+        item.asset = assetInput.value
+      }
+    } else if (selected.kind === "hazard") {
+      const item = overlay.hazards?.[selected.index]
+      if (item) {
+        const local = worldToAnchor(session.world, x, y)
+        item.worldX = x
+        item.worldY = y
+        item.x = local.x
+        item.y = y
+        item.w = w
+        item.h = h
+        item.current = Number(currentInput.value) || 0
+      }
     } else {
       moveSelection(selected, x, y)
       persist()
@@ -687,7 +925,13 @@ export function mountBuildHud(session: EditorSession): void {
   requireEl<HTMLButtonElement>(root, "[data-ui=setActive]").onclick = () => {
     getAudio().playSfx("confirm")
     persist()
-    statusEl.textContent = t("editor.activeDone")
+    const bundle = buildExportBundle(session.level, overlay, session.world)
+    void writeRepoFile(
+      `src/data/editor-out/${session.level.id}.editor.json`,
+      `${JSON.stringify(bundle, null, 2)}\n`,
+    ).then((ok) => {
+      statusEl.textContent = ok ? t("editor.activeDev") : t("editor.activeDone")
+    })
   }
   requireEl<HTMLButtonElement>(root, "[data-ui=copyJson]").onclick = () => {
     getAudio().playSfx("confirm")
@@ -754,6 +998,31 @@ export function mountBuildHud(session: EditorSession): void {
     })
     restart("build")
   }
+  const addDecor = (kind: AssembledDecor["kind"]): void => {
+    const at = cameraCenter()
+    overlay.decor = overlay.decor ?? []
+    overlay.decor.push(defaultDecor(kind, at.x, at.y))
+    restart("build")
+  }
+  requireEl<HTMLButtonElement>(root, "[data-ui=addHedge]").onclick = () => addDecor("hedge")
+  requireEl<HTMLButtonElement>(root, "[data-ui=addGrass]").onclick = () => addDecor("grass")
+  requireEl<HTMLButtonElement>(root, "[data-ui=addLantern]").onclick = () => addDecor("lantern")
+  requireEl<HTMLButtonElement>(root, "[data-ui=addWater]").onclick = () => {
+    const at = cameraCenter()
+    const local = worldToAnchor(session.world, at.x - 80, at.y)
+    overlay.hazards = overlay.hazards ?? []
+    overlay.hazards.push({
+      kind: "water",
+      x: local.x,
+      y: at.y,
+      w: 160,
+      h: 40,
+      current: 40,
+      worldX: at.x - 80,
+      worldY: at.y,
+    })
+    restart("build")
+  }
   requireEl<HTMLButtonElement>(root, "[data-ui=undo]").onclick = () => {
     if (!selected || !baseline || !sameSel(baseline.sel, selected)) {
       return
@@ -776,6 +1045,10 @@ export function mountBuildHud(session: EditorSession): void {
       overlay.enemies.splice(selected.index, 1)
     } else if (selected.kind === "pickup") {
       overlay.pickups.splice(selected.index, 1)
+    } else if (selected.kind === "decor") {
+      overlay.decor?.splice(selected.index, 1)
+    } else if (selected.kind === "hazard") {
+      overlay.hazards?.splice(selected.index, 1)
     } else {
       return
     }
@@ -786,6 +1059,27 @@ export function mountBuildHud(session: EditorSession): void {
   yInput.onchange = applyInspect
   wInput.onchange = applyInspect
   hInput.onchange = applyInspect
+  rotInput.onchange = applyInspect
+  assetInput.onchange = applyInspect
+  currentInput.onchange = applyInspect
+  const applyLook = (): void => {
+    overlay.look = {
+      env: lookEnv.value,
+      sky: lookSky.value || undefined,
+      hour: (lookHour.value || undefined) as PaletteHour | undefined,
+      weather: (lookWeather.value || undefined) as WeatherPreset | undefined,
+      night: lookNight.checked,
+      lanternGlow: lookGlow.checked,
+    }
+    persist()
+    restart("build")
+  }
+  lookEnv.onchange = applyLook
+  lookSky.onchange = applyLook
+  lookHour.onchange = applyLook
+  lookWeather.onchange = applyLook
+  lookNight.onchange = applyLook
+  lookGlow.onchange = applyLook
   mapWidthInput.onchange = () => {
     const width = Math.max(480, snap10(Number(mapWidthInput.value) || overlay.worldWidth))
     overlay.worldWidth = width
@@ -847,6 +1141,14 @@ export function mountBuildHud(session: EditorSession): void {
         const pickup = overlay.pickups[hit.index]
         grabX = worldPoint.x - (pickup?.worldX ?? 0)
         grabY = worldPoint.y - (pickup?.worldY ?? 0)
+      } else if (hit.kind === "decor") {
+        const item = overlay.decor?.[hit.index]
+        grabX = worldPoint.x - (item?.x ?? 0)
+        grabY = worldPoint.y - (item?.y ?? 0)
+      } else if (hit.kind === "hazard") {
+        const item = overlay.hazards?.[hit.index]
+        grabX = worldPoint.x - (item?.worldX ?? 0)
+        grabY = worldPoint.y - (item?.worldY ?? 0)
       }
       fillInspect()
       return

@@ -41,7 +41,9 @@ Used for weight and juice, bounded so nothing feels rubbery:
 | --- | --- |
 | jump take-off | stretch to about 1.15 vertical |
 | landing | squash to about 0.9 vertical |
-| dash | stretch to about 1.2 horizontal, one frame |
+| dash | stretch to about 1.2 horizontal, one frame. Equipped dash cosmetic (`src/data/dashes.json`) adds tint, afterimages, and a short particle burst. Reduced motion keeps a small stretch only. |
+
+See [../editor/README.md](../editor/README.md) for the dash look spec and Settings editor.
 | pickup pop | scale to about 1.2 then settle |
 
 ## Screen shake budget

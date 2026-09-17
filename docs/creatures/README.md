@@ -5,6 +5,10 @@ Data schema for enemies lives in the hub [../ENEMIES.md](../ENEMIES.md) and in
 `src/data/enemies.json`. Folklore backing for named creatures lives in
 [../LORE.md](../LORE.md); no named creature appears without an entry there.
 
+Editor pickers follow this index. A new being also needs a wildlife page plus an archetype
+before it can sit in a biome native list. Invented folk only fill an empty job. See
+[../editor/README.md](../editor/README.md) Phase C.
+
 ## Creature classes
 
 | Class | What it is | Pages |
@@ -54,6 +58,7 @@ and the minimum tier at which the creature appears.
 | frost wisp | swarm | cloudsea | 4 | live (Story) |
 | ice spit | ranged_lob | cloudsea | 4 | live (Story) |
 | bees | swarm | meadow, orchard | 2 | idea |
+| dew | swarm or pickup | meadow, riverbank | 1 | idea |
 
 Guard: owls are ill omens in tradition and must never serve the Moon. They are
 ordinary night enemies only ([../LORE.md](../LORE.md#cranes-as-immortal-messengers)).

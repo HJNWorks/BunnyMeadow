@@ -92,7 +92,21 @@ export type ChunkDef = {
   color: string
 }
 
-export type AssembledRect = ChunkRect & { kind: "platform" | "wall" }
+export type AssembledRect = ChunkRect & {
+  kind: "platform" | "wall"
+  asset?: "ground" | "hedge" | "bridge" | "log" | "pool" | "exit"
+  rotation?: number
+}
+
+export type AssembledDecor = {
+  kind: "hedge" | "vine" | "grass" | "lantern" | "log" | "burrow"
+  x: number
+  y: number
+  w: number
+  h: number
+  rotation?: number
+  asset?: string
+}
 
 export type AssembledEnemy = ChunkEnemySpawn & { worldX: number; worldY: number }
 
@@ -111,6 +125,7 @@ export type AssembledLevel = {
   movers: AssembledMover[]
   hazards: AssembledHazard[]
   carrots: AssembledCarrot[]
+  decor: AssembledDecor[]
   chunkOrigins: number[]
   colors: { x: number; width: number; color: string }[]
 }
@@ -178,6 +193,7 @@ export class ChunkAssembler {
     const movers: AssembledMover[] = []
     const hazards: AssembledHazard[] = []
     const carrots: AssembledCarrot[] = []
+    const decor: AssembledDecor[] = []
     const chunkOrigins: number[] = []
     const colors: { x: number; width: number; color: string }[] = []
     let x = 0
@@ -192,10 +208,19 @@ export class ChunkAssembler {
       height = Math.max(height, chunk.height)
       colors.push({ x, width: chunk.width, color: chunk.color })
       for (const p of chunk.platforms) {
-        platforms.push({ x: x + p.x, y: p.y, w: p.w, h: p.h, kind: "platform" })
+        platforms.push({ x: x + p.x, y: p.y, w: p.w, h: p.h, kind: "platform", asset: "ground" })
       }
       for (const w of chunk.walls) {
-        platforms.push({ x: x + w.x, y: w.y, w: w.w, h: w.h, kind: "wall" })
+        platforms.push({ x: x + w.x, y: w.y, w: w.w, h: w.h, kind: "wall", asset: "hedge" })
+        decor.push({
+          kind: "hedge",
+          x: x + w.x,
+          y: w.y,
+          w: w.w,
+          h: w.h,
+          rotation: 0,
+          asset: "hedge",
+        })
       }
       for (const e of chunk.enemies ?? []) {
         enemies.push({
@@ -239,6 +264,7 @@ export class ChunkAssembler {
       movers,
       hazards,
       carrots,
+      decor,
       chunkOrigins,
       colors,
     }

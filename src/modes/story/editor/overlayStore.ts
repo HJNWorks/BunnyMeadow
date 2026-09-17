@@ -1,10 +1,13 @@
 import type {
+  AssembledDecor,
   AssembledEnemy,
+  AssembledHazard,
   AssembledLevel,
   AssembledMover,
   AssembledRect,
 } from "../../../systems/ChunkAssembler"
 import type { StoryLevelDef } from "../levels"
+import type { PaletteHour, WeatherPreset } from "../shared/themeKit"
 
 export const EDITOR_OVERLAY_KEY = "bunnymeadow.editor.overlay.v1"
 
@@ -16,6 +19,15 @@ export type EditorPickup = {
   worldY: number
 }
 
+export type EditorLook = {
+  env?: string
+  sky?: string
+  hour?: PaletteHour
+  weather?: WeatherPreset
+  night?: boolean
+  lanternGlow?: boolean
+}
+
 export type EditorLevelOverlay = {
   playerSpawn: { x: number; y: number }
   moonPool?: { chunk: number; x: number; y: number }
@@ -25,6 +37,9 @@ export type EditorLevelOverlay = {
   movers: AssembledMover[]
   enemies: AssembledEnemy[]
   pickups: EditorPickup[]
+  decor?: AssembledDecor[]
+  hazards?: AssembledHazard[]
+  look?: EditorLook
 }
 
 type OverlayFile = {
@@ -101,6 +116,12 @@ export function captureOverlay(def: StoryLevelDef, world: AssembledLevel): Edito
       worldX: carrot.worldX,
       worldY: carrot.worldY,
     })),
+    decor: (world.decor ?? []).map((item) => ({ ...item })),
+    hazards: (world.hazards ?? []).map((item) => ({ ...item })),
+    look: {
+      env: def.env,
+      sky: def.sky,
+    },
   }
 }
 
@@ -119,12 +140,20 @@ export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): Assembl
       ? overlay.worldWidth
       : world.width
   const pickups = overlay.pickups ?? []
+  if (overlay.look?.env) {
+    def.env = overlay.look.env
+  }
+  if (overlay.look?.sky) {
+    def.sky = overlay.look.sky
+  }
   return {
     ...world,
     width,
     platforms: overlay.platforms.map((rect) => ({ ...rect })),
     movers: overlay.movers.map((mover) => ({ ...mover })),
     enemies: overlay.enemies.map((enemy) => ({ ...enemy })),
+    hazards: (overlay.hazards ?? world.hazards).map((item) => ({ ...item })),
+    decor: (overlay.decor ?? world.decor ?? []).map((item) => ({ ...item })),
     carrots: pickups
       .filter((item) => item.id === "carrot")
       .map((item) => ({
@@ -146,6 +175,15 @@ export function ensureOverlay(def: StoryLevelDef, world: AssembledLevel): Editor
   }
   if (!existing.pickups) {
     existing.pickups = []
+  }
+  if (!existing.decor) {
+    existing.decor = (world.decor ?? []).map((item) => ({ ...item }))
+  }
+  if (!existing.hazards) {
+    existing.hazards = (world.hazards ?? []).map((item) => ({ ...item }))
+  }
+  if (!existing.look) {
+    existing.look = { env: def.env, sky: def.sky }
   }
   return existing
 }

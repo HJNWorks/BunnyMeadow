@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import { drawBunny } from "../../../render/drawBunny"
 import { getSave } from "../../../core/session"
+import { listWorkshopTextures } from "../../../fx/workshop/overlayStore"
 
 export function buildPlayerTexture(scene: Phaser.Scene): string {
   const save = getSave()
@@ -428,5 +429,16 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     ember.fillCircle(10, 10, 10)
     ember.generateTexture("chase_ember", 20, 20)
     ember.destroy()
+  }
+
+  const workshop = listWorkshopTextures()
+  for (const [id, dataUrl] of Object.entries(workshop)) {
+    if (!dataUrl.startsWith("data:image")) {
+      continue
+    }
+    if (scene.textures.exists(id)) {
+      scene.textures.remove(id)
+    }
+    scene.textures.addBase64(id, dataUrl)
   }
 }
