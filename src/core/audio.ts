@@ -72,16 +72,27 @@ export class AudioBus {
   private nextNote = 0
   private musicTimer = 0
   private listening = false
+  private muted = false
 
   applyFromSave(save: SaveV1): void {
     this.setMaster(save.settings.audio.master)
     this.setMusic(save.settings.audio.music)
     this.setSfx(save.settings.audio.sfx)
+    this.setMuted(save.settings.audio.muted === true)
+  }
+
+  setMuted(muted: boolean): void {
+    this.muted = muted
+    this.applyMasterGain()
+  }
+
+  isMuted(): boolean {
+    return this.muted
   }
 
   setMaster(value: number): void {
     this.master = value
-    this.masterGain?.gain.setTargetAtTime(value, this.now(), 0.02)
+    this.applyMasterGain()
   }
 
   setMusic(value: number): void {
@@ -159,6 +170,11 @@ export class AudioBus {
     }
   }
 
+  private applyMasterGain(): void {
+    const gain = this.muted ? 0 : this.master
+    this.masterGain?.gain.setTargetAtTime(gain, this.now(), 0.02)
+  }
+
   private now(): number {
     return this.ctx?.currentTime ?? 0
   }
@@ -177,7 +193,7 @@ export class AudioBus {
     this.masterGain = this.ctx.createGain()
     this.musicGain = this.ctx.createGain()
     this.sfxGain = this.ctx.createGain()
-    this.masterGain.gain.value = this.master
+    this.masterGain.gain.value = this.muted ? 0 : this.master
     this.musicGain.gain.value = this.music * 0.22
     this.sfxGain.gain.value = this.sfx
     this.musicGain.connect(this.masterGain)

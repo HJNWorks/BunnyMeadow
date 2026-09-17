@@ -94,6 +94,7 @@ Missing routes are forbidden. Locked or unfinished modes still navigate to a stu
 | `storyFull` | Worlds 2–3 + finale | true (web after M4) |
 | `endless` | Endless selectable | true (M5) |
 | `webFullStory` | Ship full story on web | true (M4) |
+| `storyMapEditor` | Settings Story map editor | true |
 
 Mode Select reads flags. It never hard-codes “delete Story for Steam”.
 

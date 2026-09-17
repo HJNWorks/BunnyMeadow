@@ -53,6 +53,7 @@ Missing scenes are forbidden. Unfinished modes open their stub screen.
 | Timer | Tasks and speedruns |
 | Item tray | Top-right icon plus remaining seconds for every timed buff |
 | Boss hearts | Guanghan: Han's five spirit hearts, top center |
+| Mute | Story bar, left of Pause. Toggles master output. Stored as `settings.audio.muted` |
 
 Modes compose the same components. Meadow keeps its bar layout as one consumer. Story and others reuse the contract. The item tray is `src/ui/ItemTray.ts`. Story shows mooncake warmth on Guanghan. Endless shows lantern glow. Instant effects (heal, pantry carrot, extra glide charge) do not take a slot.
 
@@ -66,6 +67,7 @@ Modes compose the same components. Meadow keeps its bar layout as one consumer. 
 - Accessibility toggles (see [GDD.md](GDD.md))
 - Language: EN, DE, ZH-Hans (`t(key)` from M1)
 - Fullscreen and resolution (desktop)
+- Story map editor (`contentFlags.storyMapEditor`, default on). Lists every playable Story station from `listStoryLevels()` (Soft Paws, Worlds 1-4, Guanghan). Meadow and Endless stay out. **Play** opens Story with fail-off (no retry overlay from falls, water, gale, or empty hearts). **Build** drags platforms, walls, bridges, critters, spawn, Moon Pool, and exit (snap 10 px) with an inspector. **Clear overlay** drops local edits for that id. Persistence is `localStorage` key `bunnymeadow.editor.overlay.v1`, not SaveV1. Download JSON from the Build bar and paste into `src/data/chunks/` and `src/data/story/` when you want it in the repo. Editor sessions do not write `cleared`, pantry, or achievements. Remove later by setting the flag false or deleting `src/modes/story/editor/` plus the Settings and Story hooks.
 
 ## Input actions (bindings)
 

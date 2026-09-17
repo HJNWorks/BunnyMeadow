@@ -54,7 +54,7 @@ export type SaveV1 = {
     difficulty: DifficultyId
     difficultyOverrides: Record<string, number>
     accessibility: AccessibilitySettings
-    audio: { master: number; music: number; sfx: number }
+    audio: { master: number; music: number; sfx: number; muted: boolean }
     language: LanguageId
     bindings: Bindings
   }
@@ -123,7 +123,7 @@ export function createDefaultSave(slot = 0): SaveV1 {
         largerText: false,
         oneButtonTouch: false,
       },
-      audio: { master: 1, music: 0.8, sfx: 1 },
+      audio: { master: 1, music: 0.8, sfx: 1, muted: false },
       language: "en",
       bindings: { ...DEFAULT_BINDINGS, moveUp: [...DEFAULT_BINDINGS.moveUp], moveDown: [...DEFAULT_BINDINGS.moveDown], moveLeft: [...DEFAULT_BINDINGS.moveLeft], moveRight: [...DEFAULT_BINDINGS.moveRight], dash: [...DEFAULT_BINDINGS.dash], jump: [...DEFAULT_BINDINGS.jump], pause: [...DEFAULT_BINDINGS.pause], confirm: [...DEFAULT_BINDINGS.confirm], cancel: [...DEFAULT_BINDINGS.cancel] },
     },
@@ -245,6 +245,7 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
     if (typeof merged.progress.endlessBest !== "number") {
       merged.progress.endlessBest = 0
     }
+    merged.settings.audio.muted = merged.settings.audio.muted === true
     const cleared = merged.progress.story.cleared
     const hasW1Progress = cleared.some((id) => typeof id === "string" && id.startsWith("w1_"))
     if (hasW1Progress) {

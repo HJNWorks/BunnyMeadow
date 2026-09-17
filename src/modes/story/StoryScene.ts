@@ -1,6 +1,13 @@
 import Phaser from "phaser"
 import { ChunkAssembler } from "../../systems/ChunkAssembler"
 import { getStoryLevel, type StoryLevelDef } from "./levels"
+import {
+  applyOverlay,
+  cloneStoryLevel,
+  isEditorEnabled,
+  mountBuildHud,
+  type EditorMode,
+} from "./editor"
 import { getDifficulty } from "../../core/difficulty"
 import { getInput } from "../../core/input"
 import { getSave, persistSave } from "../../core/session"
@@ -82,6 +89,7 @@ function shellHtml(): string {
     <span>${t("hud.hearts")} <strong data-ui="hearts">♥ ♥ ♥</strong></span>
     <span data-ui="bossHits" hidden></span>
     <div class="story-controls-dock" data-ui="controlsDock" hidden aria-label="${t("common.controls")}"></div>
+    <button type="button" class="bm-btn ghost" data-ui="muteBtn">${t("story.hud.mute")}</button>
     <button type="button" class="bm-btn" data-ui="pauseBtn">${t("story.hud.pause")}</button>
     <button type="button" class="bm-btn ghost" data-ui="back">${t("story.hud.back")}</button>
   </div>
@@ -229,21 +237,24 @@ export class StoryScene extends Phaser.Scene {
   private ride: RideState | null = null
   private exitHintAt = 0
   private waterGrace = 0
+  private editorMode: EditorMode | null = null
 
   constructor() {
     super("Story")
   }
 
-  init(data?: { levelId?: string }): void {
+  init(data?: { levelId?: string; editor?: { mode: EditorMode } }): void {
     this.levelId = data?.levelId ?? "w1_1_soft_paths"
+    this.editorMode = /* storyMapEditor hook */ data?.editor && isEditorEnabled() ? data.editor.mode : null
   }
 
   create(): void {
-    const def = getStoryLevel(this.levelId)
-    if (!def) {
+    const raw = getStoryLevel(this.levelId)
+    if (!raw) {
       this.scene.start("WorldMap")
       return
     }
+    const def = this.editorMode ? cloneStoryLevel(raw) : raw
     this.level = def
     this.playerState = createPlayerState({
       wallBounce: !!def.wallBounce,
@@ -312,10 +323,32 @@ export class StoryScene extends Phaser.Scene {
         : def.world === 0
           ? t("story.hud.world0")
           : t("story.hud.world", { n: def.world })
+    if (this.editorMode) {
+      requireEl<HTMLButtonElement>(shell.root, "[data-ui=back]").textContent = t("editor.back")
+      this.hud.quit.textContent = t("editor.back")
+    }
 
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=back]").onclick = () => {
       getAudio().playSfx("cancel")
-      this.leaveToWorldMap()
+      this.leavePlay()
+    }
+    const muteBtn = requireEl<HTMLButtonElement>(shell.root, "[data-ui=muteBtn]")
+    const syncMute = (): void => {
+      const muted = getAudio().isMuted()
+      muteBtn.textContent = muted ? t("story.hud.unmute") : t("story.hud.mute")
+      muteBtn.setAttribute("aria-pressed", muted ? "true" : "false")
+    }
+    syncMute()
+    muteBtn.onclick = () => {
+      const save = getSave()
+      const muted = !getAudio().isMuted()
+      save.settings.audio.muted = muted
+      getAudio().setMuted(muted)
+      if (!muted) {
+        getAudio().playSfx("confirm")
+      }
+      syncMute()
+      void persistSave()
     }
     requireEl<HTMLButtonElement>(shell.root, "[data-ui=pauseBtn]").onclick = () => this.setPaused(true)
     this.hud.resume.onclick = () => {
@@ -324,7 +357,7 @@ export class StoryScene extends Phaser.Scene {
     }
     this.hud.quit.onclick = () => {
       getAudio().playSfx("cancel")
-      this.leaveToWorldMap()
+      this.leavePlay()
     }
     this.hud.epilogueContinue.onclick = () => {
       getAudio().playSfx("confirm")
@@ -335,7 +368,7 @@ export class StoryScene extends Phaser.Scene {
       event.stopPropagation()
       getAudio().playSfx("confirm")
       if (this.won) {
-        this.leaveToWorldMap()
+        this.leavePlay()
         return
       }
       if (this.lost) {
@@ -351,7 +384,7 @@ export class StoryScene extends Phaser.Scene {
     const diff = getDifficulty(save)
     this.maxHearts = diff.hearts
     this.health = this.maxHearts
-    this.invincible = save.settings.accessibility.invincible
+    this.invincible = save.settings.accessibility.invincible || this.editorMode !== null
     getInput().setBindings(save.settings.bindings)
     getInput().start()
 
@@ -368,6 +401,9 @@ export class StoryScene extends Phaser.Scene {
       {
         reducedMotion: save.settings.accessibility.reducedMotion,
         onLearned: (action) => {
+          if (this.editorMode) {
+            return
+          }
           const next = getSave()
           if (!next.progress.story.controlHints.includes(action)) {
             next.progress.story.controlHints.push(action)
@@ -378,7 +414,10 @@ export class StoryScene extends Phaser.Scene {
     )
 
     const assembler = new ChunkAssembler()
-    const world = assembler.assemble(def.chunks)
+    let world = assembler.assemble(def.chunks)
+    if (this.editorMode) {
+      world = /* storyMapEditor hook */ applyOverlay(def, world)
+    }
     this.worldWidth = world.width
     ensureStoryTextures(this)
 
@@ -414,24 +453,35 @@ export class StoryScene extends Phaser.Scene {
     }
 
     this.platforms = this.physics.add.staticGroup()
-    for (const rect of world.platforms) {
+    for (let i = 0; i < world.platforms.length; i += 1) {
+      const rect = world.platforms[i]
+      if (!rect) {
+        continue
+      }
       if (rect.kind === "wall") {
-        const tiles = Math.max(1, Math.ceil(rect.h / 56))
-        for (let i = 0; i < tiles; i += 1) {
-          const y = rect.y + 28 + i * 56
-          if (y > rect.y + rect.h) {
-            break
+        if (this.editorMode !== "build") {
+          const tiles = Math.max(1, Math.ceil(rect.h / 56))
+          for (let n = 0; n < tiles; n += 1) {
+            const y = rect.y + 28 + n * 56
+            if (y > rect.y + rect.h) {
+              break
+            }
+            this.add
+              .image(rect.x + rect.w / 2, Math.min(y, rect.y + rect.h - 18), "story_hedge")
+              .setDisplaySize(rect.w + 14, 58)
+              .setDepth(2)
           }
-          this.add
-            .image(rect.x + rect.w / 2, Math.min(y, rect.y + rect.h - 18), "story_hedge")
-            .setDisplaySize(rect.w + 14, 58)
-            .setDepth(2)
         }
         const block = this.add.rectangle(rect.x + rect.w / 2, rect.y + rect.h / 2, rect.w, rect.h, 0x3f5a32, 1)
-        block.setVisible(false)
+        block.setVisible(this.editorMode === "build")
+        if (this.editorMode === "build") {
+          block.setAlpha(0.45)
+        }
         this.physics.add.existing(block, true)
         this.platforms.add(block)
         ;(block.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject()
+        block.setData("editKind", "platform")
+        block.setData("editIndex", i)
       } else {
         const block = this.add.tileSprite(
           rect.x + rect.w / 2,
@@ -444,9 +494,13 @@ export class StoryScene extends Phaser.Scene {
         this.physics.add.existing(block, true)
         this.platforms.add(block)
         ;(block.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject()
-        this.add
-          .rectangle(rect.x + rect.w / 2, rect.y + 6, rect.w, 12, hexToNum(palette.ground))
-          .setDepth(1.5)
+        block.setData("editKind", "platform")
+        block.setData("editIndex", i)
+        if (this.editorMode !== "build") {
+          this.add
+            .rectangle(rect.x + rect.w / 2, rect.y + 6, rect.w, 12, hexToNum(palette.ground))
+            .setDepth(1.5)
+        }
       }
     }
 
@@ -461,6 +515,7 @@ export class StoryScene extends Phaser.Scene {
     this.player.setBounce(0)
     this.player.setMaxVelocity(560, 900)
     this.player.setDepth(5)
+    this.player.setData("editKind", "spawn")
     const playerBody = this.player.body as Phaser.Physics.Arcade.Body
     playerBody.setSize(26, 38)
     playerBody.setOffset(7, 8)
@@ -468,6 +523,10 @@ export class StoryScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.platforms)
 
     this.movers = createMovers(this, world.movers, this.player)
+    this.movers.forEach((state, index) => {
+      state.sprite.setData("editKind", "mover")
+      state.sprite.setData("editIndex", index)
+    })
 
     createWaterHazards(this, world.hazards, this.player, (water) => {
       this.onWater(water)
@@ -498,13 +557,20 @@ export class StoryScene extends Phaser.Scene {
     this.enemies = this.physics.add.group()
     this.projectiles = this.physics.add.group()
 
-    for (const e of world.enemies) {
-      spawnEnemy(this, e.id, e.worldX, e.worldY, this.platforms, this.enemies)
+    for (let i = 0; i < world.enemies.length; i += 1) {
+      const e = world.enemies[i]
+      if (!e) {
+        continue
+      }
+      const sprite = spawnEnemy(this, e.id, e.worldX, e.worldY, this.platforms, this.enemies)
+      sprite.setData("editKind", "enemy")
+      sprite.setData("editIndex", i)
     }
 
     if (def.moonPool && !def.noCheckpoint) {
       const pool = assembler.worldPoint(world, def.moonPool)
       this.moonPool = this.add.image(pool.x, pool.y, "story_pool").setDepth(1)
+      this.moonPool.setData("editKind", "pool")
       this.physics.add.existing(this.moonPool, true)
       ;(this.moonPool.body as Phaser.Physics.Arcade.StaticBody).setSize(70, 28)
       this.physics.add.overlap(this.player, this.moonPool, () => this.onMoonPool())
@@ -512,13 +578,19 @@ export class StoryScene extends Phaser.Scene {
 
     const exit = assembler.worldPoint(world, def.exit)
     this.exitZone = this.add.image(exit.x, exit.y, "story_exit").setDepth(1)
+    this.exitZone.setData("editKind", "exit")
     this.physics.add.existing(this.exitZone, true)
     const exitBody = this.exitZone.body as Phaser.Physics.Arcade.StaticBody
     exitBody.setSize(120, 120)
     exitBody.setOffset(-20, -20)
     exitBody.updateFromGameObject()
 
-    this.physics.add.overlap(this.player, this.exitZone, () => void this.onExit())
+    this.physics.add.overlap(this.player, this.exitZone, () => {
+      if (this.editorMode === "build") {
+        return
+      }
+      void this.onExit()
+    })
     this.physics.add.overlap(this.player, this.enemies, (_p, enemy) => {
       const body = enemy as Phaser.Physics.Arcade.Sprite
       const arch = body.getData("archetype") as string
@@ -643,6 +715,29 @@ export class StoryScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12)
     this.cameras.main.setDeadzone(90, 60)
     this.cameras.main.setZoom(1.25)
+    if (this.editorMode) {
+      if (this.editorMode === "build") {
+        this.cameras.main.stopFollow()
+        this.cameras.main.setZoom(1)
+        this.cameras.main.centerOn(spawnX, spawnY)
+        const body = this.player.body as Phaser.Physics.Arcade.Body
+        body.setAllowGravity(false)
+        this.player.setImmovable(true)
+        this.player.setVelocity(0, 0)
+      }
+      mountBuildHud({
+        scene: this,
+        level: this.level,
+        world,
+        player: this.player,
+        moonPool: this.moonPool,
+        exitZone: this.exitZone,
+        platforms: this.platforms,
+        movers: this.movers,
+        enemies: this.enemies,
+        mode: this.editorMode,
+      })
+    }
     this.syncHearts()
     ;(window as unknown as { __bmStory?: () => Record<string, number | boolean | string> }).__bmStory = () => ({
       x: this.player?.x ?? 0,
@@ -666,7 +761,37 @@ export class StoryScene extends Phaser.Scene {
       getAudio().stopMusic()
       delete (window as unknown as { __bmStory?: unknown }).__bmStory
       this.cleanupInput()
+      this.style?.remove()
+      this.style = null
     })
+  }
+
+  private leavePlay(): void {
+    if (this.editorMode) {
+      this.leaveToSettings()
+      return
+    }
+    this.leaveToWorldMap()
+  }
+
+  private leaveToSettings(): void {
+    if (this.leaving) {
+      return
+    }
+    this.leaving = true
+    if (this.scene.isActive("DialogueOverlay")) {
+      this.scene.stop("DialogueOverlay")
+    }
+    this.inDialogue = false
+    this.paused = false
+    if (this.physics.world) {
+      this.physics.world.isPaused = false
+    }
+    getInput().stop()
+    this.coach = null
+    this.style?.remove()
+    this.style = null
+    this.scene.start("Settings")
   }
 
   private leaveToWorldMap(): void {
@@ -831,6 +956,13 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private enterDeadState(message: string): void {
+    if (this.editorMode === "build") {
+      return
+    }
+    if (this.editorMode === "play") {
+      this.respawn()
+      return
+    }
     if (this.lost || this.won) {
       return
     }
@@ -853,6 +985,9 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private onMoonPool(): void {
+    if (this.editorMode) {
+      return
+    }
     if (!this.moonPool || this.level.noCheckpoint) {
       return
     }
@@ -1158,6 +1293,16 @@ export class StoryScene extends Phaser.Scene {
     this.hud.controlsFloat.hidden = true
     this.hud.pausePanel.hidden = true
 
+    if (/* storyMapEditor hook */ this.editorMode) {
+      this.hud.title.textContent = t("editor.done.title")
+      this.hud.message.textContent = t("editor.done.body")
+      this.hud.play.textContent = t("editor.back")
+      this.hud.overlay.hidden = false
+      this.hud.overlay.style.display = "flex"
+      this.hud.play.focus()
+      return
+    }
+
     try {
       const save = getSave()
       if (!save.progress.story.cleared.includes(this.level.id)) {
@@ -1219,6 +1364,11 @@ export class StoryScene extends Phaser.Scene {
       return
     }
     const dt = delta / 1000
+    if (this.editorMode === "build") {
+      this.player.setVelocity(0, 0)
+      this.weather?.update(dt, this.cameras.main.scrollX)
+      return
+    }
     this.invuln = Math.max(0, this.invuln - dt)
     tickPlayerTimers(this.playerState, dt)
     this.waterGrace = Math.max(0, this.waterGrace - dt * 0.5)

@@ -8,6 +8,8 @@ import { getSave, persistSave } from "../core/session"
 import { applyAccessibilityDom } from "../core/a11y"
 import { getInput } from "../core/input"
 import { mountDomShell, requireEl } from "../ui/DomShell"
+import { listStoryLevels } from "../modes/story/levels"
+import { clearOverlay, isEditorEnabled, startEditor } from "../modes/story/editor"
 
 export class SettingsScene extends Phaser.Scene {
   private returnTo = "Title"
@@ -70,6 +72,29 @@ export class SettingsScene extends Phaser.Scene {
           </label>`,
           )
           .join("")}
+        ${/* storyMapEditor hook */ isEditorEnabled()
+          ? `
+        <h2>${t("editor.title")}</h2>
+        <p class="bm-tagline">${t("editor.note")}</p>
+        <div class="bm-field">
+          <label for="editorLevel">${t("editor.level")}</label>
+          <select id="editorLevel" data-ui="editorLevel">
+            ${listStoryLevels()
+              .map(
+                (level) =>
+                  `<option value="${level.id}">${t(`story.level.${level.id}.name`)}</option>`,
+              )
+              .join("")}
+          </select>
+        </div>
+        <div class="bm-actions bm-start">
+          <button type="button" class="bm-btn warm" data-ui="editorPlay">${t("editor.play")}</button>
+          <button type="button" class="bm-btn" data-ui="editorBuild">${t("editor.build")}</button>
+          <button type="button" class="bm-btn ghost" data-ui="editorClear">${t("editor.clear")}</button>
+        </div>
+        <p class="bm-tagline" data-ui="editorStatus"></p>
+          `
+          : ""}
         <div class="bm-field">
           <label>${t("settings.dashKey")}</label>
           <input data-ui="dashKey" value="${save.settings.bindings.dash[0] ?? "KeyR"}" />
@@ -155,6 +180,24 @@ export class SettingsScene extends Phaser.Scene {
     requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
       getAudio().playSfx("cancel")
       this.scene.start(this.returnTo, this.returnData)
+    }
+
+    if (isEditorEnabled()) {
+      const levelSelect = requireEl<HTMLSelectElement>(root, "[data-ui=editorLevel]")
+      const status = requireEl<HTMLElement>(root, "[data-ui=editorStatus]")
+      requireEl<HTMLButtonElement>(root, "[data-ui=editorPlay]").onclick = () => {
+        getAudio().playSfx("confirm")
+        startEditor(this, levelSelect.value, "play")
+      }
+      requireEl<HTMLButtonElement>(root, "[data-ui=editorBuild]").onclick = () => {
+        getAudio().playSfx("confirm")
+        startEditor(this, levelSelect.value, "build")
+      }
+      requireEl<HTMLButtonElement>(root, "[data-ui=editorClear]").onclick = () => {
+        getAudio().playSfx("cancel")
+        clearOverlay(levelSelect.value)
+        status.textContent = t("editor.cleared")
+      }
     }
   }
 }

@@ -15,6 +15,12 @@ All notable changes to this project are recorded here. The format follows
 - World 4 Cloud Stair between Crane Summit and Guanghan: three stations, hanging
   bridges, frost wisps, ice spit, gale magpies. 4-2 and 4-3 have no Moon Pool. 4-3 is
   a left-closing gale. Moon unlocks after Closing Gale.
+- Settings Story map editor (`contentFlags.storyMapEditor`): Play with fail-off, Build
+  drag/inspector for platforms, bridges, critters, spawn, Moon Pool, and exit. Edits live
+  in `localStorage` (`bunnymeadow.editor.overlay.v1`) plus Download JSON. No Story
+  progress writes. Removable via the flag and `src/modes/story/editor/`.
+- Story HUD Mute next to Pause. Cuts master output without changing the volume sliders.
+  Stored as `settings.audio.muted`.
 
 ## [0.2.0] - 2026-09-16
 
