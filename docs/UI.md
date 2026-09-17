@@ -37,7 +37,7 @@ StoryBeat panel sits above WorldMap for World 0 stations
 | TaskRun | play | live (M2 TaskRuntime) |
 | Endless | play | live (M5: chunk-streamed runner, chase wall, local leaderboard) |
 | Pause | overlay | stub registered; Meadow/Tasks use inline pause until shared Pause lands |
-| DialogueOverlay | overlay | live (Moon Pool / two-line) |
+| DialogueOverlay | overlay | live (two-line lock; crane bow. Moon Pool uses the Story ticker) |
 | Result | menu | stub shell until modes need it |
 | AssetWorkshop | menu | Dash look + silhouette brush. Opened from Settings. |
 
@@ -53,12 +53,13 @@ Missing scenes are forbidden. Unfinished modes open their stub screen.
 | Objective | One short line |
 | Timer | Tasks and speedruns |
 | Item tray | Top-right icon plus remaining seconds for every timed buff |
+| Story ticker | One running Chang'e line above hearts after Moon Pool contact |
 | Boss hearts | Guanghan: Han's five spirit hearts, top center |
 | Mute | Story bar, left of Pause. Toggles master output. Stored as `settings.audio.muted` |
 
-Modes compose the same components. Meadow keeps its bar layout as one consumer. Story and others reuse the contract. The item tray is `src/ui/ItemTray.ts`. Story shows mooncake warmth on Guanghan. Endless shows lantern glow. Instant effects (heal, pantry carrot, extra glide charge) do not take a slot.
+Modes compose the same components. Meadow keeps its bar layout as one consumer. Story and others reuse the contract. The item tray is `src/ui/ItemTray.ts`. The Story ticker is `src/ui/StoryTicker.ts`. Story shows mooncake warmth on Guanghan. Endless shows lantern glow. Instant effects (heal, pantry carrot, extra glide charge) do not take a slot.
 
-Story and Endless keep the Phaser canvas inside a letterbox between the HTML bars (`src/ui/playfieldFrame.ts`). Fullscreen still uses `Scale.FIT` at 1920x1080, but the parent is inset so HUD, the map-editor top toolbar, and the bottom session bar do not cover the playfield. Camera zoom on those modes is 1.
+Story and Endless keep the Phaser canvas inside a letterbox between the HTML bars (`src/ui/playfieldFrame.ts`). Fullscreen still uses `Scale.FIT` at 1920x1080, but the parent is inset so HUD, the Story ticker, the map-editor top toolbar, and the bottom session bar do not cover the playfield. Camera zoom on those modes is 1. Trigger kinds: [story/proximity.md](story/proximity.md).
 
 ## Settings
 

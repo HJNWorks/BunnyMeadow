@@ -38,6 +38,11 @@ export type ChunkId = string
 
 export type ChunkRect = { x: number; y: number; w: number; h: number }
 
+export type PlaceableTrigger = {
+  kind: "proximity"
+  radius: number
+}
+
 export type ChunkEnemySpawn = { id: string; x: number; y: number }
 
 export type ChunkEnemySlot = { x: number; y: number; allow: string[]; minTier: number }
@@ -55,6 +60,7 @@ export type ChunkMover = ChunkRect & {
 export type ChunkHazard = ChunkRect & {
   kind: "water"
   current?: number
+  trigger?: PlaceableTrigger
 }
 
 export type ChunkCarrot = { x: number; y: number }
@@ -106,6 +112,7 @@ export type AssembledDecor = {
   h: number
   rotation?: number
   asset?: string
+  trigger?: PlaceableTrigger
 }
 
 export type AssembledEnemy = ChunkEnemySpawn & { worldX: number; worldY: number }

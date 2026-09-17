@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import type { AssembledDecor } from "../../../systems/ChunkAssembler"
+import { applyPlaceableTrigger } from "./placeables"
 
 function textureForDecor(kind: AssembledDecor["kind"], asset?: string): string {
   if (asset === "exit" || kind === "burrow") {
@@ -40,5 +41,6 @@ export function spawnDecorItem(
   }
   sprite.setData("editKind", "decor")
   sprite.setData("editIndex", index)
+  applyPlaceableTrigger(item)
   return sprite
 }

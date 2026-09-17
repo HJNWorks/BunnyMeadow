@@ -23,6 +23,8 @@ docs/
   README.md            this index
   GDD.md               game design overview (hub)
   STORY.md             one-night narrative spine
+  story/
+    proximity.md       contact vs proximity vs volume triggers
   LORE.md              folklore ledger (canon / adapted / invented)
   WORLDS.md            story path map (hub into universe/environments)
   ENEMIES.md           enemy data schema (hub into creatures/)

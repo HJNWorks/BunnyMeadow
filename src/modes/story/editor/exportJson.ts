@@ -109,6 +109,7 @@ export function buildExportBundle(
       h: hazard.h,
       kind: "water",
       current: hazard.current,
+      trigger: hazard.trigger,
     })
   }
 

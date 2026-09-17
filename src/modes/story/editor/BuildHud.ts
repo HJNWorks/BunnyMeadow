@@ -36,6 +36,7 @@ import {
   type PaletteHour,
   type WeatherPreset,
 } from "../shared/themeKit"
+import { applyContactBody, EXIT_CONTACT, POOL_CONTACT } from "../shared/contactBodies"
 
 export type EditorMode = "play" | "build"
 
@@ -753,11 +754,11 @@ export function mountBuildHud(session: EditorSession): void {
     } else if (focus.kind === "pool" && overlay.moonPool && session.moonPool) {
       const origin = session.world.chunkOrigins[overlay.moonPool.chunk] ?? 0
       session.moonPool.setPosition(origin + overlay.moonPool.x, overlay.moonPool.y)
-      refreshBody(session.moonPool)
+      applyContactBody(session.moonPool, POOL_CONTACT)
     } else if (focus.kind === "exit") {
       const origin = session.world.chunkOrigins[overlay.exit.chunk] ?? 0
       session.exitZone.setPosition(origin + overlay.exit.x, overlay.exit.y)
-      refreshBody(session.exitZone)
+      applyContactBody(session.exitZone, EXIT_CONTACT)
     } else if (focus.kind === "platform") {
       syncPlatform(focus.index)
     } else if (focus.kind === "mover") {

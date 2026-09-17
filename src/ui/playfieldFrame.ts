@@ -49,7 +49,11 @@ export function measureChromeInsets(options: {
   return { top: Math.ceil(top), bottom: Math.ceil(bottom), side }
 }
 
-export function attachPlayfieldFrame(scene: Phaser.Scene, measure: () => PlayfieldInsets): void {
+export function attachPlayfieldFrame(
+  scene: Phaser.Scene,
+  measure: () => PlayfieldInsets,
+  options?: { observeSelectors?: string[] },
+): void {
   const parent = scene.game.canvas.parentElement
   if (!parent) {
     return
@@ -85,6 +89,12 @@ export function attachPlayfieldFrame(scene: Phaser.Scene, measure: () => Playfie
   document.addEventListener("fullscreenchange", apply)
   const observer = new ResizeObserver(apply)
   observer.observe(document.documentElement)
+  for (const selector of options?.observeSelectors ?? []) {
+    const el = document.querySelector(selector)
+    if (el) {
+      observer.observe(el)
+    }
+  }
 
   const teardown = (): void => {
     scene.scale.off(Phaser.Scale.Events.RESIZE, apply)

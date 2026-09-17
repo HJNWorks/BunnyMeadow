@@ -44,3 +44,13 @@ export function defaultDecor(kind: AssembledDecor["kind"], x: number, y: number)
   }
   return { kind: "hedge", x, y, w: 36, h: 120, rotation: 0, asset: "hedge" }
 }
+
+export function applyPlaceableTrigger(item: AssembledDecor): void {
+  if (item.kind === "burrow") {
+    return
+  }
+  if (item.trigger?.kind !== "proximity") {
+    return
+  }
+  void item.trigger.radius
+}

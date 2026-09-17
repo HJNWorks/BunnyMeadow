@@ -119,7 +119,7 @@ Status values:
 | --- | --- | --- |
 | Mei | Eldest kit of the burrow. Player avatar. Talks to the Moon through water | Chang'e's loneliness and authority |
 | Yue | Youngest kit. Glows faintly. Mistaken for a fallen moon blossom | No predator kidnapping. Misunderstanding only |
-| Moon Pools | Checkpoint puddles that light at night and speak with Chang'e's voice | Reflections as the only channel. Short dialogue |
+| Moon Pools | Checkpoint puddles that awaken on contact and speak with Chang'e's voice in the HUD ticker | Reflections as the only channel. Short line, no freeze card |
 | Osmanthus blossom fall | A glowing blossom from Wu Gang's tree drifts to earth and starts the plot | Wu Gang's tree is canon. The fall event is invented |
 | Heron Fisher | World 2 boss. Invented animal antagonist | Fine. Herons are ordinary wildlife, not folklore deities |
 | Han | Moon boss. Old invented ghost of Vast Cold. The palace's habit of keeping guests | Must not be Chang'e, Yue, Yutu, Wu Gang, or the moon toad. No fire or water kit |

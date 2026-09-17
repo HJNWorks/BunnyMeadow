@@ -61,7 +61,7 @@ Hardcore uses `hearts: 1`. Accessibility invincible still overrides contact dama
 
 - Invincible mode
 - Slow time (0.7x)
-- Auto-dash on proximity
+- Auto-dash on proximity (assist on Mei, not a map trigger; see [story/proximity.md](story/proximity.md))
 - High-contrast palette
 - Reduced motion
 - Larger text

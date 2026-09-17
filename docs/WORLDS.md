@@ -2,7 +2,7 @@
 
 Story first release: 4 worlds x 3 levels plus moon finale. Hub is the burrow.
 
-This page is the story path map. The full derived world model, with one page per environment
+This page is the story path map. Trigger kinds for burrow, Moon Pool, and water are in [story/proximity.md](story/proximity.md). The full derived world model, with one page per environment
 and how Endless walks between them, lives in [universe/README.md](universe/README.md)
 (see the biome graph in [universe/biome-graph.md](universe/biome-graph.md) and the per-rung
 pages under [universe/environments/](universe/environments/)).

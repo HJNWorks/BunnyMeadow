@@ -78,7 +78,7 @@ Later milestones must not invent a second version of these. M1 created them (fil
 | TaskRun | play | live (canvas TaskRuntime) |
 | Endless | play | live (chunk-streamed runner with chase wall) |
 | Pause | overlay HTML | registered stub; Meadow and Tasks use inline pause cards (shared Pause scene unused) |
-| DialogueOverlay | overlay HTML | live (two-line card; Moon Pool lines) |
+| DialogueOverlay | overlay HTML | live (two-line card; crane bow. Moon Pool uses the Story ticker) |
 | Result | menu HTML | stub shell for post-level |
 
 Missing routes are forbidden. Locked or unfinished modes still navigate to a stub screen.
@@ -208,7 +208,7 @@ See [STEAM.md](STEAM.md). Web already implements: `SaveStore`, `Achievements`, `
 
 **Status: done**
 
-**Filled:** Achievements rename (Title); WorldMap path map (W0 stations + W1–W3 expandable) + Story Phaser Arcade; ChunkAssembler JSON chunks with movers/hazards; Moon Pool checkpoints + DialogueOverlay; Soft Paths, Hedge Maze, Green Corridor, Floating Logs, Paper Lights, Tiger Road live; boss nodes Soon; `storyWorld1` true.
+**Filled:** Achievements rename (Title); WorldMap path map (W0 stations + W1–W3 expandable) + Story Phaser Arcade; ChunkAssembler JSON chunks with movers/hazards; Moon Pool checkpoints (awaken + HUD ticker); Soft Paths, Hedge Maze, Green Corridor, Floating Logs, Paper Lights, Tiger Road live; boss nodes Soon; `storyWorld1` true.
 
 **Exit criteria (met for non-boss slice):** clear six playable stations; Moon Pool checkpoint restore; W0 beats unlock Soft Paths; W1 2/2 unlocks W2; W2 2/2 unlocks W3.
 

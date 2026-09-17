@@ -8,6 +8,10 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Burrow exit and Moon Pool win/checkpoint on contact with the visible ellipse. The extra
+  proximity box around the hole is gone. Moon Pool awakens on first touch (silver
+  reflection, no pause, no DialogueOverlay). Chang'e's line runs in a HUD ticker above
+  hearts. Trigger map: `docs/story/proximity.md`.
 - Settings map editor card is Open only. World and station switching live in the
   editor. Environment and Creatures are white select bars grouped by world.
   Selection Mode Region drag-selects every object in a rectangle, with shared

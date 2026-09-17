@@ -4,7 +4,7 @@ Working title: **Bunny Meadow and the Moon**
 
 Tone: family. No death. No predator kidnapping. A kit goes missing by misunderstanding. Every folklore name links to [LORE.md](LORE.md).
 
-Dialogue rule: two lines max per exchange. Skippable. Moon Pool exchanges are one line from Chang'e.
+Dialogue rule: two lines max per exchange. Skippable. Moon Pool lines are one line from Chang'e in the HUD ticker. Crane bow still uses the two-line freeze card. Trigger kinds: [story/proximity.md](story/proximity.md).
 
 ## Cast
 
@@ -126,10 +126,12 @@ Why rabbits sit and watch the moon. Family reunion under the full moon. Fade on 
 
 ## Moon Pool rules
 
-- Every checkpoint is a puddle or pond.
-- Touching it saves progress and may play one Chang'e line.
-- Skip with confirm or face button.
-- No cutscene lock longer than two seconds unless the player chooses to read.
+- Every checkpoint is a puddle or pond. Contact with the visible water, not a generous box. See [story/proximity.md](story/proximity.md).
+- Dormant water is a still dusk puddle. First touch awakens the reflection (silver moon-rim) and sets the station checkpoint for this run.
+- Chang'e's line runs in the HUD ticker above hearts. Play does not pause. DialogueOverlay is not used for the pool.
+- Skip the ticker with confirm or face. Reduced motion shows the line static. Auto-clear after a few seconds.
+- Re-entering an awake pool does not replay the line. Respawn in the same run keeps the awake look.
+- Editor Build does not awaken or tick. Editor Play does.
 - Exception: Cloud Stair 4-2 and 4-3 have no pool. A fall or a catch restarts the station.
 
 ## Boss encounters (summary)

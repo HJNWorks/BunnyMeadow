@@ -46,7 +46,13 @@ Build bar: Play, Build, Set active, Copy JSON, Back to Settings. World, station,
 
 Object Addition: Environment and Creatures are optgroup selects (All plus each world). Environment covers platforms, walls, bridges, water, decor, and items. Creatures lists every wildlife id in `roster.ts`.
 
-Wall is the green collision slab. Hedge/vine art is a separate selectable decor object (`overlay.decor`). Water is a first-class hazard (`overlay.hazards`) with current.
+Wall is the green collision slab. Hedge/vine art is a separate selectable decor object (`overlay.decor`). Water is a first-class hazard (`overlay.hazards`) with current. Burrow exit and Moon Pool are **contact** with the visible sprite. Water is a **volume**. Optional overlay field on decor and hazards:
+
+```json
+"trigger": { "kind": "proximity", "radius": 80 }
+```
+
+Runtime does not spawn a proximity sensor from that field yet. Do not put `trigger` on burrow or Moon Pool. Map: [story/proximity.md](../story/proximity.md).
 
 Toolbar: Selection Mode Object or Region. Region: drag a rectangle; every object inside is selected with its fields. Then x, y, w, h, rotation, asset, id, current, Undo, Delete apply to the set. Look (palette kit, sky/far/fog hex, hour, weather, night overlay, night amount, day haze, lantern glow, low gravity, map width). Night overlay is independent of hour, so Burrow Eve afternoon can still darken. World index: `src/modes/story/editor/worldIndex.ts`.
 

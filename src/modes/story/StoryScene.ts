@@ -21,7 +21,15 @@ import { attachPlayfieldFrame, measureChromeInsets } from "../../ui/playfieldFra
 import { equippedDashDef, PhaserDashFx } from "../../fx/dash"
 import { ControlCoach, CONTROL_COACH_CSS, type CoachAction } from "../../ui/ControlCoach"
 import { ITEM_TRAY_CSS, bindItemTray, renderItemTray, type TrayBuff } from "../../ui/ItemTray"
+import { STORY_TICKER_CSS, bindStoryTicker, type StoryTicker } from "../../ui/StoryTicker"
 import { ensureStoryTextures } from "./shared/storyTextures"
+import {
+  applyContactBody,
+  EXIT_CONTACT,
+  POOL_CONTACT,
+  POOL_AWAKE_TINT,
+  POOL_DORMANT_TINT,
+} from "./shared/contactBodies"
 import {
   createPlayerState,
   tickPlayerTimers,
@@ -76,6 +84,7 @@ type Hud = {
   epilogueContinue: HTMLButtonElement
   itemTray: HTMLElement
   hanHearts: HTMLElement
+  ticker: StoryTicker
 }
 
 
@@ -95,6 +104,9 @@ function shellHtml(): string {
     <h1 data-ui="levelName"></h1>
     <p class="bm-tagline" data-ui="objective"></p>
   </header>
+  <div class="bm-story-ticker" data-ui="ticker" hidden role="status" aria-live="polite">
+    <p class="bm-story-ticker-line" data-ui="tickerText"></p>
+  </div>
   <div class="meadow-bar">
     <span>${t("hud.hearts")} <strong data-ui="hearts">♥ ♥ ♥</strong></span>
     <span data-ui="bossHits" hidden></span>
@@ -148,6 +160,7 @@ const CSS = `
 }
 .bm-story-hud .meadow-header,
 .bm-story-hud .meadow-bar,
+.bm-story-hud .bm-story-ticker,
 .bm-story-hud .meadow-overlay,
 .bm-story-hud .meadow-overlay *,
 .bm-story-hud button {
@@ -185,6 +198,7 @@ const CSS = `
 .meadow-pause-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
 ${CONTROL_COACH_CSS}
 ${ITEM_TRAY_CSS}
+${STORY_TICKER_CSS}
 .bm-story-hud .bm-item-tray { top: 168px; }
 .story-han-hearts {
   position: fixed;
@@ -200,6 +214,20 @@ ${ITEM_TRAY_CSS}
 }
 .story-han-hearts[hidden] { display: none; }
 `
+
+function mixTint(from: number, to: number, t: number): number {
+  const u = Math.max(0, Math.min(1, t))
+  const fr = (from >> 16) & 0xff
+  const fg = (from >> 8) & 0xff
+  const fb = from & 0xff
+  const tr = (to >> 16) & 0xff
+  const tg = (to >> 8) & 0xff
+  const tb = to & 0xff
+  const r = Math.round(fr + (tr - fr) * u)
+  const g = Math.round(fg + (tg - fg) * u)
+  const b = Math.round(fb + (tb - fb) * u)
+  return (r << 16) | (g << 8) | b
+}
 
 export class StoryScene extends Phaser.Scene {
   private levelId = "w1_1_soft_paths"
@@ -253,6 +281,8 @@ export class StoryScene extends Phaser.Scene {
   private dashFx: PhaserDashFx | null = null
   private decorSprites: Phaser.GameObjects.Image[] = []
   private waterRects: Phaser.GameObjects.Rectangle[] = []
+  private reducedMotion = false
+  private poolRipple: Phaser.GameObjects.Ellipse | null = null
 
   constructor() {
     super("Story")
@@ -302,6 +332,7 @@ export class StoryScene extends Phaser.Scene {
     this.exitHintAt = 0
     this.waterGrace = 0
     this.glowTimer = 0
+    this.poolRipple = null
     this.physics.world.isPaused = false
 
     this.style = document.createElement("style")
@@ -329,6 +360,7 @@ export class StoryScene extends Phaser.Scene {
       epilogueContinue: requireEl(shell.root, "[data-ui=epilogueContinue]"),
       itemTray: bindItemTray(shell.root),
       hanHearts: requireEl(shell.root, "[data-ui=hanHearts]"),
+      ticker: bindStoryTicker(shell.root),
     }
 
     this.hud.levelName.textContent = t(`story.level.${def.id}.name`)
@@ -397,6 +429,7 @@ export class StoryScene extends Phaser.Scene {
     this.hud.play.addEventListener("pointerup", goMap)
 
     const save = getSave()
+    this.reducedMotion = save.settings.accessibility.reducedMotion
     const diff = getDifficulty(save)
     this.maxHearts = diff.hearts
     this.health = this.maxHearts
@@ -662,8 +695,9 @@ export class StoryScene extends Phaser.Scene {
       const pool = assembler.worldPoint(world, def.moonPool)
       this.moonPool = this.add.image(pool.x, pool.y, "story_pool").setDepth(1)
       this.moonPool.setData("editKind", "pool")
+      this.moonPool.setTint(POOL_DORMANT_TINT)
       this.physics.add.existing(this.moonPool, true)
-      ;(this.moonPool.body as Phaser.Physics.Arcade.StaticBody).setSize(70, 28)
+      applyContactBody(this.moonPool, POOL_CONTACT)
       this.physics.add.overlap(this.player, this.moonPool, () => this.onMoonPool())
     }
 
@@ -671,10 +705,7 @@ export class StoryScene extends Phaser.Scene {
     this.exitZone = this.add.image(exit.x, exit.y, "story_exit").setDepth(1)
     this.exitZone.setData("editKind", "exit")
     this.physics.add.existing(this.exitZone, true)
-    const exitBody = this.exitZone.body as Phaser.Physics.Arcade.StaticBody
-    exitBody.setSize(120, 120)
-    exitBody.setOffset(-20, -20)
-    exitBody.updateFromGameObject()
+    applyContactBody(this.exitZone, EXIT_CONTACT)
 
     this.physics.add.overlap(this.player, this.exitZone, () => {
       if (this.editorMode === "build") {
@@ -838,14 +869,29 @@ export class StoryScene extends Phaser.Scene {
         mode: this.editorMode,
       })
     }
-    attachPlayfieldFrame(this, () =>
-      measureChromeInsets({
-        topSelectors: [".bm-story-hud .meadow-header", ".bm-story-hud .meadow-bar", ".bm-editor-top"],
-        bottomSelectors: [".bm-editor-bar"],
-        padTop: 10,
-        padBottom: 12,
-        side: 20,
-      }),
+    attachPlayfieldFrame(
+      this,
+      () =>
+        measureChromeInsets({
+          topSelectors: [
+            ".bm-story-hud .meadow-header",
+            ".bm-story-hud .bm-story-ticker",
+            ".bm-story-hud .meadow-bar",
+            ".bm-editor-top",
+          ],
+          bottomSelectors: [".bm-editor-bar"],
+          padTop: 10,
+          padBottom: 12,
+          side: 20,
+        }),
+      {
+        observeSelectors: [
+          ".bm-story-hud .meadow-header",
+          ".bm-story-hud .bm-story-ticker",
+          ".bm-story-hud .meadow-bar",
+          ".bm-editor-top",
+        ],
+      },
     )
     this.syncHearts()
     ;(window as unknown as { __bmStory?: () => Record<string, number | boolean | string> }).__bmStory = () => ({
@@ -872,6 +918,8 @@ export class StoryScene extends Phaser.Scene {
       this.cleanupInput()
       this.dashFx?.destroy()
       this.dashFx = null
+      this.poolRipple?.destroy()
+      this.poolRipple = null
       this.style?.remove()
       this.style = null
     })
@@ -1125,7 +1173,7 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private onMoonPool(): void {
-    if (this.editorMode) {
+    if (this.editorMode === "build") {
       return
     }
     if (!this.moonPool || this.level.noCheckpoint) {
@@ -1135,17 +1183,69 @@ export class StoryScene extends Phaser.Scene {
       return
     }
     this.poolClaimed = true
-    this.inDialogue = true
     this.checkpoint = { x: this.moonPool.x, y: this.moonPool.y - 40 }
-    this.player.setVelocity(0, 0)
-    this.physics.world.isPaused = true
-    this.scene.launch("DialogueOverlay", {
-      lines: [t(`story.level.${this.level.id}.moon`)],
-      onDone: () => {
-        this.inDialogue = false
-        if (!this.paused && !this.won && !this.lost) {
-          this.physics.world.isPaused = false
+    this.awakenMoonPool()
+    this.hud.ticker.show(t(`story.level.${this.level.id}.moon`))
+  }
+
+  private awakenMoonPool(): void {
+    const pool = this.moonPool
+    if (!pool) {
+      return
+    }
+    this.poolRipple?.destroy()
+    this.poolRipple = null
+    if (this.reducedMotion) {
+      pool.setTint(POOL_AWAKE_TINT)
+      pool.setScale(1)
+      return
+    }
+    const from = POOL_DORMANT_TINT
+    const to = POOL_AWAKE_TINT
+    this.tweens.add({
+      targets: pool,
+      scaleX: 1.06,
+      scaleY: 1.12,
+      duration: 260,
+      yoyo: true,
+      ease: "Sine.easeOut",
+    })
+    this.tweens.addCounter({
+      from: 0,
+      to: 1,
+      duration: 420,
+      onUpdate: (tween) => {
+        const u = tween.getValue() ?? 0
+        pool.setTint(mixTint(from, to, u))
+      },
+      onComplete: () => {
+        pool.setTint(to)
+      },
+    })
+    const ring = this.add.ellipse(pool.x, pool.y, 74, 30, 0xffffff, 0.4).setDepth(2)
+    this.poolRipple = ring
+    this.tweens.add({
+      targets: ring,
+      scaleX: 1.45,
+      scaleY: 1.55,
+      alpha: 0,
+      duration: 520,
+      ease: "Sine.easeOut",
+      onComplete: () => {
+        ring.destroy()
+        if (this.poolRipple === ring) {
+          this.poolRipple = null
         }
+      },
+    })
+    const glint = this.add.ellipse(pool.x - 12, pool.y - 6, 18, 8, 0xffffff, 0.55).setDepth(3)
+    glint.setBlendMode(Phaser.BlendModes.ADD)
+    this.tweens.add({
+      targets: glint,
+      alpha: 0,
+      duration: 640,
+      onComplete: () => {
+        glint.destroy()
       },
     })
   }
@@ -1507,6 +1607,10 @@ export class StoryScene extends Phaser.Scene {
       return
     }
     const dt = delta / 1000
+    const input = getInput().snapshot()
+    if (this.editorMode !== "build") {
+      this.hud.ticker.tick(dt, this.reducedMotion, input.confirmPressed)
+    }
     if (this.editorMode === "build") {
       this.player.setVelocity(0, 0)
       this.weather?.update(dt, this.cameras.main.scrollX)
@@ -1533,7 +1637,6 @@ export class StoryScene extends Phaser.Scene {
       this.updateTigerRide(dt)
     }
 
-    const input = getInput().snapshot()
     if (input.pausePressed) {
       this.setPaused(true)
       return
@@ -1541,17 +1644,6 @@ export class StoryScene extends Phaser.Scene {
 
     this.coach?.noteInput(input.moveX, input.jumpPressed, input.dashPressed)
     this.coach?.followPlayer(this, this.player.x, this.player.y - 28)
-
-    if (
-      !this.won &&
-      Math.abs(this.player.x - this.exitZone.x) < 120 &&
-      Math.abs(this.player.y - this.exitZone.y) < 140
-    ) {
-      void this.onExit()
-      if (this.won) {
-        return
-      }
-    }
 
     if (this.player.y > 1120) {
       this.enterDeadState(this.restartCopy("fall"))
