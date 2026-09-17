@@ -17,6 +17,11 @@ All notable changes to this project are recorded here. The format follows
 - Story and Endless letterbox the Phaser canvas between HUD chrome (and the map-editor dock)
   so fullscreen FIT no longer stretches under the bars. Camera zoom is 1.
 
+### Fixed
+
+- Cart Chase Fox Hu and other grounded creatures no longer fall through the floor on
+  map start. `constrainCreatureToWorld` seats them after physics-group add.
+
 ### Added
 
 - Dash cosmetic on Customize next to fur, ears, and accessory (`meadow`, `carrot`, `gale`,
