@@ -8,8 +8,9 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
-- Settings keeps Story map editor and Asset Workshop as two cards. Dash look and the
-  silhouette brush live on the Asset Workshop page.
+- Settings keeps Story map editor and Asset Workshop as two cards. The map card is
+  Level plus Open. Play, Build, and placing objects live inside the editor dock.
+  Dash look and the silhouette brush live on the Asset Workshop page.
 - Story and Endless letterbox the Phaser canvas between HUD chrome (and the map-editor dock)
   so fullscreen FIT no longer stretches under the bars. Camera zoom is 1.
 

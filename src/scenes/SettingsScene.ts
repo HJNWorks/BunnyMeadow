@@ -9,7 +9,7 @@ import { applyAccessibilityDom } from "../core/a11y"
 import { getInput } from "../core/input"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 import { listStoryLevels } from "../modes/story/levels"
-import { clearOverlay, isEditorEnabled, startEditor } from "../modes/story/editor"
+import { isEditorEnabled, startEditor } from "../modes/story/editor"
 import { getContentFlags } from "../core/ModeContext"
 
 export class SettingsScene extends Phaser.Scene {
@@ -95,11 +95,8 @@ export class SettingsScene extends Phaser.Scene {
               </select>
             </div>
             <div class="bm-actions bm-start">
-              <button type="button" class="bm-btn warm" data-ui="editorPlay">${t("editor.play")}</button>
-              <button type="button" class="bm-btn" data-ui="editorBuild">${t("editor.build")}</button>
-              <button type="button" class="bm-btn ghost" data-ui="editorClear">${t("editor.clear")}</button>
+              <button type="button" class="bm-btn" data-ui="editorOpen">${t("editor.open")}</button>
             </div>
-            <p class="bm-tagline" data-ui="editorStatus"></p>
           </section>
             `
             : ""}
@@ -206,19 +203,9 @@ export class SettingsScene extends Phaser.Scene {
 
     if (showMap) {
       const levelSelect = requireEl<HTMLSelectElement>(root, "[data-ui=editorLevel]")
-      const status = requireEl<HTMLElement>(root, "[data-ui=editorStatus]")
-      requireEl<HTMLButtonElement>(root, "[data-ui=editorPlay]").onclick = () => {
-        getAudio().playSfx("confirm")
-        startEditor(this, levelSelect.value, "play")
-      }
-      requireEl<HTMLButtonElement>(root, "[data-ui=editorBuild]").onclick = () => {
+      requireEl<HTMLButtonElement>(root, "[data-ui=editorOpen]").onclick = () => {
         getAudio().playSfx("confirm")
         startEditor(this, levelSelect.value, "build")
-      }
-      requireEl<HTMLButtonElement>(root, "[data-ui=editorClear]").onclick = () => {
-        getAudio().playSfx("cancel")
-        clearOverlay(levelSelect.value)
-        status.textContent = t("editor.cleared")
       }
     }
     if (showWorkshop) {

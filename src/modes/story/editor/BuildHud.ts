@@ -78,11 +78,60 @@ const CSS = `
   border: 1px solid #d5dcc4;
   border-radius: 14px;
   box-shadow: 0 8px 18px #2a3d2412;
+}
+.bm-editor-hud .bm-editor-bar {
   padding: 8px 12px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
+}
+.bm-editor-hud .bm-editor-inspect {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: min(42vh, 380px);
+  overflow: auto;
+}
+.bm-editor-hud .bm-editor-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.bm-editor-hud .bm-editor-section + .bm-editor-section {
+  border-top: 1px solid #d5dcc4;
+  padding-top: 8px;
+}
+.bm-editor-hud .bm-editor-section h3 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #71816e;
+  margin: 0;
+}
+.bm-editor-hud .bm-editor-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.bm-editor-hud .bm-editor-hint {
+  flex: 1 1 180px;
+  font-size: 13px;
+  color: #304c39;
+}
+.bm-editor-hud .bm-editor-edit-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+.bm-editor-hud .bm-editor-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  align-items: flex-end;
 }
 .bm-editor-hud .bm-editor-inspect label {
   display: flex;
@@ -90,18 +139,58 @@ const CSS = `
   font-size: 12px;
   gap: 2px;
 }
+.bm-editor-hud .bm-editor-inspect label[hidden] {
+  display: none;
+}
 .bm-editor-hud .bm-editor-inspect input,
 .bm-editor-hud .bm-editor-inspect select {
   width: 88px;
 }
 .bm-editor-hud .bm-editor-inspect input.wide,
 .bm-editor-hud .bm-editor-inspect select.wide {
-  width: 140px;
+  width: 160px;
+}
+.bm-editor-hud .bm-editor-inspect select.bm-editor-add {
+  width: 200px;
+}
+.bm-editor-hud .bm-editor-flag {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+}
+.bm-editor-hud .bm-editor-fields .bm-btn {
+  padding: 8px 16px;
 }
 .bm-editor-hud .bm-btn[aria-pressed="true"] {
   outline: 2px solid #34583e;
 }
 `
+
+function addObjectMenuHtml(): string {
+  const group = (key: string, ids: Array<[string, string]>): string =>
+    `<optgroup label="${t(`editor.addGroup.${key}`)}">${ids
+      .map(([value, label]) => `<option value="${value}">${t(label)}</option>`)
+      .join("")}</optgroup>`
+  return [
+    group("terrain", [
+      ["platform", "editor.addPlatform"],
+      ["wall", "editor.addWall"],
+      ["bridge", "editor.addBridge"],
+    ]),
+    group("nature", [
+      ["hedge", "editor.addHedge"],
+      ["vine", "editor.addVine"],
+      ["grass", "editor.addGrass"],
+      ["log", "editor.addLog"],
+      ["burrow", "editor.addBurrow"],
+    ]),
+    group("light", [["lantern", "editor.addLantern"]]),
+    group("hazard", [["water", "editor.addWater"]]),
+    group("wildlife", [["enemy", "editor.addEnemy"]]),
+    group("pickup", [["item", "editor.addItem"]]),
+  ].join("")
+}
 
 function hitRect(x: number, y: number, rect: AssembledRect): boolean {
   return x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h
@@ -131,47 +220,59 @@ export function mountBuildHud(session: EditorSession): void {
     `
     <div class="bm-editor-dock">
       <div class="bm-editor-inspect" data-ui="inspect" ${session.mode === "build" ? "" : "hidden"}>
-        <span data-ui="hint">${t("editor.selected.none")}</span>
-        <label>${t("editor.field.x")} <input data-ui="x" type="number" step="10" /></label>
-        <label>${t("editor.field.y")} <input data-ui="y" type="number" step="10" /></label>
-        <label>${t("editor.field.w")} <input data-ui="w" type="number" step="10" /></label>
-        <label>${t("editor.field.h")} <input data-ui="h" type="number" step="10" /></label>
-        <label>${t("editor.field.rot")} <input data-ui="rot" type="number" step="5" /></label>
-        <label>${t("editor.field.asset")}
-          <select data-ui="asset" class="wide"></select>
-        </label>
-        <label>${t("editor.field.id")}
-          <select data-ui="id" class="wide"></select>
-        </label>
-        <label>${t("editor.field.current")} <input data-ui="current" type="number" step="10" /></label>
-        <label>${t("editor.look.env")}
-          <select data-ui="lookEnv" class="wide"></select>
-        </label>
-        <label>${t("editor.look.sky")} <input data-ui="lookSky" type="text" class="wide" /></label>
-        <label>${t("editor.look.hour")}
-          <select data-ui="lookHour" class="wide"></select>
-        </label>
-        <label>${t("editor.look.weather")}
-          <select data-ui="lookWeather" class="wide"></select>
-        </label>
-        <label class="bm-check"><input type="checkbox" data-ui="lookNight" /> ${t("editor.look.night")}</label>
-        <label class="bm-check"><input type="checkbox" data-ui="lookGlow" /> ${t("editor.look.glow")}</label>
-        <label>${t("editor.mapWidth")} <input data-ui="mapWidth" type="number" step="10" min="480" /></label>
-        <button type="button" class="bm-btn ghost" data-ui="undo">${t("editor.undo")}</button>
-        <button type="button" class="bm-btn ghost" data-ui="delete">${t("editor.delete")}</button>
+        <section class="bm-editor-section">
+          <div class="bm-editor-section-head">
+            <h3>${t("editor.section.edit")}</h3>
+            <span class="bm-editor-hint" data-ui="hint">${t("editor.selected.none")}</span>
+            <div class="bm-editor-edit-actions">
+              <button type="button" class="bm-btn ghost" data-ui="undo">${t("editor.undo")}</button>
+              <button type="button" class="bm-btn ghost" data-ui="delete">${t("editor.delete")}</button>
+            </div>
+          </div>
+          <div class="bm-editor-fields">
+            <label>${t("editor.field.x")} <input data-ui="x" type="number" step="10" /></label>
+            <label>${t("editor.field.y")} <input data-ui="y" type="number" step="10" /></label>
+            <label>${t("editor.field.w")} <input data-ui="w" type="number" step="10" /></label>
+            <label>${t("editor.field.h")} <input data-ui="h" type="number" step="10" /></label>
+            <label>${t("editor.field.rot")} <input data-ui="rot" type="number" step="5" /></label>
+            <label>${t("editor.field.asset")}
+              <select data-ui="asset" class="wide"></select>
+            </label>
+            <label>${t("editor.field.id")}
+              <select data-ui="id" class="wide"></select>
+            </label>
+            <label>${t("editor.field.current")} <input data-ui="current" type="number" step="10" /></label>
+          </div>
+        </section>
+        <section class="bm-editor-section">
+          <h3>${t("editor.section.place")}</h3>
+          <div class="bm-editor-fields">
+            <select data-ui="addKind" class="bm-editor-add" aria-label="${t("editor.add")}">${addObjectMenuHtml()}</select>
+            <button type="button" class="bm-btn" data-ui="addObject">${t("editor.add")}</button>
+          </div>
+        </section>
+        <section class="bm-editor-section">
+          <h3>${t("editor.section.look")}</h3>
+          <div class="bm-editor-fields">
+            <label>${t("editor.look.env")}
+              <select data-ui="lookEnv" class="wide"></select>
+            </label>
+            <label>${t("editor.look.sky")} <input data-ui="lookSky" type="text" class="wide" /></label>
+            <label>${t("editor.look.hour")}
+              <select data-ui="lookHour" class="wide"></select>
+            </label>
+            <label>${t("editor.look.weather")}
+              <select data-ui="lookWeather" class="wide"></select>
+            </label>
+            <label class="bm-editor-flag"><input type="checkbox" data-ui="lookNight" /> ${t("editor.look.night")}</label>
+            <label class="bm-editor-flag"><input type="checkbox" data-ui="lookGlow" /> ${t("editor.look.glow")}</label>
+            <label>${t("editor.mapWidth")} <input data-ui="mapWidth" type="number" step="10" min="480" /></label>
+          </div>
+        </section>
       </div>
       <div class="bm-editor-bar">
         <button type="button" class="bm-btn" data-ui="play" aria-pressed="${session.mode === "play"}">${t("editor.play")}</button>
         <button type="button" class="bm-btn" data-ui="build" aria-pressed="${session.mode === "build"}">${t("editor.build")}</button>
-        <button type="button" class="bm-btn" data-ui="addPlatform">${t("editor.addPlatform")}</button>
-        <button type="button" class="bm-btn" data-ui="addWall">${t("editor.addWall")}</button>
-        <button type="button" class="bm-btn" data-ui="addBridge">${t("editor.addBridge")}</button>
-        <button type="button" class="bm-btn" data-ui="addEnemy">${t("editor.addEnemy")}</button>
-        <button type="button" class="bm-btn" data-ui="addItem">${t("editor.addItem")}</button>
-        <button type="button" class="bm-btn" data-ui="addHedge">${t("editor.addHedge")}</button>
-        <button type="button" class="bm-btn" data-ui="addWater">${t("editor.addWater")}</button>
-        <button type="button" class="bm-btn" data-ui="addGrass">${t("editor.addGrass")}</button>
-        <button type="button" class="bm-btn" data-ui="addLantern">${t("editor.addLantern")}</button>
         <button type="button" class="bm-btn warm" data-ui="setActive">${t("editor.setActive")}</button>
         <button type="button" class="bm-btn ghost" data-ui="copyJson">${t("editor.copyJson")}</button>
         <button type="button" class="bm-btn ghost" data-ui="back">${t("editor.back")}</button>
@@ -206,23 +307,9 @@ export function mountBuildHud(session: EditorSession): void {
   const lookGlow = requireEl<HTMLInputElement>(root, "[data-ui=lookGlow]")
   const mapWidthInput = requireEl<HTMLInputElement>(root, "[data-ui=mapWidth]")
   const statusEl = requireEl<HTMLElement>(root, "[data-ui=status]")
-  const addBtns = [
-    "addPlatform",
-    "addWall",
-    "addBridge",
-    "addEnemy",
-    "addItem",
-    "addHedge",
-    "addWater",
-    "addGrass",
-    "addLantern",
-  ] as const
-  for (const ui of addBtns) {
-    requireEl<HTMLButtonElement>(root, `[data-ui=${ui}]`).hidden = session.mode !== "build"
-  }
-  requireEl<HTMLButtonElement>(root, "[data-ui=delete]").hidden = session.mode !== "build"
+  const addKind = requireEl<HTMLSelectElement>(root, "[data-ui=addKind]")
   const undoBtn = requireEl<HTMLButtonElement>(root, "[data-ui=undo]")
-  undoBtn.hidden = session.mode !== "build"
+  const deleteBtn = requireEl<HTMLButtonElement>(root, "[data-ui=delete]")
 
   const marks = session.scene.add.graphics().setDepth(30)
   let selected: Selection | null = null
@@ -337,9 +424,16 @@ export function mountBuildHud(session: EditorSession): void {
   const syncUndo = (): void => {
     if (!selected || !baseline || !sameSel(baseline.sel, selected)) {
       undoBtn.disabled = true
-      return
+    } else {
+      undoBtn.disabled = JSON.stringify(captureItem(selected)) === JSON.stringify(baseline.snap)
     }
-    undoBtn.disabled = JSON.stringify(captureItem(selected)) === JSON.stringify(baseline.snap)
+    const canDelete = Boolean(
+      selected &&
+        selected.kind !== "spawn" &&
+        selected.kind !== "pool" &&
+        selected.kind !== "exit",
+    )
+    deleteBtn.disabled = !canDelete
   }
 
   const restart = (mode: EditorMode): void => {
@@ -944,83 +1038,82 @@ export function mountBuildHud(session: EditorSession): void {
     persist()
     session.scene.scene.start("Settings")
   }
-  requireEl<HTMLButtonElement>(root, "[data-ui=addPlatform]").onclick = () => {
+  requireEl<HTMLButtonElement>(root, "[data-ui=addObject]").onclick = () => {
+    getAudio().playSfx("confirm")
+    const kind = addKind.value
     const at = cameraCenter()
-    overlay.platforms.push({ kind: "platform", x: at.x - 60, y: at.y, w: 120, h: 24 })
-    restart("build")
-  }
-  requireEl<HTMLButtonElement>(root, "[data-ui=addWall]").onclick = () => {
-    const at = cameraCenter()
-    overlay.platforms.push({ kind: "wall", x: at.x, y: at.y - 60, w: 28, h: 120 })
-    restart("build")
-  }
-  requireEl<HTMLButtonElement>(root, "[data-ui=addBridge]").onclick = () => {
-    const at = cameraCenter()
-    const local = worldToAnchor(session.world, at.x - 80, at.y)
-    overlay.movers.push({
-      x: local.x,
-      y: at.y,
-      w: 160,
-      h: 16,
-      axis: "x",
-      amplitude: 28,
-      speed: 1.1,
-      tint: 13158624,
-      kind: "bridge",
-      worldX: at.x - 80,
-      worldY: at.y,
-    })
-    restart("build")
-  }
-  requireEl<HTMLButtonElement>(root, "[data-ui=addEnemy]").onclick = () => {
-    const at = cameraCenter()
-    const local = worldToAnchor(session.world, at.x, at.y)
-    const id = crittersForEnv(session.env).native[0] ?? "fox"
-    overlay.enemies.push({
-      id,
-      x: local.x,
-      y: at.y,
-      worldX: at.x,
-      worldY: at.y,
-    })
-    restart("build")
-  }
-  requireEl<HTMLButtonElement>(root, "[data-ui=addItem]").onclick = () => {
-    const at = cameraCenter()
-    const local = worldToAnchor(session.world, at.x, at.y)
-    const id = itemsForEnv(session.env).native[0] ?? "carrot"
-    overlay.pickups.push({
-      id,
-      x: local.x,
-      y: at.y,
-      worldX: at.x,
-      worldY: at.y,
-    })
-    restart("build")
-  }
-  const addDecor = (kind: AssembledDecor["kind"]): void => {
-    const at = cameraCenter()
+    if (kind === "platform") {
+      overlay.platforms.push({ kind: "platform", x: at.x - 60, y: at.y, w: 120, h: 24 })
+      restart("build")
+      return
+    }
+    if (kind === "wall") {
+      overlay.platforms.push({ kind: "wall", x: at.x, y: at.y - 60, w: 28, h: 120 })
+      restart("build")
+      return
+    }
+    if (kind === "bridge") {
+      const local = worldToAnchor(session.world, at.x - 80, at.y)
+      overlay.movers.push({
+        x: local.x,
+        y: at.y,
+        w: 160,
+        h: 16,
+        axis: "x",
+        amplitude: 28,
+        speed: 1.1,
+        tint: 13158624,
+        kind: "bridge",
+        worldX: at.x - 80,
+        worldY: at.y,
+      })
+      restart("build")
+      return
+    }
+    if (kind === "enemy") {
+      const local = worldToAnchor(session.world, at.x, at.y)
+      const id = crittersForEnv(session.env).native[0] ?? "fox"
+      overlay.enemies.push({
+        id,
+        x: local.x,
+        y: at.y,
+        worldX: at.x,
+        worldY: at.y,
+      })
+      restart("build")
+      return
+    }
+    if (kind === "item") {
+      const local = worldToAnchor(session.world, at.x, at.y)
+      const id = itemsForEnv(session.env).native[0] ?? "carrot"
+      overlay.pickups.push({
+        id,
+        x: local.x,
+        y: at.y,
+        worldX: at.x,
+        worldY: at.y,
+      })
+      restart("build")
+      return
+    }
+    if (kind === "water") {
+      const local = worldToAnchor(session.world, at.x - 80, at.y)
+      overlay.hazards = overlay.hazards ?? []
+      overlay.hazards.push({
+        kind: "water",
+        x: local.x,
+        y: at.y,
+        w: 160,
+        h: 40,
+        current: 40,
+        worldX: at.x - 80,
+        worldY: at.y,
+      })
+      restart("build")
+      return
+    }
     overlay.decor = overlay.decor ?? []
-    overlay.decor.push(defaultDecor(kind, at.x, at.y))
-    restart("build")
-  }
-  requireEl<HTMLButtonElement>(root, "[data-ui=addHedge]").onclick = () => addDecor("hedge")
-  requireEl<HTMLButtonElement>(root, "[data-ui=addGrass]").onclick = () => addDecor("grass")
-  requireEl<HTMLButtonElement>(root, "[data-ui=addLantern]").onclick = () => addDecor("lantern")
-  requireEl<HTMLButtonElement>(root, "[data-ui=addWater]").onclick = () => {
-    const at = cameraCenter()
-    const local = worldToAnchor(session.world, at.x - 80, at.y)
-    overlay.hazards = overlay.hazards ?? []
-    overlay.hazards.push({
-      kind: "water",
-      x: local.x,
-      y: at.y,
-      w: 160,
-      h: 40,
-      current: 40,
-      worldX: at.x - 80,
-      worldY: at.y,
-    })
+    overlay.decor.push(defaultDecor(kind as AssembledDecor["kind"], at.x, at.y))
     restart("build")
   }
   requireEl<HTMLButtonElement>(root, "[data-ui=undo]").onclick = () => {
