@@ -1,6 +1,6 @@
 # Story editor
 
-Settings-gated, removable. Flag `contentFlags.storyMapEditor`. Code: `src/modes/story/editor/`. Settings keeps a compact Story map editor card next to an Asset Workshop card. Dash look and silhouette brushes live in the AssetWorkshop scene (`src/scenes/AssetWorkshopScene.ts`). Workshop code is `contentFlags.assetWorkshop` and `src/fx/workshop/`.
+Settings-gated, removable. Flag `contentFlags.storyMapEditor`. Code: `src/modes/story/editor/`. Settings keeps a compact Story map editor card next to an Asset Workshop card. Dash look and silhouette brushes live in the AssetWorkshop scene (`src/scenes/AssetWorkshopScene.ts`), with tabs for Dash look, Props, Creatures, and Items. Workshop code is `contentFlags.assetWorkshop` and `src/fx/workshop/`.
 
 Family tone: fail is retry. Off-limits as HP bars: Chang'e, Yue, Yutu, Wu Gang, moon toad, Crane Envoy, Fox Hu.
 
@@ -76,7 +76,7 @@ New creature = LORE note + biome wildlife page + archetype (patrol, chaser, lob,
 
 ### D — Asset workshop
 
-Own scene from Settings. Silhouette brushes start from a visible seed stamp. Palette tokens, PNG export, localStorage overlay applied on the next `ensureStoryTextures` call. Dash look preview is the same page. Not a 3D modeller.
+Own scene from Settings. Segmented tabs: Dash look, Props, Creatures, Items. Silhouette brushes start from a visible seed stamp per texture id (`story_critter_*`, `story_item_*`, props). Palette tokens, PNG export, localStorage overlay applied on the next `ensureStoryTextures` call. Not a 3D modeller. Tray chips still use CSS. Spawn and burrow exit stay undeletable. Moon Pools can be placed, deleted, and given a per-pool ticker line.
 
 ### E — Repo write-back (local only)
 

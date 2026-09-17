@@ -20,6 +20,7 @@ import {
   type EndlessTuning,
   type FilledChunk,
 } from "./EndlessGenerator"
+import { getItemLook } from "../story/shared/itemLooks"
 import { ensureStoryTextures } from "../story/shared/storyTextures"
 import {
   createPlayerState,
@@ -553,14 +554,8 @@ export class EndlessScene extends Phaser.Scene {
     }
 
     for (const item of filled.items) {
-      const sprite = this.add.image(originX + item.x, item.y, "story_carrot").setDepth(2)
-      if (item.id === "mooncake") {
-        sprite.setTint(0xe8c45a)
-      } else if (item.id === "osmanthus_blossom") {
-        sprite.setTint(0xf2d4e8)
-      } else if (item.id === "lantern") {
-        sprite.setTint(0xf08a3a)
-      }
+      const look = getItemLook(item.id)
+      const sprite = this.add.image(originX + item.x, item.y, look.texture).setDepth(2)
       seg.pickups.push({ sprite, id: item.id })
       seg.objects.push(sprite)
     }

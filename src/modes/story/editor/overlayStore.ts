@@ -6,7 +6,8 @@ import type {
   AssembledMover,
   AssembledRect,
 } from "../../../systems/ChunkAssembler"
-import type { StoryLevelDef } from "../levels"
+import type { MoonPoolDef, StoryLevelDef } from "../levels"
+import { cloneMoonPool, poolsOf } from "../levels"
 import type { PaletteHour, WeatherPreset } from "../shared/themeKit"
 
 export const EDITOR_OVERLAY_KEY = "bunnymeadow.editor.overlay.v1"
@@ -35,7 +36,8 @@ export type EditorLook = {
 
 export type EditorLevelOverlay = {
   playerSpawn: { x: number; y: number }
-  moonPool?: { chunk: number; x: number; y: number }
+  moonPool?: MoonPoolDef
+  moonPools?: MoonPoolDef[]
   exit: { chunk: number; x: number; y: number }
   worldWidth: number
   platforms: AssembledRect[]
@@ -76,18 +78,34 @@ function writeFile(file: OverlayFile): void {
   localStorage.setItem(EDITOR_OVERLAY_KEY, JSON.stringify(file))
 }
 
+export function overlayPools(overlay: EditorLevelOverlay): MoonPoolDef[] {
+  if (overlay.moonPools) {
+    return overlay.moonPools.map((pool) => cloneMoonPool(pool))
+  }
+  if (overlay.moonPool) {
+    return [cloneMoonPool(overlay.moonPool)]
+  }
+  return []
+}
+
+function normalizeOverlay(overlay: EditorLevelOverlay): EditorLevelOverlay {
+  overlay.moonPools = overlayPools(overlay)
+  delete overlay.moonPool
+  return overlay
+}
+
 function cloneJson<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T
 }
 
 export function getOverlay(levelId: string): EditorLevelOverlay | undefined {
   const entry = readFile().levels[levelId]
-  return entry ? cloneJson(entry) : undefined
+  return entry ? normalizeOverlay(cloneJson(entry)) : undefined
 }
 
 export function setOverlay(levelId: string, overlay: EditorLevelOverlay): void {
   const file = readFile()
-  file.levels[levelId] = cloneJson(overlay)
+  file.levels[levelId] = normalizeOverlay(cloneJson(overlay))
   writeFile(file)
 }
 
@@ -108,7 +126,7 @@ export function cloneStoryLevel(def: StoryLevelDef): StoryLevelDef {
 export function captureOverlay(def: StoryLevelDef, world: AssembledLevel): EditorLevelOverlay {
   return {
     playerSpawn: { ...def.playerSpawn },
-    moonPool: def.moonPool ? { ...def.moonPool } : undefined,
+    moonPools: poolsOf(def),
     exit: { ...def.exit },
     worldWidth: world.width,
     platforms: world.platforms.map((rect) => ({ ...rect })),
@@ -136,9 +154,8 @@ export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): Assembl
     return world
   }
   def.playerSpawn = { ...overlay.playerSpawn }
-  if (overlay.moonPool) {
-    def.moonPool = { ...overlay.moonPool }
-  }
+  def.moonPools = overlayPools(overlay)
+  def.moonPool = undefined
   def.exit = { ...overlay.exit }
   const width =
     typeof overlay.worldWidth === "number" && overlay.worldWidth > 0
@@ -175,6 +192,7 @@ export function ensureOverlay(def: StoryLevelDef, world: AssembledLevel): Editor
   if (!existing) {
     return captureOverlay(def, world)
   }
+  normalizeOverlay(existing)
   if (typeof existing.worldWidth !== "number" || existing.worldWidth <= 0) {
     existing.worldWidth = world.width
   }

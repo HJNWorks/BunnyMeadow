@@ -29,10 +29,6 @@ function writeFile(file: OverlayFile): void {
   localStorage.setItem(WORKSHOP_OVERLAY_KEY, JSON.stringify(file))
 }
 
-export function listWorkshopTargets(): string[] {
-  return ["story_hedge", "story_ground", "story_log", "story_player", "dash_speck"]
-}
-
 export function getWorkshopTexture(id: string): string | undefined {
   return readFile().textures[id]
 }

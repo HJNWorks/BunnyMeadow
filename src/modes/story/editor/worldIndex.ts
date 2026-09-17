@@ -25,6 +25,7 @@ export type EditorEnvToken =
   | "log"
   | "burrow"
   | "lantern"
+  | "pool"
 
 export type EditorWorldEntry = {
   id: EditorWorldId
@@ -49,6 +50,7 @@ const SHARED_ENV: EditorEnvToken[] = [
   "log",
   "burrow",
   "lantern",
+  "pool",
 ]
 
 export function editorWorldIdForLevel(level: StoryLevelDef): EditorWorldId {
@@ -136,6 +138,9 @@ export function envTokenLabel(token: string): string {
   }
   if (token === "water") {
     return "Water"
+  }
+  if (token === "pool") {
+    return "Moon Pool"
   }
   if (token in DECOR_LABELS) {
     return DECOR_LABELS[token as keyof typeof DECOR_LABELS]

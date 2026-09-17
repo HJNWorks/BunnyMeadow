@@ -28,6 +28,13 @@ export type StoryLeftChase = {
   speed: number
 }
 
+export type MoonPoolDef = {
+  chunk: number
+  x: number
+  y: number
+  line?: string
+}
+
 export type StoryLevelDef = {
   id: string
   world: number
@@ -35,7 +42,8 @@ export type StoryLevelDef = {
   name: string
   chunks: string[]
   playerSpawn: { x: number; y: number }
-  moonPool?: { chunk: number; x: number; y: number }
+  moonPool?: MoonPoolDef
+  moonPools?: MoonPoolDef[]
   exit: { chunk: number; x: number; y: number }
   moonLine: string
   objective: string
@@ -85,4 +93,22 @@ export function listWorld1Levels(): StoryLevelDef[] {
 
 export function getStoryLevel(id: string): StoryLevelDef | undefined {
   return LEVELS.find((level) => level.id === id)
+}
+
+export function cloneMoonPool(pool: MoonPoolDef): MoonPoolDef {
+  const next: MoonPoolDef = { chunk: pool.chunk, x: pool.x, y: pool.y }
+  if (pool.line) {
+    next.line = pool.line
+  }
+  return next
+}
+
+export function poolsOf(def: Pick<StoryLevelDef, "moonPool" | "moonPools">): MoonPoolDef[] {
+  if (def.moonPools) {
+    return def.moonPools.map((pool) => cloneMoonPool(pool))
+  }
+  if (def.moonPool) {
+    return [cloneMoonPool(def.moonPool)]
+  }
+  return []
 }

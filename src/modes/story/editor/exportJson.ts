@@ -3,14 +3,15 @@ import {
   type AssembledLevel,
   type ChunkDef,
 } from "../../../systems/ChunkAssembler"
-import type { StoryLevelDef } from "../levels"
+import type { StoryLevelDef, MoonPoolDef } from "../levels"
 import { worldToAnchor, type EditorLevelOverlay } from "./overlayStore"
 
 export type EditorExportBundle = {
   levelId: string
   level: {
     playerSpawn: { x: number; y: number }
-    moonPool?: { chunk: number; x: number; y: number }
+    moonPool?: MoonPoolDef
+    moonPools?: MoonPoolDef[]
     exit: { chunk: number; x: number; y: number }
     env?: string
     sky?: string
@@ -120,13 +121,18 @@ export function buildExportBundle(
     chunks[lastId].width = span
   }
 
-  const moonPool = overlay.moonPool
-    ? worldToAnchor(
-        world,
-        (world.chunkOrigins[overlay.moonPool.chunk] ?? 0) + overlay.moonPool.x,
-        overlay.moonPool.y,
-      )
-    : undefined
+  const moonPools = (overlay.moonPools ?? []).map((pool) => {
+    const worldPos = worldToAnchor(
+      world,
+      (world.chunkOrigins[pool.chunk] ?? 0) + pool.x,
+      pool.y,
+    )
+    const next: MoonPoolDef = { ...worldPos }
+    if (pool.line) {
+      next.line = pool.line
+    }
+    return next
+  })
 
   const exit = worldToAnchor(
     world,
@@ -138,7 +144,8 @@ export function buildExportBundle(
     levelId: def.id,
     level: {
       playerSpawn: { ...overlay.playerSpawn },
-      moonPool,
+      moonPools,
+      moonPool: moonPools[0],
       exit,
       env: overlay.look?.env,
       sky: overlay.look?.sky,

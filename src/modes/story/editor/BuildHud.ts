@@ -6,10 +6,12 @@ import { mountDomShell, requireEl } from "../../../ui/DomShell"
 import { placeBelowStoryChrome, watchStoryChrome } from "../../../ui/playfieldFrame"
 import { writeRepoFile } from "../../../core/devWrite"
 import { downloadEditorJson, buildExportBundle } from "./exportJson"
-import type { StoryLevelDef } from "../levels"
+import type { MoonPoolDef, StoryLevelDef } from "../levels"
+import { cloneMoonPool } from "../levels"
 import type { MoverState } from "../shared/moversHazards"
 import {
   ensureOverlay,
+  overlayPools,
   setOverlay,
   snap10,
   worldToAnchor,
@@ -46,7 +48,7 @@ export type EditorSession = {
   level: StoryLevelDef
   world: AssembledLevel
   player: Phaser.Physics.Arcade.Sprite
-  moonPool: Phaser.GameObjects.Image | null
+  moonPools: Phaser.GameObjects.Image[]
   exitZone: Phaser.GameObjects.Image
   platforms: Phaser.Physics.Arcade.StaticGroup
   movers: MoverState[]
@@ -164,12 +166,19 @@ const CSS = `
   display: none;
 }
 .bm-editor-hud .bm-editor-menu-panel input,
-.bm-editor-hud .bm-editor-menu-panel select {
+.bm-editor-hud .bm-editor-menu-panel select,
+.bm-editor-hud .bm-editor-menu-panel textarea {
   width: 88px;
 }
 .bm-editor-hud .bm-editor-menu-panel input.wide,
-.bm-editor-hud .bm-editor-menu-panel select.wide {
+.bm-editor-hud .bm-editor-menu-panel select.wide,
+.bm-editor-hud .bm-editor-menu-panel textarea.wide {
   width: 160px;
+}
+.bm-editor-hud .bm-editor-menu-panel textarea.wide {
+  min-height: 52px;
+  resize: vertical;
+  font: 13px Georgia, "Times New Roman", serif;
 }
 .bm-editor-hud .bm-editor-menu-panel input.range {
   width: 120px;
@@ -344,6 +353,9 @@ export function mountBuildHud(session: EditorSession): void {
                   <select data-ui="id" class="wide"></select>
                 </label>
                 <label>${t("editor.field.current")} <input data-ui="current" type="number" step="10" /></label>
+                <label data-ui="poolLineLabel">${t("editor.poolLine")}
+                  <textarea data-ui="poolLine" class="wide" rows="2"></textarea>
+                </label>
               </div>
             </div>
           </div>
@@ -406,6 +418,8 @@ export function mountBuildHud(session: EditorSession): void {
   const assetInput = requireEl<HTMLSelectElement>(root, "[data-ui=asset]")
   const idInput = requireEl<HTMLSelectElement>(root, "[data-ui=id]")
   const currentInput = requireEl<HTMLInputElement>(root, "[data-ui=current]")
+  const poolLineEl = requireEl<HTMLTextAreaElement>(root, "[data-ui=poolLine]")
+  const poolLineLabel = requireEl<HTMLElement>(root, "[data-ui=poolLineLabel]")
   const lookEnv = requireEl<HTMLSelectElement>(root, "[data-ui=lookEnv]")
   const lookSky = requireEl<HTMLInputElement>(root, "[data-ui=lookSky]")
   const lookHour = requireEl<HTMLSelectElement>(root, "[data-ui=lookHour]")
@@ -454,6 +468,7 @@ export function mountBuildHud(session: EditorSession): void {
   overlay.decor = overlay.decor ?? []
   overlay.hazards = overlay.hazards ?? []
   overlay.look = overlay.look ?? { env: session.env }
+  overlay.moonPools = overlayPools(overlay)
 
   lookEnv.innerHTML = listPaletteIds()
     .map((id) => `<option value="${id}">${id}</option>`)
@@ -468,6 +483,13 @@ export function mountBuildHud(session: EditorSession): void {
 
   const cloneJson = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T
 
+  const poolAt = (index: number): MoonPoolDef | undefined => overlay.moonPools?.[index]
+
+  const poolWorld = (pool: MoonPoolDef): { x: number; y: number } => {
+    const origin = session.world.chunkOrigins[pool.chunk] ?? 0
+    return { x: origin + pool.x, y: pool.y }
+  }
+
   const sameSel = (a: Selection | null, b: Selection | null): boolean =>
     Boolean(a && b && a.kind === b.kind && a.index === b.index)
 
@@ -477,9 +499,12 @@ export function mountBuildHud(session: EditorSession): void {
     if (sel.kind === "spawn") {
       return { x: overlay.playerSpawn.x, y: overlay.playerSpawn.y }
     }
-    if (sel.kind === "pool" && overlay.moonPool) {
-      const origin = session.world.chunkOrigins[overlay.moonPool.chunk] ?? 0
-      return { x: origin + overlay.moonPool.x, y: overlay.moonPool.y }
+    if (sel.kind === "pool") {
+      const pool = poolAt(sel.index)
+      if (pool) {
+        return poolWorld(pool)
+      }
+      return { x: 0, y: 0 }
     }
     if (sel.kind === "exit") {
       const origin = session.world.chunkOrigins[overlay.exit.chunk] ?? 0
@@ -513,9 +538,13 @@ export function mountBuildHud(session: EditorSession): void {
     if (sel.kind === "spawn") {
       return { x: overlay.playerSpawn.x - 28, y: overlay.playerSpawn.y - 28, w: 56, h: 56 }
     }
-    if (sel.kind === "pool" && overlay.moonPool) {
-      const origin = session.world.chunkOrigins[overlay.moonPool.chunk] ?? 0
-      return { x: origin + overlay.moonPool.x - 36, y: overlay.moonPool.y - 36, w: 72, h: 72 }
+    if (sel.kind === "pool") {
+      const pool = poolAt(sel.index)
+      if (pool) {
+        const at = poolWorld(pool)
+        return { x: at.x - 36, y: at.y - 36, w: 72, h: 72 }
+      }
+      return null
     }
     if (sel.kind === "exit") {
       const origin = session.world.chunkOrigins[overlay.exit.chunk] ?? 0
@@ -556,9 +585,7 @@ export function mountBuildHud(session: EditorSession): void {
       { kind: "spawn", index: 0 },
       { kind: "exit", index: 0 },
     ]
-    if (overlay.moonPool) {
-      out.push({ kind: "pool", index: 0 })
-    }
+    ;(overlay.moonPools ?? []).forEach((_, index) => out.push({ kind: "pool", index }))
     overlay.platforms.forEach((_, index) => out.push({ kind: "platform", index }))
     overlay.movers.forEach((_, index) => out.push({ kind: "mover", index }))
     overlay.enemies.forEach((_, index) => out.push({ kind: "enemy", index }))
@@ -579,7 +606,8 @@ export function mountBuildHud(session: EditorSession): void {
       return cloneJson(overlay.playerSpawn)
     }
     if (sel.kind === "pool") {
-      return overlay.moonPool ? cloneJson(overlay.moonPool) : null
+      const pool = poolAt(sel.index)
+      return pool ? cloneMoonPool(pool) : null
     }
     if (sel.kind === "exit") {
       return cloneJson(overlay.exit)
@@ -614,7 +642,8 @@ export function mountBuildHud(session: EditorSession): void {
       return
     }
     if (sel.kind === "pool") {
-      overlay.moonPool = cloneJson(snap as { chunk: number; x: number; y: number })
+      overlay.moonPools = overlay.moonPools ?? []
+      overlay.moonPools[sel.index] = cloneMoonPool(snap as MoonPoolDef)
       return
     }
     if (sel.kind === "exit") {
@@ -683,7 +712,7 @@ export function mountBuildHud(session: EditorSession): void {
       undoBtn.disabled = JSON.stringify(captureItem(selected)) === JSON.stringify(baseline.snap)
     }
     const canDelete = group.some(
-      (item) => item.kind !== "spawn" && item.kind !== "pool" && item.kind !== "exit",
+      (item) => item.kind !== "spawn" && item.kind !== "exit",
     )
     deleteBtn.disabled = !canDelete
   }
@@ -752,10 +781,15 @@ export function mountBuildHud(session: EditorSession): void {
     if (focus.kind === "spawn") {
       session.player.setPosition(overlay.playerSpawn.x, overlay.playerSpawn.y)
       refreshBody(session.player)
-    } else if (focus.kind === "pool" && overlay.moonPool && session.moonPool) {
-      const origin = session.world.chunkOrigins[overlay.moonPool.chunk] ?? 0
-      session.moonPool.setPosition(origin + overlay.moonPool.x, overlay.moonPool.y)
-      applyContactBody(session.moonPool, POOL_CONTACT)
+    } else if (focus.kind === "pool") {
+      const pool = poolAt(focus.index)
+      const sprite = session.moonPools[focus.index]
+      if (pool && sprite) {
+        const at = poolWorld(pool)
+        sprite.setPosition(at.x, at.y)
+        sprite.setData("poolLine", pool.line ?? "")
+        applyContactBody(sprite, POOL_CONTACT)
+      }
     } else if (focus.kind === "exit") {
       const origin = session.world.chunkOrigins[overlay.exit.chunk] ?? 0
       session.exitZone.setPosition(origin + overlay.exit.x, overlay.exit.y)
@@ -810,9 +844,12 @@ export function mountBuildHud(session: EditorSession): void {
   const drawSelMark = (focus: Selection): void => {
     if (focus.kind === "spawn") {
       marks.strokeCircle(overlay.playerSpawn.x, overlay.playerSpawn.y, 28)
-    } else if (focus.kind === "pool" && overlay.moonPool) {
-      const origin = session.world.chunkOrigins[overlay.moonPool.chunk] ?? 0
-      marks.strokeCircle(origin + overlay.moonPool.x, overlay.moonPool.y, 36)
+    } else if (focus.kind === "pool") {
+      const pool = poolAt(focus.index)
+      if (pool) {
+        const at = poolWorld(pool)
+        marks.strokeCircle(at.x, at.y, 36)
+      }
     } else if (focus.kind === "exit") {
       const origin = session.world.chunkOrigins[overlay.exit.chunk] ?? 0
       marks.strokeCircle(origin + overlay.exit.x, overlay.exit.y, 48)
@@ -938,6 +975,8 @@ export function mountBuildHud(session: EditorSession): void {
       assetInput.disabled = true
       idInput.disabled = true
       currentInput.disabled = true
+      poolLineEl.disabled = true
+      poolLineLabel.hidden = true
       if (idLabel) {
         idLabel.hidden = true
       }
@@ -965,6 +1004,9 @@ export function mountBuildHud(session: EditorSession): void {
     rotInput.disabled = selected.kind !== "decor" && selected.kind !== "platform"
     assetInput.disabled = selected.kind !== "decor" && selected.kind !== "platform"
     currentInput.disabled = selected.kind !== "hazard"
+    const poolKind = selected.kind === "pool"
+    poolLineEl.disabled = !poolKind
+    poolLineLabel.hidden = !poolKind
     const idKind = selected.kind === "enemy" || selected.kind === "pickup"
     idInput.disabled = !idKind
     if (idLabel) {
@@ -986,11 +1028,17 @@ export function mountBuildHud(session: EditorSession): void {
       hint.textContent = t("editor.kind.spawn")
       xInput.value = String(overlay.playerSpawn.x)
       yInput.value = String(overlay.playerSpawn.y)
-    } else if (selected.kind === "pool" && overlay.moonPool) {
-      const origin = session.world.chunkOrigins[overlay.moonPool.chunk] ?? 0
+    } else if (selected.kind === "pool") {
+      const pool = poolAt(selected.index)
+      if (!pool) {
+        syncUndo()
+        return
+      }
+      const at = poolWorld(pool)
       hint.textContent = t("editor.kind.pool")
-      xInput.value = String(origin + overlay.moonPool.x)
-      yInput.value = String(overlay.moonPool.y)
+      xInput.value = String(at.x)
+      yInput.value = String(at.y)
+      poolLineEl.value = pool.line ?? t(`story.level.${session.level.id}.moon`)
     } else if (selected.kind === "exit") {
       const origin = session.world.chunkOrigins[overlay.exit.chunk] ?? 0
       hint.textContent = t("editor.kind.exit")
@@ -1089,12 +1137,14 @@ export function mountBuildHud(session: EditorSession): void {
     if (Phaser.Math.Distance.Between(wx, wy, overlay.playerSpawn.x, overlay.playerSpawn.y) < 32) {
       return { kind: "spawn", index: 0 }
     }
-    if (overlay.moonPool && session.moonPool) {
-      const origin = session.world.chunkOrigins[overlay.moonPool.chunk] ?? 0
-      if (
-        Phaser.Math.Distance.Between(wx, wy, origin + overlay.moonPool.x, overlay.moonPool.y) < 40
-      ) {
-        return { kind: "pool", index: 0 }
+    for (let i = (overlay.moonPools ?? []).length - 1; i >= 0; i -= 1) {
+      const pool = overlay.moonPools?.[i]
+      if (!pool) {
+        continue
+      }
+      const at = poolWorld(pool)
+      if (Phaser.Math.Distance.Between(wx, wy, at.x, at.y) < 40) {
+        return { kind: "pool", index: i }
       }
     }
     {
@@ -1152,7 +1202,13 @@ export function mountBuildHud(session: EditorSession): void {
     if (sel.kind === "spawn") {
       overlay.playerSpawn = { x, y }
     } else if (sel.kind === "pool") {
-      overlay.moonPool = worldToAnchor(session.world, x, y)
+      const pool = poolAt(sel.index)
+      if (pool) {
+        const next = worldToAnchor(session.world, x, y)
+        pool.chunk = next.chunk
+        pool.x = next.x
+        pool.y = next.y
+      }
     } else if (sel.kind === "exit") {
       overlay.exit = worldToAnchor(session.world, x, y)
     } else if (sel.kind === "platform") {
@@ -1268,6 +1324,16 @@ export function mountBuildHud(session: EditorSession): void {
           if (pickup) {
             pickup.id = idInput.value
           }
+        } else if (sameKind && selected.kind === "pool") {
+          const pool = overlay.moonPools?.[item.index]
+          if (pool) {
+            const line = poolLineEl.value.trim()
+            if (line) {
+              pool.line = line
+            } else {
+              delete pool.line
+            }
+          }
         }
       }
       syncSelection()
@@ -1337,6 +1403,20 @@ export function mountBuildHud(session: EditorSession): void {
         item.w = w
         item.h = h
         item.current = Number(currentInput.value) || 0
+      }
+    } else if (selected.kind === "pool") {
+      const pool = poolAt(selected.index)
+      if (pool) {
+        const next = worldToAnchor(session.world, x, y)
+        pool.chunk = next.chunk
+        pool.x = next.x
+        pool.y = next.y
+        const line = poolLineEl.value.trim()
+        if (line) {
+          pool.line = line
+        } else {
+          delete pool.line
+        }
       }
     } else {
       moveSelection(selected, x, y)
@@ -1554,6 +1634,18 @@ export function mountBuildHud(session: EditorSession): void {
       restart("build")
       return
     }
+    if (kind === "pool") {
+      overlay.moonPools = overlay.moonPools ?? []
+      const local = worldToAnchor(session.world, at.x, at.y)
+      overlay.moonPools.push({
+        chunk: local.chunk,
+        x: local.x,
+        y: local.y,
+        line: t(`story.level.${session.level.id}.moon`),
+      })
+      restart("build")
+      return
+    }
     overlay.decor = overlay.decor ?? []
     overlay.decor.push(defaultDecor(kind as AssembledDecor["kind"], at.x, at.y))
     restart("build")
@@ -1593,7 +1685,7 @@ export function mountBuildHud(session: EditorSession): void {
   }
   requireEl<HTMLButtonElement>(root, "[data-ui=delete]").onclick = () => {
     const doomed = (group.length ? group : selected ? [selected] : []).filter(
-      (item) => item.kind !== "spawn" && item.kind !== "pool" && item.kind !== "exit",
+      (item) => item.kind !== "spawn" && item.kind !== "exit",
     )
     if (!doomed.length) {
       return
@@ -1618,6 +1710,8 @@ export function mountBuildHud(session: EditorSession): void {
           overlay.decor?.splice(index, 1)
         } else if (kind === "hazard") {
           overlay.hazards?.splice(index, 1)
+        } else if (kind === "pool") {
+          overlay.moonPools?.splice(index, 1)
         }
       }
     }
@@ -1631,6 +1725,7 @@ export function mountBuildHud(session: EditorSession): void {
   rotInput.onchange = applyInspect
   assetInput.onchange = applyInspect
   currentInput.onchange = applyInspect
+  poolLineEl.onchange = applyInspect
   const applyLook = (): void => {
     overlay.look = {
       env: lookEnv.value,

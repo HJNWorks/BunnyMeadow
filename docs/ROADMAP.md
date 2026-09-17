@@ -68,7 +68,7 @@ Later milestones must not invent a second version of these. M1 created them (fil
 | Title | menu HTML | live splash |
 | ModeSelect | menu HTML | live hub |
 | Settings | menu HTML | live |
-| AssetWorkshop | menu HTML | live (dash look + silhouette brush) |
+| AssetWorkshop | menu HTML | live (dash look, props, creatures, items) |
 | Customize | menu HTML | live |
 | Achievements | menu HTML | live (achievement list + short project credit) |
 | Meadow | play | live (data-driven arcade) |

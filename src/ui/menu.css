@@ -290,6 +290,13 @@ html.a11y-reduced-motion *::after {
   margin-top: 16px;
 }
 
+.bm-workshop-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 0;
+}
+
 .bm-workshop-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -297,11 +304,8 @@ html.a11y-reduced-motion *::after {
   margin: 20px 0 8px;
 }
 
-@media (min-width: 900px) {
-  .bm-workshop-grid {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-  }
+.bm-workshop-pane[hidden] {
+  display: none !important;
 }
 
 .bm-dash-preview {

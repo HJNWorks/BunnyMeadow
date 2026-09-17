@@ -1,6 +1,6 @@
 import Phaser from "phaser"
 import { ChunkAssembler } from "../../systems/ChunkAssembler"
-import { getStoryLevel, type StoryLevelDef } from "./levels"
+import { getStoryLevel, poolsOf, type StoryLevelDef } from "./levels"
 import { applyOverlay,
   cloneStoryLevel,
   getOverlay,
@@ -23,6 +23,7 @@ import { ControlCoach, CONTROL_COACH_CSS, type CoachAction } from "../../ui/Cont
 import { ITEM_TRAY_CSS, bindItemTray, renderItemTray, type TrayBuff } from "../../ui/ItemTray"
 import { STORY_TICKER_CSS, bindStoryTicker, type StoryTicker } from "../../ui/StoryTicker"
 import { ensureStoryTextures } from "./shared/storyTextures"
+import { getItemLook } from "./shared/itemLooks"
 import {
   applyContactBody,
   EXIT_CONTACT,
@@ -320,7 +321,7 @@ export class StoryScene extends Phaser.Scene {
   private player!: Phaser.Physics.Arcade.Sprite
   private enemies!: Phaser.Physics.Arcade.Group
   private projectiles!: Phaser.Physics.Arcade.Group
-  private moonPool: Phaser.GameObjects.Image | null = null
+  private moonPools: Phaser.GameObjects.Image[] = []
   private exitZone!: Phaser.GameObjects.Image
   private foxHu: Phaser.Physics.Arcade.Sprite | null = null
   private galeWall: Phaser.Physics.Arcade.Sprite | null = null
@@ -345,7 +346,6 @@ export class StoryScene extends Phaser.Scene {
   private lanternGlow: Phaser.GameObjects.Image | null = null
   private lanternGlowAlways = false
   private checkpoint: { x: number; y: number } | null = null
-  private poolClaimed = false
   private won = false
   private lost = false
   private paused = false
@@ -383,7 +383,7 @@ export class StoryScene extends Phaser.Scene {
       this.scene.start("WorldMap")
       return
     }
-    const def = this.editorMode ? cloneStoryLevel(raw) : raw
+    const def = isEditorEnabled() ? cloneStoryLevel(raw) : raw
     this.level = def
     this.playerState = createPlayerState({
       wallBounce: !!def.wallBounce,
@@ -393,12 +393,11 @@ export class StoryScene extends Phaser.Scene {
     this.lost = false
     this.paused = false
     this.checkpoint = null
-    this.poolClaimed = false
     this.inDialogue = false
     this.foxHu = null
     this.galeWall = null
     this.galeSpeed = 0
-    this.moonPool = null
+    this.moonPools = []
     this.bossSprite = null
     this.diveLine = null
     this.bossHits = 0
@@ -759,14 +758,8 @@ export class StoryScene extends Phaser.Scene {
       if (!item) {
         continue
       }
-      const sprite = this.add.image(item.worldX, item.worldY, "story_carrot").setDepth(2)
-      if (item.id === "mooncake") {
-        sprite.setTint(0xe8c45a)
-      } else if (item.id === "osmanthus_blossom") {
-        sprite.setTint(0xf2d4e8)
-      } else if (item.id === "lantern") {
-        sprite.setTint(0xf08a3a)
-      }
+      const look = getItemLook(item.id)
+      const sprite = this.add.image(item.worldX, item.worldY, look.texture).setDepth(2)
       this.physics.add.existing(sprite, true)
       this.pickups.add(sprite)
       sprite.setData("editKind", "pickup")
@@ -777,14 +770,27 @@ export class StoryScene extends Phaser.Scene {
       this.collectPickup(obj as Phaser.GameObjects.Image)
     })
 
-    if (def.moonPool && !def.noCheckpoint) {
-      const pool = assembler.worldPoint(world, def.moonPool)
-      this.moonPool = this.add.image(pool.x, pool.y, "story_pool").setDepth(1)
-      this.moonPool.setData("editKind", "pool")
-      this.moonPool.setTint(POOL_DORMANT_TINT)
-      this.physics.add.existing(this.moonPool, true)
-      applyContactBody(this.moonPool, POOL_CONTACT)
-      this.physics.add.overlap(this.player, this.moonPool, () => this.onMoonPool())
+    this.moonPools = []
+    if (!def.noCheckpoint) {
+      const poolDefs = poolsOf(def)
+      for (let i = 0; i < poolDefs.length; i += 1) {
+        const poolDef = poolDefs[i]
+        if (!poolDef) {
+          continue
+        }
+        const at = assembler.worldPoint(world, poolDef)
+        const pool = this.add.image(at.x, at.y, "story_pool").setDepth(1)
+        pool.setData("editKind", "pool")
+        pool.setData("editIndex", i)
+        pool.setData("poolLine", poolDef.line ?? "")
+        pool.setTint(POOL_DORMANT_TINT)
+        this.physics.add.existing(pool, true)
+        applyContactBody(pool, POOL_CONTACT)
+        this.physics.add.overlap(this.player, pool, (_p, obj) => {
+          this.onMoonPool(obj as Phaser.GameObjects.Image)
+        })
+        this.moonPools.push(pool)
+      }
     }
 
     const exit = assembler.worldPoint(world, def.exit)
@@ -949,7 +955,7 @@ export class StoryScene extends Phaser.Scene {
         level: this.level,
         world,
         player: this.player,
-        moonPool: this.moonPool,
+        moonPools: this.moonPools,
         exitZone: this.exitZone,
         platforms: this.platforms,
         movers: this.movers,
@@ -1283,32 +1289,31 @@ export class StoryScene extends Phaser.Scene {
       return
     }
     this.checkpoint = { x: this.level.playerSpawn.x, y: this.level.playerSpawn.y }
-    this.poolClaimed = false
     this.foxResetOnRespawn = true
     this.enterDeadState(t("story.dead.fox"))
   }
 
-  private onMoonPool(): void {
+  private onMoonPool(pool: Phaser.GameObjects.Image): void {
     if (this.editorMode === "build") {
       return
     }
-    if (!this.moonPool || this.level.noCheckpoint) {
+    if (this.level.noCheckpoint) {
       return
     }
-    if (this.won || this.lost || this.poolClaimed || this.inDialogue) {
+    if (this.won || this.lost || this.inDialogue) {
       return
     }
-    this.poolClaimed = true
-    this.checkpoint = { x: this.moonPool.x, y: this.moonPool.y - 40 }
-    this.awakenMoonPool()
-    this.hud.ticker.show(t(`story.level.${this.level.id}.moon`))
+    if (pool.getData("awakened") === true) {
+      return
+    }
+    pool.setData("awakened", true)
+    this.checkpoint = { x: pool.x, y: pool.y - 40 }
+    this.awakenMoonPool(pool)
+    const custom = String(pool.getData("poolLine") ?? "").trim()
+    this.hud.ticker.show(custom || t(`story.level.${this.level.id}.moon`))
   }
 
-  private awakenMoonPool(): void {
-    const pool = this.moonPool
-    if (!pool) {
-      return
-    }
+  private awakenMoonPool(pool: Phaser.GameObjects.Image): void {
     this.poolRipple?.destroy()
     this.poolRipple = null
     if (this.reducedMotion) {

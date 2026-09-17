@@ -2,13 +2,15 @@ import { t } from "../../core/i18n"
 import { getAudio } from "../../core/audio"
 import { requireEl } from "../../ui/DomShell"
 import { getPalette, listPaletteIds } from "../../modes/story/shared/themeKit"
+import { getEnemyKit } from "../../modes/story/shared/enemyKit"
+import { getItemLook } from "../../modes/story/shared/itemLooks"
 import { drawBunny } from "../../render/drawBunny"
 import {
   clearWorkshopTexture,
   getWorkshopTexture,
-  listWorkshopTargets,
   setWorkshopTexture,
 } from "./overlayStore"
+import { listWorkshopTargets, workshopGroupTitleKey, type WorkshopGroup } from "./targets"
 
 function ellipse(
   ctx: CanvasRenderingContext2D,
@@ -24,6 +26,13 @@ function ellipse(
   ctx.fill()
 }
 
+function hexTint(tint?: number): string | undefined {
+  if (tint === undefined) {
+    return undefined
+  }
+  return `#${tint.toString(16).padStart(6, "0")}`
+}
+
 function stampPaper(ctx: CanvasRenderingContext2D, width: number, height: number): void {
   ctx.fillStyle = "#efe6c8"
   ctx.fillRect(0, 0, width, height)
@@ -35,6 +44,86 @@ function stampPaper(ctx: CanvasRenderingContext2D, width: number, height: number
       }
     }
   }
+}
+
+function drawSource(ctx: CanvasRenderingContext2D, source: string, width: number, height: number): void {
+  const cx = width * 0.5
+  const cy = height * 0.58
+  if (source === "story_bunny") {
+    drawBunny(ctx, cx, cy, {
+      fur: "cream",
+      ears: "upright",
+      accessory: "none",
+    })
+    return
+  }
+  if (source === "story_crow") {
+    ellipse(ctx, cx, cy, 28, 16, "#2a2a32")
+    ctx.fillStyle = "#2a2a32"
+    ctx.beginPath()
+    ctx.moveTo(cx - 28, cy)
+    ctx.lineTo(cx - 40, cy - 10)
+    ctx.lineTo(cx - 20, cy - 4)
+    ctx.closePath()
+    ctx.fill()
+    ellipse(ctx, cx + 8, cy - 6, 3, 3, "#f2f2f2")
+    return
+  }
+  if (source === "story_wisp") {
+    ellipse(ctx, cx, cy, 36, 22, "#d8ecff")
+    ellipse(ctx, cx - 6, cy - 4, 16, 12, "#f4fbff")
+    return
+  }
+  if (source === "story_ice") {
+    ctx.fillStyle = "#a8d4f0"
+    ctx.beginPath()
+    ctx.moveTo(cx, cy - 22)
+    ctx.lineTo(cx - 18, cy + 18)
+    ctx.lineTo(cx + 18, cy + 18)
+    ctx.closePath()
+    ctx.fill()
+    return
+  }
+  if (source === "story_magpie") {
+    ellipse(ctx, cx, cy, 28, 14, "#1a1a22")
+    ellipse(ctx, cx + 8, cy + 2, 12, 8, "#f4f4f8")
+    return
+  }
+  ctx.fillStyle = "#e8822c"
+  ctx.beginPath()
+  ctx.moveTo(cx, cy - 24)
+  ctx.lineTo(cx - 14, cy + 22)
+  ctx.lineTo(cx + 14, cy + 22)
+  ctx.closePath()
+  ctx.fill()
+  ctx.fillStyle = "#4d8f3d"
+  ellipse(ctx, cx - 8, cy - 26, 8, 10, "#4d8f3d")
+  ellipse(ctx, cx + 8, cy - 26, 8, 10, "#4d8f3d")
+}
+
+function stampTinted(
+  ctx: CanvasRenderingContext2D,
+  source: string,
+  tint?: number,
+): void {
+  const width = ctx.canvas.width
+  const height = ctx.canvas.height
+  const tmp = document.createElement("canvas")
+  tmp.width = width
+  tmp.height = height
+  const tctx = tmp.getContext("2d")
+  if (!tctx) {
+    drawSource(ctx, source, width, height)
+    return
+  }
+  drawSource(tctx, source, width, height)
+  const color = hexTint(tint)
+  if (color) {
+    tctx.globalCompositeOperation = "source-atop"
+    tctx.fillStyle = color
+    tctx.fillRect(0, 0, width, height)
+  }
+  ctx.drawImage(tmp, 0, 0)
 }
 
 function stampTarget(ctx: CanvasRenderingContext2D, id: string): void {
@@ -72,17 +161,30 @@ function stampTarget(ctx: CanvasRenderingContext2D, id: string): void {
     })
     return
   }
+  if (id.startsWith("story_critter_")) {
+    const kit = getEnemyKit(id.slice("story_critter_".length))
+    stampTinted(ctx, kit.source, kit.tint)
+    return
+  }
+  if (id.startsWith("story_item_")) {
+    const look = getItemLook(id.slice("story_item_".length))
+    stampTinted(ctx, look.source, look.tint)
+    return
+  }
   ellipse(ctx, width * 0.5, height * 0.5, 10, 10, "#e8f0c8")
 }
 
-export function workshopHtml(): string {
+export function workshopHtml(group: WorkshopGroup): string {
+  const options = listWorkshopTargets(group)
+    .map((target) => `<option value="${target.id}">${target.label}</option>`)
+    .join("")
   return `
-    <h2>${t("workshop.brushTitle")}</h2>
+    <h2>${t(workshopGroupTitleKey(group))}</h2>
     <p class="bm-tagline">${t("workshop.note")}</p>
     <canvas data-ui="wsCanvas" class="bm-workshop-canvas" width="128" height="144" aria-label="${t("workshop.canvas")}"></canvas>
     <div class="bm-field">
       <label>${t("workshop.target")}
-        <select data-ui="wsTarget">${listWorkshopTargets().map((id) => `<option value="${id}">${id}</option>`).join("")}</select>
+        <select data-ui="wsTarget">${options}</select>
       </label>
     </div>
     <div class="bm-field bm-swatch-row">

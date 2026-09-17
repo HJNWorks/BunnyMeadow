@@ -2,6 +2,8 @@ import Phaser from "phaser"
 import { drawBunny } from "../../../render/drawBunny"
 import { getSave } from "../../../core/session"
 import { listWorkshopTextures } from "../../../fx/workshop/overlayStore"
+import { listEnemyKits } from "./enemyKit"
+import { listItemLooks } from "./itemLooks"
 
 export function buildPlayerTexture(scene: Phaser.Scene): string {
   const save = getSave()
@@ -443,6 +445,39 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     ember.fillCircle(10, 10, 10)
     ember.generateTexture("chase_ember", 20, 20)
     ember.destroy()
+  }
+
+  const bakeTinted = (sourceKey: string, destKey: string, tint?: number): void => {
+    if (!scene.textures.exists(sourceKey)) {
+      return
+    }
+    const img = scene.textures.get(sourceKey).getSourceImage() as HTMLCanvasElement | HTMLImageElement
+    const canvas = document.createElement("canvas")
+    canvas.width = img.width || 40
+    canvas.height = img.height || 48
+    const ctx = canvas.getContext("2d")
+    if (!ctx) {
+      return
+    }
+    ctx.drawImage(img, 0, 0)
+    if (tint !== undefined) {
+      ctx.globalCompositeOperation = "multiply"
+      ctx.fillStyle = `#${tint.toString(16).padStart(6, "0")}`
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.globalCompositeOperation = "destination-in"
+      ctx.drawImage(img, 0, 0)
+    }
+    if (scene.textures.exists(destKey)) {
+      scene.textures.remove(destKey)
+    }
+    scene.textures.addCanvas(destKey, canvas)
+  }
+
+  for (const row of listEnemyKits()) {
+    bakeTinted(row.kit.source, row.kit.texture, row.kit.tint)
+  }
+  for (const look of listItemLooks()) {
+    bakeTinted(look.source, look.texture, look.tint)
   }
 
   const workshop = listWorkshopTextures()

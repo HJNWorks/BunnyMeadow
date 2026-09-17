@@ -15,6 +15,12 @@ All notable changes to this project are recorded here. The format follows
 - Story ticker, Mei hearts, and boss hearts sit on the playfield overlay
   (`mountPlayfieldHud`). Header and pause stay as chrome. Editor top chrome docks under
   that chrome (`placeBelowStoryChrome`).
+- Stations may hold several Moon Pools. Delete and Environment place work in the editor.
+  Each pool has its own Chang'e line. First contact on that puddle awakens it and sets
+  the checkpoint. Spawn and burrow exit stay undeletable.
+- Asset Workshop uses tabs for Dash look, Props, Creatures, and Items. Creature and item
+  brushes save per-id overlays (`story_critter_*`, `story_item_*`) so a fox paint does not
+  recolor every tinted bunny.
 - Floating move/jump/dash intro is Soft Paws only. Other stations keep the chips docked
   in the top bar.
 - Burrow win uses the inner hole ellipse, not the dirt rim.

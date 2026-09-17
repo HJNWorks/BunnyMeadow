@@ -2,6 +2,7 @@ import Phaser from "phaser"
 
 type EnemyKit = {
   texture: string
+  source: string
   w: number
   h: number
   tint?: number
@@ -11,21 +12,33 @@ type EnemyKit = {
 }
 
 const KITS: Record<string, EnemyKit> = {
-  fox: { texture: "story_bunny", w: 36, h: 36, tint: 0xdf8b4c, archetype: "chaser", speed: 90 },
-  hedgehog: { texture: "story_bunny", w: 36, h: 36, tint: 0xa8845c, archetype: "patrol", speed: 45 },
-  crow: { texture: "story_crow", w: 36, h: 28, archetype: "ranged_lob", speed: 40, fly: true },
-  squirrel: { texture: "story_bunny", w: 28, h: 30, tint: 0xc47a3a, archetype: "ranged_lob", speed: 50 },
-  frog: { texture: "story_bunny", w: 34, h: 28, tint: 0x5f8f45, archetype: "patrol", speed: 55 },
-  heron: { texture: "story_bunny", w: 42, h: 52, tint: 0xdde6ea, archetype: "reach", speed: 0 },
-  cat: { texture: "story_bunny", w: 34, h: 32, tint: 0x6b5a4a, archetype: "reach", speed: 20 },
-  owl: { texture: "story_crow", w: 38, h: 32, tint: 0x8a6b3a, archetype: "diver", speed: 150, fly: true },
-  goat: { texture: "story_bunny", w: 44, h: 40, tint: 0xd6c4a8, archetype: "blocker", speed: 110 },
-  boar: { texture: "story_bunny", w: 48, h: 36, tint: 0x6a4530, archetype: "blocker", speed: 95 },
-  tortoise: { texture: "story_bunny", w: 40, h: 28, tint: 0x6d8a55, archetype: "patrol", speed: 22 },
-  bees: { texture: "story_wisp", w: 44, h: 32, tint: 0xf0d060, archetype: "swarm", speed: 36, fly: true },
-  frost_wisp: { texture: "story_wisp", w: 52, h: 36, archetype: "swarm", speed: 28, fly: true },
-  ice_spit: { texture: "story_ice", w: 32, h: 32, archetype: "ranged_lob", speed: 0 },
-  gale_magpie: { texture: "story_magpie", w: 40, h: 28, archetype: "diver", speed: 160, fly: true },
+  fox: { texture: "story_critter_fox", source: "story_bunny", w: 36, h: 36, tint: 0xdf8b4c, archetype: "chaser", speed: 90 },
+  hedgehog: { texture: "story_critter_hedgehog", source: "story_bunny", w: 36, h: 36, tint: 0xa8845c, archetype: "patrol", speed: 45 },
+  crow: { texture: "story_critter_crow", source: "story_crow", w: 36, h: 28, archetype: "ranged_lob", speed: 40, fly: true },
+  squirrel: { texture: "story_critter_squirrel", source: "story_bunny", w: 28, h: 30, tint: 0xc47a3a, archetype: "ranged_lob", speed: 50 },
+  frog: { texture: "story_critter_frog", source: "story_bunny", w: 34, h: 28, tint: 0x5f8f45, archetype: "patrol", speed: 55 },
+  heron: { texture: "story_critter_heron", source: "story_bunny", w: 42, h: 52, tint: 0xdde6ea, archetype: "reach", speed: 0 },
+  cat: { texture: "story_critter_cat", source: "story_bunny", w: 34, h: 32, tint: 0x6b5a4a, archetype: "reach", speed: 20 },
+  owl: { texture: "story_critter_owl", source: "story_crow", w: 38, h: 32, tint: 0x8a6b3a, archetype: "diver", speed: 150, fly: true },
+  goat: { texture: "story_critter_goat", source: "story_bunny", w: 44, h: 40, tint: 0xd6c4a8, archetype: "blocker", speed: 110 },
+  boar: { texture: "story_critter_boar", source: "story_bunny", w: 48, h: 36, tint: 0x6a4530, archetype: "blocker", speed: 95 },
+  tortoise: { texture: "story_critter_tortoise", source: "story_bunny", w: 40, h: 28, tint: 0x6d8a55, archetype: "patrol", speed: 22 },
+  bees: { texture: "story_critter_bees", source: "story_wisp", w: 44, h: 32, tint: 0xf0d060, archetype: "swarm", speed: 36, fly: true },
+  frost_wisp: { texture: "story_critter_frost_wisp", source: "story_wisp", w: 52, h: 36, archetype: "swarm", speed: 28, fly: true },
+  ice_spit: { texture: "story_critter_ice_spit", source: "story_ice", w: 32, h: 32, archetype: "ranged_lob", speed: 0 },
+  gale_magpie: { texture: "story_critter_gale_magpie", source: "story_magpie", w: 40, h: 28, archetype: "diver", speed: 160, fly: true },
+}
+
+export function critterTextureKey(id: string): string {
+  return `story_critter_${id}`
+}
+
+export function getEnemyKit(id: string): EnemyKit {
+  return KITS[id] ?? KITS.hedgehog!
+}
+
+export function listEnemyKits(): { id: string; kit: EnemyKit }[] {
+  return Object.entries(KITS).map(([id, kit]) => ({ id, kit }))
 }
 
 export function freezeEnemyForEditor(sprite: Phaser.Physics.Arcade.Sprite): void {
@@ -117,13 +130,10 @@ export function spawnEnemy(
   platforms: Phaser.Physics.Arcade.StaticGroup,
   enemies: Phaser.Physics.Arcade.Group,
 ): Phaser.Physics.Arcade.Sprite {
-  const kit = KITS[id] ?? KITS.hedgehog
+  const kit = getEnemyKit(id)
   const sprite = scene.physics.add.sprite(x, y, kit.texture)
   sprite.setData("id", id)
   sprite.setDisplaySize(kit.w, kit.h)
-  if (kit.tint !== undefined) {
-    sprite.setTint(kit.tint)
-  }
   sprite.setData("archetype", kit.archetype)
   sprite.setData("speed", kit.speed)
   sprite.setData("fly", kit.fly === true)
