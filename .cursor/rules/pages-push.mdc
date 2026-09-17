@@ -1,0 +1,8 @@
+---
+description: Auto-push BunnyMeadow work to GitHub Pages after completing instructions
+alwaysApply: true
+---
+
+After finishing a BunnyMeadow instruction, commit and push to `origin/main` so GitHub Pages updates. Do not wait for a second "push", "put live", or "ship" prompt.
+
+Do not bump `package.json` version unless the user explicitly asks for a version bump.

@@ -17,8 +17,9 @@ All notable changes to this project are recorded here. The format follows
   a left-closing gale. Moon unlocks after Closing Gale.
 - Settings Story map editor (`contentFlags.storyMapEditor`): Play with fail-off, Build
   drag/inspector for platforms, bridges, critters, spawn, Moon Pool, and exit. Edits live
-  in `localStorage` (`bunnymeadow.editor.overlay.v1`) plus Download JSON. No Story
-  progress writes. Removable via the flag and `src/modes/story/editor/`.
+  in `localStorage` (`bunnymeadow.editor.overlay.v1`). Set active makes that overlay
+  the live Story station in this browser. Map width, biome critter/item pickers.
+  No Story progress writes. Removable via the flag and `src/modes/story/editor/`.
 - Story map editor Undo: one restore per selected object, back to the first snapshot
   taken when that object was selected.
 - Story HUD Mute next to Pause. Cuts master output without changing the volume sliders.

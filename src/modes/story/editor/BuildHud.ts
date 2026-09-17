@@ -3,27 +3,25 @@ import type { AssembledLevel, AssembledRect } from "../../../systems/ChunkAssemb
 import { t } from "../../../core/i18n"
 import { getAudio } from "../../../core/audio"
 import { mountDomShell, requireEl } from "../../../ui/DomShell"
+import { downloadEditorJson } from "./exportJson"
 import type { StoryLevelDef } from "../levels"
 import type { MoverState } from "../shared/moversHazards"
-import { downloadEditorJson } from "./exportJson"
 import {
   ensureOverlay,
   setOverlay,
   snap10,
   worldToAnchor,
+  type EditorPickup,
 } from "./overlayStore"
+import {
+  crittersForEnv,
+  itemsForEnv,
+  optionGroupHtml,
+  CRITTER_LABELS,
+  ITEM_LABELS,
+} from "./roster"
 
 export type EditorMode = "play" | "build"
-
-export const EDITOR_CRITTER_IDS = [
-  "fox",
-  "hedgehog",
-  "crow",
-  "goat",
-  "frost_wisp",
-  "ice_spit",
-  "gale_magpie",
-] as const
 
 export type EditorSession = {
   scene: Phaser.Scene
@@ -35,10 +33,12 @@ export type EditorSession = {
   platforms: Phaser.Physics.Arcade.StaticGroup
   movers: MoverState[]
   enemies: Phaser.Physics.Arcade.Group
+  pickups: Phaser.Physics.Arcade.StaticGroup
+  env: string
   mode: EditorMode
 }
 
-type SelKind = "spawn" | "pool" | "exit" | "platform" | "mover" | "enemy"
+type SelKind = "spawn" | "pool" | "exit" | "platform" | "mover" | "enemy" | "pickup"
 
 type Selection = { kind: SelKind; index: number }
 
@@ -126,10 +126,9 @@ export function mountBuildHud(session: EditorSession): void {
         <label>${t("editor.field.w")} <input data-ui="w" type="number" step="10" /></label>
         <label>${t("editor.field.h")} <input data-ui="h" type="number" step="10" /></label>
         <label>${t("editor.field.id")}
-          <select data-ui="id" class="wide">
-            ${EDITOR_CRITTER_IDS.map((id) => `<option value="${id}">${id}</option>`).join("")}
-          </select>
+          <select data-ui="id" class="wide"></select>
         </label>
+        <label>${t("editor.mapWidth")} <input data-ui="mapWidth" type="number" step="10" min="480" /></label>
         <button type="button" class="bm-btn ghost" data-ui="undo">${t("editor.undo")}</button>
         <button type="button" class="bm-btn ghost" data-ui="delete">${t("editor.delete")}</button>
       </div>
@@ -140,8 +139,11 @@ export function mountBuildHud(session: EditorSession): void {
         <button type="button" class="bm-btn" data-ui="addWall">${t("editor.addWall")}</button>
         <button type="button" class="bm-btn" data-ui="addBridge">${t("editor.addBridge")}</button>
         <button type="button" class="bm-btn" data-ui="addEnemy">${t("editor.addEnemy")}</button>
-        <button type="button" class="bm-btn warm" data-ui="download">${t("editor.download")}</button>
+        <button type="button" class="bm-btn" data-ui="addItem">${t("editor.addItem")}</button>
+        <button type="button" class="bm-btn warm" data-ui="setActive">${t("editor.setActive")}</button>
+        <button type="button" class="bm-btn ghost" data-ui="copyJson">${t("editor.copyJson")}</button>
         <button type="button" class="bm-btn ghost" data-ui="back">${t("editor.back")}</button>
+        <span data-ui="status"></span>
       </div>
     </div>
     `,
@@ -161,7 +163,9 @@ export function mountBuildHud(session: EditorSession): void {
   const wInput = requireEl<HTMLInputElement>(root, "[data-ui=w]")
   const hInput = requireEl<HTMLInputElement>(root, "[data-ui=h]")
   const idInput = requireEl<HTMLSelectElement>(root, "[data-ui=id]")
-  const addBtns = ["addPlatform", "addWall", "addBridge", "addEnemy"] as const
+  const mapWidthInput = requireEl<HTMLInputElement>(root, "[data-ui=mapWidth]")
+  const statusEl = requireEl<HTMLElement>(root, "[data-ui=status]")
+  const addBtns = ["addPlatform", "addWall", "addBridge", "addEnemy", "addItem"] as const
   for (const ui of addBtns) {
     requireEl<HTMLButtonElement>(root, `[data-ui=${ui}]`).hidden = session.mode !== "build"
   }
@@ -208,6 +212,10 @@ export function mountBuildHud(session: EditorSession): void {
       const mover = overlay.movers[sel.index]
       return mover ? cloneJson(mover) : null
     }
+    if (sel.kind === "pickup") {
+      const pickup = overlay.pickups[sel.index]
+      return pickup ? cloneJson(pickup) : null
+    }
     const enemy = overlay.enemies[sel.index]
     return enemy ? cloneJson(enemy) : null
   }
@@ -231,6 +239,10 @@ export function mountBuildHud(session: EditorSession): void {
     }
     if (sel.kind === "mover") {
       overlay.movers[sel.index] = cloneJson(snap as (typeof overlay.movers)[number])
+      return
+    }
+    if (sel.kind === "pickup") {
+      overlay.pickups[sel.index] = cloneJson(snap as EditorPickup)
       return
     }
     overlay.enemies[sel.index] = cloneJson(snap as (typeof overlay.enemies)[number])
@@ -333,6 +345,19 @@ export function mountBuildHud(session: EditorSession): void {
       syncMover(selected.index)
     } else if (selected.kind === "enemy") {
       syncEnemy(selected.index)
+    } else if (selected.kind === "pickup") {
+      const index = selected.index
+      const data = overlay.pickups[index]
+      const sprite = session.pickups
+        .getChildren()
+        .find((child) => child.getData("editIndex") === index) as
+        | Phaser.GameObjects.Image
+        | undefined
+      if (data && sprite) {
+        sprite.setPosition(data.worldX, data.worldY)
+        sprite.setData("itemId", data.id)
+        refreshBody(sprite)
+      }
     }
   }
 
@@ -365,10 +390,39 @@ export function mountBuildHud(session: EditorSession): void {
       if (enemy) {
         marks.strokeCircle(enemy.worldX, enemy.worldY, 26)
       }
+    } else if (selected.kind === "pickup") {
+      const pickup = overlay.pickups[selected.index]
+      if (pickup) {
+        marks.strokeCircle(pickup.worldX, pickup.worldY, 22)
+      }
     }
   }
 
+  const fillIdSelect = (kind: "enemy" | "pickup"): void => {
+    if (kind === "enemy") {
+      const lists = crittersForEnv(session.env)
+      idInput.innerHTML = optionGroupHtml(
+        lists.native,
+        lists.other,
+        CRITTER_LABELS,
+        t("editor.native"),
+        t("editor.other"),
+      )
+      return
+    }
+    const lists = itemsForEnv(session.env)
+    idInput.innerHTML = optionGroupHtml(
+      lists.native,
+      lists.other,
+      ITEM_LABELS,
+      t("editor.native"),
+      t("editor.other"),
+    )
+  }
+
   const fillInspect = (): void => {
+    mapWidthInput.value = String(overlay.worldWidth)
+    const idLabel = idInput.closest("label")
     if (!selected) {
       hint.textContent = t("editor.selected.none")
       xInput.disabled = true
@@ -376,6 +430,9 @@ export function mountBuildHud(session: EditorSession): void {
       wInput.disabled = true
       hInput.disabled = true
       idInput.disabled = true
+      if (idLabel) {
+        idLabel.hidden = true
+      }
       syncUndo()
       return
     }
@@ -383,7 +440,14 @@ export function mountBuildHud(session: EditorSession): void {
     yInput.disabled = false
     wInput.disabled = selected.kind !== "platform" && selected.kind !== "mover"
     hInput.disabled = wInput.disabled
-    idInput.disabled = selected.kind !== "enemy"
+    const idKind = selected.kind === "enemy" || selected.kind === "pickup"
+    idInput.disabled = !idKind
+    if (idLabel) {
+      idLabel.hidden = !idKind
+    }
+    if (selected.kind === "enemy" || selected.kind === "pickup") {
+      fillIdSelect(selected.kind)
+    }
     if (selected.kind === "spawn") {
       hint.textContent = t("editor.kind.spawn")
       xInput.value = String(overlay.playerSpawn.x)
@@ -429,9 +493,17 @@ export function mountBuildHud(session: EditorSession): void {
       hint.textContent = t("editor.kind.enemy")
       xInput.value = String(enemy.worldX)
       yInput.value = String(enemy.worldY)
-      idInput.value = EDITOR_CRITTER_IDS.includes(enemy.id as (typeof EDITOR_CRITTER_IDS)[number])
-        ? enemy.id
-        : "fox"
+      idInput.value = enemy.id
+    } else if (selected.kind === "pickup") {
+      const pickup = overlay.pickups[selected.index]
+      if (!pickup) {
+        syncUndo()
+        return
+      }
+      hint.textContent = t("editor.kind.pickup")
+      xInput.value = String(pickup.worldX)
+      yInput.value = String(pickup.worldY)
+      idInput.value = pickup.id
     }
     drawMarks()
     syncUndo()
@@ -462,6 +534,15 @@ export function mountBuildHud(session: EditorSession): void {
         Phaser.Math.Distance.Between(wx, wy, enemy.worldX, enemy.worldY) < 30
       ) {
         return { kind: "enemy", index: i }
+      }
+    }
+    for (let i = overlay.pickups.length - 1; i >= 0; i -= 1) {
+      const pickup = overlay.pickups[i]
+      if (
+        pickup &&
+        Phaser.Math.Distance.Between(wx, wy, pickup.worldX, pickup.worldY) < 28
+      ) {
+        return { kind: "pickup", index: i }
       }
     }
     for (let i = overlay.movers.length - 1; i >= 0; i -= 1) {
@@ -518,6 +599,15 @@ export function mountBuildHud(session: EditorSession): void {
         enemy.x = local.x
         enemy.y = y
       }
+    } else if (sel.kind === "pickup") {
+      const pickup = overlay.pickups[sel.index]
+      if (pickup) {
+        const local = worldToAnchor(session.world, x, y)
+        pickup.worldX = x
+        pickup.worldY = y
+        pickup.x = local.x
+        pickup.y = y
+      }
     }
     selected = sel
     syncSelection()
@@ -563,6 +653,16 @@ export function mountBuildHud(session: EditorSession): void {
         enemy.y = y
         enemy.id = idInput.value
       }
+    } else if (selected.kind === "pickup") {
+      const pickup = overlay.pickups[selected.index]
+      if (pickup) {
+        const local = worldToAnchor(session.world, x, y)
+        pickup.worldX = x
+        pickup.worldY = y
+        pickup.x = local.x
+        pickup.y = y
+        pickup.id = idInput.value
+      }
     } else {
       moveSelection(selected, x, y)
       persist()
@@ -584,10 +684,16 @@ export function mountBuildHud(session: EditorSession): void {
     getAudio().playSfx("confirm")
     restart("build")
   }
-  requireEl<HTMLButtonElement>(root, "[data-ui=download]").onclick = () => {
+  requireEl<HTMLButtonElement>(root, "[data-ui=setActive]").onclick = () => {
+    getAudio().playSfx("confirm")
+    persist()
+    statusEl.textContent = t("editor.activeDone")
+  }
+  requireEl<HTMLButtonElement>(root, "[data-ui=copyJson]").onclick = () => {
     getAudio().playSfx("confirm")
     persist()
     downloadEditorJson(session.level, overlay, session.world)
+    statusEl.textContent = t("editor.copyDone")
   }
   requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
     getAudio().playSfx("cancel")
@@ -625,8 +731,22 @@ export function mountBuildHud(session: EditorSession): void {
   requireEl<HTMLButtonElement>(root, "[data-ui=addEnemy]").onclick = () => {
     const at = cameraCenter()
     const local = worldToAnchor(session.world, at.x, at.y)
+    const id = crittersForEnv(session.env).native[0] ?? "fox"
     overlay.enemies.push({
-      id: "frost_wisp",
+      id,
+      x: local.x,
+      y: at.y,
+      worldX: at.x,
+      worldY: at.y,
+    })
+    restart("build")
+  }
+  requireEl<HTMLButtonElement>(root, "[data-ui=addItem]").onclick = () => {
+    const at = cameraCenter()
+    const local = worldToAnchor(session.world, at.x, at.y)
+    const id = itemsForEnv(session.env).native[0] ?? "carrot"
+    overlay.pickups.push({
+      id,
       x: local.x,
       y: at.y,
       worldX: at.x,
@@ -654,6 +774,8 @@ export function mountBuildHud(session: EditorSession): void {
       overlay.movers.splice(selected.index, 1)
     } else if (selected.kind === "enemy") {
       overlay.enemies.splice(selected.index, 1)
+    } else if (selected.kind === "pickup") {
+      overlay.pickups.splice(selected.index, 1)
     } else {
       return
     }
@@ -664,16 +786,29 @@ export function mountBuildHud(session: EditorSession): void {
   yInput.onchange = applyInspect
   wInput.onchange = applyInspect
   hInput.onchange = applyInspect
-  idInput.onchange = () => {
-    if (selected?.kind !== "enemy") {
-      return
-    }
-    const enemy = overlay.enemies[selected.index]
-    if (!enemy) {
-      return
-    }
-    enemy.id = idInput.value
+  mapWidthInput.onchange = () => {
+    const width = Math.max(480, snap10(Number(mapWidthInput.value) || overlay.worldWidth))
+    overlay.worldWidth = width
     restart("build")
+  }
+  idInput.onchange = () => {
+    if (selected?.kind === "enemy") {
+      const enemy = overlay.enemies[selected.index]
+      if (!enemy) {
+        return
+      }
+      enemy.id = idInput.value
+      restart("build")
+      return
+    }
+    if (selected?.kind === "pickup") {
+      const pickup = overlay.pickups[selected.index]
+      if (!pickup) {
+        return
+      }
+      pickup.id = idInput.value
+      restart("build")
+    }
   }
 
   const onDown = (pointer: Phaser.Input.Pointer): void => {
@@ -708,6 +843,10 @@ export function mountBuildHud(session: EditorSession): void {
         const enemy = overlay.enemies[hit.index]
         grabX = worldPoint.x - (enemy?.worldX ?? 0)
         grabY = worldPoint.y - (enemy?.worldY ?? 0)
+      } else if (hit.kind === "pickup") {
+        const pickup = overlay.pickups[hit.index]
+        grabX = worldPoint.x - (pickup?.worldX ?? 0)
+        grabY = worldPoint.y - (pickup?.worldY ?? 0)
       }
       fillInspect()
       return

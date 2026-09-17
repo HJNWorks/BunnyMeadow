@@ -1,5 +1,33 @@
 import Phaser from "phaser"
 
+type EnemyKit = {
+  texture: string
+  w: number
+  h: number
+  tint?: number
+  archetype: string
+  speed: number
+  fly?: boolean
+}
+
+const KITS: Record<string, EnemyKit> = {
+  fox: { texture: "story_bunny", w: 36, h: 36, tint: 0xdf8b4c, archetype: "chaser", speed: 90 },
+  hedgehog: { texture: "story_bunny", w: 36, h: 36, tint: 0xa8845c, archetype: "patrol", speed: 45 },
+  crow: { texture: "story_crow", w: 36, h: 28, archetype: "ranged_lob", speed: 40, fly: true },
+  squirrel: { texture: "story_bunny", w: 28, h: 30, tint: 0xc47a3a, archetype: "ranged_lob", speed: 50 },
+  frog: { texture: "story_bunny", w: 34, h: 28, tint: 0x5f8f45, archetype: "patrol", speed: 55 },
+  heron: { texture: "story_bunny", w: 42, h: 52, tint: 0xdde6ea, archetype: "reach", speed: 0 },
+  cat: { texture: "story_bunny", w: 34, h: 32, tint: 0x6b5a4a, archetype: "reach", speed: 20 },
+  owl: { texture: "story_crow", w: 38, h: 32, tint: 0x8a6b3a, archetype: "diver", speed: 150, fly: true },
+  goat: { texture: "story_bunny", w: 44, h: 40, tint: 0xd6c4a8, archetype: "blocker", speed: 110 },
+  boar: { texture: "story_bunny", w: 48, h: 36, tint: 0x6a4530, archetype: "blocker", speed: 95 },
+  tortoise: { texture: "story_bunny", w: 40, h: 28, tint: 0x6d8a55, archetype: "patrol", speed: 22 },
+  bees: { texture: "story_wisp", w: 44, h: 32, tint: 0xf0d060, archetype: "swarm", speed: 36, fly: true },
+  frost_wisp: { texture: "story_wisp", w: 52, h: 36, archetype: "swarm", speed: 28, fly: true },
+  ice_spit: { texture: "story_ice", w: 32, h: 32, archetype: "ranged_lob", speed: 0 },
+  gale_magpie: { texture: "story_magpie", w: 40, h: 28, archetype: "diver", speed: 160, fly: true },
+}
+
 export function spawnEnemy(
   scene: Phaser.Scene,
   id: string,
@@ -8,72 +36,45 @@ export function spawnEnemy(
   platforms: Phaser.Physics.Arcade.StaticGroup,
   enemies: Phaser.Physics.Arcade.Group,
 ): Phaser.Physics.Arcade.Sprite {
-  const texture =
-    id === "crow"
-      ? "story_crow"
-      : id === "frost_wisp"
-        ? "story_wisp"
-        : id === "ice_spit"
-          ? "story_ice"
-          : id === "gale_magpie"
-            ? "story_magpie"
-            : "story_bunny"
-  const sprite = scene.physics.add.sprite(x, y, texture)
+  const kit = KITS[id] ?? KITS.hedgehog
+  const sprite = scene.physics.add.sprite(x, y, kit.texture)
   sprite.setData("id", id)
-  if (id === "fox") {
-    sprite.setDisplaySize(36, 36)
-    sprite.setTint(0xdf8b4c)
-    sprite.setData("archetype", "chaser")
-    sprite.setData("speed", 90)
-  } else if (id === "crow") {
-    sprite.setDisplaySize(36, 28)
-    sprite.setData("archetype", "ranged_lob")
-    sprite.setData("speed", 40)
-    sprite.setData("cooldown", 0)
-    ;(sprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
-  } else if (id === "goat") {
-    sprite.setTint(0xd6c4a8)
-    sprite.setDisplaySize(44, 40)
-    sprite.setData("archetype", "blocker")
-    sprite.setData("speed", 110)
-    sprite.setData("stun", 0)
-    sprite.setData("charging", 0)
-  } else if (id === "frost_wisp") {
-    sprite.setDisplaySize(52, 36)
-    sprite.setData("archetype", "swarm")
-    sprite.setData("speed", 28)
-    sprite.setData("homeX", x)
-    sprite.setData("homeY", y)
-    sprite.setData("hoverT", Math.random() * Math.PI * 2)
-    ;(sprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
-  } else if (id === "ice_spit") {
-    sprite.setDisplaySize(32, 32)
-    sprite.setData("archetype", "ranged_lob")
-    sprite.setData("speed", 0)
-    sprite.setData("cooldown", 0.4)
-  } else if (id === "gale_magpie") {
-    sprite.setDisplaySize(40, 28)
-    sprite.setData("archetype", "diver")
-    sprite.setData("speed", 160)
-    sprite.setData("homeX", x)
-    sprite.setData("homeY", y)
-    sprite.setData("phase", "hover")
-    sprite.setData("timer", 0.8 + Math.random() * 0.8)
-    sprite.setData("hoverT", Math.random() * Math.PI * 2)
-    ;(sprite.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
-  } else {
-    sprite.setDisplaySize(36, 36)
-    sprite.setTint(0xa8845c)
-    sprite.setData("archetype", "patrol")
-    sprite.setData("speed", 45)
+  sprite.setDisplaySize(kit.w, kit.h)
+  if (kit.tint !== undefined) {
+    sprite.setTint(kit.tint)
+  }
+  sprite.setData("archetype", kit.archetype)
+  sprite.setData("speed", kit.speed)
+  if (kit.archetype === "patrol") {
     sprite.setData("dir", 1)
   }
+  if (kit.archetype === "ranged_lob") {
+    sprite.setData("cooldown", id === "ice_spit" ? 0.4 : 0)
+  }
+  if (kit.archetype === "blocker") {
+    sprite.setData("stun", 0)
+    sprite.setData("charging", 0)
+  }
+  if (kit.archetype === "swarm" || kit.archetype === "diver") {
+    sprite.setData("homeX", x)
+    sprite.setData("homeY", y)
+    sprite.setData("hoverT", Math.random() * Math.PI * 2)
+  }
+  if (kit.archetype === "diver") {
+    sprite.setData("phase", "hover")
+    sprite.setData("timer", 0.8 + Math.random() * 0.8)
+  }
   sprite.setCollideWorldBounds(true)
-  const airborne = id === "frost_wisp" || id === "gale_magpie" || id === "crow"
-  if (!airborne) {
+  if (!kit.fly) {
     scene.physics.add.collider(sprite, platforms)
   }
   enemies.add(sprite)
+  if (kit.fly) {
+    const body = sprite.body as Phaser.Physics.Arcade.Body
+    body.setAllowGravity(false)
+    body.setGravity(0, 0)
+    body.setVelocity(0, 0)
+  }
   return sprite
 }
 
@@ -148,6 +149,8 @@ export function updateEnemies(
         cd = ice ? 1.7 : 1.8
       }
       enemy.setData("cooldown", cd)
+      enemy.setVelocityX(0)
+    } else if (arch === "reach") {
       enemy.setVelocityX(0)
     } else if (arch === "blocker") {
       let stun = Number(enemy.getData("stun") || 0) - dt

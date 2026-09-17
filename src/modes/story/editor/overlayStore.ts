@@ -8,13 +8,23 @@ import type { StoryLevelDef } from "../levels"
 
 export const EDITOR_OVERLAY_KEY = "bunnymeadow.editor.overlay.v1"
 
+export type EditorPickup = {
+  id: string
+  x: number
+  y: number
+  worldX: number
+  worldY: number
+}
+
 export type EditorLevelOverlay = {
   playerSpawn: { x: number; y: number }
   moonPool?: { chunk: number; x: number; y: number }
   exit: { chunk: number; x: number; y: number }
+  worldWidth: number
   platforms: AssembledRect[]
   movers: AssembledMover[]
   enemies: AssembledEnemy[]
+  pickups: EditorPickup[]
 }
 
 type OverlayFile = {
@@ -80,9 +90,17 @@ export function captureOverlay(def: StoryLevelDef, world: AssembledLevel): Edito
     playerSpawn: { ...def.playerSpawn },
     moonPool: def.moonPool ? { ...def.moonPool } : undefined,
     exit: { ...def.exit },
+    worldWidth: world.width,
     platforms: world.platforms.map((rect) => ({ ...rect })),
     movers: world.movers.map((mover) => ({ ...mover })),
     enemies: world.enemies.map((enemy) => ({ ...enemy })),
+    pickups: (world.carrots ?? []).map((carrot) => ({
+      id: "carrot",
+      x: carrot.x,
+      y: carrot.y,
+      worldX: carrot.worldX,
+      worldY: carrot.worldY,
+    })),
   }
 }
 
@@ -96,16 +114,40 @@ export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): Assembl
     def.moonPool = { ...overlay.moonPool }
   }
   def.exit = { ...overlay.exit }
+  const width =
+    typeof overlay.worldWidth === "number" && overlay.worldWidth > 0
+      ? overlay.worldWidth
+      : world.width
+  const pickups = overlay.pickups ?? []
   return {
     ...world,
+    width,
     platforms: overlay.platforms.map((rect) => ({ ...rect })),
     movers: overlay.movers.map((mover) => ({ ...mover })),
     enemies: overlay.enemies.map((enemy) => ({ ...enemy })),
+    carrots: pickups
+      .filter((item) => item.id === "carrot")
+      .map((item) => ({
+        x: item.x,
+        y: item.y,
+        worldX: item.worldX,
+        worldY: item.worldY,
+      })),
   }
 }
 
 export function ensureOverlay(def: StoryLevelDef, world: AssembledLevel): EditorLevelOverlay {
-  return getOverlay(def.id) ?? captureOverlay(def, world)
+  const existing = getOverlay(def.id)
+  if (!existing) {
+    return captureOverlay(def, world)
+  }
+  if (typeof existing.worldWidth !== "number" || existing.worldWidth <= 0) {
+    existing.worldWidth = world.width
+  }
+  if (!existing.pickups) {
+    existing.pickups = []
+  }
+  return existing
 }
 
 export function snap10(n: number): number {

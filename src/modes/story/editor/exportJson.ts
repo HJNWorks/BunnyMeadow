@@ -90,6 +90,13 @@ export function buildExportBundle(
     })
   }
 
+  const lastId = world.chunks[world.chunks.length - 1]
+  if (lastId && chunks[lastId]) {
+    const origin = world.chunkOrigins[world.chunkOrigins.length - 1] ?? 0
+    const span = Math.max(120, (overlay.worldWidth ?? world.width) - origin)
+    chunks[lastId].width = span
+  }
+
   const moonPool = overlay.moonPool
     ? worldToAnchor(
         world,

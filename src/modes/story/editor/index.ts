@@ -2,9 +2,8 @@ import Phaser from "phaser"
 import { getContentFlags } from "../../../core/ModeContext"
 import type { EditorMode } from "./BuildHud"
 
-export { applyOverlay, cloneStoryLevel, clearOverlay, ensureOverlay } from "./overlayStore"
+export { applyOverlay, cloneStoryLevel, clearOverlay, ensureOverlay, getOverlay } from "./overlayStore"
 export { mountBuildHud, type EditorMode, type EditorSession } from "./BuildHud"
-export { downloadEditorJson } from "./exportJson"
 
 export function isEditorEnabled(): boolean {
   return getContentFlags().storyMapEditor === true

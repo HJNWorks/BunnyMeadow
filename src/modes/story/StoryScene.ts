@@ -4,6 +4,7 @@ import { getStoryLevel, type StoryLevelDef } from "./levels"
 import {
   applyOverlay,
   cloneStoryLevel,
+  getOverlay,
   isEditorEnabled,
   mountBuildHud,
   type EditorMode,
@@ -238,6 +239,8 @@ export class StoryScene extends Phaser.Scene {
   private exitHintAt = 0
   private waterGrace = 0
   private editorMode: EditorMode | null = null
+  private pickups!: Phaser.Physics.Arcade.StaticGroup
+  private glowTimer = 0
 
   constructor() {
     super("Story")
@@ -286,6 +289,7 @@ export class StoryScene extends Phaser.Scene {
     this.ride = null
     this.exitHintAt = 0
     this.waterGrace = 0
+    this.glowTimer = 0
     this.physics.world.isPaused = false
 
     this.style = document.createElement("style")
@@ -415,7 +419,7 @@ export class StoryScene extends Phaser.Scene {
 
     const assembler = new ChunkAssembler()
     let world = assembler.assemble(def.chunks)
-    if (this.editorMode) {
+    if (isEditorEnabled()) {
       world = /* storyMapEditor hook */ applyOverlay(def, world)
     }
     this.worldWidth = world.width
@@ -566,6 +570,40 @@ export class StoryScene extends Phaser.Scene {
       sprite.setData("editKind", "enemy")
       sprite.setData("editIndex", i)
     }
+
+    this.pickups = this.physics.add.staticGroup()
+    const overlay = isEditorEnabled() ? getOverlay(def.id) : undefined
+    const pickupList =
+      overlay?.pickups ??
+      world.carrots.map((carrot) => ({
+        id: "carrot",
+        x: carrot.x,
+        y: carrot.y,
+        worldX: carrot.worldX,
+        worldY: carrot.worldY,
+      }))
+    for (let i = 0; i < pickupList.length; i += 1) {
+      const item = pickupList[i]
+      if (!item) {
+        continue
+      }
+      const sprite = this.add.image(item.worldX, item.worldY, "story_carrot").setDepth(2)
+      if (item.id === "mooncake") {
+        sprite.setTint(0xe8c45a)
+      } else if (item.id === "osmanthus_blossom") {
+        sprite.setTint(0xf2d4e8)
+      } else if (item.id === "lantern") {
+        sprite.setTint(0xf08a3a)
+      }
+      this.physics.add.existing(sprite, true)
+      this.pickups.add(sprite)
+      sprite.setData("editKind", "pickup")
+      sprite.setData("editIndex", i)
+      sprite.setData("itemId", item.id)
+    }
+    this.physics.add.overlap(this.player, this.pickups, (_p, obj) => {
+      this.collectPickup(obj as Phaser.GameObjects.Image)
+    })
 
     if (def.moonPool && !def.noCheckpoint) {
       const pool = assembler.worldPoint(world, def.moonPool)
@@ -735,6 +773,8 @@ export class StoryScene extends Phaser.Scene {
         platforms: this.platforms,
         movers: this.movers,
         enemies: this.enemies,
+        pickups: this.pickups,
+        env,
         mode: this.editorMode,
       })
     }
@@ -764,6 +804,35 @@ export class StoryScene extends Phaser.Scene {
       this.style?.remove()
       this.style = null
     })
+  }
+
+  private collectPickup(sprite: Phaser.GameObjects.Image): void {
+    if (this.editorMode === "build" || !sprite.active) {
+      return
+    }
+    const id = String(sprite.getData("itemId") || "carrot")
+    sprite.destroy()
+    getAudio().playSfx("pickup")
+    if (id === "mooncake") {
+      this.health = Math.min(this.maxHearts, this.health + 1)
+      this.syncHearts()
+      return
+    }
+    if (id === "osmanthus_blossom") {
+      this.playerState.glideCharges += 1
+      return
+    }
+    if (id === "lantern") {
+      this.glowTimer = 1.6
+      this.lanternGlow?.setVisible(true)
+      return
+    }
+    if (this.editorMode) {
+      return
+    }
+    const save = getSave()
+    addPantryCarrots(save, 1)
+    void persistSave()
   }
 
   private leavePlay(): void {
@@ -1420,7 +1489,13 @@ export class StoryScene extends Phaser.Scene {
     updateEnemies(this, this.enemies, this.projectiles, this.platforms, this.player, dt)
 
     this.weather?.update(dt, this.cameras.main.scrollX)
-    if (this.lanternGlow && (this.lanternGlowAlways || this.lanternGlow.visible)) {
+    if (this.glowTimer > 0) {
+      this.glowTimer = Math.max(0, this.glowTimer - dt)
+      if (this.glowTimer <= 0 && this.lanternGlow && !this.lanternGlowAlways) {
+        this.lanternGlow.setVisible(false)
+      }
+    }
+    if (this.lanternGlow && (this.lanternGlowAlways || this.lanternGlow.visible || this.glowTimer > 0)) {
       this.lanternGlow.setPosition(this.player.x, this.player.y)
     }
   }
