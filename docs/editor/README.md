@@ -56,7 +56,7 @@ Runtime does not spawn a proximity sensor from that field yet. Do not put `trigg
 
 Toolbar: Selection Mode Object or Region. Region: drag a rectangle; every object inside is selected with its fields. Then x, y, w, h, rotation, asset, id, current, Undo, Delete apply to the set. Look (palette kit, sky/far/fog hex, hour, weather, night overlay, night amount, day haze, lantern glow, low gravity, map width). Night overlay is independent of hour, so Burrow Eve afternoon can still darken. World index: `src/modes/story/editor/worldIndex.ts`.
 
-The editor top bar is `position: fixed` but its `top` is not a magic pixel. `placeBelowStoryChrome` in `src/ui/playfieldFrame.ts` sits it under `.meadow-bar` (header + hearts + ticker). `watchStoryChrome` observes those nodes, not the full-viewport root. Playfield inset runs `beforeMeasure` so the canvas follows. New editor bars must use the same helpers.
+The editor top bar is `position: fixed` but its `top` is not a magic pixel. `placeBelowStoryChrome` in `src/ui/playfieldFrame.ts` sits it under `.meadow-bar` (title and pause row). Hearts, status ticker, and boss hearts live on the playfield via `mountPlayfieldHud`, not in that chrome. `watchStoryChrome` observes the chrome nodes, not the full-viewport root. Playfield inset runs `beforeMeasure` so the canvas follows. New editor bars must use the same helpers.
 
 Native critter pickers: `src/modes/story/editor/roster.ts`. Soft Paws / meadow native is fox, hedgehog, crow, carrot. Bees and tortoise stay in All until their idea pages ship as live data.
 

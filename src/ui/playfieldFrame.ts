@@ -142,3 +142,22 @@ export function attachPlayfieldFrame(
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, teardown)
   scene.events.once(Phaser.Scenes.Events.DESTROY, teardown)
 }
+
+export function mountPlayfieldHud(scene: Phaser.Scene, hud: HTMLElement): void {
+  const parent = scene.game.canvas.parentElement
+  if (!parent) {
+    return
+  }
+  parent.appendChild(hud)
+  parent.style.position = parent.style.position || "fixed"
+  hud.style.display = "block"
+  hud.style.position = "absolute"
+  hud.style.inset = "0"
+  hud.style.zIndex = "4"
+  hud.style.pointerEvents = "none"
+  const teardown = (): void => {
+    hud.remove()
+  }
+  scene.events.once(Phaser.Scenes.Events.SHUTDOWN, teardown)
+  scene.events.once(Phaser.Scenes.Events.DESTROY, teardown)
+}

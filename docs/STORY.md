@@ -128,7 +128,7 @@ Why rabbits sit and watch the moon. Family reunion under the full moon. Fade on 
 
 - Every checkpoint is a puddle or pond. Contact with the visible water, not a generous box. See [story/proximity.md](story/proximity.md).
 - Dormant water is a still dusk puddle. First touch awakens the reflection (silver moon-rim) and sets the station checkpoint for this run.
-- Chang'e's line runs in the HUD ticker inside the hearts bar. Play does not pause. DialogueOverlay is not used for the pool.
+- Chang'e's line runs in the HUD ticker at the top center of the playfield. Play does not pause. DialogueOverlay is not used for the pool.
 - Skip the ticker with confirm or face. Reduced motion shows the line static. Auto-clear after a few seconds.
 - Re-entering an awake pool does not replay the line. Respawn in the same run keeps the awake look.
 - Editor Build does not awaken or tick. Editor Play does.

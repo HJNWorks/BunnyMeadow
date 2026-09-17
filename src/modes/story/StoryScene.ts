@@ -17,7 +17,7 @@ import { getPlatform } from "../../core/platform"
 import { t } from "../../core/i18n"
 import { getAudio, musicIdForEnv } from "../../core/audio"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
-import { attachPlayfieldFrame, measureChromeInsets, EDITOR_BOTTOM_CHROME, EDITOR_TOP_CHROME, placeBelowStoryChrome, STORY_TOP_CHROME } from "../../ui/playfieldFrame"
+import { attachPlayfieldFrame, measureChromeInsets, EDITOR_BOTTOM_CHROME, EDITOR_TOP_CHROME, mountPlayfieldHud, placeBelowStoryChrome, STORY_TOP_CHROME } from "../../ui/playfieldFrame"
 import { equippedDashDef, PhaserDashFx } from "../../fx/dash"
 import { ControlCoach, CONTROL_COACH_CSS, type CoachAction } from "../../ui/ControlCoach"
 import { ITEM_TRAY_CSS, bindItemTray, renderItemTray, type TrayBuff } from "../../ui/ItemTray"
@@ -106,20 +106,28 @@ function shellHtml(): string {
     <p class="bm-tagline" data-ui="objective"></p>
   </header>
   <div class="meadow-bar">
-    <div class="bm-story-ticker" data-ui="ticker" hidden role="status" aria-live="polite">
-      <p class="bm-story-ticker-line" data-ui="tickerText"></p>
-    </div>
     <div class="meadow-bar-main">
-    <span>${t("hud.hearts")} <strong data-ui="hearts">♥ ♥ ♥</strong></span>
-    <span data-ui="bossHits" hidden></span>
     <div class="story-controls-dock" data-ui="controlsDock" hidden aria-label="${t("common.controls")}"></div>
     <button type="button" class="bm-btn ghost" data-ui="muteBtn">${t("story.hud.mute")}</button>
     <button type="button" class="bm-btn" data-ui="pauseBtn">${t("story.hud.pause")}</button>
     <button type="button" class="bm-btn ghost" data-ui="back">${t("story.hud.back")}</button>
     </div>
   </div>
-  <div class="bm-item-tray" data-ui="itemTray" hidden></div>
-  <div class="story-han-hearts" data-ui="hanHearts" hidden></div>
+  <div class="bm-playfield-hud" data-ui="playHud">
+    <div class="bm-play-hearts" aria-label="${t("hud.hearts")}">
+      <strong data-ui="hearts">♥ ♥ ♥</strong>
+    </div>
+    <div class="bm-play-center">
+      <div class="bm-story-ticker" data-ui="ticker" hidden role="status" aria-live="polite">
+        <p class="bm-story-ticker-line" data-ui="tickerText"></p>
+      </div>
+      <div class="bm-play-boss">
+        <span data-ui="bossHits" hidden></span>
+        <div class="story-han-hearts" data-ui="hanHearts" hidden></div>
+      </div>
+    </div>
+    <div class="bm-item-tray" data-ui="itemTray" hidden></div>
+  </div>
   <div class="story-field" data-ui="field"></div>
   <div class="story-controls-float" data-ui="controlsFloat" hidden></div>
   <div class="meadow-overlay" data-ui="overlay" hidden>
@@ -195,6 +203,7 @@ const CSS = `
 .meadow-bar-main { display:flex; gap:14px; align-items:center; flex-wrap:wrap; width:100%; }
 .meadow-bar-main .bm-btn { margin-left:auto; }
 .meadow-bar-main .bm-btn.ghost { margin-left:0; }
+.meadow-bar-main [data-ui=muteBtn] { margin-left: auto; }
 .meadow-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#34563866; z-index:60; pointer-events:auto; }
 .meadow-overlay[hidden] { display:none !important; }
 .meadow-card { background:#fffaf0; padding:28px; border-radius:24px; max-width:420px; text-align:center; position:relative; z-index:61; }
@@ -202,18 +211,88 @@ const CSS = `
 ${CONTROL_COACH_CSS}
 ${ITEM_TRAY_CSS}
 ${STORY_TICKER_CSS}
-.bm-story-hud .bm-item-tray { top: 168px; }
-.story-han-hearts {
-  position: fixed;
-  top: 168px;
+.bm-story-hud .bm-playfield-hud {
+  display: none;
+}
+.bm-playfield-hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+.bm-play-hearts {
+  position: absolute;
+  top: 28px;
+  left: 32px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: #fffaf0ee;
+  border: 1px solid #d5dcc4;
+  box-shadow: 0 8px 16px #15203333;
+  font: 800 26px Georgia, "Times New Roman", serif;
+  letter-spacing: 0.08em;
+  color: #c45c5c;
+}
+.bm-play-center {
+  position: absolute;
+  top: 24px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 56;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: min(640px, 72%);
+}
+.bm-playfield-hud .bm-story-ticker {
+  width: 100%;
+  margin: 0;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: #fffaf0ee;
+  border: 1px solid #d5dcc4;
+  box-shadow: 0 8px 16px #15203333;
+  pointer-events: auto;
+}
+.bm-playfield-hud .bm-story-ticker-line {
+  text-align: center;
+  color: #2a3d48;
+}
+.bm-play-boss {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.bm-play-boss [data-ui=bossHits] {
+  font: 700 14px system-ui, sans-serif;
+  color: #2a3d48;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: #fffaf0ee;
+  border: 1px solid #d5dcc4;
+}
+.bm-playfield-hud .bm-item-tray {
+  position: absolute;
+  top: 28px;
+  right: 32px;
+  z-index: 5;
+}
+.story-han-hearts {
+  position: static;
+  top: auto;
+  left: auto;
+  transform: none;
+  z-index: auto;
   pointer-events: none;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: #fffaf0ee;
+  border: 1px solid #d5dcc4;
+  box-shadow: 0 8px 16px #15203333;
   font: 800 26px Georgia, "Times New Roman", serif;
   letter-spacing: 0.18em;
-  color: #f7fbff;
-  text-shadow: 0 1px 0 #0d1420, 0 6px 16px #152033aa;
+  color: #c45c5c;
 }
 .story-han-hearts[hidden] { display: none; }
 `
@@ -902,6 +981,8 @@ export class StoryScene extends Phaser.Scene {
         },
       },
     )
+    const playHud = requireEl<HTMLElement>(shell.root, "[data-ui=playHud]")
+    mountPlayfieldHud(this, playHud)
     this.syncHearts()
     ;(window as unknown as { __bmStory?: () => Record<string, number | boolean | string> }).__bmStory = () => ({
       x: this.player?.x ?? 0,

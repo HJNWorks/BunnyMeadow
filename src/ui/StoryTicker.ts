@@ -17,17 +17,14 @@ type Job = {
 }
 
 export const STORY_TICKER_CSS = `
-.bm-story-hud .bm-story-ticker {
+.bm-story-ticker {
   margin: 0;
-  padding: 0 2px 2px;
+  padding: 0;
   width: 100%;
   min-width: 0;
-  background: transparent;
-  border: none;
-  box-shadow: none;
   pointer-events: auto;
 }
-.bm-story-hud .bm-story-ticker[hidden] {
+.bm-story-ticker[hidden] {
   display: none !important;
 }
 .bm-story-ticker-line {

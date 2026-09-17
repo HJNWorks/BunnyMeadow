@@ -10,10 +10,11 @@ All notable changes to this project are recorded here. The format follows
 
 - Burrow exit and Moon Pool win/checkpoint on contact with the visible ellipse. The extra
   proximity box around the hole is gone. Moon Pool awakens on first touch (silver
-  reflection, no pause, no DialogueOverlay). Chang'e's line runs in a HUD ticker inside
-  the hearts bar. Trigger map: `docs/story/proximity.md`.
-- Story ticker lives in `.meadow-bar`. Editor top chrome docks under that bar
-  (`placeBelowStoryChrome`) so world-activity text cannot sit inside other HUD boxes.
+  reflection, no pause, no DialogueOverlay). Chang'e's line runs in a HUD ticker at the
+  top center of the playfield. Trigger map: `docs/story/proximity.md`.
+- Story ticker, Mei hearts, and boss hearts sit on the playfield overlay
+  (`mountPlayfieldHud`). Header and pause stay as chrome. Editor top chrome docks under
+  that chrome (`placeBelowStoryChrome`).
 - Floating move/jump/dash intro is Soft Paws only. Other stations keep the chips docked
   in the top bar.
 - Burrow win uses the inner hole ellipse, not the dirt rim.
