@@ -14,14 +14,20 @@ import {
   worldToAnchor,
   type EditorPickup,
 } from "./overlayStore"
-import {
-  crittersForEnv,
-  itemsForEnv,
-  optionGroupHtml,
-  CRITTER_LABELS,
-  ITEM_LABELS,
-} from "./roster"
 import { defaultDecor, DECOR_LABELS, PLATFORM_ASSETS } from "./placeables"
+import {
+  allCritterIds,
+  allItemIds,
+  critterLabel,
+  editorWorldIdForLevel,
+  envTokenLabel,
+  itemLabel,
+  listEditorWorldIndex,
+  setLastEditorStation,
+  sharedEnvTokens,
+  stationsForWorld,
+  type EditorWorldId,
+} from "./worldIndex"
 import {
   listPaletteIds,
   PALETTE_HOURS,
@@ -165,31 +171,106 @@ const CSS = `
 .bm-editor-hud .bm-btn[aria-pressed="true"] {
   outline: 2px solid #34583e;
 }
+.bm-editor-hud .bm-editor-station {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+.bm-editor-hud .bm-editor-add-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;
+}
+.bm-editor-hud .bm-editor-menu {
+  position: relative;
+}
+.bm-editor-hud .bm-editor-menu-panel {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 6px);
+  z-index: 80;
+  min-width: 240px;
+  max-height: 280px;
+  overflow: auto;
+  background: #f7f3e8;
+  border: 1px solid #d5dcc4;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px #2a3d2420;
+  padding: 8px;
+}
+.bm-editor-hud .bm-editor-menu-panel details {
+  margin-bottom: 6px;
+}
+.bm-editor-hud .bm-editor-menu-panel summary {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  color: #34583e;
+}
+.bm-editor-hud .bm-editor-add-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  color: #304c39;
+  font: 13px system-ui, sans-serif;
+  padding: 4px 6px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.bm-editor-hud .bm-editor-add-item:hover {
+  background: #e8eed8;
+}
 `
 
-function addObjectMenuHtml(): string {
-  const group = (key: string, ids: Array<[string, string]>): string =>
-    `<optgroup label="${t(`editor.addGroup.${key}`)}">${ids
-      .map(([value, label]) => `<option value="${value}">${t(label)}</option>`)
-      .join("")}</optgroup>`
-  return [
-    group("terrain", [
-      ["platform", "editor.addPlatform"],
-      ["wall", "editor.addWall"],
-      ["bridge", "editor.addBridge"],
-    ]),
-    group("nature", [
-      ["hedge", "editor.addHedge"],
-      ["vine", "editor.addVine"],
-      ["grass", "editor.addGrass"],
-      ["log", "editor.addLog"],
-      ["burrow", "editor.addBurrow"],
-    ]),
-    group("light", [["lantern", "editor.addLantern"]]),
-    group("hazard", [["water", "editor.addWater"]]),
-    group("wildlife", [["enemy", "editor.addEnemy"]]),
-    group("pickup", [["item", "editor.addItem"]]),
+function hitSprite(wx: number, wy: number, go: Phaser.GameObjects.GameObject, pad = 14): boolean {
+  const image = go as Phaser.GameObjects.Image
+  const rw = Math.max(22, image.displayWidth * 0.55 + pad)
+  const rh = Math.max(22, image.displayHeight * 0.55 + pad)
+  return Math.abs(wx - image.x) <= rw && Math.abs(wy - image.y) <= rh
+}
+
+function additionMenusHtml(): { env: string; creatures: string } {
+  const worlds = listEditorWorldIndex()
+  const item = (token: string, label: string): string =>
+    `<button type="button" class="bm-editor-add-item" data-add="${token}">${label}</button>`
+  const envAll = [
+    ...sharedEnvTokens().map((token) => item(token, envTokenLabel(token))),
+    ...allItemIds().map((id) => item(`item:${id}`, itemLabel(id))),
   ].join("")
+  const envWorlds = worlds
+    .map((world) => {
+      const seen = new Set<string>()
+      const buttons: string[] = []
+      for (const token of [...sharedEnvTokens(), ...world.placeables]) {
+        if (seen.has(token)) {
+          continue
+        }
+        seen.add(token)
+        buttons.push(item(token, envTokenLabel(token)))
+      }
+      for (const id of world.items) {
+        buttons.push(item(`item:${id}`, itemLabel(id)))
+      }
+      return `<details><summary>${t(world.titleKey)}</summary>${buttons.join("")}</details>`
+    })
+    .join("")
+  const creatureAll = allCritterIds()
+    .map((id) => item(`critter:${id}`, critterLabel(id)))
+    .join("")
+  const creatureWorlds = worlds
+    .map((world) => {
+      const buttons = world.critters.map((id) => item(`critter:${id}`, critterLabel(id)))
+      return `<details><summary>${t(world.titleKey)}</summary>${buttons.join("")}</details>`
+    })
+    .join("")
+  return {
+    env: `<details open><summary>${t("editor.addAll")}</summary>${envAll}</details>${envWorlds}`,
+    creatures: `<details open><summary>${t("editor.addAll")}</summary>${creatureAll}</details>${creatureWorlds}`,
+  }
 }
 
 function hitRect(x: number, y: number, rect: AssembledRect): boolean {
@@ -215,10 +296,19 @@ function platformObject(
 
 export function mountBuildHud(session: EditorSession): void {
   const overlay = ensureOverlay(session.level, session.world)
+  const addMenus = additionMenusHtml()
   const { root } = mountDomShell(
     session.scene,
     `
     <div class="bm-editor-dock">
+      <div class="bm-editor-inspect bm-editor-station" data-ui="stationStrip">
+        <label>${t("editor.world")}
+          <select data-ui="worldId" class="wide"></select>
+        </label>
+        <label>${t("editor.station")}
+          <select data-ui="stationId" class="wide"></select>
+        </label>
+      </div>
       <div class="bm-editor-inspect" data-ui="inspect" ${session.mode === "build" ? "" : "hidden"}>
         <section class="bm-editor-section">
           <div class="bm-editor-section-head">
@@ -245,10 +335,16 @@ export function mountBuildHud(session: EditorSession): void {
           </div>
         </section>
         <section class="bm-editor-section">
-          <h3>${t("editor.section.place")}</h3>
-          <div class="bm-editor-fields">
-            <select data-ui="addKind" class="bm-editor-add" aria-label="${t("editor.add")}">${addObjectMenuHtml()}</select>
-            <button type="button" class="bm-btn" data-ui="addObject">${t("editor.add")}</button>
+          <h3>${t("editor.section.add")}</h3>
+          <div class="bm-editor-add-cats">
+            <div class="bm-editor-menu">
+              <button type="button" class="bm-btn" data-ui="envMenuBtn" aria-expanded="false">${t("editor.addEnv")}</button>
+              <div class="bm-editor-menu-panel" data-ui="envMenu" hidden>${addMenus.env}</div>
+            </div>
+            <div class="bm-editor-menu">
+              <button type="button" class="bm-btn" data-ui="critterMenuBtn" aria-expanded="false">${t("editor.addCreatures")}</button>
+              <div class="bm-editor-menu-panel" data-ui="critterMenu" hidden>${addMenus.creatures}</div>
+            </div>
           </div>
         </section>
         <section class="bm-editor-section">
@@ -307,7 +403,12 @@ export function mountBuildHud(session: EditorSession): void {
   const lookGlow = requireEl<HTMLInputElement>(root, "[data-ui=lookGlow]")
   const mapWidthInput = requireEl<HTMLInputElement>(root, "[data-ui=mapWidth]")
   const statusEl = requireEl<HTMLElement>(root, "[data-ui=status]")
-  const addKind = requireEl<HTMLSelectElement>(root, "[data-ui=addKind]")
+  const worldIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=worldId]")
+  const stationIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=stationId]")
+  const envMenuBtn = requireEl<HTMLButtonElement>(root, "[data-ui=envMenuBtn]")
+  const critterMenuBtn = requireEl<HTMLButtonElement>(root, "[data-ui=critterMenuBtn]")
+  const envMenu = requireEl<HTMLElement>(root, "[data-ui=envMenu]")
+  const critterMenu = requireEl<HTMLElement>(root, "[data-ui=critterMenu]")
   const undoBtn = requireEl<HTMLButtonElement>(root, "[data-ui=undo]")
   const deleteBtn = requireEl<HTMLButtonElement>(root, "[data-ui=delete]")
 
@@ -600,24 +701,32 @@ export function mountBuildHud(session: EditorSession): void {
 
   const fillIdSelect = (kind: "enemy" | "pickup"): void => {
     if (kind === "enemy") {
-      const lists = crittersForEnv(session.env)
-      idInput.innerHTML = optionGroupHtml(
-        lists.native,
-        lists.other,
-        CRITTER_LABELS,
-        t("editor.native"),
-        t("editor.other"),
-      )
+      const worlds = listEditorWorldIndex()
+      idInput.innerHTML = [
+        `<optgroup label="${t("editor.addAll")}">${allCritterIds()
+          .map((id) => `<option value="${id}">${critterLabel(id)}</option>`)
+          .join("")}</optgroup>`,
+        ...worlds.map(
+          (world) =>
+            `<optgroup label="${t(world.titleKey)}">${world.critters
+              .map((id) => `<option value="${id}">${critterLabel(id)}</option>`)
+              .join("")}</optgroup>`,
+        ),
+      ].join("")
       return
     }
-    const lists = itemsForEnv(session.env)
-    idInput.innerHTML = optionGroupHtml(
-      lists.native,
-      lists.other,
-      ITEM_LABELS,
-      t("editor.native"),
-      t("editor.other"),
-    )
+    const worlds = listEditorWorldIndex()
+    idInput.innerHTML = [
+      `<optgroup label="${t("editor.addAll")}">${allItemIds()
+        .map((id) => `<option value="${id}">${itemLabel(id)}</option>`)
+        .join("")}</optgroup>`,
+      ...worlds.map(
+        (world) =>
+          `<optgroup label="${t(world.titleKey)}">${world.items
+            .map((id) => `<option value="${id}">${itemLabel(id)}</option>`)
+            .join("")}</optgroup>`,
+      ),
+    ].join("")
   }
 
   const fillLook = (): void => {
@@ -779,6 +888,18 @@ export function mountBuildHud(session: EditorSession): void {
   }
 
   const pickAt = (wx: number, wy: number): Selection | null => {
+    for (const child of session.enemies.getChildren()) {
+      const index = Number(child.getData("editIndex"))
+      if (Number.isFinite(index) && hitSprite(wx, wy, child)) {
+        return { kind: "enemy", index }
+      }
+    }
+    for (const child of session.pickups.getChildren()) {
+      const index = Number(child.getData("editIndex"))
+      if (Number.isFinite(index) && hitSprite(wx, wy, child)) {
+        return { kind: "pickup", index }
+      }
+    }
     if (Phaser.Math.Distance.Between(wx, wy, overlay.playerSpawn.x, overlay.playerSpawn.y) < 32) {
       return { kind: "spawn", index: 0 }
     }
@@ -794,24 +915,6 @@ export function mountBuildHud(session: EditorSession): void {
       const origin = session.world.chunkOrigins[overlay.exit.chunk] ?? 0
       if (Phaser.Math.Distance.Between(wx, wy, origin + overlay.exit.x, overlay.exit.y) < 52) {
         return { kind: "exit", index: 0 }
-      }
-    }
-    for (let i = overlay.enemies.length - 1; i >= 0; i -= 1) {
-      const enemy = overlay.enemies[i]
-      if (
-        enemy &&
-        Phaser.Math.Distance.Between(wx, wy, enemy.worldX, enemy.worldY) < 30
-      ) {
-        return { kind: "enemy", index: i }
-      }
-    }
-    for (let i = overlay.pickups.length - 1; i >= 0; i -= 1) {
-      const pickup = overlay.pickups[i]
-      if (
-        pickup &&
-        Phaser.Math.Distance.Between(wx, wy, pickup.worldX, pickup.worldY) < 28
-      ) {
-        return { kind: "pickup", index: i }
       }
     }
     for (let i = overlay.movers.length - 1; i >= 0; i -= 1) {
@@ -1038,10 +1141,116 @@ export function mountBuildHud(session: EditorSession): void {
     persist()
     session.scene.scene.start("Settings")
   }
-  requireEl<HTMLButtonElement>(root, "[data-ui=addObject]").onclick = () => {
+
+  const fillStations = (worldId: EditorWorldId, selectedId: string): void => {
+    const stations = stationsForWorld(worldId)
+    const fallback = stations[0]?.id ?? selectedId
+    const current = stations.some((level) => level.id === selectedId) ? selectedId : fallback
+    stationIdEl.innerHTML = stations
+      .map(
+        (level) =>
+          `<option value="${level.id}" ${level.id === current ? "selected" : ""}>${t(`story.level.${level.id}.name`)}</option>`,
+      )
+      .join("")
+    stationIdEl.value = current
+  }
+
+  const worlds = listEditorWorldIndex()
+  const currentWorld = editorWorldIdForLevel(session.level)
+  worldIdEl.innerHTML = worlds
+    .map(
+      (world) =>
+        `<option value="${world.id}" ${world.id === currentWorld ? "selected" : ""}>${t(world.titleKey)}</option>`,
+    )
+    .join("")
+  fillStations(currentWorld, session.level.id)
+  setLastEditorStation(session.level.id)
+
+  worldIdEl.onchange = () => {
+    const worldId = worldIdEl.value as EditorWorldId
+    fillStations(worldId, stationIdEl.value)
+    const next = stationIdEl.value
+    if (next && next !== session.level.id) {
+      persist()
+      setLastEditorStation(next)
+      session.scene.scene.restart({
+        levelId: next,
+        editor: { mode: session.mode },
+      })
+    }
+  }
+  stationIdEl.onchange = () => {
+    const next = stationIdEl.value
+    if (!next || next === session.level.id) {
+      return
+    }
+    persist()
+    setLastEditorStation(next)
+    session.scene.scene.restart({
+      levelId: next,
+      editor: { mode: session.mode },
+    })
+  }
+
+  const closeAddMenus = (): void => {
+    envMenu.hidden = true
+    critterMenu.hidden = true
+    envMenuBtn.setAttribute("aria-expanded", "false")
+    critterMenuBtn.setAttribute("aria-expanded", "false")
+  }
+
+  const toggleMenu = (
+    panel: HTMLElement,
+    btn: HTMLButtonElement,
+    other: HTMLElement,
+    otherBtn: HTMLButtonElement,
+  ): void => {
+    const open = panel.hidden
+    other.hidden = true
+    otherBtn.setAttribute("aria-expanded", "false")
+    panel.hidden = !open
+    btn.setAttribute("aria-expanded", String(open))
+  }
+
+  envMenuBtn.onclick = (event) => {
+    event.stopPropagation()
+    toggleMenu(envMenu, envMenuBtn, critterMenu, critterMenuBtn)
+  }
+  critterMenuBtn.onclick = (event) => {
+    event.stopPropagation()
+    toggleMenu(critterMenu, critterMenuBtn, envMenu, envMenuBtn)
+  }
+
+  const addToken = (kind: string): void => {
     getAudio().playSfx("confirm")
-    const kind = addKind.value
+    closeAddMenus()
     const at = cameraCenter()
+    if (kind.startsWith("critter:")) {
+      const id = kind.slice("critter:".length)
+      const local = worldToAnchor(session.world, at.x, at.y)
+      overlay.enemies.push({
+        id,
+        x: local.x,
+        y: at.y,
+        worldX: at.x,
+        worldY: at.y,
+      })
+      restart("build")
+      return
+    }
+    if (kind.startsWith("item:")) {
+      const id = kind.slice("item:".length)
+      const local = worldToAnchor(session.world, at.x, at.y)
+      overlay.pickups.push({
+        id,
+        x: local.x,
+        y: at.y,
+        worldX: at.x,
+        worldY: at.y,
+      })
+      restart("build")
+      return
+    }
     if (kind === "platform") {
       overlay.platforms.push({ kind: "platform", x: at.x - 60, y: at.y, w: 120, h: 24 })
       restart("build")
@@ -1070,32 +1279,6 @@ export function mountBuildHud(session: EditorSession): void {
       restart("build")
       return
     }
-    if (kind === "enemy") {
-      const local = worldToAnchor(session.world, at.x, at.y)
-      const id = crittersForEnv(session.env).native[0] ?? "fox"
-      overlay.enemies.push({
-        id,
-        x: local.x,
-        y: at.y,
-        worldX: at.x,
-        worldY: at.y,
-      })
-      restart("build")
-      return
-    }
-    if (kind === "item") {
-      const local = worldToAnchor(session.world, at.x, at.y)
-      const id = itemsForEnv(session.env).native[0] ?? "carrot"
-      overlay.pickups.push({
-        id,
-        x: local.x,
-        y: at.y,
-        worldX: at.x,
-        worldY: at.y,
-      })
-      restart("build")
-      return
-    }
     if (kind === "water") {
       const local = worldToAnchor(session.world, at.x - 80, at.y)
       overlay.hazards = overlay.hazards ?? []
@@ -1116,6 +1299,34 @@ export function mountBuildHud(session: EditorSession): void {
     overlay.decor.push(defaultDecor(kind as AssembledDecor["kind"], at.x, at.y))
     restart("build")
   }
+
+  const onAddClick = (event: Event): void => {
+    const target = (event.target as HTMLElement).closest("[data-add]")
+    if (!(target instanceof HTMLElement)) {
+      return
+    }
+    const token = target.getAttribute("data-add")
+    if (token) {
+      addToken(token)
+    }
+  }
+  envMenu.addEventListener("click", onAddClick)
+  critterMenu.addEventListener("click", onAddClick)
+  const onDocPointer = (event: PointerEvent): void => {
+    const node = event.target as Node | null
+    if (
+      node &&
+      (envMenu.contains(node) ||
+        critterMenu.contains(node) ||
+        envMenuBtn.contains(node) ||
+        critterMenuBtn.contains(node))
+    ) {
+      return
+    }
+    closeAddMenus()
+  }
+  document.addEventListener("pointerdown", onDocPointer)
+
   requireEl<HTMLButtonElement>(root, "[data-ui=undo]").onclick = () => {
     if (!selected || !baseline || !sameSel(baseline.sel, selected)) {
       return
@@ -1280,6 +1491,7 @@ export function mountBuildHud(session: EditorSession): void {
   session.scene.input.on("pointermove", onMove)
   session.scene.input.on("pointerup", onUp)
   session.scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+    document.removeEventListener("pointerdown", onDocPointer)
     session.scene.input.off("pointerdown", onDown)
     session.scene.input.off("pointermove", onMove)
     session.scene.input.off("pointerup", onUp)

@@ -28,6 +28,17 @@ const KITS: Record<string, EnemyKit> = {
   gale_magpie: { texture: "story_magpie", w: 40, h: 28, archetype: "diver", speed: 160, fly: true },
 }
 
+export function freezeEnemyForEditor(sprite: Phaser.Physics.Arcade.Sprite): void {
+  const body = sprite.body as Phaser.Physics.Arcade.Body | null
+  if (!body) {
+    return
+  }
+  body.setAllowGravity(false)
+  body.setGravity(0, 0)
+  body.setVelocity(0, 0)
+  body.setImmovable(true)
+}
+
 export function spawnEnemy(
   scene: Phaser.Scene,
   id: string,

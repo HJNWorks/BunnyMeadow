@@ -28,7 +28,7 @@ import {
   updatePlayerMovement,
   type PlayerState,
 } from "./shared/playerController"
-import { spawnEnemy, updateEnemies } from "./shared/enemyKit"
+import { spawnEnemy, updateEnemies, freezeEnemyForEditor } from "./shared/enemyKit"
 import { HAN_WARMTH, HanFight } from "./shared/hanBoss"
 import {
   applyWaterPhysics,
@@ -600,6 +600,9 @@ export class StoryScene extends Phaser.Scene {
       const sprite = spawnEnemy(this, e.id, e.worldX, e.worldY, this.platforms, this.enemies)
       sprite.setData("editKind", "enemy")
       sprite.setData("editIndex", i)
+      if (this.editorMode === "build") {
+        freezeEnemyForEditor(sprite)
+      }
     }
 
     this.pickups = this.physics.add.staticGroup()
@@ -661,6 +664,9 @@ export class StoryScene extends Phaser.Scene {
       void this.onExit()
     })
     this.physics.add.overlap(this.player, this.enemies, (_p, enemy) => {
+      if (this.editorMode === "build") {
+        return
+      }
       const body = enemy as Phaser.Physics.Arcade.Sprite
       const arch = body.getData("archetype") as string
       if (arch === "heron_boss") {

@@ -42,13 +42,13 @@ To add a shape: extend `DashParticleShape`, draw it in `src/fx/dash/canvasFx.ts`
 
 ## Placeables
 
-Build bar: Play, Build, Set active, Copy JSON, Back to Settings.
+Build bar: Play, Build, Set active, Copy JSON, Back to Settings. World and station pickers sit on the dock. Settings only has Open.
 
-Place menu (inspector): Terrain (platform, wall, bridge), Nature (hedge, vine, grass, log, burrow), Light (lantern), Hazard (water), Wildlife (critter), Pickup (item).
+Object Addition: Environment and Creatures menus, collapsible by world, plus All. Environment covers platforms, walls, bridges, water, decor, and items. Creatures lists every wildlife id in `roster.ts`.
 
 Wall is the green collision slab. Hedge/vine art is a separate selectable decor object (`overlay.decor`). Water is a first-class hazard (`overlay.hazards`) with current.
 
-Inspector sections: Selection (x, y, w, h, rotation, asset, id, current, Undo, Delete), Place, Look (palette kit, sky hex, hour, weather, night overlay, lantern glow, map width).
+Inspector sections: Selection (x, y, w, h, rotation, asset, id, current, Undo, Delete), Object Addition, Look (palette kit, sky hex, hour, weather, night overlay, lantern glow, map width). World index: `src/modes/story/editor/worldIndex.ts`.
 
 Native critter pickers: `src/modes/story/editor/roster.ts`. Soft Paws / meadow native is fox, hedgehog, crow, carrot. Bees and tortoise stay in All until their idea pages ship as live data.
 

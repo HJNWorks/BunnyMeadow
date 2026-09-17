@@ -8,7 +8,6 @@ import { getSave, persistSave } from "../core/session"
 import { applyAccessibilityDom } from "../core/a11y"
 import { getInput } from "../core/input"
 import { mountDomShell, requireEl } from "../ui/DomShell"
-import { listStoryLevels } from "../modes/story/levels"
 import { isEditorEnabled, startEditor } from "../modes/story/editor"
 import { getContentFlags } from "../core/ModeContext"
 
@@ -83,17 +82,6 @@ export class SettingsScene extends Phaser.Scene {
           <section class="bm-tool-card">
             <h2>${t("editor.title")}</h2>
             <p class="bm-tagline">${t("editor.note")}</p>
-            <div class="bm-field">
-              <label for="editorLevel">${t("editor.level")}</label>
-              <select id="editorLevel" data-ui="editorLevel">
-                ${listStoryLevels()
-                  .map(
-                    (level) =>
-                      `<option value="${level.id}">${t(`story.level.${level.id}.name`)}</option>`,
-                  )
-                  .join("")}
-              </select>
-            </div>
             <div class="bm-actions bm-start">
               <button type="button" class="bm-btn" data-ui="editorOpen">${t("editor.open")}</button>
             </div>
@@ -202,10 +190,9 @@ export class SettingsScene extends Phaser.Scene {
     }
 
     if (showMap) {
-      const levelSelect = requireEl<HTMLSelectElement>(root, "[data-ui=editorLevel]")
       requireEl<HTMLButtonElement>(root, "[data-ui=editorOpen]").onclick = () => {
         getAudio().playSfx("confirm")
-        startEditor(this, levelSelect.value, "build")
+        startEditor(this)
       }
     }
     if (showWorkshop) {
