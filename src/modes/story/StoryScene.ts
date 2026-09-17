@@ -44,7 +44,7 @@ import {
   createWeather,
   getPalette,
   hexToNum,
-  nightStrength,
+  lookNightAlpha,
   storyEnvForLevel,
   type PaletteHour,
   type WeatherHandle,
@@ -439,6 +439,12 @@ export class StoryScene extends Phaser.Scene {
     if (look?.sky ?? def.sky) {
       palette.sky = look?.sky ?? def.sky ?? palette.sky
     }
+    if (look?.far) {
+      palette.far = look.far
+    }
+    if (look?.fog) {
+      palette.fog = look.fog
+    }
     if (look?.hour) {
       palette.hour = look.hour as PaletteHour
     }
@@ -449,21 +455,29 @@ export class StoryScene extends Phaser.Scene {
     applySky(this, palette)
     this.physics.world.setBounds(0, -200, world.width, 1400, true, true, true, false)
     this.playerState.baseGravity = this.physics.world.gravity.y || 1200
-    if (def.lowGravity) {
+    if (look?.lowGravity ?? def.lowGravity) {
       this.physics.world.gravity.y = this.playerState.baseGravity * 0.42
       this.playerState.baseGravity = this.physics.world.gravity.y
     }
 
     const reducedMotion = save.settings.accessibility.reducedMotion
     this.weather = createWeather(this, palette.weather, world.width, reducedMotion)
-    const night = look?.night === false ? 0 : nightStrength(palette.hour)
+    const night = lookNightAlpha(palette.hour, look)
     createNightOverlay(this, night)
     this.lanternGlowAlways = look?.lanternGlow ?? env === "lantern"
     this.lanternGlow = createLanternGlow(this)
     this.lanternGlow.setVisible(this.lanternGlowAlways)
     this.lanternGlow.setAlpha(this.lanternGlowAlways ? 0.55 : 1)
+    if (look?.fog) {
+      this.add
+        .rectangle(960, 540, 1920, 1080, hexToNum(palette.fog), 0.16)
+        .setScrollFactor(0)
+        .setDepth(18)
+        .setBlendMode(Phaser.BlendModes.MULTIPLY)
+    }
 
-    if (nightStrength(palette.hour) <= 0) {
+    const showHaze = look?.haze === true || (look?.haze !== false && night <= 0)
+    if (showHaze) {
       this.add.rectangle(world.width / 2, 200, world.width, 220, 0xeaf3c8, 0.18).setDepth(-2)
       for (let i = 0; i < Math.ceil(world.width / 280); i += 1) {
         const cx = 140 + i * 280
@@ -819,8 +833,8 @@ export class StoryScene extends Phaser.Scene {
     }
     attachPlayfieldFrame(this, () =>
       measureChromeInsets({
-        topSelectors: [".bm-story-hud .meadow-header", ".bm-story-hud .meadow-bar"],
-        bottomSelectors: [".bm-editor-dock"],
+        topSelectors: [".bm-story-hud .meadow-header", ".bm-story-hud .meadow-bar", ".bm-editor-top"],
+        bottomSelectors: [".bm-editor-bar"],
         padTop: 10,
         padBottom: 12,
         side: 20,

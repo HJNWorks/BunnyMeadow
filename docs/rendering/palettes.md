@@ -36,7 +36,8 @@ Hex lives in `src/data/palettes.json`. Story may still override `sky` per level.
 | cloudsea | #6a88b8 | #8aa8c8 | #c8d8e8 | #9aa8b4 | #e8f4ff | #d0e0f0 | deepNight | snow |
 
 Night overlay strength from hour: afternoon and golden 0, dusk 0.25, night 0.45, deepNight 0.55,
-eternal 0.5.
+eternal 0.5. The map editor Night overlay checkbox forces a visible dark wash even when
+hour is afternoon. Night amount is 8-80. Optional fog hex adds a multiply wash.
 
 ## Sky lerp across bridges
 

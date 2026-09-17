@@ -29,6 +29,7 @@ import {
   type EditorWorldId,
 } from "./worldIndex"
 import {
+  getPalette,
   listPaletteIds,
   PALETTE_HOURS,
   WEATHER_PRESETS,
@@ -63,75 +64,78 @@ const CSS = `
 .bm-root.bm-editor-hud {
   background: transparent;
   pointer-events: none;
-  overflow: hidden;
+  overflow: visible;
   z-index: 70;
 }
-.bm-editor-hud .bm-editor-dock {
+.bm-editor-hud .bm-editor-top,
+.bm-editor-hud .bm-editor-bar {
   pointer-events: auto;
-  position: fixed;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.bm-editor-hud .bm-editor-bar,
-.bm-editor-hud .bm-editor-inspect {
   background: linear-gradient(180deg, #f7f3e8f0, #ebe4d4e6);
   border: 1px solid #d5dcc4;
   border-radius: 14px;
   box-shadow: 0 8px 18px #2a3d2412;
 }
+.bm-editor-hud .bm-editor-top {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  top: 8px;
+  z-index: 72;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6px 10px;
+  overflow: visible;
+}
+.bm-editor-hud .bm-editor-top-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+}
+.bm-editor-hud .bm-editor-top label {
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  gap: 2px;
+  color: #71816e;
+}
+.bm-editor-hud .bm-editor-top select {
+  width: 148px;
+  font-size: 13px;
+}
+.bm-editor-hud .bm-editor-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 6px;
+  flex: 1 1 280px;
+}
+.bm-editor-hud .bm-editor-hint {
+  flex: 1 1 120px;
+  font-size: 12px;
+  color: #304c39;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+}
+.bm-editor-hud .bm-editor-top .bm-btn {
+  padding: 5px 12px;
+  font-size: 13px;
+  border-radius: 999px;
+}
 .bm-editor-hud .bm-editor-bar {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 72;
+  max-width: 1100px;
+  margin: 0 auto;
   padding: 8px 12px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
-}
-.bm-editor-hud .bm-editor-inspect {
-  padding: 10px 12px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: min(42vh, 380px);
-  overflow: auto;
-}
-.bm-editor-hud .bm-editor-section {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.bm-editor-hud .bm-editor-section + .bm-editor-section {
-  border-top: 1px solid #d5dcc4;
-  padding-top: 8px;
-}
-.bm-editor-hud .bm-editor-section h3 {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #71816e;
-  margin: 0;
-}
-.bm-editor-hud .bm-editor-section-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-.bm-editor-hud .bm-editor-hint {
-  flex: 1 1 180px;
-  font-size: 13px;
-  color: #304c39;
-}
-.bm-editor-hud .bm-editor-edit-actions {
-  display: flex;
-  gap: 8px;
-  margin-left: auto;
 }
 .bm-editor-hud .bm-editor-fields {
   display: flex;
@@ -139,49 +143,35 @@ const CSS = `
   gap: 8px 10px;
   align-items: flex-end;
 }
-.bm-editor-hud .bm-editor-inspect label {
+.bm-editor-hud .bm-editor-menu-panel label {
   display: flex;
   flex-direction: column;
   font-size: 12px;
   gap: 2px;
 }
-.bm-editor-hud .bm-editor-inspect label[hidden] {
+.bm-editor-hud .bm-editor-menu-panel label[hidden] {
   display: none;
 }
-.bm-editor-hud .bm-editor-inspect input,
-.bm-editor-hud .bm-editor-inspect select {
+.bm-editor-hud .bm-editor-menu-panel input,
+.bm-editor-hud .bm-editor-menu-panel select {
   width: 88px;
 }
-.bm-editor-hud .bm-editor-inspect input.wide,
-.bm-editor-hud .bm-editor-inspect select.wide {
+.bm-editor-hud .bm-editor-menu-panel input.wide,
+.bm-editor-hud .bm-editor-menu-panel select.wide {
   width: 160px;
 }
-.bm-editor-hud .bm-editor-inspect select.bm-editor-add {
-  width: 200px;
+.bm-editor-hud .bm-editor-menu-panel input.range {
+  width: 120px;
 }
 .bm-editor-hud .bm-editor-flag {
   flex-direction: row;
   align-items: center;
   gap: 6px;
-  min-height: 34px;
+  min-height: 28px;
 }
-.bm-editor-hud .bm-editor-fields .bm-btn {
-  padding: 8px 16px;
-}
-.bm-editor-hud .bm-btn[aria-pressed="true"] {
+.bm-editor-hud .bm-btn[aria-pressed="true"],
+.bm-editor-hud .bm-btn[aria-expanded="true"] {
   outline: 2px solid #34583e;
-}
-.bm-editor-hud .bm-editor-station {
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 10px;
-}
-.bm-editor-hud .bm-editor-add-cats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: flex-start;
 }
 .bm-editor-hud .bm-editor-menu {
   position: relative;
@@ -189,16 +179,21 @@ const CSS = `
 .bm-editor-hud .bm-editor-menu-panel {
   position: absolute;
   left: 0;
-  bottom: calc(100% + 6px);
+  top: calc(100% + 6px);
+  bottom: auto;
   z-index: 80;
-  min-width: 240px;
-  max-height: 280px;
+  min-width: 260px;
+  max-width: min(92vw, 520px);
+  max-height: min(48vh, 420px);
   overflow: auto;
   background: #f7f3e8;
   border: 1px solid #d5dcc4;
   border-radius: 12px;
   box-shadow: 0 8px 18px #2a3d2420;
   padding: 8px;
+}
+.bm-editor-hud .bm-editor-menu-panel.look {
+  min-width: 420px;
 }
 .bm-editor-hud .bm-editor-menu-panel details {
   margin-bottom: 6px;
@@ -300,80 +295,80 @@ export function mountBuildHud(session: EditorSession): void {
   const { root } = mountDomShell(
     session.scene,
     `
-    <div class="bm-editor-dock">
-      <div class="bm-editor-inspect bm-editor-station" data-ui="stationStrip">
+    <div class="bm-editor-top" data-ui="topBar">
+      <div class="bm-editor-top-row">
         <label>${t("editor.world")}
-          <select data-ui="worldId" class="wide"></select>
+          <select data-ui="worldId"></select>
         </label>
         <label>${t("editor.station")}
-          <select data-ui="stationId" class="wide"></select>
+          <select data-ui="stationId"></select>
         </label>
-      </div>
-      <div class="bm-editor-inspect" data-ui="inspect" ${session.mode === "build" ? "" : "hidden"}>
-        <section class="bm-editor-section">
-          <div class="bm-editor-section-head">
-            <h3>${t("editor.section.edit")}</h3>
-            <span class="bm-editor-hint" data-ui="hint">${t("editor.selected.none")}</span>
-            <div class="bm-editor-edit-actions">
-              <button type="button" class="bm-btn ghost" data-ui="undo">${t("editor.undo")}</button>
-              <button type="button" class="bm-btn ghost" data-ui="delete">${t("editor.delete")}</button>
+        <div class="bm-editor-tools" data-ui="inspect" ${session.mode === "build" ? "" : "hidden"}>
+          <div class="bm-editor-menu">
+            <button type="button" class="bm-btn ghost" data-ui="selPanelBtn" aria-expanded="false">${t("editor.section.edit")}</button>
+            <div class="bm-editor-menu-panel" data-ui="selPanel" hidden>
+              <div class="bm-editor-fields">
+                <label>${t("editor.field.x")} <input data-ui="x" type="number" step="10" /></label>
+                <label>${t("editor.field.y")} <input data-ui="y" type="number" step="10" /></label>
+                <label>${t("editor.field.w")} <input data-ui="w" type="number" step="10" /></label>
+                <label>${t("editor.field.h")} <input data-ui="h" type="number" step="10" /></label>
+                <label>${t("editor.field.rot")} <input data-ui="rot" type="number" step="5" /></label>
+                <label>${t("editor.field.asset")}
+                  <select data-ui="asset" class="wide"></select>
+                </label>
+                <label>${t("editor.field.id")}
+                  <select data-ui="id" class="wide"></select>
+                </label>
+                <label>${t("editor.field.current")} <input data-ui="current" type="number" step="10" /></label>
+              </div>
             </div>
           </div>
-          <div class="bm-editor-fields">
-            <label>${t("editor.field.x")} <input data-ui="x" type="number" step="10" /></label>
-            <label>${t("editor.field.y")} <input data-ui="y" type="number" step="10" /></label>
-            <label>${t("editor.field.w")} <input data-ui="w" type="number" step="10" /></label>
-            <label>${t("editor.field.h")} <input data-ui="h" type="number" step="10" /></label>
-            <label>${t("editor.field.rot")} <input data-ui="rot" type="number" step="5" /></label>
-            <label>${t("editor.field.asset")}
-              <select data-ui="asset" class="wide"></select>
-            </label>
-            <label>${t("editor.field.id")}
-              <select data-ui="id" class="wide"></select>
-            </label>
-            <label>${t("editor.field.current")} <input data-ui="current" type="number" step="10" /></label>
+          <div class="bm-editor-menu">
+            <button type="button" class="bm-btn" data-ui="envMenuBtn" aria-expanded="false">${t("editor.addEnv")}</button>
+            <div class="bm-editor-menu-panel" data-ui="envMenu" hidden>${addMenus.env}</div>
           </div>
-        </section>
-        <section class="bm-editor-section">
-          <h3>${t("editor.section.add")}</h3>
-          <div class="bm-editor-add-cats">
-            <div class="bm-editor-menu">
-              <button type="button" class="bm-btn" data-ui="envMenuBtn" aria-expanded="false">${t("editor.addEnv")}</button>
-              <div class="bm-editor-menu-panel" data-ui="envMenu" hidden>${addMenus.env}</div>
+          <div class="bm-editor-menu">
+            <button type="button" class="bm-btn" data-ui="critterMenuBtn" aria-expanded="false">${t("editor.addCreatures")}</button>
+            <div class="bm-editor-menu-panel" data-ui="critterMenu" hidden>${addMenus.creatures}</div>
+          </div>
+          <div class="bm-editor-menu">
+            <button type="button" class="bm-btn ghost" data-ui="lookPanelBtn" aria-expanded="false">${t("editor.section.look")}</button>
+            <div class="bm-editor-menu-panel look" data-ui="lookPanel" hidden>
+              <div class="bm-editor-fields">
+                <label>${t("editor.look.env")}
+                  <select data-ui="lookEnv" class="wide"></select>
+                </label>
+                <label>${t("editor.look.sky")} <input data-ui="lookSky" type="text" class="wide" /></label>
+                <label>${t("editor.look.far")} <input data-ui="lookFar" type="text" class="wide" /></label>
+                <label>${t("editor.look.fog")} <input data-ui="lookFog" type="text" class="wide" /></label>
+                <label>${t("editor.look.hour")}
+                  <select data-ui="lookHour" class="wide"></select>
+                </label>
+                <label>${t("editor.look.weather")}
+                  <select data-ui="lookWeather" class="wide"></select>
+                </label>
+                <label class="bm-editor-flag"><input type="checkbox" data-ui="lookNight" /> ${t("editor.look.night")}</label>
+                <label>${t("editor.look.nightAmt")} <input data-ui="lookNightAmt" class="range" type="range" min="8" max="80" step="4" /></label>
+                <label class="bm-editor-flag"><input type="checkbox" data-ui="lookHaze" /> ${t("editor.look.haze")}</label>
+                <label class="bm-editor-flag"><input type="checkbox" data-ui="lookGlow" /> ${t("editor.look.glow")}</label>
+                <label class="bm-editor-flag"><input type="checkbox" data-ui="lookLowG" /> ${t("editor.look.lowG")}</label>
+                <label>${t("editor.mapWidth")} <input data-ui="mapWidth" type="number" step="10" min="480" /></label>
+              </div>
             </div>
-            <div class="bm-editor-menu">
-              <button type="button" class="bm-btn" data-ui="critterMenuBtn" aria-expanded="false">${t("editor.addCreatures")}</button>
-              <div class="bm-editor-menu-panel" data-ui="critterMenu" hidden>${addMenus.creatures}</div>
-            </div>
           </div>
-        </section>
-        <section class="bm-editor-section">
-          <h3>${t("editor.section.look")}</h3>
-          <div class="bm-editor-fields">
-            <label>${t("editor.look.env")}
-              <select data-ui="lookEnv" class="wide"></select>
-            </label>
-            <label>${t("editor.look.sky")} <input data-ui="lookSky" type="text" class="wide" /></label>
-            <label>${t("editor.look.hour")}
-              <select data-ui="lookHour" class="wide"></select>
-            </label>
-            <label>${t("editor.look.weather")}
-              <select data-ui="lookWeather" class="wide"></select>
-            </label>
-            <label class="bm-editor-flag"><input type="checkbox" data-ui="lookNight" /> ${t("editor.look.night")}</label>
-            <label class="bm-editor-flag"><input type="checkbox" data-ui="lookGlow" /> ${t("editor.look.glow")}</label>
-            <label>${t("editor.mapWidth")} <input data-ui="mapWidth" type="number" step="10" min="480" /></label>
-          </div>
-        </section>
+          <span class="bm-editor-hint" data-ui="hint">${t("editor.selected.none")}</span>
+          <button type="button" class="bm-btn ghost" data-ui="undo">${t("editor.undo")}</button>
+          <button type="button" class="bm-btn ghost" data-ui="delete">${t("editor.delete")}</button>
+        </div>
       </div>
-      <div class="bm-editor-bar">
-        <button type="button" class="bm-btn" data-ui="play" aria-pressed="${session.mode === "play"}">${t("editor.play")}</button>
-        <button type="button" class="bm-btn" data-ui="build" aria-pressed="${session.mode === "build"}">${t("editor.build")}</button>
-        <button type="button" class="bm-btn warm" data-ui="setActive">${t("editor.setActive")}</button>
-        <button type="button" class="bm-btn ghost" data-ui="copyJson">${t("editor.copyJson")}</button>
-        <button type="button" class="bm-btn ghost" data-ui="back">${t("editor.back")}</button>
-        <span data-ui="status"></span>
-      </div>
+    </div>
+    <div class="bm-editor-bar">
+      <button type="button" class="bm-btn" data-ui="play" aria-pressed="${session.mode === "play"}">${t("editor.play")}</button>
+      <button type="button" class="bm-btn" data-ui="build" aria-pressed="${session.mode === "build"}">${t("editor.build")}</button>
+      <button type="button" class="bm-btn warm" data-ui="setActive">${t("editor.setActive")}</button>
+      <button type="button" class="bm-btn ghost" data-ui="copyJson">${t("editor.copyJson")}</button>
+      <button type="button" class="bm-btn ghost" data-ui="back">${t("editor.back")}</button>
+      <span data-ui="status"></span>
     </div>
     `,
     { keepCanvas: true, rootClass: "bm-editor-hud" },
@@ -400,15 +395,25 @@ export function mountBuildHud(session: EditorSession): void {
   const lookHour = requireEl<HTMLSelectElement>(root, "[data-ui=lookHour]")
   const lookWeather = requireEl<HTMLSelectElement>(root, "[data-ui=lookWeather]")
   const lookNight = requireEl<HTMLInputElement>(root, "[data-ui=lookNight]")
+  const lookNightAmt = requireEl<HTMLInputElement>(root, "[data-ui=lookNightAmt]")
+  const lookHaze = requireEl<HTMLInputElement>(root, "[data-ui=lookHaze]")
   const lookGlow = requireEl<HTMLInputElement>(root, "[data-ui=lookGlow]")
+  const lookLowG = requireEl<HTMLInputElement>(root, "[data-ui=lookLowG]")
+  const lookFar = requireEl<HTMLInputElement>(root, "[data-ui=lookFar]")
+  const lookFog = requireEl<HTMLInputElement>(root, "[data-ui=lookFog]")
   const mapWidthInput = requireEl<HTMLInputElement>(root, "[data-ui=mapWidth]")
   const statusEl = requireEl<HTMLElement>(root, "[data-ui=status]")
   const worldIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=worldId]")
   const stationIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=stationId]")
   const envMenuBtn = requireEl<HTMLButtonElement>(root, "[data-ui=envMenuBtn]")
   const critterMenuBtn = requireEl<HTMLButtonElement>(root, "[data-ui=critterMenuBtn]")
+  const selPanelBtn = requireEl<HTMLButtonElement>(root, "[data-ui=selPanelBtn]")
+  const lookPanelBtn = requireEl<HTMLButtonElement>(root, "[data-ui=lookPanelBtn]")
   const envMenu = requireEl<HTMLElement>(root, "[data-ui=envMenu]")
   const critterMenu = requireEl<HTMLElement>(root, "[data-ui=critterMenu]")
+  const selPanel = requireEl<HTMLElement>(root, "[data-ui=selPanel]")
+  const lookPanel = requireEl<HTMLElement>(root, "[data-ui=lookPanel]")
+  const topBar = requireEl<HTMLElement>(root, "[data-ui=topBar]")
   const undoBtn = requireEl<HTMLButtonElement>(root, "[data-ui=undo]")
   const deleteBtn = requireEl<HTMLButtonElement>(root, "[data-ui=delete]")
 
@@ -731,11 +736,21 @@ export function mountBuildHud(session: EditorSession): void {
 
   const fillLook = (): void => {
     lookEnv.value = overlay.look?.env ?? session.env
+    const pal = getPalette(lookEnv.value)
     lookSky.value = overlay.look?.sky ?? ""
+    lookSky.placeholder = pal.sky
+    lookFar.value = overlay.look?.far ?? ""
+    lookFar.placeholder = pal.far
+    lookFog.value = overlay.look?.fog ?? ""
+    lookFog.placeholder = pal.fog
     lookHour.value = overlay.look?.hour ?? ""
     lookWeather.value = overlay.look?.weather ?? ""
-    lookNight.checked = overlay.look?.night !== false
+    lookNight.checked = overlay.look?.night === true
+    lookNightAmt.value = String(overlay.look?.nightAmount ?? 42)
+    lookNightAmt.disabled = !lookNight.checked
+    lookHaze.checked = overlay.look?.haze === true || (!lookNight.checked && overlay.look?.haze !== false)
     lookGlow.checked = overlay.look?.lanternGlow === true
+    lookLowG.checked = overlay.look?.lowGravity === true
   }
 
   const fillInspect = (): void => {
@@ -1192,33 +1207,44 @@ export function mountBuildHud(session: EditorSession): void {
     })
   }
 
+  const menuPairs = [
+    { panel: envMenu, btn: envMenuBtn },
+    { panel: critterMenu, btn: critterMenuBtn },
+    { panel: selPanel, btn: selPanelBtn },
+    { panel: lookPanel, btn: lookPanelBtn },
+  ]
+
   const closeAddMenus = (): void => {
-    envMenu.hidden = true
-    critterMenu.hidden = true
-    envMenuBtn.setAttribute("aria-expanded", "false")
-    critterMenuBtn.setAttribute("aria-expanded", "false")
+    for (const pair of menuPairs) {
+      pair.panel.hidden = true
+      pair.btn.setAttribute("aria-expanded", "false")
+    }
   }
 
-  const toggleMenu = (
-    panel: HTMLElement,
-    btn: HTMLButtonElement,
-    other: HTMLElement,
-    otherBtn: HTMLButtonElement,
-  ): void => {
+  const toggleMenu = (panel: HTMLElement, btn: HTMLButtonElement): void => {
     const open = panel.hidden
-    other.hidden = true
-    otherBtn.setAttribute("aria-expanded", "false")
-    panel.hidden = !open
-    btn.setAttribute("aria-expanded", String(open))
+    closeAddMenus()
+    if (open) {
+      panel.hidden = false
+      btn.setAttribute("aria-expanded", "true")
+    }
   }
 
   envMenuBtn.onclick = (event) => {
     event.stopPropagation()
-    toggleMenu(envMenu, envMenuBtn, critterMenu, critterMenuBtn)
+    toggleMenu(envMenu, envMenuBtn)
   }
   critterMenuBtn.onclick = (event) => {
     event.stopPropagation()
-    toggleMenu(critterMenu, critterMenuBtn, envMenu, envMenuBtn)
+    toggleMenu(critterMenu, critterMenuBtn)
+  }
+  selPanelBtn.onclick = (event) => {
+    event.stopPropagation()
+    toggleMenu(selPanel, selPanelBtn)
+  }
+  lookPanelBtn.onclick = (event) => {
+    event.stopPropagation()
+    toggleMenu(lookPanel, lookPanelBtn)
   }
 
   const addToken = (kind: string): void => {
@@ -1316,10 +1342,7 @@ export function mountBuildHud(session: EditorSession): void {
     const node = event.target as Node | null
     if (
       node &&
-      (envMenu.contains(node) ||
-        critterMenu.contains(node) ||
-        envMenuBtn.contains(node) ||
-        critterMenuBtn.contains(node))
+      menuPairs.some((pair) => pair.panel.contains(node) || pair.btn.contains(node))
     ) {
       return
     }
@@ -1370,20 +1393,30 @@ export function mountBuildHud(session: EditorSession): void {
     overlay.look = {
       env: lookEnv.value,
       sky: lookSky.value || undefined,
+      far: lookFar.value || undefined,
+      fog: lookFog.value || undefined,
       hour: (lookHour.value || undefined) as PaletteHour | undefined,
       weather: (lookWeather.value || undefined) as WeatherPreset | undefined,
       night: lookNight.checked,
+      nightAmount: lookNight.checked ? Number(lookNightAmt.value) || 42 : undefined,
+      haze: lookHaze.checked,
       lanternGlow: lookGlow.checked,
+      lowGravity: lookLowG.checked,
     }
     persist()
     restart("build")
   }
   lookEnv.onchange = applyLook
   lookSky.onchange = applyLook
+  lookFar.onchange = applyLook
+  lookFog.onchange = applyLook
   lookHour.onchange = applyLook
   lookWeather.onchange = applyLook
   lookNight.onchange = applyLook
+  lookNightAmt.onchange = applyLook
+  lookHaze.onchange = applyLook
   lookGlow.onchange = applyLook
+  lookLowG.onchange = applyLook
   mapWidthInput.onchange = () => {
     const width = Math.max(480, snap10(Number(mapWidthInput.value) || overlay.worldWidth))
     overlay.worldWidth = width
@@ -1487,11 +1520,28 @@ export function mountBuildHud(session: EditorSession): void {
     panning = false
   }
 
+  const placeTopBar = (): void => {
+    const hudBar = document.querySelector(".bm-story-hud .meadow-bar")
+    const hudHead = document.querySelector(".bm-story-hud .meadow-header")
+    const anchor = hudBar ?? hudHead
+    const top = anchor ? anchor.getBoundingClientRect().bottom + 8 : 8
+    topBar.style.top = `${Math.round(top)}px`
+  }
+  placeTopBar()
+  const storyHud = document.querySelector(".bm-story-hud")
+  const topBarWatch = new ResizeObserver(placeTopBar)
+  if (storyHud) {
+    topBarWatch.observe(storyHud)
+  }
+  window.addEventListener("resize", placeTopBar)
+
   session.scene.input.on("pointerdown", onDown)
   session.scene.input.on("pointermove", onMove)
   session.scene.input.on("pointerup", onUp)
   session.scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     document.removeEventListener("pointerdown", onDocPointer)
+    window.removeEventListener("resize", placeTopBar)
+    topBarWatch.disconnect()
     session.scene.input.off("pointerdown", onDown)
     session.scene.input.off("pointermove", onMove)
     session.scene.input.off("pointerup", onUp)

@@ -22,10 +22,15 @@ export type EditorPickup = {
 export type EditorLook = {
   env?: string
   sky?: string
+  far?: string
+  fog?: string
   hour?: PaletteHour
   weather?: WeatherPreset
   night?: boolean
+  nightAmount?: number
+  haze?: boolean
   lanternGlow?: boolean
+  lowGravity?: boolean
 }
 
 export type EditorLevelOverlay = {

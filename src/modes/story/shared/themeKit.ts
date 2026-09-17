@@ -70,6 +70,23 @@ export function nightStrength(hour: PaletteHour): number {
   return NIGHT_STRENGTH[hour] ?? 0
 }
 
+export function lookNightAlpha(
+  hour: PaletteHour,
+  look?: { night?: boolean; nightAmount?: number },
+): number {
+  if (look?.night === false) {
+    return 0
+  }
+  const fromHour = nightStrength(hour)
+  if (look?.night === true) {
+    if (typeof look.nightAmount === "number" && Number.isFinite(look.nightAmount)) {
+      return Math.max(0, Math.min(1, look.nightAmount / 100))
+    }
+    return Math.max(fromHour, 0.42)
+  }
+  return fromHour
+}
+
 export function hexToNum(hex: string): number {
   return Number.parseInt(hex.replace("#", ""), 16) || 0x5a6a4a
 }
@@ -178,7 +195,6 @@ export function createNightOverlay(
   const overlay = scene.add.rectangle(960, 540, 1920, 1080, 0x1a1428, Math.max(0, strength))
   overlay.setScrollFactor(0)
   overlay.setDepth(19)
-  overlay.setBlendMode(Phaser.BlendModes.MULTIPLY)
   overlay.setVisible(strength > 0)
   return overlay
 }
