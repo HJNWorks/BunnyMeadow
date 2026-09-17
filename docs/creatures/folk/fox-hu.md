@@ -13,7 +13,9 @@ Wu, to avoid clashing with Wu Gang.
 
 World 1 finale, Cart Chase: a comic carrot-cart race. Win by reaching the burrow
 basket first or tipping the cart. Teaches sustained dashing under pressure. Achievement
-`FOX_FOILED`.
+`FOX_FOILED`. The cart is seated on the ground by `constrainCreatureToWorld` after it
+joins the enemy group (group add would otherwise turn gravity back on with no floor
+collider).
 
 ## Relation to wildlife
 

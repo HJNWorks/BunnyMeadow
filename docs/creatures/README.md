@@ -24,6 +24,13 @@ Player verbs and how items change them are on [abilities.md](abilities.md).
 Behaviours are shared code. A new archetype is the only reason to add enemy code; a
 new creature of an existing archetype is data. From [../ENEMIES.md](../ENEMIES.md):
 
+Grounded wildlife and Fox Hu's cart must pass `constrainCreatureToWorld` in
+`src/modes/story/shared/enemyKit.ts` after they join the physics group. Arcade group
+add restores gravity, and the world has no floor bound, so a spawn that skips this
+falls through the map on the first frame. The constraint syncs the body, collides with
+platforms, and seats feet on the nearest floor. Flying kits (crow, owl, bees, frost
+wisp, gale magpie) skip the seat.
+
 | Archetype | Behaviour |
 | --- | --- |
 | patrol | walks a path, contact damage, safe from above in Story |

@@ -28,7 +28,12 @@ import {
   updatePlayerMovement,
   type PlayerState,
 } from "./shared/playerController"
-import { spawnEnemy, updateEnemies, freezeEnemyForEditor } from "./shared/enemyKit"
+import {
+  spawnEnemy,
+  updateEnemies,
+  freezeEnemyForEditor,
+  constrainCreatureToWorld,
+} from "./shared/enemyKit"
 import { HAN_WARMTH, HanFight } from "./shared/hanBoss"
 import {
   applyWaterPhysics,
@@ -728,10 +733,12 @@ export class StoryScene extends Phaser.Scene {
       this.foxHu.setDisplaySize(88, 48)
       this.foxHu.setData("archetype", "foxhu")
       this.foxHu.setData("speed", def.foxHu.speed)
-      this.foxHu.setImmovable(true)
-      ;(this.foxHu.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
-      ;(this.foxHu.body as Phaser.Physics.Arcade.Body).setSize(80, 40)
+      this.foxHu.setData("fly", false)
       this.enemies.add(this.foxHu)
+      constrainCreatureToWorld(this, this.foxHu, this.platforms)
+      const cartBody = this.foxHu.body as Phaser.Physics.Arcade.Body
+      cartBody.setAllowGravity(false)
+      this.foxHu.setImmovable(true)
     }
 
     if (def.leftChase?.kind === "gale") {

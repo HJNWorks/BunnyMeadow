@@ -39,6 +39,76 @@ export function freezeEnemyForEditor(sprite: Phaser.Physics.Arcade.Sprite): void
   body.setImmovable(true)
 }
 
+function platformBody(
+  obj: Phaser.GameObjects.GameObject,
+): Phaser.Physics.Arcade.StaticBody | Phaser.Physics.Arcade.Body | null {
+  return (obj as Phaser.GameObjects.GameObject & {
+    body?: Phaser.Physics.Arcade.StaticBody | Phaser.Physics.Arcade.Body | null
+  }).body ?? null
+}
+
+function highestFloorTop(
+  sprite: Phaser.Physics.Arcade.Sprite,
+  platforms: Phaser.Physics.Arcade.StaticGroup,
+): number | null {
+  const body = sprite.body as Phaser.Physics.Arcade.Body | null
+  if (!body) {
+    return null
+  }
+  const midX = sprite.x
+  const feet = body.bottom
+  let best: number | null = null
+  for (const obj of platforms.getChildren()) {
+    const pb = platformBody(obj)
+    if (!pb) {
+      continue
+    }
+    if (midX < pb.left - 8 || midX > pb.right + 8) {
+      continue
+    }
+    const top = pb.top
+    if (top > feet + 400 || top < feet - body.height - 8) {
+      continue
+    }
+    if (best === null || top < best) {
+      best = top
+    }
+  }
+  return best
+}
+
+export function constrainCreatureToWorld(
+  scene: Phaser.Scene,
+  sprite: Phaser.Physics.Arcade.Sprite,
+  platforms: Phaser.Physics.Arcade.StaticGroup,
+): void {
+  const body = sprite.body as Phaser.Physics.Arcade.Body | null
+  if (!body) {
+    return
+  }
+  body.updateFromGameObject()
+  sprite.setCollideWorldBounds(true)
+  body.setMaxVelocity(560, 720)
+  const fly = sprite.getData("fly") === true
+  if (fly) {
+    body.setAllowGravity(false)
+    body.setGravity(0, 0)
+    body.setVelocity(0, 0)
+    return
+  }
+  body.setAllowGravity(true)
+  if (!sprite.getData("worldConstraint")) {
+    scene.physics.add.collider(sprite, platforms)
+    sprite.setData("worldConstraint", true)
+  }
+  const floor = highestFloorTop(sprite, platforms)
+  if (floor !== null) {
+    sprite.setY(floor - Math.max(8, sprite.displayHeight * 0.5))
+    body.updateFromGameObject()
+  }
+  body.setVelocity(0, 0)
+}
+
 export function spawnEnemy(
   scene: Phaser.Scene,
   id: string,
@@ -56,6 +126,7 @@ export function spawnEnemy(
   }
   sprite.setData("archetype", kit.archetype)
   sprite.setData("speed", kit.speed)
+  sprite.setData("fly", kit.fly === true)
   if (kit.archetype === "patrol") {
     sprite.setData("dir", 1)
   }
@@ -75,17 +146,8 @@ export function spawnEnemy(
     sprite.setData("phase", "hover")
     sprite.setData("timer", 0.8 + Math.random() * 0.8)
   }
-  sprite.setCollideWorldBounds(true)
-  if (!kit.fly) {
-    scene.physics.add.collider(sprite, platforms)
-  }
   enemies.add(sprite)
-  if (kit.fly) {
-    const body = sprite.body as Phaser.Physics.Arcade.Body
-    body.setAllowGravity(false)
-    body.setGravity(0, 0)
-    body.setVelocity(0, 0)
-  }
+  constrainCreatureToWorld(scene, sprite, platforms)
   return sprite
 }
 
