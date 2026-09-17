@@ -9,11 +9,12 @@ All notable changes to this project are recorded here. The format follows
 ### Changed
 
 - Settings map editor card is Open only. World and station switching live in the
-  editor. Object Addition uses Environment and Creatures menus grouped by world.
-  Build-mode critters stay selectable (no gravity/AI). Map editor tools sit in one
-  compact bar above the playfield. Play / Build / Set active stay on the bottom bar.
-  Night overlay can darken Burrow Eve independently of hour. Look also edits far,
-  fog, day haze, night amount, and low gravity.
+  editor. Environment and Creatures are white select bars grouped by world.
+  Selection Mode Region drag-selects every object in a rectangle, with shared
+  fields. Build-mode critters stay selectable (no gravity/AI). Map editor tools sit
+  in one compact bar above the playfield. Play / Build / Set active stay on the
+  bottom bar. Night overlay can darken Burrow Eve independently of hour. Look also
+  edits far, fog, day haze, night amount, and low gravity.
 - Story and Endless letterbox the Phaser canvas between HUD chrome (and the map-editor dock)
   so fullscreen FIT no longer stretches under the bars. Camera zoom is 1.
 
