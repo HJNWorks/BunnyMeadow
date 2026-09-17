@@ -6,6 +6,7 @@ import type { DifficultyId } from "../../core/save"
 import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
 import { mountDomShell, requireEl, type DomShellHandle } from "../../ui/DomShell"
+import { attachPlayfieldFrame, measureChromeInsets } from "../../ui/playfieldFrame"
 import { ITEM_TRAY_CSS, bindItemTray, renderItemTray } from "../../ui/ItemTray"
 import { ENDLESS_CHUNKS } from "../../systems/ChunkAssembler"
 import { t } from "../../core/i18n"
@@ -395,13 +396,22 @@ export class EndlessScene extends Phaser.Scene {
 
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12)
     this.cameras.main.setDeadzone(120, 80)
-    this.cameras.main.setZoom(1.25)
+    this.cameras.main.setZoom(1)
 
     this.safeSpot = { x: this.spawnX, y: 900 }
     this.safeSampleT = 0
     this.physics.world.isPaused = false
 
     this.mountHud()
+    attachPlayfieldFrame(this, () =>
+      measureChromeInsets({
+        topSelectors: [".bm-endless-hud .endless-bar"],
+        bottomSelectors: [],
+        padTop: 10,
+        padBottom: 16,
+        side: 20,
+      }),
+    )
     this.updateHud()
   }
 

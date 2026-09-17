@@ -17,6 +17,7 @@ import { getPlatform } from "../../core/platform"
 import { t } from "../../core/i18n"
 import { getAudio, musicIdForEnv } from "../../core/audio"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
+import { attachPlayfieldFrame, measureChromeInsets } from "../../ui/playfieldFrame"
 import { ControlCoach, CONTROL_COACH_CSS, type CoachAction } from "../../ui/ControlCoach"
 import { ITEM_TRAY_CSS, bindItemTray, renderItemTray, type TrayBuff } from "../../ui/ItemTray"
 import { ensureStoryTextures } from "./shared/storyTextures"
@@ -752,7 +753,7 @@ export class StoryScene extends Phaser.Scene {
 
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12)
     this.cameras.main.setDeadzone(90, 60)
-    this.cameras.main.setZoom(1.25)
+    this.cameras.main.setZoom(1)
     if (this.editorMode) {
       if (this.editorMode === "build") {
         this.cameras.main.stopFollow()
@@ -778,6 +779,15 @@ export class StoryScene extends Phaser.Scene {
         mode: this.editorMode,
       })
     }
+    attachPlayfieldFrame(this, () =>
+      measureChromeInsets({
+        topSelectors: [".bm-story-hud .meadow-header", ".bm-story-hud .meadow-bar"],
+        bottomSelectors: [".bm-editor-dock"],
+        padTop: 10,
+        padBottom: 12,
+        side: 20,
+      }),
+    )
     this.syncHearts()
     ;(window as unknown as { __bmStory?: () => Record<string, number | boolean | string> }).__bmStory = () => ({
       x: this.player?.x ?? 0,

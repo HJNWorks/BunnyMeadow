@@ -6,6 +6,11 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- Story and Endless letterbox the Phaser canvas between HUD chrome (and the map-editor dock)
+  so fullscreen FIT no longer stretches under the bars. Camera zoom is 1.
+
 ### Added
 
 - Guanghan boss Han: duck under roofs, eat a mooncake for a timed warmth buff, dash to

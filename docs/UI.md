@@ -57,6 +57,8 @@ Missing scenes are forbidden. Unfinished modes open their stub screen.
 
 Modes compose the same components. Meadow keeps its bar layout as one consumer. Story and others reuse the contract. The item tray is `src/ui/ItemTray.ts`. Story shows mooncake warmth on Guanghan. Endless shows lantern glow. Instant effects (heal, pantry carrot, extra glide charge) do not take a slot.
 
+Story and Endless keep the Phaser canvas inside a letterbox between the HTML bars (`src/ui/playfieldFrame.ts`). Fullscreen still uses `Scale.FIT` at 1920x1080, but the parent is inset so HUD and the map-editor dock do not cover the playfield. Camera zoom on those modes is 1.
+
 ## Settings
 
 - Audio: master, music, sfx (bus from M1; assets from M5)

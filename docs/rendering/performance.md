@@ -8,7 +8,8 @@ iteration profiles them.
 
 - 60 fps on desktop web and on Steam Deck at 1280x800.
 - `Scale.FIT` from a 1920x1080 base, so the render resolution scales but the scene does not
-  change.
+  change. Story and Endless inset the `#app` parent around HUD chrome before FIT, so fullscreen
+  downscales into the remaining rectangle instead of stretching under overlays.
 
 ## Texture and atlas budget
 
