@@ -10,8 +10,6 @@ import { getInput } from "../core/input"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 import { listStoryLevels } from "../modes/story/levels"
 import { clearOverlay, isEditorEnabled, startEditor } from "../modes/story/editor"
-import { dashLookEditorHtml, bindDashLookEditor } from "../fx/dash/DashLookPanel"
-import { workshopHtml, bindWorkshop } from "../fx/workshop/WorkshopPanel"
 import { getContentFlags } from "../core/ModeContext"
 
 export class SettingsScene extends Phaser.Scene {
@@ -34,10 +32,12 @@ export class SettingsScene extends Phaser.Scene {
     getAudio().playMusic("menu")
     const save = getSave()
     const diffs = listDifficultyIds()
+    const showMap = isEditorEnabled()
+    const showWorkshop = showMap || getContentFlags().assetWorkshop === true
     const { root } = mountDomShell(
       this,
       `
-      <div class="bm-shell">
+      <div class="bm-shell${showMap || showWorkshop ? " bm-wide" : ""}">
         <h1>${t("settings.title")}</h1>
         <div class="bm-field">
           <label for="difficulty">${t("settings.difficulty")}</label>
@@ -75,32 +75,47 @@ export class SettingsScene extends Phaser.Scene {
           </label>`,
           )
           .join("")}
-        ${/* storyMapEditor hook */ isEditorEnabled()
+        ${showMap || showWorkshop
           ? `
-        <h2>${t("editor.title")}</h2>
-        <p class="bm-tagline">${t("editor.note")}</p>
-        <div class="bm-field">
-          <label for="editorLevel">${t("editor.level")}</label>
-          <select id="editorLevel" data-ui="editorLevel">
-            ${listStoryLevels()
-              .map(
-                (level) =>
-                  `<option value="${level.id}">${t(`story.level.${level.id}.name`)}</option>`,
-              )
-              .join("")}
-          </select>
+        <div class="bm-tool-row">
+          ${showMap
+            ? `
+          <section class="bm-tool-card">
+            <h2>${t("editor.title")}</h2>
+            <p class="bm-tagline">${t("editor.note")}</p>
+            <div class="bm-field">
+              <label for="editorLevel">${t("editor.level")}</label>
+              <select id="editorLevel" data-ui="editorLevel">
+                ${listStoryLevels()
+                  .map(
+                    (level) =>
+                      `<option value="${level.id}">${t(`story.level.${level.id}.name`)}</option>`,
+                  )
+                  .join("")}
+              </select>
+            </div>
+            <div class="bm-actions bm-start">
+              <button type="button" class="bm-btn warm" data-ui="editorPlay">${t("editor.play")}</button>
+              <button type="button" class="bm-btn" data-ui="editorBuild">${t("editor.build")}</button>
+              <button type="button" class="bm-btn ghost" data-ui="editorClear">${t("editor.clear")}</button>
+            </div>
+            <p class="bm-tagline" data-ui="editorStatus"></p>
+          </section>
+            `
+            : ""}
+          ${showWorkshop
+            ? `
+          <section class="bm-tool-card">
+            <h2>${t("workshop.title")}</h2>
+            <p class="bm-tagline">${t("workshop.cardNote")}</p>
+            <div class="bm-actions bm-start">
+              <button type="button" class="bm-btn" data-ui="openWorkshop">${t("workshop.open")}</button>
+            </div>
+          </section>
+            `
+            : ""}
         </div>
-        <div class="bm-actions bm-start">
-          <button type="button" class="bm-btn warm" data-ui="editorPlay">${t("editor.play")}</button>
-          <button type="button" class="bm-btn" data-ui="editorBuild">${t("editor.build")}</button>
-          <button type="button" class="bm-btn ghost" data-ui="editorClear">${t("editor.clear")}</button>
-        </div>
-        <p class="bm-tagline" data-ui="editorStatus"></p>
-        ${dashLookEditorHtml()}
           `
-          : ""}
-        ${getContentFlags().assetWorkshop
-          ? workshopHtml()
           : ""}
         <div class="bm-field">
           <label>${t("settings.dashKey")}</label>
@@ -189,7 +204,7 @@ export class SettingsScene extends Phaser.Scene {
       this.scene.start(this.returnTo, this.returnData)
     }
 
-    if (isEditorEnabled()) {
+    if (showMap) {
       const levelSelect = requireEl<HTMLSelectElement>(root, "[data-ui=editorLevel]")
       const status = requireEl<HTMLElement>(root, "[data-ui=editorStatus]")
       requireEl<HTMLButtonElement>(root, "[data-ui=editorPlay]").onclick = () => {
@@ -205,12 +220,12 @@ export class SettingsScene extends Phaser.Scene {
         clearOverlay(levelSelect.value)
         status.textContent = t("editor.cleared")
       }
-      const stopDash = bindDashLookEditor(root)
-      this.events.once(Phaser.Scenes.Events.SHUTDOWN, stopDash)
-      this.events.once(Phaser.Scenes.Events.DESTROY, stopDash)
     }
-    if (getContentFlags().assetWorkshop) {
-      bindWorkshop(root)
+    if (showWorkshop) {
+      requireEl<HTMLButtonElement>(root, "[data-ui=openWorkshop]").onclick = () => {
+        getAudio().playSfx("confirm")
+        this.scene.start("AssetWorkshop")
+      }
     }
   }
 }

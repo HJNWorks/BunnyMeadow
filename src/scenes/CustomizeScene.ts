@@ -28,7 +28,7 @@ export class CustomizeScene extends Phaser.Scene {
       `
       <div class="bm-shell">
         <h1>${t("customize.title")}</h1>
-        <canvas data-ui="preview" width="180" height="180" aria-label="${t("common.preview")}" style="display:block;margin:0 auto 16px;border-radius:16px;background:#bed593;"></canvas>
+        <canvas data-ui="preview" class="bm-dash-preview" width="280" height="180" aria-label="${t("common.preview")}"></canvas>
         <div class="bm-field">
           <label for="name">${t("customize.name")}</label>
           <input id="name" data-ui="name" value="${save.player.name}" maxlength="24" />
@@ -126,6 +126,7 @@ export class CustomizeScene extends Phaser.Scene {
         elapsed,
         reducedMotion,
         particles,
+        dt,
       )
     }
 

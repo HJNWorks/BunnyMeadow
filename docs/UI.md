@@ -27,7 +27,7 @@ StoryBeat panel sits above WorldMap for World 0 stations
 | Preload | system | loads active save |
 | Title | menu | splash |
 | ModeSelect | menu | hub; reads contentFlags |
-| Settings | menu | |
+| Settings | menu | Story map editor card. Asset Workshop card opens AssetWorkshop. |
 | Customize | menu | |
 | Achievements | menu | live (achievement list + short project credit) |
 | Meadow | play | live (data-driven arcade, M2; entered from Moon Tasks) |
@@ -39,6 +39,7 @@ StoryBeat panel sits above WorldMap for World 0 stations
 | Pause | overlay | stub registered; Meadow/Tasks use inline pause until shared Pause lands |
 | DialogueOverlay | overlay | live (Moon Pool / two-line) |
 | Result | menu | stub shell until modes need it |
+| AssetWorkshop | menu | Dash look + silhouette brush. Opened from Settings. |
 
 Missing scenes are forbidden. Unfinished modes open their stub screen.
 
@@ -69,7 +70,8 @@ Story and Endless keep the Phaser canvas inside a letterbox between the HTML bar
 - Accessibility toggles (see [GDD.md](GDD.md))
 - Language: EN, DE, ZH-Hans (`t(key)` from M1)
 - Fullscreen and resolution (desktop)
-- Story map editor (`contentFlags.storyMapEditor`, default on). Lists every playable Story station from `listStoryLevels()` (Soft Paws, Worlds 1-4, Guanghan). Meadow and Endless stay out. **Play** opens Story with fail-off (no retry overlay from falls, water, gale, or empty hearts). **Build** drags platforms, walls, bridges, hedges, water, grass, lanterns, critters, items, spawn, Moon Pool, and exit (snap 10 px) with an inspector (rotation, asset, palette, weather, sky). **Undo** restores the selected object to the first snapshot taken when it was selected. All drags and field edits on that object collapse into one restore. **Set active** writes the overlay so World Map Story on this browser uses it in place of the shipped JSON. GitHub Pages cannot write `src/data`. **Copy JSON** downloads a bundle to paste into `src/data/story/` and `src/data/chunks/`. Local `npm run dev` may also POST that bundle to `src/data/editor-out/`. **Map width** extends the station. Critter and item pickers list wildlife and live pickups native to the biome, plus the rest of the roster. Meadow native is fox, hedgehog, crow, carrot. **Clear overlay** drops local edits for that id. Persistence is `localStorage` key `bunnymeadow.editor.overlay.v1`, not SaveV1. Dash look editing is the same Settings block (`bunnymeadow.dash.overlay.v1`). Asset workshop is `contentFlags.assetWorkshop`. Editor sessions do not write `cleared`, pantry, or achievements. Remove later by setting the flags false or deleting `src/modes/story/editor/` plus the Settings and Story hooks. Expansion contract: [editor/README.md](editor/README.md).
+- Story map editor (`contentFlags.storyMapEditor`, default on). Compact card on Settings next to Asset Workshop. Lists every playable Story station from `listStoryLevels()` (Soft Paws, Worlds 1-4, Guanghan). Meadow and Endless stay out. **Play** opens Story with fail-off (no retry overlay from falls, water, gale, or empty hearts). **Build** drags platforms, walls, bridges, hedges, water, grass, lanterns, critters, items, spawn, Moon Pool, and exit (snap 10 px) with an inspector (rotation, asset, palette, weather, sky). **Undo** restores the selected object to the first snapshot taken when it was selected. All drags and field edits on that object collapse into one restore. **Set active** writes the overlay so World Map Story on this browser uses it in place of the shipped JSON. GitHub Pages cannot write `src/data`. **Copy JSON** downloads a bundle to paste into `src/data/story/` and `src/data/chunks/`. Local `npm run dev` may also POST that bundle to `src/data/editor-out/`. **Map width** extends the station. Critter and item pickers list wildlife and live pickups native to the biome, plus the rest of the roster. Meadow native is fox, hedgehog, crow, carrot. **Clear overlay** drops local edits for that id. Persistence is `localStorage` key `bunnymeadow.editor.overlay.v1`, not SaveV1. Editor sessions do not write `cleared`, pantry, or achievements.
+- Asset Workshop scene (`contentFlags.assetWorkshop` plus the map-editor flag for dash look). Opened from the Settings card beside Story map editor. Dash look (`bunnymeadow.dash.overlay.v1`) and silhouette brushes (`bunnymeadow.workshop.overlay.v1`) live there. Remove later by setting the flags false or deleting `src/modes/story/editor/`, `src/fx/workshop/`, `src/scenes/AssetWorkshopScene.ts`, plus the Settings and Story hooks. Expansion contract: [editor/README.md](editor/README.md).
 
 ## Input actions (bindings)
 

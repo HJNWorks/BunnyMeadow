@@ -1,6 +1,6 @@
 # Story editor
 
-Settings-gated, removable. Flag `contentFlags.storyMapEditor`. Code: `src/modes/story/editor/`. Dash look lives in the same Settings block. Asset workshop is `contentFlags.assetWorkshop` and `src/fx/workshop/`.
+Settings-gated, removable. Flag `contentFlags.storyMapEditor`. Code: `src/modes/story/editor/`. Settings keeps a compact Story map editor card next to an Asset Workshop card. Dash look and silhouette brushes live in the AssetWorkshop scene (`src/scenes/AssetWorkshopScene.ts`). Workshop code is `contentFlags.assetWorkshop` and `src/fx/workshop/`.
 
 Family tone: fail is retry. Off-limits as HP bars: Chang'e, Yue, Yutu, Wu Gang, moon toad, Crane Envoy, Fox Hu.
 
@@ -38,7 +38,7 @@ Fields (visual only, no physics):
 
 Reduced motion drops particles and afterimages. Dash duration, speed, and Han warmth stay in `playerController.ts`.
 
-To add a shape: extend `DashParticleShape`, draw it in `src/fx/dash/canvasFx.ts` and a Phaser texture in `phaserFx.ts`, then pick it in the Settings dash look panel.
+To add a shape: extend `DashParticleShape`, draw it in `src/fx/dash/canvasFx.ts` and a Phaser texture in `phaserFx.ts`, then pick it in the Asset Workshop dash look panel.
 
 ## Placeables
 
@@ -66,7 +66,7 @@ New creature = LORE note + biome wildlife page + archetype (patrol, chaser, lob,
 
 ### D — Asset workshop
 
-Separate Settings panel. Silhouette brushes, palette tokens, PNG export, localStorage overlay applied on the next `ensureStoryTextures` call. Not a 3D modeller.
+Own scene from Settings. Silhouette brushes start from a visible seed stamp. Palette tokens, PNG export, localStorage overlay applied on the next `ensureStoryTextures` call. Dash look preview is the same page. Not a 3D modeller.
 
 ### E — Repo write-back (local only)
 
@@ -74,4 +74,4 @@ Optional Vite POST while developing. Pages keeps overlay + Copy JSON forever.
 
 ## Removal
 
-Set `storyMapEditor` / `assetWorkshop` false. Delete `src/modes/story/editor/` and `src/fx/workshop/` plus the Settings hooks.
+Set `storyMapEditor` / `assetWorkshop` false. Delete `src/modes/story/editor/`, `src/fx/workshop/`, and `src/scenes/AssetWorkshopScene.ts` plus the Settings hooks.

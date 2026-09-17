@@ -2,6 +2,7 @@ import { t } from "../../core/i18n"
 import { getAudio } from "../../core/audio"
 import { requireEl } from "../../ui/DomShell"
 import { getPalette, listPaletteIds } from "../../modes/story/shared/themeKit"
+import { drawBunny } from "../../render/drawBunny"
 import {
   clearWorkshopTexture,
   getWorkshopTexture,
@@ -9,22 +10,85 @@ import {
   setWorkshopTexture,
 } from "./overlayStore"
 
+function ellipse(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  rx: number,
+  ry: number,
+  color: string,
+): void {
+  ctx.fillStyle = color
+  ctx.beginPath()
+  ctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2)
+  ctx.fill()
+}
+
+function stampPaper(ctx: CanvasRenderingContext2D, width: number, height: number): void {
+  ctx.fillStyle = "#efe6c8"
+  ctx.fillRect(0, 0, width, height)
+  ctx.fillStyle = "#e4d8b055"
+  for (let y = 0; y < height; y += 8) {
+    for (let x = 0; x < width; x += 8) {
+      if (((x + y) / 8) % 2 === 0) {
+        ctx.fillRect(x, y, 8, 8)
+      }
+    }
+  }
+}
+
+function stampTarget(ctx: CanvasRenderingContext2D, id: string): void {
+  const width = ctx.canvas.width
+  const height = ctx.canvas.height
+  stampPaper(ctx, width, height)
+  if (id === "story_hedge") {
+    ctx.fillStyle = "#35532c"
+    ctx.fillRect(width * 0.28, height * 0.32, width * 0.44, height * 0.58)
+    ellipse(ctx, width * 0.5, height * 0.28, width * 0.38, height * 0.22, "#4d6f3d")
+    ellipse(ctx, width * 0.28, height * 0.48, width * 0.24, height * 0.18, "#4d6f3d")
+    ellipse(ctx, width * 0.72, height * 0.52, width * 0.26, height * 0.2, "#4d6f3d")
+    ellipse(ctx, width * 0.48, height * 0.2, width * 0.2, height * 0.12, "#6f8f52")
+    return
+  }
+  if (id === "story_ground") {
+    ctx.fillStyle = "#6a7540"
+    ctx.fillRect(4, height * 0.28, width - 8, height * 0.66)
+    ctx.fillStyle = "#80924f"
+    ctx.fillRect(4, height * 0.28, width - 8, 12)
+    ellipse(ctx, 22, height * 0.62, 6, 6, "#556234")
+    ellipse(ctx, width - 24, height * 0.74, 5, 5, "#556234")
+    return
+  }
+  if (id === "story_log") {
+    ellipse(ctx, width * 0.5, height * 0.55, width * 0.42, height * 0.18, "#8b5a2b")
+    ellipse(ctx, width * 0.5, height * 0.52, width * 0.38, height * 0.12, "#a56a38")
+    return
+  }
+  if (id === "story_player") {
+    drawBunny(ctx, width * 0.5, height * 0.58, {
+      fur: "cream",
+      ears: "upright",
+      accessory: "none",
+    })
+    return
+  }
+  ellipse(ctx, width * 0.5, height * 0.5, 10, 10, "#e8f0c8")
+}
+
 export function workshopHtml(): string {
   return `
-    <h2>${t("workshop.title")}</h2>
+    <h2>${t("workshop.brushTitle")}</h2>
     <p class="bm-tagline">${t("workshop.note")}</p>
-    <canvas data-ui="wsCanvas" width="64" height="72" style="display:block;margin:0 auto 12px;width:192px;height:216px;image-rendering:pixelated;border-radius:8px;background:#2a3d24;cursor:crosshair;"></canvas>
+    <canvas data-ui="wsCanvas" class="bm-workshop-canvas" width="128" height="144" aria-label="${t("workshop.canvas")}"></canvas>
     <div class="bm-field">
       <label>${t("workshop.target")}
         <select data-ui="wsTarget">${listWorkshopTargets().map((id) => `<option value="${id}">${id}</option>`).join("")}</select>
       </label>
     </div>
-    <div class="bm-field">
+    <div class="bm-field bm-swatch-row">
       <label>${t("workshop.palette")}
         <select data-ui="wsPalette">${listPaletteIds().map((id) => `<option value="${id}">${id}</option>`).join("")}</select>
       </label>
-    </div>
-    <div class="bm-field">
       <label>${t("workshop.token")}
         <select data-ui="wsToken">
           <option value="sky">sky</option>
@@ -35,9 +99,10 @@ export function workshopHtml(): string {
           <option value="fog">fog</option>
         </select>
       </label>
+      <span class="bm-swatch" data-ui="wsSwatch" aria-hidden="true"></span>
     </div>
     <div class="bm-field">
-      <label>${t("workshop.size")} <input data-ui="wsSize" type="range" min="1" max="8" value="3" /></label>
+      <label>${t("workshop.size")} <input data-ui="wsSize" type="range" min="2" max="16" value="6" /></label>
     </div>
     <div class="bm-actions bm-start">
       <button type="button" class="bm-btn" data-ui="wsSave">${t("settings.save")}</button>
@@ -59,6 +124,7 @@ export function bindWorkshop(root: ParentNode): void {
   const paletteEl = requireEl<HTMLSelectElement>(root, "[data-ui=wsPalette]")
   const tokenEl = requireEl<HTMLSelectElement>(root, "[data-ui=wsToken]")
   const sizeEl = requireEl<HTMLInputElement>(root, "[data-ui=wsSize]")
+  const swatch = requireEl<HTMLElement>(root, "[data-ui=wsSwatch]")
   const status = requireEl<HTMLElement>(root, "[data-ui=wsStatus]")
   let drawing = false
 
@@ -69,19 +135,26 @@ export function bindWorkshop(root: ParentNode): void {
     return typeof value === "string" ? value : pal.accent
   }
 
+  const syncSwatch = (): void => {
+    swatch.style.background = color()
+  }
+
   const paint = (e: PointerEvent): void => {
     const rect = canvas.getBoundingClientRect()
     const x = Math.floor(((e.clientX - rect.left) / rect.width) * canvas.width)
     const y = Math.floor(((e.clientY - rect.top) / rect.height) * canvas.height)
-    const size = Number(sizeEl.value) || 3
+    const size = Number(sizeEl.value) || 6
     ctx.fillStyle = color()
-    ctx.fillRect(x - Math.floor(size / 2), y - Math.floor(size / 2), size, size)
+    ctx.beginPath()
+    ctx.arc(x, y, size / 2, 0, Math.PI * 2)
+    ctx.fill()
   }
 
   const load = (): void => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    stampTarget(ctx, targetEl.value)
     const data = getWorkshopTexture(targetEl.value)
     if (!data) {
+      syncSwatch()
       return
     }
     const img = new Image()
@@ -90,6 +163,7 @@ export function bindWorkshop(root: ParentNode): void {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
     }
     img.src = data
+    syncSwatch()
   }
 
   canvas.onpointerdown = (e) => {
@@ -106,6 +180,8 @@ export function bindWorkshop(root: ParentNode): void {
     drawing = false
   }
   targetEl.onchange = load
+  paletteEl.onchange = syncSwatch
+  tokenEl.onchange = syncSwatch
   load()
 
   requireEl<HTMLButtonElement>(root, "[data-ui=wsSave]").onclick = () => {
@@ -125,7 +201,7 @@ export function bindWorkshop(root: ParentNode): void {
   requireEl<HTMLButtonElement>(root, "[data-ui=wsClear]").onclick = () => {
     getAudio().playSfx("cancel")
     clearWorkshopTexture(targetEl.value)
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    stampTarget(ctx, targetEl.value)
     status.textContent = t("workshop.cleared")
   }
 }

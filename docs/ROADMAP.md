@@ -68,6 +68,7 @@ Later milestones must not invent a second version of these. M1 created them (fil
 | Title | menu HTML | live splash |
 | ModeSelect | menu HTML | live hub |
 | Settings | menu HTML | live |
+| AssetWorkshop | menu HTML | live (dash look + silhouette brush) |
 | Customize | menu HTML | live |
 | Achievements | menu HTML | live (achievement list + short project credit) |
 | Meadow | play | live (data-driven arcade) |
@@ -95,6 +96,7 @@ Missing routes are forbidden. Locked or unfinished modes still navigate to a stu
 | `endless` | Endless selectable | true (M5) |
 | `webFullStory` | Ship full story on web | true (M4) |
 | `storyMapEditor` | Settings Story map editor | true |
+| `assetWorkshop` | Settings card + AssetWorkshop scene | true |
 
 Mode Select reads flags. It never hard-codes “delete Story for Steam”.
 

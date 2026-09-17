@@ -8,6 +8,8 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Settings keeps Story map editor and Asset Workshop as two cards. Dash look and the
+  silhouette brush live on the Asset Workshop page.
 - Story and Endless letterbox the Phaser canvas between HUD chrome (and the map-editor dock)
   so fullscreen FIT no longer stretches under the bars. Camera zoom is 1.
 
@@ -17,8 +19,8 @@ All notable changes to this project are recorded here. The format follows
   `moon`). Looks are visual only (stretch, afterimages, particles) and unlock with
   achievements. `WORLD4_CLEAR` on Closing Gale. Story map editor Phase A slice: selectable
   hedges, palette/weather/water/sky, meadow-native critters. Dash look editor and asset
-  workshop in Settings. Local Vite write-back to `src/data` while `npm run dev` is running.
-  Editor contract: `docs/editor/README.md`.
+  workshop on the Asset Workshop page from Settings. Local Vite write-back to `src/data`
+  while `npm run dev` is running. Editor contract: `docs/editor/README.md`.
 
 - Guanghan boss Han: duck under roofs, eat a mooncake for a timed warmth buff, dash to
   clear five spirit hearts. Han roams the sky and aims frost/star fans at Mei. Shared

@@ -22,7 +22,7 @@ export function dashLookEditorHtml(): string {
   return `
     <h2>${t("editor.dash.title")}</h2>
     <p class="bm-tagline">${t("editor.dash.note")}</p>
-    <canvas data-ui="dashPreview" width="220" height="140" aria-label="${t("common.preview")}" style="display:block;margin:0 auto 12px;border-radius:14px;background:#bed593;"></canvas>
+    <canvas data-ui="dashPreview" class="bm-dash-preview" width="360" height="200" aria-label="${t("common.preview")}"></canvas>
     <div class="bm-field">
       <label for="dashId">${t("customize.dash")}</label>
       <select id="dashId" data-ui="dashId">
@@ -111,6 +111,7 @@ export function bindDashLookEditor(root: ParentNode): () => void {
     lifeEl.value = String(def.particle.life)
     colorEl.value = def.particle.color
     particles = []
+    elapsed = 0
   }
 
   const cosmetics = {
@@ -125,9 +126,10 @@ export function bindDashLookEditor(root: ParentNode): () => void {
     }
     const ctx = preview.getContext("2d")
     if (ctx) {
-      elapsed += 1 / 60
+      const dt = 1 / 60
+      elapsed += dt
       particles = filterLiveDashParticles(particles)
-      paintDashPreview(ctx, preview.width, preview.height, cosmetics, readDef(), elapsed, reduced, particles)
+      paintDashPreview(ctx, preview.width, preview.height, cosmetics, readDef(), elapsed, reduced, particles, dt)
     }
     raf = window.requestAnimationFrame(loop)
   }

@@ -5,6 +5,7 @@ import { PreloadScene } from "./scenes/PreloadScene"
 import { TitleScene } from "./scenes/TitleScene"
 import { ModeSelectScene } from "./scenes/ModeSelectScene"
 import { SettingsScene } from "./scenes/SettingsScene"
+import { AssetWorkshopScene } from "./scenes/AssetWorkshopScene"
 import { CustomizeScene } from "./scenes/CustomizeScene"
 import { AchievementsScene } from "./scenes/AchievementsScene"
 import { MeadowScene } from "./modes/meadow/MeadowScene"
@@ -50,6 +51,7 @@ const config: Phaser.Types.Core.GameConfig = {
     TitleScene,
     ModeSelectScene,
     SettingsScene,
+    AssetWorkshopScene,
     CustomizeScene,
     AchievementsScene,
     MeadowScene,
