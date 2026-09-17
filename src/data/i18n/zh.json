@@ -46,6 +46,7 @@
   "editor.addBridge": "桥",
   "editor.addEnemy": "小动物",
   "editor.delete": "删除",
+  "editor.undo": "还原",
   "editor.field.x": "X",
   "editor.field.y": "Y",
   "editor.field.w": "宽",

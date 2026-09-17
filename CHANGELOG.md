@@ -19,6 +19,8 @@ All notable changes to this project are recorded here. The format follows
   drag/inspector for platforms, bridges, critters, spawn, Moon Pool, and exit. Edits live
   in `localStorage` (`bunnymeadow.editor.overlay.v1`) plus Download JSON. No Story
   progress writes. Removable via the flag and `src/modes/story/editor/`.
+- Story map editor Undo: one restore per selected object, back to the first snapshot
+  taken when that object was selected.
 - Story HUD Mute next to Pause. Cuts master output without changing the volume sliders.
   Stored as `settings.audio.muted`.
 

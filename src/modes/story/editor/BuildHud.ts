@@ -130,6 +130,7 @@ export function mountBuildHud(session: EditorSession): void {
             ${EDITOR_CRITTER_IDS.map((id) => `<option value="${id}">${id}</option>`).join("")}
           </select>
         </label>
+        <button type="button" class="bm-btn ghost" data-ui="undo">${t("editor.undo")}</button>
         <button type="button" class="bm-btn ghost" data-ui="delete">${t("editor.delete")}</button>
       </div>
       <div class="bm-editor-bar">
@@ -165,9 +166,12 @@ export function mountBuildHud(session: EditorSession): void {
     requireEl<HTMLButtonElement>(root, `[data-ui=${ui}]`).hidden = session.mode !== "build"
   }
   requireEl<HTMLButtonElement>(root, "[data-ui=delete]").hidden = session.mode !== "build"
+  const undoBtn = requireEl<HTMLButtonElement>(root, "[data-ui=undo]")
+  undoBtn.hidden = session.mode !== "build"
 
   const marks = session.scene.add.graphics().setDepth(30)
   let selected: Selection | null = null
+  let baseline: { sel: Selection; snap: unknown } | null = null
   let dragging: Selection | null = null
   let grabX = 0
   let grabY = 0
@@ -179,6 +183,73 @@ export function mountBuildHud(session: EditorSession): void {
 
   const persist = (): void => {
     setOverlay(session.level.id, overlay)
+  }
+
+  const cloneJson = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T
+
+  const sameSel = (a: Selection | null, b: Selection | null): boolean =>
+    Boolean(a && b && a.kind === b.kind && a.index === b.index)
+
+  const captureItem = (sel: Selection): unknown | null => {
+    if (sel.kind === "spawn") {
+      return cloneJson(overlay.playerSpawn)
+    }
+    if (sel.kind === "pool") {
+      return overlay.moonPool ? cloneJson(overlay.moonPool) : null
+    }
+    if (sel.kind === "exit") {
+      return cloneJson(overlay.exit)
+    }
+    if (sel.kind === "platform") {
+      const rect = overlay.platforms[sel.index]
+      return rect ? cloneJson(rect) : null
+    }
+    if (sel.kind === "mover") {
+      const mover = overlay.movers[sel.index]
+      return mover ? cloneJson(mover) : null
+    }
+    const enemy = overlay.enemies[sel.index]
+    return enemy ? cloneJson(enemy) : null
+  }
+
+  const restoreItem = (sel: Selection, snap: unknown): void => {
+    if (sel.kind === "spawn") {
+      overlay.playerSpawn = cloneJson(snap as { x: number; y: number })
+      return
+    }
+    if (sel.kind === "pool") {
+      overlay.moonPool = cloneJson(snap as { chunk: number; x: number; y: number })
+      return
+    }
+    if (sel.kind === "exit") {
+      overlay.exit = cloneJson(snap as { chunk: number; x: number; y: number })
+      return
+    }
+    if (sel.kind === "platform") {
+      overlay.platforms[sel.index] = cloneJson(snap as (typeof overlay.platforms)[number])
+      return
+    }
+    if (sel.kind === "mover") {
+      overlay.movers[sel.index] = cloneJson(snap as (typeof overlay.movers)[number])
+      return
+    }
+    overlay.enemies[sel.index] = cloneJson(snap as (typeof overlay.enemies)[number])
+  }
+
+  const adoptSelection = (hit: Selection): void => {
+    if (!sameSel(baseline?.sel ?? null, hit)) {
+      const snap = captureItem(hit)
+      baseline = snap === null ? null : { sel: { kind: hit.kind, index: hit.index }, snap }
+    }
+    selected = hit
+  }
+
+  const syncUndo = (): void => {
+    if (!selected || !baseline || !sameSel(baseline.sel, selected)) {
+      undoBtn.disabled = true
+      return
+    }
+    undoBtn.disabled = JSON.stringify(captureItem(selected)) === JSON.stringify(baseline.snap)
   }
 
   const restart = (mode: EditorMode): void => {
@@ -305,6 +376,7 @@ export function mountBuildHud(session: EditorSession): void {
       wInput.disabled = true
       hInput.disabled = true
       idInput.disabled = true
+      syncUndo()
       return
     }
     xInput.disabled = false
@@ -329,6 +401,7 @@ export function mountBuildHud(session: EditorSession): void {
     } else if (selected.kind === "platform") {
       const rect = overlay.platforms[selected.index]
       if (!rect) {
+        syncUndo()
         return
       }
       hint.textContent = rect.kind === "wall" ? t("editor.kind.wall") : t("editor.kind.platform")
@@ -339,6 +412,7 @@ export function mountBuildHud(session: EditorSession): void {
     } else if (selected.kind === "mover") {
       const mover = overlay.movers[selected.index]
       if (!mover) {
+        syncUndo()
         return
       }
       hint.textContent = t("editor.kind.mover")
@@ -349,6 +423,7 @@ export function mountBuildHud(session: EditorSession): void {
     } else if (selected.kind === "enemy") {
       const enemy = overlay.enemies[selected.index]
       if (!enemy) {
+        syncUndo()
         return
       }
       hint.textContent = t("editor.kind.enemy")
@@ -359,6 +434,7 @@ export function mountBuildHud(session: EditorSession): void {
         : "fox"
     }
     drawMarks()
+    syncUndo()
   }
 
   const pickAt = (wx: number, wy: number): Selection | null => {
@@ -558,6 +634,16 @@ export function mountBuildHud(session: EditorSession): void {
     })
     restart("build")
   }
+  requireEl<HTMLButtonElement>(root, "[data-ui=undo]").onclick = () => {
+    if (!selected || !baseline || !sameSel(baseline.sel, selected)) {
+      return
+    }
+    restoreItem(selected, baseline.snap)
+    getAudio().playSfx("cancel")
+    syncSelection()
+    persist()
+    fillInspect()
+  }
   requireEl<HTMLButtonElement>(root, "[data-ui=delete]").onclick = () => {
     if (!selected) {
       return
@@ -597,7 +683,7 @@ export function mountBuildHud(session: EditorSession): void {
     const worldPoint = session.scene.cameras.main.getWorldPoint(pointer.x, pointer.y)
     const hit = pickAt(worldPoint.x, worldPoint.y)
     if (hit) {
-      selected = hit
+      adoptSelection(hit)
       dragging = hit
       if (hit.kind === "spawn") {
         grabX = worldPoint.x - overlay.playerSpawn.x

@@ -46,6 +46,7 @@
   "editor.addBridge": "Bridge",
   "editor.addEnemy": "Critter",
   "editor.delete": "Delete",
+  "editor.undo": "Undo",
   "editor.field.x": "X",
   "editor.field.y": "Y",
   "editor.field.w": "Width",

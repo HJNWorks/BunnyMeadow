@@ -46,6 +46,7 @@
   "editor.addBridge": "Brücke",
   "editor.addEnemy": "Tier",
   "editor.delete": "Löschen",
+  "editor.undo": "Zurück",
   "editor.field.x": "X",
   "editor.field.y": "Y",
   "editor.field.w": "Breite",
