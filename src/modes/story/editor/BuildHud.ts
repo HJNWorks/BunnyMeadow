@@ -3,6 +3,7 @@ import type { AssembledDecor, AssembledHazard, AssembledLevel, AssembledRect } f
 import { t } from "../../../core/i18n"
 import { getAudio } from "../../../core/audio"
 import { mountDomShell, requireEl } from "../../../ui/DomShell"
+import { placeBelowStoryChrome, watchStoryChrome } from "../../../ui/playfieldFrame"
 import { writeRepoFile } from "../../../core/devWrite"
 import { downloadEditorJson, buildExportBundle } from "./exportJson"
 import type { StoryLevelDef } from "../levels"
@@ -1819,19 +1820,10 @@ export function mountBuildHud(session: EditorSession): void {
   }
 
   const placeTopBar = (): void => {
-    const hudBar = document.querySelector(".bm-story-hud .meadow-bar")
-    const hudHead = document.querySelector(".bm-story-hud .meadow-header")
-    const anchor = hudBar ?? hudHead
-    const top = anchor ? anchor.getBoundingClientRect().bottom + 8 : 8
-    topBar.style.top = `${Math.round(top)}px`
+    placeBelowStoryChrome(topBar)
   }
   placeTopBar()
-  const storyHud = document.querySelector(".bm-story-hud")
-  const topBarWatch = new ResizeObserver(placeTopBar)
-  if (storyHud) {
-    topBarWatch.observe(storyHud)
-  }
-  window.addEventListener("resize", placeTopBar)
+  const stopChromeWatch = watchStoryChrome(placeTopBar)
 
   session.scene.input.on("pointerdown", onDown)
   session.scene.input.on("pointermove", onMove)
@@ -1842,8 +1834,7 @@ export function mountBuildHud(session: EditorSession): void {
   session.scene.game.canvas.addEventListener("contextmenu", blockMenu)
   session.scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     document.removeEventListener("pointerdown", onDocPointer)
-    window.removeEventListener("resize", placeTopBar)
-    topBarWatch.disconnect()
+    stopChromeWatch()
     session.scene.game.canvas.removeEventListener("contextmenu", blockMenu)
     session.scene.input.off("pointerdown", onDown)
     session.scene.input.off("pointermove", onMove)

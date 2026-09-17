@@ -44,7 +44,7 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 | --- | --- | --- | --- | --- |
 | 1-1 Soft Paths | meadow | run, jump, dash | Moon Pool | live |
 | 1-2 Hedge Maze | orchard | wall bounce, crow lob | Moon Pool | live |
-| 1-3 Cart Chase | meadow | boss: Fox Hu cart | World clear | live |
+| 1-3 Cart Chase | meadow | boss: Fox Hu cart | Finish flag at the burrow. Cart there first is a retry | live |
 
 ### World 2 — Bamboo Grove and River
 

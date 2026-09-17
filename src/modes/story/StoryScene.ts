@@ -17,7 +17,7 @@ import { getPlatform } from "../../core/platform"
 import { t } from "../../core/i18n"
 import { getAudio, musicIdForEnv } from "../../core/audio"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
-import { attachPlayfieldFrame, measureChromeInsets } from "../../ui/playfieldFrame"
+import { attachPlayfieldFrame, measureChromeInsets, EDITOR_BOTTOM_CHROME, EDITOR_TOP_CHROME, placeBelowStoryChrome, STORY_TOP_CHROME } from "../../ui/playfieldFrame"
 import { equippedDashDef, PhaserDashFx } from "../../fx/dash"
 import { ControlCoach, CONTROL_COACH_CSS, type CoachAction } from "../../ui/ControlCoach"
 import { ITEM_TRAY_CSS, bindItemTray, renderItemTray, type TrayBuff } from "../../ui/ItemTray"
@@ -29,6 +29,7 @@ import {
   POOL_CONTACT,
   POOL_AWAKE_TINT,
   POOL_DORMANT_TINT,
+  playerInExitHole,
 } from "./shared/contactBodies"
 import {
   createPlayerState,
@@ -104,16 +105,18 @@ function shellHtml(): string {
     <h1 data-ui="levelName"></h1>
     <p class="bm-tagline" data-ui="objective"></p>
   </header>
-  <div class="bm-story-ticker" data-ui="ticker" hidden role="status" aria-live="polite">
-    <p class="bm-story-ticker-line" data-ui="tickerText"></p>
-  </div>
   <div class="meadow-bar">
+    <div class="bm-story-ticker" data-ui="ticker" hidden role="status" aria-live="polite">
+      <p class="bm-story-ticker-line" data-ui="tickerText"></p>
+    </div>
+    <div class="meadow-bar-main">
     <span>${t("hud.hearts")} <strong data-ui="hearts">♥ ♥ ♥</strong></span>
     <span data-ui="bossHits" hidden></span>
     <div class="story-controls-dock" data-ui="controlsDock" hidden aria-label="${t("common.controls")}"></div>
     <button type="button" class="bm-btn ghost" data-ui="muteBtn">${t("story.hud.mute")}</button>
     <button type="button" class="bm-btn" data-ui="pauseBtn">${t("story.hud.pause")}</button>
     <button type="button" class="bm-btn ghost" data-ui="back">${t("story.hud.back")}</button>
+    </div>
   </div>
   <div class="bm-item-tray" data-ui="itemTray" hidden></div>
   <div class="story-han-hearts" data-ui="hanHearts" hidden></div>
@@ -160,7 +163,6 @@ const CSS = `
 }
 .bm-story-hud .meadow-header,
 .bm-story-hud .meadow-bar,
-.bm-story-hud .bm-story-ticker,
 .bm-story-hud .meadow-overlay,
 .bm-story-hud .meadow-overlay *,
 .bm-story-hud button {
@@ -189,9 +191,10 @@ const CSS = `
 .story-shell .story-field { display:none; }
 .meadow-header h1 { font-size:28px; margin:0; font-family: Georgia, "Times New Roman", serif; }
 .meadow-header .bm-eyebrow { margin: 0; }
-.meadow-bar { display:flex; gap:14px; align-items:center; margin:0 0 8px; flex-wrap:wrap; }
-.meadow-bar .bm-btn { margin-left:auto; }
-.meadow-bar .bm-btn.ghost { margin-left:0; }
+.meadow-bar { display:flex; flex-direction:column; align-items:stretch; gap:6px; margin:0 0 8px; }
+.meadow-bar-main { display:flex; gap:14px; align-items:center; flex-wrap:wrap; width:100%; }
+.meadow-bar-main .bm-btn { margin-left:auto; }
+.meadow-bar-main .bm-btn.ghost { margin-left:0; }
 .meadow-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#34563866; z-index:60; pointer-events:auto; }
 .meadow-overlay[hidden] { display:none !important; }
 .meadow-card { background:#fffaf0; padding:28px; border-radius:24px; max-width:420px; text-align:center; position:relative; z-index:61; }
@@ -283,6 +286,8 @@ export class StoryScene extends Phaser.Scene {
   private waterRects: Phaser.GameObjects.Rectangle[] = []
   private reducedMotion = false
   private poolRipple: Phaser.GameObjects.Ellipse | null = null
+  private cartFinishX: number | null = null
+  private foxResetOnRespawn = false
 
   constructor() {
     super("Story")
@@ -333,6 +338,8 @@ export class StoryScene extends Phaser.Scene {
     this.waterGrace = 0
     this.glowTimer = 0
     this.poolRipple = null
+    this.cartFinishX = null
+    this.foxResetOnRespawn = false
     this.physics.world.isPaused = false
 
     this.style = document.createElement("style")
@@ -437,11 +444,10 @@ export class StoryScene extends Phaser.Scene {
     getInput().setBindings(save.settings.bindings)
     getInput().start()
 
-    const learned = def.tutorial
+    const floatIntro = !!def.tutorial && this.editorMode === null
+    const learned: CoachAction[] = floatIntro
       ? []
-      : save.progress.story.controlHints.filter(
-          (value): value is CoachAction => value === "move" || value === "jump" || value === "dash",
-        )
+      : ["move", "jump", "dash"]
     this.coach = new ControlCoach(
       this.hud.controlsFloat,
       this.hud.controlsDock,
@@ -449,8 +455,9 @@ export class StoryScene extends Phaser.Scene {
       learned,
       {
         reducedMotion: save.settings.accessibility.reducedMotion,
+        floatIntro,
         onLearned: (action) => {
-          if (this.editorMode) {
+          if (this.editorMode || !floatIntro) {
             return
           }
           const next = getSave()
@@ -711,6 +718,9 @@ export class StoryScene extends Phaser.Scene {
       if (this.editorMode === "build") {
         return
       }
+      if (!playerInExitHole(this.player, this.exitZone)) {
+        return
+      }
       void this.onExit()
     })
     this.physics.add.overlap(this.player, this.enemies, (_p, enemy) => {
@@ -770,6 +780,9 @@ export class StoryScene extends Phaser.Scene {
       const cartBody = this.foxHu.body as Phaser.Physics.Arcade.Body
       cartBody.setAllowGravity(false)
       this.foxHu.setImmovable(true)
+      this.cartFinishX = this.exitZone.x - 56
+      const flag = this.add.image(this.cartFinishX, this.exitZone.y + 4, "story_flag")
+      flag.setDepth(2)
     }
 
     if (def.leftChase?.kind === "gale") {
@@ -873,24 +886,20 @@ export class StoryScene extends Phaser.Scene {
       this,
       () =>
         measureChromeInsets({
-          topSelectors: [
-            ".bm-story-hud .meadow-header",
-            ".bm-story-hud .bm-story-ticker",
-            ".bm-story-hud .meadow-bar",
-            ".bm-editor-top",
-          ],
-          bottomSelectors: [".bm-editor-bar"],
+          topSelectors: [...STORY_TOP_CHROME, ...EDITOR_TOP_CHROME],
+          bottomSelectors: [...EDITOR_BOTTOM_CHROME],
           padTop: 10,
           padBottom: 12,
           side: 20,
         }),
       {
-        observeSelectors: [
-          ".bm-story-hud .meadow-header",
-          ".bm-story-hud .bm-story-ticker",
-          ".bm-story-hud .meadow-bar",
-          ".bm-editor-top",
-        ],
+        observeSelectors: [...STORY_TOP_CHROME, ...EDITOR_TOP_CHROME],
+        beforeMeasure: () => {
+          const bar = document.querySelector(".bm-editor-top") as HTMLElement | null
+          if (bar) {
+            placeBelowStoryChrome(bar)
+          }
+        },
       },
     )
     this.syncHearts()
@@ -1170,6 +1179,32 @@ export class StoryScene extends Phaser.Scene {
     this.invuln = 1.2
     this.syncHearts()
     this.player.clearTint()
+    if (this.foxResetOnRespawn && this.foxHu && this.level.foxHu) {
+      this.foxHu.setPosition(this.level.foxHu.startX, this.level.foxHu.y)
+      this.foxHu.setVelocity(0, 0)
+      this.foxHu.setData("speed", this.level.foxHu.speed)
+      this.foxResetOnRespawn = false
+    }
+  }
+
+  private onCartFinished(): void {
+    if (this.won || this.lost || this.editorMode === "build") {
+      return
+    }
+    if (this.foxHu) {
+      this.foxHu.setData("speed", 0)
+      this.foxHu.setVelocity(0, 0)
+      if (this.cartFinishX !== null) {
+        this.foxHu.x = Math.min(this.foxHu.x, this.cartFinishX - 44)
+      }
+    }
+    if (this.editorMode === "play") {
+      return
+    }
+    this.checkpoint = { x: this.level.playerSpawn.x, y: this.level.playerSpawn.y }
+    this.poolClaimed = false
+    this.foxResetOnRespawn = true
+    this.enterDeadState(t("story.dead.fox"))
   }
 
   private onMoonPool(): void {
@@ -1654,6 +1689,15 @@ export class StoryScene extends Phaser.Scene {
     this.dashFx?.tick(this.player, this.playerState.dashTime, this.playerState.facing, dt)
 
     updateEnemies(this, this.enemies, this.projectiles, this.platforms, this.player, dt)
+
+    if (
+      this.foxHu &&
+      this.cartFinishX !== null &&
+      this.foxHu.x + 44 >= this.cartFinishX
+    ) {
+      this.onCartFinished()
+      return
+    }
 
     this.weather?.update(dt, this.cameras.main.scrollX)
     if (this.glowTimer > 0) {

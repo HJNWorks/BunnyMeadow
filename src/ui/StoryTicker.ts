@@ -18,13 +18,13 @@ type Job = {
 
 export const STORY_TICKER_CSS = `
 .bm-story-hud .bm-story-ticker {
-  margin-top: 8px;
-  padding: 6px 14px;
-  border-radius: 14px;
-  background: linear-gradient(180deg, #f7f3e8f0, #ebe4d4e6);
-  backdrop-filter: blur(6px);
-  border: 1px solid #d5dcc4;
-  box-shadow: 0 8px 18px #2a3d2412;
+  margin: 0;
+  padding: 0 2px 2px;
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
   pointer-events: auto;
 }
 .bm-story-hud .bm-story-ticker[hidden] {
@@ -35,6 +35,8 @@ export const STORY_TICKER_CSS = `
   font: 600 15px Georgia, "Times New Roman", serif;
   color: #2a3d48;
   letter-spacing: 0.01em;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 `
 

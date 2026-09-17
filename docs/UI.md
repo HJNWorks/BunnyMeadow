@@ -53,13 +53,13 @@ Missing scenes are forbidden. Unfinished modes open their stub screen.
 | Objective | One short line |
 | Timer | Tasks and speedruns |
 | Item tray | Top-right icon plus remaining seconds for every timed buff |
-| Story ticker | One running Chang'e line above hearts after Moon Pool contact |
+| Story ticker | Chang'e line inside the Story hearts bar after Moon Pool contact |
 | Boss hearts | Guanghan: Han's five spirit hearts, top center |
 | Mute | Story bar, left of Pause. Toggles master output. Stored as `settings.audio.muted` |
 
 Modes compose the same components. Meadow keeps its bar layout as one consumer. Story and others reuse the contract. The item tray is `src/ui/ItemTray.ts`. The Story ticker is `src/ui/StoryTicker.ts`. Story shows mooncake warmth on Guanghan. Endless shows lantern glow. Instant effects (heal, pantry carrot, extra glide charge) do not take a slot.
 
-Story and Endless keep the Phaser canvas inside a letterbox between the HTML bars (`src/ui/playfieldFrame.ts`). Fullscreen still uses `Scale.FIT` at 1920x1080, but the parent is inset so HUD, the Story ticker, the map-editor top toolbar, and the bottom session bar do not cover the playfield. Camera zoom on those modes is 1. Trigger kinds: [story/proximity.md](story/proximity.md).
+Story and Endless keep the Phaser canvas inside a letterbox between the HTML bars (`src/ui/playfieldFrame.ts`). Fullscreen still uses `Scale.FIT` at 1920x1080, but the parent is inset so HUD and editor chrome do not cover the playfield. Story status copy (ticker) lives inside `.meadow-bar`, not as a second floating card. The map-editor top bar always docks below that bar via `placeBelowStoryChrome`. Future editor chrome must use that helper and `STORY_TOP_CHROME` / `EDITOR_TOP_CHROME` so it cannot overlap world-activity text. Camera zoom on those modes is 1. Trigger kinds: [story/proximity.md](story/proximity.md).
 
 ## Settings
 

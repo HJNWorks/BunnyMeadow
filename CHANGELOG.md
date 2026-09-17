@@ -10,8 +10,15 @@ All notable changes to this project are recorded here. The format follows
 
 - Burrow exit and Moon Pool win/checkpoint on contact with the visible ellipse. The extra
   proximity box around the hole is gone. Moon Pool awakens on first touch (silver
-  reflection, no pause, no DialogueOverlay). Chang'e's line runs in a HUD ticker above
-  hearts. Trigger map: `docs/story/proximity.md`.
+  reflection, no pause, no DialogueOverlay). Chang'e's line runs in a HUD ticker inside
+  the hearts bar. Trigger map: `docs/story/proximity.md`.
+- Story ticker lives in `.meadow-bar`. Editor top chrome docks under that bar
+  (`placeBelowStoryChrome`) so world-activity text cannot sit inside other HUD boxes.
+- Floating move/jump/dash intro is Soft Paws only. Other stations keep the chips docked
+  in the top bar.
+- Burrow win uses the inner hole ellipse, not the dirt rim.
+- Cart Chase plants a finish flag before the burrow. If Fox Hu's cart reaches it first,
+  the station retries from the start.
 - Settings map editor card is Open only. World and station switching live in the
   editor. Environment and Creatures are white select bars grouped by world.
   Selection Mode Region drag-selects every object in a rectangle, with shared

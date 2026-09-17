@@ -33,7 +33,7 @@ Path-map root. Three DomShell stations unlock World 1:
 | Moon in the Pool | Chang'e through water. Follow the blossoms (text beat) |
 | Soft Paws | Playable intro: move, jump, dash, hedgehog, fox, burrow exit |
 
-Completing Soft Paws unlocks Soft Paths. Soft Paws always shows the control coach; Soft Paths keeps it for muscle memory if needed.
+Completing Soft Paws unlocks Soft Paths. Soft Paws is the only station that floats the move/jump/dash intro next to Mei. Other stations keep those chips in the top bar, already docked.
 
 ### 1. Prologue beat (told in World 0)
 
@@ -128,7 +128,7 @@ Why rabbits sit and watch the moon. Family reunion under the full moon. Fade on 
 
 - Every checkpoint is a puddle or pond. Contact with the visible water, not a generous box. See [story/proximity.md](story/proximity.md).
 - Dormant water is a still dusk puddle. First touch awakens the reflection (silver moon-rim) and sets the station checkpoint for this run.
-- Chang'e's line runs in the HUD ticker above hearts. Play does not pause. DialogueOverlay is not used for the pool.
+- Chang'e's line runs in the HUD ticker inside the hearts bar. Play does not pause. DialogueOverlay is not used for the pool.
 - Skip the ticker with confirm or face. Reduced motion shows the line static. Auto-clear after a few seconds.
 - Re-entering an awake pool does not replay the line. Respawn in the same run keeps the awake look.
 - Editor Build does not awaken or tick. Editor Play does.
@@ -138,7 +138,7 @@ Why rabbits sit and watch the moon. Family reunion under the full moon. Fade on 
 
 | World | Boss | Win condition | Tone |
 | --- | --- | --- | --- |
-| 1 | Fox Hu cart chase | Reach the burrow basket first / tip the cart | Comic |
+| 1 | Fox Hu cart chase | Reach the burrow before the cart hits the finish flag / tip the cart | Comic |
 | 2 | Heron Fisher | Survive raft gauntlet, land a dash on the heron three times | Sporty |
 | 3 | Crane Envoy | Dodge dives, then accept the ride when it bows | Soft resolution |
 | 4 | Closing Gale | Reach the palace gate before the storm wall | Timed chase |

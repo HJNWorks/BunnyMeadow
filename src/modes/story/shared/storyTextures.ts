@@ -87,6 +87,20 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     hole.destroy()
   }
 
+  if (!scene.textures.exists("story_flag")) {
+    const flag = scene.make.graphics({ x: 0, y: 0 })
+    flag.fillStyle(0x6a4a32, 1)
+    flag.fillRect(8, 2, 5, 78)
+    flag.fillStyle(0x4a3224, 1)
+    flag.fillCircle(10, 78, 6)
+    flag.fillStyle(0xd45c4c, 1)
+    flag.fillTriangle(13, 6, 46, 22, 13, 36)
+    flag.fillStyle(0xf0dcc4, 1)
+    flag.fillTriangle(13, 10, 36, 22, 13, 28)
+    flag.generateTexture("story_flag", 48, 84)
+    flag.destroy()
+  }
+
   if (!scene.textures.exists("story_pool")) {
     const poolGfx = scene.make.graphics({ x: 0, y: 0 })
     poolGfx.fillStyle(0x5fb4d6, 1)

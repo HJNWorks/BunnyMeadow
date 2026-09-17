@@ -1,9 +1,37 @@
 import Phaser from "phaser"
 
-export type PlayfieldInsets = {
-  top: number
-  bottom: number
-  side: number
+export const STORY_TOP_CHROME = [
+  ".bm-story-hud .meadow-header",
+  ".bm-story-hud .meadow-bar",
+] as const
+
+export const EDITOR_TOP_CHROME = [".bm-editor-top"] as const
+
+export const EDITOR_BOTTOM_CHROME = [".bm-editor-bar"] as const
+
+export function placeBelowStoryChrome(el: HTMLElement, gap = 8): void {
+  const bar = document.querySelector(".bm-story-hud .meadow-bar")
+  const head = document.querySelector(".bm-story-hud .meadow-header")
+  const anchor = bar ?? head
+  const top = anchor ? anchor.getBoundingClientRect().bottom + gap : 8
+  el.style.top = `${Math.round(top)}px`
+}
+
+export function watchStoryChrome(onChange: () => void): () => void {
+  const observer = new ResizeObserver(onChange)
+  for (const selector of STORY_TOP_CHROME) {
+    const node = document.querySelector(selector)
+    if (node) {
+      observer.observe(node)
+    }
+  }
+  window.addEventListener("resize", onChange)
+  document.addEventListener("fullscreenchange", onChange)
+  return () => {
+    observer.disconnect()
+    window.removeEventListener("resize", onChange)
+    document.removeEventListener("fullscreenchange", onChange)
+  }
 }
 
 function clearParentBox(parent: HTMLElement): void {
@@ -16,6 +44,12 @@ function clearParentBox(parent: HTMLElement): void {
   parent.style.height = ""
   parent.style.margin = ""
   parent.style.overflow = ""
+}
+
+export type PlayfieldInsets = {
+  top: number
+  bottom: number
+  side: number
 }
 
 export function measureChromeInsets(options: {
@@ -52,7 +86,7 @@ export function measureChromeInsets(options: {
 export function attachPlayfieldFrame(
   scene: Phaser.Scene,
   measure: () => PlayfieldInsets,
-  options?: { observeSelectors?: string[] },
+  options?: { observeSelectors?: string[]; beforeMeasure?: () => void },
 ): void {
   const parent = scene.game.canvas.parentElement
   if (!parent) {
@@ -65,6 +99,7 @@ export function attachPlayfieldFrame(
       return
     }
     applying = true
+    options?.beforeMeasure?.()
     const inset = measure()
     parent.style.position = "fixed"
     parent.style.top = `${inset.top}px`

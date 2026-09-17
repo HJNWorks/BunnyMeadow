@@ -51,14 +51,15 @@ export class ControlCoach {
     dock: HTMLElement,
     bindings: Bindings,
     learned: CoachAction[],
-    options: { reducedMotion?: boolean; onLearned?: (action: CoachAction) => void } = {},
+    options: { reducedMotion?: boolean; onLearned?: (action: CoachAction) => void; floatIntro?: boolean } = {},
   ) {
     this.floatRoot = floatRoot
     this.dock = dock
     this.reducedMotion = !!options.reducedMotion
     this.onLearned = options.onLearned ?? null
+    const floatIntro = options.floatIntro !== false
 
-    const learnedSet = new Set(learned)
+    const learnedSet = new Set(floatIntro ? learned : (["move", "jump", "dash"] as CoachAction[]))
     const defs: { action: CoachAction; keys: string[]; label: string }[] = [
       {
         action: "move",
