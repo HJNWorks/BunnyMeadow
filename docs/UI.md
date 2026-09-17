@@ -101,6 +101,8 @@ Unlocked by pantry level. Cosmetics only. Unlock helpers exist from M1. Map unlo
 | Accessory | none, scarf, lantern, blossom | pantry 3+ |
 | Dash | meadow (always), carrot (`BASKET_FULL`), gale (`WORLD4_CLEAR`), moon (`MOON_RETURN`) | achievement |
 
+Preview starts still. **Stop animations** is on by default. **Play** turns that off and cycles Mei's bound clips at random. Dash is the only bound clip today. Jump, glide, and hop join the same list when they exist (`src/render/meiPreview.ts`).
+
 ## Save schema v1
 
 Three slots behind `SaveStore` (`core/platform`). Web: `localStorage`. Desktop: JSON files under Electron `userData` for Steam Auto-Cloud.

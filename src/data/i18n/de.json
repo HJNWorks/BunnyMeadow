@@ -175,6 +175,8 @@
   "customize.dash.gale": "Wind",
   "customize.dash.moon": "Mond",
   "customize.dash.locked": "gesperrt ({name})",
+  "customize.anim.stop": "Animationen anhalten",
+  "customize.anim.play": "Abspielen",
   "achievements.title": "Erfolge",
   "achievements.footer": "Bunny Meadow. Familien-Waldabenteuer.",
   "achievements.locked": "gesperrt",

@@ -16,7 +16,7 @@ export {
   spawnDashParticles,
   tickCanvasDashParticles,
 } from "./canvasFx"
-export { paintDashPreview } from "./preview"
+export { paintDashPreview, paintMeiIdle, paintMeiMeadow } from "./preview"
 export {
   clearDashOverlay,
   downloadDashJson,

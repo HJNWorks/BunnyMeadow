@@ -175,6 +175,8 @@
   "customize.dash.gale": "gale",
   "customize.dash.moon": "moon",
   "customize.dash.locked": "locked ({name})",
+  "customize.anim.stop": "Stop animations",
+  "customize.anim.play": "Play",
   "achievements.title": "Achievements",
   "achievements.footer": "Bunny Meadow. Family woodland adventure.",
   "achievements.locked": "locked",

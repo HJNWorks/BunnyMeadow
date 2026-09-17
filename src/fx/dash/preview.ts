@@ -16,6 +16,28 @@ function mixHex(hex: string, ink: string, amount: number): string {
   return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`
 }
 
+export function paintMeiMeadow(ctx: CanvasRenderingContext2D, width: number, height: number): void {
+  ctx.fillStyle = "#c5d48a"
+  ctx.fillRect(0, 0, width, height)
+  ctx.fillStyle = "#8fad5c"
+  ctx.fillRect(0, height - 42, width, 42)
+  ctx.fillStyle = "#6b5338"
+  ctx.fillRect(0, height - 14, width, 14)
+}
+
+export function paintMeiIdle(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  cosmetics: BunnyCosmetics,
+): void {
+  paintMeiMeadow(ctx, width, height)
+  ctx.save()
+  ctx.translate(width * 0.5, height - 48)
+  drawBunny(ctx, 0, 0, cosmetics)
+  ctx.restore()
+}
+
 export function paintDashPreview(
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -27,12 +49,7 @@ export function paintDashPreview(
   particles: CanvasDashParticle[],
   dt = 1 / 60,
 ): void {
-  ctx.fillStyle = "#c5d48a"
-  ctx.fillRect(0, 0, width, height)
-  ctx.fillStyle = "#8fad5c"
-  ctx.fillRect(0, height - 42, width, 42)
-  ctx.fillStyle = "#6b5338"
-  ctx.fillRect(0, height - 14, width, 14)
+  paintMeiMeadow(ctx, width, height)
 
   const period = 1.35
   const phase = ((time % period) + period) % period

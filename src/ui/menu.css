@@ -308,9 +308,22 @@ html.a11y-reduced-motion *::after {
   display: block;
   width: min(360px, 100%);
   height: auto;
-  margin: 0 auto 12px;
+  margin: 0 auto 8px;
   border-radius: 14px;
   background: #c5d48a;
+}
+
+.bm-preview-anim {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 0 auto 18px;
+}
+
+.bm-preview-anim .bm-check {
+  margin-bottom: 0;
 }
 
 .bm-workshop-canvas {

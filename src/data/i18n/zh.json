@@ -175,6 +175,8 @@
   "customize.dash.gale": "疾风",
   "customize.dash.moon": "月亮",
   "customize.dash.locked": "未解锁（{name}）",
+  "customize.anim.stop": "停止动画",
+  "customize.anim.play": "播放",
   "achievements.title": "成就",
   "achievements.footer": "Bunny Meadow。家庭向的林间冒险。",
   "achievements.locked": "未解锁",

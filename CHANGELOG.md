@@ -19,6 +19,8 @@ All notable changes to this project are recorded here. The format follows
 - Burrow win uses the inner hole ellipse, not the dirt rim.
 - Cart Chase plants a finish flag before the burrow. If Fox Hu's cart reaches it first,
   the station retries from the start.
+- Customize preview is still by default. Stop animations starts on. Play cycles bound
+  clips at random (dash today).
 - Settings map editor card is Open only. World and station switching live in the
   editor. Environment and Creatures are white select bars grouped by world.
   Selection Mode Region drag-selects every object in a rectangle, with shared

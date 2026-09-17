@@ -9,9 +9,16 @@ import {
   isDashUnlocked,
   listShippedDashes,
   paintDashPreview,
+  paintMeiIdle,
   resolveDashDef,
   type CanvasDashParticle,
 } from "../fx/dash"
+import {
+  meiClipSeconds,
+  paintBoundMeiClip,
+  pickNextMeiClip,
+  type MeiBoundClip,
+} from "../render/meiPreview"
 
 export class CustomizeScene extends Phaser.Scene {
   constructor() {
@@ -29,6 +36,13 @@ export class CustomizeScene extends Phaser.Scene {
       <div class="bm-shell">
         <h1>${t("customize.title")}</h1>
         <canvas data-ui="preview" class="bm-dash-preview" width="280" height="180" aria-label="${t("common.preview")}"></canvas>
+        <div class="bm-preview-anim">
+          <label class="bm-check">
+            <input type="checkbox" data-ui="animStop" checked />
+            ${t("customize.anim.stop")}
+          </label>
+          <button type="button" class="bm-btn" data-ui="animPlay">${t("customize.anim.play")}</button>
+        </div>
         <div class="bm-field">
           <label for="name">${t("customize.name")}</label>
           <input id="name" data-ui="name" value="${save.player.name}" maxlength="24" />
@@ -98,11 +112,16 @@ export class CustomizeScene extends Phaser.Scene {
     const earsEl = requireEl<HTMLSelectElement>(root, "[data-ui=ears]")
     const accessoryEl = requireEl<HTMLSelectElement>(root, "[data-ui=accessory]")
     const dashEl = requireEl<HTMLSelectElement>(root, "[data-ui=dash]")
+    const stopEl = requireEl<HTMLInputElement>(root, "[data-ui=animStop]")
+    const playEl = requireEl<HTMLButtonElement>(root, "[data-ui=animPlay]")
     const reducedMotion = save.settings.accessibility.reducedMotion
     let particles: CanvasDashParticle[] = []
-    let elapsed = 0
+    let clip: MeiBoundClip | null = null
+    let clipElapsed = 0
+    let lastStamp = 0
     let raf = 0
-    let running = true
+    let playing = false
+    let alive = true
 
     const cosmetics = () => ({
       fur: furEl.value as FurOption,
@@ -110,46 +129,119 @@ export class CustomizeScene extends Phaser.Scene {
       accessory: accessoryEl.value as AccessoryOption,
     })
 
-    const paint = (dt: number): void => {
+    const paintIdle = (): void => {
       const ctx = preview.getContext("2d")
       if (!ctx) {
         return
       }
-      elapsed += dt
+      paintMeiIdle(ctx, preview.width, preview.height, cosmetics())
+    }
+
+    const paintPlaying = (dt: number): void => {
+      const ctx = preview.getContext("2d")
+      if (!ctx || !clip) {
+        return
+      }
+      clipElapsed += dt
+      if (clipElapsed >= meiClipSeconds(clip)) {
+        clip = pickNextMeiClip(clip)
+        clipElapsed = 0
+        particles = []
+      }
       particles = filterLiveDashParticles(particles)
-      paintDashPreview(
-        ctx,
-        preview.width,
-        preview.height,
-        cosmetics(),
-        resolveDashDef(dashEl.value),
-        elapsed,
-        reducedMotion,
-        particles,
-        dt,
-      )
+      paintBoundMeiClip(clip, {
+        dash: () => {
+          paintDashPreview(
+            ctx,
+            preview.width,
+            preview.height,
+            cosmetics(),
+            resolveDashDef(dashEl.value),
+            clipElapsed,
+            reducedMotion,
+            particles,
+            dt,
+          )
+        },
+      })
+    }
+
+    const halt = (): void => {
+      playing = false
+      clip = null
+      clipElapsed = 0
+      lastStamp = 0
+      particles = []
+      window.cancelAnimationFrame(raf)
+      raf = 0
+      stopEl.checked = true
+      playEl.setAttribute("aria-pressed", "false")
+      paintIdle()
     }
 
     const loop = (now: number): void => {
-      if (!running) {
+      if (!alive || !playing) {
         return
       }
-      paint(1 / 60)
-      raf = window.requestAnimationFrame(() => loop(now))
+      const dt = lastStamp ? Math.min(0.05, (now - lastStamp) / 1000) : 1 / 60
+      lastStamp = now
+      paintPlaying(dt)
+      raf = window.requestAnimationFrame(loop)
     }
-    paint(0)
-    raf = window.requestAnimationFrame(loop)
 
-    furEl.onchange = () => paint(0)
-    earsEl.onchange = () => paint(0)
-    accessoryEl.onchange = () => paint(0)
+    const startPlay = (): void => {
+      stopEl.checked = false
+      playing = true
+      clip = pickNextMeiClip(clip)
+      clipElapsed = 0
+      lastStamp = 0
+      particles = []
+      playEl.setAttribute("aria-pressed", "true")
+      window.cancelAnimationFrame(raf)
+      raf = window.requestAnimationFrame(loop)
+    }
+
+    paintIdle()
+
+    furEl.onchange = () => {
+      if (playing) {
+        return
+      }
+      paintIdle()
+    }
+    earsEl.onchange = () => {
+      if (playing) {
+        return
+      }
+      paintIdle()
+    }
+    accessoryEl.onchange = () => {
+      if (playing) {
+        return
+      }
+      paintIdle()
+    }
     dashEl.onchange = () => {
       particles = []
-      paint(0)
+      if (!playing) {
+        paintIdle()
+      }
+    }
+    stopEl.onchange = () => {
+      if (stopEl.checked) {
+        halt()
+        return
+      }
+      startPlay()
+    }
+    playEl.onclick = () => {
+      getAudio().playSfx("confirm")
+      startPlay()
     }
 
     const stop = (): void => {
-      running = false
+      alive = false
+      playing = false
       window.cancelAnimationFrame(raf)
     }
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, stop)
