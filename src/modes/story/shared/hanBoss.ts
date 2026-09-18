@@ -10,8 +10,19 @@ const CAKE_SPOTS = [
   { x: 900, y: 800 },
   { x: 1120, y: 800 },
 ]
+const BEAM_LEN = 1800
+const BEAM_HALF = 28
+const IN_S = 1.3
+const OUT_S = 1.5
+const MOTE_N = 22
 
 export type HanPhase = "frost" | "star" | "both"
+export type HanLine = "full" | "mid" | "last" | "beaten"
+
+type BeamMode = "idle" | "charge" | "beam"
+type SettlePhase = "none" | "in" | "out"
+
+type Mote = { angle: number; radius: number; spin: number }
 
 export function hanPhaseForHearts(hearts: number): HanPhase {
   if (hearts <= 1) {
@@ -25,6 +36,11 @@ export function hanPhaseForHearts(hearts: number): HanPhase {
 
 export function hanTextureKey(lost: number): string {
   return `story_han_${Math.max(0, Math.min(4, lost))}`
+}
+
+export type HanFightOpts = {
+  reducedMotion: boolean
+  speak?: (line: HanLine) => void
 }
 
 export class HanFight {
@@ -45,6 +61,24 @@ export class HanFight {
   private roamT = 0
   private aimX: number
   private aimY: number
+  private reducedMotion: boolean
+  private speak?: (line: HanLine) => void
+  private spoken = new Set<HanLine>()
+  private beamMode: BeamMode = "idle"
+  private beamCd = 0
+  private beamRoll = 0
+  private chargeT = 0
+  private beamT = 0
+  private beamAng = 0
+  private beamHit = false
+  private beamGfx: Phaser.GameObjects.Graphics
+  private settlePhase: SettlePhase = "none"
+  private settleT = 0
+  private settleX = 0
+  private settleY = 0
+  private motes: Mote[] = []
+  private fxGfx: Phaser.GameObjects.Graphics
+  private moon: Phaser.GameObjects.Image | null = null
 
   constructor(
     private scene: Phaser.Scene,
@@ -53,8 +87,11 @@ export class HanFight {
     private player: Phaser.Physics.Arcade.Sprite,
     private projectiles: Phaser.Physics.Arcade.Group,
     worldWidth: number,
+    opts: HanFightOpts,
   ) {
     this.worldWidth = worldWidth
+    this.reducedMotion = opts.reducedMotion
+    this.speak = opts.speak
     this.aimX = x
     this.aimY = y
     this.sprite = scene.physics.add.sprite(x, y, hanTextureKey(0))
@@ -67,7 +104,11 @@ export class HanFight {
     body.setGravity(0, 0)
     body.setSize(this.sprite.frame.width, this.sprite.frame.height)
     body.updateFromGameObject()
+    this.beamGfx = scene.add.graphics().setDepth(5)
+    this.fxGfx = scene.add.graphics().setDepth(7)
+    ensurePalaceMoon(scene)
     this.pickRoam()
+    this.say("full")
   }
 
   get phase(): HanPhase {
@@ -85,6 +126,23 @@ export class HanFight {
     return this.needed - this.hearts
   }
 
+  takeBeamHit(): boolean {
+    if (!this.beamHit) {
+      return false
+    }
+    this.beamHit = false
+    return true
+  }
+
+  destroy(): void {
+    this.beamGfx.destroy()
+    this.fxGfx.destroy()
+    this.moon?.destroy()
+    this.moon = null
+    this.cake?.destroy()
+    this.cake = null
+  }
+
   update(dt: number): void {
     this.warmth = Math.max(0, this.warmth - dt)
     this.hitCd = Math.max(0, this.hitCd - dt)
@@ -95,10 +153,18 @@ export class HanFight {
       this.cake?.destroy()
       this.cake = null
       this.sprite.setVelocity(0, 0)
-      this.sprite.setAlpha(0.35)
       return
     }
-    this.roam(dt)
+    if (this.settlePhase !== "none") {
+      this.tickSettle(dt)
+      return
+    }
+    const locking = this.beamMode === "charge" || this.beamMode === "beam"
+    if (locking) {
+      this.sprite.setVelocity(0, 0)
+    } else {
+      this.roam(dt)
+    }
     if (this.warmth > 0) {
       this.player.setTint(0xffe6a8)
     } else if (this.player.tintTopLeft === 0xffe6a8) {
@@ -112,10 +178,14 @@ export class HanFight {
     if (phase === "star" || phase === "both") {
       this.tickStar()
     }
+    this.tickBeam(dt)
     this.cullShots()
   }
 
   tryEatCake(): void {
+    if (this.settlePhase !== "none" || this.settled) {
+      return
+    }
     if (!this.cake || !this.cake.active) {
       return
     }
@@ -130,7 +200,7 @@ export class HanFight {
   }
 
   tryDashHit(dashTime: number): "hit" | "hurt" | "none" {
-    if (this.settled || this.hitCd > 0) {
+    if (this.settled || this.settlePhase !== "none" || this.hitCd > 0) {
       return "none"
     }
     if (dashTime <= 0 || this.warmth <= 0) {
@@ -145,14 +215,25 @@ export class HanFight {
     this.sprite.setTint(0xffffff)
     this.scene.time.delayedCall(140, () => this.sprite.clearTint())
     getAudio().playSfx("hurt")
+    if (this.hearts === 3) {
+      this.say("mid")
+    }
+    if (this.hearts === 1) {
+      this.say("last")
+    }
     if (this.hearts <= 0) {
       this.hearts = 0
-      this.settled = true
-      this.sprite.setAlpha(0.35)
-      this.sprite.setVelocity(0, 0)
-      getAudio().playSfx("mist")
+      this.beginSettle()
     }
     return "hit"
+  }
+
+  private say(line: HanLine): void {
+    if (this.spoken.has(line)) {
+      return
+    }
+    this.spoken.add(line)
+    this.speak?.(line)
   }
 
   private applyLook(): void {
@@ -173,6 +254,16 @@ export class HanFight {
     return 1 / (1 + 0.2 * this.lostHearts())
   }
 
+  private roamSpeed(): number {
+    if (this.hearts <= 1) {
+      return 248
+    }
+    if (this.hearts <= 3) {
+      return 168
+    }
+    return 96
+  }
+
   private pickRoam(): void {
     const pad = 140
     this.aimX = Phaser.Math.Between(pad, Math.max(pad + 40, this.worldWidth - pad))
@@ -185,7 +276,7 @@ export class HanFight {
     if (this.roamT <= 0 || Math.hypot(this.aimX - this.sprite.x, this.aimY - this.sprite.y) < 36) {
       this.pickRoam()
     }
-    const speed = 88 + this.lostHearts() * 32
+    const speed = this.roamSpeed()
     const dx = this.aimX - this.sprite.x
     const dy = this.aimY - this.sprite.y + Math.sin(this.scene.time.now / 380) * 18
     const dist = Math.hypot(dx, dy) || 1
@@ -197,6 +288,17 @@ export class HanFight {
 
   private aimAngle(): number {
     return Math.atan2(this.player.y - this.sprite.y, this.player.x - this.sprite.x)
+  }
+
+  private turnToward(cur: number, target: number, maxStep: number): number {
+    let d = Phaser.Math.Angle.Wrap(target - cur)
+    if (d > maxStep) {
+      d = maxStep
+    }
+    if (d < -maxStep) {
+      d = -maxStep
+    }
+    return cur + d
   }
 
   private fireFan(
@@ -262,6 +364,187 @@ export class HanFight {
     ;(this.cake.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
   }
 
+  private chargeDur(): number {
+    if (this.reducedMotion) {
+      return 0.55
+    }
+    return this.hearts <= 1 ? 1 : 2
+  }
+
+  private beamTurn(dt: number): number {
+    if (this.hearts <= 1) {
+      return 1.85 * dt
+    }
+    return 1.15 * dt
+  }
+
+  private tickBeam(dt: number): void {
+    this.beamCd = Math.max(0, this.beamCd - dt)
+    if (this.hearts > 3) {
+      this.beamGfx.clear()
+      return
+    }
+    if (this.beamMode === "idle") {
+      this.beamGfx.clear()
+      if (this.beamCd > 0) {
+        return
+      }
+      this.beamRoll += dt
+      if (this.beamRoll >= 0.5) {
+        this.beamRoll = 0
+        if (Math.random() < 0.35) {
+          this.beamMode = "charge"
+          this.chargeT = 0
+          this.beamAng = this.aimAngle()
+        }
+      }
+      return
+    }
+    const want = this.aimAngle()
+    if (this.beamMode === "charge") {
+      this.chargeT += dt
+      this.beamAng = this.turnToward(this.beamAng, want, 5 * dt)
+      this.drawBeam(false)
+      if (this.chargeT >= this.chargeDur()) {
+        this.beamMode = "beam"
+        this.beamT = 0
+      }
+      return
+    }
+    this.beamT += dt
+    this.beamAng = this.turnToward(this.beamAng, want, this.beamTurn(dt))
+    this.drawBeam(true)
+    if (this.playerInBeam()) {
+      this.beamHit = true
+    }
+    if (this.beamT >= 4) {
+      this.beamMode = "idle"
+      this.beamCd = 10
+      this.beamRoll = 0
+      this.beamGfx.clear()
+    }
+  }
+
+  private drawBeam(hot: boolean): void {
+    const x = this.sprite.x
+    const y = this.sprite.y
+    const ex = x + Math.cos(this.beamAng) * BEAM_LEN
+    const ey = y + Math.sin(this.beamAng) * BEAM_LEN
+    this.beamGfx.clear()
+    if (hot) {
+      this.beamGfx.lineStyle(56, 0xf4fbff, 0.42)
+      this.beamGfx.lineBetween(x, y, ex, ey)
+      this.beamGfx.lineStyle(18, 0xfff8d0, 0.92)
+      this.beamGfx.lineBetween(x, y, ex, ey)
+      return
+    }
+    this.beamGfx.lineStyle(this.reducedMotion ? 10 : 14, 0xc8e8ff, 0.75)
+    this.beamGfx.lineBetween(x, y, ex, ey)
+  }
+
+  private playerInBeam(): boolean {
+    const dx = this.player.x - this.sprite.x
+    const dy = this.player.y - this.sprite.y
+    const ux = Math.cos(this.beamAng)
+    const uy = Math.sin(this.beamAng)
+    const along = dx * ux + dy * uy
+    if (along < 0 || along > BEAM_LEN) {
+      return false
+    }
+    const dist = Math.abs(dx * uy - dy * ux)
+    return dist <= BEAM_HALF
+  }
+
+  private beginSettle(): void {
+    this.say("beaten")
+    this.settleX = this.sprite.x
+    this.settleY = this.sprite.y
+    this.sprite.setVelocity(0, 0)
+    this.cake?.destroy()
+    this.cake = null
+    this.beamMode = "idle"
+    this.beamGfx.clear()
+    this.projectiles.getChildren().slice().forEach((obj) => {
+      (obj as Phaser.Physics.Arcade.Image).destroy()
+    })
+    getAudio().playSfx("mist")
+    if (this.reducedMotion) {
+      this.sprite.setVisible(false)
+      this.placeMoon(1)
+      this.finishSettle()
+      return
+    }
+    this.settlePhase = "in"
+    this.settleT = 0
+    this.motes = []
+    for (let i = 0; i < MOTE_N; i += 1) {
+      this.motes.push({
+        angle: (i / MOTE_N) * Math.PI * 2,
+        radius: 70 + (i % 5) * 18,
+        spin: 4.2 + (i % 3) * 0.6,
+      })
+    }
+  }
+
+  private tickSettle(dt: number): void {
+    this.settleT += dt
+    this.sprite.setVelocity(0, 0)
+    this.sprite.x = this.settleX
+    this.sprite.y = this.settleY
+    if (this.settlePhase === "in") {
+      const u = Math.min(1, this.settleT / IN_S)
+      this.sprite.setAlpha(1 - u)
+      this.sprite.setDisplaySize(88 * (1 - u * 0.85), 110 * (1 - u * 0.85))
+      this.paintMotes(u, true)
+      if (this.settleT >= IN_S) {
+        this.settlePhase = "out"
+        this.settleT = 0
+        this.sprite.setVisible(false)
+        this.placeMoon(0.08)
+      }
+      return
+    }
+    const u = Math.min(1, this.settleT / OUT_S)
+    this.placeMoon(0.08 + u * 0.92)
+    this.paintMotes(u, false)
+    if (this.settleT >= OUT_S) {
+      this.fxGfx.clear()
+      this.placeMoon(1)
+      this.finishSettle()
+    }
+  }
+
+  private paintMotes(u: number, inward: boolean): void {
+    this.fxGfx.clear()
+    for (const mote of this.motes) {
+      const t = inward ? 1 - u : u
+      const r = mote.radius * t
+      const a = mote.angle + this.settleT * mote.spin * (inward ? 1 : -1)
+      const x = this.settleX + Math.cos(a) * r
+      const y = this.settleY + Math.sin(a) * r
+      this.fxGfx.fillStyle(0xf7fbff, 0.35 + t * 0.5)
+      this.fxGfx.fillCircle(x, y, 3 + t * 4)
+    }
+  }
+
+  private placeMoon(scale: number): void {
+    if (!this.moon) {
+      this.moon = this.scene.add.image(this.settleX, this.settleY, "story_han_moon")
+      this.moon.setDepth(5)
+    }
+    this.moon.setPosition(this.settleX, this.settleY)
+    this.moon.setDisplaySize(200 * scale, 200 * scale)
+    this.moon.setAlpha(Math.min(1, 0.35 + scale))
+  }
+
+  private finishSettle(): void {
+    this.settlePhase = "none"
+    this.settled = true
+    this.sprite.setVisible(false)
+    this.sprite.setAlpha(0)
+    this.sprite.setVelocity(0, 0)
+  }
+
   private cullShots(): void {
     this.projectiles.getChildren().forEach((obj) => {
       const shot = obj as Phaser.Physics.Arcade.Image
@@ -273,4 +556,36 @@ export class HanFight {
       }
     })
   }
+}
+
+function ensurePalaceMoon(scene: Phaser.Scene): void {
+  if (scene.textures.exists("story_han_moon")) {
+    return
+  }
+  const canvas = document.createElement("canvas")
+  canvas.width = 200
+  canvas.height = 200
+  const ctx = canvas.getContext("2d")
+  if (!ctx) {
+    return
+  }
+  ctx.fillStyle = "#f7fbff"
+  ctx.beginPath()
+  ctx.arc(100, 100, 92, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#d4e4f2"
+  ctx.beginPath()
+  ctx.arc(118, 92, 70, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#c8d8e8"
+  ctx.beginPath()
+  ctx.arc(70, 120, 18, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.arc(130, 140, 12, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.arc(110, 64, 10, 0, Math.PI * 2)
+  ctx.fill()
+  scene.textures.addCanvas("story_han_moon", canvas)
 }

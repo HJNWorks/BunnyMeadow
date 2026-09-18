@@ -75,6 +75,10 @@ function stampTarget(ctx: CanvasRenderingContext2D, id: string): void {
     })
     return
   }
+  if (id === "story_han") {
+    paintStampCentered(ctx, "story_han", width, height, 1.15)
+    return
+  }
   if (id.startsWith("story_critter_")) {
     const kit = getEnemyKit(id.slice("story_critter_".length))
     paintStampCentered(ctx, kit.source, width, height)

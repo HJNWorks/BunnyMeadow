@@ -20,6 +20,7 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_mooncake: { w: 28, h: 28 },
   story_blossom: { w: 28, h: 28 },
   story_lantern: { w: 24, h: 36 },
+  story_han: { w: 80, h: 120 },
   dash_speck: { w: 12, h: 12 },
   dash_carrot: { w: 12, h: 18 },
   dash_streak: { w: 22, h: 12 },
@@ -242,6 +243,29 @@ function drawLantern(ctx: CanvasRenderingContext2D, cx: number, cy: number): voi
   ctx.fillRect(cx - 7, cy + 12, 14, 3)
 }
 
+function drawHan(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx, cy + 14, 26, 42, "#b8c8d8")
+  ellipse(ctx, cx, cy + 18, 14, 22, "#6a8098")
+  ellipse(ctx, cx, cy + 18, 8, 14, "#d8e8f4")
+  ctx.fillStyle = "#8a9aac"
+  ctx.fillRect(cx - 18, cy - 2, 36, 10)
+  ctx.fillRect(cx - 16, cy + 12, 32, 8)
+  ellipse(ctx, cx, cy - 18, 18, 16, "#c8d4e0")
+  ctx.fillStyle = "#6a7888"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy - 22, 20, 12, 0, Math.PI, 0)
+  ctx.fill()
+  ctx.fillRect(cx - 20, cy - 24, 40, 8)
+  circle(ctx, cx - 7, cy - 16, 3, "#1a3048")
+  circle(ctx, cx + 7, cy - 16, 3, "#1a3048")
+  circle(ctx, cx - 7, cy - 16, 1.2, "#c8e8ff")
+  circle(ctx, cx + 7, cy - 16, 1.2, "#c8e8ff")
+  circle(ctx, cx + 2, cy - 38, 10, "#f4f8ff")
+  circle(ctx, cx - 2, cy - 38, 8, "#151b2e")
+  ellipse(ctx, cx - 10, cy + 44, 6, 10, "#a8b8c8")
+  ellipse(ctx, cx + 10, cy + 44, 6, 10, "#a8b8c8")
+}
+
 function drawDashSpeck(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
   ctx.strokeStyle = "#6f8f52"
   ctx.lineWidth = 1.4
@@ -299,6 +323,7 @@ const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: nu
   story_mooncake: drawMooncake,
   story_blossom: drawBlossom,
   story_lantern: drawLantern,
+  story_han: drawHan,
   dash_speck: drawDashSpeck,
   dash_carrot: drawDashCarrot,
   dash_streak: drawDashStreak,

@@ -19,10 +19,13 @@ const PROP_TARGETS: WorkshopTarget[] = [
 
 export function listWorkshopTargets(group: WorkshopGroup = "props"): WorkshopTarget[] {
   if (group === "creatures") {
-    return ALL_CRITTERS.map((id) => ({
-      id: critterTextureKey(id),
-      label: CRITTER_LABELS[id] ?? id,
-    }))
+    return [
+      { id: "story_han", label: "Han" },
+      ...ALL_CRITTERS.map((id) => ({
+        id: critterTextureKey(id),
+        label: CRITTER_LABELS[id] ?? id,
+      })),
+    ]
   }
   if (group === "items") {
     return ALL_ITEMS.map((id) => ({

@@ -8,6 +8,16 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Playfield HUD no longer writes CSS `inset` after canvas sync, which had cleared top and
+  left and clipped Mei hearts, the ticker, and Han hearts off the letterboxed canvas.
+- Guanghan Han uses an armored mist stamp (`story_han`) with a helmet half-moon. Asset
+  Workshop Creatures can paint that key. Rage skins stay darker copies. He is not a
+  map-editor wildlife token.
+- Han speaks four ticker lines (full health, 3 hearts, 1 heart, beaten) on the Moon Pool
+  HUD. Roam speed steps by stage (96 / 168 / 248). From 3 hearts he may charge a tracking
+  lunar beam (2 s then 4 s, 1 s charge at 1 heart, 10 s cooldown, 2 hearts on contact).
+  Frost and star fans keep their old timing. On the last hit he spirals inward at his last
+  position and a moon grows outward there before the exit opens.
 - Playfield HUD (`mountPlayfieldHud`) sizes to the FIT canvas rect, so Mei hearts sit on
   the water instead of the green letterbox gutter.
 - Story wildlife and pickups share canvas stamps (`src/render/stamps.ts`) with Asset

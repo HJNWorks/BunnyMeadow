@@ -217,7 +217,6 @@ ${STORY_TICKER_CSS}
 }
 .bm-playfield-hud {
   position: absolute;
-  inset: 0;
   pointer-events: none;
   z-index: 4;
 }
@@ -929,6 +928,14 @@ export class StoryScene extends Phaser.Scene {
         this.player,
         this.projectiles,
         this.worldWidth,
+        {
+          reducedMotion: this.reducedMotion,
+          speak: this.editorMode === "build"
+            ? undefined
+            : (line) => {
+              this.hud.ticker.show(t(`story.han.line.${line}`))
+            },
+        },
       )
       this.enemies.add(this.han.sprite)
       this.hud.bossHits.hidden = true
@@ -1014,6 +1021,8 @@ export class StoryScene extends Phaser.Scene {
       this.cleanupInput()
       this.dashFx?.destroy()
       this.dashFx = null
+      this.han?.destroy()
+      this.han = null
       this.poolRipple?.destroy()
       this.poolRipple = null
       this.style?.remove()
@@ -1203,14 +1212,17 @@ export class StoryScene extends Phaser.Scene {
     }
   }
 
-  private hurt(opts?: { ignoreDash?: boolean }): void {
+  private hurt(opts?: { ignoreDash?: boolean; amount?: number }): void {
     if (this.invuln > 0 || this.invincible || this.won || this.lost) {
       return
     }
     if (!opts?.ignoreDash && this.playerState.dashTime > 0) {
       return
     }
-    this.health -= 1
+    this.health -= opts?.amount ?? 1
+    if (this.health < 0) {
+      this.health = 0
+    }
     this.invuln = 1.2
     this.syncHearts()
     this.player.setTint(0xffcccc)
@@ -1482,10 +1494,6 @@ export class StoryScene extends Phaser.Scene {
     }
     if (result === "hit") {
       this.syncBossHits()
-      if (this.han.settled) {
-        this.hud.objective.textContent = t("story.exit.open")
-        getAudio().playMusic("moon")
-      }
     }
   }
 
@@ -1500,7 +1508,16 @@ export class StoryScene extends Phaser.Scene {
   private updateBoss(dt: number): void {
     this.bossCooldown = Math.max(0, this.bossCooldown - dt)
     if (this.han && this.level.boss?.kind === "han") {
+      const wasSettled = this.han.settled
       this.han.update(dt)
+      if (this.han.takeBeamHit()) {
+        this.hurt({ amount: 2 })
+      }
+      if (!wasSettled && this.han.settled) {
+        this.hud.objective.textContent = t("story.exit.open")
+        getAudio().playMusic("moon")
+        this.syncBossHits()
+      }
       if (
         this.playerState.dashTime > 0 &&
         Math.abs(this.player.x - this.han.sprite.x) < 110 &&

@@ -83,6 +83,14 @@ export function measureChromeInsets(options: {
   return { top: Math.ceil(top), bottom: Math.ceil(bottom), side }
 }
 
+const afterFrameApply = new WeakMap<Phaser.Scene, Set<() => void>>()
+
+function runAfterFrameApply(scene: Phaser.Scene): void {
+  afterFrameApply.get(scene)?.forEach((fn) => {
+    fn()
+  })
+}
+
 export function attachPlayfieldFrame(
   scene: Phaser.Scene,
   measure: () => PlayfieldInsets,
@@ -112,6 +120,7 @@ export function attachPlayfieldFrame(
     parent.style.overflow = "hidden"
     scene.scale.refresh()
     applying = false
+    runAfterFrameApply(scene)
   }
 
   apply()
@@ -154,6 +163,8 @@ export function mountPlayfieldHud(scene: Phaser.Scene, hud: HTMLElement): void {
   hud.style.position = "absolute"
   hud.style.zIndex = "4"
   hud.style.pointerEvents = "none"
+  hud.style.top = "0"
+  hud.style.left = "0"
   hud.style.right = "auto"
   hud.style.bottom = "auto"
 
@@ -165,8 +176,16 @@ export function mountPlayfieldHud(scene: Phaser.Scene, hud: HTMLElement): void {
     hud.style.left = `${Math.round(cr.left - pr.left)}px`
     hud.style.width = `${Math.round(cr.width)}px`
     hud.style.height = `${Math.round(cr.height)}px`
-    hud.style.inset = "auto"
+    hud.style.right = "auto"
+    hud.style.bottom = "auto"
   }
+
+  let hooks = afterFrameApply.get(scene)
+  if (!hooks) {
+    hooks = new Set()
+    afterFrameApply.set(scene, hooks)
+  }
+  hooks.add(sync)
 
   sync()
   requestAnimationFrame(() => {
@@ -177,6 +196,7 @@ export function mountPlayfieldHud(scene: Phaser.Scene, hud: HTMLElement): void {
   document.addEventListener("fullscreenchange", sync)
 
   const teardown = (): void => {
+    afterFrameApply.get(scene)?.delete(sync)
     scene.scale.off(Phaser.Scale.Events.RESIZE, sync)
     window.removeEventListener("resize", sync)
     document.removeEventListener("fullscreenchange", sync)
