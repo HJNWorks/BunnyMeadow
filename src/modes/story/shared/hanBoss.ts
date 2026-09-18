@@ -71,7 +71,9 @@ export class HanFight {
   private beamT = 0
   private beamAng = 0
   private beamHit = false
-  private beamGfx: Phaser.GameObjects.Graphics
+  private beamForce = -1
+  private beamSlab: Phaser.GameObjects.Rectangle
+  private beamCore: Phaser.GameObjects.Rectangle
   private settlePhase: SettlePhase = "none"
   private settleT = 0
   private settleX = 0
@@ -95,7 +97,7 @@ export class HanFight {
     this.aimX = x
     this.aimY = y
     this.sprite = scene.physics.add.sprite(x, y, hanTextureKey(0))
-    this.sprite.setDisplaySize(88, 110)
+    this.sprite.setDisplaySize(110, 138)
     this.sprite.setData("archetype", "han_boss")
     this.sprite.setImmovable(true)
     this.sprite.setDepth(6)
@@ -104,7 +106,14 @@ export class HanFight {
     body.setGravity(0, 0)
     body.setSize(this.sprite.frame.width, this.sprite.frame.height)
     body.updateFromGameObject()
-    this.beamGfx = scene.add.graphics().setDepth(5)
+    this.beamSlab = scene.add.rectangle(x, y, BEAM_LEN, 56, 0xc8e8ff, 0.55)
+    this.beamSlab.setOrigin(0, 0.5)
+    this.beamSlab.setDepth(8)
+    this.beamSlab.setVisible(false)
+    this.beamCore = scene.add.rectangle(x, y, BEAM_LEN, 18, 0xfff8d0, 0.95)
+    this.beamCore.setOrigin(0, 0.5)
+    this.beamCore.setDepth(9)
+    this.beamCore.setVisible(false)
     this.fxGfx = scene.add.graphics().setDepth(7)
     ensurePalaceMoon(scene)
     this.pickRoam()
@@ -135,7 +144,8 @@ export class HanFight {
   }
 
   destroy(): void {
-    this.beamGfx.destroy()
+    this.beamSlab.destroy()
+    this.beamCore.destroy()
     this.fxGfx.destroy()
     this.moon?.destroy()
     this.moon = null
@@ -217,9 +227,14 @@ export class HanFight {
     getAudio().playSfx("hurt")
     if (this.hearts === 3) {
       this.say("mid")
+      this.beamForce = 0.7
     }
     if (this.hearts === 1) {
       this.say("last")
+      if (this.beamMode === "idle") {
+        this.beamForce = 0.45
+        this.beamCd = 0
+      }
     }
     if (this.hearts <= 0) {
       this.hearts = 0
@@ -242,12 +257,18 @@ export class HanFight {
     if (this.sprite.texture.key !== key) {
       this.sprite.setTexture(key)
     }
-    const w = 88 + lost * 10
-    const h = 110 + lost * 12
+    const w = 110 + lost * 22
+    const h = 138 + lost * 26
     this.sprite.setDisplaySize(w, h)
     const body = this.sprite.body as Phaser.Physics.Arcade.Body
     body.setSize(this.sprite.frame.width, this.sprite.frame.height)
     body.updateFromGameObject()
+    this.sprite.setTint(lost >= 3 ? 0xa8c8ff : 0xd0e4ff)
+    this.scene.time.delayedCall(220, () => {
+      if (this.sprite.active) {
+        this.sprite.clearTint()
+      }
+    })
   }
 
   private pace(): number {
@@ -380,22 +401,28 @@ export class HanFight {
 
   private tickBeam(dt: number): void {
     this.beamCd = Math.max(0, this.beamCd - dt)
+    if (this.beamForce >= 0) {
+      this.beamForce = Math.max(0, this.beamForce - dt)
+    }
     if (this.hearts > 3) {
-      this.beamGfx.clear()
+      this.hideBeam()
       return
     }
     if (this.beamMode === "idle") {
-      this.beamGfx.clear()
+      this.hideBeam()
+      if (this.beamForce === 0) {
+        this.beamForce = -1
+        this.startCharge()
+        return
+      }
       if (this.beamCd > 0) {
         return
       }
       this.beamRoll += dt
       if (this.beamRoll >= 0.5) {
         this.beamRoll = 0
-        if (Math.random() < 0.35) {
-          this.beamMode = "charge"
-          this.chargeT = 0
-          this.beamAng = this.aimAngle()
+        if (Math.random() < 0.45) {
+          this.startCharge()
         }
       }
       return
@@ -421,25 +448,38 @@ export class HanFight {
       this.beamMode = "idle"
       this.beamCd = 10
       this.beamRoll = 0
-      this.beamGfx.clear()
+      this.hideBeam()
+    }
+  }
+
+  private startCharge(): void {
+    this.beamMode = "charge"
+    this.chargeT = 0
+    this.beamAng = this.aimAngle()
+    this.sprite.setTint(0xe8f4ff)
+  }
+
+  private hideBeam(): void {
+    this.beamSlab.setVisible(false)
+    this.beamCore.setVisible(false)
+    if (this.beamMode === "idle" && this.sprite.tintTopLeft === 0xe8f4ff) {
+      this.sprite.clearTint()
     }
   }
 
   private drawBeam(hot: boolean): void {
     const x = this.sprite.x
     const y = this.sprite.y
-    const ex = x + Math.cos(this.beamAng) * BEAM_LEN
-    const ey = y + Math.sin(this.beamAng) * BEAM_LEN
-    this.beamGfx.clear()
-    if (hot) {
-      this.beamGfx.lineStyle(56, 0xf4fbff, 0.42)
-      this.beamGfx.lineBetween(x, y, ex, ey)
-      this.beamGfx.lineStyle(18, 0xfff8d0, 0.92)
-      this.beamGfx.lineBetween(x, y, ex, ey)
-      return
-    }
-    this.beamGfx.lineStyle(this.reducedMotion ? 10 : 14, 0xc8e8ff, 0.75)
-    this.beamGfx.lineBetween(x, y, ex, ey)
+    this.beamSlab.setPosition(x, y)
+    this.beamSlab.setRotation(this.beamAng)
+    this.beamSlab.setVisible(true)
+    this.beamSlab.setFillStyle(hot ? 0xf4fbff : 0x7ec8ff, hot ? 0.5 : 0.42)
+    this.beamSlab.setDisplaySize(BEAM_LEN, hot ? 64 : 22)
+    this.beamCore.setPosition(x, y)
+    this.beamCore.setRotation(this.beamAng)
+    this.beamCore.setVisible(true)
+    this.beamCore.setFillStyle(hot ? 0xfff8d0 : 0xffffff, hot ? 0.96 : 0.7)
+    this.beamCore.setDisplaySize(BEAM_LEN, hot ? 20 : 8)
   }
 
   private playerInBeam(): boolean {
@@ -463,7 +503,7 @@ export class HanFight {
     this.cake?.destroy()
     this.cake = null
     this.beamMode = "idle"
-    this.beamGfx.clear()
+    this.hideBeam()
     this.projectiles.getChildren().slice().forEach((obj) => {
       (obj as Phaser.Physics.Arcade.Image).destroy()
     })
@@ -494,7 +534,7 @@ export class HanFight {
     if (this.settlePhase === "in") {
       const u = Math.min(1, this.settleT / IN_S)
       this.sprite.setAlpha(1 - u)
-      this.sprite.setDisplaySize(88 * (1 - u * 0.85), 110 * (1 - u * 0.85))
+      this.sprite.setDisplaySize(110 * (1 - u * 0.85), 138 * (1 - u * 0.85))
       this.paintMotes(u, true)
       if (this.settleT >= IN_S) {
         this.settlePhase = "out"

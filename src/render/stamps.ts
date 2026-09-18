@@ -20,7 +20,7 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_mooncake: { w: 28, h: 28 },
   story_blossom: { w: 28, h: 28 },
   story_lantern: { w: 24, h: 36 },
-  story_han: { w: 80, h: 120 },
+  story_han: { w: 96, h: 140 },
   dash_speck: { w: 12, h: 12 },
   dash_carrot: { w: 12, h: 18 },
   dash_streak: { w: 22, h: 12 },
@@ -244,26 +244,29 @@ function drawLantern(ctx: CanvasRenderingContext2D, cx: number, cy: number): voi
 }
 
 function drawHan(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
-  ellipse(ctx, cx, cy + 14, 26, 42, "#b8c8d8")
-  ellipse(ctx, cx, cy + 18, 14, 22, "#6a8098")
-  ellipse(ctx, cx, cy + 18, 8, 14, "#d8e8f4")
-  ctx.fillStyle = "#8a9aac"
-  ctx.fillRect(cx - 18, cy - 2, 36, 10)
-  ctx.fillRect(cx - 16, cy + 12, 32, 8)
-  ellipse(ctx, cx, cy - 18, 18, 16, "#c8d4e0")
-  ctx.fillStyle = "#6a7888"
-  ctx.beginPath()
-  ctx.ellipse(cx, cy - 22, 20, 12, 0, Math.PI, 0)
-  ctx.fill()
-  ctx.fillRect(cx - 20, cy - 24, 40, 8)
-  circle(ctx, cx - 7, cy - 16, 3, "#1a3048")
-  circle(ctx, cx + 7, cy - 16, 3, "#1a3048")
-  circle(ctx, cx - 7, cy - 16, 1.2, "#c8e8ff")
-  circle(ctx, cx + 7, cy - 16, 1.2, "#c8e8ff")
-  circle(ctx, cx + 2, cy - 38, 10, "#f4f8ff")
-  circle(ctx, cx - 2, cy - 38, 8, "#151b2e")
-  ellipse(ctx, cx - 10, cy + 44, 6, 10, "#a8b8c8")
-  ellipse(ctx, cx + 10, cy + 44, 6, 10, "#a8b8c8")
+  ellipse(ctx, cx, cy + 22, 30, 48, "#9eb0c4")
+  ellipse(ctx, cx, cy + 26, 12, 20, "#4a6078")
+  ellipse(ctx, cx, cy + 26, 6, 12, "#d8f0ff")
+  ctx.fillStyle = "#6e7c90"
+  ctx.fillRect(cx - 24, cy - 6, 48, 12)
+  ctx.fillRect(cx - 20, cy + 10, 40, 10)
+  ctx.fillStyle = "#c8d0d8"
+  ctx.fillRect(cx - 22, cy - 8, 8, 28)
+  ctx.fillRect(cx + 14, cy - 8, 8, 28)
+  ellipse(ctx, cx, cy - 16, 20, 18, "#d0d8e0")
+  ctx.fillStyle = "#5a6878"
+  ctx.fillRect(cx - 22, cy - 28, 44, 16)
+  ctx.fillRect(cx - 16, cy - 36, 32, 10)
+  circle(ctx, cx - 7, cy - 14, 3.5, "#0e2438")
+  circle(ctx, cx + 7, cy - 14, 3.5, "#0e2438")
+  circle(ctx, cx - 7, cy - 14, 1.4, "#b8ecff")
+  circle(ctx, cx + 7, cy - 14, 1.4, "#b8ecff")
+  ctx.fillStyle = "#8a98a8"
+  ctx.fillRect(cx - 3, cy - 48, 6, 14)
+  circle(ctx, cx + 4, cy - 58, 14, "#f4f8ff")
+  circle(ctx, cx - 6, cy - 58, 11, "#151b2e")
+  ellipse(ctx, cx - 12, cy + 58, 8, 12, "#8aa0b4")
+  ellipse(ctx, cx + 12, cy + 58, 8, 12, "#8aa0b4")
 }
 
 function drawDashSpeck(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {

@@ -20,16 +20,16 @@ Mei a heart on contact.
 Projectiles stay night-themed and fire from Han toward Mei as a radial fan:
 
 - 5 and 4 hearts: frost spears in a tight cone aimed at Mei. Roam speed 96.
-- 3 and 2 hearts: star needles in a wider cone. Roam speed 168. A lunar beam can roll
-  after a 10 s cooldown (2 s charge, 4 s tracking slab, 2 hearts on contact).
+- 3 and 2 hearts: star needles in a wider cone. Roam speed 168. A lunar beam starts shortly
+  after this stage (2 s charge, 4 s tracking slab, 2 hearts on contact), then a 10 s cooldown
+  before later rolls.
 - 1 heart: both volleys at once. Roam speed 248. Beam charge drops to 1 s, same 4 s slab
-  and 10 s cooldown.
+  and 10 s cooldown. A beam is queued again when this stage begins.
 - 0: Han is pulled into an inward spiral at his last position. An outward spiral grows a
   large moon there (visual only, not a solid). Then settled. Exit and the four epilogue
   cards are unchanged.
 
-Spike fan timing and counts are unchanged from the first live fight. The beam is a
-separate Graphics slab. It tracks Mei with a capped turn rate so a strafe can leave it.
+Spike fan timing and counts are unchanged from the first live fight. The beam is a long tracking rectangle, not a projectile.
 Dash i-frames still apply. Reduced motion shortens the charge and skips spiral motes.
 
 Han speaks four ticker lines on the same HUD as Moon Pools (no pause). Full health, 3
@@ -38,7 +38,8 @@ does not speak.
 
 Han roams the sky rather than holding one perch. Every lost heart still enlarges and
 darkens the silhouette. Low gravity stays. Cakes spawn in the open, not under roofs.
-Spirit hearts sit at the top center.
+If Mei's hearts empty, Guanghan restarts (Han included). Spirit hearts sit at the top
+center of the playfield. Mei hearts sit at the top left.
 
 ## Guard
 

@@ -8,6 +8,12 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Playfield HUD is `position: fixed` on the canvas bounds, not a child of the letterboxed
+  `#app` parent, so Mei hearts stay top-left of the water and Han hearts stay top-center.
+- Guanghan Han stamp is a helmeted mist with a half-moon standard and clearer growth when
+  spirit hearts drop. The lunar beam is a tracking slab that starts shortly after stage 2.
+- Dying as Mei on Guanghan restarts the station (Han hearts included). Retry on the tumble
+  card does the same.
 - Playfield HUD no longer writes CSS `inset` after canvas sync, which had cleared top and
   left and clipped Mei hearts, the ticker, and Han hearts off the letterboxed canvas.
 - Guanghan Han uses an armored mist stamp (`story_han`) with a helmet half-moon. Asset

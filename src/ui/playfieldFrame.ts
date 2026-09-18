@@ -153,31 +153,27 @@ export function attachPlayfieldFrame(
 }
 
 export function mountPlayfieldHud(scene: Phaser.Scene, hud: HTMLElement): void {
-  const parent = scene.game.canvas.parentElement
-  if (!parent) {
-    return
-  }
-  parent.appendChild(hud)
-  parent.style.position = parent.style.position || "fixed"
+  document.body.appendChild(hud)
   hud.style.display = "block"
-  hud.style.position = "absolute"
-  hud.style.zIndex = "4"
+  hud.style.position = "fixed"
+  hud.style.zIndex = "8"
   hud.style.pointerEvents = "none"
-  hud.style.top = "0"
-  hud.style.left = "0"
+  hud.style.margin = "0"
   hud.style.right = "auto"
   hud.style.bottom = "auto"
 
   const sync = (): void => {
-    const canvas = scene.game.canvas
-    const pr = parent.getBoundingClientRect()
-    const cr = canvas.getBoundingClientRect()
-    hud.style.top = `${Math.round(cr.top - pr.top)}px`
-    hud.style.left = `${Math.round(cr.left - pr.left)}px`
-    hud.style.width = `${Math.round(cr.width)}px`
-    hud.style.height = `${Math.round(cr.height)}px`
-    hud.style.right = "auto"
-    hud.style.bottom = "auto"
+    scene.scale.updateBounds()
+    const bounds = scene.scale.canvasBounds
+    const cr = scene.game.canvas.getBoundingClientRect()
+    const top = bounds && bounds.height > 2 ? bounds.y : cr.top
+    const left = bounds && bounds.width > 2 ? bounds.x : cr.left
+    const width = bounds && bounds.width > 2 ? bounds.width : cr.width
+    const height = bounds && bounds.height > 2 ? bounds.height : cr.height
+    hud.style.top = `${Math.round(top)}px`
+    hud.style.left = `${Math.round(left)}px`
+    hud.style.width = `${Math.round(width)}px`
+    hud.style.height = `${Math.round(height)}px`
   }
 
   let hooks = afterFrameApply.get(scene)

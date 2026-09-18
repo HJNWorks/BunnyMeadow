@@ -504,7 +504,7 @@ export class StoryScene extends Phaser.Scene {
         return
       }
       if (this.lost) {
-        this.respawn()
+        this.retryStation()
         this.hud.overlay.hidden = true
         this.lost = false
       }
@@ -1256,7 +1256,7 @@ export class StoryScene extends Phaser.Scene {
       return
     }
     if (this.editorMode === "play") {
-      this.respawn()
+      this.retryStation()
       return
     }
     if (this.lost || this.won) {
@@ -1268,6 +1268,17 @@ export class StoryScene extends Phaser.Scene {
     this.hud.message.textContent = message
     this.hud.play.textContent = t("story.dead.retry")
     this.hud.overlay.hidden = false
+  }
+
+  private retryStation(): void {
+    if (this.level.boss?.kind === "han") {
+      this.scene.restart({
+        levelId: this.levelId,
+        editor: this.editorMode ? { mode: this.editorMode } : undefined,
+      })
+      return
+    }
+    this.respawn()
   }
 
   private respawn(): void {
