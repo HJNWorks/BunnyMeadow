@@ -24,6 +24,12 @@ type SettlePhase = "none" | "in" | "out"
 
 type Mote = { angle: number; radius: number; spin: number }
 
+type Burn = {
+  sprite: Phaser.GameObjects.Image
+  life: number
+  maxLife: number
+}
+
 export function hanPhaseForHearts(hearts: number): HanPhase {
   if (hearts <= 1) {
     return "both"
@@ -41,6 +47,7 @@ export function hanTextureKey(lost: number): string {
 export type HanFightOpts = {
   reducedMotion: boolean
   speak?: (line: HanLine) => void
+  platforms: Phaser.Physics.Arcade.StaticGroup
 }
 
 export class HanFight {
@@ -74,6 +81,12 @@ export class HanFight {
   private beamForce = -1
   private beamSlab: Phaser.GameObjects.Rectangle
   private beamCore: Phaser.GameObjects.Rectangle
+  private beamLen = BEAM_LEN
+  private burnAcc = 0
+  private lastBurnX = 0
+  private lastBurnY = 0
+  private burns: Burn[] = []
+  private platforms: Phaser.Physics.Arcade.StaticGroup
   private settlePhase: SettlePhase = "none"
   private settleT = 0
   private settleX = 0
@@ -94,8 +107,10 @@ export class HanFight {
     this.worldWidth = worldWidth
     this.reducedMotion = opts.reducedMotion
     this.speak = opts.speak
+    this.platforms = opts.platforms
     this.aimX = x
     this.aimY = y
+    ensureScorch(scene)
     this.sprite = scene.physics.add.sprite(x, y, hanTextureKey(0))
     this.sprite.setDisplaySize(110, 138)
     this.sprite.setData("archetype", "han_boss")
@@ -114,7 +129,7 @@ export class HanFight {
     this.beamCore.setOrigin(0, 0.5)
     this.beamCore.setDepth(9)
     this.beamCore.setVisible(false)
-    this.fxGfx = scene.add.graphics().setDepth(7)
+    this.fxGfx = scene.add.graphics().setDepth(10)
     ensurePalaceMoon(scene)
     this.pickRoam()
     this.say("full")
@@ -144,6 +159,7 @@ export class HanFight {
   }
 
   destroy(): void {
+    this.clearBurns()
     this.beamSlab.destroy()
     this.beamCore.destroy()
     this.fxGfx.destroy()
@@ -159,6 +175,7 @@ export class HanFight {
     this.frostCd = Math.max(0, this.frostCd - dt)
     this.starCd = Math.max(0, this.starCd - dt)
     this.cakeCd = Math.max(0, this.cakeCd - dt)
+    this.tickBurns(dt)
     if (this.settled) {
       this.cake?.destroy()
       this.cake = null
@@ -431,7 +448,9 @@ export class HanFight {
     if (this.beamMode === "charge") {
       this.chargeT += dt
       this.beamAng = this.turnToward(this.beamAng, want, 5 * dt)
+      this.beamLen = this.clipBeam()
       this.drawBeam(false)
+      this.paintImpact(dt, false)
       if (this.chargeT >= this.chargeDur()) {
         this.beamMode = "beam"
         this.beamT = 0
@@ -440,7 +459,9 @@ export class HanFight {
     }
     this.beamT += dt
     this.beamAng = this.turnToward(this.beamAng, want, this.beamTurn(dt))
+    this.beamLen = this.clipBeam()
     this.drawBeam(true)
+    this.paintImpact(dt, true)
     if (this.playerInBeam()) {
       this.beamHit = true
     }
@@ -474,12 +495,115 @@ export class HanFight {
     this.beamSlab.setRotation(this.beamAng)
     this.beamSlab.setVisible(true)
     this.beamSlab.setFillStyle(hot ? 0xf4fbff : 0x7ec8ff, hot ? 0.5 : 0.42)
-    this.beamSlab.setDisplaySize(BEAM_LEN, hot ? 64 : 22)
+    this.beamSlab.setDisplaySize(this.beamLen, hot ? 64 : 22)
     this.beamCore.setPosition(x, y)
     this.beamCore.setRotation(this.beamAng)
     this.beamCore.setVisible(true)
     this.beamCore.setFillStyle(hot ? 0xfff8d0 : 0xffffff, hot ? 0.96 : 0.7)
-    this.beamCore.setDisplaySize(BEAM_LEN, hot ? 20 : 8)
+    this.beamCore.setDisplaySize(this.beamLen, hot ? 20 : 8)
+  }
+
+  private clipBeam(): number {
+    const ox = this.sprite.x
+    const oy = this.sprite.y
+    const ux = Math.cos(this.beamAng)
+    const uy = Math.sin(this.beamAng)
+    let reach = BEAM_LEN
+    for (const obj of this.platforms.getChildren()) {
+      const body = (obj as Phaser.GameObjects.GameObject).body as Phaser.Physics.Arcade.StaticBody | null
+      if (!body) {
+        continue
+      }
+      const hit = rayAabb(ox, oy, ux, uy, body.left, body.right, body.top, body.bottom, reach)
+      if (hit !== null && hit < reach) {
+        reach = hit
+      }
+    }
+    return Math.max(24, reach)
+  }
+
+  private paintImpact(dt: number, hot: boolean): void {
+    if (this.beamLen >= BEAM_LEN - 2) {
+      this.fxGfx.clear()
+      return
+    }
+    const x = this.sprite.x + Math.cos(this.beamAng) * this.beamLen
+    const y = this.sprite.y + Math.sin(this.beamAng) * this.beamLen
+    this.fxGfx.clear()
+    const now = this.scene.time.now
+    if (!hot) {
+      const glow = 8 + Math.sin(now / 90) * 3
+      this.fxGfx.fillStyle(0xff9a4a, 0.5)
+      this.fxGfx.fillCircle(x, y, glow)
+      this.fxGfx.fillStyle(0xffe08a, 0.35)
+      this.fxGfx.fillCircle(x, y, glow * 0.45)
+      return
+    }
+    const spark = 7 + Math.sin(now / 50) * 5
+    this.fxGfx.fillStyle(0xff6a20, 0.55)
+    this.fxGfx.fillCircle(x, y, spark + 10)
+    this.fxGfx.fillStyle(0xffe08a, 0.92)
+    this.fxGfx.fillCircle(x, y, spark)
+    this.fxGfx.fillStyle(0xfff8d0, 0.8)
+    this.fxGfx.fillCircle(x - Math.cos(this.beamAng) * 8, y - Math.sin(this.beamAng) * 8, spark * 0.5)
+    for (let i = 0; i < 5; i += 1) {
+      const t = now / 80 + i * 1.6
+      const lift = 6 + ((t * 11) % 22)
+      const wobble = Math.sin(t + i) * 7
+      this.fxGfx.fillStyle(0xffc060, 0.55 - (lift / 40))
+      this.fxGfx.fillCircle(x + wobble, y - lift, 2.4)
+    }
+    if (this.reducedMotion) {
+      if (this.burns.length === 0) {
+        this.spawnBurn(x, y, 1.6)
+      }
+      return
+    }
+    this.burnAcc += dt
+    const dist = Math.hypot(x - this.lastBurnX, y - this.lastBurnY)
+    if (this.burnAcc >= 0.04 && (this.burns.length === 0 || dist > 10)) {
+      this.burnAcc = 0
+      this.lastBurnX = x
+      this.lastBurnY = y
+      this.spawnBurn(x, y, 1.15)
+    }
+  }
+
+  private spawnBurn(x: number, y: number, life: number): void {
+    const mark = this.scene.add.image(x, y, "story_han_scorch")
+    mark.setDepth(2.2)
+    mark.setRotation(this.beamAng + Math.PI / 2)
+    mark.setDisplaySize(28 + Math.random() * 18, 16 + Math.random() * 10)
+    mark.setAlpha(0.9)
+    this.burns.push({ sprite: mark, life, maxLife: life })
+  }
+
+  private tickBurns(dt: number): void {
+    if (this.beamMode === "idle") {
+      this.fxGfx.clear()
+    }
+    const live: Burn[] = []
+    const now = this.scene.time.now
+    for (const burn of this.burns) {
+      burn.life -= dt
+      const u = Math.max(0, burn.life / burn.maxLife)
+      const flicker = this.reducedMotion ? 1 : 0.82 + 0.18 * Math.sin(now / 55 + burn.life * 9)
+      burn.sprite.setAlpha(u * 0.92 * flicker)
+      if (burn.life > 0) {
+        live.push(burn)
+      } else {
+        burn.sprite.destroy()
+      }
+    }
+    this.burns = live
+  }
+
+  private clearBurns(): void {
+    for (const burn of this.burns) {
+      burn.sprite.destroy()
+    }
+    this.burns = []
+    this.fxGfx.clear()
   }
 
   private playerInBeam(): boolean {
@@ -488,7 +612,7 @@ export class HanFight {
     const ux = Math.cos(this.beamAng)
     const uy = Math.sin(this.beamAng)
     const along = dx * ux + dy * uy
-    if (along < 0 || along > BEAM_LEN) {
+    if (along < 0 || along > this.beamLen - 6) {
       return false
     }
     const dist = Math.abs(dx * uy - dy * ux)
@@ -628,4 +752,85 @@ function ensurePalaceMoon(scene: Phaser.Scene): void {
   ctx.arc(110, 64, 10, 0, Math.PI * 2)
   ctx.fill()
   scene.textures.addCanvas("story_han_moon", canvas)
+}
+
+function ensureScorch(scene: Phaser.Scene): void {
+  if (scene.textures.exists("story_han_scorch")) {
+    return
+  }
+  const canvas = document.createElement("canvas")
+  canvas.width = 36
+  canvas.height = 24
+  const ctx = canvas.getContext("2d")
+  if (!ctx) {
+    return
+  }
+  ctx.fillStyle = "#2a2018"
+  ctx.beginPath()
+  ctx.ellipse(18, 12, 16, 9, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#c45a2a"
+  ctx.beginPath()
+  ctx.ellipse(18, 12, 11, 5, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#ffe08a"
+  ctx.beginPath()
+  ctx.ellipse(18, 12, 5, 2.4, 0, 0, Math.PI * 2)
+  ctx.fill()
+  scene.textures.addCanvas("story_han_scorch", canvas)
+}
+
+function rayAabb(
+  ox: number,
+  oy: number,
+  ux: number,
+  uy: number,
+  left: number,
+  right: number,
+  top: number,
+  bottom: number,
+  maxLen: number,
+): number | null {
+  let tmin = 0
+  let tmax = maxLen
+  if (Math.abs(ux) < 1e-6) {
+    if (ox < left || ox > right) {
+      return null
+    }
+  } else {
+    let t1 = (left - ox) / ux
+    let t2 = (right - ox) / ux
+    if (t1 > t2) {
+      const swap = t1
+      t1 = t2
+      t2 = swap
+    }
+    tmin = Math.max(tmin, t1)
+    tmax = Math.min(tmax, t2)
+    if (tmin > tmax) {
+      return null
+    }
+  }
+  if (Math.abs(uy) < 1e-6) {
+    if (oy < top || oy > bottom) {
+      return null
+    }
+  } else {
+    let t1 = (top - oy) / uy
+    let t2 = (bottom - oy) / uy
+    if (t1 > t2) {
+      const swap = t1
+      t1 = t2
+      t2 = swap
+    }
+    tmin = Math.max(tmin, t1)
+    tmax = Math.min(tmax, t2)
+    if (tmin > tmax) {
+      return null
+    }
+  }
+  if (tmin <= 8) {
+    return null
+  }
+  return tmin
 }

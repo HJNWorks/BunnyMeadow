@@ -29,8 +29,7 @@ Projectiles stay night-themed and fire from Han toward Mei as a radial fan:
   large moon there (visual only, not a solid). Then settled. Exit and the four epilogue
   cards are unchanged.
 
-Spike fan timing and counts are unchanged from the first live fight. The beam is a long tracking rectangle, not a projectile.
-Dash i-frames still apply. Reduced motion shortens the charge and skips spiral motes.
+Spike fan timing and counts are unchanged from the first live fight. The beam is a long tracking rectangle, not a projectile. Platforms and walls clip it, so Mei can hide. The impact leaves a spark, rising embers, and a fading scorch trail. Reduced motion keeps one mark. Dash i-frames still apply. Reduced motion shortens the charge and skips spiral motes.
 
 Han speaks four ticker lines on the same HUD as Moon Pools (no pause). Full health, 3
 hearts, 1 heart, and beaten. Moon Pool lines on Guanghan stay Chang'e's. Editor Build

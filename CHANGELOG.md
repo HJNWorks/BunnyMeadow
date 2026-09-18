@@ -8,6 +8,8 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Han's lunar beam stops on platforms and walls. Mei can duck behind them. The impact
+  leaves a scorch trail and a spark on the surface.
 - Playfield HUD is `position: fixed` on the canvas bounds, not a child of the letterboxed
   `#app` parent, so Mei hearts stay top-left of the water and Han hearts stay top-center.
 - Guanghan Han stamp is a helmeted mist with a half-moon standard and clearer growth when

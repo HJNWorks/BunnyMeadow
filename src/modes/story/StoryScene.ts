@@ -935,6 +935,7 @@ export class StoryScene extends Phaser.Scene {
             : (line) => {
               this.hud.ticker.show(t(`story.han.line.${line}`))
             },
+          platforms: this.platforms,
         },
       )
       this.enemies.add(this.han.sprite)
