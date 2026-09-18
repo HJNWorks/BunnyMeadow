@@ -76,7 +76,9 @@ New creature = LORE note + biome wildlife page + archetype (patrol, chaser, lob,
 
 ### D — Asset workshop
 
-Own scene from Settings. Segmented tabs: Dash look, Props, Creatures, Items. Silhouette brushes start from a visible seed stamp per texture id (`story_critter_*`, `story_item_*`, props). Palette tokens, PNG export, localStorage overlay applied on the next `ensureStoryTextures` call. Not a 3D modeller. Tray chips still use CSS. Spawn and burrow exit stay undeletable. Moon Pools can be placed, deleted, and given a per-pool ticker line.
+Own scene from Settings. Segmented tabs: Dash look, Props, Creatures, Items. Silhouette brushes start from a visible seed stamp per texture id (`story_critter_*`, `story_item_*`, props). Creature and item stamps live in `src/render/stamps.ts` and are the same drawers Story bakes (`ensureStoryTextures` runs before the workshop binds). A fox kit uses `story_fox`, not a tinted Mei. Items use carrot, mooncake, blossom, and lantern stamps. Palette tokens, PNG export, localStorage overlay applied on the next `ensureStoryTextures` call. Not a 3D modeller. Tray chips still use CSS. Spawn and burrow exit stay undeletable. Moon Pools can be placed, deleted, and given a per-pool ticker line.
+
+Dash particles keep the four shapes (`speck`, `carrot`, `streak`, `crescent`). Art is named after the dash: outlined grass motes, small carrots, gale wind commas, and full small moons. Burst still fires on dash start. While Mei is dashing, a stream emits about every 28 ms (Endless fox-ember cadence). Reduced motion skips the stream. Afterimages of Mei stay.
 
 ### E — Repo write-back (local only)
 

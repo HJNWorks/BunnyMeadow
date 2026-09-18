@@ -14,6 +14,7 @@ export {
   drawDashParticle,
   filterLiveDashParticles,
   spawnDashParticles,
+  spawnDashStream,
   tickCanvasDashParticles,
 } from "./canvasFx"
 export { paintDashPreview, paintMeiIdle, paintMeiMeadow } from "./preview"

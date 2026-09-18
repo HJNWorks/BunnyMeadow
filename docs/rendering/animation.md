@@ -41,7 +41,7 @@ Used for weight and juice, bounded so nothing feels rubbery:
 | --- | --- |
 | jump take-off | stretch to about 1.15 vertical |
 | landing | squash to about 0.9 vertical |
-| dash | stretch to about 1.2 horizontal, one frame. Equipped dash cosmetic (`src/data/dashes.json`) adds tint, afterimages, and a short particle burst. Reduced motion keeps a small stretch only. |
+| dash | stretch to about 1.2 horizontal, one frame. Equipped dash cosmetic (`src/data/dashes.json`) adds tint on Mei afterimages plus named particles (grass motes, carrots, gale commas, small moons). Burst on start. Stream behind Mei about every 28 ms while the dash lasts. Reduced motion keeps a small stretch only and skips the stream. |
 
 See [../editor/README.md](../editor/README.md) for the dash look spec and Asset Workshop editor.
 | pickup pop | scale to about 1.2 then settle |

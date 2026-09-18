@@ -11,6 +11,7 @@ import {
   equippedDashDef,
   filterLiveDashParticles,
   spawnDashParticles,
+  spawnDashStream,
   tickCanvasDashParticles,
   type CanvasDashParticle,
   type DashDef,
@@ -126,6 +127,7 @@ export class MeadowRuntime {
   private dashParticles: CanvasDashParticle[] = []
   private reducedMotion = false
   private dashFacing = 1
+  private dashEmitAcc = 0
 
   private onPointerDown = (e: PointerEvent): void => {
     if (this.state === "playing") {
@@ -485,6 +487,7 @@ export class MeadowRuntime {
       getAudio().playSfx("dash")
       const facing = this.bunny.dx >= 0 ? 1 : -1
       this.dashFacing = facing || 1
+      this.dashEmitAcc = 0
       spawnDashParticles(
         this.dashParticles,
         this.bunny.x,
@@ -697,6 +700,22 @@ export class MeadowRuntime {
     this.time += dt
     this.cooldown = Math.max(0, this.cooldown - dt)
     this.burst = Math.max(0, this.burst - dt)
+    if (this.burst > 0) {
+      this.dashEmitAcc += dt
+      while (this.dashEmitAcc > 0.028) {
+        this.dashEmitAcc -= 0.028
+        spawnDashStream(
+          this.dashParticles,
+          this.bunny.x,
+          this.bunny.y,
+          this.dashFacing,
+          this.dashDef,
+          this.reducedMotion,
+        )
+      }
+    } else {
+      this.dashEmitAcc = 0
+    }
     this.invulnerable = Math.max(0, this.invulnerable - dt)
     if (this.timed) {
       this.timerLeft -= dt

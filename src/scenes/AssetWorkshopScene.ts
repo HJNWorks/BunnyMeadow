@@ -7,6 +7,7 @@ import { isEditorEnabled } from "../modes/story/editor"
 import { dashLookEditorHtml, bindDashLookEditor } from "../fx/dash/DashLookPanel"
 import { workshopHtml, bindWorkshop } from "../fx/workshop/WorkshopPanel"
 import type { WorkshopGroup } from "../fx/workshop/targets"
+import { ensureStoryTextures } from "../modes/story/shared/storyTextures"
 
 const TAB_KEY = "bunnymeadow.workshop.tab"
 
@@ -38,6 +39,7 @@ export class AssetWorkshopScene extends Phaser.Scene {
   }
 
   create(): void {
+    ensureStoryTextures(this)
     getAudio().playMusic("menu")
     const showDash = isEditorEnabled()
     const showBrush = getContentFlags().assetWorkshop === true

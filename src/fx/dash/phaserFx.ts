@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import type { DashDef } from "./types"
+import { listDashStampIds, stampCanvas } from "../../render/stamps"
 
 type Speck = {
   sprite: Phaser.GameObjects.Image
@@ -10,37 +11,15 @@ type Speck = {
 }
 
 function ensureDashTextures(scene: Phaser.Scene): void {
-  if (!scene.textures.exists("dash_speck")) {
-    const g = scene.make.graphics({ x: 0, y: 0 })
-    g.fillStyle(0xffffff, 1)
-    g.fillCircle(4, 4, 4)
-    g.generateTexture("dash_speck", 8, 8)
-    g.destroy()
-  }
-  if (!scene.textures.exists("dash_carrot")) {
-    const g = scene.make.graphics({ x: 0, y: 0 })
-    g.fillStyle(0xf0a04a, 1)
-    g.fillEllipse(5, 8, 6, 14)
-    g.fillStyle(0x6a9a4a, 1)
-    g.fillRect(3, 0, 4, 4)
-    g.generateTexture("dash_carrot", 10, 16)
-    g.destroy()
-  }
-  if (!scene.textures.exists("dash_streak")) {
-    const g = scene.make.graphics({ x: 0, y: 0 })
-    g.fillStyle(0xffffff, 1)
-    g.fillRoundedRect(0, 3, 18, 4, 2)
-    g.generateTexture("dash_streak", 18, 10)
-    g.destroy()
-  }
-  if (!scene.textures.exists("dash_crescent")) {
-    const g = scene.make.graphics({ x: 0, y: 0 })
-    g.fillStyle(0xf7fbff, 1)
-    g.fillCircle(8, 8, 7)
-    g.fillStyle(0x151b2e, 1)
-    g.fillCircle(5, 8, 6)
-    g.generateTexture("dash_crescent", 16, 16)
-    g.destroy()
+  for (const id of listDashStampIds()) {
+    const canvas = stampCanvas(id)
+    if (!canvas) {
+      continue
+    }
+    if (scene.textures.exists(id)) {
+      scene.textures.remove(id)
+    }
+    scene.textures.addCanvas(id, canvas)
   }
 }
 
@@ -65,6 +44,7 @@ export class PhaserDashFx {
   private specks: Speck[] = []
   private ghosts: Phaser.GameObjects.Image[] = []
   private wasDashing = false
+  private emitAcc = 0
   private baseW = 48
   private baseH = 56
 
@@ -85,6 +65,7 @@ export class PhaserDashFx {
     if (dashing && !this.wasDashing) {
       this.baseW = player.displayWidth
       this.baseH = player.displayHeight
+      this.emitAcc = 0
       this.burst(player, facing)
     }
     if (dashing) {
@@ -94,6 +75,7 @@ export class PhaserDashFx {
     } else if (this.wasDashing) {
       player.setDisplaySize(this.baseW, this.baseH)
       this.clearGhosts()
+      this.emitAcc = 0
     }
     this.step(dt)
     this.wasDashing = dashing
@@ -111,25 +93,8 @@ export class PhaserDashFx {
     if (this.reducedMotion) {
       return
     }
-    const tex = textureForShape(this.def.particle.shape)
-    const tint = hexToNum(this.def.particle.color)
     for (let i = 0; i < this.def.particle.count; i += 1) {
-      const sprite = this.scene.add.image(
-        player.x - facing * 12,
-        player.y + (Math.random() - 0.5) * 18,
-        tex,
-      )
-      sprite.setDepth(4)
-      sprite.setTint(tint)
-      sprite.setAlpha(0.85)
-      const life = this.def.particle.life * (0.7 + Math.random() * 0.4)
-      this.specks.push({
-        sprite,
-        vx: -facing * (50 + Math.random() * this.def.particle.spread * 4),
-        vy: (Math.random() - 0.5) * 70,
-        life,
-        maxLife: life,
-      })
+      this.emitSpeck(player, facing, false)
     }
     const ghosts = this.def.afterimages
     for (let i = 0; i < ghosts; i += 1) {
@@ -153,6 +118,33 @@ export class PhaserDashFx {
       ghost.y += (player.y - ghost.y) * Math.min(1, dt / lag)
       ghost.setAlpha(Math.max(0.08, ghost.alpha - dt * 0.4))
     }
+    if (this.reducedMotion) {
+      return
+    }
+    this.emitAcc += dt
+    while (this.emitAcc > 0.028) {
+      this.emitAcc -= 0.028
+      this.emitSpeck(player, facing, true)
+    }
+  }
+
+  private emitSpeck(player: Phaser.Physics.Arcade.Sprite, facing: number, stream: boolean): void {
+    const tex = textureForShape(this.def.particle.shape)
+    const sprite = this.scene.add.image(
+      player.x - facing * (stream ? 16 : 12),
+      player.y + (Math.random() - 0.5) * (stream ? 12 : 18),
+      tex,
+    )
+    sprite.setDepth(4)
+    sprite.setAlpha(stream ? 0.9 : 0.85)
+    const life = this.def.particle.life * (stream ? 0.65 : 0.7 + Math.random() * 0.4)
+    this.specks.push({
+      sprite,
+      vx: -facing * (stream ? 36 + Math.random() * this.def.particle.spread : 50 + Math.random() * this.def.particle.spread * 4),
+      vy: (Math.random() - 0.5) * (stream ? 28 : 70),
+      life,
+      maxLife: life,
+    })
   }
 
   private step(dt: number): void {

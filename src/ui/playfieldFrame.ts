@@ -152,10 +152,34 @@ export function mountPlayfieldHud(scene: Phaser.Scene, hud: HTMLElement): void {
   parent.style.position = parent.style.position || "fixed"
   hud.style.display = "block"
   hud.style.position = "absolute"
-  hud.style.inset = "0"
   hud.style.zIndex = "4"
   hud.style.pointerEvents = "none"
+  hud.style.right = "auto"
+  hud.style.bottom = "auto"
+
+  const sync = (): void => {
+    const canvas = scene.game.canvas
+    const pr = parent.getBoundingClientRect()
+    const cr = canvas.getBoundingClientRect()
+    hud.style.top = `${Math.round(cr.top - pr.top)}px`
+    hud.style.left = `${Math.round(cr.left - pr.left)}px`
+    hud.style.width = `${Math.round(cr.width)}px`
+    hud.style.height = `${Math.round(cr.height)}px`
+    hud.style.inset = "auto"
+  }
+
+  sync()
+  requestAnimationFrame(() => {
+    requestAnimationFrame(sync)
+  })
+  scene.scale.on(Phaser.Scale.Events.RESIZE, sync)
+  window.addEventListener("resize", sync)
+  document.addEventListener("fullscreenchange", sync)
+
   const teardown = (): void => {
+    scene.scale.off(Phaser.Scale.Events.RESIZE, sync)
+    window.removeEventListener("resize", sync)
+    document.removeEventListener("fullscreenchange", sync)
     hud.remove()
   }
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, teardown)

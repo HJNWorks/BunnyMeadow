@@ -8,6 +8,15 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Playfield HUD (`mountPlayfieldHud`) sizes to the FIT canvas rect, so Mei hearts sit on
+  the water instead of the green letterbox gutter.
+- Story wildlife and pickups share canvas stamps (`src/render/stamps.ts`) with Asset
+  Workshop. Fox, hedgehog, squirrel, frog, cat, owl, goat, boar, tortoise, bees, heron,
+  crow, magpie, wisp, and ice have dedicated silhouettes. Items use carrot, mooncake,
+  blossom, and lantern stamps instead of tinted carrots.
+- Dash particles match the named dash: outlined grass motes, small carrots, gale commas,
+  and full small moons. A trail emits about every 28 ms while Mei is dashing. Reduced
+  motion skips the stream. Afterimages stay.
 - Burrow exit and Moon Pool win/checkpoint on contact with the visible ellipse. The extra
   proximity box around the hole is gone. Moon Pool awakens on first touch (silver
   reflection, no pause, no DialogueOverlay). Chang'e's line runs in a HUD ticker at the
@@ -20,7 +29,7 @@ All notable changes to this project are recorded here. The format follows
   the checkpoint. Spawn and burrow exit stay undeletable.
 - Asset Workshop uses tabs for Dash look, Props, Creatures, and Items. Creature and item
   brushes save per-id overlays (`story_critter_*`, `story_item_*`) so a fox paint does not
-  recolor every tinted bunny.
+  recolor every wildlife stamp.
 - Floating move/jump/dash intro is Soft Paws only. Other stations keep the chips docked
   in the top bar.
 - Burrow win uses the inner hole ellipse, not the dirt rim.

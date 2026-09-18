@@ -5,25 +5,24 @@ type EnemyKit = {
   source: string
   w: number
   h: number
-  tint?: number
   archetype: string
   speed: number
   fly?: boolean
 }
 
 const KITS: Record<string, EnemyKit> = {
-  fox: { texture: "story_critter_fox", source: "story_bunny", w: 36, h: 36, tint: 0xdf8b4c, archetype: "chaser", speed: 90 },
-  hedgehog: { texture: "story_critter_hedgehog", source: "story_bunny", w: 36, h: 36, tint: 0xa8845c, archetype: "patrol", speed: 45 },
+  fox: { texture: "story_critter_fox", source: "story_fox", w: 48, h: 36, archetype: "chaser", speed: 90 },
+  hedgehog: { texture: "story_critter_hedgehog", source: "story_hedgehog", w: 40, h: 32, archetype: "patrol", speed: 45 },
   crow: { texture: "story_critter_crow", source: "story_crow", w: 36, h: 28, archetype: "ranged_lob", speed: 40, fly: true },
-  squirrel: { texture: "story_critter_squirrel", source: "story_bunny", w: 28, h: 30, tint: 0xc47a3a, archetype: "ranged_lob", speed: 50 },
-  frog: { texture: "story_critter_frog", source: "story_bunny", w: 34, h: 28, tint: 0x5f8f45, archetype: "patrol", speed: 55 },
-  heron: { texture: "story_critter_heron", source: "story_bunny", w: 42, h: 52, tint: 0xdde6ea, archetype: "reach", speed: 0 },
-  cat: { texture: "story_critter_cat", source: "story_bunny", w: 34, h: 32, tint: 0x6b5a4a, archetype: "reach", speed: 20 },
-  owl: { texture: "story_critter_owl", source: "story_crow", w: 38, h: 32, tint: 0x8a6b3a, archetype: "diver", speed: 150, fly: true },
-  goat: { texture: "story_critter_goat", source: "story_bunny", w: 44, h: 40, tint: 0xd6c4a8, archetype: "blocker", speed: 110 },
-  boar: { texture: "story_critter_boar", source: "story_bunny", w: 48, h: 36, tint: 0x6a4530, archetype: "blocker", speed: 95 },
-  tortoise: { texture: "story_critter_tortoise", source: "story_bunny", w: 40, h: 28, tint: 0x6d8a55, archetype: "patrol", speed: 22 },
-  bees: { texture: "story_critter_bees", source: "story_wisp", w: 44, h: 32, tint: 0xf0d060, archetype: "swarm", speed: 36, fly: true },
+  squirrel: { texture: "story_critter_squirrel", source: "story_squirrel", w: 36, h: 36, archetype: "ranged_lob", speed: 50 },
+  frog: { texture: "story_critter_frog", source: "story_frog", w: 36, h: 28, archetype: "patrol", speed: 55 },
+  heron: { texture: "story_critter_heron", source: "story_heron", w: 42, h: 52, archetype: "reach", speed: 0 },
+  cat: { texture: "story_critter_cat", source: "story_cat", w: 40, h: 32, archetype: "reach", speed: 20 },
+  owl: { texture: "story_critter_owl", source: "story_owl", w: 38, h: 32, archetype: "diver", speed: 150, fly: true },
+  goat: { texture: "story_critter_goat", source: "story_goat", w: 44, h: 40, archetype: "blocker", speed: 110 },
+  boar: { texture: "story_critter_boar", source: "story_boar", w: 48, h: 36, archetype: "blocker", speed: 95 },
+  tortoise: { texture: "story_critter_tortoise", source: "story_tortoise", w: 40, h: 28, archetype: "patrol", speed: 22 },
+  bees: { texture: "story_critter_bees", source: "story_bees", w: 44, h: 32, archetype: "swarm", speed: 36, fly: true },
   frost_wisp: { texture: "story_critter_frost_wisp", source: "story_wisp", w: 52, h: 36, archetype: "swarm", speed: 28, fly: true },
   ice_spit: { texture: "story_critter_ice_spit", source: "story_ice", w: 32, h: 32, archetype: "ranged_lob", speed: 0 },
   gale_magpie: { texture: "story_critter_gale_magpie", source: "story_magpie", w: 40, h: 28, archetype: "diver", speed: 160, fly: true },

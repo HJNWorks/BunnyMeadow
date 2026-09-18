@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import { drawBunny } from "../../../render/drawBunny"
+import { listStoryStampIds, stampCanvas } from "../../../render/stamps"
 import { getSave } from "../../../core/session"
 import { listWorkshopTextures } from "../../../fx/workshop/overlayStore"
 import { listEnemyKits } from "./enemyKit"
@@ -115,17 +116,6 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     poolGfx.destroy()
   }
 
-  if (!scene.textures.exists("story_crow")) {
-    const crow = scene.make.graphics({ x: 0, y: 0 })
-    crow.fillStyle(0x2a2a32, 1)
-    crow.fillEllipse(18, 18, 28, 18)
-    crow.fillTriangle(4, 16, 0, 12, 8, 14)
-    crow.fillStyle(0xf2f2f2, 1)
-    crow.fillCircle(22, 14, 2)
-    crow.generateTexture("story_crow", 36, 28)
-    crow.destroy()
-  }
-
   if (!scene.textures.exists("story_bridge")) {
     const bridge = scene.make.graphics({ x: 0, y: 0 })
     bridge.fillStyle(0xb8c8d4, 1)
@@ -139,41 +129,6 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     bridge.lineBetween(60, 0, 56, 8)
     bridge.generateTexture("story_bridge", 64, 22)
     bridge.destroy()
-  }
-
-  if (!scene.textures.exists("story_wisp")) {
-    const wisp = scene.make.graphics({ x: 0, y: 0 })
-    wisp.fillStyle(0xd8ecff, 0.55)
-    wisp.fillEllipse(26, 18, 48, 30)
-    wisp.fillStyle(0xf4fbff, 0.7)
-    wisp.fillEllipse(22, 16, 22, 16)
-    wisp.generateTexture("story_wisp", 52, 36)
-    wisp.destroy()
-  }
-
-  if (!scene.textures.exists("story_ice")) {
-    const ice = scene.make.graphics({ x: 0, y: 0 })
-    ice.fillStyle(0xa8d4f0, 1)
-    ice.fillTriangle(16, 2, 4, 30, 28, 30)
-    ice.fillStyle(0xe8f6ff, 1)
-    ice.fillTriangle(16, 8, 10, 26, 22, 26)
-    ice.generateTexture("story_ice", 32, 32)
-    ice.destroy()
-  }
-
-  if (!scene.textures.exists("story_magpie")) {
-    const magpie = scene.make.graphics({ x: 0, y: 0 })
-    magpie.fillStyle(0x1a1a22, 1)
-    magpie.fillEllipse(20, 16, 28, 16)
-    magpie.fillTriangle(4, 16, 0, 10, 8, 14)
-    magpie.fillStyle(0xf4f4f8, 1)
-    magpie.fillEllipse(24, 18, 14, 10)
-    magpie.fillStyle(0x2a2a32, 1)
-    magpie.fillTriangle(34, 16, 48, 12, 36, 20)
-    magpie.fillStyle(0xf2f2f2, 1)
-    magpie.fillCircle(26, 12, 2)
-    magpie.generateTexture("story_magpie", 48, 28)
-    magpie.destroy()
   }
 
   if (!scene.textures.exists("story_gale")) {
@@ -240,20 +195,6 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     cart.fillCircle(62, 10, 4)
     cart.generateTexture("story_cart", 100, 60)
     cart.destroy()
-  }
-
-  if (!scene.textures.exists("story_heron")) {
-    const heron = scene.make.graphics({ x: 0, y: 0 })
-    heron.fillStyle(0xd8e0e8, 1)
-    heron.fillEllipse(24, 36, 28, 40)
-    heron.fillStyle(0xb0bcc8, 1)
-    heron.fillTriangle(24, 8, 18, 28, 30, 28)
-    heron.fillStyle(0xe8a040, 1)
-    heron.fillTriangle(24, 6, 40, 10, 24, 14)
-    heron.fillStyle(0x304050, 1)
-    heron.fillCircle(28, 22, 2)
-    heron.generateTexture("story_heron", 48, 64)
-    heron.destroy()
   }
 
   if (!scene.textures.exists("story_crane")) {
@@ -325,31 +266,6 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     star.fillTriangle(8, 6, 5, 22, 11, 22)
     star.generateTexture("story_star", 16, 32)
     star.destroy()
-  }
-
-  if (!scene.textures.exists("story_mooncake")) {
-    const cake = scene.make.graphics({ x: 0, y: 0 })
-    cake.fillStyle(0xd4a017, 1)
-    cake.fillCircle(14, 14, 12)
-    cake.fillStyle(0xf0d078, 1)
-    cake.fillCircle(14, 14, 8)
-    cake.fillStyle(0xb8860b, 1)
-    cake.fillCircle(14, 14, 3)
-    cake.generateTexture("story_mooncake", 28, 28)
-    cake.destroy()
-  }
-
-  if (!scene.textures.exists("story_carrot")) {
-    const carrot = scene.make.graphics({ x: 0, y: 0 })
-    carrot.fillStyle(0xe8822c, 1)
-    carrot.fillTriangle(12, 6, 4, 30, 20, 30)
-    carrot.fillStyle(0xf0a050, 1)
-    carrot.fillTriangle(12, 12, 8, 28, 16, 28)
-    carrot.fillStyle(0x4d8f3d, 1)
-    carrot.fillEllipse(9, 5, 6, 8)
-    carrot.fillEllipse(15, 5, 6, 8)
-    carrot.generateTexture("story_carrot", 24, 32)
-    carrot.destroy()
   }
 
   if (scene.textures.exists("chase_fox")) {
@@ -447,7 +363,22 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     ember.destroy()
   }
 
-  const bakeTinted = (sourceKey: string, destKey: string, tint?: number): void => {
+  const addStampTexture = (id: string): void => {
+    const stamp = stampCanvas(id)
+    if (!stamp) {
+      return
+    }
+    if (scene.textures.exists(id)) {
+      scene.textures.remove(id)
+    }
+    scene.textures.addCanvas(id, stamp)
+  }
+
+  for (const id of listStoryStampIds()) {
+    addStampTexture(id)
+  }
+
+  const bakeCopy = (sourceKey: string, destKey: string): void => {
     if (!scene.textures.exists(sourceKey)) {
       return
     }
@@ -460,13 +391,6 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
       return
     }
     ctx.drawImage(img, 0, 0)
-    if (tint !== undefined) {
-      ctx.globalCompositeOperation = "multiply"
-      ctx.fillStyle = `#${tint.toString(16).padStart(6, "0")}`
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-      ctx.globalCompositeOperation = "destination-in"
-      ctx.drawImage(img, 0, 0)
-    }
     if (scene.textures.exists(destKey)) {
       scene.textures.remove(destKey)
     }
@@ -474,10 +398,10 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
   }
 
   for (const row of listEnemyKits()) {
-    bakeTinted(row.kit.source, row.kit.texture, row.kit.tint)
+    bakeCopy(row.kit.source, row.kit.texture)
   }
   for (const look of listItemLooks()) {
-    bakeTinted(look.source, look.texture, look.tint)
+    bakeCopy(look.source, look.texture)
   }
 
   const workshop = listWorkshopTextures()
