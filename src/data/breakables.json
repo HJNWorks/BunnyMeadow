@@ -1,0 +1,22 @@
+{
+  "profiles": {
+    "stone": {
+      "hp": 5,
+      "sources": ["beam"],
+      "cracks": "stone",
+      "debris": "rubble"
+    },
+    "wood": {
+      "hp": 5,
+      "sources": ["stand", "beam"],
+      "cracks": "wood",
+      "debris": "splinter"
+    },
+    "ice": {
+      "hp": 3,
+      "sources": ["beam", "stand"],
+      "cracks": "ice",
+      "debris": "shard"
+    }
+  }
+}

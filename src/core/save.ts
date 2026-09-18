@@ -2,7 +2,7 @@ import { getPlatform } from "./platform"
 
 export type FurOption = "cream" | "brown" | "gray" | "moon-white"
 export type EarsOption = "upright" | "lop" | "tufted"
-export type AccessoryOption = "none" | "scarf" | "lantern" | "blossom"
+export type AccessoryOption = "none" | "scarf" | "lantern" | "blossom" | "moon-helmet"
 export type DifficultyId = "sprout" | "hopper" | "wildhare" | "moonlit" | "hardcore"
 export type LanguageId = "en" | "de" | "zh"
 
@@ -250,6 +250,10 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
     merged.settings.audio.muted = merged.settings.audio.muted === true
     if (typeof merged.player.equippedDash !== "string" || !merged.player.equippedDash) {
       merged.player.equippedDash = "meadow"
+    }
+    const accessories: AccessoryOption[] = ["none", "scarf", "lantern", "blossom", "moon-helmet"]
+    if (!accessories.includes(merged.player.accessory)) {
+      merged.player.accessory = "none"
     }
     const cleared = merged.progress.story.cleared
     const hasW1Progress = cleared.some((id) => typeof id === "string" && id.startsWith("w1_"))

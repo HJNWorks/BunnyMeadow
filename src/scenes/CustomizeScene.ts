@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import { t } from "../core/i18n"
 import { getAudio } from "../core/audio"
+import { isAccessoryUnlocked } from "../core/unlocks"
 import type { AccessoryOption, EarsOption, FurOption } from "../core/save"
 import { getSave, persistSave } from "../core/session"
 import { mountDomShell, requireEl } from "../ui/DomShell"
@@ -72,11 +73,17 @@ export class CustomizeScene extends Phaser.Scene {
         <div class="bm-field">
           <label for="accessory">${t("customize.accessory")}</label>
           <select id="accessory" data-ui="accessory">
-            ${(["none", "scarf", "lantern", "blossom"] as AccessoryOption[])
-              .map(
-                (v) =>
-                  `<option value="${v}" ${save.player.accessory === v ? "selected" : ""}>${t(`customize.accessory.${v}`)}</option>`,
-              )
+            ${(["none", "scarf", "lantern", "blossom", "moon-helmet"] as AccessoryOption[])
+              .map((v) => {
+                const unlocked = isAccessoryUnlocked(save, v)
+                const label = t(`customize.accessory.${v}`)
+                const text = unlocked
+                  ? label
+                  : t("customize.accessory.locked", { name: label })
+                const selected = save.player.accessory === v ? "selected" : ""
+                const disabled = unlocked ? "" : "disabled"
+                return `<option value="${v}" ${selected} ${disabled}>${text}</option>`
+              })
               .join("")}
           </select>
         </div>
@@ -254,7 +261,8 @@ export class CustomizeScene extends Phaser.Scene {
       next.player.name = requireEl<HTMLInputElement>(root, "[data-ui=name]").value.trim() || "Mei"
       next.player.fur = furEl.value as FurOption
       next.player.ears = earsEl.value as EarsOption
-      next.player.accessory = accessoryEl.value as AccessoryOption
+      const accessory = accessoryEl.value as AccessoryOption
+      next.player.accessory = isAccessoryUnlocked(next, accessory) ? accessory : "none"
       const dashId = dashEl.value
       next.player.equippedDash = isDashUnlocked(dashId, next.progress.achievements) ? dashId : "meadow"
       await persistSave()

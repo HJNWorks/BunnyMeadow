@@ -45,6 +45,7 @@ import {
   constrainCreatureToWorld,
 } from "./shared/enemyKit"
 import { HAN_WARMTH, HanFight, hanCakeSpotsFromPlatforms } from "./shared/hanBoss"
+import { BreakField } from "./shared/breakables"
 import {
   applyWaterPhysics,
   createMovers,
@@ -353,6 +354,7 @@ export class StoryScene extends Phaser.Scene {
   private coach: ControlCoach | null = null
   private leaving = false
   private movers: MoverState[] = []
+  private breaks: BreakField | null = null
   private ride: RideState | null = null
   private exitHintAt = 0
   private waterGrace = 0
@@ -410,6 +412,7 @@ export class StoryScene extends Phaser.Scene {
     this.epilogueStep = 0
     this.leaving = false
     this.movers = []
+    this.breaks = null
     this.ride = null
     this.exitHintAt = 0
     this.waterGrace = 0
@@ -608,6 +611,10 @@ export class StoryScene extends Phaser.Scene {
     }
 
     this.platforms = this.physics.add.staticGroup()
+    this.breaks = new BreakField(this, this.reducedMotion)
+    if (this.editorMode === "build") {
+      this.breaks.pause()
+    }
     for (let i = 0; i < world.platforms.length; i += 1) {
       const rect = world.platforms[i]
       if (!rect) {
@@ -638,6 +645,9 @@ export class StoryScene extends Phaser.Scene {
         ;(block.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject()
         block.setData("editKind", "platform")
         block.setData("editIndex", i)
+        if (rect.break) {
+          this.breaks?.register(block, rect.break)
+        }
       } else {
         const block = this.add.tileSprite(
           rect.x + rect.w / 2,
@@ -652,10 +662,14 @@ export class StoryScene extends Phaser.Scene {
         ;(block.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject()
         block.setData("editKind", "platform")
         block.setData("editIndex", i)
+        if (rect.break) {
+          this.breaks?.register(block, rect.break)
+        }
         if (this.editorMode !== "build") {
-          this.add
+          const cap = this.add
             .rectangle(rect.x + rect.w / 2, rect.y + 6, rect.w, 12, hexToNum(palette.ground))
             .setDepth(1.5)
+          block.setData("cap", cap)
         }
       }
     }
@@ -693,6 +707,10 @@ export class StoryScene extends Phaser.Scene {
     this.movers.forEach((state, index) => {
       state.sprite.setData("editKind", "mover")
       state.sprite.setData("editIndex", index)
+      const mover = world.movers[index]
+      if (mover?.break) {
+        this.breaks?.register(state.sprite, mover.break)
+      }
     })
 
     this.waterRects = createWaterHazards(this, world.hazards, this.player, (water) => {
@@ -733,7 +751,9 @@ export class StoryScene extends Phaser.Scene {
       if (!e) {
         continue
       }
-      const sprite = spawnEnemy(this, e.id, e.worldX, e.worldY, this.platforms, this.enemies)
+      const sprite = spawnEnemy(this, e.id, e.worldX, e.worldY, this.platforms, this.enemies, {
+        pin: this.editorMode === "build",
+      })
       sprite.setData("editKind", "enemy")
       sprite.setData("editIndex", i)
       if (this.editorMode === "build") {
@@ -860,7 +880,11 @@ export class StoryScene extends Phaser.Scene {
       this.foxHu.setData("speed", def.foxHu.speed)
       this.foxHu.setData("fly", false)
       this.enemies.add(this.foxHu)
-      constrainCreatureToWorld(this, this.foxHu, this.platforms)
+      if (this.editorMode === "build") {
+        freezeEnemyForEditor(this.foxHu)
+      } else {
+        constrainCreatureToWorld(this, this.foxHu, this.platforms)
+      }
       const cartBody = this.foxHu.body as Phaser.Physics.Arcade.Body
       cartBody.setAllowGravity(false)
       this.foxHu.setImmovable(true)
@@ -937,6 +961,10 @@ export class StoryScene extends Phaser.Scene {
             },
           platforms: this.platforms,
           cakeSpots: hanCakeSpotsFromPlatforms(world.platforms),
+          clipExtras: this.movers.map((row) => row.sprite),
+          onBeamBreak: (obj, dt) => {
+            this.breaks?.hurt(obj, dt, "beam")
+          },
         },
       )
       this.enemies.add(this.han.sprite)
@@ -1764,6 +1792,9 @@ export class StoryScene extends Phaser.Scene {
     }
     if (this.editorMode === "build") {
       this.player.setVelocity(0, 0)
+      for (const obj of this.enemies.getChildren()) {
+        freezeEnemyForEditor(obj as Phaser.Physics.Arcade.Sprite)
+      }
       this.weather?.update(dt, this.cameras.main.scrollX)
       return
     }
@@ -1775,6 +1806,7 @@ export class StoryScene extends Phaser.Scene {
     this.han?.tryEatCake()
 
     updateMovers(this.movers, this.player, dt)
+    this.breaks?.tickStand(this.player, dt)
 
     if (this.galeWall) {
       this.galeWall.setVelocityX(this.galeSpeed)

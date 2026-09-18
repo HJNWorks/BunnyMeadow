@@ -25,6 +25,9 @@ docs/
   STORY.md             one-night narrative spine
   story/
     proximity.md       contact vs proximity vs volume triggers
+  editor/
+    README.md          story map editor
+    destructibility.md break profiles, beam/stand damage, crack stages
   LORE.md              folklore ledger (canon / adapted / invented)
   WORLDS.md            story path map (hub into universe/environments)
   ENEMIES.md           enemy data schema (hub into creatures/)

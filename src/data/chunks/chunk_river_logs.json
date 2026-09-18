@@ -12,9 +12,9 @@
     { "id": "crow", "x": 480, "y": 620 }
   ],
   "movers": [
-    { "x": 180, "y": 880, "w": 130, "h": 28, "axis": "y", "amplitude": 50, "speed": 1.4, "tint": 10066176 },
-    { "x": 400, "y": 860, "w": 130, "h": 28, "axis": "x", "amplitude": 90, "speed": 1.1, "tint": 10066176 },
-    { "x": 640, "y": 820, "w": 130, "h": 28, "axis": "y", "amplitude": 60, "speed": 1.3, "tint": 10066176 }
+    { "x": 180, "y": 880, "w": 130, "h": 28, "axis": "y", "amplitude": 50, "speed": 1.4, "tint": 10066176, "break": { "profile": "wood" } },
+    { "x": 400, "y": 860, "w": 130, "h": 28, "axis": "x", "amplitude": 90, "speed": 1.1, "tint": 10066176, "break": { "profile": "wood" } },
+    { "x": 640, "y": 820, "w": 130, "h": 28, "axis": "y", "amplitude": 60, "speed": 1.3, "tint": 10066176, "break": { "profile": "wood" } }
   ],
   "hazards": [
     { "x": 120, "y": 920, "w": 720, "h": 160, "kind": "water", "current": 55 }

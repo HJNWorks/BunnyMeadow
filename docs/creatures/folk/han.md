@@ -23,13 +23,14 @@ Projectiles stay night-themed and fire from Han toward Mei as a radial fan:
 - 3 and 2 hearts: star needles in a wider cone. Roam speed 168. A lunar beam starts shortly
   after this stage (2 s charge, 4 s tracking slab, 2 hearts on contact), then a 10 s cooldown
   before later rolls.
-- 1 heart: both volleys at once. Roam speed 248. Beam charge drops to 1 s, same 4 s slab
-  and 10 s cooldown. A beam is queued again when this stage begins.
+- 1 heart: both volleys at once. Roam speed 248. Beam charge drops to 1 s, same tracking
+  slab for 5.5 s and 10 s cooldown. Destructible green ledges take beam damage and fall
+  after 5 s of focus. A beam is queued again when this stage begins.
 - 0: Han is pulled into an inward spiral at his last position. An outward spiral grows a
   large moon there (visual only, not a solid). Then settled. Exit and the four epilogue
   cards are unchanged.
 
-Spike fan timing and counts are unchanged from the first live fight. The beam is a long tracking rectangle, not a projectile. Platforms and walls clip it, so Mei can hide. The impact leaves a spark, rising embers, and a fading scorch trail. Reduced motion keeps one mark. Dash i-frames still apply. Reduced motion shortens the charge and skips spiral motes.
+Spike fan timing and counts are unchanged from the first live fight. The beam is a long tracking rectangle, not a projectile. It leaves from the half-moon on Han's helmet. Platforms and walls clip it, so Mei can hide. The impact leaves a spark, rising embers, and a fading scorch trail. On the last heart the hot slab lasts 5.5 s and can break destructible ledges (three crack stages, then the collider drops). Reduced motion keeps one mark. Dash i-frames still apply. Reduced motion shortens the charge and skips spiral motes.
 
 Han speaks four ticker lines on the same HUD as Moon Pools (no pause). Full health, 3
 hearts, 1 heart, and beaten. Moon Pool lines on Guanghan stay Chang'e's. Editor Build

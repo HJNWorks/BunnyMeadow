@@ -8,6 +8,13 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Editor Build pins critters where they were placed. Refresh no longer snaps them onto
+  the nearest floor.
+- Beating Han unlocks Mei's moon helmet in Customize (`MOON_RETURN`). Cosmetic only.
+- Han's lunar beam leaves from the half-moon on his helmet.
+- Objects can carry a `break` profile. Last-heart beam (5.5 s) breaks Guanghan green
+  ledges after 5 s of focus with three crack stages. Soft River logs break after 5 s
+  of standing. Map: [docs/editor/destructibility.md](docs/editor/destructibility.md).
 - Story map editor Copy duplicates the selection (platforms, walls, items, critters,
   hedges, water, Moon Pools) and offsets it by 40 px. Spawn and exit stay unique.
 - Han's mooncakes spawn on the top-center of remaining green platforms. Resize or delete

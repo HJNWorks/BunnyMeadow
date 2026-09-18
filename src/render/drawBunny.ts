@@ -93,6 +93,14 @@ export function drawBunny(
     ellipse(ctx, -14, -18, 4, 4, "#f2a0b8")
     ellipse(ctx, -10, -20, 3, 3, "#f7c4d2")
     ellipse(ctx, -12, -16, 2, 2, "#e87898")
+  } else if (cosmetics.accessory === "moon-helmet") {
+    ellipse(ctx, 0, -16, 16, 8, "#c8d4e4")
+    ctx.fillStyle = "#a8b8c8"
+    ctx.fillRect(-13, -14, 26, 7)
+    ctx.fillStyle = "#8a98a8"
+    ctx.fillRect(-2, -28, 4, 12)
+    ellipse(ctx, 5, -34, 8, 8, "#f4f8ff")
+    ellipse(ctx, -1, -34, 6, 6, fill)
   }
 
   ctx.restore()

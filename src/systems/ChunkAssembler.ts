@@ -36,7 +36,15 @@ import chunkStairGaleB from "../data/chunks/chunk_stair_gale_b.json"
 
 export type ChunkId = string
 
-export type ChunkRect = { x: number; y: number; w: number; h: number }
+export type BreakSource = "beam" | "stand"
+
+export type BreakSpec = {
+  profile: string
+  hp?: number
+  sources?: BreakSource[]
+}
+
+export type ChunkRect = { x: number; y: number; w: number; h: number; break?: BreakSpec }
 
 export type PlaceableTrigger = {
   kind: "proximity"
@@ -113,6 +121,7 @@ export type AssembledDecor = {
   rotation?: number
   asset?: string
   trigger?: PlaceableTrigger
+  break?: BreakSpec
 }
 
 export type AssembledEnemy = ChunkEnemySpawn & { worldX: number; worldY: number }
@@ -215,10 +224,26 @@ export class ChunkAssembler {
       height = Math.max(height, chunk.height)
       colors.push({ x, width: chunk.width, color: chunk.color })
       for (const p of chunk.platforms) {
-        platforms.push({ x: x + p.x, y: p.y, w: p.w, h: p.h, kind: "platform", asset: "ground" })
+        platforms.push({
+          x: x + p.x,
+          y: p.y,
+          w: p.w,
+          h: p.h,
+          kind: "platform",
+          asset: "ground",
+          break: p.break,
+        })
       }
       for (const w of chunk.walls) {
-        platforms.push({ x: x + w.x, y: w.y, w: w.w, h: w.h, kind: "wall", asset: "hedge" })
+        platforms.push({
+          x: x + w.x,
+          y: w.y,
+          w: w.w,
+          h: w.h,
+          kind: "wall",
+          asset: "hedge",
+          break: w.break,
+        })
         decor.push({
           kind: "hedge",
           x: x + w.x,

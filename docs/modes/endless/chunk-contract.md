@@ -30,9 +30,9 @@ A chunk is one JSON file under `src/data/chunks/endless/`, glob-registered into
 | --- | --- |
 | id | unique chunk id, named `endless_<env>_t<tier>_<a\|b>` today |
 | width, height, groundY | chunk box and ground line |
-| platforms, walls | static collision rects |
+| platforms, walls | static collision rects. Optional `break` field, see [../../editor/destructibility.md](../../editor/destructibility.md) |
 | enemies | fixed enemy spawns by id (only fox, hedgehog, crow exist) |
-| movers | drifting platforms on the x or y axis with amplitude, speed, tint |
+| movers | drifting platforms on the x or y axis with amplitude, speed, tint. Optional `break` profile. Endless does not tick stand damage yet |
 | hazards | currently only `kind: "water"` with an optional `current` push |
 | carrots | fixed carrot pickups |
 | endless.env, endless.tier | biome and tier, both baked into the id |

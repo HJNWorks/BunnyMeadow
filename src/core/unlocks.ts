@@ -48,5 +48,11 @@ export function isAccessoryUnlocked(save: SaveV1, accessory: AccessoryOption): b
   if (accessory === "none") {
     return true
   }
+  if (accessory === "moon-helmet") {
+    return (
+      save.progress.achievements.includes("MOON_RETURN") ||
+      save.progress.story.cleared.includes("moon_guanghan")
+    )
+  }
   return save.progress.pantryLevel >= 3
 }

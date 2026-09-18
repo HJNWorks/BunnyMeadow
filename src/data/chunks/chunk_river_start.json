@@ -13,7 +13,7 @@
     { "id": "hedgehog", "x": 180, "y": 850 }
   ],
   "movers": [
-    { "x": 380, "y": 900, "w": 140, "h": 28, "axis": "x", "amplitude": 70, "speed": 1.2, "tint": 10066176 }
+    { "x": 380, "y": 900, "w": 140, "h": 28, "axis": "x", "amplitude": 70, "speed": 1.2, "tint": 10066176, "break": { "profile": "wood" } }
   ],
   "hazards": [
     { "x": 320, "y": 940, "w": 400, "h": 140, "kind": "water", "current": 40 }

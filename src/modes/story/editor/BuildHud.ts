@@ -18,6 +18,8 @@ import {
   type EditorPickup,
 } from "./overlayStore"
 import { defaultDecor, DECOR_LABELS, PLATFORM_ASSETS } from "./placeables"
+import { listBreakProfiles } from "../shared/breakables"
+import type { BreakSpec } from "../../../systems/ChunkAssembler"
 import {
   allCritterIds,
   allItemIds,
@@ -355,6 +357,12 @@ export function mountBuildHud(session: EditorSession): void {
                   <select data-ui="id" class="wide"></select>
                 </label>
                 <label>${t("editor.field.current")} <input data-ui="current" type="number" step="10" /></label>
+                <label class="bm-editor-flag" data-ui="breakLabel">
+                  <input type="checkbox" data-ui="breakOn" /> ${t("editor.field.break")}
+                </label>
+                <label data-ui="breakProfileLabel">${t("editor.field.breakProfile")}
+                  <select data-ui="breakProfile" class="wide"></select>
+                </label>
                 <label data-ui="poolLineLabel">${t("editor.poolLine")}
                   <textarea data-ui="poolLine" class="wide" rows="2"></textarea>
                 </label>
@@ -421,6 +429,10 @@ export function mountBuildHud(session: EditorSession): void {
   const assetInput = requireEl<HTMLSelectElement>(root, "[data-ui=asset]")
   const idInput = requireEl<HTMLSelectElement>(root, "[data-ui=id]")
   const currentInput = requireEl<HTMLInputElement>(root, "[data-ui=current]")
+  const breakOn = requireEl<HTMLInputElement>(root, "[data-ui=breakOn]")
+  const breakProfile = requireEl<HTMLSelectElement>(root, "[data-ui=breakProfile]")
+  const breakLabel = requireEl<HTMLElement>(root, "[data-ui=breakLabel]")
+  const breakProfileLabel = requireEl<HTMLElement>(root, "[data-ui=breakProfileLabel]")
   const poolLineEl = requireEl<HTMLTextAreaElement>(root, "[data-ui=poolLine]")
   const poolLineLabel = requireEl<HTMLElement>(root, "[data-ui=poolLineLabel]")
   const lookEnv = requireEl<HTMLSelectElement>(root, "[data-ui=lookEnv]")
@@ -480,9 +492,47 @@ export function mountBuildHud(session: EditorSession): void {
   lookHour.innerHTML = PALETTE_HOURS.map((id) => `<option value="${id}">${id}</option>`).join("")
   lookWeather.innerHTML = WEATHER_PRESETS.map((id) => `<option value="${id}">${id}</option>`).join("")
   assetInput.innerHTML = PLATFORM_ASSETS.map((id) => `<option value="${id}">${id}</option>`).join("")
+  breakProfile.innerHTML = listBreakProfiles()
+    .map((id) => `<option value="${id}">${id}</option>`)
+    .join("")
 
   const persist = (): void => {
     setOverlay(session.level.id, overlay)
+  }
+
+  const breakHost = (sel: Selection): { break?: BreakSpec } | null => {
+    if (sel.kind === "platform") {
+      return overlay.platforms[sel.index] ?? null
+    }
+    if (sel.kind === "mover") {
+      return overlay.movers[sel.index] ?? null
+    }
+    if (sel.kind === "decor") {
+      return overlay.decor?.[sel.index] ?? null
+    }
+    return null
+  }
+
+  const fillBreak = (host: { break?: BreakSpec } | null, can: boolean): void => {
+    breakOn.disabled = !can
+    breakProfile.disabled = !can || !breakOn.checked
+    breakLabel.hidden = !can
+    breakProfileLabel.hidden = !can
+    if (!can) {
+      breakOn.checked = false
+      return
+    }
+    breakOn.checked = Boolean(host?.break)
+    breakProfile.value = host?.break?.profile ?? "stone"
+    breakProfile.disabled = !breakOn.checked
+  }
+
+  const writeBreak = (host: { break?: BreakSpec }): void => {
+    if (!breakOn.checked) {
+      delete host.break
+      return
+    }
+    host.break = { profile: breakProfile.value || "stone" }
   }
 
   const cloneJson = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T
@@ -1029,6 +1079,7 @@ export function mountBuildHud(session: EditorSession): void {
       if (currentLabel) {
         currentLabel.hidden = true
       }
+      fillBreak(null, false)
       syncUndo()
       return
     }
@@ -1044,6 +1095,9 @@ export function mountBuildHud(session: EditorSession): void {
     rotInput.disabled = selected.kind !== "decor" && selected.kind !== "platform"
     assetInput.disabled = selected.kind !== "decor" && selected.kind !== "platform"
     currentInput.disabled = selected.kind !== "hazard"
+    const canBreak =
+      selected.kind === "platform" || selected.kind === "mover" || selected.kind === "decor"
+    fillBreak(canBreak ? breakHost(selected) : null, canBreak)
     const poolKind = selected.kind === "pool"
     poolLineEl.disabled = !poolKind
     poolLineLabel.hidden = !poolKind
@@ -1332,12 +1386,14 @@ export function mountBuildHud(session: EditorSession): void {
             rect.h = h
             rect.rotation = Number(rotInput.value) || 0
             rect.asset = assetInput.value as AssembledRect["asset"]
+            writeBreak(rect)
           }
         } else if (sameKind && selected.kind === "mover") {
           const mover = overlay.movers[item.index]
           if (mover) {
             mover.w = w
             mover.h = h
+            writeBreak(mover)
           }
         } else if (sameKind && selected.kind === "decor") {
           const decor = overlay.decor?.[item.index]
@@ -1346,6 +1402,7 @@ export function mountBuildHud(session: EditorSession): void {
             decor.h = h
             decor.rotation = Number(rotInput.value) || 0
             decor.asset = assetInput.value
+            writeBreak(decor)
           }
         } else if (sameKind && selected.kind === "hazard") {
           const hazard = overlay.hazards?.[item.index]
@@ -1390,6 +1447,7 @@ export function mountBuildHud(session: EditorSession): void {
         rect.h = h
         rect.rotation = Number(rotInput.value) || 0
         rect.asset = assetInput.value as AssembledRect["asset"]
+        writeBreak(rect)
       }
     } else if (selected.kind === "mover") {
       const mover = overlay.movers[selected.index]
@@ -1401,6 +1459,7 @@ export function mountBuildHud(session: EditorSession): void {
         mover.y = y
         mover.w = w
         mover.h = h
+        writeBreak(mover)
       }
     } else if (selected.kind === "enemy") {
       const enemy = overlay.enemies[selected.index]
@@ -1431,6 +1490,7 @@ export function mountBuildHud(session: EditorSession): void {
         item.h = h
         item.rotation = Number(rotInput.value) || 0
         item.asset = assetInput.value
+        writeBreak(item)
       }
     } else if (selected.kind === "hazard") {
       const item = overlay.hazards?.[selected.index]
@@ -1797,6 +1857,8 @@ export function mountBuildHud(session: EditorSession): void {
   rotInput.onchange = applyInspect
   assetInput.onchange = applyInspect
   currentInput.onchange = applyInspect
+  breakOn.onchange = applyInspect
+  breakProfile.onchange = applyInspect
   poolLineEl.onchange = applyInspect
   const applyLook = (): void => {
     overlay.look = {

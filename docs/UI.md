@@ -91,14 +91,14 @@ Gamepad: left stick / d-pad for move; South dash or confirm by context; West or 
 
 ## Customize
 
-Unlocked by pantry level. Cosmetics only. Unlock helpers exist from M1. Map unlocks are enforced for Meadow. Cosmetic option filtering in Customize UI is still open.
+Unlocked by pantry level, plus one story helmet. Cosmetics only. Unlock helpers exist from M1. Map unlocks are enforced for Meadow. Accessory and dash rows filter locked options in Customize.
 
 | Slot | Options (seed) | Unlock |
 | --- | --- | --- |
 | Name | free text, default Mei | always |
 | Fur | cream, brown, gray, moon-white | pantry 1+ |
 | Ears | upright, lop, tufted | pantry 2+ |
-| Accessory | none, scarf, lantern, blossom | pantry 3+ |
+| Accessory | none, scarf, lantern, blossom, moon helmet | pantry 3+. Moon helmet: `MOON_RETURN` |
 | Dash | meadow (always), carrot (`BASKET_FULL`), gale (`WORLD4_CLEAR`), moon (`MOON_RETURN`) | achievement |
 
 Preview starts still. **Stop animations** is on by default. **Play** turns that off and cycles Mei's bound clips at random. Dash is the only bound clip today. Jump, glide, and hop join the same list when they exist (`src/render/meiPreview.ts`).

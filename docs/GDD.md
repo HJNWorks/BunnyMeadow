@@ -39,7 +39,7 @@ Infinite left-to-right runner from Story chunk prefabs. Free player pace under a
 
 ## Meta progression
 
-Carrots from any mode feed the burrow pantry. Pantry levels unlock cosmetics and Meadow maps only. No gameplay power creep. Difficulty stays honest.
+Carrots from any mode feed the burrow pantry. Pantry levels unlock cosmetics and Meadow maps only. Beating Han unlocks Mei's moon helmet the same way `MOON_RETURN` unlocks the moon dash. No gameplay power creep. Difficulty stays honest.
 
 ## Difficulty (data-driven)
 

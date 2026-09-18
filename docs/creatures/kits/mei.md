@@ -15,8 +15,9 @@ glide, low-gravity float. Where each is taught is on [../abilities.md](../abilit
 
 ## Cosmetics
 
-Mei is the sprite the Customize screen dresses (`drawBunny`). Cosmetics are unlocked by
-the pantry and never change stats (a GDD scope guard).
+Mei is the sprite the Customize screen dresses (`drawBunny`). Pantry cosmetics never
+change stats (a GDD scope guard). Beating Han also unlocks a moon helmet, the same
+rule as achievement dashes. It is cosmetic only.
 
 ## Guard
 

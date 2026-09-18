@@ -69,6 +69,8 @@ export type HanFightOpts = {
   speak?: (line: HanLine) => void
   platforms: Phaser.Physics.Arcade.StaticGroup
   cakeSpots: HanCakeSpot[]
+  clipExtras?: Phaser.GameObjects.GameObject[]
+  onBeamBreak?: (obj: Phaser.GameObjects.GameObject, dt: number) => void
 }
 
 export class HanFight {
@@ -109,6 +111,9 @@ export class HanFight {
   private burns: Burn[] = []
   private platforms: Phaser.Physics.Arcade.StaticGroup
   private cakeSpots: HanCakeSpot[]
+  private clipExtras: Phaser.GameObjects.GameObject[]
+  private onBeamBreak?: (obj: Phaser.GameObjects.GameObject, dt: number) => void
+  private beamClipObj: Phaser.GameObjects.GameObject | null = null
   private settlePhase: SettlePhase = "none"
   private settleT = 0
   private settleX = 0
@@ -131,6 +136,8 @@ export class HanFight {
     this.speak = opts.speak
     this.platforms = opts.platforms
     this.cakeSpots = opts.cakeSpots
+    this.clipExtras = opts.clipExtras ?? []
+    this.onBeamBreak = opts.onBeamBreak
     this.aimX = x
     this.aimY = y
     ensureScorch(scene)
@@ -476,7 +483,7 @@ export class HanFight {
       }
       return
     }
-    const want = this.aimAngle()
+    const want = this.helmetAimAngle()
     if (this.beamMode === "charge") {
       this.chargeT += dt
       this.beamAng = this.turnToward(this.beamAng, want, 5 * dt)
@@ -497,7 +504,10 @@ export class HanFight {
     if (this.playerInBeam()) {
       this.beamHit = true
     }
-    if (this.beamT >= 4) {
+    if (this.hearts <= 1 && this.beamClipObj) {
+      this.onBeamBreak?.(this.beamClipObj, dt)
+    }
+    if (this.beamT >= this.beamHold()) {
       this.beamMode = "idle"
       this.beamCd = 10
       this.beamRoll = 0
@@ -508,7 +518,7 @@ export class HanFight {
   private startCharge(): void {
     this.beamMode = "charge"
     this.chargeT = 0
-    this.beamAng = this.aimAngle()
+    this.beamAng = this.helmetAimAngle()
     this.sprite.setTint(0xe8f4ff)
   }
 
@@ -520,15 +530,33 @@ export class HanFight {
     }
   }
 
+  private beamHold(): number {
+    if (this.hearts <= 1) {
+      return 5.5
+    }
+    return 4
+  }
+
+  private beamOrigin(): { x: number; y: number } {
+    return {
+      x: this.sprite.x,
+      y: this.sprite.y - this.sprite.displayHeight * 0.42,
+    }
+  }
+
+  private helmetAimAngle(): number {
+    const origin = this.beamOrigin()
+    return Math.atan2(this.player.y - origin.y, this.player.x - origin.x)
+  }
+
   private drawBeam(hot: boolean): void {
-    const x = this.sprite.x
-    const y = this.sprite.y
-    this.beamSlab.setPosition(x, y)
+    const origin = this.beamOrigin()
+    this.beamSlab.setPosition(origin.x, origin.y)
     this.beamSlab.setRotation(this.beamAng)
     this.beamSlab.setVisible(true)
     this.beamSlab.setFillStyle(hot ? 0xf4fbff : 0x7ec8ff, hot ? 0.5 : 0.42)
     this.beamSlab.setDisplaySize(this.beamLen, hot ? 64 : 22)
-    this.beamCore.setPosition(x, y)
+    this.beamCore.setPosition(origin.x, origin.y)
     this.beamCore.setRotation(this.beamAng)
     this.beamCore.setVisible(true)
     this.beamCore.setFillStyle(hot ? 0xfff8d0 : 0xffffff, hot ? 0.96 : 0.7)
@@ -536,19 +564,27 @@ export class HanFight {
   }
 
   private clipBeam(): number {
-    const ox = this.sprite.x
-    const oy = this.sprite.y
+    const origin = this.beamOrigin()
+    const ox = origin.x
+    const oy = origin.y
     const ux = Math.cos(this.beamAng)
     const uy = Math.sin(this.beamAng)
     let reach = BEAM_LEN
-    for (const obj of this.platforms.getChildren()) {
-      const body = (obj as Phaser.GameObjects.GameObject).body as Phaser.Physics.Arcade.StaticBody | null
-      if (!body) {
+    this.beamClipObj = null
+    const solids = [...this.platforms.getChildren(), ...this.clipExtras]
+    for (const obj of solids) {
+      const go = obj as Phaser.GameObjects.GameObject & { getData?: (key: string) => unknown }
+      if (go.getData?.("broken") === true) {
+        continue
+      }
+      const body = go.body as Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody | null
+      if (!body || !body.enable) {
         continue
       }
       const hit = rayAabb(ox, oy, ux, uy, body.left, body.right, body.top, body.bottom, reach)
       if (hit !== null && hit < reach) {
         reach = hit
+        this.beamClipObj = go
       }
     }
     return Math.max(24, reach)
@@ -559,8 +595,9 @@ export class HanFight {
       this.fxGfx.clear()
       return
     }
-    const x = this.sprite.x + Math.cos(this.beamAng) * this.beamLen
-    const y = this.sprite.y + Math.sin(this.beamAng) * this.beamLen
+    const origin = this.beamOrigin()
+    const x = origin.x + Math.cos(this.beamAng) * this.beamLen
+    const y = origin.y + Math.sin(this.beamAng) * this.beamLen
     this.fxGfx.clear()
     const now = this.scene.time.now
     if (!hot) {
@@ -639,8 +676,9 @@ export class HanFight {
   }
 
   private playerInBeam(): boolean {
-    const dx = this.player.x - this.sprite.x
-    const dy = this.player.y - this.sprite.y
+    const origin = this.beamOrigin()
+    const dx = this.player.x - origin.x
+    const dy = this.player.y - origin.y
     const ux = Math.cos(this.beamAng)
     const uy = Math.sin(this.beamAng)
     const along = dx * ux + dy * uy

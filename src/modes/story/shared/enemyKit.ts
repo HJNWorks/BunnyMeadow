@@ -128,6 +128,7 @@ export function spawnEnemy(
   y: number,
   platforms: Phaser.Physics.Arcade.StaticGroup,
   enemies: Phaser.Physics.Arcade.Group,
+  opts?: { pin?: boolean },
 ): Phaser.Physics.Arcade.Sprite {
   const kit = getEnemyKit(id)
   const sprite = scene.physics.add.sprite(x, y, kit.texture)
@@ -156,7 +157,11 @@ export function spawnEnemy(
     sprite.setData("timer", 0.8 + Math.random() * 0.8)
   }
   enemies.add(sprite)
-  constrainCreatureToWorld(scene, sprite, platforms)
+  if (opts?.pin) {
+    freezeEnemyForEditor(sprite)
+  } else {
+    constrainCreatureToWorld(scene, sprite, platforms)
+  }
   return sprite
 }
 

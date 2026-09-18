@@ -12,7 +12,7 @@
   "walls": [],
   "enemies": [],
   "movers": [
-    { "x": 200, "y": 900, "w": 120, "h": 28, "axis": "x", "amplitude": 40, "speed": 0.9, "tint": 10066176 }
+    { "x": 200, "y": 900, "w": 120, "h": 28, "axis": "x", "amplitude": 40, "speed": 0.9, "tint": 10066176, "break": { "profile": "wood" } }
   ],
   "hazards": [
     { "x": 40, "y": 960, "w": 200, "h": 80, "kind": "water", "current": 30 }

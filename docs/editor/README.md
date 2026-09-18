@@ -52,9 +52,9 @@ Wall is the green collision slab. Hedge/vine art is a separate selectable decor 
 "trigger": { "kind": "proximity", "radius": 80 }
 ```
 
-Runtime does not spawn a proximity sensor from that field yet. Do not put `trigger` on burrow or Moon Pool. Map: [story/proximity.md](../story/proximity.md).
+Runtime does not spawn a proximity sensor from that field yet. Do not put `trigger` on burrow or Moon Pool. Map: [story/proximity.md](../story/proximity.md). Destructible platforms, walls, logs, and decor use a `break` field. Profiles and damage sources: [destructibility.md](destructibility.md).
 
-Toolbar: Selection Mode Object or Region. Region: drag a rectangle; every object inside is selected with its fields. Then x, y, w, h, rotation, asset, id, current, Undo, Copy, Delete apply to the set. Copy duplicates the selection (not spawn or exit) and offsets it by 40 px. Ctrl/Cmd+D does the same. Look (palette kit, sky/far/fog hex, hour, weather, night overlay, night amount, day haze, lantern glow, low gravity, map width). Night overlay is independent of hour, so Burrow Eve afternoon can still darken. World index: `src/modes/story/editor/worldIndex.ts`.
+Toolbar: Selection Mode Object or Region. Region: drag a rectangle; every object inside is selected with its fields. Then x, y, w, h, rotation, asset, id, current, Destructible, Break profile, Undo, Copy, Delete apply to the set. Copy duplicates the selection (not spawn or exit) and offsets it by 40 px. Ctrl/Cmd+D does the same. Look (palette kit, sky/far/fog hex, hour, weather, night overlay, night amount, day haze, lantern glow, low gravity, map width). Night overlay is independent of hour, so Burrow Eve afternoon can still darken. World index: `src/modes/story/editor/worldIndex.ts`.
 
 The editor top bar is `position: fixed` but its `top` is not a magic pixel. `placeBelowStoryChrome` in `src/ui/playfieldFrame.ts` sits it under `.meadow-bar` (title and pause row). Hearts, status ticker, and boss hearts live on the playfield via `mountPlayfieldHud`, not in that chrome. `watchStoryChrome` observes the chrome nodes, not the full-viewport root. Playfield inset runs `beforeMeasure` so the canvas follows. New editor bars must use the same helpers.
 
