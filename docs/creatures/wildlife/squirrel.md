@@ -24,3 +24,10 @@ arc undershoots at short range.
 ## Silhouette rule
 
 Bushy upright tail, small body. The tail is the read.
+
+## Bunny Jump
+
+Jump role: drop_shot. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Same wind-up. The acorn fires down the column. Orchard golden band. Landing from
+above removes it. Same stamp. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

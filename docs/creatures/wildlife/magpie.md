@@ -26,3 +26,10 @@ glide past during the hover.
 
 Long tail, sharp wings, black and white. The banking hover reads before the dive
 commits.
+
+## Bunny Jump
+
+Jump role: stoop. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Shown dive line down the column. Osmanthus / cloud-sea band. Landing from above
+removes it. Same stamp. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

@@ -3,6 +3,7 @@
 This is the design hub. Deeper subtrees live under the [docs index](README.md): the derived
 world model in [universe/](universe/README.md), the bestiary in [creatures/](creatures/README.md),
 collectibles in [items/](items/README.md), Endless detail in [modes/endless/](modes/endless/design.md),
+Moon Tasks in [modes/tasks/](modes/tasks/README.md),
 and the visual language in [rendering/](rendering/README.md). Build order is in [ROADMAP.md](ROADMAP.md).
 
 Family-tone woodland game. Phaser 4 + Vite + TypeScript. Web on GitHub Pages. Steam desktop long-term (Electron + steamworks.js).
@@ -23,12 +24,15 @@ Left-to-right platformer. Authored levels from reusable chunks. Moon Pool checkp
 
 ### Moon Tasks (short objectives, 1 to 3 minutes)
 
-Reuse Meadow systems for the M2 set (canvas + maps + Spawner). No new engines. Story-backed tasks come later if needed.
+Reuse Meadow systems for the M2 set (canvas + maps + Spawner). Bunny Jump is a
+vertical hop under this mode, not a fifth primary mode. It cannot share the
+Meadow canvas stack. Hub: [modes/tasks/README.md](modes/tasks/README.md).
 
 | Task | Goal | Web status |
 | --- | --- | --- |
 | Night Watch | Survive waves near the burrow | playable (M2) |
 | Hide and Seek | Find hidden kits on a Meadow map | playable (M2) |
+| Bunny Jump | Climb one-way pads to a moon disc | planned ([I5](iterations/i5-bunny-jump.md)) |
 | Carrot Rush | Collect N carrots under a timer | retired (overlaps Meadow arcade) |
 | Lantern Run | Reach the peak before lanterns go out | deferred |
 | Daily Moon | Seeded task of the day | deferred |

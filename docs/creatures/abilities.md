@@ -17,11 +17,14 @@ The verbs Mei has, where each is taught, and how items change them. Hub:
 | glide | hold jump | Lantern (Paper Lights) | live |
 | stair climb / bridge sway | jump, stand on a hanging mover | Cloud Stair | live |
 | low-gravity float | jump under low gravity | Moon | live |
+| auto-bounce | unused jump. Pad bounce | Bunny Jump (Moon Tasks) | planned |
 
 Each rung teaches exactly one new verb (its movement axis in
 [../universe/README.md](../universe/README.md)). The verb a rung teaches sets the
 minimum chunk tier that rung can present, so a player never meets a shape that needs a
-verb they have not learned.
+verb they have not learned. Auto-bounce is a Moon Tasks verb, not a Ladder teaching.
+Jump is unused in Bunny Jump. Dash is a short air nudge. Design:
+[../modes/tasks/bunny-jump.md](../modes/tasks/bunny-jump.md).
 
 ## Verb-to-tier gate
 
@@ -52,4 +55,5 @@ verb for a short time. Full catalog: [../items/catalog.md](../items/catalog.md).
 
 Independent of preset (from [../GDD.md](../GDD.md)): invincible, slow time 0.7x,
 auto-dash on proximity, one-button touch mode. These modify verbs globally and always
-override contact damage when invincible is on.
+override contact damage when invincible is on. Bunny Jump uses the same invincible
+guard. Reduced motion skips crack flicker and fragment bursts.

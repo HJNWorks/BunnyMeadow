@@ -24,3 +24,10 @@ eat it on a swaying bridge.
 ## Silhouette rule
 
 Small crystal body, pale blue. Reads as ice, not fire, water, or a palace lady.
+
+## Bunny Jump
+
+Jump role: drop_shot. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Same wind-up. The frost pebble fires down the column. Moon eternal band. Landing
+from above removes it. Same stamp. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

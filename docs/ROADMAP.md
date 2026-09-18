@@ -20,12 +20,14 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | M4 Story content complete | done |
 | M5 Endless mode | done |
 | Web iterations I1–I4 | done (tagged `v0.2.0`) |
+| Web iteration I5 | in progress (Bunny Jump docs) |
 | M6–M8 desktop + store | postponed to the end, after the web iterations |
 
 ## Current phase
 
-Story milestones M0–M5 and web iterations I1–I4 are done. The remaining work is the postponed
-desktop and store milestones (M6–M8). See [iterations/README.md](iterations/README.md).
+Story milestones M0–M5 and web iterations I1–I4 are done. Current track is
+[I5 Bunny Jump](iterations/i5-bunny-jump.md) (docs first, then code). Desktop and
+store milestones (M6–M8) stay postponed. See [iterations/README.md](iterations/README.md).
 
 ## Done
 
@@ -74,8 +76,9 @@ Later milestones must not invent a second version of these. M1 created them (fil
 | Meadow | play | live (data-driven arcade) |
 | WorldMap | menu HTML | live (burrow-to-moon path; W0–W4 + moon) |
 | Story | play | live (Phaser side-scroll full story) |
-| TaskSelect | menu HTML | live (Night Watch, Hide and Seek) |
+| TaskSelect | menu HTML | live (Night Watch, Hide and Seek). Bunny Jump later. |
 | TaskRun | play | live (canvas TaskRuntime) |
+| BunnyJump | play | planned (I5 code). Phaser FIT 1920x1080 vertical hop |
 | Endless | play | live (chunk-streamed runner with chase wall) |
 | Pause | overlay HTML | registered stub; Meadow and Tasks use inline pause cards (shared Pause scene unused) |
 | DialogueOverlay | overlay HTML | live (two-line card; crane bow. Moon Pool uses the Story ticker) |
@@ -109,6 +112,7 @@ Fields later milestones fill that must exist from M1:
 - `progress.story` (`world`, `level`, `cleared`, `checkpoints`)
 - `progress.tasksCompleted`
 - `progress.endlessBest`
+- `progress.bunnyJumpBest` (planned I5 code. Local best height after the moon disc)
 - `progress.pantryLevel` / `pantryCarrots` / `meadowMapsUnlocked`
 - `progress.achievements`
 - `settings.bindings` (includes `jump`)
@@ -144,7 +148,8 @@ Shared `ModeContext`: active save, difficulty resolver, input, audio bus, `t()`,
 
 | Mode family | Playfield | Notes |
 | --- | --- | --- |
-| Meadow, Moon Tasks | HTML chrome + canvas runtime | `MeadowRuntime` / `TaskRuntime`; share maps, Spawner, `drawBunny` |
+| Meadow, Moon Tasks (Night Watch, Hide and Seek) | HTML chrome + canvas runtime | `MeadowRuntime` / `TaskRuntime`; share maps, Spawner, `drawBunny` |
+| Moon Tasks (Bunny Jump) | Phaser FIT 1920x1080 | planned scene `BunnyJump`. Cannot share TaskRuntime |
 | Story, Endless | Phaser side-scroll on chunks | M3+; must not clone MeadowRuntime for platforming |
 
 ### Systems fill schedule
@@ -247,9 +252,18 @@ web build before the desktop and store milestones resume.
 
 Each iteration can ship to Pages on its own. I1-I4 share the `v0.2.0` tag.
 
+### Web iteration I5 — Bunny Jump (docs first)
+
+**Status: in progress (docs).** Detail: [iterations/i5-bunny-jump.md](iterations/i5-bunny-jump.md).
+Design: [modes/tasks/bunny-jump.md](modes/tasks/bunny-jump.md).
+
+Docs-only this slice. Code later: `BunnyJump` scene, `land` in the break field,
+`jumpKit`, `tasks.json` / TaskRunner, `progress.bunnyJumpBest`. No `package.json`
+bump. No new Steam achievement. Lantern Run stays deferred.
+
 ### M6 — Desktop shell
 
-**Status: postponed** (resumes after web iterations I1–I4). Retained at the end of the
+**Status: postponed** (resumes after the current web track). Retained at the end of the
 roadmap with its number unchanged. Electron transfer notes are in the section below.
 
 **Goal:** Electron + steamworks.js; `desktop.ts` behind existing platform interface.
@@ -373,6 +387,5 @@ any local commands run on Windows.
 
 ## Suggested next coding session
 
-Web iterations I1-I4 are done (`v0.2.0`). Next is the postponed desktop milestone
-[M6](#m6--desktop-shell): Electron behind the existing platform interface. Store work
-(M7-M8) stays after that.
+I5 Bunny Jump docs are the current track. Code for the climb is the next coding
+session after this slice. Desktop milestone [M6](#m6--desktop-shell) stays postponed.

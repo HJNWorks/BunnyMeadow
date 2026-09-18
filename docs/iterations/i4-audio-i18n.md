@@ -33,8 +33,8 @@ i18n:
 
 ## After I4
 
-The web build is feature-complete for this phase. The postponed desktop and store milestones (M6-M8)
-resume; see the Electron transfer notes in [../ROADMAP.md](../ROADMAP.md).
+I5 Bunny Jump docs follow ([i5-bunny-jump.md](i5-bunny-jump.md)). Desktop and store
+milestones (M6-M8) stay postponed.
 
 ## Ship
 

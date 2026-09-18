@@ -7,8 +7,9 @@ Folklore backing: [../LORE.md](../LORE.md).
 
 The universe is not a set of unrelated levels. It is a single vertical journey,
 "the Ladder", cut into rungs. Story mode walks the canonical rungs in order.
-Endless walks a seeded route through the same rungs. Meadow and Moon Tasks borrow
-individual rungs as backdrops.
+Endless walks a seeded route through the same rungs. Meadow and the Meadow-canvas
+Moon Tasks borrow individual rungs as backdrops. Bunny Jump walks the clock by
+height on the same palettes.
 
 ## The Ladder
 
@@ -61,7 +62,7 @@ Derivation rules:
 | Story | Fixed. World 0 = rung 0/1 stations, World 1 = rungs 1-2, World 2 = rungs 3-4, World 3 = rungs 5-6, World 4 = rung 7, finale = rung 8. See [../WORLDS.md](../WORLDS.md). |
 | Endless | Seeded. A route walker steps between adjacent rungs; band lengths and altitude weighting come from difficulty. See [../modes/endless/design.md](../modes/endless/design.md). |
 | Meadow (arcade) | Single rung as a top-down backdrop, chosen by map. |
-| Moon Tasks | Single rung, reusing Meadow backdrops. |
+| Moon Tasks | Night Watch and Hide and Seek: one Meadow rung. Bunny Jump walks the clock by height ([timeline.md](timeline.md)). |
 
 ## Pages in this section
 

@@ -24,3 +24,10 @@ or simply step around.
 ## Silhouette rule
 
 Domed shell, stubby legs. Reads as furniture, not threat.
+
+## Bunny Jump
+
+Jump role: perch. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Debut in this mode. Story status stays idea. Slow pad sitter. Side contact costs a
+heart. Landing from above is safe (shell). Stamp already exists. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

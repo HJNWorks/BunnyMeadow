@@ -37,8 +37,12 @@ eternal night regardless of the hour below it ([../LORE.md](../LORE.md#change-å«
   night overlay cross-fade over the bridge chunk. A back-edge (osmanthus -> lantern)
   therefore steps the hour back one notch, which is allowed because the run is a
   wander, not a strict ascent.
-- Meadow and Moon Tasks pick a single hour per map. Meadow may offer day and dusk
-  variants of one backdrop.
+- Meadow and the Meadow-canvas Moon Tasks (Night Watch, Hide and Seek) pick a
+  single hour per map. Meadow may offer day and dusk variants of one backdrop.
+- Bunny Jump walks the clock by height: meadow afternoon, orchard golden hour,
+  bamboo/river dusk, lantern night, osmanthus/cloud-sea deep night, moon eternal
+  night. Palettes reuse the same hour kits. Design:
+  [../modes/tasks/bunny-jump.md](../modes/tasks/bunny-jump.md).
 
 ## Weather by hour
 

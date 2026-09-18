@@ -13,8 +13,9 @@ page opens with what it is and links back to its hub.
 4. [creatures/README.md](creatures/README.md) - the bestiary: wildlife, folk, kits.
 5. [items/README.md](items/README.md) - collectibles and their rules.
 6. [modes/endless/design.md](modes/endless/design.md) - how Endless turns the universe into infinite runs.
-7. [rendering/README.md](rendering/README.md) - the visual and animation language.
-8. [ROADMAP.md](ROADMAP.md) and [iterations/README.md](iterations/README.md) - build order and the web iteration track.
+7. [modes/tasks/README.md](modes/tasks/README.md) - Moon Tasks hub (Bunny Jump planned).
+8. [rendering/README.md](rendering/README.md) - the visual and animation language.
+9. [ROADMAP.md](ROADMAP.md) and [iterations/README.md](iterations/README.md) - build order and the web iteration track.
 
 ## Map of the tree
 
@@ -27,7 +28,7 @@ docs/
     proximity.md       contact vs proximity vs volume triggers
   editor/
     README.md          story map editor
-    destructibility.md break profiles, beam/stand damage, crack stages
+    destructibility.md break profiles, beam/stand/land damage, crack stages
   LORE.md              folklore ledger (canon / adapted / invented)
   WORLDS.md            story path map (hub into universe/environments)
   ENEMIES.md           enemy data schema (hub into creatures/)
@@ -53,6 +54,9 @@ docs/
     design.md          seeded route, tiers, slots, skins
     chunk-contract.md  the chunk JSON contract and its extensions
     tuning.md          per-difficulty tables and findings
+  modes/tasks/         Moon Tasks
+    README.md          hub
+    bunny-jump.md      vertical hop (planned)
   rendering/           the visual language
     README.md          decision list with status
     palettes.md        per-biome palette tokens
@@ -61,7 +65,7 @@ docs/
     performance.md     atlas and draw-call budgets
   iterations/          web iteration track (post-M5)
     README.md          scheme
-    i1-biome-route.md .. i4-audio-i18n.md
+    i1-biome-route.md .. i5-bunny-jump.md
 ```
 
 ## Status vocabulary
@@ -80,9 +84,10 @@ entry there.
 
 ## Versioning rules
 
-- Story milestones M0-M5 are done. Web iterations I1-I4 are done (`v0.2.0`). The remaining
-  desktop and store milestones (M6-M8) are postponed. See [ROADMAP.md](ROADMAP.md).
-- Web iterations I1-I4 live under [iterations/](iterations/README.md).
+- Story milestones M0-M5 are done. Web iterations I1-I4 are done (`v0.2.0`). I5 is
+  Bunny Jump docs (`planned`). The remaining desktop and store milestones (M6-M8) are
+  postponed. See [ROADMAP.md](ROADMAP.md).
+- Web iterations live under [iterations/](iterations/README.md).
   Each iteration has one page listing its data and doc deltas.
 - Design pages describe the target. Iteration pages describe the change that moves
   `src/` toward that target. When an iteration ships, its facts graduate from

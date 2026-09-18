@@ -25,3 +25,10 @@ but two charges may be needed.
 ## Silhouette rule
 
 Bulky, low, tusked. Reads heavier and slower to stop than the goat.
+
+## Bunny Jump
+
+Jump role: ledge_charge. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Debut in this mode if Story still lists it as idea. Charges across a wide pad. Side
+contact costs a heart. Landing from above removes it. Stamp already exists. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

@@ -25,3 +25,10 @@ right after the poke retracts; the recovery window is generous.
 ## Silhouette rule
 
 Tall, thin, long neck and beak. The coiled neck is the danger frame.
+
+## Bunny Jump
+
+Jump role: column_swipe. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Poke up or down the column after the same crouch telegraph. Side contact costs a
+heart. Landing from above removes it. Same stamp. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

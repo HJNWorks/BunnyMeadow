@@ -24,3 +24,10 @@ dash across.
 ## Silhouette rule
 
 Round, low, spined dome. Slow read, clearly not a threat to rush.
+
+## Bunny Jump
+
+Jump role: perch. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Sits or paces a meadow-band pad. Side-on contact costs a heart. Landing from above
+removes it (Bunny Jump stomp, even with spines). Same stamp as Story. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

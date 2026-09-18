@@ -23,6 +23,7 @@ and the milestone list stay in [../ROADMAP.md](../ROADMAP.md).
 | [I2](i2-creatures-items.md) (done) | Creatures and items in data | enemy/item slots, biome rosters, item catalog |
 | [I3](i3-theme-rendering.md) (done) | Theme and rendering | palettes.json, sky lerp, weather, night lighting |
 | [I4](i4-audio-i18n.md) (done) | Audio and i18n | the remaining open M5 items |
+| [I5](i5-bunny-jump.md) (docs) | Bunny Jump under Moon Tasks | climb stays `planned` until the code pass |
 
 ## Relationship to milestones
 
@@ -32,7 +33,8 @@ flowchart LR
   i1[I1] --> i2[I2]
   i2 --> i3[I3]
   i3 --> i4[I4]
-  i4 --> m6["M6 desktop (postponed)"]
+  i4 --> i5[I5]
+  i5 --> m6["M6 desktop (postponed)"]
   m6 --> m7["M7 store (postponed)"]
   m7 --> m8["M8 release (postponed)"]
 ```

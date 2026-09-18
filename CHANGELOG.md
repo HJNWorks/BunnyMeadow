@@ -6,6 +6,13 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Moon Tasks hub and Bunny Jump design (docs only, planned). Vertical hop under
+  Moon Tasks, not a fifth primary mode. Height bands reuse palettes. Jump roles stay
+  mode-only. `land` is a one-bounce break source. Iteration:
+  [docs/iterations/i5-bunny-jump.md](docs/iterations/i5-bunny-jump.md).
+
 ### Changed
 
 - Editor Build pins critters where they were placed. Refresh no longer snaps them onto

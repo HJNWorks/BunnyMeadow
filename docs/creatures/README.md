@@ -70,6 +70,27 @@ and the minimum tier at which the creature appears.
 Guard: owls are ill omens in tradition and must never serve the Moon. They are
 ordinary night enemies only ([../LORE.md](../LORE.md#cranes-as-immortal-messengers)).
 
+## Bunny Jump roles (mode-only)
+
+Vertical hop under Moon Tasks. Not Story archetypes. Attacks belong in a later
+`jumpKit`, not Story `enemyKit`. Design: [../modes/tasks/bunny-jump.md](../modes/tasks/bunny-jump.md).
+Each wildlife page below has a Bunny Jump section. Status: planned ([I5](../iterations/i5-bunny-jump.md)).
+
+| Creature | Jump role | Status in Story |
+| --- | --- | --- |
+| hedgehog, fox | perch | live |
+| frog | hop_ledge | live |
+| crow, squirrel, ice spit | drop_shot | live |
+| owl, magpie | stoop | live |
+| heron, cat | column_swipe | live |
+| goat | ledge_charge | live |
+| frost wisp | drift | live |
+| bees | drift | idea (debut in Bunny Jump) |
+| tortoise | perch | idea (debut in Bunny Jump) |
+| boar | ledge_charge | idea (debut in Bunny Jump) |
+
+Skip carp and dew. Folk stay off this HP bar.
+
 ## Folk
 
 Named characters. Bosses are one folk per world; palace NPCs are non-hostile.

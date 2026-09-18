@@ -2,8 +2,8 @@
 
 How objects weaken and fall apart. Hub: [README.md](README.md). Chunk schema lives on
 assembled platforms, walls, movers, and decor as an optional `break` field. Profiles
-live in `src/data/breakables.json` so later sources (dash hits, projectiles, timers)
-can share the same cracks without a new engine.
+live in `src/data/breakables.json` so later sources (dash hits, projectiles, timers,
+`land` bounces) can share the same cracks without a new engine.
 
 Family tone: the object splits and is gone. No gore. A restart or station reload
 puts it back.
@@ -21,7 +21,7 @@ puts it back.
 | Field | Meaning |
 | --- | --- |
 | `profile` | Key into `breakables.json`. Required. |
-| `hp` | Seconds of matching damage before the object is gone. Omit to use the profile default. |
+| `hp` | For `beam` and `stand`: seconds of matching damage before the object is gone. For `land`: bounce count (one landing subtracts 1). Omit to use the profile default. |
 | `sources` | Which damage kinds count. Omit to use the profile list. |
 
 No `break` field means the object is solid forever. The story map editor Selection
@@ -33,8 +33,8 @@ and decor. Copy keeps the field.
 | Profile | Default hp | Sources | Crack look | Shipped on |
 | --- | --- | --- | --- | --- |
 | stone | 5 s | beam | jagged surface splits | Guanghan green ledges |
-| wood | 5 s | stand, beam | grain splits along the slab | Soft River logs |
-| ice | 3 s | beam, stand | radial frost lines | none yet (reserved) |
+| wood | 5 s / 1 bounce | stand, beam, land (planned) | grain splits along the slab | Soft River logs. Bunny Jump crumble pads |
+| ice | 3 s / 1 bounce | beam, stand, land (planned) | radial frost lines | none yet. Bunny Jump one-bounce pads |
 
 Add a profile by appending to `src/data/breakables.json` and drawing a matching
 crack sheet (`stone` / `wood` / `ice` stages 1-3). Do not invent a fourth crack
@@ -54,17 +54,27 @@ Three crack stages before it falls: hairline (under 1/3), open (1/3 to 2/3),
 ready to go (over 2/3). Then the collider turns off and a few fragments drop.
 Reduced motion keeps one mark and skips fragments.
 
+## Damage sources (planned)
+
+| Source | When it counts |
+| --- | --- |
+| land | One bounce on a one-way pad subtracts 1 hp. Hit-count, not seconds. `hp: 1` is the Doodle brown-pad case: the pad breaks after that landing. Profile `wood` or `ice`. Ice uses the frost crack sheet. Bunny Jump: [../modes/tasks/bunny-jump.md](../modes/tasks/bunny-jump.md). |
+
+JSON for `land` waits for the Bunny Jump code pass. `breakables.json` does not list
+it yet. Story `stand` and `beam` stay as they are.
+
 ## What does not break yet
 
 The wide Guanghan floor is not marked. Walls and roofs stay cover unless an editor
 sets Destructible on them. Endless river logs can carry a `break` field in JSON.
 The Endless runner does not tick stand damage yet. Decor can store the field.
 Decor has no collider, so it will not take beam or stand hits until that collider
-exists. Dash hits and thrown spears are not sources yet.
+exists. Dash hits and thrown spears are not sources yet. `land` is documented only.
 
 ## Play notes
 
 Hiding from Han's last beam behind a destructible ledge only lasts until that
 ledge's 5 s is up. After it falls the beam can reach the next surface. River logs
-that break drop Mei into the water (heart, then retry). Editor Build does not
-run damage. Editor Play does.
+that break drop Mei into the water (heart, then retry). Bunny Jump crumble pads
+use `land` with `hp: 1`: one bounce, then the pad is gone (retry if that was the
+only foothold). Editor Build does not run damage. Editor Play does.

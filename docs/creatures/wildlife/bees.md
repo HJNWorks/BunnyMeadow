@@ -24,3 +24,10 @@ through, or wait for the cloud to drift off the path.
 ## Silhouette rule
 
 A loose particle cloud, not a sprite. Reads as area, not enemy.
+
+## Bunny Jump
+
+Jump role: drift. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Debut in this mode. Story status stays idea. Slow swarm cloud on the climb. Dash
+still passes through. The workshop stamp seeds the cloud. No new folk key. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

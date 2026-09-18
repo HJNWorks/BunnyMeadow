@@ -21,6 +21,27 @@ Player verbs and how items change them are in [creatures/abilities.md](creatures
 
 Owls use `diver` as ordinary night enemies only. They are never Moon servants. See [LORE.md](LORE.md).
 
+## Jump roles (Bunny Jump, mode-only)
+
+These are not Story archetypes. They live in a later `jumpKit` and must not leak into
+Story `enemyKit`. Stamps stay the workshop / story silhouettes. Design:
+[modes/tasks/bunny-jump.md](modes/tasks/bunny-jump.md). Status: planned ([I5](iterations/i5-bunny-jump.md)).
+
+| Id | Jump role | What it does |
+| --- | --- | --- |
+| hedgehog, fox | perch | sit or pace a pad. Side contact |
+| frog | hop_ledge | jumps to a nearby pad |
+| crow, squirrel, ice_spit | drop_shot | wind-up, then a shot down the column |
+| owl, gale_magpie | stoop | shown dive line down the column |
+| heron, cat | column_swipe | poke up or down the column |
+| goat, boar | ledge_charge | charge across a wide pad |
+| frost_wisp, bees | drift | slow cloud. Dash still passes through |
+| tortoise | perch | slow pad sitter |
+
+Fox Hu's cart, Crane Envoy, Han, Chang'e, and Yue stay off this HP bar. Skip carp
+(no stamp) and dew (pickup idea). Bees, tortoise, and boar debut here if Story still
+lists them as idea.
+
 ## JSON schema
 
 ```json

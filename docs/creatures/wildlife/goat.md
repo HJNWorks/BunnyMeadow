@@ -24,3 +24,10 @@ wall; cross during the stun window.
 ## Silhouette rule
 
 Squared body, lowered horns. The head-down scrape is the wind-up frame.
+
+## Bunny Jump
+
+Jump role: ledge_charge. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Charges across a wide pad. Side contact costs a heart. Landing from above removes it
+or uses the Story stun if the charge hits a pad edge. Same stamp. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

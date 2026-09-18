@@ -24,3 +24,10 @@ wind-up; the arc is fixed once thrown.
 ## Silhouette rule
 
 Angular perched bird, beak forward. The raised wing reads as the danger frame.
+
+## Bunny Jump
+
+Jump role: drop_shot. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Same wind-up. The projectile fires down the column instead of a Story parabola.
+Bamboo / river dusk band. Landing from above removes it. Same stamp. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

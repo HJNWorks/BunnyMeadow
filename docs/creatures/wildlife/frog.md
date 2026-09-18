@@ -24,3 +24,10 @@ between hops; it is safe from above.
 ## Silhouette rule
 
 Wide squat body, long back legs. The crouch frame reads as the wind-up.
+
+## Bunny Jump
+
+Jump role: hop_ledge. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Jumps to a nearby pad. This is the vertical analog of its Story hop. Side contact
+costs a heart. Landing from above removes it. Bamboo / river dusk band. Same stamp.
+Design: [../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

@@ -27,3 +27,10 @@ off the line during the wind-up; the dive commits once started.
 ## Silhouette rule
 
 Round head, broad wings, front-facing eyes. The drawn dive line is the true tell.
+
+## Bunny Jump
+
+Jump role: stoop. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Shown dive line down the column. Lantern night band. Still an ordinary night enemy.
+It never serves the Moon. Landing from above removes it. Same stamp. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

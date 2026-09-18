@@ -24,3 +24,9 @@ the cloud to drift off the step.
 ## Silhouette rule
 
 Loose oval mist, not a person. Reads as weather with a bite, not a named ghost.
+
+## Bunny Jump
+
+Jump role: drift. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Slow cloud on the osmanthus / cloud-sea band. Dash still passes through. Same stamp.
+Design: [../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

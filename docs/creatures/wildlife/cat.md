@@ -24,3 +24,10 @@ swipe; glide over it where a lantern glide zone allows.
 ## Silhouette rule
 
 Compact crouch, ears and lashing tail. The raised haunches read as the wind-up.
+
+## Bunny Jump
+
+Jump role: column_swipe. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Swipe up or down the column. Lantern night band. Side contact costs a heart. Landing
+from above removes it. Same stamp. Design:
+[../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).
