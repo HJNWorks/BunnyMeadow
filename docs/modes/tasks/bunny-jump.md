@@ -48,18 +48,25 @@ Each band reuses a palette kit and hour from the Ladder
 
 ## Pads
 
-One-way collision: land from above only. Tiles are existing story stamps.
+One-way collision: land from above only. Tiles are existing story stamps. Shared
+axes: [../../platforms/README.md](../../platforms/README.md).
 
-| Kind | Stamp | Break |
-| --- | --- | --- |
-| Solid | ground | none |
-| Crumble (one bounce) | ground or log | source `land`, profile `wood` or `ice`, `hp: 1` (one landing) |
-| Mover | log or bridge | optional `wood` plus `land` |
-| Boost | lantern | none. Extra bounce velocity |
+| Intent | Stamp | Collision | Motion | Surface | Break |
+| --- | --- | --- | --- | --- | --- |
+| Solid | ground | one_way | still | bounce | none |
+| Crumble (one bounce) | ground or log | one_way | still | bounce | `land`, `wood` or `ice`, `hp: 1` |
+| Slide | log or bridge | one_way | slide (same mover fields as Cloud Stair) | bounce | optional `wood` + `land` |
+| Boost | lantern | one_way | still | boost | none |
+| Ice | ground | one_way | still | slick | `land` + `ice`, `hp: 1` |
+| Vanish | ground | one_way | vanish | bounce | none |
 
 `land` is a hit-count source, not seconds. One bounce subtracts 1 hp. That is the
 brown-pad case. `stand` and `beam` stay Story sources. Ice pads use the frost crack
 sheet. Map: [../../editor/destructibility.md](../../editor/destructibility.md).
+
+Slide is not a new tile. Cloud Stair hanging steps already use `movers[]` with
+`axis`, `amplitude`, and `speed`. Bunny Jump reuses that kit so a pad can travel
+while Mei auto-bounces. Feet carry with the pad, same as the stair.
 
 ## Jump roles (mode-only)
 
@@ -95,6 +102,7 @@ Skip carp (no stamp). Skip dew as an enemy (pickup idea only).
 
 ## Later code
 
-Out of this docs pass. `TaskRunner` `TaskId` / `PLAYABLE`, `tasks.json`, i18n, scene
-`BunnyJump` at FIT 1920x1080, one-way pads, `land` in the break field, `jumpKit`,
-`migrateSave` for best height. Flag stays `contentFlags.tasks`.
+`TaskRunner` `TaskId` / `PLAYABLE`, `tasks.json`, i18n, scene `BunnyJump` at FIT
+1920x1080. Then one-way pads, auto-bounce, shared slide movers, `land` in the break
+field, `jumpKit`, `migrateSave` for best height. Flag stays `contentFlags.tasks`.
+Pad axes: [../../platforms/README.md](../../platforms/README.md).

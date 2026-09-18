@@ -112,7 +112,7 @@ roofs. Duck frost spears, eat a mooncake in the open, dash him while the warmth 
 Five spirit hearts. Starfall after the second hit, both volleys on the last heart. From
 three hearts he may charge a tracking lunar beam (two hearts if it lands). The beam
 leaves from his helmet. Roofs and walls stop it, so Mei can hide. On the last heart
-the beam can break green ledges after 5 s of focus. Mooncakes sit on
+the beam cracks green ledges it crosses and drops them after 5 s. Mooncakes sit on
 the top-center of the remaining green platforms. On the last
 hit he spirals inward at his last place and a moon grows outward there. Han speaks four
 ticker lines on the Moon Pool HUD. Chang'e does not throw spears.

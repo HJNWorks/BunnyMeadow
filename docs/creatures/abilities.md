@@ -23,7 +23,8 @@ Each rung teaches exactly one new verb (its movement axis in
 [../universe/README.md](../universe/README.md)). The verb a rung teaches sets the
 minimum chunk tier that rung can present, so a player never meets a shape that needs a
 verb they have not learned. Auto-bounce is a Moon Tasks verb, not a Ladder teaching.
-Jump is unused in Bunny Jump. Dash is a short air nudge. Design:
+Jump is unused in Bunny Jump. Dash is a short air nudge. Slide pads reuse the Cloud
+Stair mover kit ([../platforms/README.md](../platforms/README.md)). Design:
 [../modes/tasks/bunny-jump.md](../modes/tasks/bunny-jump.md).
 
 ## Verb-to-tier gate

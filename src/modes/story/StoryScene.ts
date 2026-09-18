@@ -45,7 +45,7 @@ import {
   constrainCreatureToWorld,
 } from "./shared/enemyKit"
 import { HAN_WARMTH, HanFight, hanCakeSpotsFromPlatforms } from "./shared/hanBoss"
-import { BreakField } from "./shared/breakables"
+import { BreakField, padBreakSpec } from "./shared/breakables"
 import {
   applyWaterPhysics,
   createMovers,
@@ -645,8 +645,9 @@ export class StoryScene extends Phaser.Scene {
         ;(block.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject()
         block.setData("editKind", "platform")
         block.setData("editIndex", i)
-        if (rect.break) {
-          this.breaks?.register(block, rect.break)
+        const wallBreak = padBreakSpec(rect.break, { env, kind: rect.kind, h: rect.h })
+        if (wallBreak) {
+          this.breaks?.register(block, wallBreak)
         }
       } else {
         const block = this.add.tileSprite(
@@ -662,8 +663,9 @@ export class StoryScene extends Phaser.Scene {
         ;(block.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject()
         block.setData("editKind", "platform")
         block.setData("editIndex", i)
-        if (rect.break) {
-          this.breaks?.register(block, rect.break)
+        const padBreak = padBreakSpec(rect.break, { env, kind: rect.kind, h: rect.h })
+        if (padBreak) {
+          this.breaks?.register(block, padBreak)
         }
         if (this.editorMode !== "build") {
           const cap = this.add
@@ -962,8 +964,8 @@ export class StoryScene extends Phaser.Scene {
           platforms: this.platforms,
           cakeSpots: hanCakeSpotsFromPlatforms(world.platforms),
           clipExtras: this.movers.map((row) => row.sprite),
-          onBeamBreak: (obj, dt) => {
-            this.breaks?.hurt(obj, dt, "beam")
+          onBeamHurt: (info) => {
+            this.breaks?.hurtRay(info.ox, info.oy, info.ux, info.uy, info.len, info.dt, "beam")
           },
         },
       )

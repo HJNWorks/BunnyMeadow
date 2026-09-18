@@ -1,8 +1,9 @@
 # Destructibility
 
 How objects weaken and fall apart. Hub: [README.md](README.md). Chunk schema lives on
-assembled platforms, walls, movers, and decor as an optional `break` field. Profiles
-live in `src/data/breakables.json` so later sources (dash hits, projectiles, timers,
+assembled platforms, walls, movers, and decor as an optional `break` field. Pad axes
+(stamp, collision, motion, surface, break) live in [../platforms/README.md](../platforms/README.md).
+Profiles live in `src/data/breakables.json` so later sources (dash hits, projectiles, timers,
 `land` bounces) can share the same cracks without a new engine.
 
 Family tone: the object splits and is gone. No gore. A restart or station reload
@@ -44,7 +45,7 @@ kind until the sheet exists.
 
 | Source | When it counts |
 | --- | --- |
-| beam | Han's last-heart lunar beam, while the hot slab stays on that object. Last-heart beam lasts 5.5 s so one lock can finish a 5 s stone ledge. |
+| beam | Han's last-heart lunar beam, while the hot slab stays on that object. Last-heart beam lasts 5.5 s so one lock can finish a 5 s stone ledge. Damage is applied along the slab, not only to the first clip sprite. |
 | stand | Mei standing on the object (logs over water). Time adds only while her feet stay on it. |
 
 Damage keeps its cracks if the source leaves. A second lock or a later stand
@@ -74,7 +75,11 @@ exists. Dash hits and thrown spears are not sources yet. `land` is documented on
 ## Play notes
 
 Hiding from Han's last beam behind a destructible ledge only lasts until that
-ledge's 5 s is up. After it falls the beam can reach the next surface. River logs
-that break drop Mei into the water (heart, then retry). Bunny Jump crumble pads
-use `land` with `hp: 1`: one bounce, then the pad is gone (retry if that was the
-only foothold). Editor Build does not run damage. Editor Play does.
+ledge's 5 s is up. After it falls the beam can reach the next surface. Last-heart
+beam damages every registered ledge the hot slab crosses, not only the first clip
+sprite. Thin Guanghan ledges (height 40 or under) take the stone profile even if an
+editor overlay omitted `break`. The wide floor does not. Cracks darken the tile and
+draw a split overlay. Reduced motion keeps one mark and skips fragment bursts.
+River logs that break drop Mei into the water (heart, then retry). Bunny Jump
+crumble pads use `land` with `hp: 1`: one bounce, then the pad is gone (retry if
+that was the only foothold). Editor Build does not run damage. Editor Play does.

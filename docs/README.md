@@ -12,10 +12,11 @@ page opens with what it is and links back to its hub.
 3. [universe/README.md](universe/README.md) - the Ladder: how every environment is derived from the story.
 4. [creatures/README.md](creatures/README.md) - the bestiary: wildlife, folk, kits.
 5. [items/README.md](items/README.md) - collectibles and their rules.
-6. [modes/endless/design.md](modes/endless/design.md) - how Endless turns the universe into infinite runs.
-7. [modes/tasks/README.md](modes/tasks/README.md) - Moon Tasks hub (Bunny Jump planned).
-8. [rendering/README.md](rendering/README.md) - the visual and animation language.
-9. [ROADMAP.md](ROADMAP.md) and [iterations/README.md](iterations/README.md) - build order and the web iteration track.
+6. [platforms/README.md](platforms/README.md) - shared pad axes (collision, motion, surface, break).
+7. [modes/endless/design.md](modes/endless/design.md) - how Endless turns the universe into infinite runs.
+8. [modes/tasks/README.md](modes/tasks/README.md) - Moon Tasks hub (Bunny Jump planned).
+9. [rendering/README.md](rendering/README.md) - the visual and animation language.
+10. [ROADMAP.md](ROADMAP.md) and [iterations/README.md](iterations/README.md) - build order and the web iteration track.
 
 ## Map of the tree
 
@@ -50,6 +51,9 @@ docs/
     README.md          categories and rules
     catalog.md         one entry per item
     placement.md       item slots and biome tables
+  platforms/           shared pad model
+    README.md          five axes (stamp, collision, motion, surface, break)
+    catalog.md         values, stacking, mode use
   modes/endless/       Endless design detail
     design.md          seeded route, tiers, slots, skins
     chunk-contract.md  the chunk JSON contract and its extensions

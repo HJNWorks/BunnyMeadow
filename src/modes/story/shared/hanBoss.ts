@@ -70,7 +70,14 @@ export type HanFightOpts = {
   platforms: Phaser.Physics.Arcade.StaticGroup
   cakeSpots: HanCakeSpot[]
   clipExtras?: Phaser.GameObjects.GameObject[]
-  onBeamBreak?: (obj: Phaser.GameObjects.GameObject, dt: number) => void
+  onBeamHurt?: (info: {
+    dt: number
+    ox: number
+    oy: number
+    ux: number
+    uy: number
+    len: number
+  }) => void
 }
 
 export class HanFight {
@@ -112,8 +119,7 @@ export class HanFight {
   private platforms: Phaser.Physics.Arcade.StaticGroup
   private cakeSpots: HanCakeSpot[]
   private clipExtras: Phaser.GameObjects.GameObject[]
-  private onBeamBreak?: (obj: Phaser.GameObjects.GameObject, dt: number) => void
-  private beamClipObj: Phaser.GameObjects.GameObject | null = null
+  private onBeamHurt?: HanFightOpts["onBeamHurt"]
   private settlePhase: SettlePhase = "none"
   private settleT = 0
   private settleX = 0
@@ -137,7 +143,7 @@ export class HanFight {
     this.platforms = opts.platforms
     this.cakeSpots = opts.cakeSpots
     this.clipExtras = opts.clipExtras ?? []
-    this.onBeamBreak = opts.onBeamBreak
+    this.onBeamHurt = opts.onBeamHurt
     this.aimX = x
     this.aimY = y
     ensureScorch(scene)
@@ -504,8 +510,16 @@ export class HanFight {
     if (this.playerInBeam()) {
       this.beamHit = true
     }
-    if (this.hearts <= 1 && this.beamClipObj) {
-      this.onBeamBreak?.(this.beamClipObj, dt)
+    if (this.hearts <= 1) {
+      const origin = this.beamOrigin()
+      this.onBeamHurt?.({
+        dt,
+        ox: origin.x,
+        oy: origin.y,
+        ux: Math.cos(this.beamAng),
+        uy: Math.sin(this.beamAng),
+        len: this.beamLen,
+      })
     }
     if (this.beamT >= this.beamHold()) {
       this.beamMode = "idle"
@@ -570,7 +584,6 @@ export class HanFight {
     const ux = Math.cos(this.beamAng)
     const uy = Math.sin(this.beamAng)
     let reach = BEAM_LEN
-    this.beamClipObj = null
     const solids = [...this.platforms.getChildren(), ...this.clipExtras]
     for (const obj of solids) {
       const go = obj as Phaser.GameObjects.GameObject & { getData?: (key: string) => unknown }
@@ -584,7 +597,6 @@ export class HanFight {
       const hit = rayAabb(ox, oy, ux, uy, body.left, body.right, body.top, body.bottom, reach)
       if (hit !== null && hit < reach) {
         reach = hit
-        this.beamClipObj = go
       }
     }
     return Math.max(24, reach)

@@ -25,6 +25,7 @@ type BreakSprite = Phaser.GameObjects.GameObject & {
   getData: (key: string) => unknown
   setData: (key: string, value: unknown) => unknown
   setVisible: (value: boolean) => unknown
+  setTint?: (color: number) => unknown
 }
 
 type BreakEntry = {
@@ -39,6 +40,19 @@ type BreakEntry = {
 
 export function listBreakProfiles(): string[] {
   return Object.keys(DATA.profiles)
+}
+
+export function padBreakSpec(
+  spec: BreakSpec | undefined,
+  opts: { env: string; kind?: string; h: number },
+): BreakSpec | undefined {
+  if (spec) {
+    return spec
+  }
+  if (opts.env === "moon" && opts.kind !== "wall" && opts.h <= 40) {
+    return { profile: "stone" }
+  }
+  return undefined
 }
 
 export function resolveBreak(spec: BreakSpec): BreakProfile {
@@ -63,7 +77,7 @@ export function ensureBreakTextures(scene: Phaser.Scene): void {
     for (const stage of [1, 2, 3]) {
       const key = crackTextureKey(kind, stage)
       if (scene.textures.exists(key)) {
-        continue
+        scene.textures.remove(key)
       }
       const canvas = document.createElement("canvas")
       canvas.width = 64
@@ -80,9 +94,13 @@ export function ensureBreakTextures(scene: Phaser.Scene): void {
 
 function drawCrackSheet(ctx: CanvasRenderingContext2D, kind: string, stage: number): void {
   ctx.clearRect(0, 0, 64, 32)
+  if (stage > 1) {
+    ctx.fillStyle = kind === "ice" ? "rgba(180, 220, 240, 0.22)" : "rgba(20, 14, 8, 0.28)"
+    ctx.fillRect(0, 0, 64, 32)
+  }
   if (kind === "wood") {
-    ctx.strokeStyle = "#3a2414"
-    ctx.lineWidth = 1.4
+    ctx.strokeStyle = "#1a0e06"
+    ctx.lineWidth = 2.4
     ctx.beginPath()
     ctx.moveTo(4, 16)
     ctx.lineTo(28, 14)
@@ -102,8 +120,8 @@ function drawCrackSheet(ctx: CanvasRenderingContext2D, kind: string, stage: numb
     return
   }
   if (kind === "ice") {
-    ctx.strokeStyle = "#8ec8e8"
-    ctx.lineWidth = 1.2
+    ctx.strokeStyle = "#f4ffff"
+    ctx.lineWidth = 2.2
     ctx.beginPath()
     ctx.moveTo(32, 4)
     ctx.lineTo(28, 28)
@@ -124,8 +142,8 @@ function drawCrackSheet(ctx: CanvasRenderingContext2D, kind: string, stage: numb
     }
     return
   }
-  ctx.strokeStyle = "#2a2418"
-  ctx.lineWidth = 1.5
+  ctx.strokeStyle = "#0a0804"
+  ctx.lineWidth = 2.6
   ctx.beginPath()
   ctx.moveTo(6, 10)
   ctx.lineTo(18, 16)
@@ -183,15 +201,36 @@ export class BreakField {
     if (this.paused || dt <= 0) {
       return
     }
-    const entry = this.entries.find((row) => row.sprite === obj)
+    const entry = this.findEntry(obj)
     if (!entry || entry.broken || !entry.sources.includes(source)) {
       return
     }
-    entry.hp = Math.max(0, entry.hp - dt)
-    this.paintCrack(entry)
-    if (entry.hp <= 0) {
-      this.shatter(entry)
+    this.applyHurt(entry, dt)
+  }
+
+  hurtRay(
+    ox: number,
+    oy: number,
+    ux: number,
+    uy: number,
+    len: number,
+    dt: number,
+    source: BreakSource,
+  ): void {
+    if (this.paused || dt <= 0 || len <= 0) {
+      return
     }
+    const px = -uy
+    const py = ux
+    for (const entry of this.entries) {
+      if (entry.broken || !entry.sources.includes(source)) {
+        continue
+      }
+      if (this.rayHits(entry.sprite, ox, oy, ux, uy, len, px, py)) {
+        this.applyHurt(entry, dt)
+      }
+    }
+    this.follow()
   }
 
   tickStand(player: Phaser.Physics.Arcade.Sprite, dt: number): void {
@@ -235,6 +274,48 @@ export class BreakField {
     this.entries = []
   }
 
+  private findEntry(obj: Phaser.GameObjects.GameObject): BreakEntry | undefined {
+    const direct = this.entries.find((row) => row.sprite === obj)
+    if (direct) {
+      return direct
+    }
+    const spec = obj.getData("breakSpec")
+    if (!spec) {
+      return undefined
+    }
+    return this.entries.find((row) => row.sprite.getData("breakSpec") === spec && row.sprite.active)
+  }
+
+  private applyHurt(entry: BreakEntry, dt: number): void {
+    entry.hp = Math.max(0, entry.hp - dt)
+    this.paintCrack(entry)
+    if (entry.hp <= 0) {
+      this.shatter(entry)
+    }
+  }
+
+  private rayHits(
+    sprite: BreakSprite,
+    ox: number,
+    oy: number,
+    ux: number,
+    uy: number,
+    len: number,
+    px: number,
+    py: number,
+  ): boolean {
+    const left = sprite.x - sprite.displayWidth * 0.5
+    const right = sprite.x + sprite.displayWidth * 0.5
+    const top = sprite.y - sprite.displayHeight * 0.5
+    const bottom = sprite.y + sprite.displayHeight * 0.5
+    for (const offset of [-28, 0, 28]) {
+      if (rayAabb(ox + px * offset, oy + py * offset, ux, uy, left, right, top, bottom, len + 6) !== null) {
+        return true
+      }
+    }
+    return false
+  }
+
   private standingOn(player: Phaser.Physics.Arcade.Sprite, sprite: BreakSprite): boolean {
     const half = sprite.displayWidth * 0.55
     const top = sprite.y - sprite.displayHeight * 0.5
@@ -246,15 +327,16 @@ export class BreakField {
       return
     }
     const lost = 1 - entry.hp / entry.maxHp
-    const stage = lost >= 2 / 3 ? 3 : lost >= 1 / 3 ? 2 : lost > 0 ? 1 : 0
+    this.stain(entry, lost)
+    let stage = lost >= 2 / 3 ? 3 : lost >= 1 / 3 ? 2 : lost > 0 ? 1 : 0
+    if (this.reducedMotion && lost > 0) {
+      stage = 1
+    }
     if (stage <= 0) {
       entry.crack?.setVisible(false)
       return
     }
-    if (this.reducedMotion && stage < 3) {
-      return
-    }
-    const key = crackTextureKey(entry.cracks, stage)
+    const key = crackTextureKey(entry.cracks, this.reducedMotion ? 1 : stage)
     if (!entry.crack) {
       entry.crack = this.scene.add.image(entry.sprite.x, entry.sprite.y, key)
       entry.crack.setDepth(2.35)
@@ -264,7 +346,20 @@ export class BreakField {
     entry.crack.setPosition(entry.sprite.x, entry.sprite.y)
     entry.crack.setDisplaySize(entry.sprite.displayWidth, entry.sprite.displayHeight)
     entry.crack.setVisible(true)
-    entry.crack.setAlpha(this.reducedMotion ? 0.55 : 0.82)
+    entry.crack.setAlpha(this.reducedMotion ? 0.7 : 0.92)
+  }
+
+  private stain(entry: BreakEntry, lost: number): void {
+    if (!entry.sprite.setTint) {
+      return
+    }
+    if (lost <= 0) {
+      entry.sprite.setTint(0xffffff)
+      return
+    }
+    const shade = Math.round(255 - lost * 90)
+    const cool = Math.round(255 - lost * 130)
+    entry.sprite.setTint((shade << 16) | (cool << 8) | cool)
   }
 
   private shatter(entry: BreakEntry): void {
@@ -307,4 +402,59 @@ export class BreakField {
       })
     }
   }
+}
+
+function rayAabb(
+  ox: number,
+  oy: number,
+  ux: number,
+  uy: number,
+  left: number,
+  right: number,
+  top: number,
+  bottom: number,
+  maxLen: number,
+): number | null {
+  let tmin = 0
+  let tmax = maxLen
+  if (Math.abs(ux) < 1e-6) {
+    if (ox < left || ox > right) {
+      return null
+    }
+  } else {
+    let t1 = (left - ox) / ux
+    let t2 = (right - ox) / ux
+    if (t1 > t2) {
+      const swap = t1
+      t1 = t2
+      t2 = swap
+    }
+    tmin = Math.max(tmin, t1)
+    tmax = Math.min(tmax, t2)
+    if (tmin > tmax) {
+      return null
+    }
+  }
+  if (Math.abs(uy) < 1e-6) {
+    if (oy < top || oy > bottom) {
+      return null
+    }
+  } else {
+    let t1 = (top - oy) / uy
+    let t2 = (bottom - oy) / uy
+    if (t1 > t2) {
+      const swap = t1
+      t1 = t2
+      t2 = swap
+    }
+    tmin = Math.max(tmin, t1)
+    tmax = Math.min(tmax, t2)
+    if (tmin > tmax) {
+      return null
+    }
+  }
+  if (tmin > tmax || tmin > maxLen) {
+    return null
+  }
+  return Math.max(0, tmin)
 }

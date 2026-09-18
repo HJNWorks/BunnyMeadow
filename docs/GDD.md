@@ -4,6 +4,7 @@ This is the design hub. Deeper subtrees live under the [docs index](README.md): 
 world model in [universe/](universe/README.md), the bestiary in [creatures/](creatures/README.md),
 collectibles in [items/](items/README.md), Endless detail in [modes/endless/](modes/endless/design.md),
 Moon Tasks in [modes/tasks/](modes/tasks/README.md),
+shared pads in [platforms/](platforms/README.md),
 and the visual language in [rendering/](rendering/README.md). Build order is in [ROADMAP.md](ROADMAP.md).
 
 Family-tone woodland game. Phaser 4 + Vite + TypeScript. Web on GitHub Pages. Steam desktop long-term (Electron + steamworks.js).

@@ -15,7 +15,8 @@ Docs:
 - Jump roles on wildlife pages and [../ENEMIES.md](../ENEMIES.md)
 - Auto-bounce as a task-only verb on [../creatures/abilities.md](../creatures/abilities.md)
 - `land` hit-count source on [../editor/destructibility.md](../editor/destructibility.md)
-- Height bands walk the clock on [../universe/timeline.md](../universe/timeline.md)
+- Shared pad axes under [../platforms/README.md](../platforms/README.md) (slide
+  motion, one-way collision, bounce / boost / slick surfaces)
 
 ## Graduates to planned
 
@@ -25,9 +26,9 @@ Docs:
 
 ## Not in this slice
 
-`TaskRunner`, `tasks.json`, i18n strings, Phaser scene, one-way pads, `land` in
-`breakables.ts` / `breakables.json`, `jumpKit.ts`, `migrateSave` for
-`progress.bunnyJumpBest`.
+`TaskRunner`, `tasks.json`, i18n strings, Phaser scene, one-way pads, auto-bounce,
+shared slide movers, `land` in `breakables.ts` / `breakables.json`, `jumpKit.ts`,
+`migrateSave` for `progress.bunnyJumpBest`.
 
 ## After I5 docs
 

@@ -8,12 +8,19 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Shared pad catalog under [docs/platforms/](docs/platforms/README.md): collision,
+  motion (including slide), surface, and break as stacked axes for Story, Endless,
+  and Bunny Jump.
 - Moon Tasks hub and Bunny Jump design (docs only, planned). Vertical hop under
   Moon Tasks, not a fifth primary mode. Height bands reuse palettes. Jump roles stay
   mode-only. `land` is a one-bounce break source. Iteration:
   [docs/iterations/i5-bunny-jump.md](docs/iterations/i5-bunny-jump.md).
 
 ### Changed
+
+- Last-heart Han beam damages every registered ledge the hot slab crosses. Thin
+  Guanghan ledges take stone even if an editor overlay omitted `break`. Cracks
+  darken the tile from the first contact.
 
 - Editor Build pins critters where they were placed. Refresh no longer snaps them onto
   the nearest floor.
