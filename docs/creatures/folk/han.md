@@ -37,6 +37,9 @@ does not speak.
 
 Han roams the sky rather than holding one perch. Every lost heart still enlarges and
 darkens the silhouette. Low gravity stays. Cakes spawn in the open, not under roofs.
+Each mooncake sits on the top-center of a green platform (the grass slabs, not walls).
+If you delete or resize those ledges, the spawn point follows the new center. The wide
+floor is skipped while any ledge remains.
 If Mei's hearts empty, Guanghan restarts (Han included). Spirit hearts sit at the top
 center of the playfield. Mei hearts sit at the top left.
 

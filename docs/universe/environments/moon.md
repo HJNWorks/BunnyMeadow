@@ -37,7 +37,7 @@ Folk (see [../../creatures/folk/](../../creatures/folk/)):
 
 | Item | Weight | Notes |
 | --- | --- | --- |
-| mooncake | warmth ammo, then the gift beat | eaten in the open to dash Han. Endless still heals |
+| mooncake | warmth ammo, then the gift beat | eaten in the open to dash Han. Spawns on green platform centers. Endless still heals |
 
 ## Endless status
 

@@ -111,7 +111,8 @@ Moon Pool sample (4-1 only):
 roofs. Duck frost spears, eat a mooncake in the open, dash him while the warmth lasts.
 Five spirit hearts. Starfall after the second hit, both volleys on the last heart. From
 three hearts he may charge a tracking lunar beam (two hearts if it lands). Roofs and
-walls stop the beam, so Mei can hide. The impact scorches the surface. On the last
+walls stop the beam, so Mei can hide. The impact scorches the surface. Mooncakes sit on
+the top-center of the remaining green platforms. On the last
 hit he spirals inward at his last place and a moon grows outward there. Han speaks four
 ticker lines on the Moon Pool HUD. Chang'e does not throw spears.
 

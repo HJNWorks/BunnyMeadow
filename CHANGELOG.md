@@ -8,6 +8,10 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Story map editor Copy duplicates the selection (platforms, walls, items, critters,
+  hedges, water, Moon Pools) and offsets it by 40 px. Spawn and exit stay unique.
+- Han's mooncakes spawn on the top-center of remaining green platforms. Resize or delete
+  a ledge and the next cake follows that center. Walls and the wide floor are skipped.
 - Han's lunar beam stops on platforms and walls. Mei can duck behind them. The impact
   leaves a scorch trail and a spark on the surface.
 - Playfield HUD is `position: fixed` on the canvas bounds, not a child of the letterboxed

@@ -44,7 +44,7 @@ import {
   freezeEnemyForEditor,
   constrainCreatureToWorld,
 } from "./shared/enemyKit"
-import { HAN_WARMTH, HanFight } from "./shared/hanBoss"
+import { HAN_WARMTH, HanFight, hanCakeSpotsFromPlatforms } from "./shared/hanBoss"
 import {
   applyWaterPhysics,
   createMovers,
@@ -936,6 +936,7 @@ export class StoryScene extends Phaser.Scene {
               this.hud.ticker.show(t(`story.han.line.${line}`))
             },
           platforms: this.platforms,
+          cakeSpots: hanCakeSpotsFromPlatforms(world.platforms),
         },
       )
       this.enemies.add(this.han.sprite)

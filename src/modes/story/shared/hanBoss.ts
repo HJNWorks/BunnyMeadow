@@ -5,12 +5,10 @@ const HEARTS = 5
 export const HAN_WARMTH = 3.0
 const FROST_GAPS = [0.42, 0.42, 0.9, 0.28, 0.28, 1.1]
 const STAR_GAPS = [0.78, 0.52, 1.0]
-const CAKE_SPOTS = [
-  { x: 385, y: 800 },
-  { x: 900, y: 800 },
-  { x: 1120, y: 800 },
-]
 const BEAM_LEN = 1800
+const CAKE_LIFT = 18
+const LEDGE_MAX_H = 60
+const LEDGE_MAX_W = 800
 const BEAM_HALF = 28
 const IN_S = 1.3
 const OUT_S = 1.5
@@ -44,10 +42,33 @@ export function hanTextureKey(lost: number): string {
   return `story_han_${Math.max(0, Math.min(4, lost))}`
 }
 
+export type HanCakeSpot = { x: number; y: number }
+
+export type HanLedge = {
+  x: number
+  y: number
+  w: number
+  h: number
+  kind?: string
+}
+
+export function hanCakeSpotsFromPlatforms(rects: HanLedge[]): HanCakeSpot[] {
+  const green = rects.filter((rect) => rect.kind !== "wall")
+  const ledges = green.filter((rect) => rect.h <= LEDGE_MAX_H && rect.w < LEDGE_MAX_W)
+  const source = ledges.length > 0 ? ledges : green
+  return source
+    .map((rect) => ({
+      x: rect.x + rect.w * 0.5,
+      y: rect.y - CAKE_LIFT,
+    }))
+    .sort((a, b) => a.x - b.x || a.y - b.y)
+}
+
 export type HanFightOpts = {
   reducedMotion: boolean
   speak?: (line: HanLine) => void
   platforms: Phaser.Physics.Arcade.StaticGroup
+  cakeSpots: HanCakeSpot[]
 }
 
 export class HanFight {
@@ -87,6 +108,7 @@ export class HanFight {
   private lastBurnY = 0
   private burns: Burn[] = []
   private platforms: Phaser.Physics.Arcade.StaticGroup
+  private cakeSpots: HanCakeSpot[]
   private settlePhase: SettlePhase = "none"
   private settleT = 0
   private settleX = 0
@@ -108,6 +130,7 @@ export class HanFight {
     this.reducedMotion = opts.reducedMotion
     this.speak = opts.speak
     this.platforms = opts.platforms
+    this.cakeSpots = opts.cakeSpots
     this.aimX = x
     this.aimY = y
     ensureScorch(scene)
@@ -387,15 +410,24 @@ export class HanFight {
   }
 
   private tickCake(): void {
+    if (this.cakeSpots.length === 0) {
+      return
+    }
     if (this.cake && this.cake.active) {
-      this.cake.y = CAKE_SPOTS[this.cakeSpot].y + Math.sin(this.scene.time.now / 260) * 4
+      const base = this.cakeSpots[this.cakeSpot]
+      if (base) {
+        this.cake.y = base.y + Math.sin(this.scene.time.now / 260) * 4
+      }
       return
     }
     if (this.cakeCd > 0) {
       return
     }
-    this.cakeSpot = (this.cakeSpot + 1) % CAKE_SPOTS.length
-    const spot = CAKE_SPOTS[this.cakeSpot]
+    this.cakeSpot = (this.cakeSpot + 1) % this.cakeSpots.length
+    const spot = this.cakeSpots[this.cakeSpot]
+    if (!spot) {
+      return
+    }
     this.cake = this.scene.physics.add.image(spot.x, spot.y, "story_mooncake")
     this.cake.setDisplaySize(28, 28)
     this.cake.setDepth(4)

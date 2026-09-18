@@ -32,7 +32,8 @@ is the chance a slot is filled at all.
 
 Most valuable on the Riverbank, where water costs hearts. Ties to the Mid-Autumn frame.
 In Story Guanghan the same pastry is warmth ammo, not a heal: eat it to start a short
-timed buff, then dash Han. Endless still restores a heart. One job per context.
+timed buff, then dash Han. It appears on the top-center of remaining green platforms.
+Endless still restores a heart. One job per context.
 
 ## osmanthus blossom
 

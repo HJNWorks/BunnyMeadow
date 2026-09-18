@@ -56,6 +56,7 @@
   "editor.addBridge": "Bridge",
   "editor.addEnemy": "Critter",
   "editor.delete": "Delete",
+  "editor.copy": "Copy",
   "editor.undo": "Undo",
   "editor.field.x": "X",
   "editor.field.y": "Y",

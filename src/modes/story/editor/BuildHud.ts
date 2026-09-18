@@ -64,6 +64,8 @@ type SelKind = "spawn" | "pool" | "exit" | "platform" | "mover" | "enemy" | "pic
 
 type Selection = { kind: SelKind; index: number }
 
+const COPY_SHIFT = 40
+
 const CSS = `
 .bm-root.bm-editor-hud {
   background: transparent;
@@ -386,6 +388,7 @@ export function mountBuildHud(session: EditorSession): void {
           </div>
           <span class="bm-editor-hint" data-ui="hint">${t("editor.selected.none")}</span>
           <button type="button" class="bm-btn ghost" data-ui="undo">${t("editor.undo")}</button>
+          <button type="button" class="bm-btn ghost" data-ui="copy">${t("editor.copy")}</button>
           <button type="button" class="bm-btn ghost" data-ui="delete">${t("editor.delete")}</button>
         </div>
       </div>
@@ -444,6 +447,7 @@ export function mountBuildHud(session: EditorSession): void {
   const lookPanel = requireEl<HTMLElement>(root, "[data-ui=lookPanel]")
   const topBar = requireEl<HTMLElement>(root, "[data-ui=topBar]")
   const undoBtn = requireEl<HTMLButtonElement>(root, "[data-ui=undo]")
+  const copyBtn = requireEl<HTMLButtonElement>(root, "[data-ui=copy]")
   const deleteBtn = requireEl<HTMLButtonElement>(root, "[data-ui=delete]")
 
   const marks = session.scene.add.graphics().setDepth(30)
@@ -673,6 +677,41 @@ export function mountBuildHud(session: EditorSession): void {
     overlay.enemies[sel.index] = cloneJson(snap as (typeof overlay.enemies)[number])
   }
 
+  const appendCopy = (kind: SelKind, snap: unknown): Selection | null => {
+    if (kind === "spawn" || kind === "exit") {
+      return null
+    }
+    if (kind === "pool") {
+      overlay.moonPools = overlay.moonPools ?? []
+      overlay.moonPools.push(cloneMoonPool(snap as MoonPoolDef))
+      return { kind, index: overlay.moonPools.length - 1 }
+    }
+    if (kind === "platform") {
+      overlay.platforms.push(cloneJson(snap as (typeof overlay.platforms)[number]))
+      return { kind, index: overlay.platforms.length - 1 }
+    }
+    if (kind === "mover") {
+      overlay.movers.push(cloneJson(snap as (typeof overlay.movers)[number]))
+      return { kind, index: overlay.movers.length - 1 }
+    }
+    if (kind === "pickup") {
+      overlay.pickups.push(cloneJson(snap as EditorPickup))
+      return { kind, index: overlay.pickups.length - 1 }
+    }
+    if (kind === "decor") {
+      overlay.decor = overlay.decor ?? []
+      overlay.decor.push(cloneJson(snap as AssembledDecor))
+      return { kind, index: overlay.decor.length - 1 }
+    }
+    if (kind === "hazard") {
+      overlay.hazards = overlay.hazards ?? []
+      overlay.hazards.push(cloneJson(snap as AssembledHazard))
+      return { kind, index: overlay.hazards.length - 1 }
+    }
+    overlay.enemies.push(cloneJson(snap as (typeof overlay.enemies)[number]))
+    return { kind: "enemy", index: overlay.enemies.length - 1 }
+  }
+
   const adoptSelection = (hit: Selection): void => {
     group = [{ kind: hit.kind, index: hit.index }]
     const snap = captureItem(hit)
@@ -711,10 +750,11 @@ export function mountBuildHud(session: EditorSession): void {
     } else {
       undoBtn.disabled = JSON.stringify(captureItem(selected)) === JSON.stringify(baseline.snap)
     }
-    const canDelete = group.some(
+    const canEdit = group.some(
       (item) => item.kind !== "spawn" && item.kind !== "exit",
     )
-    deleteBtn.disabled = !canDelete
+    copyBtn.disabled = !canEdit
+    deleteBtn.disabled = !canEdit
   }
 
   const restart = (mode: EditorMode): void => {
@@ -1683,6 +1723,38 @@ export function mountBuildHud(session: EditorSession): void {
     persist()
     fillInspect()
   }
+
+  const copySelected = (): void => {
+    const sources = (group.length ? group : selected ? [selected] : []).filter(
+      (item) => item.kind !== "spawn" && item.kind !== "exit",
+    )
+    if (!sources.length) {
+      return
+    }
+    let made = 0
+    for (const item of sources) {
+      const snap = captureItem(item)
+      if (snap === null) {
+        continue
+      }
+      const next = appendCopy(item.kind, snap)
+      if (!next) {
+        continue
+      }
+      const at = selOrigin(item)
+      placeSel(next, snap10(at.x + COPY_SHIFT), snap10(at.y + COPY_SHIFT))
+      made += 1
+    }
+    if (!made) {
+      return
+    }
+    getAudio().playSfx("confirm")
+    restart("build")
+  }
+
+  copyBtn.onclick = () => {
+    copySelected()
+  }
   requireEl<HTMLButtonElement>(root, "[data-ui=delete]").onclick = () => {
     const doomed = (group.length ? group : selected ? [selected] : []).filter(
       (item) => item.kind !== "spawn" && item.kind !== "exit",
@@ -1927,8 +1999,26 @@ export function mountBuildHud(session: EditorSession): void {
     event.preventDefault()
   }
   session.scene.game.canvas.addEventListener("contextmenu", blockMenu)
+  const onKey = (event: KeyboardEvent): void => {
+    if (session.mode !== "build") {
+      return
+    }
+    const typing =
+      event.target instanceof HTMLInputElement ||
+      event.target instanceof HTMLTextAreaElement ||
+      event.target instanceof HTMLSelectElement
+    if (typing) {
+      return
+    }
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "d") {
+      event.preventDefault()
+      copySelected()
+    }
+  }
+  window.addEventListener("keydown", onKey)
   session.scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     document.removeEventListener("pointerdown", onDocPointer)
+    window.removeEventListener("keydown", onKey)
     stopChromeWatch()
     session.scene.game.canvas.removeEventListener("contextmenu", blockMenu)
     session.scene.input.off("pointerdown", onDown)
