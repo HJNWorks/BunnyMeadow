@@ -10,7 +10,7 @@
   "exit": { "chunk": 1, "x": 840, "y": 860 },
   "moonLine": "This water still speaks. Farther is quieter.",
   "objective": "Hop the sparse pads to a still shore.",
-  "env": "moon",
-  "sky": "#151b2e",
+  "env": "ch2_silver",
+  "sky": "#12161c",
   "lowGravity": true
 }

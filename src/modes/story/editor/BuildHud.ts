@@ -1150,13 +1150,19 @@ export function mountBuildHud(session: EditorSession): void {
         syncUndo()
         return
       }
-      hint.textContent = rect.kind === "wall" ? t("editor.kind.wall") : t("editor.kind.platform")
+      hint.textContent =
+        rect.kind === "wall"
+          ? t("editor.kind.wall")
+          : rect.kind === "ceiling"
+            ? t("editor.kind.ceiling")
+            : t("editor.kind.platform")
       xInput.value = String(rect.x)
       yInput.value = String(rect.y)
       wInput.value = String(rect.w)
       hInput.value = String(rect.h)
       rotInput.value = String(rect.rotation ?? 0)
-      assetInput.value = rect.asset ?? (rect.kind === "wall" ? "hedge" : "ground")
+      assetInput.value =
+        rect.asset ?? (rect.kind === "wall" ? "hedge" : rect.kind === "ceiling" ? "cave" : "ground")
     } else if (selected.kind === "mover") {
       const mover = overlay.movers[selected.index]
       if (!mover) {
@@ -1736,6 +1742,11 @@ export function mountBuildHud(session: EditorSession): void {
     }
     if (kind === "wall") {
       overlay.platforms.push({ kind: "wall", x: at.x, y: at.y - 60, w: 28, h: 120 })
+      restart("build")
+      return
+    }
+    if (kind === "ceiling") {
+      overlay.platforms.push({ kind: "ceiling", x: at.x - 100, y: at.y, w: 220, h: 40, asset: "cave" })
       restart("build")
       return
     }

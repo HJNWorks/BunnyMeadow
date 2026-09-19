@@ -24,7 +24,18 @@ on earlier stations stay Chang'e's reflection channel.
 
 ## Roster
 
-Wildlife: sparse star wisps. No folk HP bars.
+Wildlife: sparse [star wisps](../../creatures/wildlife/star-wisp.md). No folk HP bars.
+
+## Item table
+
+| Item | Notes |
+| --- | --- |
+| well_silver | 1.6 s glow |
+| mooncake | +1 heart on the first station |
+
+## Render notes
+
+Palette `ch2_silver`: still silver. Weather `starDrift`.
 
 ## Endless status
 

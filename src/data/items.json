@@ -4,7 +4,10 @@
     { "id": "carrot", "category": "currency", "weightKey": "carrot" },
     { "id": "mooncake", "category": "restore", "weightKey": "mooncake" },
     { "id": "osmanthus_blossom", "category": "run-buff", "weightKey": "blossom" },
-    { "id": "lantern", "category": "run-buff", "weightKey": "lantern" }
+    { "id": "lantern", "category": "run-buff", "weightKey": "lantern" },
+    { "id": "star_grit", "category": "run-buff", "weightKey": "star_grit" },
+    { "id": "elixir_crumb", "category": "run-buff", "weightKey": "elixir_crumb" },
+    { "id": "well_silver", "category": "run-buff", "weightKey": "well_silver" }
   ],
   "biomes": {
     "meadow": { "carrot": 10 },
@@ -12,6 +15,7 @@
     "bamboo": { "carrot": 10, "lantern": 1 },
     "riverbank": { "carrot": 10, "mooncake": 1 },
     "lantern": { "carrot": 10, "lantern": 3, "mooncake": 1 },
-    "osmanthus": { "carrot": 6, "blossom": 3, "mooncake": 1 }
+    "osmanthus": { "carrot": 6, "blossom": 3, "mooncake": 1 },
+    "moon": { "mooncake": 2, "star_grit": 2, "elixir_crumb": 1, "well_silver": 1 }
   }
 }

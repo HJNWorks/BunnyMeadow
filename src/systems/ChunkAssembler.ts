@@ -110,6 +110,7 @@ export type ChunkDef = {
   groundY: number
   platforms: ChunkRect[]
   walls: ChunkRect[]
+  ceilings?: ChunkRect[]
   enemies?: ChunkEnemySpawn[]
   enemySlots?: ChunkEnemySlot[]
   movers?: ChunkMover[]
@@ -123,13 +124,13 @@ export type ChunkDef = {
 }
 
 export type AssembledRect = ChunkRect & {
-  kind: "platform" | "wall"
-  asset?: "ground" | "hedge" | "bridge" | "log" | "pool" | "exit"
+  kind: "platform" | "wall" | "ceiling"
+  asset?: "ground" | "hedge" | "bridge" | "log" | "pool" | "exit" | "rim" | "bowl" | "wound" | "cave"
   rotation?: number
 }
 
 export type AssembledDecor = {
-  kind: "hedge" | "vine" | "grass" | "lantern" | "log" | "burrow"
+  kind: "hedge" | "vine" | "grass" | "lantern" | "log" | "burrow" | "falseMouth" | "rim" | "bowl" | "wound" | "cave" | "column"
   x: number
   y: number
   w: number
@@ -284,6 +285,17 @@ export class ChunkAssembler {
           h: w.h,
           rotation: 0,
           asset: "hedge",
+        })
+      }
+      for (const c of chunk.ceilings ?? []) {
+        platforms.push({
+          x: x + c.x,
+          y: c.y,
+          w: c.w,
+          h: c.h,
+          kind: "ceiling",
+          asset: "cave",
+          break: c.break,
         })
       }
       for (const e of chunk.enemies ?? []) {

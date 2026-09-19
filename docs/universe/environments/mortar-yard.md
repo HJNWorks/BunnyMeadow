@@ -23,13 +23,18 @@ A workshop of cold stone and round cakes. Yutu is comic and busy. He is not an H
 
 ## Roster
 
-Folk: Yutu (NPC). Wildlife: none required.
+Folk: Yutu (NPC). Wildlife: [pestle sentry](../../creatures/wildlife/pestle-sentry.md).
 
 ## Item table
 
 | Item | Notes |
 | --- | --- |
-| mooncake | warmth or pantry. Same rules as Guanghan |
+| mooncake | +1 heart (Endless and Story hops). Guanghan cakes stay warmth ammo |
+| elixir_crumb | 2.5 s slow-fall |
+
+## Render notes
+
+Palette `ch2_mortar`: basalt bowls. Weather `starDrift`.
 
 ## Endless status
 

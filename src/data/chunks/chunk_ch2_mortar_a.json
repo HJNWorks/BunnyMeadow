@@ -9,10 +9,11 @@
     { "x": 760, "y": 780, "w": 160, "h": 24 }
   ],
   "walls": [],
-  "enemies": [{ "id": "ice_spit", "x": 820, "y": 520 }],
+  "enemies": [{ "id": "pestle_sentry", "x": 820, "y": 520 }],
   "items": [
     { "id": "mooncake", "x": 560, "y": 848 },
-    { "id": "mooncake", "x": 840, "y": 768 }
+    { "id": "mooncake", "x": 840, "y": 768 },
+    { "id": "elixir_crumb", "x": 500, "y": 832 }
   ],
   "color": "#151b2e"
 }

@@ -21,13 +21,25 @@ Round basins like dry seas. Odd silhouettes, folk names. Not NASA dunes.
 
 Invented wildlife (not HP-bar folk):
 
-| Id (working) | Read |
+| Id | Read |
 | --- | --- |
-| dust mite | slow swarm cloud. Dash still passes through |
-| crater crab | perch on a rim. Side contact |
-| star wisp | drift. Sibling of frost wisp |
+| [dust mite](../../creatures/wildlife/dust-mite.md) | pale dust cloud. Dash still passes through |
+| [star wisp](../../creatures/wildlife/star-wisp.md) | brighter, slower. Native to wells and silver |
 
 Optional wreck: an immortal star raft (星槎), not a spaceship.
+
+## Item table
+
+| Item | Notes |
+| --- | --- |
+| star_grit | 2.5 s extra jump / float. Makes 0.42 g readable |
+
+No pantry carrots on this rung.
+
+## Render notes
+
+Palette `ch2_dust`: pale ash. Weather `dustMotes` (horizontal). Rim stamp on crater
+lips. No falling snow.
 
 ## Endless status
 

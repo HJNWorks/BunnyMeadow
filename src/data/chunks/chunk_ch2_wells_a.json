@@ -10,6 +10,7 @@
   ],
   "walls": [],
   "hazards": [{ "kind": "water", "x": 420, "y": 960, "w": 200, "h": 80 }],
-  "enemies": [{ "id": "frost_wisp", "x": 900, "y": 560 }],
+  "enemies": [{ "id": "star_wisp", "x": 900, "y": 560 }],
+  "items": [{ "id": "well_silver", "x": 500, "y": 772 }],
   "color": "#151b2e"
 }

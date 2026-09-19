@@ -9,7 +9,13 @@ Existing tiles only.
 
 | Stamp | Where it already lives | Notes |
 | --- | --- | --- |
-| ground | Story / Endless platforms | Default solid and Bunny Jump still pad |
+| ground | Story / Endless platforms | Default solid and Bunny Jump still pad. Meadow uses `story_ground` |
+| ground_moon | Journey on Moon platforms | Grey regolith. Used when env is `moon` or `ch2_*` |
+| rim | lunar crater lip | Thin crater edge |
+| bowl | Mortar Yard | Basalt bowl rim |
+| wound | Cassia Wound | Grey wood with a gold cut |
+| cave | Quiet Wells | Dark rock. Also ceiling slabs |
+| log | river movers | Wood grain. Crumble and slide |
 | log | river movers | Wood grain. Crumble and slide |
 | bridge | Cloud Stair movers | Thin slide. Same motion fields as log |
 | lantern | Story decor / item | Bunny Jump boost surface. Not a floor in Story |
@@ -21,6 +27,7 @@ Existing tiles only.
 | solid | live | Block from every side. Story and Endless default |
 | one_way | planned | Land from above. Pass through from below and the sides. Bunny Jump default. Story stairs may opt in later |
 | wall | live | Tall block. Beam clip. Not a bounce pad |
+| ceiling | live | Same solid as wall. Lunar cave roof above the hop band. See [caves.md](caves.md) |
 
 ## Motion
 

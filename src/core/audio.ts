@@ -47,7 +47,7 @@ const SFX: Record<string, SfxSpec> = {
 }
 
 export function musicIdForEnv(env: string): MusicId {
-  if (env === "moon") {
+  if (env === "moon" || env.startsWith("ch2_")) {
     return "moon"
   }
   if (env === "lantern" || env === "osmanthus" || env === "cloudsea") {

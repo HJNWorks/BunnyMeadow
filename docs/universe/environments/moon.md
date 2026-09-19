@@ -18,7 +18,7 @@ of Vast Cold. Hub: [../README.md](../README.md). Finale beats: [../../STORY.md](
 Low gravity, layered roofs, and a duck-and-dash gauntlet against Han, an old ghost of
 Vast Cold. Floats replace running. Falls read as gentle drifts, not deaths. The gift
 beat still plays after he settles. Yue and the kits take the crane home. Mei jumps
-Han's moon into Chapter 2. Outer Cold reuses this palette
+Han's moon into Chapter 2. Outer Cold uses `ch2_outer`
 ([outer-cold.md](outer-cold.md)).
 
 ## Roster
@@ -39,7 +39,7 @@ Folk (see [../../creatures/folk/](../../creatures/folk/)):
 
 | Item | Weight | Notes |
 | --- | --- | --- |
-| mooncake | warmth ammo, then the gift beat | eaten in the open to dash Han. Spawns on green platform centers. Endless still heals |
+| mooncake | warmth ammo, then the gift beat | eaten in the open to dash Han. Spawns on remaining ledge centers. Endless still heals |
 
 ## Endless status
 
@@ -49,5 +49,8 @@ and crosses the Cloud Sea. This is an idea, not scheduled.
 
 ## Render notes
 
-Eternal-night sky, star drift, low-gravity float tuning on the player controller.
-Night overlay always on. Weather preset: slow blossom fall and star drift.
+Grey lunar kit (`moon` palette). Regolith pads (`story_ground_moon`), not meadow
+grass. Stone columns, not leaf hedges. Weather: `starDrift`. No blossom snow. Night
+overlay always on. Low-gravity float tuning on the player controller. Optional
+`story_sky_moon` / `story_far_moon` far layers. Outer Cold uses `ch2_outer`
+([outer-cold.md](outer-cold.md)).

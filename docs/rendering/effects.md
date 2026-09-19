@@ -16,12 +16,16 @@ Weather is a named particle preset chosen per biome and gated by hour
 | drizzle | light rain streaks | riverbank |
 | fireflies | rising warm points | lantern |
 | lantern ash | slow falling embers | lantern |
-| blossom | four-petal blossoms drifting | osmanthus, moon |
+| blossom | four-petal blossoms drifting | osmanthus |
 | snow | white specks blown left | cloud-sea |
+| none | no specks | cassia wound |
+| star drift | slow twinkles, little vertical fall | moon, most Chapter 2 kits |
+| dust motes | faint horizontal ash | Dust Sea |
 | wind streaks | horizontal gust lines | osmanthus, cloud-sea |
 | cloud wisps | foreground cloud drift | cloud-sea |
-| star drift | slow star parallax | moon, cloud-sea |
-| dust motes | faint underground motes | burrow-tunnels |
+
+The moon has no atmosphere. Guanghan and Chapter 2 do not use blossom fall or snow.
+`starDrift` is twinkles. Dust Sea uses `dustMotes`. Cassia uses `none`.
 
 Reduced motion cuts particle count sharply and slows or stops drift.
 

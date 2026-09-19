@@ -17,6 +17,7 @@ export type EditorWorldId = StoryWorldId
 export type EditorEnvToken =
   | "platform"
   | "wall"
+  | "ceiling"
   | "bridge"
   | "water"
   | "hedge"
@@ -26,6 +27,12 @@ export type EditorEnvToken =
   | "burrow"
   | "lantern"
   | "pool"
+  | "falseMouth"
+  | "rim"
+  | "bowl"
+  | "wound"
+  | "cave"
+  | "column"
 
 export type EditorWorldEntry = {
   id: EditorWorldId
@@ -42,6 +49,7 @@ const LAST_STATION_KEY = "bunnymeadow.editor.lastStation.v1"
 const SHARED_ENV: EditorEnvToken[] = [
   "platform",
   "wall",
+  "ceiling",
   "bridge",
   "water",
   "hedge",
@@ -51,6 +59,7 @@ const SHARED_ENV: EditorEnvToken[] = [
   "burrow",
   "lantern",
   "pool",
+  "falseMouth",
 ]
 
 export function editorChapterForLevel(level: StoryLevelDef): StoryChapterId {
@@ -119,6 +128,12 @@ export function envTokenLabel(token: string): string {
   }
   if (token === "wall") {
     return "Wall"
+  }
+  if (token === "ceiling") {
+    return "Ceiling"
+  }
+  if (token === "falseMouth") {
+    return "False mouth"
   }
   if (token === "bridge") {
     return "Bridge"

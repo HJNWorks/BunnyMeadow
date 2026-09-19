@@ -49,8 +49,10 @@ export function padBreakSpec(
   if (spec) {
     return spec
   }
-  if (opts.env === "moon" && opts.kind !== "wall" && opts.h <= 40) {
-    return { profile: "stone" }
+  if (opts.env === "moon" || opts.env.startsWith("ch2_")) {
+    if (opts.kind !== "wall" && opts.kind !== "ceiling" && opts.h <= 40) {
+      return { profile: "stone" }
+    }
   }
   return undefined
 }

@@ -3,8 +3,8 @@
 Status: live (Chapter 2, first station Frost Courtyard). First region after Guanghan.
 Still the moon. Not Earth. Hub: [../README.md](../README.md). Chapter: [../../story/chapters.md](../../story/chapters.md).
 
-Reuses the live `moon` palette and low gravity. Guanghan roofs recede. Frost courtyards
-open.
+Reuses the grey lunar family and low gravity. Palette `ch2_outer`: cold stone.
+Guanghan roofs recede. Frost courtyards open. Weather: `starDrift`.
 
 ## Five axes
 
@@ -23,8 +23,18 @@ drifts.
 
 ## Roster
 
-Folk: none as HP bars. Wildlife: first invented lunar fauna may appear at the far
-edge (dust mites). See Dust Sea for the full table.
+Folk: none as HP bars. Wildlife: [dust mite](../../creatures/wildlife/dust-mite.md).
+
+## Item table
+
+| Item | Notes |
+| --- | --- |
+| mooncake | +1 heart |
+| star_grit | 2.5 s extra jump / float |
+
+## Render notes
+
+Grey pads. Stone columns. No meadow hedge. No falling blossom.
 
 ## Endless status
 

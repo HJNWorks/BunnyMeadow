@@ -23,7 +23,22 @@ Ordinary Moon Pools here still speak one Chang'e line. They are not the One Pool
 
 ## Roster
 
-Folk: moon toad, background only. Wildlife: star wisps.
+Folk: moon toad, background only. Wildlife: [star wisp](../../creatures/wildlife/star-wisp.md).
+
+## Item table
+
+| Item | Notes |
+| --- | --- |
+| well_silver | 1.6 s glow (lantern hook, no mist wall) |
+
+## Cave structure
+
+Mass above (`ceiling`). False mouths off the hop line. Water below. One true exit.
+See [../../platforms/caves.md](../../platforms/caves.md).
+
+## Render notes
+
+Palette `ch2_wells`: cave dark. Weather `starDrift`. Cave rock stamp.
 
 ## Endless status
 

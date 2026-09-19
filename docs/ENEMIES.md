@@ -108,3 +108,6 @@ Used on web today via Spawner. `reach` and later archetypes remain M3+.
 | frost_wisp | swarm | Story W4 |
 | ice_spit | ranged_lob | Story W4 |
 | gale_magpie | diver | Story W4 |
+| dust_mite | swarm | Story Chapter 2 |
+| star_wisp | swarm | Story Chapter 2 |
+| pestle_sentry | ranged_lob | Story Chapter 2 |

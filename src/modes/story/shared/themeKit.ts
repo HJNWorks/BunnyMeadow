@@ -3,7 +3,17 @@ import palettesData from "../../../data/palettes.json"
 
 export type PaletteHour = "afternoon" | "golden" | "dusk" | "night" | "deepNight" | "eternal"
 
-export type WeatherPreset = "pollen" | "leaves" | "drizzle" | "fireflies" | "lanternAsh" | "blossom" | "snow"
+export type WeatherPreset =
+  | "pollen"
+  | "leaves"
+  | "drizzle"
+  | "fireflies"
+  | "lanternAsh"
+  | "blossom"
+  | "snow"
+  | "none"
+  | "starDrift"
+  | "dustMotes"
 
 export type Palette = {
   sky: string
@@ -42,7 +52,14 @@ export const WEATHER_PRESETS: WeatherPreset[] = [
   "lanternAsh",
   "blossom",
   "snow",
+  "none",
+  "starDrift",
+  "dustMotes",
 ]
+
+export function isLunarEnv(env: string): boolean {
+  return env === "moon" || env.startsWith("ch2_")
+}
 
 export const PALETTE_HOURS: PaletteHour[] = [
   "afternoon",
@@ -107,12 +124,35 @@ export function lerpHex(a: string, b: string, t: number): string {
   return `#${((r << 16) | (g << 8) | bl).toString(16).padStart(6, "0")}`
 }
 
-export function applySky(scene: Phaser.Scene, palette: Palette): Phaser.GameObjects.Rectangle {
+export function applySky(
+  scene: Phaser.Scene,
+  palette: Palette,
+  env?: string,
+): Phaser.GameObjects.Rectangle {
   scene.cameras.main.setBackgroundColor(palette.sky)
-  return scene.add
+  const fill = scene.add
     .rectangle(960, 200, 1920, 420, hexToNum(palette.far), 0.55)
     .setScrollFactor(0)
     .setDepth(-3)
+  if (env && isLunarEnv(env)) {
+    if (scene.textures.exists("story_sky_moon")) {
+      scene.add
+        .image(960, 180, "story_sky_moon")
+        .setDisplaySize(1920, 420)
+        .setScrollFactor(0)
+        .setAlpha(0.88)
+        .setDepth(-3.2)
+    }
+    if (scene.textures.exists("story_far_moon")) {
+      scene.add
+        .image(960, 280, "story_far_moon")
+        .setDisplaySize(1920, 480)
+        .setScrollFactor(0.1)
+        .setAlpha(0.72)
+        .setDepth(-2.6)
+    }
+  }
+  return fill
 }
 
 function ensureSpeckTexture(scene: Phaser.Scene): void {
@@ -132,9 +172,17 @@ export function createWeather(
   worldWidth: number,
   reducedMotion: boolean,
 ): WeatherHandle {
+  if (preset === "none") {
+    return {
+      update: () => undefined,
+      destroy: () => undefined,
+    }
+  }
   ensureSpeckTexture(scene)
   const specks: Speck[] = []
-  const count = reducedMotion ? 4 : 28
+  const twinkle = preset === "starDrift"
+  const dust = preset === "dustMotes"
+  const count = reducedMotion ? (twinkle ? 6 : 4) : twinkle ? 16 : dust ? 22 : 28
   const tint =
     preset === "drizzle"
       ? 0xa8c4d0
@@ -148,20 +196,38 @@ export function createWeather(
               ? 0xc4a050
               : preset === "snow"
                 ? 0xe8f4ff
-                : 0xe8f0c8
+                : twinkle
+                  ? 0xe8eef6
+                  : dust
+                    ? 0xc4b89a
+                    : 0xe8f0c8
   const rise = preset === "fireflies"
   const wind = preset === "snow"
   for (let i = 0; i < count; i += 1) {
     const sprite = scene.add.image(Math.random() * worldWidth, Math.random() * 1080, "theme_speck")
     sprite.setDepth(18)
     sprite.setTint(tint)
-    sprite.setAlpha(preset === "fireflies" ? 0.7 : 0.45)
-    sprite.setScale(preset === "drizzle" ? 0.4 : 0.7)
+    sprite.setAlpha(twinkle ? 0.55 + Math.random() * 0.3 : preset === "fireflies" ? 0.7 : 0.45)
+    sprite.setScale(twinkle ? 0.28 + Math.random() * 0.18 : preset === "drizzle" ? 0.4 : dust ? 0.5 : 0.7)
     specks.push({
       sprite,
-      vx: reducedMotion ? 0 : wind ? -48 - Math.random() * 36 : (Math.random() - 0.5) * (rise ? 18 : 40),
-      vy: reducedMotion ? 0 : rise ? -20 - Math.random() * 24 : (wind ? 16 : 40) + Math.random() * 50,
-      life: 2 + Math.random() * 4,
+      vx: reducedMotion
+        ? 0
+        : dust
+          ? 22 + Math.random() * 28
+          : wind
+            ? -48 - Math.random() * 36
+            : (Math.random() - 0.5) * (twinkle ? 8 : rise ? 18 : 40),
+      vy: reducedMotion
+        ? 0
+        : rise
+          ? -20 - Math.random() * 24
+          : twinkle
+            ? 6 + Math.random() * 10
+            : dust
+              ? (Math.random() - 0.5) * 10
+              : (wind ? 16 : 40) + Math.random() * 50,
+      life: twinkle ? 3 + Math.random() * 5 : 2 + Math.random() * 4,
     })
   }
   return {
@@ -173,10 +239,15 @@ export function createWeather(
         speck.sprite.x += speck.vx * dt
         speck.sprite.y += speck.vy * dt
         speck.life -= dt
-        if (speck.sprite.y > 1100 || speck.sprite.y < -40 || speck.life <= 0) {
-          speck.sprite.x = camX - 200 + Math.random() * 1600
-          speck.sprite.y = rise ? 1000 : -20
-          speck.life = 2 + Math.random() * 4
+        if (twinkle) {
+          speck.sprite.setAlpha(0.2 + 0.45 * (0.5 + 0.5 * Math.sin(speck.life * 3)))
+        }
+        const offY = speck.sprite.y > 1100 || speck.sprite.y < -40
+        const offX = dust && speck.sprite.x > camX + 1700
+        if (offY || offX || speck.life <= 0) {
+          speck.sprite.x = dust ? camX - 80 : camX - 200 + Math.random() * 1600
+          speck.sprite.y = rise ? 1000 : twinkle ? Math.random() * 720 : dust ? 180 + Math.random() * 720 : -20
+          speck.life = twinkle ? 3 + Math.random() * 5 : 2 + Math.random() * 4
         }
       }
     },
@@ -223,10 +294,25 @@ export function createLanternGlow(scene: Phaser.Scene): Phaser.GameObjects.Image
 }
 
 export function storyEnvForLevel(world: number, index: number, id: string): string {
-  if (id.startsWith("ch2_")) {
-    return "moon"
+  if (id.startsWith("ch2_outer")) {
+    return "ch2_outer"
   }
-  if (id.startsWith("moon")) {
+  if (id.startsWith("ch2_cassia")) {
+    return "ch2_cassia"
+  }
+  if (id.startsWith("ch2_mortar")) {
+    return "ch2_mortar"
+  }
+  if (id.startsWith("ch2_dust")) {
+    return "ch2_dust"
+  }
+  if (id.startsWith("ch2_wells")) {
+    return "ch2_wells"
+  }
+  if (id.startsWith("ch2_silver")) {
+    return "ch2_silver"
+  }
+  if (id.startsWith("ch2_") || id.startsWith("moon")) {
     return "moon"
   }
   if (world === 4) {

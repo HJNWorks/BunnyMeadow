@@ -25,6 +25,9 @@ const KITS: Record<string, EnemyKit> = {
   bees: { texture: "story_critter_bees", source: "story_bees", w: 44, h: 32, archetype: "swarm", speed: 36, fly: true },
   frost_wisp: { texture: "story_critter_frost_wisp", source: "story_wisp", w: 52, h: 36, archetype: "swarm", speed: 28, fly: true },
   ice_spit: { texture: "story_critter_ice_spit", source: "story_ice", w: 32, h: 32, archetype: "ranged_lob", speed: 0 },
+  dust_mite: { texture: "story_critter_dust_mite", source: "story_dust", w: 52, h: 36, archetype: "swarm", speed: 28, fly: true },
+  star_wisp: { texture: "story_critter_star_wisp", source: "story_starwisp", w: 52, h: 36, archetype: "swarm", speed: 18, fly: true },
+  pestle_sentry: { texture: "story_critter_pestle_sentry", source: "story_pestle", w: 32, h: 36, archetype: "ranged_lob", speed: 0 },
   gale_magpie: { texture: "story_critter_gale_magpie", source: "story_magpie", w: 40, h: 28, archetype: "diver", speed: 160, fly: true },
 }
 
@@ -141,7 +144,7 @@ export function spawnEnemy(
     sprite.setData("dir", 1)
   }
   if (kit.archetype === "ranged_lob") {
-    sprite.setData("cooldown", id === "ice_spit" ? 0.4 : 0)
+    sprite.setData("cooldown", id === "ice_spit" || id === "pestle_sentry" ? 0.4 : 0)
   }
   if (kit.archetype === "blocker") {
     sprite.setData("stun", 0)
@@ -221,10 +224,12 @@ export function updateEnemies(
     } else if (arch === "ranged_lob") {
       let cd = Number(enemy.getData("cooldown") || 0) - dt
       if (cd <= 0 && Math.abs(target.x - enemy.x) < 420) {
-        const ice = enemy.getData("id") === "ice_spit"
+        const ice = enemy.getData("id") === "ice_spit" || enemy.getData("id") === "pestle_sentry"
         const shot = scene.physics.add.image(enemy.x, enemy.y, ice ? "story_frost" : "story_bunny")
         shot.setDisplaySize(ice ? 28 : 14, ice ? 12 : 14)
-        if (!ice) {
+        if (enemy.getData("id") === "pestle_sentry") {
+          shot.setTint(0x8a8e92)
+        } else if (!ice) {
           shot.setTint(0x4a3a2a)
         }
         const dx = target.x - enemy.x

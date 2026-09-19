@@ -1,4 +1,5 @@
 import type { AssembledDecor } from "../../../systems/ChunkAssembler"
+import { isLunarEnv } from "../shared/themeKit"
 
 export const DECOR_LABELS: Record<AssembledDecor["kind"], string> = {
   hedge: "Hedge",
@@ -7,9 +8,26 @@ export const DECOR_LABELS: Record<AssembledDecor["kind"], string> = {
   lantern: "Lantern",
   log: "Log",
   burrow: "Burrow",
+  falseMouth: "False mouth",
+  rim: "Rim",
+  bowl: "Bowl",
+  wound: "Wound",
+  cave: "Cave lip",
+  column: "Column",
 }
 
-export const PLATFORM_ASSETS = ["ground", "hedge", "bridge", "log", "pool", "exit"] as const
+export const PLATFORM_ASSETS = [
+  "ground",
+  "hedge",
+  "bridge",
+  "log",
+  "pool",
+  "exit",
+  "rim",
+  "bowl",
+  "wound",
+  "cave",
+] as const
 
 const PLACEABLES_BY_BIOME: Record<string, AssembledDecor["kind"][]> = {
   meadow: ["hedge", "grass", "burrow"],
@@ -19,11 +37,12 @@ const PLACEABLES_BY_BIOME: Record<string, AssembledDecor["kind"][]> = {
   lantern: ["lantern", "hedge"],
   osmanthus: ["lantern", "hedge"],
   cloudsea: ["hedge"],
-  moon: ["hedge", "lantern"],
+  moon: ["lantern", "cave", "column", "falseMouth", "rim", "bowl", "wound"],
 }
 
 export function placeablesForEnv(env: string): AssembledDecor["kind"][] {
-  return PLACEABLES_BY_BIOME[env] ?? PLACEABLES_BY_BIOME.meadow ?? ["hedge"]
+  const key = isLunarEnv(env) ? "moon" : env
+  return PLACEABLES_BY_BIOME[key] ?? PLACEABLES_BY_BIOME.meadow ?? ["hedge"]
 }
 
 export function defaultDecor(kind: AssembledDecor["kind"], x: number, y: number): AssembledDecor {
@@ -41,6 +60,24 @@ export function defaultDecor(kind: AssembledDecor["kind"], x: number, y: number)
   }
   if (kind === "vine") {
     return { kind, x, y, w: 24, h: 110, rotation: 0, asset: "hedge" }
+  }
+  if (kind === "falseMouth") {
+    return { kind, x, y, w: 90, h: 70, rotation: 0, asset: "cave" }
+  }
+  if (kind === "rim") {
+    return { kind, x, y, w: 120, h: 24, rotation: 0, asset: "rim" }
+  }
+  if (kind === "bowl") {
+    return { kind, x, y, w: 140, h: 28, rotation: 0, asset: "bowl" }
+  }
+  if (kind === "wound") {
+    return { kind, x, y, w: 140, h: 24, rotation: 0, asset: "wound" }
+  }
+  if (kind === "cave") {
+    return { kind, x, y, w: 100, h: 80, rotation: 0, asset: "cave" }
+  }
+  if (kind === "column") {
+    return { kind, x, y, w: 36, h: 120, rotation: 0, asset: "hedge" }
   }
   return { kind: "hedge", x, y, w: 36, h: 120, rotation: 0, asset: "hedge" }
 }

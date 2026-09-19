@@ -36,6 +36,7 @@ export function buildExportBundle(
     const copy = JSON.parse(JSON.stringify(src)) as ChunkDef
     copy.platforms = []
     copy.walls = []
+    copy.ceilings = []
     copy.enemies = []
     copy.movers = []
     copy.hazards = []
@@ -43,7 +44,7 @@ export function buildExportBundle(
   }
 
   const pushRect = (
-    kind: "platform" | "wall",
+    kind: "platform" | "wall" | "ceiling",
     x: number,
     y: number,
     w: number,
@@ -57,6 +58,9 @@ export function buildExportBundle(
     const rect = { x: anchor.x, y, w, h }
     if (kind === "wall") {
       chunks[id].walls.push(rect)
+    } else if (kind === "ceiling") {
+      chunks[id].ceilings = chunks[id].ceilings ?? []
+      chunks[id].ceilings.push(rect)
     } else {
       chunks[id].platforms.push(rect)
     }

@@ -21,6 +21,20 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_blossom: { w: 28, h: 28 },
   story_lantern: { w: 24, h: 36 },
   story_han: { w: 96, h: 140 },
+  story_ground_moon: { w: 64, h: 64 },
+  story_hedge_moon: { w: 40, h: 64 },
+  story_rim: { w: 64, h: 24 },
+  story_bowl: { w: 64, h: 28 },
+  story_wound: { w: 64, h: 24 },
+  story_cave: { w: 64, h: 64 },
+  story_sky_moon: { w: 256, h: 128 },
+  story_far_moon: { w: 256, h: 96 },
+  story_dust: { w: 52, h: 36 },
+  story_starwisp: { w: 52, h: 36 },
+  story_pestle: { w: 32, h: 36 },
+  story_grit: { w: 24, h: 24 },
+  story_elixir: { w: 24, h: 24 },
+  story_silver: { w: 24, h: 28 },
   dash_speck: { w: 12, h: 12 },
   dash_carrot: { w: 12, h: 18 },
   dash_streak: { w: 22, h: 12 },
@@ -269,6 +283,185 @@ function drawHan(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
   ellipse(ctx, cx + 12, cy + 58, 8, 12, "#8aa0b4")
 }
 
+function drawGroundMoon(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#6a7076"
+  ctx.fillRect(cx - 32, cy - 32, 64, 64)
+  ctx.fillStyle = "#7a8086"
+  ctx.fillRect(cx - 32, cy - 32, 64, 12)
+  ellipse(ctx, cx - 10, cy + 4, 6, 4, "#5c6268")
+  ellipse(ctx, cx + 14, cy + 12, 8, 5, "#5a6066")
+  ellipse(ctx, cx - 18, cy + 18, 4, 3, "#4e545a")
+  ctx.fillStyle = "#8a9096"
+  ctx.fillRect(cx - 32, cy - 32, 64, 3)
+}
+
+function drawHedgeMoon(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#4a5056"
+  ctx.fillRect(cx - 12, cy - 28, 24, 56)
+  ctx.fillStyle = "#5a6068"
+  ctx.fillRect(cx - 10, cy - 24, 20, 48)
+  ellipse(ctx, cx, cy - 26, 14, 10, "#6a7078")
+  ellipse(ctx, cx - 4, cy + 4, 3, 4, "#3a4046")
+  ellipse(ctx, cx + 5, cy + 14, 4, 3, "#3e444a")
+}
+
+function drawRim(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#6a6e72"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy + 4, 30, 8, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#8a8e92"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy - 2, 28, 5, 0, Math.PI, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#4a4e52"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy + 2, 18, 4, 0, 0, Math.PI)
+  ctx.fill()
+}
+
+function drawBowl(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#3a3e44"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy + 4, 28, 10, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#4a4e54"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy, 26, 8, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#2a2e34"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy + 2, 16, 5, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#c4b8a8"
+  ctx.beginPath()
+  ctx.ellipse(cx - 8, cy - 4, 4, 2, 0, 0, Math.PI * 2)
+  ctx.fill()
+}
+
+function drawWound(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#5a5248"
+  ctx.fillRect(cx - 32, cy - 8, 64, 16)
+  ctx.fillStyle = "#6a6258"
+  ctx.fillRect(cx - 32, cy - 8, 64, 5)
+  ctx.fillStyle = "#d4b05a"
+  ctx.beginPath()
+  ctx.moveTo(cx - 18, cy - 2)
+  ctx.quadraticCurveTo(cx, cy + 6, cx + 20, cy - 4)
+  ctx.quadraticCurveTo(cx, cy + 2, cx - 18, cy - 2)
+  ctx.fill()
+}
+
+function drawCave(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#2a3038"
+  ctx.fillRect(cx - 32, cy - 32, 64, 64)
+  ctx.fillStyle = "#3a4248"
+  ellipse(ctx, cx - 8, cy, 18, 22, "#3a4248")
+  ellipse(ctx, cx + 12, cy + 8, 14, 16, "#323840")
+  ctx.fillStyle = "#12161c"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy + 6, 16, 20, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#4a5258"
+  ctx.fillRect(cx - 32, cy - 32, 64, 8)
+}
+
+function drawSkyMoon(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  const w = 256
+  const h = 128
+  const x0 = cx - w * 0.5
+  const y0 = cy - h * 0.5
+  const grad = ctx.createLinearGradient(0, y0, 0, y0 + h)
+  grad.addColorStop(0, "#0c1016")
+  grad.addColorStop(1, "#1c222c")
+  ctx.fillStyle = grad
+  ctx.fillRect(x0, y0, w, h)
+  const stars: [number, number, number][] = [
+    [18, 16, 1.2],
+    [46, 40, 0.8],
+    [80, 22, 1.4],
+    [112, 54, 0.7],
+    [148, 18, 1.1],
+    [176, 44, 0.9],
+    [208, 28, 1.3],
+    [232, 60, 0.8],
+    [64, 72, 0.6],
+    [196, 80, 0.7],
+  ]
+  for (const [sx, sy, r] of stars) {
+    circle(ctx, x0 + sx, y0 + sy, r, "#e8eef6")
+  }
+}
+
+function drawFarMoon(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  const w = 256
+  const h = 96
+  const x0 = cx - w * 0.5
+  const y0 = cy - h * 0.5
+  ctx.fillStyle = "#1c222c"
+  ctx.fillRect(x0, y0, w, h)
+  ellipse(ctx, x0 + 40, y0 + 70, 50, 18, "#2a323c")
+  ellipse(ctx, x0 + 130, y0 + 64, 70, 22, "#262e38")
+  ellipse(ctx, x0 + 210, y0 + 72, 48, 16, "#2a323c")
+  ctx.fillStyle = "#3a424c"
+  ctx.beginPath()
+  ctx.arc(x0 + 188, y0 + 28, 22, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#2a323c"
+  ctx.beginPath()
+  ctx.arc(x0 + 182, y0 + 24, 8, 0, Math.PI * 2)
+  ctx.fill()
+}
+
+function drawDust(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx + 2, cy, 24, 14, "#c4b89a")
+  ellipse(ctx, cx - 4, cy - 2, 12, 8, "#e0d6c4")
+  ellipse(ctx, cx + 10, cy + 4, 8, 6, "#d8d0c0")
+}
+
+function drawStarWisp(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx, cy, 22, 14, "#d0dce8")
+  ellipse(ctx, cx - 2, cy - 2, 10, 7, "#f4f8ff")
+  circle(ctx, cx + 8, cy - 8, 2.2, "#e8eef6")
+  circle(ctx, cx - 10, cy + 6, 1.6, "#e8eef6")
+}
+
+function drawPestle(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#5a5e64"
+  ctx.beginPath()
+  ctx.moveTo(cx, cy - 16)
+  ctx.lineTo(cx - 10, cy + 14)
+  ctx.lineTo(cx + 10, cy + 14)
+  ctx.closePath()
+  ctx.fill()
+  ctx.fillStyle = "#8a8e94"
+  ctx.beginPath()
+  ctx.moveTo(cx, cy - 10)
+  ctx.lineTo(cx - 5, cy + 10)
+  ctx.lineTo(cx + 5, cy + 10)
+  ctx.closePath()
+  ctx.fill()
+  ellipse(ctx, cx, cy + 14, 11, 4, "#4a4e54")
+}
+
+function drawGrit(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  circle(ctx, cx, cy, 6, "#c8d4e0")
+  circle(ctx, cx - 4, cy + 3, 3, "#a8b4c0")
+  circle(ctx, cx + 5, cy - 2, 2.4, "#e8eef4")
+}
+
+function drawElixir(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx, cy + 2, 7, 8, "#d4b05a")
+  ellipse(ctx, cx, cy - 2, 5, 4, "#f0d080")
+  circle(ctx, cx - 2, cy - 4, 1.6, "#fff4d0")
+}
+
+function drawWellSilver(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx, cy + 2, 6, 9, "#c8d8e8")
+  ellipse(ctx, cx, cy - 2, 4, 5, "#e8eef4")
+  circle(ctx, cx - 1, cy - 6, 1.8, "#f4f8ff")
+}
+
 function drawDashSpeck(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
   ctx.strokeStyle = "#6f8f52"
   ctx.lineWidth = 1.4
@@ -327,6 +520,20 @@ const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: nu
   story_blossom: drawBlossom,
   story_lantern: drawLantern,
   story_han: drawHan,
+  story_ground_moon: drawGroundMoon,
+  story_hedge_moon: drawHedgeMoon,
+  story_rim: drawRim,
+  story_bowl: drawBowl,
+  story_wound: drawWound,
+  story_cave: drawCave,
+  story_sky_moon: drawSkyMoon,
+  story_far_moon: drawFarMoon,
+  story_dust: drawDust,
+  story_starwisp: drawStarWisp,
+  story_pestle: drawPestle,
+  story_grit: drawGrit,
+  story_elixir: drawElixir,
+  story_silver: drawWellSilver,
   dash_speck: drawDashSpeck,
   dash_carrot: drawDashCarrot,
   dash_streak: drawDashStreak,

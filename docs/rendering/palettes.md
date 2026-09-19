@@ -32,7 +32,13 @@ Hex lives in `src/data/palettes.json`. Story may still override `sky` per level.
 | riverbank | #6b94a0 | #5a8490 | #6a8a62 | #4a3c30 | #8a6a48 | #b0c4c8 | dusk | drizzle |
 | lantern | #3d4560 | #2c3348 | #5a4638 | #3a322c | #e07040 | #5a5870 | night | fireflies |
 | osmanthus | #40364a | #322940 | #2a3828 | #3a3838 | #e8c45a | #6a6878 | deepNight | blossom |
-| moon | #151b2e | #1a2438 | #3a5a52 | #6a6e72 | #7ec8a0 | #3a4868 | eternal | blossom |
+| moon | #12161c | #1c222c | #4a5158 | #6a7076 | #c8d4e0 | #2a323c | eternal | starDrift |
+| ch2_outer | #10141a | #1a2028 | #4e565e | #6c7278 | #b8c4d0 | #2a323c | eternal | starDrift |
+| ch2_cassia | #14161a | #1e2226 | #5a5248 | #6a6258 | #d4b05a | #2c2824 | eternal | none |
+| ch2_mortar | #101214 | #1a1c20 | #3a3e44 | #4a4e54 | #c4b8a8 | #222428 | eternal | starDrift |
+| ch2_dust | #161410 | #242018 | #8a8478 | #9a9488 | #d8d0c0 | #3a3830 | eternal | dustMotes |
+| ch2_wells | #080a0e | #10141a | #2a3038 | #3a4248 | #8aa0b4 | #12161c | eternal | starDrift |
+| ch2_silver | #12161c | #1c2430 | #6a7480 | #8a94a0 | #e8eef4 | #2a343c | eternal | starDrift |
 | cloudsea | #6a88b8 | #8aa8c8 | #c8d8e8 | #9aa8b4 | #e8f4ff | #d0e0f0 | deepNight | snow |
 
 Night overlay strength from hour: afternoon and golden 0, dusk 0.25, night 0.45, deepNight 0.55,

@@ -2,7 +2,8 @@
 
 Shared pad model for Story, Endless, and Bunny Jump. Meadow arcade stays top-down and
 does not spawn these pads. Hub: [../GDD.md](../GDD.md). Break catalog:
-[../editor/destructibility.md](../editor/destructibility.md). Bunny Jump:
+[../editor/destructibility.md](../editor/destructibility.md). Caves:
+[caves.md](caves.md). Bunny Jump:
 [../modes/tasks/bunny-jump.md](../modes/tasks/bunny-jump.md).
 
 A pad is not a one-off sprite. It is five axes on one object. Modes pick values. They

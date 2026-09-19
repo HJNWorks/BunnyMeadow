@@ -53,7 +53,7 @@ export type HanLedge = {
 }
 
 export function hanCakeSpotsFromPlatforms(rects: HanLedge[]): HanCakeSpot[] {
-  const green = rects.filter((rect) => rect.kind !== "wall")
+  const green = rects.filter((rect) => rect.kind !== "wall" && rect.kind !== "ceiling")
   const ledges = green.filter((rect) => rect.h <= LEDGE_MAX_H && rect.w < LEDGE_MAX_W)
   const source = ledges.length > 0 ? ledges : green
   return source

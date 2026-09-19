@@ -9,6 +9,9 @@ const LOOKS: ItemLook[] = [
   { id: "mooncake", texture: "story_item_mooncake", source: "story_mooncake" },
   { id: "osmanthus_blossom", texture: "story_item_osmanthus_blossom", source: "story_blossom" },
   { id: "lantern", texture: "story_item_lantern", source: "story_lantern" },
+  { id: "star_grit", texture: "story_item_star_grit", source: "story_grit" },
+  { id: "elixir_crumb", texture: "story_item_elixir_crumb", source: "story_elixir" },
+  { id: "well_silver", texture: "story_item_well_silver", source: "story_silver" },
 ]
 
 export function itemTextureKey(id: string): string {

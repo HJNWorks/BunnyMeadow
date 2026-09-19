@@ -1,3 +1,5 @@
+import { isLunarEnv } from "../shared/themeKit"
+
 export const CRITTER_LABELS: Record<string, string> = {
   fox: "Fox",
   hedgehog: "Hedgehog",
@@ -14,6 +16,9 @@ export const CRITTER_LABELS: Record<string, string> = {
   frost_wisp: "Frost wisp",
   ice_spit: "Ice spit",
   gale_magpie: "Gale magpie",
+  dust_mite: "Dust mite",
+  star_wisp: "Star wisp",
+  pestle_sentry: "Pestle sentry",
 }
 
 export const ITEM_LABELS: Record<string, string> = {
@@ -21,6 +26,9 @@ export const ITEM_LABELS: Record<string, string> = {
   mooncake: "Mooncake",
   osmanthus_blossom: "Blossom",
   lantern: "Lantern",
+  star_grit: "Star grit",
+  elixir_crumb: "Elixir crumb",
+  well_silver: "Well silver",
 }
 
 const CRITTERS_BY_BIOME: Record<string, string[]> = {
@@ -31,7 +39,7 @@ const CRITTERS_BY_BIOME: Record<string, string[]> = {
   lantern: ["crow", "cat", "owl"],
   osmanthus: ["cat", "owl", "goat"],
   cloudsea: ["frost_wisp", "ice_spit", "gale_magpie"],
-  moon: ["frost_wisp", "ice_spit"],
+  moon: ["dust_mite", "star_wisp", "pestle_sentry"],
 }
 
 const ITEMS_BY_BIOME: Record<string, string[]> = {
@@ -42,7 +50,7 @@ const ITEMS_BY_BIOME: Record<string, string[]> = {
   lantern: ["carrot", "lantern", "mooncake"],
   osmanthus: ["carrot", "osmanthus_blossom", "mooncake"],
   cloudsea: ["carrot", "osmanthus_blossom"],
-  moon: ["carrot", "mooncake"],
+  moon: ["mooncake", "star_grit", "elixir_crumb", "well_silver"],
 }
 
 export const ALL_CRITTERS = Object.keys(CRITTER_LABELS)
@@ -57,11 +65,13 @@ function splitList(all: string[], native: string[]): { native: string[]; other: 
 }
 
 export function crittersForEnv(env: string): { native: string[]; other: string[] } {
-  return splitList(ALL_CRITTERS, CRITTERS_BY_BIOME[env] ?? CRITTERS_BY_BIOME.meadow ?? [])
+  const key = isLunarEnv(env) ? "moon" : env
+  return splitList(ALL_CRITTERS, CRITTERS_BY_BIOME[key] ?? CRITTERS_BY_BIOME.meadow ?? [])
 }
 
 export function itemsForEnv(env: string): { native: string[]; other: string[] } {
-  return splitList(ALL_ITEMS, ITEMS_BY_BIOME[env] ?? ITEMS_BY_BIOME.meadow ?? [])
+  const key = isLunarEnv(env) ? "moon" : env
+  return splitList(ALL_ITEMS, ITEMS_BY_BIOME[key] ?? ITEMS_BY_BIOME.meadow ?? [])
 }
 
 export function optionGroupHtml(

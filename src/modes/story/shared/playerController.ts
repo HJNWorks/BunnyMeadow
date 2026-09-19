@@ -15,6 +15,8 @@ export type PlayerState = {
   usedGlideCharge: boolean
   wallBounce: boolean
   baseGravity: number
+  jumpBoost: number
+  slowFall: number
 }
 
 export function createPlayerState(overrides: Partial<PlayerState> = {}): PlayerState {
@@ -29,6 +31,8 @@ export function createPlayerState(overrides: Partial<PlayerState> = {}): PlayerS
     usedGlideCharge: false,
     wallBounce: false,
     baseGravity: 1200,
+    jumpBoost: 0,
+    slowFall: 0,
     ...overrides,
   }
 }
@@ -36,6 +40,8 @@ export function createPlayerState(overrides: Partial<PlayerState> = {}): PlayerS
 export function tickPlayerTimers(state: PlayerState, dt: number): void {
   state.dashCooldown = Math.max(0, state.dashCooldown - dt)
   state.dashTime = Math.max(0, state.dashTime - dt)
+  state.jumpBoost = Math.max(0, state.jumpBoost - dt)
+  state.slowFall = Math.max(0, state.slowFall - dt)
 }
 
 export function updatePlayerMovement(
@@ -58,30 +64,34 @@ export function updatePlayerMovement(
   }
 
   const canGlide = state.glide || state.glideCharges > 0
+  const boosted = state.jumpBoost > 0
   if (canGlide && !onFloor && input.jumpHeld && body.velocity.y > 0) {
     if (!state.glide && state.glideCharges > 0) {
       state.usedGlideCharge = true
     }
     body.setGravityY(state.baseGravity * 0.22)
     body.velocity.y = Math.min(body.velocity.y, 90)
+  } else if (state.slowFall > 0 && !onFloor && body.velocity.y > 0) {
+    body.setGravityY(state.baseGravity * 0.28)
+    body.velocity.y = Math.min(body.velocity.y, 220)
   } else {
     body.setGravityY(state.baseGravity)
   }
 
   if (state.wallBounce && (body.blocked.left || body.blocked.right) && !onFloor && input.jumpPressed) {
     const push = body.blocked.left ? 1 : -1
-    player.setVelocityY(-520)
+    player.setVelocityY(boosted ? -640 : -520)
     player.setVelocityX(push * 340)
     state.facing = push
     state.airJumps = state.maxAirJumps
     getAudio().playSfx("jump")
   } else if (input.jumpPressed && onFloor) {
-    player.setVelocityY(-720)
+    player.setVelocityY(boosted ? -880 : -720)
     state.airJumps = state.maxAirJumps
     getAudio().playSfx("jump")
   } else if (input.jumpPressed && !onFloor && state.airJumps > 0) {
     state.airJumps -= 1
-    player.setVelocityY(-640)
+    player.setVelocityY(boosted ? -780 : -640)
     getAudio().playSfx("jump")
   }
 

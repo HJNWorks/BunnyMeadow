@@ -46,7 +46,7 @@ Build bar: Play, Build, Set active, Copy JSON, Back to Settings. World, station,
 
 A **Chapter** dropdown sits left of World in `src/modes/story/editor/BuildHud.ts`. Chapter 1 lists live worlds. Chapter 2 lists the six first stations. Chapter 3 stays empty. Hub: [../story/chapters.md](../story/chapters.md).
 
-Object Addition: Environment and Creatures are optgroup selects (All plus each world). Environment covers platforms, walls, bridges, water, decor, and items. Creatures lists every wildlife id in `roster.ts`.
+Object Addition: Environment and Creatures are optgroup selects (All plus each world). Environment covers platforms, walls, ceilings, bridges, water, decor, and items. Creatures lists every wildlife id in `roster.ts`. Moon native decor is lantern, cave lip, column, false mouth, rim, bowl, wound. Hedge and grass stay meadow.
 
 Wall is the green collision slab. Hedge/vine art is a separate selectable decor object (`overlay.decor`). Water is a first-class hazard (`overlay.hazards`) with current. Burrow exit and Moon Pool are **contact** with the visible sprite. Water is a **volume**. Optional overlay field on decor and hazards:
 
@@ -55,6 +55,7 @@ Wall is the green collision slab. Hedge/vine art is a separate selectable decor 
 ```
 
 Runtime does not spawn a proximity sensor from that field yet. Do not put `trigger` on burrow or Moon Pool. Map: [story/proximity.md](../story/proximity.md). Destructible platforms, walls, logs, and decor use a `break` field. Profiles and damage sources: [destructibility.md](destructibility.md). Pad axes (collision, slide motion, surface): [../platforms/README.md](../platforms/README.md).
+Cave roofs and false mouths: [../platforms/caves.md](../platforms/caves.md).
 
 Toolbar: Selection Mode Object or Region. Region: drag a rectangle; every object inside is selected with its fields. Then x, y, w, h, rotation, asset, id, current, Destructible, Break profile, Undo, Copy, Delete apply to the set. Copy duplicates the selection (not spawn or exit) and offsets it by 40 px. Ctrl/Cmd+D does the same. Look (palette kit, sky/far/fog hex, hour, weather, night overlay, night amount, day haze, lantern glow, low gravity, map width). Night overlay is independent of hour, so Burrow Eve afternoon can still darken. World index: `src/modes/story/editor/worldIndex.ts`.
 
@@ -78,7 +79,7 @@ New creature = LORE note + biome wildlife page + archetype (patrol, chaser, lob,
 
 ### D — Asset workshop
 
-Own scene from Settings. Segmented tabs: Dash look, Props, Creatures, Items. Silhouette brushes start from a visible seed stamp per texture id (`story_critter_*`, `story_item_*`, props). Creature and item stamps live in `src/render/stamps.ts` and are the same drawers Story bakes (`ensureStoryTextures` runs before the workshop binds). A fox kit uses `story_fox`, not a tinted Mei. Han is a Creatures-tab brush (`story_han`) only. He is not in the map-editor wildlife list. Items use carrot, mooncake, blossom, and lantern stamps. Palette tokens, PNG export, localStorage overlay applied on the next `ensureStoryTextures` call. Not a 3D modeller. Tray chips still use CSS. Spawn and burrow exit stay undeletable. Moon Pools can be placed, deleted, and given a per-pool ticker line.
+Own scene from Settings. Segmented tabs: Dash look, Props, Creatures, Items. Silhouette brushes start from a visible seed stamp per texture id (`story_critter_*`, `story_item_*`, props). Creature and item stamps live in `src/render/stamps.ts` and are the same drawers Story bakes (`ensureStoryTextures` runs before the workshop binds). A fox kit uses `story_fox`, not a tinted Mei. Han is a Creatures-tab brush (`story_han`) only. He is not in the map-editor wildlife list. Items use carrot, mooncake, blossom, lantern, star grit, elixir crumb, and well silver stamps. Palette tokens, PNG export, localStorage overlay applied on the next `ensureStoryTextures` call. Not a 3D modeller. Tray chips still use CSS. Spawn and burrow exit stay undeletable. Moon Pools can be placed, deleted, and given a per-pool ticker line.
 
 Dash particles keep the four shapes (`speck`, `carrot`, `streak`, `crescent`). Art is named after the dash: outlined grass motes, small carrots, gale wind commas, and full small moons. Burst still fires on dash start. While Mei is dashing, a stream emits about every 28 ms (Endless fox-ember cadence). Reduced motion skips the stream. Afterimages of Mei stay.
 

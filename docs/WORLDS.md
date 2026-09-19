@@ -95,8 +95,8 @@ Display title stays vague. Unlock: `moon_guanghan` cleared. Painting: `public/St
 | --- | --- | --- | --- | --- | --- |
 | Outer Cold | Frost Courtyard | [outer-cold.md](universe/environments/outer-cold.md) | leave the palace gardens | next world | live |
 | Cassia Wound | Grove Cut | [cassia-wound.md](universe/environments/cassia-wound.md) | living wood | next world | live |
-| Mortar Yard | Stone Bowls | [mortar-yard.md](universe/environments/mortar-yard.md) | bowl rims, ice_spit as pestle beat | next world | live |
-| Dust Sea | Rim Walk | [dust-sea.md](universe/environments/dust-sea.md) | crater drifts, frost_wisp as dust mites | next world | live |
+| Mortar Yard | Stone Bowls | [mortar-yard.md](universe/environments/mortar-yard.md) | bowl rims, pestle_sentry | next world | live |
+| Dust Sea | Rim Walk | [dust-sea.md](universe/environments/dust-sea.md) | crater drifts, dust_mite | next world | live |
 | Quiet Wells | Cave Mouths | [quiet-wells.md](universe/environments/quiet-wells.md) | cold caves, one water well | next world | live |
 | Far Silver | Quiet Basin | [far-silver.md](universe/environments/far-silver.md) | sparse pads to a still shore. Not the One Pool | next world | live |
 

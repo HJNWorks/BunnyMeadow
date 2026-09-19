@@ -60,14 +60,74 @@
     "weather": "blossom"
   },
   "moon": {
-    "sky": "#151b2e",
-    "far": "#1a2438",
-    "mid": "#3a5a52",
-    "ground": "#6a6e72",
-    "accent": "#7ec8a0",
-    "fog": "#3a4868",
+    "sky": "#12161c",
+    "far": "#1c222c",
+    "mid": "#4a5158",
+    "ground": "#6a7076",
+    "accent": "#c8d4e0",
+    "fog": "#2a323c",
     "hour": "eternal",
-    "weather": "blossom"
+    "weather": "starDrift"
+  },
+  "ch2_outer": {
+    "sky": "#10141a",
+    "far": "#1a2028",
+    "mid": "#4e565e",
+    "ground": "#6c7278",
+    "accent": "#b8c4d0",
+    "fog": "#2a323c",
+    "hour": "eternal",
+    "weather": "starDrift"
+  },
+  "ch2_cassia": {
+    "sky": "#14161a",
+    "far": "#1e2226",
+    "mid": "#5a5248",
+    "ground": "#6a6258",
+    "accent": "#d4b05a",
+    "fog": "#2c2824",
+    "hour": "eternal",
+    "weather": "none"
+  },
+  "ch2_mortar": {
+    "sky": "#101214",
+    "far": "#1a1c20",
+    "mid": "#3a3e44",
+    "ground": "#4a4e54",
+    "accent": "#c4b8a8",
+    "fog": "#222428",
+    "hour": "eternal",
+    "weather": "starDrift"
+  },
+  "ch2_dust": {
+    "sky": "#161410",
+    "far": "#242018",
+    "mid": "#8a8478",
+    "ground": "#9a9488",
+    "accent": "#d8d0c0",
+    "fog": "#3a3830",
+    "hour": "eternal",
+    "weather": "dustMotes"
+  },
+  "ch2_wells": {
+    "sky": "#080a0e",
+    "far": "#10141a",
+    "mid": "#2a3038",
+    "ground": "#3a4248",
+    "accent": "#8aa0b4",
+    "fog": "#12161c",
+    "hour": "eternal",
+    "weather": "starDrift"
+  },
+  "ch2_silver": {
+    "sky": "#12161c",
+    "far": "#1c2430",
+    "mid": "#6a7480",
+    "ground": "#8a94a0",
+    "accent": "#e8eef4",
+    "fog": "#2a343c",
+    "hour": "eternal",
+    "weather": "starDrift"
   },
   "cloudsea": {
     "sky": "#6a88b8",

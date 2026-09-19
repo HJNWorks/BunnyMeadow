@@ -30,7 +30,7 @@ Grounded wildlife and Fox Hu's cart must pass `constrainCreatureToWorld` in
 add restores gravity, and the world has no floor bound, so a spawn that skips this
 falls through the map on the first frame. The constraint syncs the body, collides with
 platforms, and seats feet on the nearest floor. Flying kits (crow, owl, bees, frost
-wisp, gale magpie) skip the seat.
+wisp, gale magpie, dust mite, star wisp) skip the seat.
 
 | Archetype | Behaviour |
 | --- | --- |
@@ -65,6 +65,9 @@ and the minimum tier at which the creature appears.
 | magpie | diver | cloudsea | 4 | live (Story) |
 | frost wisp | swarm | cloudsea | 4 | live (Story) |
 | ice spit | ranged_lob | cloudsea | 4 | live (Story) |
+| dust mite | swarm | moon (outer, dust) | 5 | live (Story) |
+| star wisp | swarm | moon (wells, silver) | 5 | live (Story) |
+| pestle sentry | ranged_lob | moon (mortar) | 5 | live (Story) |
 | bees | swarm | meadow, orchard | 2 | idea |
 | dew | swarm or pickup | meadow, riverbank | 1 | idea |
 
@@ -86,6 +89,9 @@ Each wildlife page below has a Bunny Jump section. Status: planned ([I5](../iter
 | heron, cat | column_swipe | live |
 | goat | ledge_charge | live |
 | frost wisp | drift | live |
+| dust mite | drift | live |
+| star wisp | drift | live |
+| pestle sentry | drop_shot | live |
 | bees | drift | idea (debut in Bunny Jump) |
 | tortoise | perch | idea (debut in Bunny Jump) |
 | boar | ledge_charge | idea (debut in Bunny Jump) |

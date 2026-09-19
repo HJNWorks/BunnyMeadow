@@ -9,6 +9,6 @@
     { "x": 540, "y": 820, "w": 420, "h": 40 }
   ],
   "walls": [],
-  "enemies": [{ "id": "frost_wisp", "x": 140, "y": 640 }],
+  "enemies": [{ "id": "dust_mite", "x": 140, "y": 640 }],
   "color": "#151b2e"
 }

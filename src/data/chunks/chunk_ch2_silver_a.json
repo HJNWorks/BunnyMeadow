@@ -9,6 +9,9 @@
     { "x": 780, "y": 680, "w": 140, "h": 24 }
   ],
   "walls": [],
-  "items": [{ "id": "mooncake", "x": 850, "y": 668 }],
+  "items": [
+    { "id": "mooncake", "x": 850, "y": 668 },
+    { "id": "well_silver", "x": 590, "y": 772 }
+  ],
   "color": "#151b2e"
 }

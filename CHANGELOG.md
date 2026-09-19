@@ -8,6 +8,12 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Lunar kit for Journey on Moon. Grey `moon` palette plus six Chapter 2 accent kits
+  (`ch2_outer` through `ch2_silver`). Weather `starDrift`, `dustMotes`, `none`.
+  Stamps: lunar ground, rim, bowl, wound, cave, stone column, sky/far moon.
+  Fauna: dust mite, star wisp, pestle sentry. Pickups: star grit, elixir crumb,
+  well silver. Editor ceiling and false mouth. Caves:
+  [docs/platforms/caves.md](docs/platforms/caves.md).
 - Chapter 2 first stations (Frost Courtyard, Grove Cut, Stone Bowls, Rim Walk,
   Cave Mouths, Quiet Basin). Unlock after Guanghan. Painting:
   `public/Story-Background-ch2.png`. Han's moon stays visual.
@@ -26,6 +32,9 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Guanghan and Chapter 2 pads use lunar ground instead of meadow grass. Walls use
+  palette ground and stone columns, not `#3f5a32` leaf hedges. Moon weather is no
+  longer blossom fall.
 - World Map paintings decode in Preload. Story Path mounts the cached image so the
   frame does not sit empty while `Story-Background.png` or `Story-Background-ch2.png`
   fetches.

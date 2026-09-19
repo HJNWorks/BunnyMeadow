@@ -10,7 +10,7 @@
   "exit": { "chunk": 1, "x": 820, "y": 860 },
   "moonLine": "The roofs end. The cold does not.",
   "objective": "Hop out of the palace gardens.",
-  "env": "moon",
-  "sky": "#151b2e",
+  "env": "ch2_outer",
+  "sky": "#10141a",
   "lowGravity": true
 }

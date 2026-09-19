@@ -108,6 +108,72 @@
       "notes": "Dash passes through"
     },
     {
+      "id": "dust_mite",
+      "archetype": "swarm",
+      "displayName": "Dust Mite",
+      "homeBiomes": ["moon"],
+      "minTier": 5,
+      "senseRange": 0,
+      "attackRange": 36,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 28,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "mite_idle",
+        "move": "mite_drift",
+        "attack": "mite_idle",
+        "hurt": "mite_idle"
+      },
+      "notes": "Pale dust cloud. Dash passes through"
+    },
+    {
+      "id": "star_wisp",
+      "archetype": "swarm",
+      "displayName": "Star Wisp",
+      "homeBiomes": ["moon"],
+      "minTier": 5,
+      "senseRange": 0,
+      "attackRange": 36,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 18,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "starwisp_idle",
+        "move": "starwisp_drift",
+        "attack": "starwisp_idle",
+        "hurt": "starwisp_idle"
+      },
+      "notes": "Brighter slower swarm. Dash passes through"
+    },
+    {
+      "id": "pestle_sentry",
+      "archetype": "ranged_lob",
+      "displayName": "Pestle Sentry",
+      "homeBiomes": ["moon"],
+      "minTier": 5,
+      "senseRange": 280,
+      "attackRange": 240,
+      "telegraphTime": 0.4,
+      "cooldown": 1.7,
+      "speed": 0,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "pestle_idle",
+        "move": "pestle_idle",
+        "attack": "pestle_lob",
+        "hurt": "pestle_hurt"
+      },
+      "notes": "Stone pestle beat. Copy of ice_spit"
+    },
+    {
       "id": "ice_spit",
       "archetype": "ranged_lob",
       "displayName": "Ice Spit",

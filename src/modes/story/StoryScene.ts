@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import { ChunkAssembler } from "../../systems/ChunkAssembler"
+import { ChunkAssembler, type AssembledRect } from "../../systems/ChunkAssembler"
 import { getStoryLevel, poolsOf, type StoryLevelDef } from "./levels"
 import { worldIdForLevelId } from "./path"
 import { applyOverlay,
@@ -62,6 +62,7 @@ import {
   createWeather,
   getPalette,
   hexToNum,
+  isLunarEnv,
   lookNightAlpha,
   storyEnvForLevel,
   type PaletteHour,
@@ -321,6 +322,29 @@ const EPILOGUE_VOICE = [
   "crane.epilogue.home",
 ] as const
 
+function storyPadTexture(rect: AssembledRect, lunar: boolean): string {
+  if (rect.asset === "rim") {
+    return "story_rim"
+  }
+  if (rect.asset === "bowl") {
+    return "story_bowl"
+  }
+  if (rect.asset === "wound") {
+    return "story_wound"
+  }
+  if (rect.asset === "cave" || rect.kind === "ceiling") {
+    return "story_cave"
+  }
+  return lunar ? "story_ground_moon" : "story_ground"
+}
+
+function storyWallTexture(rect: AssembledRect, lunar: boolean): string {
+  if (rect.kind === "ceiling" || rect.asset === "cave") {
+    return "story_cave"
+  }
+  return lunar ? "story_hedge_moon" : "story_hedge"
+}
+
 export class StoryScene extends Phaser.Scene {
   private levelId = "w1_1_soft_paths"
   private level!: StoryLevelDef
@@ -354,6 +378,7 @@ export class StoryScene extends Phaser.Scene {
   private weather: WeatherHandle | null = null
   private lanternGlow: Phaser.GameObjects.Image | null = null
   private lanternGlowAlways = false
+  private glowKind: string | null = null
   private checkpoint: { x: number; y: number } | null = null
   private won = false
   private lost = false
@@ -426,6 +451,7 @@ export class StoryScene extends Phaser.Scene {
     this.exitHintAt = 0
     this.waterGrace = 0
     this.glowTimer = 0
+    this.glowKind = null
     this.poolRipple = null
     this.cartFinishX = null
     this.foxResetOnRespawn = false
@@ -588,7 +614,7 @@ export class StoryScene extends Phaser.Scene {
       palette.weather = look.weather as WeatherPreset
     }
     this.cameras.main.setBounds(0, 0, world.width, 1080)
-    applySky(this, palette)
+    applySky(this, palette, env)
     this.physics.world.setBounds(0, -200, world.width, 1400, true, true, true, false)
     this.playerState.baseGravity = this.physics.world.gravity.y || 1200
     if (look?.lowGravity ?? def.lowGravity) {
@@ -612,7 +638,8 @@ export class StoryScene extends Phaser.Scene {
         .setBlendMode(Phaser.BlendModes.MULTIPLY)
     }
 
-    const showHaze = look?.haze === true || (look?.haze !== false && night <= 0)
+    const showHaze =
+      !isLunarEnv(env) && (look?.haze === true || (look?.haze !== false && night <= 0))
     if (showHaze) {
       this.add.rectangle(world.width / 2, 200, world.width, 220, 0xeaf3c8, 0.18).setDepth(-2)
       for (let i = 0; i < Math.ceil(world.width / 280); i += 1) {
@@ -626,14 +653,16 @@ export class StoryScene extends Phaser.Scene {
     if (this.editorMode === "build") {
       this.breaks.pause()
     }
+    const lunar = isLunarEnv(env)
     for (let i = 0; i < world.platforms.length; i += 1) {
       const rect = world.platforms[i]
       if (!rect) {
         continue
       }
-      if (rect.kind === "wall") {
+      if (rect.kind === "wall" || rect.kind === "ceiling") {
         const hasDecor = (world.decor ?? []).length > 0
-        if (this.editorMode !== "build" && !hasDecor) {
+        if (this.editorMode !== "build" && (rect.kind === "ceiling" || !hasDecor)) {
+          const wallKey = storyWallTexture(rect, lunar)
           const tiles = Math.max(1, Math.ceil(rect.h / 56))
           for (let n = 0; n < tiles; n += 1) {
             const y = rect.y + 28 + n * 56
@@ -641,13 +670,20 @@ export class StoryScene extends Phaser.Scene {
               break
             }
             this.add
-              .image(rect.x + rect.w / 2, Math.min(y, rect.y + rect.h - 18), "story_hedge")
+              .image(rect.x + rect.w / 2, Math.min(y, rect.y + rect.h - 18), wallKey)
               .setDisplaySize(rect.w + 14, 58)
               .setDepth(2)
           }
         }
-        const block = this.add.rectangle(rect.x + rect.w / 2, rect.y + rect.h / 2, rect.w, rect.h, 0x3f5a32, 1)
-        block.setVisible(this.editorMode === "build")
+        const block = this.add.rectangle(
+          rect.x + rect.w / 2,
+          rect.y + rect.h / 2,
+          rect.w,
+          rect.h,
+          hexToNum(palette.ground),
+          1,
+        )
+        block.setVisible(this.editorMode === "build" || rect.kind === "ceiling")
         if (this.editorMode === "build") {
           block.setAlpha(0.45)
         }
@@ -666,7 +702,7 @@ export class StoryScene extends Phaser.Scene {
           rect.y + rect.h / 2,
           rect.w,
           rect.h,
-          "story_ground",
+          storyPadTexture(rect, lunar),
         )
         block.setDepth(1)
         this.physics.add.existing(block, true)
@@ -693,7 +729,7 @@ export class StoryScene extends Phaser.Scene {
       if (!item) {
         continue
       }
-      this.decorSprites.push(spawnDecorItem(this, item, i))
+      this.decorSprites.push(spawnDecorItem(this, item, i, env))
     }
 
     const spawnX = def.playerSpawn.x
@@ -1099,7 +1135,25 @@ export class StoryScene extends Phaser.Scene {
     }
     if (id === "lantern") {
       this.glowTimer = 1.6
+      this.glowKind = "lantern"
       this.lanternGlow?.setVisible(true)
+      return
+    }
+    if (id === "star_grit") {
+      this.playerState.jumpBoost = 2.5
+      return
+    }
+    if (id === "elixir_crumb") {
+      this.playerState.slowFall = 2.5
+      return
+    }
+    if (id === "well_silver") {
+      this.glowTimer = 1.6
+      this.glowKind = "well_silver"
+      this.lanternGlow?.setVisible(true)
+      return
+    }
+    if (id !== "carrot") {
       return
     }
     if (this.editorMode) {
@@ -1564,6 +1618,15 @@ export class StoryScene extends Phaser.Scene {
     const buffs: TrayBuff[] = []
     if (this.han && this.han.warmth > 0) {
       buffs.push({ id: "mooncake", remaining: this.han.warmth, duration: HAN_WARMTH })
+    }
+    if (this.playerState.jumpBoost > 0) {
+      buffs.push({ id: "star_grit", remaining: this.playerState.jumpBoost, duration: 2.5 })
+    }
+    if (this.playerState.slowFall > 0) {
+      buffs.push({ id: "elixir_crumb", remaining: this.playerState.slowFall, duration: 2.5 })
+    }
+    if (this.glowTimer > 0 && this.glowKind === "well_silver") {
+      buffs.push({ id: "well_silver", remaining: this.glowTimer, duration: 1.6 })
     }
     renderItemTray(this.hud.itemTray, buffs)
   }

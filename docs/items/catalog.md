@@ -16,7 +16,8 @@ Render cues are the visual language from [../rendering/effects.md](../rendering/
 | Render cue | orange pickup with a soft bob; collect pop |
 
 The staple. Endless item slots roll the biome table in `src/data/items.json`. `carrotChance`
-is the chance a slot is filled at all.
+is the chance a slot is filled at all. Journey on Moon native lists drop carrot. Dust Sea
+does not place pantry carrots.
 
 ## mooncake
 
@@ -32,8 +33,8 @@ is the chance a slot is filled at all.
 
 Most valuable on the Riverbank, where water costs hearts. Ties to the Mid-Autumn frame.
 In Story Guanghan the same pastry is warmth ammo, not a heal: eat it to start a short
-timed buff, then dash Han. It appears on the top-center of remaining green platforms.
-Endless still restores a heart. One job per context.
+timed buff, then dash Han. It appears on the top-center of remaining ledges.
+Endless still restores a heart. Chapter 2 hops restore a heart. One job per context.
 
 ## osmanthus blossom
 
@@ -64,6 +65,46 @@ starts the story ([../creatures/folk/wu-gang.md](../creatures/folk/wu-gang.md)).
 
 The clearest interaction between an item and the Endless chase wall. See the mist push
 rule in [placement.md](placement.md).
+
+## star grit
+
+| Field | Value |
+| --- | --- |
+| Category | run-buff |
+| Status | live |
+| Effect | 2.5 s extra jump and float so 0.42 g reads |
+| Duration | timed |
+| Home biomes | Dust Sea, Outer Cold |
+| Rarity | uncommon |
+| Render cue | pale grit sparkle |
+
+Run-scoped. No pantry. No permanent power.
+
+## elixir crumb
+
+| Field | Value |
+| --- | --- |
+| Category | run-buff |
+| Status | live |
+| Effect | 2.5 s slow-fall |
+| Duration | timed |
+| Home biomes | Mortar Yard, Cassia Wound |
+| Rarity | uncommon |
+| Render cue | gold crumb |
+
+Run-scoped. Not Yutu as an HP bar. The crumb is the pickup.
+
+## well silver
+
+| Field | Value |
+| --- | --- |
+| Category | run-buff |
+| Status | live |
+| Effect | 1.6 s additive glow on the player. Same lantern hook. No mist wall |
+| Duration | timed |
+| Home biomes | Quiet Wells, Far Silver |
+| Rarity | uncommon |
+| Render cue | silver droplet |
 
 ## dew
 

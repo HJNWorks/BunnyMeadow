@@ -15,6 +15,14 @@ const PROP_TARGETS: WorkshopTarget[] = [
   { id: "story_log", label: "Log" },
   { id: "story_player", label: "Mei" },
   { id: "dash_speck", label: "Dash speck" },
+  { id: "story_ground_moon", label: "Lunar ground" },
+  { id: "story_hedge_moon", label: "Stone column" },
+  { id: "story_rim", label: "Crater rim" },
+  { id: "story_bowl", label: "Mortar bowl" },
+  { id: "story_wound", label: "Cassia wound" },
+  { id: "story_cave", label: "Cave rock" },
+  { id: "story_sky_moon", label: "Moon sky" },
+  { id: "story_far_moon", label: "Moon far" },
 ]
 
 export function listWorkshopTargets(group: WorkshopGroup = "props"): WorkshopTarget[] {

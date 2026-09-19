@@ -9,6 +9,9 @@
     { "x": 720, "y": 640, "w": 200, "h": 24 }
   ],
   "walls": [],
-  "items": [{ "id": "mooncake", "x": 820, "y": 628 }],
+  "items": [
+    { "id": "mooncake", "x": 820, "y": 628 },
+    { "id": "elixir_crumb", "x": 500, "y": 752 }
+  ],
   "color": "#151b2e"
 }

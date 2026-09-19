@@ -47,6 +47,15 @@ export const ITEM_TRAY_CSS = `
 .bm-item-icon.is-osmanthus_blossom {
   background: radial-gradient(circle at 35% 35%, #fff4d0, #e2b84a);
 }
+.bm-item-icon.is-star_grit {
+  background: radial-gradient(circle at 35% 35%, #f4f8ff, #a8b8c8);
+}
+.bm-item-icon.is-elixir_crumb {
+  background: radial-gradient(circle at 35% 35%, #ffe7a8, #d4b05a);
+}
+.bm-item-icon.is-well_silver {
+  background: radial-gradient(circle at 35% 35%, #f4f8ff, #8aa0b4);
+}
 `
 
 export function bindItemTray(root: HTMLElement): HTMLElement {

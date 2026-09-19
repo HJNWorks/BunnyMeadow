@@ -9,7 +9,7 @@
     { "x": 680, "y": 940, "w": 140, "h": 24 }
   ],
   "walls": [],
-  "enemies": [{ "id": "frost_wisp", "x": 500, "y": 700 }],
-  "carrots": [{ "x": 750, "y": 920 }],
+  "enemies": [{ "id": "dust_mite", "x": 500, "y": 700 }],
+  "items": [{ "id": "star_grit", "x": 750, "y": 920 }],
   "color": "#151b2e"
 }
