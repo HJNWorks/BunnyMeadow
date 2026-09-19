@@ -11,7 +11,7 @@ to have the codebase open.
 | --- | --- | --- |
 | `ch1` | Burrow to Moon | live |
 | `ch2` | Journey on Moon | live (first stations) |
-| `ch3` | West of Silver | planned |
+| `ch3` | West of Silver | live (map, worlds soon) |
 
 Off-limits as HP bars in every chapter: Chang'e, Yue, Yutu, Wu Gang, moon toad,
 Crane Envoy, Fox Hu, Xiwangmu.
@@ -52,9 +52,9 @@ Unlock: `moon_guanghan` cleared. Han's grown moon stays visual. No jump pad this
 ## Chapter 3 — West of Silver
 
 After the One Moon Pool. The other side is Kunlun, Xiwangmu's west. Map title does
-not print Kunlun, Yaochi, portal, or 西王母. Painting later:
+not print Kunlun, Yaochi, portal, or 西王母. Painting:
 `public/Story-Background-ch3.png`. Prompt: [chapter3-map-prompt.md](chapter3-map-prompt.md).
-Do not invent button percents until that PNG exists.
+Node percents: `CH3_ART_POS` in `src/modes/story/path.ts`.
 
 Finale: she is offered a peach of immortality (the same elixir source Chang'e drank)
 and refuses. She stays a kit who waves at the moon. Yue is already home. Rescue is
@@ -62,7 +62,7 @@ closed. Japanese mochi-kitchen is out. Yutu already pounds elixir in Mortar Yard
 
 Hops return toward Earth weight. 0.42 g was vacuum.
 
-Six worlds, same card count as Chapter 2:
+Six worlds, same card count as Chapter 2. Map cards are Soon. No stations yet.
 
 | Map title | What it is |
 | --- | --- |
@@ -73,9 +73,9 @@ Six worlds, same card count as Chapter 2:
 | Grotto Heaven | 洞天. Jade caves, mass above, false mouths off the hop line |
 | West Pool | Yaochi court. One still jade pool. Do not print her name |
 
-Unlock (planned): Far Silver's One Moon Pool station cleared. That station is still
-unbuilt. Ordinary Moon Pools never do this. Editor Chapter 3 stays empty until a
-later code pass.
+Chip unlock: `moon_guanghan` cleared (same as Chapter 2), so the painting is visible.
+Playable unlock stays Far Silver's One Moon Pool, still unbuilt. Ordinary Moon Pools
+never do this. Editor Chapter 3 stays empty until stations exist.
 
 ## Two gates
 

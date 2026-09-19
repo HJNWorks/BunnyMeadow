@@ -1606,7 +1606,8 @@ export function mountBuildHud(session: EditorSession): void {
   chapterIdEl.innerHTML = listChapters()
     .map((chapter) => {
       const label = t(`story.chapter.${chapter.id}.title`)
-      const disabled = chapter.status === "soon" ? "disabled" : ""
+      const hasStations = listEditorWorldIndex(chapter.id).some((world) => world.stations.length > 0)
+      const disabled = hasStations ? "" : "disabled"
       const selected = chapter.id === currentChapter ? "selected" : ""
       return `<option value="${chapter.id}" ${selected} ${disabled}>${label}</option>`
     })

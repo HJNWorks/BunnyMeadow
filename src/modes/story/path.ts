@@ -12,7 +12,15 @@ export type Ch2WorldId =
   | "ch2_wells"
   | "ch2_silver"
 
-export type StoryWorldId = Ch1WorldId | Ch2WorldId
+export type Ch3WorldId =
+  | "ch3_shore"
+  | "ch3_water"
+  | "ch3_ridges"
+  | "ch3_peach"
+  | "ch3_grotto"
+  | "ch3_pool"
+
+export type StoryWorldId = Ch1WorldId | Ch2WorldId | Ch3WorldId
 
 export type StoryPathLayout = "ink" | "art"
 
@@ -55,7 +63,7 @@ type WorldDef = Omit<StoryWorldNode, "x" | "y">
 const CHAPTERS: StoryChapterNode[] = [
   { id: "ch1", status: "live" },
   { id: "ch2", status: "live" },
-  { id: "ch3", status: "soon" },
+  { id: "ch3", status: "live" },
 ]
 
 const INK_POS: Record<Ch1WorldId, { x: number; y: number }> = {
@@ -92,6 +100,24 @@ const CH2_ART_POS: Record<Ch2WorldId, { x: number; y: number }> = {
   ch2_dust: { x: 74, y: 78 },
   ch2_wells: { x: 82, y: 42 },
   ch2_silver: { x: 88, y: 16 },
+}
+
+const CH3_INK_POS: Record<Ch3WorldId, { x: number; y: number }> = {
+  ch3_shore: { x: 18, y: 80 },
+  ch3_water: { x: 22, y: 42 },
+  ch3_ridges: { x: 46, y: 52 },
+  ch3_peach: { x: 78, y: 50 },
+  ch3_grotto: { x: 52, y: 18 },
+  ch3_pool: { x: 86, y: 16 },
+}
+
+const CH3_ART_POS: Record<Ch3WorldId, { x: number; y: number }> = {
+  ch3_shore: { x: 18, y: 80 },
+  ch3_water: { x: 22, y: 42 },
+  ch3_ridges: { x: 46, y: 52 },
+  ch3_peach: { x: 78, y: 50 },
+  ch3_grotto: { x: 52, y: 18 },
+  ch3_pool: { x: 86, y: 16 },
 }
 
 const STATIONS: Record<string, StoryStation> = {
@@ -388,10 +414,75 @@ const WORLD_DEFS: WorldDef[] = [
     status: "live",
     stationIds: ["ch2_silver_1_basin"],
   },
+  {
+    id: "ch3_shore",
+    chapter: "ch3",
+    world: 1,
+    title: "Other Shore",
+    tagline: "Inverted silver sky. Not Earth.",
+    status: "soon",
+    stationIds: [],
+  },
+  {
+    id: "ch3_water",
+    chapter: "ch3",
+    world: 2,
+    title: "Weak Water",
+    tagline: "Nothing floats. Stone fords.",
+    status: "soon",
+    stationIds: [],
+  },
+  {
+    id: "ch3_ridges",
+    chapter: "ch3",
+    world: 3,
+    title: "Hanging Ridges",
+    tagline: "Cliffs and copper pins.",
+    status: "soon",
+    stationIds: [],
+  },
+  {
+    id: "ch3_peach",
+    chapter: "ch3",
+    world: 4,
+    title: "Peach Rows",
+    tagline: "Blossom. Not osmanthus.",
+    status: "soon",
+    stationIds: [],
+  },
+  {
+    id: "ch3_grotto",
+    chapter: "ch3",
+    world: 5,
+    title: "Grotto Heaven",
+    tagline: "Jade caves. Mass above.",
+    status: "soon",
+    stationIds: [],
+  },
+  {
+    id: "ch3_pool",
+    chapter: "ch3",
+    world: 6,
+    title: "West Pool",
+    tagline: "One still pool.",
+    status: "soon",
+    stationIds: [],
+  },
 ]
 
+function isCh2World(id: StoryWorldId): id is Ch2WorldId {
+  return id.startsWith("ch2_")
+}
+
+function isCh3World(id: StoryWorldId): id is Ch3WorldId {
+  return id.startsWith("ch3_")
+}
+
 function posFor(id: StoryWorldId, layout: StoryPathLayout): { x: number; y: number } | undefined {
-  if (id === "ch2_outer" || id === "ch2_cassia" || id === "ch2_mortar" || id === "ch2_dust" || id === "ch2_wells" || id === "ch2_silver") {
+  if (isCh3World(id)) {
+    return layout === "art" ? CH3_ART_POS[id] : CH3_INK_POS[id]
+  }
+  if (isCh2World(id)) {
     return layout === "art" ? CH2_ART_POS[id] : CH2_INK_POS[id]
   }
   return layout === "art" ? ART_POS[id] : INK_POS[id]
@@ -435,6 +526,24 @@ export function chapterOfWorld(worldId: StoryWorldId): StoryChapterId {
 }
 
 export function worldIdForLevelId(id: string): StoryWorldId {
+  if (id.startsWith("ch3_shore")) {
+    return "ch3_shore"
+  }
+  if (id.startsWith("ch3_water")) {
+    return "ch3_water"
+  }
+  if (id.startsWith("ch3_ridges")) {
+    return "ch3_ridges"
+  }
+  if (id.startsWith("ch3_peach")) {
+    return "ch3_peach"
+  }
+  if (id.startsWith("ch3_grotto")) {
+    return "ch3_grotto"
+  }
+  if (id.startsWith("ch3_pool")) {
+    return "ch3_pool"
+  }
   if (id.startsWith("ch2_outer")) {
     return "ch2_outer"
   }
@@ -478,7 +587,7 @@ export function isChapterUnlocked(save: SaveV1, chapter: StoryChapterId): boolea
   if (chapter === "ch1") {
     return true
   }
-  if (chapter === "ch2") {
+  if (chapter === "ch2" || chapter === "ch3") {
     return worldPlayableCleared(save, MOON_CHAIN)
   }
   return false
@@ -489,7 +598,7 @@ export function listWorlds(layout: StoryPathLayout = "ink", chapter: StoryChapte
 }
 
 export function listAllWorlds(layout: StoryPathLayout = "ink"): StoryWorldNode[] {
-  return [...listWorlds(layout, "ch1"), ...listWorlds(layout, "ch2")]
+  return [...listWorlds(layout, "ch1"), ...listWorlds(layout, "ch2"), ...listWorlds(layout, "ch3")]
 }
 
 export function findOverlappingWorldNodes(

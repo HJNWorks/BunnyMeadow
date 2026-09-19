@@ -25,7 +25,7 @@ Dialogue rule: two lines max per exchange. Skippable. Moon Pool lines are one li
 ## Story spine
 
 Live spine is **Chapter 1 — Burrow to Moon** plus Chapter 2 first stations. Chapter 3
-West of Silver is planned (docs).
+West of Silver is on the World Map with Soon worlds.
 
 ### 0. World 0 — Burrow Eve (stations, no platforming)
 
@@ -143,7 +143,7 @@ Mei walks the lunar surface beyond Guanghan: Outer Cold, Cassia Wound, Mortar Ya
 
 Far Silver's first station is Quiet Basin, an ordinary still shore. The [One Moon Pool](LORE.md#invented-elements-ours) stays the planned world finale. Ordinary pools still speak one ticker line. Map cards do not print portal.
 
-### Chapter 3 — West of Silver (planned)
+### Chapter 3 — West of Silver (map live, worlds soon)
 
 Mei steps through the One Moon Pool. The other side is Kunlun. Map title stays
 West of Silver. She walks Other Shore, Weak Water, Hanging Ridges, Peach Rows,

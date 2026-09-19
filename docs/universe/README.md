@@ -42,18 +42,18 @@ Chapter 2 (first stations live, still altitude moon, eternal night). Does not re
 | Quiet Wells | cold caves | live (Cave Mouths) |
 | Far Silver | quiet basin. One Moon Pool still planned as the world finale | live (Quiet Basin) |
 
-Chapter 3 West of Silver (planned). Off the moon. Hops return toward Earth weight.
+Chapter 3 West of Silver (map live, worlds soon). Off the moon. Hops return toward Earth weight.
 0.42 g was vacuum. Display titles stay vague. Do not print Kunlun, Yaochi, portal,
 or 西王母:
 
 | After Far Silver | Environment | Status |
 | --- | --- | --- |
-| Other Shore | far side of the One Moon Pool. Inverted silver sky | planned |
-| Weak Water | 弱水. Stone fords. Nothing floats | planned |
-| Hanging Ridges | Kunlun cliffs, copper pins, wall hops | planned |
-| Peach Rows | 蟠桃园. Blossom and unripe fruit. Not a kitchen | planned |
-| Grotto Heaven | 洞天. Jade caves, mass above, false mouths | planned |
-| West Pool | Yaochi court. Refuse the peach | planned |
+| Other Shore | far side of the One Moon Pool. Inverted silver sky | soon |
+| Weak Water | 弱水. Stone fords. Nothing floats | soon |
+| Hanging Ridges | Kunlun cliffs, copper pins, wall hops | soon |
+| Peach Rows | 蟠桃园. Blossom and unripe fruit. Not a kitchen | soon |
+| Grotto Heaven | 洞天. Jade caves, mass above, false mouths | soon |
+| West Pool | Yaochi court. Refuse the peach | soon |
 
 Riverbank sits at a valley floor between hills and foothills: the climb dips to
 cross water before rising to the festival town. That dip is deliberate and lets the
@@ -91,7 +91,7 @@ Derivation rules:
 
 | Mode | Route through the Ladder |
 | --- | --- |
-| Story | Fixed. Chapter 1: World 0 = rung 0/1 stations, World 1 = rungs 1-2, World 2 = rungs 3-4, World 3 = rungs 5-6, World 4 = rung 7, finale = rung 8. Chapter 2 walks Outer Cold through Far Silver. Chapter 3 (planned) walks Other Shore through West Pool ([../story/chapters.md](../story/chapters.md)). See [../WORLDS.md](../WORLDS.md). |
+| Story | Fixed. Chapter 1: World 0 = rung 0/1 stations, World 1 = rungs 1-2, World 2 = rungs 3-4, World 3 = rungs 5-6, World 4 = rung 7, finale = rung 8. Chapter 2 walks Outer Cold through Far Silver. Chapter 3 map walks Other Shore through West Pool (worlds Soon) ([../story/chapters.md](../story/chapters.md)). See [../WORLDS.md](../WORLDS.md). |
 | Endless | Seeded. A route walker steps between adjacent rungs; band lengths and altitude weighting come from difficulty. See [../modes/endless/design.md](../modes/endless/design.md). |
 | Meadow (arcade) | Single rung as a top-down backdrop, chosen by map. |
 | Moon Tasks | Night Watch and Hide and Seek: one Meadow rung. Bunny Jump walks the clock by height ([timeline.md](timeline.md)). |

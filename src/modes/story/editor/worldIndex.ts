@@ -63,6 +63,9 @@ const SHARED_ENV: EditorEnvToken[] = [
 ]
 
 export function editorChapterForLevel(level: StoryLevelDef): StoryChapterId {
+  if (level.id.startsWith("ch3_")) {
+    return "ch3"
+  }
   return level.id.startsWith("ch2_") ? "ch2" : "ch1"
 }
 

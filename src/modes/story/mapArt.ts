@@ -1,17 +1,19 @@
 import type { StoryChapterId } from "./path"
 
-const ART_FILE: Record<"ch1" | "ch2", string> = {
+const ART_FILE: Record<StoryChapterId, string> = {
   ch1: "Story-Background.png",
   ch2: "Story-Background-ch2.png",
+  ch3: "Story-Background-ch3.png",
 }
 
 const decoded = new Map<string, HTMLImageElement>()
 
 export function storyMapArtUrl(chapter: StoryChapterId): string | null {
-  if (chapter !== "ch1" && chapter !== "ch2") {
+  const file = ART_FILE[chapter]
+  if (!file) {
     return null
   }
-  return `${import.meta.env.BASE_URL}${ART_FILE[chapter]}`
+  return `${import.meta.env.BASE_URL}${file}`
 }
 
 function decodeOne(url: string): Promise<HTMLImageElement> {
@@ -39,7 +41,7 @@ function decodeOne(url: string): Promise<HTMLImageElement> {
 }
 
 export async function preloadStoryMapArt(onProgress?: (ratio: number) => void): Promise<void> {
-  const urls = (["ch1", "ch2"] as const)
+  const urls = (["ch1", "ch2", "ch3"] as const)
     .map((chapter) => storyMapArtUrl(chapter))
     .filter((url): url is string => Boolean(url))
   let done = 0

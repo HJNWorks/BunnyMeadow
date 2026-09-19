@@ -11,7 +11,7 @@ Family-tone woodland game. Phaser 4 + Vite + TypeScript. Web on GitHub Pages. St
 
 Audience: family / all ages (Mario or Kirby stakes). Light peril. Short readable dialogue. Kits (baby rabbits) may go missing by misunderstanding. No death, no predator kidnapping.
 
-First story release: Chapter 1, 4 worlds x 3 levels plus a moon finale. Chapter 2 first stations are live. Chapter 3 West of Silver is planned ([story/chapters.md](story/chapters.md)).
+First story release: Chapter 1, 4 worlds x 3 levels plus a moon finale. Chapter 2 first stations are live. Chapter 3 West of Silver is on the World Map with Soon worlds ([story/chapters.md](story/chapters.md)).
 
 ## Modes
 
@@ -21,7 +21,7 @@ Port of the current canvas game. Collect carrots, return to the burrow, dodge en
 
 ### Story (side-scroller)
 
-Left-to-right platformer. Authored levels from reusable chunks. Moon Pool checkpoints (Cloud Stair 4-2 and 4-3 restart the station). One boss or chase per world. Hub is the burrow until Mei stays on the moon. World Map is one painting per chapter. Chapter 1 uses `Story-Background.png`. Chapter 2 uses `Story-Background-ch2.png`. Chapter 3 painting is named `Story-Background-ch3.png` and is not shipped. See [STORY.md](STORY.md), [WORLDS.md](WORLDS.md), and [story/chapters.md](story/chapters.md).
+Left-to-right platformer. Authored levels from reusable chunks. Moon Pool checkpoints (Cloud Stair 4-2 and 4-3 restart the station). One boss or chase per world. Hub is the burrow until Mei stays on the moon. World Map is one painting per chapter. Chapter 1 uses `Story-Background.png`. Chapter 2 uses `Story-Background-ch2.png`. Chapter 3 uses `Story-Background-ch3.png`. Chapter 3 worlds are Soon. See [STORY.md](STORY.md), [WORLDS.md](WORLDS.md), and [story/chapters.md](story/chapters.md).
 
 ### Moon Tasks (short objectives, 1 to 3 minutes)
 
