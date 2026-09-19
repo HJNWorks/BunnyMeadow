@@ -3,6 +3,7 @@ import { getContentFlags } from "../../core/ModeContext"
 import { getSave, persistSave } from "../../core/session"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
 import { t } from "../../core/i18n"
+import { playVoiceCue } from "../../data/voices"
 import { getAudio } from "../../core/audio"
 import { buildInkBrushSvg, inkProgressForWorlds } from "../../ui/inkBrushPath"
 import {
@@ -412,6 +413,9 @@ export class WorldMapScene extends Phaser.Scene {
       .map((line) => `<p>${line}</p>`)
       .join("")
     this.beatRoot.hidden = false
+    if (station.id === "w0_lore_moon") {
+      playVoiceCue("change.beat.w0_lore_moon")
+    }
   }
 
   private async finishBeat(): Promise<void> {

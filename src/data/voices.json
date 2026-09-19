@@ -1,0 +1,442 @@
+{
+  "version": 1,
+  "audioRoot": "voices",
+  "audioExt": "wav",
+  "languages": ["en", "de", "zh"],
+  "channels": {
+    "ticker": "HUD ticker. Play does not pause. Skip with confirm.",
+    "dialogue": "Two-line freeze card (DialogueOverlay).",
+    "beat": "World Map beat panel. Two lines max.",
+    "epilogue": "Guanghan card. One line per step."
+  },
+  "modes": {
+    "story": {
+      "folk": {
+        "han": {
+          "displayName": "Han",
+          "class": "folk",
+          "station": "moon_guanghan",
+          "cues": [
+            {
+              "id": "han.full",
+              "channel": "ticker",
+              "when": "Fight starts (5 spirit hearts).",
+              "i18nKey": "story.han.line.full",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "Stay. The roofs remember every guest.",
+                "de": "Bleib. Die Dächer erinnern jeden Gast.",
+                "zh": "留下。屋脊记得每一位客。"
+              }
+            },
+            {
+              "id": "han.mid",
+              "channel": "ticker",
+              "when": "Han drops to 3 spirit hearts.",
+              "i18nKey": "story.han.line.mid",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "The cold learns your step.",
+                "de": "Die Kälte lernt deinen Schritt.",
+                "zh": "寒意学会了你的步子。"
+              }
+            },
+            {
+              "id": "han.last",
+              "channel": "ticker",
+              "when": "Han drops to 1 spirit heart.",
+              "i18nKey": "story.han.line.last",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "Vast Cold does not empty.",
+                "de": "Weite Kälte leert sich nicht.",
+                "zh": "广寒不会空。"
+              }
+            },
+            {
+              "id": "han.beaten",
+              "channel": "ticker",
+              "when": "Han begins the settle spiral (0 hearts).",
+              "i18nKey": "story.han.line.beaten",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "The palace keeps a moon, not a guest.",
+                "de": "Der Palast behält einen Mond, keinen Gast.",
+                "zh": "宫殿留下一轮月，不留客。"
+              }
+            }
+          ]
+        },
+        "change": {
+          "displayName": "Chang'e",
+          "class": "folk",
+          "cues": [
+            {
+              "id": "change.beat.w0_lore_moon",
+              "channel": "beat",
+              "when": "World 0 station Moon in the Pool, second line.",
+              "i18nKey": "story.station.w0_lore_moon.line1",
+              "station": "w0_lore_moon",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "Follow the blossoms. Each night I will light a pool for you.",
+                "de": "Folge den Blüten. Jede Nacht zünde ich dir einen Teich an.",
+                "zh": "跟随花瓣。每个夜里我会为你点亮一池。"
+              }
+            },
+            {
+              "id": "change.pool.w0_controls",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Soft Paws.",
+              "i18nKey": "story.level.w0_controls.moon",
+              "station": "w0_controls",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "Soft paws remember soft grass. The burrow waits ahead.",
+                "de": "Weiche Pfoten erinnern weiches Gras. Der Bau wartet vorn.",
+                "zh": "软爪记得软草。洞穴就在前面。"
+              }
+            },
+            {
+              "id": "change.pool.w1_1_soft_paths",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Soft Paths.",
+              "i18nKey": "story.level.w1_1_soft_paths.moon",
+              "station": "w1_1_soft_paths",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "Soft paths remember soft paws.",
+                "de": "Weiche Pfade erinnern weiche Pfoten.",
+                "zh": "软路记得软爪。"
+              }
+            },
+            {
+              "id": "change.pool.w1_2_hedge_maze",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Hedge Maze.",
+              "i18nKey": "story.level.w1_2_hedge_maze.moon",
+              "station": "w1_2_hedge_maze",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "Hedges hold secrets. Bounce, little hopper.",
+                "de": "Hecken halten Geheimnisse. Prall ab, kleiner Hüpfer.",
+                "zh": "树篱藏着秘密。反弹吧，小跳兔。"
+              }
+            },
+            {
+              "id": "change.pool.w1_3_cart_chase",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Cart Chase.",
+              "i18nKey": "story.level.w1_3_cart_chase.moon",
+              "station": "w1_3_cart_chase",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "Fox Hu runs. The basket waits at home.",
+                "de": "Fuchs Hu rennt. Der Korb wartet daheim.",
+                "zh": "狐狸胡跑了。篮子在家等着。"
+              }
+            },
+            {
+              "id": "change.pool.w2_1_green_corridor",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Green Corridor.",
+              "i18nKey": "story.level.w2_1_green_corridor.moon",
+              "station": "w2_1_green_corridor",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "She is safe above the clouds. Climb when the water turns silver.",
+                "de": "Sie ist sicher über den Wolken. Klettere, wenn das Wasser silbern wird.",
+                "zh": "她在云上是安全的。水变银时再爬。"
+              }
+            },
+            {
+              "id": "change.pool.w2_2_floating_logs",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Floating Logs.",
+              "i18nKey": "story.level.w2_2_floating_logs.moon",
+              "station": "w2_2_floating_logs",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "Ride the silver water. Soft paws on soft wood.",
+                "de": "Reite das silberne Wasser. Weiche Pfoten auf weichem Holz.",
+                "zh": "骑着银水。软爪踏软木。"
+              }
+            },
+            {
+              "id": "change.pool.w2_3_raft_gauntlet",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Raft Gauntlet.",
+              "i18nKey": "story.level.w2_3_raft_gauntlet.moon",
+              "station": "w2_3_raft_gauntlet",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "The heron watches the silver current. Soft dash, soft win.",
+                "de": "Der Reiher wacht über die silberne Strömung. Weicher Sprint, weicher Sieg.",
+                "zh": "鹭看着银流。轻冲，轻胜。"
+              }
+            },
+            {
+              "id": "change.pool.w3_1_paper_lights",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Paper Lights.",
+              "i18nKey": "story.level.w3_1_paper_lights.moon",
+              "station": "w3_1_paper_lights",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "Lanterns lift soft paws. Hold the jump and float.",
+                "de": "Laternen heben weiche Pfoten. Halte den Sprung und schwebe.",
+                "zh": "灯笼托起软爪。按住跳，漂起来。"
+              }
+            },
+            {
+              "id": "change.pool.w3_2_tiger_road",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Tiger Road.",
+              "i18nKey": "story.level.w3_2_tiger_road.moon",
+              "station": "w3_2_tiger_road",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "Lord Rabbit's tiger knows the blossom road.",
+                "de": "Herr Hasens Tiger kennt den Blütenweg.",
+                "zh": "兔儿爷的老虎认得花路。"
+              }
+            },
+            {
+              "id": "change.pool.w3_3_crane_summit",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Crane Summit.",
+              "i18nKey": "story.level.w3_3_crane_summit.moon",
+              "station": "w3_3_crane_summit",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "The messenger bows. A ride waits at the foot of the stair.",
+                "de": "Der Bote verneigt sich. Eine Fahrt wartet am Fuß der Treppe.",
+                "zh": "使者鞠躬。梯脚有一程可乘。"
+              }
+            },
+            {
+              "id": "change.pool.w4_1_first_steps",
+              "channel": "ticker",
+              "when": "Moon Pool contact on First Steps.",
+              "i18nKey": "story.level.w4_1_first_steps.moon",
+              "station": "w4_1_first_steps",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "The steps turn guests back. Keep your paws on the stone.",
+                "de": "Die Stufen weisen Gäste zurück. Pfoten auf dem Stein.",
+                "zh": "台阶会把客人挡回去。爪子踩稳石头。"
+              }
+            },
+            {
+              "id": "change.pool.moon_guanghan",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Guanghan.",
+              "i18nKey": "story.level.moon_guanghan.moon",
+              "station": "moon_guanghan",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "The old cold kept guests. I did not.",
+                "de": "Die alte Kälte hielt Gäste. Ich nicht.",
+                "zh": "旧寒留客。我没有。"
+              }
+            },
+            {
+              "id": "change.epilogue.stay",
+              "channel": "epilogue",
+              "when": "Guanghan epilogue card 2 of 4.",
+              "i18nKey": "story.epilogue.1",
+              "station": "moon_guanghan",
+              "live": true,
+              "voice": "narrated",
+              "text": {
+                "en": "Chang'e asks Mei to stay. The palace is quiet and lonely.",
+                "de": "Chang'e bittet Mei zu bleiben. Der Palast ist still und einsam.",
+                "zh": "嫦娥请梅留下。宫殿安静又孤单。"
+              }
+            }
+          ]
+        },
+        "crane_envoy": {
+          "displayName": "Crane Envoy",
+          "class": "folk",
+          "cues": [
+            {
+              "id": "crane.bow.0",
+              "channel": "dialogue",
+              "when": "Crane Summit bow. First freeze-card line.",
+              "i18nKey": "story.crane.line0",
+              "station": "w3_3_crane_summit",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "The Crane Envoy bows. It knows the mistake.",
+                "de": "Der Kranichbote verneigt sich. Er kennt den Fehler.",
+                "zh": "仙鹤使者鞠躬。它知道错了。"
+              }
+            },
+            {
+              "id": "crane.bow.1",
+              "channel": "dialogue",
+              "when": "Crane Summit bow. Second freeze-card line.",
+              "i18nKey": "story.crane.line1",
+              "station": "w3_3_crane_summit",
+              "live": true,
+              "voice": "character",
+              "text": {
+                "en": "Ride when you are ready.",
+                "de": "Fahre, wenn du bereit bist.",
+                "zh": "准备好了就坐上。"
+              }
+            },
+            {
+              "id": "crane.epilogue.home",
+              "channel": "epilogue",
+              "when": "Guanghan epilogue card 4 of 4.",
+              "i18nKey": "story.epilogue.3",
+              "station": "moon_guanghan",
+              "live": true,
+              "voice": "narrated",
+              "text": {
+                "en": "The Crane Envoy carries them home. Kits watch the moon together.",
+                "de": "Der Kranichbote trägt sie heim. Kitze schauen gemeinsam zum Mond.",
+                "zh": "仙鹤使者送他们回家。小兔们一起看月亮。"
+              }
+            }
+          ]
+        },
+        "fox_hu": {
+          "displayName": "Fox Hu",
+          "class": "folk",
+          "cues": []
+        },
+        "heron_fisher": {
+          "displayName": "Heron Fisher",
+          "class": "folk",
+          "cues": []
+        },
+        "tuer_ye": {
+          "displayName": "Tu'er Ye",
+          "class": "folk",
+          "cues": []
+        },
+        "closing_gale": {
+          "displayName": "Closing Gale",
+          "class": "folk",
+          "cues": []
+        },
+        "wu_gang": {
+          "displayName": "Wu Gang",
+          "class": "folk",
+          "cues": []
+        },
+        "yutu": {
+          "displayName": "Jade Rabbit",
+          "class": "folk",
+          "cues": []
+        },
+        "moon_toad": {
+          "displayName": "Moon toad",
+          "class": "folk",
+          "cues": []
+        }
+      },
+      "kits": {
+        "mei": {
+          "displayName": "Mei",
+          "class": "kit",
+          "cues": [
+            {
+              "id": "mei.epilogue.promise",
+              "channel": "epilogue",
+              "when": "Guanghan epilogue card 3 of 4.",
+              "i18nKey": "story.epilogue.2",
+              "station": "moon_guanghan",
+              "live": true,
+              "voice": "narrated",
+              "text": {
+                "en": "Mei offers a mooncake and a promise: every full moon the burrow will wave.",
+                "de": "Mei bietet einen Mondkuchen und ein Versprechen: jeden Vollmond winkt der Bau.",
+                "zh": "梅送上月饼和承诺：每个满月洞穴都会挥手。"
+              }
+            }
+          ]
+        },
+        "yue": {
+          "displayName": "Yue",
+          "class": "kit",
+          "cues": [
+            {
+              "id": "yue.epilogue.tree",
+              "channel": "epilogue",
+              "when": "Guanghan epilogue card 1 of 4. Yue does not speak. Card names her.",
+              "i18nKey": "story.epilogue.0",
+              "station": "moon_guanghan",
+              "live": true,
+              "voice": "narrated",
+              "text": {
+                "en": "Yue plays under Wu Gang's tree with the Jade Rabbit.",
+                "de": "Yue spielt unter Wu Gangs Baum mit dem Jadehasen.",
+                "zh": "月儿在吴刚树下和玉兔玩。"
+              }
+            }
+          ]
+        }
+      },
+      "wildlife": {}
+    },
+    "meadow": {
+      "folk": {},
+      "kits": {},
+      "wildlife": {}
+    },
+    "tasks": {
+      "folk": {},
+      "kits": {},
+      "wildlife": {}
+    },
+    "endless": {
+      "folk": {},
+      "kits": {},
+      "wildlife": {}
+    }
+  },
+  "silentI18n": [
+    {
+      "id": "change.pool.w4_2_no_return",
+      "reason": "i18n moon line exists. Station has no Moon Pool. Do not record until a pool exists.",
+      "i18nKey": "story.level.w4_2_no_return.moon",
+      "text": {
+        "en": "There is no pool on these steps.",
+        "de": "Auf diesen Stufen gibt es keinen Teich.",
+        "zh": "这些台阶上没有月池。"
+      }
+    },
+    {
+      "id": "change.pool.w4_3_closing_gale",
+      "reason": "i18n moon line exists. Station has no Moon Pool. Do not record until a pool exists.",
+      "i18nKey": "story.level.w4_3_closing_gale.moon",
+      "text": {
+        "en": "The old cold turns guests. Walk anyway.",
+        "de": "Die alte Kälte weist Gäste. Geh trotzdem.",
+        "zh": "旧寒挡客。还是走。"
+      }
+    }
+  ]
+}

@@ -34,8 +34,9 @@ Projectiles stay night-themed and fire from Han toward Mei as a radial fan:
 Spike fan timing and counts are unchanged from the first live fight. The beam is a long tracking rectangle, not a projectile. It leaves from the half-moon on Han's helmet. Platforms and walls clip it, so Mei can hide. The impact leaves a spark, rising embers, and a fading scorch trail. On the last heart the hot slab lasts 5.5 s and damages every registered ledge it crosses (three crack stages and a darken, then the collider drops). Reduced motion keeps one mark. Dash i-frames still apply. Reduced motion shortens the charge and skips spiral motes.
 
 Han speaks four ticker lines on the same HUD as Moon Pools (no pause). Full health, 3
-hearts, 1 heart, and beaten. Moon Pool lines on Guanghan stay Chang'e's. Editor Build
-does not speak.
+hearts, 1 heart, and beaten. Cue ids and later wav names:
+[voices.md](../voices.md) (`han.full`, `han.mid`, `han.last`, `han.beaten`).
+Moon Pool lines on Guanghan stay Chang'e's. Editor Build does not speak.
 
 Han roams the sky rather than holding one perch. Every lost heart still enlarges and
 darkens the silhouette. Low gravity stays. Cakes spawn in the open, not under roofs.

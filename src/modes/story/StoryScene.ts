@@ -15,6 +15,7 @@ import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
 import { getPlatform } from "../../core/platform"
 import { t } from "../../core/i18n"
+import { playVoiceCue, playVoiceQueue } from "../../data/voices"
 import { getAudio, musicIdForEnv } from "../../core/audio"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
 import { attachPlayfieldFrame, measureChromeInsets, EDITOR_BOTTOM_CHROME, EDITOR_TOP_CHROME, mountPlayfieldHud, placeBelowStoryChrome, STORY_TOP_CHROME } from "../../ui/playfieldFrame"
@@ -311,6 +312,13 @@ function mixTint(from: number, to: number, t: number): number {
   const b = Math.round(fb + (tb - fb) * u)
   return (r << 16) | (g << 8) | b
 }
+
+const EPILOGUE_VOICE = [
+  "yue.epilogue.tree",
+  "change.epilogue.stay",
+  "mei.epilogue.promise",
+  "crane.epilogue.home",
+] as const
 
 export class StoryScene extends Phaser.Scene {
   private levelId = "w1_1_soft_paths"
@@ -960,6 +968,7 @@ export class StoryScene extends Phaser.Scene {
             ? undefined
             : (line) => {
               this.hud.ticker.show(t(`story.han.line.${line}`))
+              playVoiceCue(`han.${line}`)
             },
           platforms: this.platforms,
           cakeSpots: hanCakeSpotsFromPlatforms(world.platforms),
@@ -1366,6 +1375,9 @@ export class StoryScene extends Phaser.Scene {
     this.awakenMoonPool(pool)
     const custom = String(pool.getData("poolLine") ?? "").trim()
     this.hud.ticker.show(custom || t(`story.level.${this.level.id}.moon`))
+    if (!custom) {
+      playVoiceCue(`change.pool.${this.level.id}`)
+    }
   }
 
   private awakenMoonPool(pool: Phaser.GameObjects.Image): void {
@@ -1641,6 +1653,7 @@ export class StoryScene extends Phaser.Scene {
               }
             },
           })
+          playVoiceQueue(["crane.bow.0", "crane.bow.1"])
         } else {
           this.bossCooldown = 1.7
         }
@@ -1663,6 +1676,7 @@ export class StoryScene extends Phaser.Scene {
     this.hud.overlay.hidden = true
     this.hud.epilogue.hidden = false
     this.hud.epilogueBody.innerHTML = `<p>${this.epilogueLines[0]}</p>`
+    playVoiceCue(EPILOGUE_VOICE[0])
   }
 
   private advanceEpilogue(): void {
@@ -1673,6 +1687,10 @@ export class StoryScene extends Phaser.Scene {
       return
     }
     this.hud.epilogueBody.innerHTML = `<p>${this.epilogueLines[this.epilogueStep]}</p>`
+    const voiceId = EPILOGUE_VOICE[this.epilogueStep]
+    if (voiceId) {
+      playVoiceCue(voiceId)
+    }
   }
 
   private exitBlockedReason(): string | null {

@@ -44,6 +44,7 @@ docs/
   creatures/           the bestiary
     README.md          index + creature classes
     abilities.md       player verbs and item interactions
+    voices.md          creature lines and voice file ids
     wildlife/          one page per enemy
     folk/              lore NPCs and bosses
     kits/              Mei, Yue, the burrow family

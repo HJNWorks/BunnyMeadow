@@ -18,6 +18,7 @@ before it can sit in a biome native list. Invented folk only fill an empty job. 
 | Kits | The rabbits: Mei, Yue, the burrow family | [kits/](kits/) |
 
 Player verbs and how items change them are on [abilities.md](abilities.md).
+Spoken lines and voice files: [voices.md](voices.md) and `src/data/voices.json`.
 
 ## Wildlife archetypes
 

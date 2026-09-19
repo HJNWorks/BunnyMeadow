@@ -11,6 +11,8 @@ All notable changes to this project are recorded here. The format follows
 - Shared pad catalog under [docs/platforms/](docs/platforms/README.md): collision,
   motion (including slide), surface, and break as stacked axes for Story, Endless,
   and Bunny Jump.
+- Creature voice catalog at [docs/creatures/voices.md](docs/creatures/voices.md) and
+  `src/data/voices.json`. Cue ids match later wavs under `public/voices/{lang}/`.
 - Moon Tasks hub and Bunny Jump design (docs only, planned). Vertical hop under
   Moon Tasks, not a fifth primary mode. Height bands reuse palettes. Jump roles stay
   mode-only. `land` is a one-bounce break source. Iteration:
