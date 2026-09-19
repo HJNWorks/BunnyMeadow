@@ -47,14 +47,18 @@ export function spawnDecorItem(
   index: number,
   env = "",
 ): Phaser.GameObjects.Image {
-  const sprite = scene.add.image(item.x + item.w / 2, item.y + item.h / 2, textureForDecor(item.kind, item.asset, env))
+  const sprite = scene.add.image(
+    item.x + item.w / 2,
+    item.y + item.h / 2,
+    textureForDecor(item.kind, item.asset, item.env || env),
+  )
   sprite.setDisplaySize(item.w, item.h)
   sprite.setAngle(item.rotation ?? 0)
   sprite.setDepth(item.kind === "grass" ? 1.4 : 2)
   if (item.kind === "lantern") {
     sprite.setTint(0xe07040)
   }
-  if (item.kind === "vine" && !isLunarEnv(env)) {
+  if (item.kind === "vine" && !isLunarEnv(item.env || env)) {
     sprite.setTint(0x6f8f52)
   }
   sprite.setData("editKind", "decor")

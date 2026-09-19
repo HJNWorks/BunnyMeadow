@@ -46,7 +46,7 @@ Build bar: Play, Build, Set active, Copy JSON, Back to Settings. World, station,
 
 A **Chapter** dropdown sits left of World in `src/modes/story/editor/BuildHud.ts`. Chapter 1 lists live worlds. Chapter 2 lists the six first stations. Chapter 3 stays empty. Hub: [../story/chapters.md](../story/chapters.md).
 
-Object Addition: Environment and Creatures are optgroup selects (All plus each world). Environment covers platforms, walls, ceilings, bridges, water, decor, and items. Creatures lists every wildlife id in `roster.ts`. Moon native decor is lantern, cave lip, column, false mouth, rim, bowl, wound. Hedge and grass stay meadow.
+Object Addition: Environment and Creatures are one-level optgroup selects. Each kind or wildlife id appears once. Environment is theme then kind (`platform@meadow`). A placed rect, decor, or mover stores `env` so a meadow pad can sit on Guanghan. Stamp art uses that `env`, then the station kit for old JSON. Meadow through Cloud Stair share grass ground. Guanghan and Chapter 2 kits share lunar ground, plus rim, bowl, wound, and cave where those kinds exist. Chapter 3 kits stay out until they have stamps. Items sit in one Items group. Creatures group by debut (Chapter 1, Cloud Stair / Guanghan, Later). Folk stay out of the picker. Bees, tortoise, and boar live under Later. Pestle sentry is listed once under Guanghan and still placeable on Chapter 2 maps. Inspect id lists use the same grouping.
 
 Wall is the green collision slab. Hedge/vine art is a separate selectable decor object (`overlay.decor`). Water is a first-class hazard (`overlay.hazards`) with current. Burrow exit and Moon Pool are **contact** with the visible sprite. Water is a **volume**. Optional overlay field on decor and hazards:
 
@@ -57,11 +57,11 @@ Wall is the green collision slab. Hedge/vine art is a separate selectable decor 
 Runtime does not spawn a proximity sensor from that field yet. Do not put `trigger` on burrow or Moon Pool. Map: [story/proximity.md](../story/proximity.md). Destructible platforms, walls, logs, and decor use a `break` field. Profiles and damage sources: [destructibility.md](destructibility.md). Pad axes (collision, slide motion, surface): [../platforms/README.md](../platforms/README.md).
 Cave roofs and false mouths: [../platforms/caves.md](../platforms/caves.md).
 
-Toolbar: Selection Mode Object or Region. Region: drag a rectangle; every object inside is selected with its fields. Then x, y, w, h, rotation, asset, id, current, Destructible, Break profile, Undo, Copy, Delete apply to the set. Copy duplicates the selection (not spawn or exit) and offsets it by 40 px. Ctrl/Cmd+D does the same. Look (palette kit, sky/far/fog hex, hour, weather, night overlay, night amount, day haze, lantern glow, low gravity, map width). Night overlay is independent of hour, so Burrow Eve afternoon can still darken. World index: `src/modes/story/editor/worldIndex.ts`.
+Toolbar: Selection Mode Object or Region. Region: drag a rectangle; every object inside is selected with its fields. Then x, y, w, h, rotation, asset, id, current, Destructible, Break profile, Undo, Copy, Delete apply to the set. Copy and Ctrl/Cmd+C store the selection in an in-memory clipboard (not spawn or exit). Ctrl/Cmd+V pastes at camera center, snap 10, keeping relative offsets. Ctrl/Cmd+D still duplicates in place and offsets 40 px. Shortcuts do not fire while an input, textarea, or select is focused. Look (palette kit, sky/far/fog hex, hour, weather, night overlay, night amount, day haze, lantern glow, low gravity, map width). Night overlay is independent of hour, so Burrow Eve afternoon can still darken. Catalog: `src/modes/story/editor/placeables.ts`, `roster.ts`, `worldIndex.ts`.
 
 The editor top bar is `position: fixed` but its `top` is not a magic pixel. `placeBelowStoryChrome` in `src/ui/playfieldFrame.ts` sits it under `.meadow-bar` (title and pause row). Hearts, status ticker, and boss hearts live on the playfield via `mountPlayfieldHud`, not in that chrome. `watchStoryChrome` observes the chrome nodes, not the full-viewport root. Playfield inset runs `beforeMeasure` so the canvas follows. New editor bars must use the same helpers.
 
-Native critter pickers: `src/modes/story/editor/roster.ts`. Soft Paws / meadow native is fox, hedgehog, crow, carrot. Bees and tortoise stay in All until their idea pages ship as live data.
+Native critter pickers: `src/modes/story/editor/roster.ts`. Chapter 1 lists fox through goat once. Moon ids list once under Cloud Stair / Guanghan. Bees, tortoise, and boar stay under Later.
 
 ## Phases
 
@@ -71,7 +71,7 @@ Hedge art selectable. Palette / weather / water / sky in the inspector. Map widt
 
 ### B — What already lives on the path
 
-Native pickers follow [WORLDS.md](../WORLDS.md) and [creatures/README.md](../creatures/README.md). Do not dump Cloud Stair onto Soft Paws. Idea-row beings (bees, tortoise, boar, carp, dew) stay unlabeled in native lists until a wildlife page is live in `enemies.json` / `items.json`.
+Native pickers follow [WORLDS.md](../WORLDS.md) and [creatures/README.md](../creatures/README.md). The Environment tree is not filtered by the open station. Idea-row beings (bees, tortoise, boar) sit under Later. Carp and dew stay unlabeled until a wildlife page is live in `enemies.json` / `items.json`.
 
 ### C — New beings only with lore
 

@@ -322,7 +322,8 @@ const EPILOGUE_VOICE = [
   "crane.epilogue.home",
 ] as const
 
-function storyPadTexture(rect: AssembledRect, lunar: boolean): string {
+function storyPadTexture(rect: AssembledRect, stationEnv: string): string {
+  const lunar = isLunarEnv(rect.env || stationEnv)
   if (rect.asset === "rim") {
     return "story_rim"
   }
@@ -338,7 +339,8 @@ function storyPadTexture(rect: AssembledRect, lunar: boolean): string {
   return lunar ? "story_ground_moon" : "story_ground"
 }
 
-function storyWallTexture(rect: AssembledRect, lunar: boolean): string {
+function storyWallTexture(rect: AssembledRect, stationEnv: string): string {
+  const lunar = isLunarEnv(rect.env || stationEnv)
   if (rect.kind === "ceiling" || rect.asset === "cave") {
     return "story_cave"
   }
@@ -653,7 +655,6 @@ export class StoryScene extends Phaser.Scene {
     if (this.editorMode === "build") {
       this.breaks.pause()
     }
-    const lunar = isLunarEnv(env)
     for (let i = 0; i < world.platforms.length; i += 1) {
       const rect = world.platforms[i]
       if (!rect) {
@@ -662,7 +663,7 @@ export class StoryScene extends Phaser.Scene {
       if (rect.kind === "wall" || rect.kind === "ceiling") {
         const hasDecor = (world.decor ?? []).length > 0
         if (this.editorMode !== "build" && (rect.kind === "ceiling" || !hasDecor)) {
-          const wallKey = storyWallTexture(rect, lunar)
+          const wallKey = storyWallTexture(rect, env)
           const tiles = Math.max(1, Math.ceil(rect.h / 56))
           for (let n = 0; n < tiles; n += 1) {
             const y = rect.y + 28 + n * 56
@@ -702,7 +703,7 @@ export class StoryScene extends Phaser.Scene {
           rect.y + rect.h / 2,
           rect.w,
           rect.h,
-          storyPadTexture(rect, lunar),
+          storyPadTexture(rect, env),
         )
         block.setDepth(1)
         this.physics.add.existing(block, true)

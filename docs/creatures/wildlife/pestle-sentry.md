@@ -14,12 +14,14 @@ the HP bar.
 
 ## Behaviour
 
-Perches on a bowl rim and lobs a grey pebble on a parabola. Same kit as ice spit.
-It guards a landing. Standing still on a bowl is a bad idea.
+Perches on a bowl rim and fires a grey pebble along an aim ray at Mei. No gravity.
+Same radial kit as ice spit. The shot leaves the perch so it does not die on the
+bowl. It guards a landing. Standing still on a bowl is a bad idea.
 
 ## Telegraph and counter
 
-Telegraph: the sentry coils, then the pebble leaves. Counter: hop the lob.
+Telegraph: the sentry coils, then the pebble leaves along the ray. Counter: step
+off the line.
 
 ## Silhouette rule
 

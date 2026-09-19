@@ -56,7 +56,7 @@ export type BreakSpec = {
   sources?: BreakSource[]
 }
 
-export type ChunkRect = { x: number; y: number; w: number; h: number; break?: BreakSpec }
+export type ChunkRect = { x: number; y: number; w: number; h: number; break?: BreakSpec; env?: string }
 
 export type PlaceableTrigger = {
   kind: "proximity"
@@ -139,6 +139,7 @@ export type AssembledDecor = {
   asset?: string
   trigger?: PlaceableTrigger
   break?: BreakSpec
+  env?: string
 }
 
 export type AssembledEnemy = ChunkEnemySpawn & { worldX: number; worldY: number }

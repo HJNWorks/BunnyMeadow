@@ -13,13 +13,14 @@ Invented frost sentry. Not Fengbo, Yu Shi, or a Skyrim-style draugr.
 
 ## Behaviour
 
-Perches on a stair pad and lobs a frost pebble on a parabola after a short wind-up.
+Perches on a stair pad and fires a frost pebble along an aim ray at Mei. No gravity.
+The shot leaves the perch so it does not die on the pad. Full 360 if Mei is above.
 It guards a landing. Standing still on a hanging bridge is a bad idea.
 
 ## Telegraph and counter
 
-Telegraph: the sentry coils, then the pebble leaves. Counter: hop the lob. Do not
-eat it on a swaying bridge.
+Telegraph: the sentry coils, then the pebble leaves along the ray. Counter: step
+off the line. Do not eat it on a swaying bridge.
 
 ## Silhouette rule
 

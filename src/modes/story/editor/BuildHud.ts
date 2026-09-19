@@ -21,16 +21,14 @@ import { defaultDecor, DECOR_LABELS, PLATFORM_ASSETS } from "./placeables"
 import { listBreakProfiles } from "../shared/breakables"
 import type { BreakSpec } from "../../../systems/ChunkAssembler"
 import {
-  allCritterIds,
-  allItemIds,
-  critterLabel,
   editorChapterForLevel,
   editorWorldIdForLevel,
-  envTokenLabel,
-  itemLabel,
   listEditorWorldIndex,
   setLastEditorStation,
-  sharedEnvTokens,
+  additionSelectHtml,
+  inspectEnemySelectHtml,
+  inspectItemSelectHtml,
+  parseKitToken,
   stationsForWorld,
   type EditorWorldId,
 } from "./worldIndex"
@@ -68,7 +66,11 @@ type SelKind = "spawn" | "pool" | "exit" | "platform" | "mover" | "enemy" | "pic
 
 type Selection = { kind: SelKind; index: number }
 
+type ClipRow = { kind: SelKind; snap: unknown; x: number; y: number }
+
 const COPY_SHIFT = 40
+
+let editorClip: ClipRow[] = []
 
 const CSS = `
 .bm-root.bm-editor-hud {
@@ -252,47 +254,6 @@ function hitSprite(wx: number, wy: number, go: Phaser.GameObjects.GameObject, pa
   const rw = Math.max(22, image.displayWidth * 0.55 + pad)
   const rh = Math.max(22, image.displayHeight * 0.55 + pad)
   return Math.abs(wx - image.x) <= rw && Math.abs(wy - image.y) <= rh
-}
-
-function additionSelectHtml(): { env: string; creatures: string } {
-  const worlds = listEditorWorldIndex()
-  const opt = (token: string, label: string): string =>
-    `<option value="${token}">${label}</option>`
-  const envAll = [
-    ...sharedEnvTokens().map((token) => opt(token, envTokenLabel(token))),
-    ...allItemIds().map((id) => opt(`item:${id}`, itemLabel(id))),
-  ].join("")
-  const envWorlds = worlds
-    .map((world) => {
-      const seen = new Set<string>()
-      const options: string[] = []
-      for (const token of [...sharedEnvTokens(), ...world.placeables]) {
-        if (seen.has(token)) {
-          continue
-        }
-        seen.add(token)
-        options.push(opt(token, envTokenLabel(token)))
-      }
-      for (const id of world.items) {
-        options.push(opt(`item:${id}`, itemLabel(id)))
-      }
-      return `<optgroup label="${t(world.titleKey)}">${options.join("")}</optgroup>`
-    })
-    .join("")
-  const creatureAll = allCritterIds()
-    .map((id) => opt(`critter:${id}`, critterLabel(id)))
-    .join("")
-  const creatureWorlds = worlds
-    .map((world) => {
-      const options = world.critters.map((id) => opt(`critter:${id}`, critterLabel(id)))
-      return `<optgroup label="${t(world.titleKey)}">${options.join("")}</optgroup>`
-    })
-    .join("")
-  const blank = `<option value="">${t("editor.addChoose")}</option>`
-  return {
-    env: `${blank}<optgroup label="${t("editor.addAll")}">${envAll}</optgroup>${envWorlds}`,
-    creatures: `${blank}<optgroup label="${t("editor.addAll")}">${creatureAll}</optgroup>${creatureWorlds}`,
-  }
 }
 
 function hitRect(x: number, y: number, rect: AssembledRect): boolean {
@@ -1006,32 +967,10 @@ export function mountBuildHud(session: EditorSession): void {
 
   const fillIdSelect = (kind: "enemy" | "pickup"): void => {
     if (kind === "enemy") {
-      const worlds = listEditorWorldIndex()
-      idInput.innerHTML = [
-        `<optgroup label="${t("editor.addAll")}">${allCritterIds()
-          .map((id) => `<option value="${id}">${critterLabel(id)}</option>`)
-          .join("")}</optgroup>`,
-        ...worlds.map(
-          (world) =>
-            `<optgroup label="${t(world.titleKey)}">${world.critters
-              .map((id) => `<option value="${id}">${critterLabel(id)}</option>`)
-              .join("")}</optgroup>`,
-        ),
-      ].join("")
+      idInput.innerHTML = inspectEnemySelectHtml()
       return
     }
-    const worlds = listEditorWorldIndex()
-    idInput.innerHTML = [
-      `<optgroup label="${t("editor.addAll")}">${allItemIds()
-        .map((id) => `<option value="${id}">${itemLabel(id)}</option>`)
-        .join("")}</optgroup>`,
-      ...worlds.map(
-        (world) =>
-          `<optgroup label="${t(world.titleKey)}">${world.items
-            .map((id) => `<option value="${id}">${itemLabel(id)}</option>`)
-            .join("")}</optgroup>`,
-      ),
-    ].join("")
+    idInput.innerHTML = inspectItemSelectHtml()
   }
 
   const fillLook = (): void => {
@@ -1736,22 +1675,25 @@ export function mountBuildHud(session: EditorSession): void {
       restart("build")
       return
     }
-    if (kind === "platform") {
-      overlay.platforms.push({ kind: "platform", x: at.x - 60, y: at.y, w: 120, h: 24 })
+    const parsed = parseKitToken(kind)
+    const stamp = parsed.kit ?? session.env
+    const token = parsed.kind
+    if (token === "platform") {
+      overlay.platforms.push({ kind: "platform", x: at.x - 60, y: at.y, w: 120, h: 24, env: stamp })
       restart("build")
       return
     }
-    if (kind === "wall") {
-      overlay.platforms.push({ kind: "wall", x: at.x, y: at.y - 60, w: 28, h: 120 })
+    if (token === "wall") {
+      overlay.platforms.push({ kind: "wall", x: at.x, y: at.y - 60, w: 28, h: 120, env: stamp })
       restart("build")
       return
     }
-    if (kind === "ceiling") {
-      overlay.platforms.push({ kind: "ceiling", x: at.x - 100, y: at.y, w: 220, h: 40, asset: "cave" })
+    if (token === "ceiling") {
+      overlay.platforms.push({ kind: "ceiling", x: at.x - 100, y: at.y, w: 220, h: 40, asset: "cave", env: stamp })
       restart("build")
       return
     }
-    if (kind === "bridge") {
+    if (token === "bridge") {
       const local = worldToAnchor(session.world, at.x - 80, at.y)
       overlay.movers.push({
         x: local.x,
@@ -1765,11 +1707,12 @@ export function mountBuildHud(session: EditorSession): void {
         kind: "bridge",
         worldX: at.x - 80,
         worldY: at.y,
+        env: stamp,
       })
       restart("build")
       return
     }
-    if (kind === "water") {
+    if (token === "water") {
       const local = worldToAnchor(session.world, at.x - 80, at.y)
       overlay.hazards = overlay.hazards ?? []
       overlay.hazards.push({
@@ -1781,11 +1724,12 @@ export function mountBuildHud(session: EditorSession): void {
         current: 40,
         worldX: at.x - 80,
         worldY: at.y,
+        env: stamp,
       })
       restart("build")
       return
     }
-    if (kind === "pool") {
+    if (token === "pool") {
       overlay.moonPools = overlay.moonPools ?? []
       const local = worldToAnchor(session.world, at.x, at.y)
       overlay.moonPools.push({
@@ -1798,7 +1742,7 @@ export function mountBuildHud(session: EditorSession): void {
       return
     }
     overlay.decor = overlay.decor ?? []
-    overlay.decor.push(defaultDecor(kind as AssembledDecor["kind"], at.x, at.y))
+    overlay.decor.push(defaultDecor(token as AssembledDecor["kind"], at.x, at.y, stamp))
     restart("build")
   }
 
@@ -1835,10 +1779,34 @@ export function mountBuildHud(session: EditorSession): void {
     fillInspect()
   }
 
-  const copySelected = (): void => {
-    const sources = (group.length ? group : selected ? [selected] : []).filter(
+  const copySources = (): Selection[] =>
+    (group.length ? group : selected ? [selected] : []).filter(
       (item) => item.kind !== "spawn" && item.kind !== "exit",
     )
+
+  const storeClipboard = (): boolean => {
+    const sources = copySources()
+    if (!sources.length) {
+      return false
+    }
+    const rows: ClipRow[] = []
+    for (const item of sources) {
+      const snap = captureItem(item)
+      if (snap === null) {
+        continue
+      }
+      const at = selOrigin(item)
+      rows.push({ kind: item.kind, snap, x: at.x, y: at.y })
+    }
+    if (!rows.length) {
+      return false
+    }
+    editorClip = rows
+    return true
+  }
+
+  const duplicateSelected = (): void => {
+    const sources = copySources()
     if (!sources.length) {
       return
     }
@@ -1863,8 +1831,33 @@ export function mountBuildHud(session: EditorSession): void {
     restart("build")
   }
 
+  const pasteClipboard = (): void => {
+    if (!editorClip.length) {
+      return
+    }
+    const originX = Math.min(...editorClip.map((row) => row.x))
+    const originY = Math.min(...editorClip.map((row) => row.y))
+    const at = cameraCenter()
+    let made = 0
+    for (const row of editorClip) {
+      const next = appendCopy(row.kind, row.snap)
+      if (!next) {
+        continue
+      }
+      placeSel(next, snap10(at.x + (row.x - originX)), snap10(at.y + (row.y - originY)))
+      made += 1
+    }
+    if (!made) {
+      return
+    }
+    getAudio().playSfx("confirm")
+    restart("build")
+  }
+
   copyBtn.onclick = () => {
-    copySelected()
+    if (storeClipboard()) {
+      getAudio().playSfx("confirm")
+    }
   }
   requireEl<HTMLButtonElement>(root, "[data-ui=delete]").onclick = () => {
     const doomed = (group.length ? group : selected ? [selected] : []).filter(
@@ -2123,9 +2116,25 @@ export function mountBuildHud(session: EditorSession): void {
     if (typing) {
       return
     }
-    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "d") {
+    if (!(event.ctrlKey || event.metaKey)) {
+      return
+    }
+    const key = event.key.toLowerCase()
+    if (key === "c") {
       event.preventDefault()
-      copySelected()
+      if (storeClipboard()) {
+        getAudio().playSfx("confirm")
+      }
+      return
+    }
+    if (key === "v") {
+      event.preventDefault()
+      pasteClipboard()
+      return
+    }
+    if (key === "d") {
+      event.preventDefault()
+      duplicateSelected()
     }
   }
   window.addEventListener("keydown", onKey)

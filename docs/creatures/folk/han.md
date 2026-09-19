@@ -18,7 +18,8 @@ mooncake starts a short warmth buff (about 3 s). Only a dash into Han while that
 buff is live removes one spirit heart. A bare dash does nothing to him and still costs
 Mei a heart on contact.
 
-Projectiles stay night-themed and fire from Han toward Mei as a radial fan:
+Projectiles stay night-themed and fire from Han toward Mei as a radial fan.
+Shards spawn off the body along each ray so a ledge does not eat them:
 
 - 5 and 4 hearts: frost spears in a tight cone aimed at Mei. Roam speed 96.
 - 3 and 2 hearts: star needles in a wider cone. Roam speed 168. A lunar beam starts shortly

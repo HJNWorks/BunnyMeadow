@@ -5,8 +5,8 @@ Data schema for enemies lives in the hub [../ENEMIES.md](../ENEMIES.md) and in
 `src/data/enemies.json`. Folklore backing for named creatures lives in
 [../LORE.md](../LORE.md); no named creature appears without an entry there.
 
-Editor pickers follow this index. A new being also needs a wildlife page plus an archetype
-before it can sit in a biome native list. Invented folk only fill an empty job. See
+Editor pickers follow this index. Wildlife ids appear once, grouped by debut chapter.
+Folk stay out of the Creatures select. Invented folk only fill an empty job. See
 [../editor/README.md](../editor/README.md) Phase C.
 
 ## Creature classes
@@ -36,7 +36,7 @@ wisp, gale magpie, dust mite, star wisp) skip the seat.
 | --- | --- |
 | patrol | walks a path, contact damage, safe from above in Story |
 | chaser | seeks the player inside a sense radius, leaves safe zones alone |
-| ranged_lob | throws a projectile on a parabola with a visible wind-up |
+| ranged_lob | crow and squirrel throw on a parabola. Ice spit and pestle fire a no-gravity ray |
 | reach | slow or stationary, long poke in one direction, crouch telegraph |
 | diver | circles then dives along a shown line |
 | swarm | slow cloud, area denial, dash passes through |

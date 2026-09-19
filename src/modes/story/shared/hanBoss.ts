@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import { getAudio } from "../../../core/audio"
+import { fireRadialShot } from "./enemyKit"
 
 const HEARTS = 5
 export const HAN_WARMTH = 3.0
@@ -390,15 +391,9 @@ export class HanFight {
     for (let i = 0; i < n; i += 1) {
       const t = n === 1 ? 0 : i / (n - 1) - 0.5
       const ang = base + t * spread
-      const shot = this.scene.physics.add.image(this.sprite.x, this.sprite.y, key)
-      shot.setDisplaySize(dw, dh)
-      shot.setDepth(5)
-      shot.setRotation(ang + rotOff)
-      const body = shot.body as Phaser.Physics.Arcade.Body
-      body.setAllowGravity(false)
-      const spd = speed + lost * 28
-      body.setVelocity(Math.cos(ang) * spd, Math.sin(ang) * spd)
-      this.projectiles.add(shot)
+      fireRadialShot(this.scene, this.projectiles, this.sprite.x, this.sprite.y, ang, speed + lost * 28, key, dw, dh, {
+        rotOff,
+      })
     }
   }
 

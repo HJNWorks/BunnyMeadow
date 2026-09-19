@@ -1,38 +1,21 @@
+import { t } from "../../../core/i18n"
 import { listStoryLevels, getStoryLevel, type StoryLevelDef } from "../levels"
 import { listAllWorlds, listWorlds, getStation, type StoryChapterId, type StoryWorldId, worldIdForLevelId } from "../path"
 import { storyEnvForLevel } from "../shared/themeKit"
 import {
   ALL_CRITTERS,
   ALL_ITEMS,
+  CRITTER_GROUPS,
   CRITTER_LABELS,
   ITEM_LABELS,
   crittersForEnv,
   itemsForEnv,
 } from "./roster"
-import { DECOR_LABELS, placeablesForEnv } from "./placeables"
+import { DECOR_LABELS, EDITOR_ENV_KITS, placeablesForEnv, type EditorEnvToken } from "./placeables"
 import type { AssembledDecor } from "../../../systems/ChunkAssembler"
 
 export type EditorWorldId = StoryWorldId
-
-export type EditorEnvToken =
-  | "platform"
-  | "wall"
-  | "ceiling"
-  | "bridge"
-  | "water"
-  | "hedge"
-  | "vine"
-  | "grass"
-  | "log"
-  | "burrow"
-  | "lantern"
-  | "pool"
-  | "falseMouth"
-  | "rim"
-  | "bowl"
-  | "wound"
-  | "cave"
-  | "column"
+export type { EditorEnvToken }
 
 export type EditorWorldEntry = {
   id: EditorWorldId
@@ -123,6 +106,62 @@ export function setLastEditorStation(id: string): void {
 
 export function sharedEnvTokens(): EditorEnvToken[] {
   return [...SHARED_ENV]
+}
+
+export function parseKitToken(token: string): { kind: string; kit: string | null } {
+  const at = token.indexOf("@")
+  if (at < 0) {
+    return { kind: token, kit: null }
+  }
+  return { kind: token.slice(0, at), kit: token.slice(at + 1) }
+}
+
+function optionHtml(value: string, label: string): string {
+  return `<option value="${value}">${label}</option>`
+}
+
+function groupHtml(label: string, inner: string): string {
+  return `<optgroup label="${label}">${inner}</optgroup>`
+}
+
+export function additionSelectHtml(): { env: string; creatures: string } {
+  const blank = optionHtml("", t("editor.addChoose"))
+  const envKits = EDITOR_ENV_KITS.map((kit) =>
+    groupHtml(
+      t(kit.labelKey),
+      kit.kinds.map((kind) => optionHtml(`${kind}@${kit.id}`, envTokenLabel(kind))).join(""),
+    ),
+  ).join("")
+  const items = groupHtml(
+    t("editor.envKit.items"),
+    ALL_ITEMS.map((id) => optionHtml(`item:${id}`, itemLabel(id))).join(""),
+  )
+  const creatures = CRITTER_GROUPS.map((group) =>
+    groupHtml(
+      t(group.labelKey),
+      group.ids.map((id) => optionHtml(`critter:${id}`, critterLabel(id))).join(""),
+    ),
+  ).join("")
+  return {
+    env: `${blank}${envKits}${items}`,
+    creatures: `${blank}${creatures}`,
+  }
+}
+
+export function inspectEnemySelectHtml(): string {
+  return CRITTER_GROUPS.map((group) =>
+    groupHtml(
+      t(group.labelKey),
+      group.ids.map((id) => optionHtml(id, critterLabel(id))).join(""),
+    ),
+  ).join("")
+}
+
+export function inspectItemSelectHtml(): string {
+  return groupHtml(
+    t("editor.envKit.items"),
+    ALL_ITEMS.map((id) => optionHtml(id, itemLabel(id))).join(""),
+  )
 }
 
 export function envTokenLabel(token: string): string {

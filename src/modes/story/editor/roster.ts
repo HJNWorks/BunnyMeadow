@@ -56,6 +56,30 @@ const ITEMS_BY_BIOME: Record<string, string[]> = {
 export const ALL_CRITTERS = Object.keys(CRITTER_LABELS)
 export const ALL_ITEMS = Object.keys(ITEM_LABELS)
 
+export type CritterGroup = {
+  id: string
+  labelKey: string
+  ids: string[]
+}
+
+export const CRITTER_GROUPS: CritterGroup[] = [
+  {
+    id: "ch1",
+    labelKey: "editor.critterGroup.ch1",
+    ids: ["fox", "hedgehog", "crow", "squirrel", "frog", "heron", "cat", "owl", "goat"],
+  },
+  {
+    id: "moon",
+    labelKey: "editor.critterGroup.moon",
+    ids: ["frost_wisp", "ice_spit", "gale_magpie", "dust_mite", "star_wisp", "pestle_sentry"],
+  },
+  {
+    id: "later",
+    labelKey: "editor.critterGroup.later",
+    ids: ["bees", "tortoise", "boar"],
+  },
+]
+
 function splitList(all: string[], native: string[]): { native: string[]; other: string[] } {
   const seen = new Set(native)
   return {

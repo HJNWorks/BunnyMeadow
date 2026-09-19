@@ -35,7 +35,7 @@ Wildlife (Story):
 | Creature | Archetype | Notes |
 | --- | --- | --- |
 | frost wisp | swarm | Slow cloud. Dash passes through |
-| ice spit | ranged_lob | Frost pebble on an arc |
+| ice spit | ranged_lob | Frost pebble along an aim ray |
 | gale magpie | diver | Ordinary wind-borne wildlife. Not a Qixi plot |
 
 Folk event: Closing Gale (left chase wall on 4-3). Not a named immortal HP bar.

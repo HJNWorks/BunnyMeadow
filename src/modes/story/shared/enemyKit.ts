@@ -10,6 +10,44 @@ type EnemyKit = {
   fly?: boolean
 }
 
+const RADIAL_SPAWN = 28
+
+export function fireRadialShot(
+  scene: Phaser.Scene,
+  projectiles: Phaser.Physics.Arcade.Group,
+  ox: number,
+  oy: number,
+  ang: number,
+  speed: number,
+  key: string,
+  dw: number,
+  dh: number,
+  opts?: { tint?: number; rotOff?: number; lifeMs?: number; depth?: number },
+): Phaser.Physics.Arcade.Image {
+  const x = ox + Math.cos(ang) * RADIAL_SPAWN
+  const y = oy + Math.sin(ang) * RADIAL_SPAWN
+  const shot = scene.physics.add.image(x, y, key)
+  shot.setDisplaySize(dw, dh)
+  shot.setRotation(ang + (opts?.rotOff ?? 0))
+  shot.setDepth(opts?.depth ?? 5)
+  if (opts?.tint !== undefined) {
+    shot.setTint(opts.tint)
+  }
+  const body = shot.body as Phaser.Physics.Arcade.Body
+  body.setAllowGravity(false)
+  body.setVelocity(Math.cos(ang) * speed, Math.sin(ang) * speed)
+  projectiles.add(shot)
+  const lifeMs = opts?.lifeMs
+  if (lifeMs && lifeMs > 0) {
+    scene.time.delayedCall(lifeMs, () => {
+      if (shot.active) {
+        shot.destroy()
+      }
+    })
+  }
+  return shot
+}
+
 const KITS: Record<string, EnemyKit> = {
   fox: { texture: "story_critter_fox", source: "story_fox", w: 48, h: 36, archetype: "chaser", speed: 90 },
   hedgehog: { texture: "story_critter_hedgehog", source: "story_hedgehog", w: 40, h: 32, archetype: "patrol", speed: 45 },
@@ -223,22 +261,28 @@ export function updateEnemies(
       }
     } else if (arch === "ranged_lob") {
       let cd = Number(enemy.getData("cooldown") || 0) - dt
-      if (cd <= 0 && Math.abs(target.x - enemy.x) < 420) {
-        const ice = enemy.getData("id") === "ice_spit" || enemy.getData("id") === "pestle_sentry"
-        const shot = scene.physics.add.image(enemy.x, enemy.y, ice ? "story_frost" : "story_bunny")
-        shot.setDisplaySize(ice ? 28 : 14, ice ? 12 : 14)
-        if (enemy.getData("id") === "pestle_sentry") {
-          shot.setTint(0x8a8e92)
-        } else if (!ice) {
+      const id = String(enemy.getData("id") || "")
+      const radial = id === "ice_spit" || id === "pestle_sentry"
+      const dx = target.x - enemy.x
+      const dy = target.y - enemy.y
+      const reach = radial ? Math.hypot(dx, dy) : Math.abs(dx)
+      if (cd <= 0 && reach < 420) {
+        if (radial) {
+          const ang = Math.atan2(dy, dx)
+          fireRadialShot(scene, projectiles, enemy.x, enemy.y, ang, 220, "story_frost", 28, 12, {
+            tint: id === "pestle_sentry" ? 0x8a8e92 : undefined,
+            lifeMs: 2000,
+          })
+        } else {
+          const shot = scene.physics.add.image(enemy.x, enemy.y, "story_bunny")
+          shot.setDisplaySize(14, 14)
           shot.setTint(0x4a3a2a)
+          const n = Math.hypot(dx, dy) || 1
+          shot.setVelocity((dx / n) * 220, (dy / n) * 180 - 80)
+          projectiles.add(shot)
+          scene.time.delayedCall(2000, () => shot.destroy())
         }
-        const dx = target.x - enemy.x
-        const dy = target.y - enemy.y
-        const n = Math.hypot(dx, dy) || 1
-        shot.setVelocity((dx / n) * 220, (dy / n) * 180 - 80)
-        projectiles.add(shot)
-        scene.time.delayedCall(2000, () => shot.destroy())
-        cd = ice ? 1.7 : 1.8
+        cd = radial ? 1.7 : 1.8
       }
       enemy.setData("cooldown", cd)
       enemy.setVelocityX(0)
