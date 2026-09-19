@@ -26,6 +26,9 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- World Map paintings decode in Preload. Story Path mounts the cached image so the
+  frame does not sit empty while `Story-Background.png` or `Story-Background-ch2.png`
+  fetches.
 - Guanghan exit (docs): Yue and the kits take the crane home. Mei jumps Han's grown
   moon as the inner gate into Chapter 2. Live epilogue i18n is unchanged until the
   moon pad ships.

@@ -2,6 +2,7 @@ import Phaser from "phaser"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 import { t } from "../core/i18n"
 import { getAudio } from "../core/audio"
+import { preloadStoryMapArt } from "../modes/story/mapArt"
 
 export class TitleScene extends Phaser.Scene {
   constructor() {
@@ -10,6 +11,7 @@ export class TitleScene extends Phaser.Scene {
 
   create(): void {
     getAudio().playMusic("menu")
+    void preloadStoryMapArt()
     const { root } = mountDomShell(
       this,
       `

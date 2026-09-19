@@ -23,6 +23,7 @@ import {
   type StoryStation,
   type StoryWorldId,
 } from "./path"
+import { mountStoryMapArt } from "./mapArt"
 
 const MAP_LAYOUT_KEY = "bunnymeadow.storyMapLayout"
 
@@ -43,11 +44,20 @@ const PATH_CSS = `
   aspect-ratio: 1672 / 941;
   min-height: 0;
   border-color: #3d456088;
-  background-color: #1a2233;
-  background-image: var(--story-map-art);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background: var(--bm-bg);
+}
+.story-path-frame.is-art .story-path-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: 0;
+}
+.story-path-frame.is-art:not(.is-art-ready) .story-path-art,
+.story-path-frame.is-art:not(.is-art-ready) .story-path-node {
+  visibility: hidden;
 }
 .story-path-svg, .story-ink-svg { width: 100%; height: 420px; display: block; }
 .story-path-frame.is-art .story-ink-svg { display: none; }
@@ -222,8 +232,6 @@ export class WorldMapScene extends Phaser.Scene {
       ghostInk: "#6f804844",
     })
 
-    const artFile = this.chapter === "ch2" ? "Story-Background-ch2.png" : "Story-Background.png"
-    const artUrl = `${import.meta.env.BASE_URL}${artFile}`
     const nodes = worlds
       .map((world) => {
         const unlocked = isWorldUnlocked(save, world.id)
@@ -276,7 +284,7 @@ export class WorldMapScene extends Phaser.Scene {
         <h1>${t(`story.path.title.${this.chapter}`)}</h1>
         <p class="bm-tagline" data-ui="pathTagline">${t(`story.path.tagline.${this.chapter}`)}</p>
         <div class="story-path-chapters">${chapterChips}</div>
-        <div class="story-path-frame${this.layout === "art" ? " is-art" : ""}" data-ui="frame" style="--story-map-art: url('${artUrl}')">
+        <div class="story-path-frame${this.layout === "art" ? " is-art" : ""}" data-ui="frame">
           ${inkSvg}
           ${nodes}
         </div>
@@ -306,6 +314,10 @@ export class WorldMapScene extends Phaser.Scene {
     )
 
     this.beatRoot = requireEl<HTMLElement>(root, "[data-ui=beat]")
+    const frame = requireEl<HTMLElement>(root, "[data-ui=frame]")
+    if (this.layout === "art") {
+      mountStoryMapArt(frame, this.chapter)
+    }
     const rail = requireEl<HTMLElement>(root, "[data-ui=rail]")
     const tagline = requireEl<HTMLElement>(root, "[data-ui=pathTagline]")
 
