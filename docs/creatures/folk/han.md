@@ -7,8 +7,9 @@ LORE: [invented](../../LORE.md) (same license as Heron Fisher). Story: [../../ST
 
 An old ghost of Vast Cold. He is the palace's habit of keeping guests, not a named
 figure from the ledger. Chang'e, Yue, Yutu, Wu Gang, and the moon toad stay off this
-HP bar. After he settles, a moon grows at his last place and the existing gift beat
-still plays.
+HP bar. After he settles, a moon grows at his last place. That moon is the inner
+gate into Chapter 2. Yue and the kits go home. Mei jumps on it. The gift beat
+still plays first.
 
 ## Boss encounter
 
@@ -29,7 +30,8 @@ Projectiles stay night-themed and fire from Han toward Mei as a radial fan:
   A beam is queued again when this stage begins.
 - 0: Han is pulled into an inward spiral at his last position. An outward spiral grows a
   large moon there (visual only, not a solid). Then settled. Exit and the four epilogue
-  cards are unchanged.
+  cards are unchanged. Later: the moon is a contact pad. Jumping it unlocks Chapter 2
+  ([../../story/chapters.md](../../story/chapters.md)). It is not an Earth-to-moon portal.
 
 Spike fan timing and counts are unchanged from the first live fight. The beam is a long tracking rectangle, not a projectile. It leaves from the half-moon on Han's helmet. Platforms and walls clip it, so Mei can hide. The impact leaves a spark, rising embers, and a fading scorch trail. On the last heart the hot slab lasts 5.5 s and damages every registered ledge it crosses (three crack stages and a darken, then the collider drops). Reduced motion keeps one mark. Dash i-frames still apply. Reduced motion shortens the charge and skips spiral motes.
 

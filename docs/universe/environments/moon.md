@@ -17,7 +17,9 @@ of Vast Cold. Hub: [../README.md](../README.md). Finale beats: [../../STORY.md](
 
 Low gravity, layered roofs, and a duck-and-dash gauntlet against Han, an old ghost of
 Vast Cold. Floats replace running. Falls read as gentle drifts, not deaths. The gift
-beat and epilogue still play after he settles.
+beat still plays after he settles. Yue and the kits take the crane home. Mei jumps
+Han's moon into Chapter 2. Outer Cold reuses this palette
+([outer-cold.md](outer-cold.md)).
 
 ## Roster
 

@@ -18,8 +18,8 @@ Status values:
 | Primary tradition | Chinese. Earliest literary account in Huainanzi (淮南子), 2nd c. BCE |
 | What the source says | Wife of the archer Hou Yi. Drank the immortality elixir obtained from Xiwangmu (Queen Mother of the West) and rose to the moon. Lives in loneliness on the lunar surface |
 | Palace name | Guanghan Gong (廣寒宮, Palace of Vast Cold). Name attested in later literature including Journey to the West |
-| Game use | Mentor voice through water reflections. Lonely emotional core. Asks Mei to stay in the finale |
-| URLs | [Chang'e (Wikipedia)](https://en.wikipedia.org/wiki/Chang%27e), [International Dunhuang Programme](https://idp.bl.uk/discover/learning/chinese-astronomy/articles/astrology-and-myth/chang-e-or-the-archer-and-the-moon-goddess/), [Huainanzi](https://en.wikipedia.org/wiki/Huainanzi) |
+| Game use | Mentor voice through water reflections. Lonely emotional core. Asks Mei to stay after Han settles. Ordinary Moon Pools stay this channel. The One Moon Pool is the exception |
+| URLs | [Chang'e (Wikipedia)](https://en.wikipedia.org/wiki/Chang%27e), [Guanghan Palace (Wikipedia)](https://en.wikipedia.org/wiki/Guanghan_Palace), [International Dunhuang Programme](https://idp.bl.uk/discover/learning/chinese-astronomy/articles/astrology-and-myth/chang-e-or-the-archer-and-the-moon-goddess/), [Huainanzi](https://en.wikipedia.org/wiki/Huainanzi) |
 
 ### Jade Rabbit / Yutu (玉兔)
 
@@ -29,7 +29,7 @@ Status values:
 | Primary tradition | Chinese moon rabbit |
 | What the source says | Companion of Chang'e. Pounds medicine or the elixir with mortar and pestle on the moon |
 | Guard | Chinese tradition only. Do not import the Japanese mochi-pounding rabbit (Tsuki no Usagi) or mochi into this setting. Mooncakes are correct. Mochi is not |
-| Game use | Comic NPC in the Moon Palace. Looks after Yue |
+| Game use | Comic NPC in Guanghan. Looks after Yue. Chapter 2 Mortar Yard is his elixir work, not a kitchen |
 | URLs | [Moon rabbit (Wikipedia)](https://en.wikipedia.org/wiki/Moon_rabbit), [People's Daily, three faces of the Chinese rabbit](https://en.people.cn/n3/2023/0122/c90000-10199068.html) |
 
 ### Wu Gang (吳剛)
@@ -39,7 +39,7 @@ Status values:
 | Status | canon |
 | Primary tradition | Chinese. Tang-dynasty and later popular lore |
 | What the source says | Woodcutter banished to the moon. Chops an osmanthus (cassia) tree that heals itself after every blow |
-| Game use | Finale NPC under the self-healing tree. One hint, then keeps chopping |
+| Game use | Guanghan NPC under the self-healing tree. Chapter 2 Cassia Wound treats that tree as a region |
 | URLs | [Wu Gang (Wikipedia)](https://en.wikipedia.org/wiki/Wu_Gang) |
 
 ### Moon toad / chanchu (蟾蜍)
@@ -49,7 +49,7 @@ Status values:
 | Status | canon (optional background) |
 | Primary tradition | Chinese. Han dynasty. Mawangdui funeral banners. Zhang Heng, Lingxian |
 | What the source says | Oldest moon companion in Chinese visual tradition. Three-legged toad on the lunar disc. Later largely replaced in popular telling by the Jade Rabbit |
-| Game use | Optional background NPC in Guanghan Palace. Never the antagonist |
+| Game use | Optional background in Guanghan and Chapter 2 Quiet Wells. Never an HP bar |
 | URLs | [Chang'e (Wikipedia)](https://en.wikipedia.org/wiki/Chang%27e), Dunhuang Programme article above |
 
 ### Tu'er Ye / Lord Rabbit (兔兒爺)
@@ -93,6 +93,16 @@ Status values:
 | Game use | Calendar frame for the prologue and World 3 (Lantern Village, Osmanthus Peak). Ties the moon tree to the festival |
 | URLs | [Mid-Autumn Festival (Wikipedia)](https://en.wikipedia.org/wiki/Mid-Autumn_Festival) |
 
+### Xiwangmu / Queen Mother of the West (西王母)
+
+| Field | Value |
+| --- | --- |
+| Status | canon (Chapter 3 background only. Not dramatized yet) |
+| Primary tradition | Chinese. Immortal court on Kunlun. Source of Chang'e's elixir in common tellings |
+| What the source says | Queen Mother of the West. Holds peaches of immortality. Hou Yi obtained elixir from her. Cranes and other immortal travel belong to her court |
+| Game use | Preferred Chapter 3 ascent after the One Moon Pool. Do not name Chapter 3 yet. Do not put her on an HP bar |
+| URLs | [Queen Mother of the West (Wikipedia)](https://en.wikipedia.org/wiki/Queen_Mother_of_the_West) |
+
 ### Hou Yi and the ten suns
 
 | Field | Value |
@@ -102,6 +112,16 @@ Status values:
 | What the source says | Archer Hou Yi shot down nine of ten suns that scorched the earth. Rewarded with elixir (via Xiwangmu in common tellings) |
 | Game use | One optional dialogue line. Not dramatized |
 | URLs | [Chang'e (Wikipedia)](https://en.wikipedia.org/wiki/Chang%27e), Dunhuang Programme article |
+
+### Star raft (星槎)
+
+| Field | Value |
+| --- | --- |
+| Status | adapted (optional wreck. Not dramatized as a vehicle yet) |
+| Primary tradition | Chinese. Immortal raft / star raft as a means of heavenly travel |
+| What the source says | Immortals travel by crane, cloud, or raft among the stars. Not a machine from Earth |
+| Adaptation | Optional wreck on Dust Sea. Scenery. Not a spaceship. Not an Earth colony |
+| URLs | [Cranes in Chinese mythology](https://en.wikipedia.org/wiki/Cranes_in_Chinese_mythology) |
 
 ### Sasa Jataka (Jataka 316)
 
@@ -119,10 +139,12 @@ Status values:
 | --- | --- | --- |
 | Mei | Eldest kit of the burrow. Player avatar. Talks to the Moon through water | Chang'e's loneliness and authority |
 | Yue | Youngest kit. Glows faintly. Mistaken for a fallen moon blossom | No predator kidnapping. Misunderstanding only |
-| Moon Pools | Checkpoint puddles that awaken on contact and speak with Chang'e's voice in the HUD ticker | Reflections as the only channel. Short line, no freeze card |
+| Moon Pools | Checkpoint puddles that awaken on contact and speak with Chang'e's voice in the HUD ticker | Reflections as the only channel on ordinary pools. Short line, no freeze card |
+| One Moon Pool | Invented. First true pool. Chapter 2 Far Silver exit into untitled Chapter 3 | Must not replace Chang'e's reflection rule on ordinary pools. Map title stays Far Silver. Do not print portal |
+| Lunar fauna | Invented moon wildlife with odd silhouettes and folk names (dust mites, crater crabs, star wisps) | Not NASA colonies. Not named immortals. Chang'e, Yue, Yutu, Wu Gang, moon toad stay off HP bars |
 | Osmanthus blossom fall | A glowing blossom from Wu Gang's tree drifts to earth and starts the plot | Wu Gang's tree is canon. The fall event is invented |
 | Heron Fisher | World 2 boss. Invented animal antagonist | Fine. Herons are ordinary wildlife, not folklore deities |
-| Han | Moon boss. Old invented ghost of Vast Cold. The palace's habit of keeping guests | Must not be Chang'e, Yue, Yutu, Wu Gang, or the moon toad. No fire or water kit |
+| Han | Moon boss. Old invented ghost of Vast Cold. The palace's habit of keeping guests. His grown moon is the inner gate Mei jumps to enter Chapter 2 | Must not be Chang'e, Yue, Yutu, Wu Gang, or the moon toad. No fire or water kit. Not an Earth-to-moon portal. Guanghan is already the palace |
 | Cloud Stair (云梯) | Invented geography between Osmanthus Peak and Guanghan. Crane drop-off, then a walk | Must not replace the palace or Chang'e's authority. Fengbo is not dramatized |
 | Frost wisps (霜魄) | Invented ice spirits on the Cloud Stair | Not canon snow gods |
 | Closing Gale | Invented weather event. Left chase wall on World 4-3 | Not a named immortal HP bar. Not Chang'e throwing weather |
@@ -133,6 +155,7 @@ Status values:
 | Element | Status |
 | --- | --- |
 | Chang'e | canon |
+| Xiwangmu / Kunlun | canon (Chapter 3 background) |
 | Guanghan Gong | canon |
 | Jade Rabbit / Yutu | canon |
 | Wu Gang + osmanthus tree | canon |
@@ -143,5 +166,7 @@ Status values:
 | Fox Hu | adapted |
 | Mid-Autumn props (mooncakes, lanterns, osmanthus) | canon |
 | Japanese mochi rabbit | forbidden |
+| NASA colonies, flying saucers, abandoned Earth bases | forbidden |
 | Sasa Jataka gift beat | invented inspiration (labeled) |
-| Mei, Yue, Moon Pools, Heron Fisher, Han, Cloud Stair, frost wisps, Closing Gale | invented |
+| Mei, Yue, Moon Pools, One Moon Pool, lunar fauna, Heron Fisher, Han, Cloud Stair, frost wisps, Closing Gale | invented |
+| Star raft (星槎) | adapted (optional wreck) |

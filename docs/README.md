@@ -8,7 +8,7 @@ page opens with what it is and links back to its hub.
 ## Reading order
 
 1. [GDD.md](GDD.md) - what the game is, modes, scope guards.
-2. [STORY.md](STORY.md) and [LORE.md](LORE.md) - the one-night ascent and its folklore ledger.
+2. [STORY.md](STORY.md), [story/chapters.md](story/chapters.md), and [LORE.md](LORE.md) - the climb, chapter layer, and folklore ledger.
 3. [universe/README.md](universe/README.md) - the Ladder: how every environment is derived from the story.
 4. [creatures/README.md](creatures/README.md) - the bestiary: wildlife, folk, kits.
 5. [items/README.md](items/README.md) - collectibles and their rules.
@@ -24,8 +24,10 @@ page opens with what it is and links back to its hub.
 docs/
   README.md            this index
   GDD.md               game design overview (hub)
-  STORY.md             one-night narrative spine
+  STORY.md             narrative spine (Chapter 1 live)
   story/
+    chapters.md        Chapter 1 live, 2 planned, 3 untitled
+    chapter2-map-prompt.md  paste-ready Chapter 2 painting prompt
     proximity.md       contact vs proximity vs volume triggers
   editor/
     README.md          story map editor

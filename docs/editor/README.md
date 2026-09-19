@@ -44,6 +44,8 @@ To add a shape: extend `DashParticleShape`, draw it in `src/fx/dash/canvasFx.ts`
 
 Build bar: Play, Build, Set active, Copy JSON, Back to Settings. World, station, Environment, and Creatures are white select bars. Selection and Look stay as panels. Settings only has Open.
 
+Later: a **Chapter** dropdown left of World (insert beside the World/Station selects in `src/modes/story/editor/BuildHud.ts`). Chapter 1 lists live worlds. Chapter 2 and 3 list planned worlds (disabled or empty until levels exist). No code in this pass. Hub: [../story/chapters.md](../story/chapters.md).
+
 Object Addition: Environment and Creatures are optgroup selects (All plus each world). Environment covers platforms, walls, bridges, water, decor, and items. Creatures lists every wildlife id in `roster.ts`.
 
 Wall is the green collision slab. Hedge/vine art is a separate selectable decor object (`overlay.decor`). Water is a first-class hazard (`overlay.hazards`) with current. Burrow exit and Moon Pool are **contact** with the visible sprite. Water is a **volume**. Optional overlay field on decor and hazards:

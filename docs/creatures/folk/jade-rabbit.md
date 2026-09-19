@@ -7,7 +7,8 @@ LORE: [canon](../../LORE.md#jade-rabbit--yutu-玉兔). Story: [../../STORY.md](.
 
 Chang'e's companion on the Moon, who pounds the elixir with mortar and pestle. In the
 finale he is the comic NPC who has been looking after Yue in the palace, which is how
-the player learns the missing kit was always safe.
+the player learns the missing kit was always safe. Chapter 2 Mortar Yard is that work
+as a region. Not a kitchen.
 
 ## Guard
 

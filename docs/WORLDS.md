@@ -1,6 +1,8 @@
 # Bunny Meadow — Worlds and Environments
 
-Story first release: 4 worlds x 3 levels plus moon finale. Hub is the burrow.
+Chapter 1 (live): 4 worlds x 3 levels plus moon finale. Chapter 2 and 3 are planned.
+Hub of chapters: [story/chapters.md](story/chapters.md). Hub of the climb is the burrow
+until Mei stays on the moon.
 
 This page is the story path map. Trigger kinds for burrow, Moon Pool, and water are in [story/proximity.md](story/proximity.md). The full derived world model, with one page per environment
 and how Endless walks between them, lives in [universe/README.md](universe/README.md)
@@ -20,13 +22,22 @@ Shared by Meadow, Story, Tasks, Endless. Each kit: tileset, palette, parallax la
 | lantern | Lantern Village | night | Festival stalls, lanterns |
 | osmanthus | Osmanthus Peak | night | Wind, blossom fall, tiger path |
 | cloudsea | Cloud Sea | deep night | Cloud Stair, hanging bridges, frost, void |
-| moon | Moon Garden | eternal night | Low gravity, Guanghan Palace, Wu Gang's tree |
+| moon | Moon Garden | eternal night | Low gravity, Guanghan Palace, Wu Gang's tree. Outer Cold reuses this kit |
+| cassia | Cassia Wound | eternal night | planned. Self-healing osmanthus region |
+| mortar | Mortar Yard | eternal night | planned. Elixir pestle yard, not a kitchen |
+| dustsea | Dust Sea | eternal night | planned. Crater plains, invented fauna |
+| wells | Quiet Wells | eternal night | planned. Cold caves, toad as background |
+| farsilver | Far Silver | eternal night | planned. One Moon Pool. Do not title the card Portal |
 
 ## Story path map
 
-Story opens on an HTML/SVG landscape path from burrow toward the moon. Worlds are nodes. Expanding a live world shows its stations. Locked later worlds stay visible as dim nodes.
+Story opens on an HTML landscape painting. Chapter 1 uses `Story-Background.png`.
+Chapter 2 later uses `Story-Background-ch2.png`. Worlds are nodes. Expanding a live
+world shows its stations. Locked later worlds stay visible as dim nodes.
 
-Path progress: Worlds 1–4 each expose three clearable stations (two platformers + boss or chase). Guanghan unlocks after Closing Gale. Next world (and the moon) unlock only after that world's last station is cleared. Saves that cleared W1 2/2 before Cart Chase remain on World 1 until Cart is done.
+Path progress (Chapter 1): Worlds 1–4 each expose three clearable stations (two platformers + boss or chase). Guanghan unlocks after Closing Gale. Next world (and the moon) unlock only after that world's last station is cleared. Saves that cleared W1 2/2 before Cart Chase remain on World 1 until Cart is done. Chapter 2 unlocks when Mei lands on Han's grown moon (today: Guanghan clear + epilogue. Later: moon collider).
+
+### Chapter 1 — Burrow to Moon (live)
 
 ### World 0 — Burrow Eve
 
@@ -74,7 +85,26 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| M-1 Guanghan | moon | low gravity, duck roofs, mooncake warmth dash vs Han | DomShell epilogue + MOON_RETURN | live |
+| M-1 Guanghan | moon | low gravity, duck roofs, mooncake warmth dash vs Han | Gift beat. Yue and kits go home. Mei jumps Han's moon (today: epilogue cards). `MOON_RETURN` | live |
+
+### Chapter 2 — Journey on Moon (planned)
+
+Display title stays vague. Unlock: Han's moon after Guanghan. Painting prompt: [story/chapter2-map-prompt.md](story/chapter2-map-prompt.md).
+
+| World | Env page | Teach (working) | Exit | Status |
+| --- | --- | --- | --- | --- |
+| Outer Cold | [outer-cold.md](universe/environments/outer-cold.md) | leave the palace gardens | next world | planned |
+| Cassia Wound | [cassia-wound.md](universe/environments/cassia-wound.md) | living wood | next world | planned |
+| Mortar Yard | [mortar-yard.md](universe/environments/mortar-yard.md) | pestle beats, cakes | next world | planned |
+| Dust Sea | [dust-sea.md](universe/environments/dust-sea.md) | crater drifts, invented fauna | next world | planned |
+| Quiet Wells | [quiet-wells.md](universe/environments/quiet-wells.md) | cold caves | next world | planned |
+| Far Silver | [far-silver.md](universe/environments/far-silver.md) | One Moon Pool | Chapter 3 | planned |
+
+Station lists and `ART_POS` percents wait for the painting. Do not invent button x/y yet.
+
+### Chapter 3 — untitled (planned)
+
+Starts at Far Silver. Working choice: ascent toward Xiwangmu / Kunlun. No world table yet.
 
 ## Meadow maps (arcade)
 

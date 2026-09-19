@@ -8,6 +8,9 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Story chapters as a layer above Worlds (docs only). Chapter 1 is the live
+  Burrow-to-Moon path. Chapter 2 Journey on Moon and untitled Chapter 3 are
+  planned. Hub: [docs/story/chapters.md](docs/story/chapters.md).
 - Shared pad catalog under [docs/platforms/](docs/platforms/README.md): collision,
   motion (including slide), surface, and break as stacked axes for Story, Endless,
   and Bunny Jump.
@@ -20,6 +23,9 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Guanghan exit (docs): Yue and the kits take the crane home. Mei jumps Han's grown
+  moon as the inner gate into Chapter 2. Live epilogue i18n is unchanged until the
+  moon pad ships.
 - Last-heart Han beam damages every registered ledge the hot slab crosses. Thin
   Guanghan ledges take stone even if an editor overlay omitted `break`. Cracks
   darken the tile from the first contact.

@@ -1,19 +1,21 @@
 # Bunny Meadow — The Universe
 
 This is the world model. It explains how every environment in the game is derived
-from one story: Mei's climb from the burrow to the moon on the night of the
-Mid-Autumn Festival. Hub: [../GDD.md](../GDD.md). Narrative: [../STORY.md](../STORY.md).
-Folklore backing: [../LORE.md](../LORE.md).
+from one story: Mei's climb from the burrow to Guanghan, then onward across the moon.
+Hub: [../GDD.md](../GDD.md). Narrative: [../STORY.md](../STORY.md).
+Folklore backing: [../LORE.md](../LORE.md). Chapters: [../story/chapters.md](../story/chapters.md).
 
-The universe is not a set of unrelated levels. It is a single vertical journey,
-"the Ladder", cut into rungs. Story mode walks the canonical rungs in order.
-Endless walks a seeded route through the same rungs. Meadow and the Meadow-canvas
-Moon Tasks borrow individual rungs as backdrops. Bunny Jump walks the clock by
-height on the same palettes.
+The universe is not a set of unrelated levels. It is a vertical journey,
+"the Ladder", cut into rungs for Chapter 1. After rung 8 the journey continues
+*across* the moon. It does not climb Earth again. Story mode walks the canonical
+rungs in order, then the planned Chapter 2 lunar worlds. Endless walks a seeded
+route through the Earth rungs. Meadow and the Meadow-canvas Moon Tasks borrow
+individual rungs as backdrops. Bunny Jump walks the clock by height on the same
+palettes.
 
 ## The Ladder
 
-One night, one ascent. The rungs, low to high:
+One night, one ascent to Guanghan, then lunar country. Chapter 1 rungs, low to high:
 
 | Rung | Environment | Altitude | Hour | Status |
 | --- | --- | --- | --- | --- |
@@ -26,6 +28,17 @@ One night, one ascent. The rungs, low to high:
 | 6 | Osmanthus Peak | mountain | deep night | live |
 | 7 | Cloud Sea | sky | deep night | live (Story) |
 | 8 | Moon Garden | moon | eternal night | live |
+
+Chapter 2 (planned, still altitude moon, eternal night). Does not re-enter Earth rungs:
+
+| After 8 | Environment | Status |
+| --- | --- | --- |
+| Outer Cold | palace gardens beyond Guanghan. Reuses `moon` | planned |
+| Cassia Wound | Wu Gang's tree as a region | planned |
+| Mortar Yard | Yutu's elixir yard | planned |
+| Dust Sea | crater plains | planned |
+| Quiet Wells | cold caves | planned |
+| Far Silver | One Moon Pool | planned |
 
 Riverbank sits at a valley floor between hills and foothills: the climb dips to
 cross water before rising to the festival town. That dip is deliberate and lets the
@@ -59,7 +72,7 @@ Derivation rules:
 
 | Mode | Route through the Ladder |
 | --- | --- |
-| Story | Fixed. World 0 = rung 0/1 stations, World 1 = rungs 1-2, World 2 = rungs 3-4, World 3 = rungs 5-6, World 4 = rung 7, finale = rung 8. See [../WORLDS.md](../WORLDS.md). |
+| Story | Fixed. Chapter 1: World 0 = rung 0/1 stations, World 1 = rungs 1-2, World 2 = rungs 3-4, World 3 = rungs 5-6, World 4 = rung 7, finale = rung 8. Chapter 2 walks Outer Cold through Far Silver ([../story/chapters.md](../story/chapters.md)). See [../WORLDS.md](../WORLDS.md). |
 | Endless | Seeded. A route walker steps between adjacent rungs; band lengths and altitude weighting come from difficulty. See [../modes/endless/design.md](../modes/endless/design.md). |
 | Meadow (arcade) | Single rung as a top-down backdrop, chosen by map. |
 | Moon Tasks | Night Watch and Hide and Seek: one Meadow rung. Bunny Jump walks the clock by height ([timeline.md](timeline.md)). |
@@ -70,5 +83,6 @@ Derivation rules:
   bridge chunk on each edge, and the rules the Endless route walker follows.
 - [timeline.md](timeline.md) - the one night as a clock: where each world and each
   Endless band sits in time, so hour transitions stay coherent.
-- [environments/](environments/) - one page per rung with its five axes filled in,
-  its roster, item table, and render notes.
+- [environments/](environments/) - one page per environment with its five axes
+  filled in, roster, item table, and render notes. Chapter 1 rungs plus planned
+  Chapter 2 pages (Outer Cold through Far Silver).

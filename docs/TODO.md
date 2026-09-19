@@ -1,0 +1,16 @@
+- story:
+    - Chapters: [story/chapters.md](story/chapters.md). Chapter 1 live. Chapter 2 Journey on Moon planned. Chapter 3 untitled (ascent toward Xiwangmu).
+    - Later code: `StoryChapterId`, `listChapters()`, World Map chapter switcher, Han moon collider, `Story-Background-ch2.png`, editor Chapter select left of World.
+
+- moon tasks:
+    - bunny jump
+        - == doodle jump
+    - bunny up:
+        - == only-up
+        - simulate only-up with our game engine 
+            - you get higher an higer in meters, but you can fall down to the very bottom at any time. 
+            - again path from burrow to moon.
+    - endless (goes here)
+    - meadow
+    - night watch
+    - hide and seek

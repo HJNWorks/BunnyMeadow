@@ -2,7 +2,7 @@
 
 Working title: **Bunny Meadow and the Moon**
 
-Tone: family. No death. No predator kidnapping. A kit goes missing by misunderstanding. Every folklore name links to [LORE.md](LORE.md).
+Tone: family. No death. No predator kidnapping. A kit goes missing by misunderstanding. Every folklore name links to [LORE.md](LORE.md). Chapters sit above worlds: [story/chapters.md](story/chapters.md).
 
 Dialogue rule: two lines max per exchange. Skippable. Moon Pool lines are one line from Chang'e in the HUD ticker. Crane bow still uses the two-line freeze card. Trigger kinds: [story/proximity.md](story/proximity.md).
 
@@ -15,13 +15,15 @@ Dialogue rule: two lines max per exchange. Skippable. Moon Pool lines are one li
 | Chang'e (the Moon) | Mentor through water reflections. Gentle, lonely | [canon](LORE.md#change-嫦娥) |
 | Jade Rabbit (Yutu) | Moon Palace NPC. Pounds the elixir. Looks after Yue | [canon](LORE.md#jade-rabbit--yutu-玉兔) |
 | Crane Envoy | Moon's messenger. Antagonist by mistake | [adapted](LORE.md#cranes-as-immortal-messengers) |
-| Han | Old ghost of Vast Cold. Palace habit of keeping guests | invented |
+| Han | Old ghost of Vast Cold. Palace habit of keeping guests. Grown moon is the Chapter 2 gate | invented |
 | Fox Hu | Recurring trickster. Steals carrots | [adapted](LORE.md#fox-spirits--huli-jing-狐狸精) |
 | Lord Rabbit (Tu'er Ye) | World 3 ally on his tiger | [canon](LORE.md#tuer-ye--lord-rabbit-兔兒爺) |
 | Wu Gang | Finale NPC. Chops the self-healing osmanthus tree | [canon](LORE.md#wu-gang-吳剛) |
 | Moon toad | Optional background in the palace | [canon](LORE.md#moon-toad--chanchu-蟾蜍) |
 
 ## Story spine
+
+Live spine is **Chapter 1 — Burrow to Moon**. Chapter 2 and 3 are planned.
 
 ### 0. World 0 — Burrow Eve (stations, no platforming)
 
@@ -125,11 +127,23 @@ After Han settles, Chang'e asks Mei to stay because the palace is quiet ([loneli
 
 Mei offers a mooncake and a promise: every full moon the burrow will look up and wave. Gift beat inspired by [Sasa Jataka](LORE.md#sasa-jataka-jataka-316) (labeled, not Chinese canon).
 
-Chang'e lets them go. The crane carries them home.
+Chang'e keeps the gift. The crane carries Yue and the kits home. Mei does not ride that crane. She jumps onto Han's grown moon. That landing is the inner gate into lunar country beyond the palace. It unlocks Chapter 2. Guanghan is already on the moon. Han's moon is not first arrival from Earth.
 
-### Epilogue
+Today the grown moon is visual only. Exit is still the four epilogue cards. Later: collider. Jump after the gift beat.
 
-Why rabbits sit and watch the moon. Family reunion under the full moon. Fade on waving kits.
+### Epilogue (Chapter 1)
+
+Why rabbits sit and watch the moon. The burrow reunion is Yue's. Mei remains in Vast Cold. Fade on waving kits on Earth, and Mei on the inner gate.
+
+### Chapter 2 — Journey on Moon (planned)
+
+Mei walks the lunar surface beyond Guanghan: Outer Cold, Cassia Wound, Mortar Yard, Dust Sea, Quiet Wells, Far Silver. Yutu pounds elixir in a mortar yard. He does not cook a meal. Invented fauna with folk names. Optional star raft wreck. Caves and craters. NASA colonies and spaceships stay out.
+
+Far Silver holds the [One Moon Pool](LORE.md#invented-elements-ours). Ordinary pools still speak one ticker line. This pool is the Chapter 2 exit. Map cards do not print portal.
+
+### Chapter 3 — untitled (planned)
+
+After the One Pool, working choice is ascent toward [Xiwangmu](LORE.md#xiwangmu--queen-mother-of-the-west-西王母) / Kunlun. Descend-to-save-the-kits is closed. Yue is already home.
 
 ## Moon Pool rules
 
@@ -140,6 +154,7 @@ Why rabbits sit and watch the moon. Family reunion under the full moon. Fade on 
 - Re-entering an awake pool does not replay the line. Other dormant pools on the same station still speak on first touch. Respawn in the same run keeps the awake look.
 - Editor Build does not awaken or tick. Editor Play does. Environment can add a Moon Pool. Delete removes one. Selection inspect edits that pool's line.
 - Exception: Cloud Stair 4-2 and 4-3 have no pool. A fall or a catch restarts the station.
+- Exception (planned): the One Moon Pool at Far Silver is a portal into Chapter 3. It does not speak a Chang'e checkpoint line. Ordinary Moon Pools keep the reflection rule.
 
 ## Boss encounters (summary)
 
@@ -149,8 +164,8 @@ Why rabbits sit and watch the moon. Family reunion under the full moon. Fade on 
 | 2 | Heron Fisher | Survive raft gauntlet, land a dash on the heron three times | Sporty |
 | 3 | Crane Envoy | Dodge dives, then accept the ride when it bows | Soft resolution |
 | 4 | Closing Gale | Reach the palace gate before the storm wall | Timed chase |
-| Moon | Han | Eat a mooncake, dash while warmth lasts, five spirit hearts, then the gift beat | Quiet gauntlet |
+| Moon | Han | Eat a mooncake, dash while warmth lasts, five spirit hearts, then the gift beat and Han's moon | Quiet gauntlet |
 
 ## Per-level beats
 
-See [WORLDS.md](WORLDS.md) for the 4 x 3 plus finale list with environment kits and taught mechanics.
+See [WORLDS.md](WORLDS.md) for Chapter 1 tables and the planned Chapter 2 worlds. Hub: [story/chapters.md](story/chapters.md).
