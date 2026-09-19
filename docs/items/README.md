@@ -34,6 +34,8 @@ Full entries on [catalog.md](catalog.md).
 | dew | run-buff | short slow-time | idea |
 | moon letter | key | opens the sky/moon edges in Endless | idea |
 | cosmetic drop | cosmetic | unlocks a Customize option | idea |
+| jade dew | run-buff | brief west glow. Not immortality | idea |
+| peach petal | cosmetic | blossom fleck. Not a heal | idea |
 
 ## How items reach the field
 

@@ -97,10 +97,40 @@ Status values:
 
 | Field | Value |
 | --- | --- |
-| Status | canon (Chapter 3 background only. Not dramatized yet) |
+| Status | canon (Chapter 3 court NPC. Not dramatized in code yet) |
 | Primary tradition | Chinese. Immortal court on Kunlun. Source of Chang'e's elixir in common tellings |
-| What the source says | Queen Mother of the West. Holds peaches of immortality. Hou Yi obtained elixir from her. Cranes and other immortal travel belong to her court |
-| Game use | Preferred Chapter 3 ascent after the One Moon Pool. Do not name Chapter 3 yet. Do not put her on an HP bar |
+| What the source says | Queen Mother of the West. Holds peaches of immortality. Hou Yi obtained elixir from her. Cranes and other immortal travel belong to her court. Yaochi (Jade Pool) is her banquet water |
+| Game use | Chapter 3 West of Silver. Map cards do not print Kunlun, Yaochi, portal, or 西王母. She offers a peach. Mei refuses. She is never an HP bar |
+| URLs | [Queen Mother of the West (Wikipedia)](https://en.wikipedia.org/wiki/Queen_Mother_of_the_West), [Kunlun (mythology)](https://en.wikipedia.org/wiki/Kunlun_(mythology)) |
+
+### Weak Water (弱水)
+
+| Field | Value |
+| --- | --- |
+| Status | canon (Chapter 3 geography) |
+| Primary tradition | Chinese. Water around Kunlun that will not bear a boat or a feather |
+| What the source says | Weak Water cannot be crossed by ordinary craft. Immortals use other means |
+| Game use | Chapter 3 world Weak Water. Stone fords. Not Riverbank logs. Not a kitchen |
+| URLs | [Kunlun (mythology)](https://en.wikipedia.org/wiki/Kunlun_(mythology)) |
+
+### Yaochi / Jade Pool (瑤池)
+
+| Field | Value |
+| --- | --- |
+| Status | canon (Chapter 3 geography) |
+| Primary tradition | Chinese. Xiwangmu's court pool on Kunlun |
+| What the source says | Banquet water of the west. Linked to peaches of immortality |
+| Game use | Map title stays West Pool. Do not print Yaochi. Ordinary Moon Pools stay Chang'e's channel. This pool is the court, not a checkpoint line from Chang'e |
+| URLs | [Queen Mother of the West (Wikipedia)](https://en.wikipedia.org/wiki/Queen_Mother_of_the_West) |
+
+### Azure birds (青鸟)
+
+| Field | Value |
+| --- | --- |
+| Status | adapted (Chapter 3 wildlife, idea) |
+| Primary tradition | Chinese. Messengers of Xiwangmu |
+| What the source says | Blue-green birds carry word for the Queen Mother of the West |
+| Adaptation | Ordinary diver wildlife on Peach Rows. Not Xiwangmu. Not an HP-bar folk |
 | URLs | [Queen Mother of the West (Wikipedia)](https://en.wikipedia.org/wiki/Queen_Mother_of_the_West) |
 
 ### Hou Yi and the ten suns
@@ -120,7 +150,7 @@ Status values:
 | Status | adapted (optional wreck. Not dramatized as a vehicle yet) |
 | Primary tradition | Chinese. Immortal raft / star raft as a means of heavenly travel |
 | What the source says | Immortals travel by crane, cloud, or raft among the stars. Not a machine from Earth |
-| Adaptation | Optional wreck on Dust Sea. Scenery. Not a spaceship. Not an Earth colony |
+| Adaptation | Optional wreck on Dust Sea. Scenery. Not a spaceship. Not an Earth colony. Chapter 3 west travel is crane and cloud, not this raft |
 | URLs | [Cranes in Chinese mythology](https://en.wikipedia.org/wiki/Cranes_in_Chinese_mythology) |
 
 ### Sasa Jataka (Jataka 316)
@@ -140,7 +170,10 @@ Status values:
 | Mei | Eldest kit of the burrow. Player avatar. Talks to the Moon through water | Chang'e's loneliness and authority |
 | Yue | Youngest kit. Glows faintly. Mistaken for a fallen moon blossom | No predator kidnapping. Misunderstanding only |
 | Moon Pools | Checkpoint puddles that awaken on contact and speak with Chang'e's voice in the HUD ticker | Reflections as the only channel on ordinary pools. Short line, no freeze card |
-| One Moon Pool | Invented. First true pool. Chapter 2 Far Silver exit into untitled Chapter 3 | Must not replace Chang'e's reflection rule on ordinary pools. Map title stays Far Silver. Do not print portal |
+| One Moon Pool | Invented. First true pool. Chapter 2 Far Silver exit into West of Silver | Must not replace Chang'e's reflection rule on ordinary pools. Map title stays Far Silver. Do not print portal |
+| Other Shore | Invented. Far side of the One Moon Pool | Not Earth. Not Guanghan roofs |
+| Grotto Heaven path | Invented geography using 洞天 as jade caves on the Kunlun climb | Not Quiet Wells dust. Not a burrow village |
+| Peach refusal | Invented beat. Mei refuses the peach of immortality | Xiwangmu still holds the peaches. Chang'e's loneliness stays. Mei stays mortal |
 | Lunar fauna | Invented moon wildlife with odd silhouettes and folk names (dust mites, crater crabs, star wisps) | Not NASA colonies. Not named immortals. Chang'e, Yue, Yutu, Wu Gang, moon toad stay off HP bars |
 | Osmanthus blossom fall | A glowing blossom from Wu Gang's tree drifts to earth and starts the plot | Wu Gang's tree is canon. The fall event is invented |
 | Heron Fisher | World 2 boss. Invented animal antagonist | Fine. Herons are ordinary wildlife, not folklore deities |
@@ -155,7 +188,7 @@ Status values:
 | Element | Status |
 | --- | --- |
 | Chang'e | canon |
-| Xiwangmu / Kunlun | canon (Chapter 3 background) |
+| Xiwangmu / Kunlun / Yaochi / Weak Water | canon (Chapter 3 court and geography) |
 | Guanghan Gong | canon |
 | Jade Rabbit / Yutu | canon |
 | Wu Gang + osmanthus tree | canon |
@@ -168,5 +201,5 @@ Status values:
 | Japanese mochi rabbit | forbidden |
 | NASA colonies, flying saucers, abandoned Earth bases | forbidden |
 | Sasa Jataka gift beat | invented inspiration (labeled) |
-| Mei, Yue, Moon Pools, One Moon Pool, lunar fauna, Heron Fisher, Han, Cloud Stair, frost wisps, Closing Gale | invented |
+| Mei, Yue, Moon Pools, One Moon Pool, Other Shore, Grotto Heaven path, peach refusal, lunar fauna, Heron Fisher, Han, Cloud Stair, frost wisps, Closing Gale | invented |
 | Star raft (星槎) | adapted (optional wreck) |

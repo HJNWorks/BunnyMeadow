@@ -150,3 +150,31 @@ Turns the terminal reward rungs on. Without it, `osmanthus -> cloudsea` stays cl
 
 An alternative to pantry-only cosmetic unlocks, giving a long run a rare surprise. Never
 affects stats.
+
+## jade dew
+
+| Field | Value |
+| --- | --- |
+| Category | run-buff |
+| Status | idea |
+| Effect | Brief west glow. Same lantern hook. No mist wall. Not immortality |
+| Duration | timed |
+| Home biomes | Other Shore, Grotto Heaven, West Pool |
+| Rarity | uncommon |
+| Render cue | jade droplet |
+
+Run-scoped. Chapter 3 crumb. Do not ship a peach as a heal.
+
+## peach petal
+
+| Field | Value |
+| --- | --- |
+| Category | cosmetic |
+| Status | idea |
+| Effect | Unlocks a Customize blossom fleck. No hearts. No elixir |
+| Duration | permanent cosmetic only |
+| Home biomes | Peach Rows |
+| Rarity | rare |
+| Render cue | unripe-peach petal, not osmanthus |
+
+The peach of immortality is a story beat, not a pickup. This petal is only a fleck.

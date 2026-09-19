@@ -1,6 +1,6 @@
 - story:
-    - Chapters: [story/chapters.md](story/chapters.md). Chapter 1 live. Chapter 2 first stations live. Chapter 3 untitled (ascent toward Xiwangmu).
-    - Later: Han moon collider. Chapter 2 stations 2 and 3. Far Silver One Moon Pool. Chapter 3.
+    - Chapters: [story/chapters.md](story/chapters.md). Chapter 1 live. Chapter 2 first stations live. Chapter 3 West of Silver (docs).
+    - Later: Han moon collider. Chapter 2 stations 2 and 3. Far Silver One Moon Pool. Chapter 3 painting, nodes, stations.
 
 - moon tasks:
     - bunny jump

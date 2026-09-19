@@ -2,7 +2,7 @@
 
 Settings-gated, removable. Flag `contentFlags.storyMapEditor`. Code: `src/modes/story/editor/`. Settings keeps a compact Story map editor card next to an Asset Workshop card. Dash look and silhouette brushes live in the AssetWorkshop scene (`src/scenes/AssetWorkshopScene.ts`), with tabs for Dash look, Props, Creatures, and Items. Workshop code is `contentFlags.assetWorkshop` and `src/fx/workshop/`.
 
-Family tone: fail is retry. Off-limits as HP bars: Chang'e, Yue, Yutu, Wu Gang, moon toad, Crane Envoy, Fox Hu.
+Family tone: fail is retry. Off-limits as HP bars: Chang'e, Yue, Yutu, Wu Gang, moon toad, Crane Envoy, Fox Hu, Xiwangmu.
 
 ## Overlay vs repo
 

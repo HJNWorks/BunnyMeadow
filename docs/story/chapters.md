@@ -11,10 +11,10 @@ to have the codebase open.
 | --- | --- | --- |
 | `ch1` | Burrow to Moon | live |
 | `ch2` | Journey on Moon | live (first stations) |
-| `ch3` | untitled | planned |
+| `ch3` | West of Silver | planned |
 
 Off-limits as HP bars in every chapter: Chang'e, Yue, Yutu, Wu Gang, moon toad,
-Crane Envoy, Fox Hu.
+Crane Envoy, Fox Hu, Xiwangmu.
 
 ## Chapter 1 — Burrow to Moon
 
@@ -49,15 +49,33 @@ Six worlds, same card count as Chapter 1:
 
 Unlock: `moon_guanghan` cleared. Han's grown moon stays visual. No jump pad this pass.
 
-## Chapter 3 — untitled
+## Chapter 3 — West of Silver
 
-Starts at Far Silver. Working choice: **ascent** toward a higher immortal court.
-[Xiwangmu](https://en.wikipedia.org/wiki/Queen_Mother_of_the_West) / Kunlun is the
-lore-clean candidate (already the source of Chang'e's elixir). Do not name the chapter
-yet.
+After the One Moon Pool. The other side is Kunlun, Xiwangmu's west. Map title does
+not print Kunlun, Yaochi, portal, or 西王母. Painting later:
+`public/Story-Background-ch3.png`. Prompt: [chapter3-map-prompt.md](chapter3-map-prompt.md).
+Do not invent button percents until that PNG exists.
 
-Descend-to-save-the-kits is closed. Yue is already home. A second kidnapping would
-break the family tone.
+Finale: she is offered a peach of immortality (the same elixir source Chang'e drank)
+and refuses. She stays a kit who waves at the moon. Yue is already home. Rescue is
+closed. Japanese mochi-kitchen is out. Yutu already pounds elixir in Mortar Yard.
+
+Hops return toward Earth weight. 0.42 g was vacuum.
+
+Six worlds, same card count as Chapter 2:
+
+| Map title | What it is |
+| --- | --- |
+| Other Shore | Far side of the pool. Inverted silver sky. Not Earth, not Guanghan roofs |
+| Weak Water | 弱水. Nothing floats. Stone fords, not Riverbank logs |
+| Hanging Ridges | Kunlun cliffs, copper pins, wall hops |
+| Peach Rows | 蟠桃园. Blossom and unripe fruit. Not osmanthus, not a kitchen |
+| Grotto Heaven | 洞天. Jade caves, mass above, false mouths off the hop line |
+| West Pool | Yaochi court. One still jade pool. Do not print her name |
+
+Unlock (planned): Far Silver's One Moon Pool station cleared. That station is still
+unbuilt. Ordinary Moon Pools never do this. Editor Chapter 3 stays empty until a
+later code pass.
 
 ## Two gates
 

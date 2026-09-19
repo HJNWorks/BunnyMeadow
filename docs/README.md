@@ -26,8 +26,9 @@ docs/
   GDD.md               game design overview (hub)
   STORY.md             narrative spine (Chapter 1 live)
   story/
-    chapters.md        Chapter 1 live, 2 planned, 3 untitled
+    chapters.md        Chapter 1 live, Chapter 2 first stations, Chapter 3 West of Silver planned
     chapter2-map-prompt.md  paste-ready Chapter 2 painting prompt
+    chapter3-map-prompt.md  paste-ready Chapter 3 painting prompt
     proximity.md       contact vs proximity vs volume triggers
   editor/
     README.md          story map editor

@@ -17,9 +17,13 @@ All notable changes to this project are recorded here. The format follows
 - Chapter 2 first stations (Frost Courtyard, Grove Cut, Stone Bowls, Rim Walk,
   Cave Mouths, Quiet Basin). Unlock after Guanghan. Painting:
   `public/Story-Background-ch2.png`. Han's moon stays visual.
+- Chapter 3 West of Silver (docs). Six planned worlds after the One Moon Pool.
+  Peach refusal at the west court. Painting prompt:
+  [docs/story/chapter3-map-prompt.md](docs/story/chapter3-map-prompt.md). File later:
+  `public/Story-Background-ch3.png`. No `ART_POS` until that PNG exists.
 - Story chapters as a layer above Worlds. Chapter 1 is the live Burrow-to-Moon
-  path. Chapter 2 Journey on Moon first stations are live. Untitled Chapter 3
-  stays planned. Hub: [docs/story/chapters.md](docs/story/chapters.md).
+  path. Chapter 2 Journey on Moon first stations are live. Chapter 3 West of Silver
+  is planned. Hub: [docs/story/chapters.md](docs/story/chapters.md).
 - Shared pad catalog under [docs/platforms/](docs/platforms/README.md): collision,
   motion (including slide), surface, and break as stacked axes for Story, Endless,
   and Bunny Jump.

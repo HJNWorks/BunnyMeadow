@@ -1,17 +1,19 @@
 # Bunny Meadow — The Universe
 
 This is the world model. It explains how every environment in the game is derived
-from one story: Mei's climb from the burrow to Guanghan, then onward across the moon.
+from one story: Mei's climb from the burrow to Guanghan, across the moon, then
+west of silver.
 Hub: [../GDD.md](../GDD.md). Narrative: [../STORY.md](../STORY.md).
 Folklore backing: [../LORE.md](../LORE.md). Chapters: [../story/chapters.md](../story/chapters.md).
 
 The universe is not a set of unrelated levels. It is a vertical journey,
 "the Ladder", cut into rungs for Chapter 1. After rung 8 the journey continues
-*across* the moon. It does not climb Earth again. Story mode walks the canonical
-rungs in order, then Chapter 2 lunar worlds. Endless walks a seeded
-route through the Earth rungs. Meadow and the Meadow-canvas Moon Tasks borrow
-individual rungs as backdrops. Bunny Jump walks the clock by height on the same
-palettes.
+*across* the moon. It does not climb Earth again. After Far Silver it leaves
+vacuum for west country. Story mode walks the canonical rungs in order, then
+Chapter 2 lunar worlds, then planned Chapter 3 West of Silver. Endless walks a
+seeded route through the Earth rungs. Meadow and the Meadow-canvas Moon Tasks
+borrow individual rungs as backdrops. Bunny Jump walks the clock by height on
+the same palettes.
 
 ## The Ladder
 
@@ -40,6 +42,19 @@ Chapter 2 (first stations live, still altitude moon, eternal night). Does not re
 | Quiet Wells | cold caves | live (Cave Mouths) |
 | Far Silver | quiet basin. One Moon Pool still planned as the world finale | live (Quiet Basin) |
 
+Chapter 3 West of Silver (planned). Off the moon. Hops return toward Earth weight.
+0.42 g was vacuum. Display titles stay vague. Do not print Kunlun, Yaochi, portal,
+or 西王母:
+
+| After Far Silver | Environment | Status |
+| --- | --- | --- |
+| Other Shore | far side of the One Moon Pool. Inverted silver sky | planned |
+| Weak Water | 弱水. Stone fords. Nothing floats | planned |
+| Hanging Ridges | Kunlun cliffs, copper pins, wall hops | planned |
+| Peach Rows | 蟠桃园. Blossom and unripe fruit. Not a kitchen | planned |
+| Grotto Heaven | 洞天. Jade caves, mass above, false mouths | planned |
+| West Pool | Yaochi court. Refuse the peach | planned |
+
 Riverbank sits at a valley floor between hills and foothills: the climb dips to
 cross water before rising to the festival town. That dip is deliberate and lets the
 route double back (see [biome-graph.md](biome-graph.md)).
@@ -58,6 +73,10 @@ consistent by construction.
 | Movement verb | run, jump, wall bounce, log ride, tiger ride, glide, stair climb, low gravity |
 | Hazard vocabulary | gaps, shafts, current, wind, void |
 
+Chapter 3 pages sit off this Earth-to-moon list. Altitude is west. Hour is west
+dawn. Verbs are Earth-weight hop, stone ford, wall hop, orchard hop, cave roof,
+court walk. Palettes later.
+
 Derivation rules:
 
 - Altitude and hour set the palette band and the sky token in [../rendering/palettes.md](../rendering/palettes.md).
@@ -72,7 +91,7 @@ Derivation rules:
 
 | Mode | Route through the Ladder |
 | --- | --- |
-| Story | Fixed. Chapter 1: World 0 = rung 0/1 stations, World 1 = rungs 1-2, World 2 = rungs 3-4, World 3 = rungs 5-6, World 4 = rung 7, finale = rung 8. Chapter 2 walks Outer Cold through Far Silver ([../story/chapters.md](../story/chapters.md)). See [../WORLDS.md](../WORLDS.md). |
+| Story | Fixed. Chapter 1: World 0 = rung 0/1 stations, World 1 = rungs 1-2, World 2 = rungs 3-4, World 3 = rungs 5-6, World 4 = rung 7, finale = rung 8. Chapter 2 walks Outer Cold through Far Silver. Chapter 3 (planned) walks Other Shore through West Pool ([../story/chapters.md](../story/chapters.md)). See [../WORLDS.md](../WORLDS.md). |
 | Endless | Seeded. A route walker steps between adjacent rungs; band lengths and altitude weighting come from difficulty. See [../modes/endless/design.md](../modes/endless/design.md). |
 | Meadow (arcade) | Single rung as a top-down backdrop, chosen by map. |
 | Moon Tasks | Night Watch and Hide and Seek: one Meadow rung. Bunny Jump walks the clock by height ([timeline.md](timeline.md)). |
@@ -84,5 +103,6 @@ Derivation rules:
 - [timeline.md](timeline.md) - the one night as a clock: where each world and each
   Endless band sits in time, so hour transitions stay coherent.
 - [environments/](environments/) - one page per environment with its five axes
-  filled in, roster, item table, and render notes. Chapter 1 rungs plus planned
-  Chapter 2 pages (Outer Cold through Far Silver).
+  filled in, roster, item table, and render notes. Chapter 1 rungs, Chapter 2
+  (Outer Cold through Far Silver), Chapter 3 planned (Other Shore through West
+  Pool).

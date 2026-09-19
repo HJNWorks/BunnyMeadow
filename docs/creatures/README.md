@@ -68,6 +68,9 @@ and the minimum tier at which the creature appears.
 | dust mite | swarm | moon (outer, dust) | 5 | live (Story) |
 | star wisp | swarm | moon (wells, silver) | 5 | live (Story) |
 | pestle sentry | ranged_lob | moon (mortar) | 5 | live (Story) |
+| azure bird | diver | Peach Rows | n/a | idea |
+| jade mite | swarm | Grotto Heaven | n/a | idea |
+| copper sentry | ranged_lob | Hanging Ridges | n/a | idea |
 | bees | swarm | meadow, orchard | 2 | idea |
 | dew | swarm or pickup | meadow, riverbank | 1 | idea |
 
@@ -96,7 +99,8 @@ Each wildlife page below has a Bunny Jump section. Status: planned ([I5](../iter
 | tortoise | perch | idea (debut in Bunny Jump) |
 | boar | ledge_charge | idea (debut in Bunny Jump) |
 
-Skip carp and dew. Folk stay off this HP bar.
+Skip carp and dew. Skip Chapter 3 idea fauna (azure bird, jade mite, copper sentry).
+Folk stay off this HP bar.
 
 ## Folk
 
@@ -114,6 +118,7 @@ Named characters. Bosses are one folk per world; palace NPCs are non-hostile.
 | Jade Rabbit (Yutu) | palace NPC | moon | canon |
 | Wu Gang | finale NPC | moon | canon |
 | moon toad | optional background | moon | canon (optional) |
+| Xiwangmu | Chapter 3 court NPC. Offers a peach. Accepts the refusal | West Pool | canon |
 
 ## Kits
 

@@ -1,6 +1,7 @@
 # Bunny Meadow — Worlds and Environments
 
-Chapter 1 (live): 4 worlds x 3 levels plus moon finale. Chapter 2 and 3 are planned.
+Chapter 1 (live): 4 worlds x 3 levels plus moon finale. Chapter 2 first stations are
+live. Chapter 3 West of Silver is planned.
 Hub of chapters: [story/chapters.md](story/chapters.md). Hub of the climb is the burrow
 until Mei stays on the moon.
 
@@ -32,7 +33,8 @@ Shared by Meadow, Story, Tasks, Endless. Each kit: tileset, palette, parallax la
 ## Story path map
 
 Story opens on an HTML landscape painting. Chapter 1 uses `Story-Background.png`.
-Chapter 2 uses `Story-Background-ch2.png`. Worlds are nodes. Expanding a live
+Chapter 2 uses `Story-Background-ch2.png`. Chapter 3 painting is named
+`Story-Background-ch3.png` and is not shipped. Worlds are nodes. Expanding a live
 world shows its stations. Locked later worlds stay visible as dim nodes.
 
 Path progress (Chapter 1): Worlds 1–4 each expose three clearable stations (two platformers + boss or chase). Guanghan unlocks after Closing Gale. Next world (and the moon) unlock only after that world's last station is cleared. Saves that cleared W1 2/2 before Cart Chase remain on World 1 until Cart is done. Chapter 2 unlocks when `moon_guanghan` is cleared. Han's moon stays visual.
@@ -102,9 +104,22 @@ Display title stays vague. Unlock: `moon_guanghan` cleared. Painting: `public/St
 
 Stations 2 and 3 of each world stay unbuilt. Far Silver's One Moon Pool is still the planned world finale, not this first station.
 
-### Chapter 3 — untitled (planned)
+### Chapter 3 — West of Silver (planned)
 
-Starts at Far Silver. Working choice: ascent toward Xiwangmu / Kunlun. No world table yet.
+Display title stays vague. Does not print Kunlun, Yaochi, portal, or 西王母.
+Unlock (planned): Far Silver One Moon Pool station cleared. That station is unbuilt.
+Painting later: `public/Story-Background-ch3.png`. Prompt:
+[story/chapter3-map-prompt.md](story/chapter3-map-prompt.md). Do not invent button
+percents until the PNG exists. Hops return toward Earth weight.
+
+| World | Env page | Teach | Exit | Status |
+| --- | --- | --- | --- | --- |
+| Other Shore | [other-shore.md](universe/environments/other-shore.md) | this is another country | next world | planned |
+| Weak Water | [weak-water.md](universe/environments/weak-water.md) | stone fords. Do not ride the water | next world | planned |
+| Hanging Ridges | [hanging-ridges.md](universe/environments/hanging-ridges.md) | ascent, Earth-weight wall hops | next world | planned |
+| Peach Rows | [peach-rows.md](universe/environments/peach-rows.md) | west orchard, not Wu Gang, not a kitchen | next world | planned |
+| Grotto Heaven | [grotto-heaven.md](universe/environments/grotto-heaven.md) | jade cave roof, false mouths | next world | planned |
+| West Pool | [west-pool.md](universe/environments/west-pool.md) | refuse the peach | chapter clear | planned |
 
 ## Meadow maps (arcade)
 

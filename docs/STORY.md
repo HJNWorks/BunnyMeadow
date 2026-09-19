@@ -20,10 +20,12 @@ Dialogue rule: two lines max per exchange. Skippable. Moon Pool lines are one li
 | Lord Rabbit (Tu'er Ye) | World 3 ally on his tiger | [canon](LORE.md#tuer-ye--lord-rabbit-兔兒爺) |
 | Wu Gang | Finale NPC. Chops the self-healing osmanthus tree | [canon](LORE.md#wu-gang-吳剛) |
 | Moon toad | Optional background in the palace | [canon](LORE.md#moon-toad--chanchu-蟾蜍) |
+| Xiwangmu | Chapter 3 court NPC. Offers a peach. Accepts the refusal | [canon](LORE.md#xiwangmu--queen-mother-of-the-west-西王母) |
 
 ## Story spine
 
-Live spine is **Chapter 1 — Burrow to Moon** plus Chapter 2 first stations. Chapter 3 is planned.
+Live spine is **Chapter 1 — Burrow to Moon** plus Chapter 2 first stations. Chapter 3
+West of Silver is planned (docs).
 
 ### 0. World 0 — Burrow Eve (stations, no platforming)
 
@@ -141,9 +143,19 @@ Mei walks the lunar surface beyond Guanghan: Outer Cold, Cassia Wound, Mortar Ya
 
 Far Silver's first station is Quiet Basin, an ordinary still shore. The [One Moon Pool](LORE.md#invented-elements-ours) stays the planned world finale. Ordinary pools still speak one ticker line. Map cards do not print portal.
 
-### Chapter 3 — untitled (planned)
+### Chapter 3 — West of Silver (planned)
 
-After the One Pool, working choice is ascent toward [Xiwangmu](LORE.md#xiwangmu--queen-mother-of-the-west-西王母) / Kunlun. Descend-to-save-the-kits is closed. Yue is already home.
+Mei steps through the One Moon Pool. The other side is Kunlun. Map title stays
+West of Silver. She walks Other Shore, Weak Water, Hanging Ridges, Peach Rows,
+Grotto Heaven, West Pool. Hops return toward Earth weight.
+
+[Xiwangmu](LORE.md#xiwangmu--queen-mother-of-the-west-西王母) offers a peach of
+immortality. Mei refuses. She stays a kit who waves at the moon. No fight. No
+second Han. No kitchen. Yutu already pounds elixir in Mortar Yard. Rescue is
+closed. Yue is already home. NASA colonies and spaceships stay out.
+
+Painting prompt: [story/chapter3-map-prompt.md](story/chapter3-map-prompt.md). Worlds:
+[WORLDS.md](WORLDS.md).
 
 ## Moon Pool rules
 
@@ -168,4 +180,5 @@ After the One Pool, working choice is ascent toward [Xiwangmu](LORE.md#xiwangmu-
 
 ## Per-level beats
 
-See [WORLDS.md](WORLDS.md) for Chapter 1 tables and Chapter 2 first stations. Hub: [story/chapters.md](story/chapters.md).
+See [WORLDS.md](WORLDS.md) for Chapter 1 tables, Chapter 2 first stations, and Chapter 3
+planned worlds. Hub: [story/chapters.md](story/chapters.md).

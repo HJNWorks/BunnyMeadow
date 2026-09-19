@@ -19,7 +19,7 @@ world finale, not this station. Hub: [../README.md](../README.md). Chapter:
 
 A single quiet basin. Map card title stays Far Silver. Do not print "portal".
 
-Contact with this pool is the Chapter 2 exit into untitled Chapter 3. Ordinary pools
+Contact with this pool is the Chapter 2 exit into West of Silver. Ordinary pools
 on earlier stations stay Chang'e's reflection channel.
 
 ## Roster
