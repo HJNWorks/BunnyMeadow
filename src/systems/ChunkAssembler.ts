@@ -48,7 +48,7 @@ import chunkCh2SilverB from "../data/chunks/chunk_ch2_silver_b.json"
 
 export type ChunkId = string
 
-export type BreakSource = "beam" | "stand"
+export type BreakSource = "beam" | "stand" | "land"
 
 export type BreakSpec = {
   profile: string

@@ -23,6 +23,16 @@
       "baseTimerSeconds": 0,
       "enemyCountScale": 0.35,
       "pantryReward": 10
+    },
+    {
+      "id": "bunny_jump",
+      "name": "Bunny Jump",
+      "description": "Climb one-way pads to the moon disc. Keep hopping for a local best.",
+      "mapId": "meadow_home",
+      "kind": "bunny_jump",
+      "baseTimerSeconds": 0,
+      "enemyCountScale": 0.4,
+      "pantryReward": 12
     }
   ]
 }

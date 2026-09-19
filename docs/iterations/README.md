@@ -23,7 +23,7 @@ and the milestone list stay in [../ROADMAP.md](../ROADMAP.md).
 | [I2](i2-creatures-items.md) (done) | Creatures and items in data | enemy/item slots, biome rosters, item catalog |
 | [I3](i3-theme-rendering.md) (done) | Theme and rendering | palettes.json, sky lerp, weather, night lighting |
 | [I4](i4-audio-i18n.md) (done) | Audio and i18n | the remaining open M5 items |
-| [I5](i5-bunny-jump.md) (docs) | Bunny Jump under Moon Tasks | climb stays `planned` until the code pass |
+| [I5](i5-bunny-jump.md) (done) | Bunny Jump under Moon Tasks | climb scene, one-way bounce, local best |
 
 ## Relationship to milestones
 

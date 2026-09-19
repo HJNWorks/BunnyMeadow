@@ -14,7 +14,7 @@ page opens with what it is and links back to its hub.
 5. [items/README.md](items/README.md) - collectibles and their rules.
 6. [platforms/README.md](platforms/README.md) - shared pad axes (collision, motion, surface, break).
 7. [modes/endless/design.md](modes/endless/design.md) - how Endless turns the universe into infinite runs.
-8. [modes/tasks/README.md](modes/tasks/README.md) - Moon Tasks hub (Bunny Jump planned).
+8. [modes/tasks/README.md](modes/tasks/README.md) - Moon Tasks hub (Bunny Jump live).
 9. [rendering/README.md](rendering/README.md) - the visual and animation language.
 10. [ROADMAP.md](ROADMAP.md) and [iterations/README.md](iterations/README.md) - build order and the web iteration track.
 
@@ -64,7 +64,7 @@ docs/
     tuning.md          per-difficulty tables and findings
   modes/tasks/         Moon Tasks
     README.md          hub
-    bunny-jump.md      vertical hop (planned)
+    bunny-jump.md      vertical hop (live)
   rendering/           the visual language
     README.md          decision list with status
     palettes.md        per-biome palette tokens
@@ -93,7 +93,7 @@ entry there.
 ## Versioning rules
 
 - Story milestones M0-M5 are done. Web iterations I1-I4 are done (`v0.2.0`). I5 is
-  Bunny Jump docs (`planned`). The remaining desktop and store milestones (M6-M8) are
+  Bunny Jump live. The remaining desktop and store milestones (M6-M8) are
   postponed. See [ROADMAP.md](ROADMAP.md).
 - Web iterations live under [iterations/](iterations/README.md).
   Each iteration has one page listing its data and doc deltas.

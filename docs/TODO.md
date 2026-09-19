@@ -3,7 +3,7 @@
     - Later: Han moon collider. Chapter 2 stations 2 and 3. Far Silver One Moon Pool. Chapter 3 stations.
 
 - moon tasks:
-    - bunny jump
+    - bunny jump (Moon Tasks, live)
         - == doodle jump
     - bunny up:
         - == only-up

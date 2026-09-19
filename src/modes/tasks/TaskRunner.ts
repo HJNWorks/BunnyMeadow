@@ -4,9 +4,9 @@ import { getSave } from "../../core/session"
 import { isMapUnlocked } from "../../core/unlocks"
 import type { DifficultyParams } from "../../core/difficulty"
 
-export type TaskId = "carrot_rush" | "hide_and_seek" | "night_watch" | "lantern_run" | "daily_moon"
+export type TaskId = "carrot_rush" | "hide_and_seek" | "night_watch" | "lantern_run" | "daily_moon" | "bunny_jump"
 
-export type TaskKind = "night_watch" | "hide_and_seek"
+export type TaskKind = "night_watch" | "hide_and_seek" | "bunny_jump"
 
 export type TaskDefRaw = {
   id: TaskId
@@ -38,7 +38,7 @@ export type ResolvedTask = {
   difficulty: DifficultyParams
 }
 
-const PLAYABLE: TaskId[] = ["night_watch", "hide_and_seek"]
+const PLAYABLE: TaskId[] = ["night_watch", "hide_and_seek", "bunny_jump"]
 
 const defs = new Map(
   (tasksData.tasks as TaskDefRaw[]).map((task) => [task.id, task]),

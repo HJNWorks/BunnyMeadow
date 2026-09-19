@@ -11,6 +11,7 @@ import { AchievementsScene } from "./scenes/AchievementsScene"
 import { MeadowScene } from "./modes/meadow/MeadowScene"
 import { TaskSelectScene } from "./modes/tasks/TaskSelectScene"
 import { TaskRunScene } from "./modes/tasks/TaskRunScene"
+import { BunnyJumpScene } from "./modes/tasks/BunnyJumpScene"
 import { WorldMapScene } from "./modes/story/WorldMapScene"
 import { StoryScene } from "./modes/story/StoryScene"
 import { DialogueOverlayScene } from "./scenes/DialogueOverlayScene"
@@ -59,6 +60,7 @@ const config: Phaser.Types.Core.GameConfig = {
     StoryScene,
     TaskSelectScene,
     TaskRunScene,
+    BunnyJumpScene,
     EndlessScene,
     ResultScene,
     PauseScene,

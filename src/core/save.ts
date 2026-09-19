@@ -71,6 +71,7 @@ export type SaveV1 = {
       controlHints: string[]
     }
     tasksCompleted: string[]
+    bunnyJumpBest: number
     endlessBest: number
     endlessRuns: Record<DifficultyId, EndlessRun[]>
     achievements: string[]
@@ -141,6 +142,7 @@ export function createDefaultSave(slot = 0): SaveV1 {
         controlHints: [],
       },
       tasksCompleted: [],
+      bunnyJumpBest: 0,
       endlessBest: 0,
       endlessRuns: {
         sprout: [],
@@ -246,6 +248,9 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
     merged.progress.endlessRuns = runs
     if (typeof merged.progress.endlessBest !== "number") {
       merged.progress.endlessBest = 0
+    }
+    if (typeof merged.progress.bunnyJumpBest !== "number" || merged.progress.bunnyJumpBest < 0) {
+      merged.progress.bunnyJumpBest = 0
     }
     merged.settings.audio.muted = merged.settings.audio.muted === true
     if (typeof merged.player.equippedDash !== "string" || !merged.player.equippedDash) {

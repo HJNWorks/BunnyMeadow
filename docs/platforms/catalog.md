@@ -25,7 +25,7 @@ Existing tiles only.
 | Kind | Status | Behaviour |
 | --- | --- | --- |
 | solid | live | Block from every side. Story and Endless default |
-| one_way | planned | Land from above. Pass through from below and the sides. Bunny Jump default. Story stairs may opt in later |
+| one_way | live | Land from above. Pass through from below and the sides. Bunny Jump default. Story stairs may opt in later |
 | wall | live | Tall block. Beam clip. Not a bounce pad |
 | ceiling | live | Same solid as wall. Lunar cave roof above the hop band. See [caves.md](caves.md) |
 
@@ -35,8 +35,8 @@ The pad's own movement. Independent of surface.
 
 | Kind | Status | Modes | Behaviour |
 | --- | --- | --- | --- |
-| still | live | Story, Endless. Bunny Jump planned | No path |
-| slide | live (as `movers[]`) | Story (logs, Cloud Stair bridges), Endless river. Bunny Jump planned | Sine on `axis` x or y. `amplitude` in px. `speed` in cycles. Feet carry with the pad |
+| still | live | Story, Endless, Bunny Jump | No path |
+| slide | live (as `movers[]`) | Story (logs, Cloud Stair bridges), Endless river, Bunny Jump | Sine on `axis` x or y. `amplitude` in px. `speed` in cycles. Feet carry with the pad |
 | vanish | planned | Bunny Jump first. Story optional | Cycles visible / gone on a timer. Reduced motion keeps it visible and uses a mark instead of flicker |
 | drop | planned | overlap with break `land` | After a landing the pad falls. Prefer `break` + `land` over a second engine |
 
@@ -52,9 +52,9 @@ What a landing does to Mei. Independent of whether the pad slides.
 | Kind | Status | Modes | Behaviour |
 | --- | --- | --- | --- |
 | default | live | Story, Endless | Normal jump / walk. On a slide, carry only |
-| bounce | planned | Bunny Jump | Auto-bounce. Jump unused. The climb verb |
-| boost | planned | Bunny Jump lantern pads | Extra bounce velocity. No break |
-| slick | planned | Bunny Jump ice. Story moon optional | Low friction. Dash still a nudge. Stacks with ice `break` |
+| bounce | live | Bunny Jump | Auto-bounce. Jump unused. The climb verb |
+| boost | live | Bunny Jump lantern pads | Extra bounce velocity. No break |
+| slick | live | Bunny Jump ice. Story moon optional | Low friction. Dash still a nudge. Stacks with ice `break` |
 
 ## Break
 
@@ -65,7 +65,7 @@ How the pad dies. Full map: [../editor/destructibility.md](../editor/destructibi
 | none | live | - | Solid ground |
 | beam | live | seconds | Guanghan green ledges, last-heart Han beam |
 | stand | live | seconds | River logs |
-| land | planned | bounce count | Bunny Jump crumble. `hp: 1` is one landing |
+| land | live | bounce count | Bunny Jump crumble. `hp: 1` is one landing |
 
 Profiles `stone`, `wood`, `ice` stay. Ice + `land` + slick is the frost pad.
 

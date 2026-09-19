@@ -23,9 +23,10 @@ Owls use `diver` as ordinary night enemies only. They are never Moon servants. S
 
 ## Jump roles (Bunny Jump, mode-only)
 
-These are not Story archetypes. They live in a later `jumpKit` and must not leak into
+These are not Story archetypes. They live in `jumpKit` and must not leak into
 Story `enemyKit`. Stamps stay the workshop / story silhouettes. Design:
-[modes/tasks/bunny-jump.md](modes/tasks/bunny-jump.md). Status: planned ([I5](iterations/i5-bunny-jump.md)).
+[modes/tasks/bunny-jump.md](modes/tasks/bunny-jump.md). Perch (fox, hedgehog) is
+live ([I5](iterations/i5-bunny-jump.md)). Other roles wait.
 
 | Id | Jump role | What it does |
 | --- | --- | --- |

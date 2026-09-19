@@ -1,6 +1,6 @@
 # Moon Tasks — Bunny Jump
 
-Status: planned ([I5](../../iterations/i5-bunny-jump.md)). Hub: [README.md](README.md).
+Status: live ([I5](../../iterations/i5-bunny-jump.md)). Hub: [README.md](README.md).
 A Doodle Jump-shaped climb under Moon Tasks, not a fifth primary mode. Art is the
 existing stamps, palettes, movers, and break catalog. No new workshop keys. No new
 folk. Lantern Run stays deferred. This is the vertical task.
@@ -14,7 +14,7 @@ is a short air nudge. Jump is unused. The bounce is the verb. Camera follows upw
 only and never scrolls down.
 
 ```
-Task Select -> BunnyJump (later)
+Task Select -> BunnyJump
   land on pad -> bounce
   wrap X
   palette band by height
@@ -29,7 +29,7 @@ contact. Reduced motion skips crack flicker and fragment bursts.
 
 Win: reach a moon-disc height. Difficulty scales the meters. Pantry reward uses the
 existing `pantryReward` field. `tasksCompleted` records the clear. After the disc,
-the climb may continue for a local best. Save field at code time:
+the climb may continue for a local best. Save field:
 `progress.bunnyJumpBest`. No new Steam achievement in this slice.
 
 ## Height bands
@@ -100,9 +100,9 @@ Story status for these is still idea. Bunny Jump is their first scheduled use.
 
 Skip carp (no stamp). Skip dew as an enemy (pickup idea only).
 
-## Later code
+## Code
 
-`TaskRunner` `TaskId` / `PLAYABLE`, `tasks.json`, i18n, scene `BunnyJump` at FIT
-1920x1080. Then one-way pads, auto-bounce, shared slide movers, `land` in the break
-field, `jumpKit`, `migrateSave` for best height. Flag stays `contentFlags.tasks`.
+Scene `BunnyJump` at FIT 1920x1080. One-way pads, auto-bounce, slide movers, `land`
+in the break field, perch wildlife in `jumpKit`, `migrateSave` for best height.
+Flag stays `contentFlags.tasks`. Remaining jump roles and vanish pads wait.
 Pad axes: [../../platforms/README.md](../../platforms/README.md).

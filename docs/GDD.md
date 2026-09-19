@@ -33,7 +33,7 @@ Meadow canvas stack. Hub: [modes/tasks/README.md](modes/tasks/README.md).
 | --- | --- | --- |
 | Night Watch | Survive waves near the burrow | playable (M2) |
 | Hide and Seek | Find hidden kits on a Meadow map | playable (M2) |
-| Bunny Jump | Climb one-way pads to a moon disc | planned ([I5](iterations/i5-bunny-jump.md)) |
+| Bunny Jump | Climb one-way pads to a moon disc | live ([I5](iterations/i5-bunny-jump.md)) |
 | Carrot Rush | Collect N carrots under a timer | retired (overlaps Meadow arcade) |
 | Lantern Run | Reach the peak before lanterns go out | deferred |
 | Daily Moon | Seeded task of the day | deferred |

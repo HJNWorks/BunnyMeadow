@@ -34,8 +34,8 @@ and decor. Copy keeps the field.
 | Profile | Default hp | Sources | Crack look | Shipped on |
 | --- | --- | --- | --- | --- |
 | stone | 5 s | beam | jagged surface splits | Guanghan green ledges |
-| wood | 5 s / 1 bounce | stand, beam, land (planned) | grain splits along the slab | Soft River logs. Bunny Jump crumble pads |
-| ice | 3 s / 1 bounce | beam, stand, land (planned) | radial frost lines | none yet. Bunny Jump one-bounce pads |
+| wood | 5 s / 1 bounce | stand, beam, land | grain splits along the slab | Soft River logs. Bunny Jump crumble pads |
+| ice | 3 s / 1 bounce | beam, stand, land | radial frost lines | none yet. Bunny Jump one-bounce pads |
 
 Add a profile by appending to `src/data/breakables.json` and drawing a matching
 crack sheet (`stone` / `wood` / `ice` stages 1-3). Do not invent a fourth crack
@@ -55,14 +55,13 @@ Three crack stages before it falls: hairline (under 1/3), open (1/3 to 2/3),
 ready to go (over 2/3). Then the collider turns off and a few fragments drop.
 Reduced motion keeps one mark and skips fragments.
 
-## Damage sources (planned)
+## Damage sources
 
 | Source | When it counts |
 | --- | --- |
 | land | One bounce on a one-way pad subtracts 1 hp. Hit-count, not seconds. `hp: 1` is the Doodle brown-pad case: the pad breaks after that landing. Profile `wood` or `ice`. Ice uses the frost crack sheet. Bunny Jump: [../modes/tasks/bunny-jump.md](../modes/tasks/bunny-jump.md). |
 
-JSON for `land` waits for the Bunny Jump code pass. `breakables.json` does not list
-it yet. Story `stand` and `beam` stay as they are.
+`breakables.json` wood and ice profiles list `land`. Story `stand` and `beam` stay as they are.
 
 ## What does not break yet
 
@@ -70,7 +69,7 @@ The wide Guanghan floor is not marked. Walls and roofs stay cover unless an edit
 sets Destructible on them. Endless river logs can carry a `break` field in JSON.
 The Endless runner does not tick stand damage yet. Decor can store the field.
 Decor has no collider, so it will not take beam or stand hits until that collider
-exists. Dash hits and thrown spears are not sources yet. `land` is documented only.
+exists. Dash hits and thrown spears are not sources yet.
 
 ## Play notes
 

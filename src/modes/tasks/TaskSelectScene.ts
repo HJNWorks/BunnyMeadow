@@ -21,6 +21,14 @@ const TASK_ICONS: Record<string, string> = {
       <circle cx="20" cy="20" r="3" stroke="currentColor" stroke-width="2" opacity="0.55"/>
     </svg>
   `,
+  bunny_jump: `
+    <svg viewBox="0 0 48 48" width="32" height="32" fill="none">
+      <path d="M14 36h20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M10 28h10M28 20h10M16 12h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="24" cy="22" r="5" stroke="currentColor" stroke-width="2.4"/>
+      <path d="M21 18v-6M27 18v-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
+  `,
 }
 
 const MEADOW_ICON = `
@@ -114,6 +122,10 @@ export class TaskSelectScene extends Phaser.Scene {
       }
       btn.onclick = () => {
         getAudio().playSfx("confirm")
+        if (id === "bunny_jump") {
+          this.scene.start("BunnyJump")
+          return
+        }
         this.scene.start("TaskRun", { taskId: id as TaskId })
       }
     }

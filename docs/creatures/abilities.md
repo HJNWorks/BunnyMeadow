@@ -17,7 +17,7 @@ The verbs Mei has, where each is taught, and how items change them. Hub:
 | glide | hold jump | Lantern (Paper Lights) | live |
 | stair climb / bridge sway | jump, stand on a hanging mover | Cloud Stair | live |
 | low-gravity float | jump under low gravity | Moon | live |
-| auto-bounce | unused jump. Pad bounce | Bunny Jump (Moon Tasks) | planned |
+| auto-bounce | unused jump. Pad bounce | Bunny Jump (Moon Tasks) | live |
 
 Each rung teaches exactly one new verb (its movement axis in
 [../universe/README.md](../universe/README.md)). The verb a rung teaches sets the

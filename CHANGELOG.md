@@ -8,6 +8,11 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Bunny Jump under Moon Tasks. Scene `BunnyJump`: one-way auto-bounce climb,
+  height bands, moon disc, local best `progress.bunnyJumpBest`. Perch fox and
+  hedgehog. Crumble `land`, lantern boost, slide, ice slick. Design:
+  [docs/modes/tasks/bunny-jump.md](docs/modes/tasks/bunny-jump.md). Iteration:
+  [docs/iterations/i5-bunny-jump.md](docs/iterations/i5-bunny-jump.md).
 - Lunar kit for Journey on Moon. Grey `moon` palette plus six Chapter 2 accent kits
   (`ch2_outer` through `ch2_silver`). Weather `starDrift`, `dustMotes`, `none`.
   Stamps: lunar ground, rim, bowl, wound, cave, stone column, sky/far moon.
@@ -28,10 +33,6 @@ All notable changes to this project are recorded here. The format follows
   and Bunny Jump.
 - Creature voice catalog at [docs/creatures/voices.md](docs/creatures/voices.md) and
   `src/data/voices.json`. Cue ids match later wavs under `public/voices/{lang}/`.
-- Moon Tasks hub and Bunny Jump design (docs only, planned). Vertical hop under
-  Moon Tasks, not a fifth primary mode. Height bands reuse palettes. Jump roles stay
-  mode-only. `land` is a one-bounce break source. Iteration:
-  [docs/iterations/i5-bunny-jump.md](docs/iterations/i5-bunny-jump.md).
 
 ### Changed
 

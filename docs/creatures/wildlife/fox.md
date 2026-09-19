@@ -27,7 +27,7 @@ Low, long, pointed ears and brush tail. Reads as fast even when idle.
 
 ## Bunny Jump
 
-Jump role: perch. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
+Jump role: perch. Status: live ([I5](../../iterations/i5-bunny-jump.md)).
 Sits or paces a meadow-band pad. Side-on contact costs a heart. Landing from above
 removes it. Same stamp as Story. No new attack. Design:
 [../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

@@ -8,13 +8,13 @@
     },
     "wood": {
       "hp": 5,
-      "sources": ["stand", "beam"],
+      "sources": ["stand", "beam", "land"],
       "cracks": "wood",
       "debris": "splinter"
     },
     "ice": {
       "hp": 3,
-      "sources": ["beam", "stand"],
+      "sources": ["beam", "stand", "land"],
       "cracks": "ice",
       "debris": "shard"
     }

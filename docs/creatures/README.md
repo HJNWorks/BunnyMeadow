@@ -81,7 +81,8 @@ ordinary night enemies only ([../LORE.md](../LORE.md#cranes-as-immortal-messenge
 
 Vertical hop under Moon Tasks. Not Story archetypes. Attacks belong in a later
 `jumpKit`, not Story `enemyKit`. Design: [../modes/tasks/bunny-jump.md](../modes/tasks/bunny-jump.md).
-Each wildlife page below has a Bunny Jump section. Status: planned ([I5](../iterations/i5-bunny-jump.md)).
+Each wildlife page below has a Bunny Jump section. Perch (fox, hedgehog) is live.
+Other jump roles wait.
 
 | Creature | Jump role | Status in Story |
 | --- | --- | --- |

@@ -78,7 +78,7 @@ No new workshop keys. Stamps stay `story_ground`, `story_log`, `story_bridge`,
 | --- | --- | --- | --- | --- |
 | Story | solid | still, plus movers as slide | default. stair / log ride from standing on a mover | live movers. one_way planned |
 | Endless | solid | same mover kit | default | live movers. stand-break not ticked yet |
-| Bunny Jump | one_way | still, slide, optional vanish | bounce (auto), boost, slick | planned. Same mover fields |
+| Bunny Jump | one_way | still, slide, optional vanish | bounce (auto), boost, slick | live. Vanish later. Same mover fields |
 | Meadow | n/a | n/a | n/a | top-down. No pads |
 
 Standing on a live slide already carries Mei (Cloud Stair, river). Bunny Jump reuses
@@ -86,11 +86,8 @@ that carry so a hopping pad does not slide out from under a bounce.
 
 ## What Bunny Jump still needs (code)
 
-Not this docs pass. Shared kit first, then the scene.
-
-- Phaser scene `BunnyJump`, one-way collision, auto-bounce surface
-- `land` in `breakables.ts` / `breakables.json`
-- Slide movers in the climb (same `createMovers` / `updateMovers`)
-- `jumpKit`, `tasks.json`, i18n, `progress.bunnyJumpBest`
+- Vanish pads
+- Remaining jump roles: hop_ledge, drop_shot, stoop, column_swipe, ledge_charge, drift
+- Bees / tortoise / boar debuts
 
 Skip a second mover class. Skip carp. Skip new folk.
