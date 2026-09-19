@@ -967,8 +967,7 @@ export class StoryScene extends Phaser.Scene {
           speak: this.editorMode === "build"
             ? undefined
             : (line) => {
-              this.hud.ticker.show(t(`story.han.line.${line}`))
-              playVoiceCue(`han.${line}`)
+              this.hud.ticker.show(t(`story.han.line.${line}`), `han.${line}`)
             },
           platforms: this.platforms,
           cakeSpots: hanCakeSpotsFromPlatforms(world.platforms),
@@ -1374,10 +1373,8 @@ export class StoryScene extends Phaser.Scene {
     this.checkpoint = { x: pool.x, y: pool.y - 40 }
     this.awakenMoonPool(pool)
     const custom = String(pool.getData("poolLine") ?? "").trim()
-    this.hud.ticker.show(custom || t(`story.level.${this.level.id}.moon`))
-    if (!custom) {
-      playVoiceCue(`change.pool.${this.level.id}`)
-    }
+    const line = custom || t(`story.level.${this.level.id}.moon`)
+    this.hud.ticker.show(line, custom ? undefined : `change.pool.${this.level.id}`)
   }
 
   private awakenMoonPool(pool: Phaser.GameObjects.Image): void {

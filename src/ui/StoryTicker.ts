@@ -1,19 +1,28 @@
 import { requireEl } from "./DomShell"
+import { isVoiceBusy, playVoiceCue, stopVoice } from "../data/voices"
 
 const TYPE_CPS = 32
 const HOLD_S = 4
+const VOICE_PAD_S = 0.55
 
 export type StoryTicker = {
-  show: (text: string) => void
+  show: (text: string, cueId?: string) => void
   skip: () => void
   tick: (dt: number, reducedMotion: boolean, skipPressed: boolean) => void
 }
 
 type Job = {
   text: string
+  cueId?: string
   shown: number
   hold: number
   complete: boolean
+  voiced: boolean
+}
+
+type Queued = {
+  text: string
+  cueId?: string
 }
 
 export const STORY_TICKER_CSS = `
@@ -40,7 +49,7 @@ export const STORY_TICKER_CSS = `
 export function bindStoryTicker(root: HTMLElement): StoryTicker {
   const el = requireEl<HTMLElement>(root, "[data-ui=ticker]")
   const textEl = requireEl<HTMLElement>(root, "[data-ui=tickerText]")
-  const queue: string[] = []
+  const queue: Queued[] = []
   let job: Job | null = null
   let reduced = false
 
@@ -53,24 +62,31 @@ export function bindStoryTicker(root: HTMLElement): StoryTicker {
     textEl.textContent = job.text.slice(0, count)
   }
 
-  const start = (text: string): void => {
+  const start = (text: string, cueId?: string): void => {
+    const voiced = Boolean(cueId)
     job = {
       text,
+      cueId,
       shown: reduced ? text.length : 0,
       hold: 0,
       complete: reduced,
+      voiced,
     }
     el.hidden = false
     paint()
+    if (cueId) {
+      playVoiceCue(cueId)
+    }
   }
 
   const hide = (): void => {
+    stopVoice()
     job = null
     el.hidden = true
     textEl.textContent = ""
     const next = queue.shift()
     if (next) {
-      start(next)
+      start(next.text, next.cueId)
     }
   }
 
@@ -84,6 +100,9 @@ export function bindStoryTicker(root: HTMLElement): StoryTicker {
       paint()
       return
     }
+    if (isVoiceBusy()) {
+      return
+    }
     hide()
   }
 
@@ -92,16 +111,16 @@ export function bindStoryTicker(root: HTMLElement): StoryTicker {
   })
 
   return {
-    show: (text: string) => {
+    show: (text: string, cueId?: string) => {
       const line = text.trim()
       if (!line) {
         return
       }
       if (job) {
-        queue.push(line)
+        queue.push({ text: line, cueId })
         return
       }
-      start(line)
+      start(line, cueId)
     },
     skip,
     tick: (dt: number, reducedMotion: boolean, skipPressed: boolean) => {
@@ -123,11 +142,17 @@ export function bindStoryTicker(root: HTMLElement): StoryTicker {
         }
         paint()
       }
-      if (job.complete) {
-        job.hold += dt
-        if (job.hold >= HOLD_S) {
-          hide()
-        }
+      if (!job.complete) {
+        return
+      }
+      if (isVoiceBusy()) {
+        job.hold = 0
+        return
+      }
+      job.hold += dt
+      const need = job.voiced ? VOICE_PAD_S : HOLD_S
+      if (job.hold >= need) {
+        hide()
       }
     },
   }

@@ -12,7 +12,11 @@ Example: `public/voices/en/han/han.full.wav`
 
 Languages: en, de, zh. If the current language file is missing, playback falls back to
 en. Missing files stay silent. Playback is wired on ticker, crane bow, World 0 Chang'e
-beat, and Guanghan epilogue cards.
+beat, and Guanghan epilogue cards. Ticker text stays until the wav ends, then a short
+pad. Confirm or click finishes typing. It does not hide the line while the voice is
+still playing.
+
+Han's four lines live in `public/voices/en/han/`.
 
 Editor overlay Moon Pool lines are not in this catalog. Record those only after they
 become shipped i18n.
@@ -39,6 +43,5 @@ that names the creature. Record character lines first.
 
 ## Later code
 
-TODO: stop voice when the ticker is skipped or the dialogue card closes.
-TODO: measure wav length and keep the ticker up until the line ends.
-TODO: reduced-motion still plays voice.
+TODO: stop voice when the dialogue card closes.
+TODO: keep epilogue cards up until their wav ends.

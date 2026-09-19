@@ -23,6 +23,7 @@ All notable changes to this project are recorded here. The format follows
 - Last-heart Han beam damages every registered ledge the hot slab crosses. Thin
   Guanghan ledges take stone even if an editor overlay omitted `break`. Cracks
   darken the tile from the first contact.
+- Han ticker lines stay on screen until `public/voices/en/han/*.wav` finishes.
 
 - Editor Build pins critters where they were placed. Refresh no longer snaps them onto
   the nearest floor.

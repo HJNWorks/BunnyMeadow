@@ -88,6 +88,43 @@ export function voiceAssetPath(lang: string, speakerId: string, cueId: string): 
 }
 
 let currentVoice: HTMLAudioElement | null = null
+let voicePending = false
+
+export function isVoiceBusy(): boolean {
+  if (voicePending) {
+    return true
+  }
+  const audio = currentVoice
+  return Boolean(audio && !audio.ended && !audio.paused)
+}
+
+export function stopVoice(): void {
+  voicePending = false
+  if (currentVoice) {
+    currentVoice.pause()
+    currentVoice.src = ""
+  }
+  currentVoice = null
+}
+
+function bindVoice(audio: HTMLAudioElement): void {
+  const clearIfCurrent = (): void => {
+    if (currentVoice === audio) {
+      voicePending = false
+    }
+  }
+  audio.addEventListener("playing", () => {
+    if (currentVoice === audio) {
+      voicePending = false
+    }
+  })
+  audio.addEventListener("ended", clearIfCurrent)
+  audio.addEventListener("error", () => {
+    if (currentVoice === audio) {
+      stopVoice()
+    }
+  })
+}
 
 export function playVoiceCue(cueId: string): void {
   const cue = findVoiceCue(cueId)
@@ -97,23 +134,27 @@ export function playVoiceCue(cueId: string): void {
   const lang = getLanguage()
   const primary = `${import.meta.env.BASE_URL}${voiceAssetPath(lang, cue.speakerId, cue.id)}`
   const fallback = `${import.meta.env.BASE_URL}${voiceAssetPath("en", cue.speakerId, cue.id)}`
-  currentVoice?.pause()
-  currentVoice = null
+  stopVoice()
+  voicePending = true
   const audio = new Audio(primary)
+  audio.preload = "auto"
   currentVoice = audio
+  bindVoice(audio)
   void audio.play().catch(() => {
     if (currentVoice !== audio) {
       return
     }
     if (lang === "en") {
-      currentVoice = null
+      stopVoice()
       return
     }
     const second = new Audio(fallback)
+    second.preload = "auto"
     currentVoice = second
+    bindVoice(second)
     void second.play().catch(() => {
       if (currentVoice === second) {
-        currentVoice = null
+        stopVoice()
       }
     })
   })
