@@ -1,12 +1,31 @@
 import type { SaveV1 } from "../../core/save"
 
-export type StoryWorldId = "w0" | "w1" | "w2" | "w3" | "w4" | "moon"
+export type StoryChapterId = "ch1" | "ch2" | "ch3"
+
+export type Ch1WorldId = "w0" | "w1" | "w2" | "w3" | "w4" | "moon"
+
+export type Ch2WorldId =
+  | "ch2_outer"
+  | "ch2_cassia"
+  | "ch2_mortar"
+  | "ch2_dust"
+  | "ch2_wells"
+  | "ch2_silver"
+
+export type StoryWorldId = Ch1WorldId | Ch2WorldId
 
 export type StoryPathLayout = "ink" | "art"
 
 export type StoryStationKind = "lore" | "controls" | "level"
 
 export type StoryWorldStatus = "live" | "soon"
+
+export type StoryChapterStatus = "live" | "soon"
+
+export type StoryChapterNode = {
+  id: StoryChapterId
+  status: StoryChapterStatus
+}
 
 export type StoryStation = {
   id: string
@@ -21,6 +40,7 @@ export type StoryStation = {
 
 export type StoryWorldNode = {
   id: StoryWorldId
+  chapter: StoryChapterId
   world: number | "moon"
   title: string
   tagline: string
@@ -32,7 +52,13 @@ export type StoryWorldNode = {
 
 type WorldDef = Omit<StoryWorldNode, "x" | "y">
 
-const INK_POS: Partial<Record<StoryWorldId, { x: number; y: number }>> = {
+const CHAPTERS: StoryChapterNode[] = [
+  { id: "ch1", status: "live" },
+  { id: "ch2", status: "live" },
+  { id: "ch3", status: "soon" },
+]
+
+const INK_POS: Record<Ch1WorldId, { x: number; y: number }> = {
   w0: { x: 12, y: 78 },
   w1: { x: 29, y: 61 },
   w2: { x: 46, y: 46 },
@@ -41,13 +67,31 @@ const INK_POS: Partial<Record<StoryWorldId, { x: number; y: number }>> = {
   moon: { x: 82, y: 18 },
 }
 
-const ART_POS: Record<StoryWorldId, { x: number; y: number }> = {
+const ART_POS: Record<Ch1WorldId, { x: number; y: number }> = {
   w0: { x: 24, y: 78 },
   w1: { x: 24, y: 48 },
   w2: { x: 48, y: 70 },
   w3: { x: 53, y: 33 },
   w4: { x: 78, y: 46 },
   moon: { x: 84, y: 23 },
+}
+
+const CH2_INK_POS: Record<Ch2WorldId, { x: number; y: number }> = {
+  ch2_outer: { x: 12, y: 80 },
+  ch2_cassia: { x: 29, y: 58 },
+  ch2_mortar: { x: 47, y: 48 },
+  ch2_dust: { x: 64, y: 72 },
+  ch2_wells: { x: 78, y: 46 },
+  ch2_silver: { x: 86, y: 20 },
+}
+
+const CH2_ART_POS: Record<Ch2WorldId, { x: number; y: number }> = {
+  ch2_outer: { x: 14, y: 72 },
+  ch2_cassia: { x: 30, y: 34 },
+  ch2_mortar: { x: 50, y: 46 },
+  ch2_dust: { x: 74, y: 78 },
+  ch2_wells: { x: 82, y: 42 },
+  ch2_silver: { x: 88, y: 16 },
 }
 
 const STATIONS: Record<string, StoryStation> = {
@@ -185,11 +229,60 @@ const STATIONS: Record<string, StoryStation> = {
     lines: [],
     levelId: "moon_guanghan",
   },
+  ch2_outer_1_courtyard: {
+    id: "ch2_outer_1_courtyard",
+    kind: "level",
+    title: "Frost Courtyard",
+    blurb: "Hop out of the palace gardens.",
+    lines: [],
+    levelId: "ch2_outer_1_courtyard",
+  },
+  ch2_cassia_1_grove: {
+    id: "ch2_cassia_1_grove",
+    kind: "level",
+    title: "Grove Cut",
+    blurb: "Hop the living wood.",
+    lines: [],
+    levelId: "ch2_cassia_1_grove",
+  },
+  ch2_mortar_1_bowls: {
+    id: "ch2_mortar_1_bowls",
+    kind: "level",
+    title: "Stone Bowls",
+    blurb: "Hop the bowl rims. Pound, do not cook.",
+    lines: [],
+    levelId: "ch2_mortar_1_bowls",
+  },
+  ch2_dust_1_rims: {
+    id: "ch2_dust_1_rims",
+    kind: "level",
+    title: "Rim Walk",
+    blurb: "Keep to the crater rims.",
+    lines: [],
+    levelId: "ch2_dust_1_rims",
+  },
+  ch2_wells_1_mouths: {
+    id: "ch2_wells_1_mouths",
+    kind: "level",
+    title: "Cave Mouths",
+    blurb: "Hop the cave lips. One well waits below.",
+    lines: [],
+    levelId: "ch2_wells_1_mouths",
+  },
+  ch2_silver_1_basin: {
+    id: "ch2_silver_1_basin",
+    kind: "level",
+    title: "Quiet Basin",
+    blurb: "Sparse pads to a still shore.",
+    lines: [],
+    levelId: "ch2_silver_1_basin",
+  },
 }
 
 const WORLD_DEFS: WorldDef[] = [
   {
     id: "w0",
+    chapter: "ch1",
     world: 0,
     title: "Burrow Eve",
     tagline: "Setting, moon lore, and soft paws.",
@@ -198,6 +291,7 @@ const WORLD_DEFS: WorldDef[] = [
   },
   {
     id: "w1",
+    chapter: "ch1",
     world: 1,
     title: "Meadow and Hedgerows",
     tagline: "Soft paths, hedges, and Fox Hu's cart.",
@@ -206,6 +300,7 @@ const WORLD_DEFS: WorldDef[] = [
   },
   {
     id: "w2",
+    chapter: "ch1",
     world: 2,
     title: "Bamboo and River",
     tagline: "Dusk water and tall green walls.",
@@ -214,6 +309,7 @@ const WORLD_DEFS: WorldDef[] = [
   },
   {
     id: "w3",
+    chapter: "ch1",
     world: 3,
     title: "Lantern Peak",
     tagline: "Festival lights and a tiger road.",
@@ -222,6 +318,7 @@ const WORLD_DEFS: WorldDef[] = [
   },
   {
     id: "w4",
+    chapter: "ch1",
     world: 4,
     title: "Cloud Stair",
     tagline: "Wind, frost, and the last walk before the palace.",
@@ -230,17 +327,79 @@ const WORLD_DEFS: WorldDef[] = [
   },
   {
     id: "moon",
+    chapter: "ch1",
     world: "moon",
     title: "Guanghan Palace",
     tagline: "Vast Cold. Duck, eat, dash Han.",
     status: "live",
     stationIds: ["moon_guanghan"],
   },
+  {
+    id: "ch2_outer",
+    chapter: "ch2",
+    world: 1,
+    title: "Outer Cold",
+    tagline: "Palace gardens. The cold still holds.",
+    status: "live",
+    stationIds: ["ch2_outer_1_courtyard"],
+  },
+  {
+    id: "ch2_cassia",
+    chapter: "ch2",
+    world: 2,
+    title: "Cassia Wound",
+    tagline: "The tree will not stay cut.",
+    status: "live",
+    stationIds: ["ch2_cassia_1_grove"],
+  },
+  {
+    id: "ch2_mortar",
+    chapter: "ch2",
+    world: 3,
+    title: "Mortar Yard",
+    tagline: "Pestle and cakes. Not a kitchen.",
+    status: "live",
+    stationIds: ["ch2_mortar_1_bowls"],
+  },
+  {
+    id: "ch2_dust",
+    chapter: "ch2",
+    world: 4,
+    title: "Dust Sea",
+    tagline: "Crater rims and pale dust.",
+    status: "live",
+    stationIds: ["ch2_dust_1_rims"],
+  },
+  {
+    id: "ch2_wells",
+    chapter: "ch2",
+    world: 5,
+    title: "Quiet Wells",
+    tagline: "Cave mouths and still water.",
+    status: "live",
+    stationIds: ["ch2_wells_1_mouths"],
+  },
+  {
+    id: "ch2_silver",
+    chapter: "ch2",
+    world: 6,
+    title: "Far Silver",
+    tagline: "A quiet basin under the moon.",
+    status: "live",
+    stationIds: ["ch2_silver_1_basin"],
+  },
 ]
 
-function positionedWorlds(layout: StoryPathLayout): StoryWorldNode[] {
-  return WORLD_DEFS.flatMap((def) => {
-    const pos = layout === "art" ? ART_POS[def.id] : INK_POS[def.id]
+function posFor(id: StoryWorldId, layout: StoryPathLayout): { x: number; y: number } | undefined {
+  if (id === "ch2_outer" || id === "ch2_cassia" || id === "ch2_mortar" || id === "ch2_dust" || id === "ch2_wells" || id === "ch2_silver") {
+    return layout === "art" ? CH2_ART_POS[id] : CH2_INK_POS[id]
+  }
+  return layout === "art" ? ART_POS[id] : INK_POS[id]
+}
+
+function positionedWorlds(layout: StoryPathLayout, chapter: StoryChapterId = "ch1"): StoryWorldNode[] {
+  return WORLD_DEFS.filter((def) => def.chapter === chapter).flatMap((def) => {
+    const pos = posFor(def.id, layout)
     if (!pos) {
       return []
     }
@@ -254,14 +413,83 @@ const W2_CHAIN = ["w2_1_green_corridor", "w2_2_floating_logs", "w2_3_raft_gauntl
 const W3_CHAIN = ["w3_1_paper_lights", "w3_2_tiger_road", "w3_3_crane_summit"] as const
 const W4_CHAIN = ["w4_1_first_steps", "w4_2_no_return", "w4_3_closing_gale"] as const
 const MOON_CHAIN = ["moon_guanghan"] as const
+const CH2_OUTER = ["ch2_outer_1_courtyard"] as const
+const CH2_CASSIA = ["ch2_cassia_1_grove"] as const
+const CH2_MORTAR = ["ch2_mortar_1_bowls"] as const
+const CH2_DUST = ["ch2_dust_1_rims"] as const
+const CH2_WELLS = ["ch2_wells_1_mouths"] as const
+const CH2_SILVER = ["ch2_silver_1_basin"] as const
 
 function worldPlayableCleared(save: SaveV1, ids: readonly string[]): boolean {
   const cleared = new Set(save.progress.story.cleared)
   return ids.every((id) => cleared.has(id))
 }
 
-export function listWorlds(layout: StoryPathLayout = "ink"): StoryWorldNode[] {
-  return positionedWorlds(layout)
+export function listChapters(): StoryChapterNode[] {
+  return [...CHAPTERS]
+}
+
+export function chapterOfWorld(worldId: StoryWorldId): StoryChapterId {
+  const world = WORLD_DEFS.find((entry) => entry.id === worldId)
+  return world?.chapter ?? "ch1"
+}
+
+export function worldIdForLevelId(id: string): StoryWorldId {
+  if (id.startsWith("ch2_outer")) {
+    return "ch2_outer"
+  }
+  if (id.startsWith("ch2_cassia")) {
+    return "ch2_cassia"
+  }
+  if (id.startsWith("ch2_mortar")) {
+    return "ch2_mortar"
+  }
+  if (id.startsWith("ch2_dust")) {
+    return "ch2_dust"
+  }
+  if (id.startsWith("ch2_wells")) {
+    return "ch2_wells"
+  }
+  if (id.startsWith("ch2_silver")) {
+    return "ch2_silver"
+  }
+  if (id.startsWith("moon")) {
+    return "moon"
+  }
+  if (id.startsWith("w0_")) {
+    return "w0"
+  }
+  if (id.startsWith("w1_")) {
+    return "w1"
+  }
+  if (id.startsWith("w2_")) {
+    return "w2"
+  }
+  if (id.startsWith("w3_")) {
+    return "w3"
+  }
+  if (id.startsWith("w4_")) {
+    return "w4"
+  }
+  return "w0"
+}
+
+export function isChapterUnlocked(save: SaveV1, chapter: StoryChapterId): boolean {
+  if (chapter === "ch1") {
+    return true
+  }
+  if (chapter === "ch2") {
+    return worldPlayableCleared(save, MOON_CHAIN)
+  }
+  return false
+}
+
+export function listWorlds(layout: StoryPathLayout = "ink", chapter: StoryChapterId = "ch1"): StoryWorldNode[] {
+  return positionedWorlds(layout, chapter)
+}
+
+export function listAllWorlds(layout: StoryPathLayout = "ink"): StoryWorldNode[] {
+  return [...listWorlds(layout, "ch1"), ...listWorlds(layout, "ch2")]
 }
 
 export function findOverlappingWorldNodes(
@@ -270,8 +498,9 @@ export function findOverlappingWorldNodes(
   frameH = 420,
   cardW = 160,
   cardH = 96,
+  chapter: StoryChapterId = "ch1",
 ): string[] {
-  const worlds = positionedWorlds(layout)
+  const worlds = positionedWorlds(layout, chapter)
   const halfW = (cardW / frameW) * 50
   const halfH = (cardH / frameH) * 50
   const hits: string[] = []
@@ -290,7 +519,7 @@ export function findOverlappingWorldNodes(
 }
 
 export function getWorld(id: StoryWorldId, layout: StoryPathLayout = "ink"): StoryWorldNode | undefined {
-  return positionedWorlds(layout).find((world) => world.id === id)
+  return listAllWorlds(layout).find((world) => world.id === id)
 }
 
 export function getStation(id: string): StoryStation | undefined {
@@ -336,6 +565,24 @@ export function isWorldUnlocked(save: SaveV1, worldId: StoryWorldId): boolean {
   if (worldId === "moon") {
     return isW0Complete(save) && worldPlayableCleared(save, W4_CHAIN)
   }
+  if (worldId === "ch2_outer") {
+    return isChapterUnlocked(save, "ch2")
+  }
+  if (worldId === "ch2_cassia") {
+    return isChapterUnlocked(save, "ch2") && worldPlayableCleared(save, CH2_OUTER)
+  }
+  if (worldId === "ch2_mortar") {
+    return isChapterUnlocked(save, "ch2") && worldPlayableCleared(save, CH2_CASSIA)
+  }
+  if (worldId === "ch2_dust") {
+    return isChapterUnlocked(save, "ch2") && worldPlayableCleared(save, CH2_MORTAR)
+  }
+  if (worldId === "ch2_wells") {
+    return isChapterUnlocked(save, "ch2") && worldPlayableCleared(save, CH2_DUST)
+  }
+  if (worldId === "ch2_silver") {
+    return isChapterUnlocked(save, "ch2") && worldPlayableCleared(save, CH2_WELLS)
+  }
   return false
 }
 
@@ -356,6 +603,51 @@ export function isStationUnlocked(save: SaveV1, stationId: string): boolean {
   if (stationId.startsWith("w0_")) {
     const prev = previousInChain(W0_IDS, stationId)
     return prev === null || cleared.has(prev)
+  }
+  if (stationId.startsWith("ch2_")) {
+    if (!isChapterUnlocked(save, "ch2")) {
+      return false
+    }
+    if (stationId.startsWith("ch2_outer")) {
+      const prev = previousInChain(CH2_OUTER, stationId)
+      return prev === null || cleared.has(prev)
+    }
+    if (stationId.startsWith("ch2_cassia")) {
+      if (!worldPlayableCleared(save, CH2_OUTER)) {
+        return false
+      }
+      const prev = previousInChain(CH2_CASSIA, stationId)
+      return prev === null || cleared.has(prev)
+    }
+    if (stationId.startsWith("ch2_mortar")) {
+      if (!worldPlayableCleared(save, CH2_CASSIA)) {
+        return false
+      }
+      const prev = previousInChain(CH2_MORTAR, stationId)
+      return prev === null || cleared.has(prev)
+    }
+    if (stationId.startsWith("ch2_dust")) {
+      if (!worldPlayableCleared(save, CH2_MORTAR)) {
+        return false
+      }
+      const prev = previousInChain(CH2_DUST, stationId)
+      return prev === null || cleared.has(prev)
+    }
+    if (stationId.startsWith("ch2_wells")) {
+      if (!worldPlayableCleared(save, CH2_DUST)) {
+        return false
+      }
+      const prev = previousInChain(CH2_WELLS, stationId)
+      return prev === null || cleared.has(prev)
+    }
+    if (stationId.startsWith("ch2_silver")) {
+      if (!worldPlayableCleared(save, CH2_WELLS)) {
+        return false
+      }
+      const prev = previousInChain(CH2_SILVER, stationId)
+      return prev === null || cleared.has(prev)
+    }
+    return false
   }
   if (!isW0Complete(save)) {
     return false
@@ -441,5 +733,23 @@ export function defaultExpandedWorld(save: SaveV1): StoryWorldId {
   if (!worldPlayableCleared(save, MOON_CHAIN)) {
     return "moon"
   }
-  return "moon"
+  if (!worldPlayableCleared(save, CH2_OUTER)) {
+    return "ch2_outer"
+  }
+  if (!worldPlayableCleared(save, CH2_CASSIA)) {
+    return "ch2_cassia"
+  }
+  if (!worldPlayableCleared(save, CH2_MORTAR)) {
+    return "ch2_mortar"
+  }
+  if (!worldPlayableCleared(save, CH2_DUST)) {
+    return "ch2_dust"
+  }
+  if (!worldPlayableCleared(save, CH2_WELLS)) {
+    return "ch2_wells"
+  }
+  if (!worldPlayableCleared(save, CH2_SILVER)) {
+    return "ch2_silver"
+  }
+  return "ch2_silver"
 }

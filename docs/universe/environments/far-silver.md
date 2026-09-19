@@ -1,6 +1,7 @@
 # Environment — Far Silver
 
-Status: planned (Chapter 2 finale). Hub: [../README.md](../README.md). Chapter:
+Status: live (Chapter 2, first station Quiet Basin). The One Moon Pool remains the planned
+world finale, not this station. Hub: [../README.md](../README.md). Chapter:
 [../../story/chapters.md](../../story/chapters.md). One Moon Pool:
 [../../LORE.md](../../LORE.md#invented-elements-ours).
 

@@ -1,6 +1,6 @@
 # Environment — Cassia Wound
 
-Status: planned (Chapter 2). Wu Gang’s self-healing osmanthus as a region, not a
+Status: live (Chapter 2, first station Grove Cut). Wu Gang’s self-healing osmanthus as a region, not a
 single tree in a courtyard. Hub: [../README.md](../README.md). Lore:
 [../../LORE.md](../../LORE.md#wu-gang-吳剛).
 

@@ -1,0 +1,16 @@
+{
+  "id": "ch2_silver_1_basin",
+  "chapter": "ch2",
+  "world": 6,
+  "index": 1,
+  "name": "Quiet Basin",
+  "chunks": ["chunk_ch2_silver_a", "chunk_ch2_silver_b"],
+  "playerSpawn": { "x": 80, "y": 880 },
+  "moonPool": { "chunk": 0, "x": 240, "y": 880, "line": "This water still speaks. Farther is quieter." },
+  "exit": { "chunk": 1, "x": 840, "y": 860 },
+  "moonLine": "This water still speaks. Farther is quieter.",
+  "objective": "Hop the sparse pads to a still shore.",
+  "env": "moon",
+  "sky": "#151b2e",
+  "lowGravity": true
+}

@@ -1,0 +1,16 @@
+{
+  "id": "ch2_outer_1_courtyard",
+  "chapter": "ch2",
+  "world": 1,
+  "index": 1,
+  "name": "Frost Courtyard",
+  "chunks": ["chunk_ch2_outer_a", "chunk_ch2_outer_b"],
+  "playerSpawn": { "x": 80, "y": 900 },
+  "moonPool": { "chunk": 0, "x": 240, "y": 900, "line": "The roofs end. The cold does not." },
+  "exit": { "chunk": 1, "x": 820, "y": 860 },
+  "moonLine": "The roofs end. The cold does not.",
+  "objective": "Hop out of the palace gardens.",
+  "env": "moon",
+  "sky": "#151b2e",
+  "lowGravity": true
+}

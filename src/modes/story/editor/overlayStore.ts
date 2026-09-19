@@ -132,13 +132,22 @@ export function captureOverlay(def: StoryLevelDef, world: AssembledLevel): Edito
     platforms: world.platforms.map((rect) => ({ ...rect })),
     movers: world.movers.map((mover) => ({ ...mover })),
     enemies: world.enemies.map((enemy) => ({ ...enemy })),
-    pickups: (world.carrots ?? []).map((carrot) => ({
-      id: "carrot",
-      x: carrot.x,
-      y: carrot.y,
-      worldX: carrot.worldX,
-      worldY: carrot.worldY,
-    })),
+    pickups: [
+      ...(world.items ?? []).map((item) => ({
+        id: item.id,
+        x: item.x,
+        y: item.y,
+        worldX: item.worldX,
+        worldY: item.worldY,
+      })),
+      ...(world.carrots ?? []).map((carrot) => ({
+        id: "carrot",
+        x: carrot.x,
+        y: carrot.y,
+        worldX: carrot.worldX,
+        worldY: carrot.worldY,
+      })),
+    ],
     decor: (world.decor ?? []).map((item) => ({ ...item })),
     hazards: (world.hazards ?? []).map((item) => ({ ...item })),
     look: {
@@ -179,6 +188,15 @@ export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): Assembl
     carrots: pickups
       .filter((item) => item.id === "carrot")
       .map((item) => ({
+        x: item.x,
+        y: item.y,
+        worldX: item.worldX,
+        worldY: item.worldY,
+      })),
+    items: pickups
+      .filter((item) => item.id !== "carrot")
+      .map((item) => ({
+        id: item.id,
         x: item.x,
         y: item.y,
         worldX: item.worldX,

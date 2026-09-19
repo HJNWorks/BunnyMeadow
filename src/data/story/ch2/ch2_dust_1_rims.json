@@ -1,0 +1,16 @@
+{
+  "id": "ch2_dust_1_rims",
+  "chapter": "ch2",
+  "world": 4,
+  "index": 1,
+  "name": "Rim Walk",
+  "chunks": ["chunk_ch2_dust_a", "chunk_ch2_dust_b"],
+  "playerSpawn": { "x": 80, "y": 900 },
+  "moonPool": { "chunk": 0, "x": 200, "y": 900, "line": "Dust remembers every paw. Keep to the rims." },
+  "exit": { "chunk": 1, "x": 860, "y": 820 },
+  "moonLine": "Dust remembers every paw. Keep to the rims.",
+  "objective": "Keep to the crater rims.",
+  "env": "moon",
+  "sky": "#151b2e",
+  "lowGravity": true
+}

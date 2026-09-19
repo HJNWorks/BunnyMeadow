@@ -1,0 +1,18 @@
+{
+  "id": "chunk_ch2_mortar_a",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    { "x": 0, "y": 940, "w": 400, "h": 60 },
+    { "x": 480, "y": 860, "w": 160, "h": 24 },
+    { "x": 760, "y": 780, "w": 160, "h": 24 }
+  ],
+  "walls": [],
+  "enemies": [{ "id": "ice_spit", "x": 820, "y": 520 }],
+  "items": [
+    { "id": "mooncake", "x": 560, "y": 848 },
+    { "id": "mooncake", "x": 840, "y": 768 }
+  ],
+  "color": "#151b2e"
+}

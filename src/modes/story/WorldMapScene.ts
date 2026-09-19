@@ -7,14 +7,18 @@ import { playVoiceCue } from "../../data/voices"
 import { getAudio } from "../../core/audio"
 import { buildInkBrushSvg, inkProgressForWorlds } from "../../ui/inkBrushPath"
 import {
+  chapterOfWorld,
   defaultExpandedWorld,
   getStation,
+  isChapterUnlocked,
   isStationCleared,
   isStationUnlocked,
   isWorldUnlocked,
+  listChapters,
   listStations,
   listWorlds,
   worldClearCount,
+  type StoryChapterId,
   type StoryPathLayout,
   type StoryStation,
   type StoryWorldId,
@@ -107,6 +111,24 @@ const PATH_CSS = `
   border-color: #f0c35a;
   box-shadow: 0 0 0 2px #f0c35a66;
 }
+.story-path-chapters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 8px 0 0;
+}
+.story-path-chapter {
+  border-radius: 14px;
+  border: 1px solid #a7b38f;
+  background: #fffaf0ee;
+  color: #304c39;
+  font: inherit;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.story-path-chapter.is-on { border-color: #34583e; box-shadow: 0 0 0 2px #34583e33; }
+.story-path-chapter.is-locked,
+.story-path-chapter.is-soon { opacity: 0.55; cursor: default; }
 .story-path-rail {
   margin-top: 16px;
   display: grid;
@@ -165,6 +187,7 @@ function writeLayoutPreference(layout: StoryPathLayout): void {
 
 export class WorldMapScene extends Phaser.Scene {
   private expanded: StoryWorldId = "w0"
+  private chapter: StoryChapterId = "ch1"
   private beatRoot: HTMLElement | null = null
   private layout: StoryPathLayout = "ink"
 
@@ -172,15 +195,20 @@ export class WorldMapScene extends Phaser.Scene {
     super("WorldMap")
   }
 
-  create(): void {
+  create(data?: { chapter?: StoryChapterId }): void {
     getAudio().playMusic("menu")
     const save = getSave()
     const flags = getContentFlags()
     const defaultLayout: StoryPathLayout = flags.storyMapArt ? "art" : "ink"
     this.layout = flags.storyMapArt ? readLayoutPreference(defaultLayout) : "ink"
-    this.expanded = defaultExpandedWorld(save)
-
-    const worlds = listWorlds(this.layout)
+    const suggested = defaultExpandedWorld(save)
+    this.chapter = data?.chapter ?? chapterOfWorld(suggested)
+    if (!isChapterUnlocked(save, this.chapter)) {
+      this.chapter = "ch1"
+    }
+    const worlds = listWorlds(this.layout, this.chapter)
+    const inChapter = worlds.find((world) => world.id === suggested)
+    this.expanded = inChapter ? suggested : (worlds[0]?.id ?? "w0")
     const inkPoints = worlds.map((world) => ({
       x: (world.x / 100) * 1000,
       y: (world.y / 100) * 420,
@@ -194,7 +222,8 @@ export class WorldMapScene extends Phaser.Scene {
       ghostInk: "#6f804844",
     })
 
-    const artUrl = `${import.meta.env.BASE_URL}Story-Background.png`
+    const artFile = this.chapter === "ch2" ? "Story-Background-ch2.png" : "Story-Background.png"
+    const artUrl = `${import.meta.env.BASE_URL}${artFile}`
     const nodes = worlds
       .map((world) => {
         const unlocked = isWorldUnlocked(save, world.id)
@@ -222,13 +251,31 @@ export class WorldMapScene extends Phaser.Scene {
       })
       .join("")
 
+    const chapterChips = listChapters()
+      .map((chapter) => {
+        const unlocked = isChapterUnlocked(save, chapter.id)
+        const soon = chapter.status === "soon"
+        const on = this.chapter === chapter.id
+        const locked = !soon && !unlocked
+        return `
+          <button type="button"
+            class="story-path-chapter${on ? " is-on" : ""}${locked ? " is-locked" : ""}${soon ? " is-soon" : ""}"
+            data-chapter="${chapter.id}"
+            ${soon || locked ? "disabled" : ""}>
+            ${t(`story.chapter.${chapter.id}.title`)}
+          </button>
+        `
+      })
+      .join("")
+
     const { root } = mountDomShell(
       this,
       `
       <div class="bm-shell bm-wide story-path-shell">
         <div class="bm-eyebrow">${t("story.path.eyebrow")}</div>
-        <h1>${t("story.path.title")}</h1>
-        <p class="bm-tagline" data-ui="pathTagline">${t("story.path.tagline")}</p>
+        <h1>${t(`story.path.title.${this.chapter}`)}</h1>
+        <p class="bm-tagline" data-ui="pathTagline">${t(`story.path.tagline.${this.chapter}`)}</p>
+        <div class="story-path-chapters">${chapterChips}</div>
         <div class="story-path-frame${this.layout === "art" ? " is-art" : ""}" data-ui="frame" style="--story-map-art: url('${artUrl}')">
           ${inkSvg}
           ${nodes}
@@ -264,17 +311,16 @@ export class WorldMapScene extends Phaser.Scene {
 
     const renderRail = (): void => {
       const stations = listStations(this.expanded)
-      const world = listWorlds(this.layout).find((entry) => entry.id === this.expanded)
+      const world = worlds.find((entry) => entry.id === this.expanded)
       if (!world || world.status === "soon" || !isWorldUnlocked(getSave(), world.id)) {
         rail.hidden = true
         rail.innerHTML = ""
-        tagline.textContent =
-          this.layout === "art" ? t("story.path.taglineArt") : t("story.path.tagline")
+        tagline.textContent = t(`story.path.tagline.${this.chapter}`)
         return
       }
       rail.hidden = false
       tagline.textContent =
-        world.id === "w0" ? t("story.path.taglineW0") : t("story.path.tagline")
+        world.id === "w0" ? t("story.path.taglineW0") : t(`story.path.tagline.${this.chapter}`)
       rail.innerHTML = stations
         .map((station, index) => this.stationButton(station, index))
         .join("")
@@ -310,6 +356,20 @@ export class WorldMapScene extends Phaser.Scene {
         getAudio().playSfx("confirm")
         this.expanded = world.id
         syncNodes()
+      }
+    }
+
+    for (const chapter of listChapters()) {
+      const btn = root.querySelector(`[data-chapter="${chapter.id}"]`) as HTMLButtonElement | null
+      if (!btn || btn.disabled) {
+        continue
+      }
+      btn.onclick = () => {
+        if (chapter.id === this.chapter) {
+          return
+        }
+        getAudio().playSfx("confirm")
+        this.scene.start("WorldMap", { chapter: chapter.id })
       }
     }
 
@@ -350,7 +410,7 @@ export class WorldMapScene extends Phaser.Scene {
     save.progress.story.level = 1
     await persistSave()
     this.expanded = "w0"
-    this.scene.restart()
+    this.scene.start("WorldMap", { chapter: "ch1" })
   }
 
   private stationButton(station: StoryStation, index: number): string {

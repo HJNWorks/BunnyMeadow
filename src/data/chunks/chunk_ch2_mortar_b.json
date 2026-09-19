@@ -1,0 +1,13 @@
+{
+  "id": "chunk_ch2_mortar_b",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    { "x": 120, "y": 860, "w": 180, "h": 24 },
+    { "x": 440, "y": 940, "w": 520, "h": 60 }
+  ],
+  "walls": [],
+  "items": [{ "id": "mooncake", "x": 210, "y": 848 }],
+  "color": "#151b2e"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "chunk_ch2_outer_b",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    { "x": 0, "y": 860, "w": 180, "h": 24 },
+    { "x": 220, "y": 920, "w": 740, "h": 80 }
+  ],
+  "walls": [],
+  "items": [{ "id": "mooncake", "x": 440, "y": 892 }],
+  "color": "#151b2e"
+}

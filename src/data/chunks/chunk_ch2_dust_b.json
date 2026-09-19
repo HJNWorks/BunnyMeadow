@@ -1,0 +1,14 @@
+{
+  "id": "chunk_ch2_dust_b",
+  "width": 960,
+  "height": 1080,
+  "groundY": 820,
+  "platforms": [
+    { "x": 0, "y": 780, "w": 180, "h": 24 },
+    { "x": 260, "y": 900, "w": 160, "h": 24 },
+    { "x": 540, "y": 820, "w": 420, "h": 40 }
+  ],
+  "walls": [],
+  "enemies": [{ "id": "frost_wisp", "x": 140, "y": 640 }],
+  "color": "#151b2e"
+}

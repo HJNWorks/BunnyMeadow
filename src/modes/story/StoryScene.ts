@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import { ChunkAssembler } from "../../systems/ChunkAssembler"
 import { getStoryLevel, poolsOf, type StoryLevelDef } from "./levels"
+import { worldIdForLevelId } from "./path"
 import { applyOverlay,
   cloneStoryLevel,
   getOverlay,
@@ -463,9 +464,11 @@ export class StoryScene extends Phaser.Scene {
     this.hud.worldLabel.textContent =
       def.epilogue || def.id.startsWith("moon")
         ? t("story.hud.moon")
-        : def.world === 0
-          ? t("story.hud.world0")
-          : t("story.hud.world", { n: def.world })
+        : def.id.startsWith("ch2_")
+          ? t(`story.world.${worldIdForLevelId(def.id)}.title`)
+          : def.world === 0
+            ? t("story.hud.world0")
+            : t("story.hud.world", { n: def.world })
     if (this.editorMode) {
       requireEl<HTMLButtonElement>(shell.root, "[data-ui=back]").textContent = t("editor.back")
       this.hud.quit.textContent = t("editor.back")
@@ -773,15 +776,23 @@ export class StoryScene extends Phaser.Scene {
 
     this.pickups = this.physics.add.staticGroup()
     const overlay = isEditorEnabled() ? getOverlay(def.id) : undefined
-    const pickupList =
-      overlay?.pickups ??
-      world.carrots.map((carrot) => ({
+    const shippedPickups = [
+      ...(world.items ?? []).map((item) => ({
+        id: item.id,
+        x: item.x,
+        y: item.y,
+        worldX: item.worldX,
+        worldY: item.worldY,
+      })),
+      ...world.carrots.map((carrot) => ({
         id: "carrot",
         x: carrot.x,
         y: carrot.y,
         worldX: carrot.worldX,
         worldY: carrot.worldY,
-      }))
+      })),
+    ]
+    const pickupList = overlay?.pickups ?? shippedPickups
     for (let i = 0; i < pickupList.length; i += 1) {
       const item = pickupList[i]
       if (!item) {

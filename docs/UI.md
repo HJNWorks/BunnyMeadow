@@ -168,7 +168,7 @@ Migration: `migrateSave(raw) -> SaveV1`. Bump `version` and add a branch per old
 
 `progress.story.cleared` holds World 0 station ids (`w0_setting`, `w0_lore_moon`, `w0_controls`) and level ids (`w1_1_soft_paths`, …). Saves that already cleared any `w1_*` level auto-gain the three W0 stations on migrate. Positional checkpoints are not persisted.
 
-World Map: one landscape painting per chapter, HTML cards on art nodes. Chapter 1 is `Story-Background.png`. Chapter 2 later is `Story-Background-ch2.png`. One world rail open at a time. W0 stations open a DomShell beat panel. Level stations start Story. Badges show cleared/total per world (3/3 when bosses are done; moon when unlocked). Chapter 2 nodes stay dim until Han's moon. Hub: [story/chapters.md](story/chapters.md).
+World Map: one landscape painting per chapter, HTML cards on art nodes. Chapter 1 is `Story-Background.png`. Chapter 2 is `Story-Background-ch2.png`. One world rail open at a time. W0 stations open a DomShell beat panel. Level stations start Story. Badges show cleared/total per world (3/3 when bosses are done; moon when unlocked). Chapter 2 chip unlocks after `moon_guanghan`. Hub: [story/chapters.md](story/chapters.md).
 
 Fields reserved for later milestones (must exist from M1): `progress.story.*`, `tasksCompleted`, `endlessBest`. M5 adds `progress.endlessRuns` (per-difficulty top-10 `{ name, distance, seed, date }`), sanitized in `migrateSave`. I5 code intends `progress.bunnyJumpBest` (meters). Until then the field is documentation only.
 

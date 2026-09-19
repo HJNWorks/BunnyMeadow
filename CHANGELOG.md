@@ -8,9 +8,12 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
-- Story chapters as a layer above Worlds (docs only). Chapter 1 is the live
-  Burrow-to-Moon path. Chapter 2 Journey on Moon and untitled Chapter 3 are
-  planned. Hub: [docs/story/chapters.md](docs/story/chapters.md).
+- Chapter 2 first stations (Frost Courtyard, Grove Cut, Stone Bowls, Rim Walk,
+  Cave Mouths, Quiet Basin). Unlock after Guanghan. Painting:
+  `public/Story-Background-ch2.png`. Han's moon stays visual.
+- Story chapters as a layer above Worlds. Chapter 1 is the live Burrow-to-Moon
+  path. Chapter 2 Journey on Moon first stations are live. Untitled Chapter 3
+  stays planned. Hub: [docs/story/chapters.md](docs/story/chapters.md).
 - Shared pad catalog under [docs/platforms/](docs/platforms/README.md): collision,
   motion (including slide), surface, and break as stacked axes for Story, Endless,
   and Bunny Jump.

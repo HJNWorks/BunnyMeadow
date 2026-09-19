@@ -10,7 +10,7 @@ to have the codebase open.
 | Id | Display title | Status |
 | --- | --- | --- |
 | `ch1` | Burrow to Moon | live |
-| `ch2` | Journey on Moon | planned |
+| `ch2` | Journey on Moon | live (first stations) |
 | `ch3` | untitled | planned |
 
 Off-limits as HP bars in every chapter: Chang'e, Yue, Yutu, Wu Gang, moon toad,
@@ -33,8 +33,8 @@ beat. No burrow-exit as Mei's Chapter 1 finisher.
 ## Chapter 2 — Journey on Moon
 
 Lunar country beyond the palace walls. Tagline stays vague. Map title does not name
-the One Moon Pool. Painting later: `public/Story-Background-ch2.png`. Prompt:
-[chapter2-map-prompt.md](chapter2-map-prompt.md).
+the One Moon Pool. Painting: `public/Story-Background-ch2.png`. Prompt:
+[chapter2-map-prompt.md](chapter2-map-prompt.md). First station of each world is live.
 
 Six worlds, same card count as Chapter 1:
 
@@ -47,8 +47,7 @@ Six worlds, same card count as Chapter 1:
 | Quiet Wells | Cold caves. Toad pools as background, not an HP bar |
 | Far Silver | The One Moon Pool. Portal into Chapter 3. Do not print "portal" on the card |
 
-Unlock: land on Han's grown moon after Guanghan. `moon_guanghan` cleared is not enough
-once the pad exists. Until that code lands, docs treat Chapter 1 clear as the gate.
+Unlock: `moon_guanghan` cleared. Han's grown moon stays visual. No jump pad this pass.
 
 ## Chapter 3 — untitled
 
@@ -72,10 +71,9 @@ One Pool is the exception.
 
 ## Editor
 
-Later code. Build bar: **Chapter** dropdown left of World, then Station. Insert beside
-the World/Station selects in `src/modes/story/editor/BuildHud.ts`. Chapter 1 lists live
-worlds. Chapter 2 and 3 list planned worlds (disabled or empty until levels exist).
+Build bar: **Chapter** dropdown left of World, then Station
+(`src/modes/story/editor/BuildHud.ts`). Chapter 1 lists live worlds. Chapter 2 lists the
+six first stations. Chapter 3 stays empty.
 
-TODO: `StoryChapterId`, `listChapters()`, World Map chapter switcher, Han moon collider,
-`Story-Background-ch2.png`, editor Chapter select. Live epilogue copy in `en.json` /
-`voices.json` still says the crane carries them all home. Update that when the moon pad ships.
+TODO: Han moon collider (not this pass). Live epilogue copy in `en.json` / `voices.json`
+still says the crane carries them all home.

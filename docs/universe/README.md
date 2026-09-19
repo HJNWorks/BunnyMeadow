@@ -8,7 +8,7 @@ Folklore backing: [../LORE.md](../LORE.md). Chapters: [../story/chapters.md](../
 The universe is not a set of unrelated levels. It is a vertical journey,
 "the Ladder", cut into rungs for Chapter 1. After rung 8 the journey continues
 *across* the moon. It does not climb Earth again. Story mode walks the canonical
-rungs in order, then the planned Chapter 2 lunar worlds. Endless walks a seeded
+rungs in order, then Chapter 2 lunar worlds. Endless walks a seeded
 route through the Earth rungs. Meadow and the Meadow-canvas Moon Tasks borrow
 individual rungs as backdrops. Bunny Jump walks the clock by height on the same
 palettes.
@@ -29,16 +29,16 @@ One night, one ascent to Guanghan, then lunar country. Chapter 1 rungs, low to h
 | 7 | Cloud Sea | sky | deep night | live (Story) |
 | 8 | Moon Garden | moon | eternal night | live |
 
-Chapter 2 (planned, still altitude moon, eternal night). Does not re-enter Earth rungs:
+Chapter 2 (first stations live, still altitude moon, eternal night). Does not re-enter Earth rungs:
 
 | After 8 | Environment | Status |
 | --- | --- | --- |
-| Outer Cold | palace gardens beyond Guanghan. Reuses `moon` | planned |
-| Cassia Wound | Wu Gang's tree as a region | planned |
-| Mortar Yard | Yutu's elixir yard | planned |
-| Dust Sea | crater plains | planned |
-| Quiet Wells | cold caves | planned |
-| Far Silver | One Moon Pool | planned |
+| Outer Cold | palace gardens beyond Guanghan. Reuses `moon` | live (Frost Courtyard) |
+| Cassia Wound | Wu Gang's tree as a region | live (Grove Cut) |
+| Mortar Yard | Yutu's elixir yard | live (Stone Bowls) |
+| Dust Sea | crater plains | live (Rim Walk) |
+| Quiet Wells | cold caves | live (Cave Mouths) |
+| Far Silver | quiet basin. One Moon Pool still planned as the world finale | live (Quiet Basin) |
 
 Riverbank sits at a valley floor between hills and foothills: the climb dips to
 cross water before rising to the festival town. That dip is deliberate and lets the

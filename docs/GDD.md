@@ -21,7 +21,7 @@ Port of the current canvas game. Collect carrots, return to the burrow, dodge en
 
 ### Story (side-scroller)
 
-Left-to-right platformer. Authored levels from reusable chunks. Moon Pool checkpoints (Cloud Stair 4-2 and 4-3 restart the station). One boss or chase per world. Hub is the burrow until Mei stays on the moon. World Map is one painting per chapter. Chapter 1 uses `Story-Background.png`. Chapter 2 later uses `Story-Background-ch2.png`. See [STORY.md](STORY.md), [WORLDS.md](WORLDS.md), and [story/chapters.md](story/chapters.md).
+Left-to-right platformer. Authored levels from reusable chunks. Moon Pool checkpoints (Cloud Stair 4-2 and 4-3 restart the station). One boss or chase per world. Hub is the burrow until Mei stays on the moon. World Map is one painting per chapter. Chapter 1 uses `Story-Background.png`. Chapter 2 uses `Story-Background-ch2.png`. See [STORY.md](STORY.md), [WORLDS.md](WORLDS.md), and [story/chapters.md](story/chapters.md).
 
 ### Moon Tasks (short objectives, 1 to 3 minutes)
 

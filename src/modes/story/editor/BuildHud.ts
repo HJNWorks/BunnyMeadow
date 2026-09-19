@@ -24,6 +24,7 @@ import {
   allCritterIds,
   allItemIds,
   critterLabel,
+  editorChapterForLevel,
   editorWorldIdForLevel,
   envTokenLabel,
   itemLabel,
@@ -33,6 +34,7 @@ import {
   stationsForWorld,
   type EditorWorldId,
 } from "./worldIndex"
+import { listChapters, type StoryChapterId } from "../path"
 import {
   getPalette,
   listPaletteIds,
@@ -322,6 +324,9 @@ export function mountBuildHud(session: EditorSession): void {
     `
     <div class="bm-editor-top" data-ui="topBar">
       <div class="bm-editor-top-row">
+        <label>${t("editor.chapter")}
+          <select data-ui="chapterId"></select>
+        </label>
         <label>${t("editor.world")}
           <select data-ui="worldId"></select>
         </label>
@@ -448,6 +453,7 @@ export function mountBuildHud(session: EditorSession): void {
   const lookFog = requireEl<HTMLInputElement>(root, "[data-ui=lookFog]")
   const mapWidthInput = requireEl<HTMLInputElement>(root, "[data-ui=mapWidth]")
   const statusEl = requireEl<HTMLElement>(root, "[data-ui=status]")
+  const chapterIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=chapterId]")
   const worldIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=worldId]")
   const stationIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=stationId]")
   const envAdd = requireEl<HTMLSelectElement>(root, "[data-ui=envAdd]")
@@ -1562,8 +1568,8 @@ export function mountBuildHud(session: EditorSession): void {
     session.scene.scene.start("Settings")
   }
 
-  const fillStations = (worldId: EditorWorldId, selectedId: string): void => {
-    const stations = stationsForWorld(worldId)
+  const fillStations = (worldId: EditorWorldId, selectedId: string, chapter: StoryChapterId): void => {
+    const stations = stationsForWorld(worldId, chapter)
     const fallback = stations[0]?.id ?? selectedId
     const current = stations.some((level) => level.id === selectedId) ? selectedId : fallback
     stationIdEl.innerHTML = stations
@@ -1575,20 +1581,53 @@ export function mountBuildHud(session: EditorSession): void {
     stationIdEl.value = current
   }
 
-  const worlds = listEditorWorldIndex()
-  const currentWorld = editorWorldIdForLevel(session.level)
-  worldIdEl.innerHTML = worlds
-    .map(
-      (world) =>
-        `<option value="${world.id}" ${world.id === currentWorld ? "selected" : ""}>${t(world.titleKey)}</option>`,
-    )
+  const fillWorlds = (chapter: StoryChapterId, selectedWorld: EditorWorldId, selectedStation: string): void => {
+    const worlds = listEditorWorldIndex(chapter)
+    const currentWorld = worlds.some((world) => world.id === selectedWorld)
+      ? selectedWorld
+      : (worlds[0]?.id ?? selectedWorld)
+    worldIdEl.innerHTML = worlds
+      .map(
+        (world) =>
+          `<option value="${world.id}" ${world.id === currentWorld ? "selected" : ""}>${t(world.titleKey)}</option>`,
+      )
+      .join("")
+    worldIdEl.value = currentWorld
+    fillStations(currentWorld, selectedStation, chapter)
+  }
+
+  const currentChapter = editorChapterForLevel(session.level)
+  chapterIdEl.innerHTML = listChapters()
+    .map((chapter) => {
+      const label = t(`story.chapter.${chapter.id}.title`)
+      const disabled = chapter.status === "soon" ? "disabled" : ""
+      const selected = chapter.id === currentChapter ? "selected" : ""
+      return `<option value="${chapter.id}" ${selected} ${disabled}>${label}</option>`
+    })
     .join("")
-  fillStations(currentWorld, session.level.id)
+  chapterIdEl.value = currentChapter
+  fillWorlds(currentChapter, editorWorldIdForLevel(session.level), session.level.id)
   setLastEditorStation(session.level.id)
+
+  chapterIdEl.onchange = () => {
+    const chapter = chapterIdEl.value as StoryChapterId
+    const worlds = listEditorWorldIndex(chapter)
+    const next = worlds[0]?.stations[0]?.id
+    if (!next || next === session.level.id) {
+      fillWorlds(chapter, worlds[0]?.id ?? editorWorldIdForLevel(session.level), session.level.id)
+      return
+    }
+    persist()
+    setLastEditorStation(next)
+    session.scene.scene.restart({
+      levelId: next,
+      editor: { mode: session.mode },
+    })
+  }
 
   worldIdEl.onchange = () => {
     const worldId = worldIdEl.value as EditorWorldId
-    fillStations(worldId, stationIdEl.value)
+    fillStations(worldId, stationIdEl.value, chapterIdEl.value as StoryChapterId)
     const next = stationIdEl.value
     if (next && next !== session.level.id) {
       persist()

@@ -1,0 +1,14 @@
+{
+  "id": "chunk_ch2_cassia_a",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    { "x": 0, "y": 920, "w": 360, "h": 80 },
+    { "x": 400, "y": 780, "w": 220, "h": 24 },
+    { "x": 720, "y": 640, "w": 200, "h": 24 }
+  ],
+  "walls": [],
+  "items": [{ "id": "mooncake", "x": 820, "y": 628 }],
+  "color": "#151b2e"
+}

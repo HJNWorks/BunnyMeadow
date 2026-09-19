@@ -1,5 +1,5 @@
 import { listStoryLevels, getStoryLevel, type StoryLevelDef } from "../levels"
-import { listWorlds, getStation, type StoryWorldId } from "../path"
+import { listAllWorlds, listWorlds, getStation, type StoryChapterId, type StoryWorldId, worldIdForLevelId } from "../path"
 import { storyEnvForLevel } from "../shared/themeKit"
 import {
   ALL_CRITTERS,
@@ -53,35 +53,22 @@ const SHARED_ENV: EditorEnvToken[] = [
   "pool",
 ]
 
+export function editorChapterForLevel(level: StoryLevelDef): StoryChapterId {
+  return level.id.startsWith("ch2_") ? "ch2" : "ch1"
+}
+
 export function editorWorldIdForLevel(level: StoryLevelDef): EditorWorldId {
-  if (level.id.startsWith("moon")) {
-    return "moon"
-  }
-  if (level.id.startsWith("w0_")) {
-    return "w0"
-  }
-  if (level.id.startsWith("w1_")) {
-    return "w1"
-  }
-  if (level.id.startsWith("w2_")) {
-    return "w2"
-  }
-  if (level.id.startsWith("w3_")) {
-    return "w3"
-  }
-  if (level.id.startsWith("w4_")) {
-    return "w4"
-  }
-  return "w0"
+  return worldIdForLevelId(level.id)
 }
 
 export function envForEditorLevel(level: StoryLevelDef): string {
   return level.env ?? storyEnvForLevel(level.world, level.index, level.id)
 }
 
-export function listEditorWorldIndex(): EditorWorldEntry[] {
+export function listEditorWorldIndex(chapter?: StoryChapterId): EditorWorldEntry[] {
   const playable = new Map(listStoryLevels().map((level) => [level.id, level]))
-  return listWorlds().map((world) => {
+  const worlds = chapter ? listWorlds("ink", chapter) : listAllWorlds()
+  return worlds.map((world) => {
     const stations = world.stationIds
       .map((id) => getStation(id))
       .map((station) => (station?.levelId ? playable.get(station.levelId) : undefined))
@@ -102,8 +89,8 @@ export function listEditorWorldIndex(): EditorWorldEntry[] {
   })
 }
 
-export function stationsForWorld(worldId: EditorWorldId): StoryLevelDef[] {
-  return listEditorWorldIndex().find((entry) => entry.id === worldId)?.stations ?? []
+export function stationsForWorld(worldId: EditorWorldId, chapter?: StoryChapterId): StoryLevelDef[] {
+  return listEditorWorldIndex(chapter).find((entry) => entry.id === worldId)?.stations ?? []
 }
 
 export function getLastEditorStation(): string {

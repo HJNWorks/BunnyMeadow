@@ -1,0 +1,15 @@
+{
+  "id": "chunk_ch2_dust_a",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    { "x": 0, "y": 940, "w": 280, "h": 40 },
+    { "x": 400, "y": 820, "w": 160, "h": 24 },
+    { "x": 680, "y": 940, "w": 140, "h": 24 }
+  ],
+  "walls": [],
+  "enemies": [{ "id": "frost_wisp", "x": 500, "y": 700 }],
+  "carrots": [{ "x": 750, "y": 920 }],
+  "color": "#151b2e"
+}

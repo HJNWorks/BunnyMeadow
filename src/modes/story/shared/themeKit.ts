@@ -223,6 +223,9 @@ export function createLanternGlow(scene: Phaser.Scene): Phaser.GameObjects.Image
 }
 
 export function storyEnvForLevel(world: number, index: number, id: string): string {
+  if (id.startsWith("ch2_")) {
+    return "moon"
+  }
   if (id.startsWith("moon")) {
     return "moon"
   }

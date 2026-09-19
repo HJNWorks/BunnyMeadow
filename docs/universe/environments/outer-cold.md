@@ -1,7 +1,7 @@
 # Environment — Outer Cold
 
-Status: planned (Chapter 2). First region after Han’s inner gate. Still the moon.
-Not Earth. Hub: [../README.md](../README.md). Chapter: [../../story/chapters.md](../../story/chapters.md).
+Status: live (Chapter 2, first station Frost Courtyard). First region after Guanghan.
+Still the moon. Not Earth. Hub: [../README.md](../README.md). Chapter: [../../story/chapters.md](../../story/chapters.md).
 
 Reuses the live `moon` palette and low gravity. Guanghan roofs recede. Frost courtyards
 open.

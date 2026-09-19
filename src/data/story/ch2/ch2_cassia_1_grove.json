@@ -1,0 +1,16 @@
+{
+  "id": "ch2_cassia_1_grove",
+  "chapter": "ch2",
+  "world": 2,
+  "index": 1,
+  "name": "Grove Cut",
+  "chunks": ["chunk_ch2_cassia_a", "chunk_ch2_cassia_b"],
+  "playerSpawn": { "x": 80, "y": 880 },
+  "moonPool": { "chunk": 0, "x": 200, "y": 880, "line": "The tree closes every cut. Hop the wound." },
+  "exit": { "chunk": 1, "x": 800, "y": 700 },
+  "moonLine": "The tree closes every cut. Hop the wound.",
+  "objective": "Hop the living wood.",
+  "env": "moon",
+  "sky": "#151b2e",
+  "lowGravity": true
+}

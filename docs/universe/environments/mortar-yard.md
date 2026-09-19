@@ -1,6 +1,6 @@
 # Environment — Mortar Yard
 
-Status: planned (Chapter 2). Yutu’s elixir work. Not a kitchen. Hub:
+Status: live (Chapter 2, first station Stone Bowls). Yutu’s elixir work. Not a kitchen. Hub:
 [../README.md](../README.md). Lore:
 [../../LORE.md](../../LORE.md#jade-rabbit--yutu-玉兔).
 

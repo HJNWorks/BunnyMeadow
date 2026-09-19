@@ -12,6 +12,12 @@ import level41 from "../../data/story/w4/w4_1_first_steps.json"
 import level42 from "../../data/story/w4/w4_2_no_return.json"
 import level43 from "../../data/story/w4/w4_3_closing_gale.json"
 import levelMoon from "../../data/story/moon/moon_guanghan.json"
+import levelCh2Outer from "../../data/story/ch2/ch2_outer_1_courtyard.json"
+import levelCh2Cassia from "../../data/story/ch2/ch2_cassia_1_grove.json"
+import levelCh2Mortar from "../../data/story/ch2/ch2_mortar_1_bowls.json"
+import levelCh2Dust from "../../data/story/ch2/ch2_dust_1_rims.json"
+import levelCh2Wells from "../../data/story/ch2/ch2_wells_1_mouths.json"
+import levelCh2Silver from "../../data/story/ch2/ch2_silver_1_basin.json"
 
 export type StoryBossDef = {
   kind: "fox_cart" | "heron" | "crane" | "gale" | "han"
@@ -37,6 +43,7 @@ export type MoonPoolDef = {
 
 export type StoryLevelDef = {
   id: string
+  chapter?: "ch1" | "ch2" | "ch3"
   world: number
   index: number
   name: string
@@ -81,6 +88,12 @@ const LEVELS: StoryLevelDef[] = [
   level42 as StoryLevelDef,
   level43 as StoryLevelDef,
   levelMoon as StoryLevelDef,
+  levelCh2Outer as StoryLevelDef,
+  levelCh2Cassia as StoryLevelDef,
+  levelCh2Mortar as StoryLevelDef,
+  levelCh2Dust as StoryLevelDef,
+  levelCh2Wells as StoryLevelDef,
+  levelCh2Silver as StoryLevelDef,
 ]
 
 export function listStoryLevels(): StoryLevelDef[] {

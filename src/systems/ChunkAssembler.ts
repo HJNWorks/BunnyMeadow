@@ -33,6 +33,18 @@ import chunkStairMidA from "../data/chunks/chunk_stair_mid_a.json"
 import chunkStairMidB from "../data/chunks/chunk_stair_mid_b.json"
 import chunkStairGaleA from "../data/chunks/chunk_stair_gale_a.json"
 import chunkStairGaleB from "../data/chunks/chunk_stair_gale_b.json"
+import chunkCh2OuterA from "../data/chunks/chunk_ch2_outer_a.json"
+import chunkCh2OuterB from "../data/chunks/chunk_ch2_outer_b.json"
+import chunkCh2CassiaA from "../data/chunks/chunk_ch2_cassia_a.json"
+import chunkCh2CassiaB from "../data/chunks/chunk_ch2_cassia_b.json"
+import chunkCh2MortarA from "../data/chunks/chunk_ch2_mortar_a.json"
+import chunkCh2MortarB from "../data/chunks/chunk_ch2_mortar_b.json"
+import chunkCh2DustA from "../data/chunks/chunk_ch2_dust_a.json"
+import chunkCh2DustB from "../data/chunks/chunk_ch2_dust_b.json"
+import chunkCh2WellsA from "../data/chunks/chunk_ch2_wells_a.json"
+import chunkCh2WellsB from "../data/chunks/chunk_ch2_wells_b.json"
+import chunkCh2SilverA from "../data/chunks/chunk_ch2_silver_a.json"
+import chunkCh2SilverB from "../data/chunks/chunk_ch2_silver_b.json"
 
 export type ChunkId = string
 
@@ -73,6 +85,8 @@ export type ChunkHazard = ChunkRect & {
 
 export type ChunkCarrot = { x: number; y: number }
 
+export type ChunkItem = { id: string; x: number; y: number }
+
 export type EndlessEnv =
   | "meadow"
   | "orchard"
@@ -101,6 +115,8 @@ export type ChunkDef = {
   movers?: ChunkMover[]
   hazards?: ChunkHazard[]
   carrots?: ChunkCarrot[]
+  items?: ChunkItem[]
+  decor?: AssembledDecor[]
   itemSlots?: ChunkItemSlot[]
   endless?: ChunkEndlessMeta
   color: string
@@ -132,6 +148,8 @@ export type AssembledHazard = ChunkHazard & { worldX: number; worldY: number }
 
 export type AssembledCarrot = ChunkCarrot & { worldX: number; worldY: number }
 
+export type AssembledItem = ChunkItem & { worldX: number; worldY: number }
+
 export type AssembledLevel = {
   width: number
   height: number
@@ -141,6 +159,7 @@ export type AssembledLevel = {
   movers: AssembledMover[]
   hazards: AssembledHazard[]
   carrots: AssembledCarrot[]
+  items: AssembledItem[]
   decor: AssembledDecor[]
   chunkOrigins: number[]
   colors: { x: number; width: number; color: string }[]
@@ -182,6 +201,18 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_stair_mid_b: chunkStairMidB as ChunkDef,
   chunk_stair_gale_a: chunkStairGaleA as ChunkDef,
   chunk_stair_gale_b: chunkStairGaleB as ChunkDef,
+  chunk_ch2_outer_a: chunkCh2OuterA as ChunkDef,
+  chunk_ch2_outer_b: chunkCh2OuterB as ChunkDef,
+  chunk_ch2_cassia_a: chunkCh2CassiaA as ChunkDef,
+  chunk_ch2_cassia_b: chunkCh2CassiaB as ChunkDef,
+  chunk_ch2_mortar_a: chunkCh2MortarA as ChunkDef,
+  chunk_ch2_mortar_b: chunkCh2MortarB as ChunkDef,
+  chunk_ch2_dust_a: chunkCh2DustA as ChunkDef,
+  chunk_ch2_dust_b: chunkCh2DustB as ChunkDef,
+  chunk_ch2_wells_a: chunkCh2WellsA as ChunkDef,
+  chunk_ch2_wells_b: chunkCh2WellsB as ChunkDef,
+  chunk_ch2_silver_a: chunkCh2SilverA as ChunkDef,
+  chunk_ch2_silver_b: chunkCh2SilverB as ChunkDef,
 }
 
 const endlessModules = import.meta.glob<{ default: ChunkDef }>(
@@ -209,6 +240,7 @@ export class ChunkAssembler {
     const movers: AssembledMover[] = []
     const hazards: AssembledHazard[] = []
     const carrots: AssembledCarrot[] = []
+    const items: AssembledItem[] = []
     const decor: AssembledDecor[] = []
     const chunkOrigins: number[] = []
     const colors: { x: number; width: number; color: string }[] = []
@@ -284,6 +316,19 @@ export class ChunkAssembler {
           worldY: c.y,
         })
       }
+      for (const item of chunk.items ?? []) {
+        items.push({
+          ...item,
+          worldX: x + item.x,
+          worldY: item.y,
+        })
+      }
+      for (const piece of chunk.decor ?? []) {
+        decor.push({
+          ...piece,
+          x: x + piece.x,
+        })
+      }
       x += chunk.width
     }
 
@@ -296,6 +341,7 @@ export class ChunkAssembler {
       movers,
       hazards,
       carrots,
+      items,
       decor,
       chunkOrigins,
       colors,

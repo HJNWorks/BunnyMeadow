@@ -1,0 +1,15 @@
+{
+  "id": "chunk_ch2_wells_a",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    { "x": 0, "y": 940, "w": 320, "h": 60 },
+    { "x": 400, "y": 800, "w": 200, "h": 28 },
+    { "x": 700, "y": 680, "w": 180, "h": 24 }
+  ],
+  "walls": [],
+  "hazards": [{ "kind": "water", "x": 420, "y": 960, "w": 200, "h": 80 }],
+  "enemies": [{ "id": "frost_wisp", "x": 900, "y": 560 }],
+  "color": "#151b2e"
+}

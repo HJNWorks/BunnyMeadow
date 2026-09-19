@@ -32,10 +32,10 @@ Shared by Meadow, Story, Tasks, Endless. Each kit: tileset, palette, parallax la
 ## Story path map
 
 Story opens on an HTML landscape painting. Chapter 1 uses `Story-Background.png`.
-Chapter 2 later uses `Story-Background-ch2.png`. Worlds are nodes. Expanding a live
+Chapter 2 uses `Story-Background-ch2.png`. Worlds are nodes. Expanding a live
 world shows its stations. Locked later worlds stay visible as dim nodes.
 
-Path progress (Chapter 1): Worlds 1–4 each expose three clearable stations (two platformers + boss or chase). Guanghan unlocks after Closing Gale. Next world (and the moon) unlock only after that world's last station is cleared. Saves that cleared W1 2/2 before Cart Chase remain on World 1 until Cart is done. Chapter 2 unlocks when Mei lands on Han's grown moon (today: Guanghan clear + epilogue. Later: moon collider).
+Path progress (Chapter 1): Worlds 1–4 each expose three clearable stations (two platformers + boss or chase). Guanghan unlocks after Closing Gale. Next world (and the moon) unlock only after that world's last station is cleared. Saves that cleared W1 2/2 before Cart Chase remain on World 1 until Cart is done. Chapter 2 unlocks when `moon_guanghan` is cleared. Han's moon stays visual.
 
 ### Chapter 1 — Burrow to Moon (live)
 
@@ -87,20 +87,20 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 | --- | --- | --- | --- | --- |
 | M-1 Guanghan | moon | low gravity, duck roofs, mooncake warmth dash vs Han | Gift beat. Yue and kits go home. Mei jumps Han's moon (today: epilogue cards). `MOON_RETURN` | live |
 
-### Chapter 2 — Journey on Moon (planned)
+### Chapter 2 — Journey on Moon (first stations live)
 
-Display title stays vague. Unlock: Han's moon after Guanghan. Painting prompt: [story/chapter2-map-prompt.md](story/chapter2-map-prompt.md).
+Display title stays vague. Unlock: `moon_guanghan` cleared. Painting: `public/Story-Background-ch2.png`.
 
-| World | Env page | Teach (working) | Exit | Status |
-| --- | --- | --- | --- | --- |
-| Outer Cold | [outer-cold.md](universe/environments/outer-cold.md) | leave the palace gardens | next world | planned |
-| Cassia Wound | [cassia-wound.md](universe/environments/cassia-wound.md) | living wood | next world | planned |
-| Mortar Yard | [mortar-yard.md](universe/environments/mortar-yard.md) | pestle beats, cakes | next world | planned |
-| Dust Sea | [dust-sea.md](universe/environments/dust-sea.md) | crater drifts, invented fauna | next world | planned |
-| Quiet Wells | [quiet-wells.md](universe/environments/quiet-wells.md) | cold caves | next world | planned |
-| Far Silver | [far-silver.md](universe/environments/far-silver.md) | One Moon Pool | Chapter 3 | planned |
+| World | Station | Env page | Teach | Exit | Status |
+| --- | --- | --- | --- | --- | --- |
+| Outer Cold | Frost Courtyard | [outer-cold.md](universe/environments/outer-cold.md) | leave the palace gardens | next world | live |
+| Cassia Wound | Grove Cut | [cassia-wound.md](universe/environments/cassia-wound.md) | living wood | next world | live |
+| Mortar Yard | Stone Bowls | [mortar-yard.md](universe/environments/mortar-yard.md) | bowl rims, ice_spit as pestle beat | next world | live |
+| Dust Sea | Rim Walk | [dust-sea.md](universe/environments/dust-sea.md) | crater drifts, frost_wisp as dust mites | next world | live |
+| Quiet Wells | Cave Mouths | [quiet-wells.md](universe/environments/quiet-wells.md) | cold caves, one water well | next world | live |
+| Far Silver | Quiet Basin | [far-silver.md](universe/environments/far-silver.md) | sparse pads to a still shore. Not the One Pool | next world | live |
 
-Station lists and `ART_POS` percents wait for the painting. Do not invent button x/y yet.
+Stations 2 and 3 of each world stay unbuilt. Far Silver's One Moon Pool is still the planned world finale, not this first station.
 
 ### Chapter 3 — untitled (planned)
 

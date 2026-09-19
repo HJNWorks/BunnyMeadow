@@ -1,0 +1,16 @@
+{
+  "id": "ch2_wells_1_mouths",
+  "chapter": "ch2",
+  "world": 5,
+  "index": 1,
+  "name": "Cave Mouths",
+  "chunks": ["chunk_ch2_wells_a", "chunk_ch2_wells_b"],
+  "playerSpawn": { "x": 80, "y": 900 },
+  "moonPool": { "chunk": 0, "x": 200, "y": 900, "line": "Still water. Not the far one." },
+  "exit": { "chunk": 1, "x": 820, "y": 700 },
+  "moonLine": "Still water. Not the far one.",
+  "objective": "Hop the cave lips. One well waits below.",
+  "env": "moon",
+  "sky": "#151b2e",
+  "lowGravity": true
+}

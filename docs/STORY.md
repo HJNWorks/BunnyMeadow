@@ -23,7 +23,7 @@ Dialogue rule: two lines max per exchange. Skippable. Moon Pool lines are one li
 
 ## Story spine
 
-Live spine is **Chapter 1 — Burrow to Moon**. Chapter 2 and 3 are planned.
+Live spine is **Chapter 1 — Burrow to Moon** plus Chapter 2 first stations. Chapter 3 is planned.
 
 ### 0. World 0 — Burrow Eve (stations, no platforming)
 
@@ -127,19 +127,19 @@ After Han settles, Chang'e asks Mei to stay because the palace is quiet ([loneli
 
 Mei offers a mooncake and a promise: every full moon the burrow will look up and wave. Gift beat inspired by [Sasa Jataka](LORE.md#sasa-jataka-jataka-316) (labeled, not Chinese canon).
 
-Chang'e keeps the gift. The crane carries Yue and the kits home. Mei does not ride that crane. She jumps onto Han's grown moon. That landing is the inner gate into lunar country beyond the palace. It unlocks Chapter 2. Guanghan is already on the moon. Han's moon is not first arrival from Earth.
+Chang'e keeps the gift. The crane carries Yue and the kits home. Mei does not ride that crane. She jumps onto Han's grown moon. That landing is the inner gate into lunar country beyond the palace. Guanghan is already on the moon. Han's moon is not first arrival from Earth.
 
-Today the grown moon is visual only. Exit is still the four epilogue cards. Later: collider. Jump after the gift beat.
+Today the grown moon is visual only. Exit is still the four epilogue cards. Chapter 2 unlocks when `moon_guanghan` is cleared. Later: collider. Jump after the gift beat.
 
 ### Epilogue (Chapter 1)
 
 Why rabbits sit and watch the moon. The burrow reunion is Yue's. Mei remains in Vast Cold. Fade on waving kits on Earth, and Mei on the inner gate.
 
-### Chapter 2 — Journey on Moon (planned)
+### Chapter 2 — Journey on Moon (first stations live)
 
-Mei walks the lunar surface beyond Guanghan: Outer Cold, Cassia Wound, Mortar Yard, Dust Sea, Quiet Wells, Far Silver. Yutu pounds elixir in a mortar yard. He does not cook a meal. Invented fauna with folk names. Optional star raft wreck. Caves and craters. NASA colonies and spaceships stay out.
+Mei walks the lunar surface beyond Guanghan: Outer Cold, Cassia Wound, Mortar Yard, Dust Sea, Quiet Wells, Far Silver. First station of each world is live. Stations 2 and 3 stay unbuilt. Yutu pounds elixir in a mortar yard. He does not cook a meal. Invented fauna with folk names. Optional star raft wreck. Caves and craters. NASA colonies and spaceships stay out.
 
-Far Silver holds the [One Moon Pool](LORE.md#invented-elements-ours). Ordinary pools still speak one ticker line. This pool is the Chapter 2 exit. Map cards do not print portal.
+Far Silver's first station is Quiet Basin, an ordinary still shore. The [One Moon Pool](LORE.md#invented-elements-ours) stays the planned world finale. Ordinary pools still speak one ticker line. Map cards do not print portal.
 
 ### Chapter 3 — untitled (planned)
 
@@ -168,4 +168,4 @@ After the One Pool, working choice is ascent toward [Xiwangmu](LORE.md#xiwangmu-
 
 ## Per-level beats
 
-See [WORLDS.md](WORLDS.md) for Chapter 1 tables and the planned Chapter 2 worlds. Hub: [story/chapters.md](story/chapters.md).
+See [WORLDS.md](WORLDS.md) for Chapter 1 tables and Chapter 2 first stations. Hub: [story/chapters.md](story/chapters.md).
