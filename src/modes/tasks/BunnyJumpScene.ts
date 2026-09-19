@@ -33,6 +33,7 @@ import {
   planPad,
   PX_PER_METER,
   type JumpBandId,
+  type JumpPadAnchor,
   type JumpPadPlan,
 } from "./jumpWorld"
 import { TaskRunner } from "./TaskRunner"
@@ -134,6 +135,7 @@ export class BunnyJumpScene extends Phaser.Scene {
   private mobs: JumpMob[] = []
   private slides: { sprite: PadSprite; baseX: number; amp: number; speed: number; t: number }[] = []
   private disc: Phaser.GameObjects.Arc | null = null
+  private lastPad: JumpPadAnchor = { x: JUMP_WIDTH * 0.5, w: 520, kind: "solid" }
   private hudEls!: {
     hearts: HTMLElement
     height: HTMLElement
@@ -165,6 +167,7 @@ export class BunnyJumpScene extends Phaser.Scene {
     this.mobs = []
     this.slides = []
     this.band = "meadow"
+    this.lastPad = { x: JUMP_WIDTH * 0.5, w: 520, kind: "solid" }
 
     getInput().start()
     getAudio().playMusic("meadow")
@@ -317,8 +320,14 @@ export class BunnyJumpScene extends Phaser.Scene {
 
   private fillAhead(): void {
     while (this.nextPadY > this.camY - 980) {
-      const plan = planPad(this.rng, this.nextPadY, this.originY, getDifficulty(getSave()))
+      const plan = planPad(this.rng, this.nextPadY, this.originY, getDifficulty(getSave()), this.lastPad)
       this.spawnPad(plan)
+      this.lastPad = {
+        x: plan.x,
+        w: plan.w,
+        kind: plan.kind,
+        slideAmp: plan.slideAmp,
+      }
       this.nextPadY -= PAD_GAP
     }
     this.syncBand()
@@ -336,6 +345,7 @@ export class BunnyJumpScene extends Phaser.Scene {
       surface: "bounce",
     }
     this.spawnPad(plan)
+    this.lastPad = { x: plan.x, w: plan.w, kind: plan.kind }
   }
 
   private spawnPad(plan: JumpPadPlan): void {

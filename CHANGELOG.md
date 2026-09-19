@@ -36,6 +36,8 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Bunny Jump pads chain from the last landing. Random offsets stay inside one
+  bounce of run speed so hops stay reachable without a dash.
 - Bunny Jump HUD no longer covers the playfield. The bar sits above the canvas
   the same way Endless does.
 - Guanghan and Chapter 2 pads use lunar ground instead of meadow grass. Walls use

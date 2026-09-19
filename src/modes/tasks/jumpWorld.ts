@@ -5,10 +5,19 @@ export const JUMP_WIDTH = 1920
 export const PAD_GAP = 168
 export const BOUNCE_VY = -820
 export const BOOST_VY = -1080
+export const WORLD_GRAVITY = 1400
+export const MOVE_VX = 280
 
 export type JumpBandId = "meadow" | "orchard" | "bamboo" | "lantern" | "osmanthus" | "moon"
 
 export type JumpPadKind = "solid" | "crumble" | "boost" | "slide" | "ice"
+
+export type JumpPadAnchor = {
+  x: number
+  w: number
+  kind: JumpPadKind
+  slideAmp?: number
+}
 
 export type JumpPadPlan = {
   x: number
@@ -32,6 +41,8 @@ const BANDS: { env: JumpBandId; fromM: number; toM: number }[] = [
   { env: "osmanthus", fromM: 72, toM: 88 },
   { env: "moon", fromM: 88, toM: 9999 },
 ]
+
+const AIR_SAFETY = 0.78
 
 export function mulberry32(seed: number): () => number {
   let t = seed >>> 0
@@ -80,11 +91,88 @@ export function stampFor(kind: JumpPadKind, env: JumpBandId): string {
   return "story_ground"
 }
 
-export function planPad(rng: () => number, y: number, originY: number, difficulty: DifficultyParams): JumpPadPlan {
+export function hopLandTime(gap: number, bounceVy: number): number {
+  const a = WORLD_GRAVITY * 0.5
+  const b = bounceVy
+  const c = gap
+  const disc = b * b - 4 * a * c
+  if (disc <= 0) {
+    return 0
+  }
+  const root = Math.sqrt(disc)
+  const t1 = (-b - root) / (2 * a)
+  const t2 = (-b + root) / (2 * a)
+  return Math.max(t1, t2)
+}
+
+export function wrapDeltaX(from: number, to: number): number {
+  let delta = to - from
+  if (delta > JUMP_WIDTH * 0.5) {
+    delta -= JUMP_WIDTH
+  }
+  if (delta < -JUMP_WIDTH * 0.5) {
+    delta += JUMP_WIDTH
+  }
+  return delta
+}
+
+export function clampPadX(x: number, w: number): number {
+  const min = w * 0.5 + 56
+  const max = JUMP_WIDTH - w * 0.5 - 56
+  let wrapped = ((x % JUMP_WIDTH) + JUMP_WIDTH) % JUMP_WIDTH
+  if (wrapped < min) {
+    wrapped = min
+  }
+  if (wrapped > max) {
+    wrapped = max
+  }
+  return wrapped
+}
+
+export function hopAirDx(opts: {
+  bounceVy: number
+  ice: boolean
+  slideReserve: number
+}): number {
+  const hang = hopLandTime(PAD_GAP, opts.bounceVy)
+  let air = MOVE_VX * hang * AIR_SAFETY
+  if (opts.ice) {
+    air *= 0.7
+  }
+  air -= opts.slideReserve
+  return Math.max(64, air)
+}
+
+export function maxCenterDelta(airDx: number, nextW: number): number {
+  return airDx + nextW * 0.28
+}
+
+export function nextPadX(
+  rng: () => number,
+  prevX: number,
+  nextW: number,
+  airDx: number,
+): number {
+  const cap = maxCenterDelta(airDx, nextW)
+  const mag = (0.12 + rng() * 0.88) * cap
+  const dx = (rng() < 0.5 ? -1 : 1) * mag
+  let x = clampPadX(prevX + dx, nextW)
+  if (Math.abs(wrapDeltaX(prevX, x)) > cap) {
+    x = clampPadX(prevX + Math.sign(dx || 1) * cap * 0.55, nextW)
+  }
+  return x
+}
+
+export function planPad(
+  rng: () => number,
+  y: number,
+  originY: number,
+  difficulty: DifficultyParams,
+  prev: JumpPadAnchor,
+): JumpPadPlan {
   const meters = metersFromY(originY, y)
   const env = bandAt(meters)
   const w = 140 + Math.floor(rng() * 80)
-  const x = 80 + rng() * (JUMP_WIDTH - 160 - w) + w / 2
   let kind: JumpPadKind = "solid"
   let perch: JumpPadPlan["perch"]
   const roll = rng()
@@ -105,6 +193,19 @@ export function planPad(rng: () => number, y: number, originY: number, difficult
   if ((env === "meadow" || env === "orchard") && rng() < 0.12 * dense && kind === "solid") {
     perch = rng() < 0.5 ? "fox" : "hedgehog"
   }
+  const slideAmp = kind === "slide" ? 24 + rng() * 28 : undefined
+  const slideSpeed = kind === "slide" ? 0.7 + rng() * 0.6 : undefined
+  const bounceVy = prev.kind === "boost" ? BOOST_VY : BOUNCE_VY
+  const climb = Math.min(1, meters / 80)
+  const span = 0.48 + 0.38 * climb * Math.min(1.1, difficulty.timerMultiplier)
+  const ice = prev.kind === "ice" || kind === "ice"
+  const airDx =
+    hopAirDx({
+      bounceVy,
+      ice,
+      slideReserve: (prev.slideAmp ?? 0) + (slideAmp ?? 0),
+    }) * span
+  const x = nextPadX(rng, prev.x, w, airDx)
   const surface: JumpPadPlan["surface"] = kind === "boost" ? "boost" : kind === "ice" ? "slick" : "bounce"
   return {
     x,
@@ -116,8 +217,8 @@ export function planPad(rng: () => number, y: number, originY: number, difficult
     stamp: stampFor(kind, env),
     surface,
     perch,
-    slideAmp: kind === "slide" ? 40 + rng() * 50 : undefined,
-    slideSpeed: kind === "slide" ? 0.7 + rng() * 0.6 : undefined,
+    slideAmp,
+    slideSpeed,
   }
 }
 

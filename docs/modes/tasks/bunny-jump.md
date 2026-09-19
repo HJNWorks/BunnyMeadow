@@ -32,6 +32,13 @@ existing `pantryReward` field. `tasksCompleted` records the clear. After the dis
 the climb may continue for a local best. Save field:
 `progress.bunnyJumpBest`. No new Steam achievement in this slice.
 
+Pads are a random walk from the previous pad's center. Each next center is sampled
+from a continuous offset inside one bounce of run speed (no dash required). Pad
+width of the target can clip the near edge. Previous pad width is not added, because
+the bounce leaves from the landing point, not from a walk along the slab. X wrap is
+allowed when that shorter path still fits. Slide amplitude is reserved inside the
+same budget. Height only scales how much of that budget is used.
+
 ## Height bands
 
 Each band reuses a palette kit and hour from the Ladder
