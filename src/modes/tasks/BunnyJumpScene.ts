@@ -6,7 +6,7 @@ import { t } from "../../core/i18n"
 import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
-import { attachPlayfieldFrame, measureChromeInsets, mountPlayfieldHud } from "../../ui/playfieldFrame"
+import { attachPlayfieldFrame, measureChromeInsets } from "../../ui/playfieldFrame"
 import { ensureStoryTextures } from "../story/shared/storyTextures"
 import { createPlayerState, tickPlayerTimers, type PlayerState } from "../story/shared/playerController"
 import { BreakField } from "../story/shared/breakables"
@@ -40,34 +40,74 @@ import { TaskRunner } from "./TaskRunner"
 type PadSprite = Phaser.GameObjects.Image
 
 const HUD_CSS = `
-.jump-hud { pointer-events: none; font: 16px Georgia, serif; color: #fffaf0; }
-.jump-hud .jump-bar {
+.bm-root.bm-jump-hud {
+  background: transparent;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 50;
+}
+.bm-jump-hud .jump-hud {
+  max-width: none;
+  padding: 12px 20px 0;
+  pointer-events: none;
+  font: 16px Georgia, serif;
+  color: #304c39;
+}
+.bm-jump-hud .jump-bar {
   pointer-events: auto;
-  display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
-  padding: 12px 18px; background: #1a2418cc;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: linear-gradient(180deg, #f7f3e8f0, #ebe4d4e6);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  padding: 8px 14px;
+  border: 1px solid #d5dcc4;
+  box-shadow: 0 8px 18px #2a3d2412;
 }
-.jump-hud .jump-bar strong { font-size: 18px; }
-.jump-hud .bm-btn { pointer-events: auto; margin-left: 0; }
-.jump-hud .jump-bar .bm-btn.ghost { margin-left: auto; }
-.jump-overlay {
-  pointer-events: auto; position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
+.bm-jump-hud .jump-bar strong { font-size: 18px; }
+.bm-jump-hud .jump-bar .bm-btn { pointer-events: auto; margin-left: 0; }
+.bm-jump-hud .jump-bar .bm-btn.ghost { margin-left: auto; }
+.bm-jump-hud .jump-overlay {
+  pointer-events: auto;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #34563855;
+  z-index: 60;
 }
-.jump-overlay[hidden] { display: none; }
-.jump-card {
-  max-width: 420px; margin: 16px; text-align: center;
-  background: #fffaf0; color: #3d4934; padding: 28px; border-radius: 24px;
+.bm-jump-hud .jump-overlay[hidden] { display: none; }
+.bm-jump-hud .jump-card {
+  max-width: 420px;
+  margin: 16px;
+  text-align: center;
+  background: #fffaf0;
+  color: #3d4934;
+  padding: 28px;
+  border-radius: 24px;
 }
-.jump-card h2 { font: 32px Georgia; margin: 0 0 12px; }
-.jump-card p { line-height: 1.55; color: #71816e; }
-.jump-card .jump-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
-.jump-note {
-  position: absolute; left: 50%; top: 72px; transform: translateX(-50%);
-  background: #fffaf0ee; color: #34583e; padding: 8px 14px; border-radius: 12px;
-  font-size: 14px; pointer-events: none;
+.bm-jump-hud .jump-card h2 { font: 32px Georgia; margin: 0 0 12px; }
+.bm-jump-hud .jump-card p { line-height: 1.55; color: #71816e; }
+.bm-jump-hud .jump-card .jump-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
 }
-.jump-note[hidden] { display: none; }
+.bm-jump-hud .jump-note {
+  margin: 10px auto 0;
+  width: max-content;
+  background: #fffaf0ee;
+  color: #34583e;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  pointer-events: none;
+}
+.bm-jump-hud .jump-note[hidden] { display: none; }
 `
 
 export class BunnyJumpScene extends Phaser.Scene {
@@ -553,10 +593,9 @@ export class BunnyJumpScene extends Phaser.Scene {
       `,
       { keepCanvas: true, rootClass: "bm-jump-hud" },
     )
-    mountPlayfieldHud(this, root)
     attachPlayfieldFrame(this, () =>
       measureChromeInsets({
-        topSelectors: [".jump-hud .jump-bar"],
+        topSelectors: [".bm-jump-hud .jump-bar"],
         bottomSelectors: [],
         padTop: 10,
         padBottom: 16,

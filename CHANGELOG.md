@@ -36,6 +36,8 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Bunny Jump HUD no longer covers the playfield. The bar sits above the canvas
+  the same way Endless does.
 - Guanghan and Chapter 2 pads use lunar ground instead of meadow grass. Walls use
   palette ground and stone columns, not `#3f5a32` leaf hedges. Moon weather is no
   longer blossom fall.
