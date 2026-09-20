@@ -43,7 +43,11 @@ export function hanTextureKey(lost: number): string {
   return `story_han_${Math.max(0, Math.min(4, lost))}`
 }
 
-export type HanCakeSpot = { x: number; y: number }
+export type HanCakeSpot = {
+  x: number
+  y: number
+  host?: Phaser.GameObjects.GameObject
+}
 
 export type HanLedge = {
   x: number
@@ -51,16 +55,29 @@ export type HanLedge = {
   w: number
   h: number
   kind?: string
+  host?: Phaser.GameObjects.GameObject
+}
+
+export function hanCakeHostsFromPlatforms<T extends HanLedge>(rects: T[]): T[] {
+  const green = rects.filter((rect) => {
+    if (rect.kind === "wall" || rect.kind === "ceiling") {
+      return false
+    }
+    if (rect.w < 48) {
+      return false
+    }
+    return true
+  })
+  const ledges = green.filter((rect) => rect.h <= LEDGE_MAX_H && rect.w < LEDGE_MAX_W)
+  return ledges.length > 0 ? ledges : green
 }
 
 export function hanCakeSpotsFromPlatforms(rects: HanLedge[]): HanCakeSpot[] {
-  const green = rects.filter((rect) => rect.kind !== "wall" && rect.kind !== "ceiling")
-  const ledges = green.filter((rect) => rect.h <= LEDGE_MAX_H && rect.w < LEDGE_MAX_W)
-  const source = ledges.length > 0 ? ledges : green
-  return source
+  return hanCakeHostsFromPlatforms(rects)
     .map((rect) => ({
       x: rect.x + rect.w * 0.5,
       y: rect.y - CAKE_LIFT,
+      host: rect.host,
     }))
     .sort((a, b) => a.x - b.x || a.y - b.y)
 }
@@ -69,7 +86,6 @@ export type HanFightOpts = {
   reducedMotion: boolean
   speak?: (line: HanLine) => void
   platforms: Phaser.Physics.Arcade.StaticGroup
-  cakeSpots: HanCakeSpot[]
   clipExtras?: Phaser.GameObjects.GameObject[]
   onBeamHurt?: (info: {
     dt: number
@@ -118,7 +134,6 @@ export class HanFight {
   private lastBurnY = 0
   private burns: Burn[] = []
   private platforms: Phaser.Physics.Arcade.StaticGroup
-  private cakeSpots: HanCakeSpot[]
   private clipExtras: Phaser.GameObjects.GameObject[]
   private onBeamHurt?: HanFightOpts["onBeamHurt"]
   private settlePhase: SettlePhase = "none"
@@ -142,7 +157,6 @@ export class HanFight {
     this.reducedMotion = opts.reducedMotion
     this.speak = opts.speak
     this.platforms = opts.platforms
-    this.cakeSpots = opts.cakeSpots
     this.clipExtras = opts.clipExtras ?? []
     this.onBeamHurt = opts.onBeamHurt
     this.aimX = x
@@ -326,6 +340,9 @@ export class HanFight {
   }
 
   private pace(): number {
+    if (this.hearts <= 1) {
+      return 1.3
+    }
     return 1 / (1 + 0.2 * this.lostHearts())
   }
 
@@ -417,28 +434,77 @@ export class HanFight {
     this.starCd = gap
   }
 
-  private tickCake(): void {
-    if (this.cakeSpots.length === 0) {
-      return
-    }
-    if (this.cake && this.cake.active) {
-      const base = this.cakeSpots[this.cakeSpot]
-      if (base) {
-        this.cake.y = base.y + Math.sin(this.scene.time.now / 260) * 4
+  private liveCakeSpots(): HanCakeSpot[] {
+    const rects: HanLedge[] = []
+    for (const obj of this.platforms.getChildren()) {
+      const go = obj as Phaser.GameObjects.GameObject & {
+        x: number
+        y: number
+        active: boolean
+        visible: boolean
+        displayWidth: number
+        displayHeight: number
+        getData: (key: string) => unknown
+        body?: Phaser.Physics.Arcade.StaticBody | Phaser.Physics.Arcade.Body | null
       }
+      if (!go.active || go.visible === false || go.getData("broken") === true) {
+        continue
+      }
+      const kind = go.getData("rectKind") as string | undefined
+      if (kind === "wall" || kind === "ceiling") {
+        continue
+      }
+      if (go instanceof Phaser.GameObjects.Rectangle) {
+        continue
+      }
+      const body = go.body
+      if (!body || body.enable === false) {
+        continue
+      }
+      const w = body.right - body.left
+      const h = body.bottom - body.top
+      if (w <= 0 || h <= 0) {
+        continue
+      }
+      rects.push({
+        x: body.left,
+        y: body.top,
+        w,
+        h,
+        kind: kind ?? "platform",
+        host: go,
+      })
+    }
+    return hanCakeSpotsFromPlatforms(rects)
+  }
+
+  private tickCake(): void {
+    const spots = this.liveCakeSpots()
+    if (this.cake && this.cake.active) {
+      const host = this.cake.getData("host") as Phaser.GameObjects.GameObject | undefined
+      const live = host ? spots.find((row) => row.host === host) : undefined
+      if (!live) {
+        this.cake.destroy()
+        this.cake = null
+        this.cakeCd = 0.25
+        return
+      }
+      this.cake.x = live.x
+      this.cake.y = live.y + Math.sin(this.scene.time.now / 260) * 4
       return
     }
-    if (this.cakeCd > 0) {
+    if (this.cakeCd > 0 || spots.length === 0) {
       return
     }
-    this.cakeSpot = (this.cakeSpot + 1) % this.cakeSpots.length
-    const spot = this.cakeSpots[this.cakeSpot]
+    this.cakeSpot = (this.cakeSpot + 1) % spots.length
+    const spot = spots[this.cakeSpot]
     if (!spot) {
       return
     }
     this.cake = this.scene.physics.add.image(spot.x, spot.y, "story_mooncake")
     this.cake.setDisplaySize(28, 28)
     this.cake.setDepth(4)
+    this.cake.setData("host", spot.host)
     ;(this.cake.body as Phaser.Physics.Arcade.Body).setAllowGravity(false)
   }
 

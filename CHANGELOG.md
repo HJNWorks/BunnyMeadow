@@ -36,6 +36,10 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Han last-heart fans rest about 1.3x longer than the opening cadence so the dual
+  frost and star streams still leave a gap.
+- Guanghan mooncakes sit on live green pads. A cake whose ledge is gone does not
+  hang in the air.
 - Han frost and star fans fire in short bursts with about 3x longer rests so the
   volley is avoidable.
 - Story editor Copy and Ctrl/Cmd+C store a clipboard. Ctrl/Cmd+V pastes at camera

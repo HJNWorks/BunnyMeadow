@@ -25,10 +25,11 @@ Shards spawn off the body along each ray so a ledge does not eat them:
 - 3 and 2 hearts: star needles in a wider cone. Roam speed 168. A lunar beam starts shortly
   after this stage (2 s charge, 4 s tracking slab, 2 hearts on contact), then a 10 s cooldown
   before later rolls.
-- 1 heart: both volleys at once. Roam speed 248. Beam charge drops to 1 s, same tracking
-  slab for 5.5 s and 10 s cooldown. Green ledges in the path of the hot slab crack and
-  fall after 5 s of contact (thin ledges are stone even if an overlay omitted `break`).
-  A beam is queued again when this stage begins.
+- 1 heart: both volleys at once. Roam speed 248. Fan gaps are longer than the opening
+  cadence (about 1.3x) so the dual streams still leave a window. Beam charge drops to 1 s,
+  same tracking slab for 5.5 s and 10 s cooldown. Green ledges in the path of the hot slab
+  crack and fall after 5 s of contact (thin ledges are stone even if an overlay omitted
+  `break`). A beam is queued again when this stage begins.
 - 0: Han is pulled into an inward spiral at his last position. An outward spiral grows a
   large moon there (visual only, not a solid). Then settled. Exit and the four epilogue
   cards are unchanged. Later: the moon is a contact pad. Jumping it unlocks Chapter 2
@@ -45,9 +46,10 @@ Moon Pool lines on Guanghan stay Chang'e's. Editor Build does not speak.
 
 Han roams the sky rather than holding one perch. Every lost heart still enlarges and
 darkens the silhouette. Low gravity stays. Cakes spawn in the open, not under roofs.
-Each mooncake sits on the top-center of a green platform (the grass slabs, not walls).
-If you delete or resize those ledges, the spawn point follows the new center. The wide
-floor is skipped while any ledge remains.
+Each mooncake sits on the top-center of a live green pad (collider on, not broken, not a
+wall or ceiling). If that ledge is deleted, resized, or dropped by the last-heart beam,
+the cake despawns and the next one sits on a remaining pad. The wide floor is skipped
+while any ledge remains. No cake hangs in empty sky.
 If Mei's hearts empty, Guanghan restarts (Han included). Spirit hearts sit at the top
 center of the playfield. Mei hearts sit at the top left.
 
