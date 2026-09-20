@@ -54,15 +54,15 @@ and the minimum tier at which the creature appears.
 | fox | chaser | meadow, orchard | 1 | live |
 | hedgehog | patrol | meadow, orchard | 1 | live |
 | crow | ranged_lob | meadow, orchard, bamboo, riverbank, lantern | 2 | live |
-| squirrel | ranged_lob | orchard, bamboo | 2 | live (Story). Stamp unused on Chapter 1 chunks. I8 place |
-| frog | patrol | bamboo, riverbank | 2 | live (Story). Stamp unused on Chapter 1 chunks. I8 place |
-| heron | reach | riverbank | 3 | live (Story). Chunk heron unused. I8 place. Raft boss stays folk |
-| carp | patrol (water) | riverbank | 3 | planned (I8). Needs a water-patrol archetype |
+| squirrel | ranged_lob | orchard, bamboo | 2 | live (Story Hedge Maze, Green Corridor) |
+| frog | patrol | bamboo, riverbank | 2 | live (Story Green Corridor) |
+| heron | reach | riverbank | 3 | live (Story Floating Logs). Raft boss stays folk |
+| carp | water_patrol | riverbank | 3 | live (Story Floating Logs) |
 | cat | reach | lantern, osmanthus | 3 | live (Story). Stamp unused on Chapter 1 chunks. I9 place |
 | owl | diver | lantern, osmanthus | 3 | live (Story). Stamp unused on Chapter 1 chunks. I9 place |
-| goat | blocker | bamboo, osmanthus | 3 | live. Stamp unused on Chapter 1 chunks. I8 place |
-| boar | blocker | orchard, bamboo | 3 | planned (I8). Chapter 1 Path, not Chapter 3 |
-| tortoise | patrol | meadow, riverbank | 1 | planned (I8). Chapter 1 Path, not Chapter 3 |
+| goat | blocker | bamboo, osmanthus | 3 | live (Story Green Corridor) |
+| boar | blocker | orchard, bamboo | 3 | live (Story Green Corridor) |
+| tortoise | patrol | meadow, riverbank | 1 | live (Story Soft Paths) |
 | magpie | diver | cloudsea | 4 | live (Story) |
 | frost wisp | swarm | cloudsea, moon (palace halls) | 4 | live (Story). Palace corridors I10 |
 | ice spit | ranged_lob | cloudsea | 4 | live (Story) |
@@ -76,7 +76,7 @@ and the minimum tier at which the creature appears.
 | jade mite | swarm | Grotto Heaven | n/a | idea |
 | copper sentry | ranged_lob | Hanging Ridges | n/a | idea |
 | bees | swarm | meadow, orchard | 2 | live (Story Soft Paws). Chapter 1 Path |
-| dew | item (slow-time). Not a wildlife HP bar | meadow, orchard | 1 | planned (I8). See [items/catalog.md](../items/catalog.md) |
+| dew | item (slow-time). Not a wildlife HP bar | meadow, orchard | 1 | live (Story Soft Paths). See [items/catalog.md](../items/catalog.md) |
 
 Guard: owls are ill omens in tradition and must never serve the Moon. They are
 ordinary night enemies only ([../LORE.md](../LORE.md#cranes-as-immortal-messengers)).
@@ -101,8 +101,8 @@ Other jump roles wait.
 | star wisp | drift | live |
 | pestle sentry | drop_shot | live |
 | bees | drift | live Story. Jump later |
-| tortoise | perch | planned (Story I8. Jump later) |
-| boar | ledge_charge | planned (Story I8. Jump later) |
+| tortoise | perch | live Story. Jump later |
+| boar | ledge_charge | live Story. Jump later |
 | frost hare | skip | planned Story Cloud Stair |
 
 Skip carp, firefly, and dew as jump roles. Skip Chapter 3 idea fauna (azure bird, jade mite, copper sentry).

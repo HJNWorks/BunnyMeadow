@@ -25,10 +25,10 @@ orchard fruit as decor only. Fruit is not a peach heal.
 | --- | --- | --- | --- |
 | hedgehog | patrol | golden hour | 1 |
 | crow | ranged_lob | golden hour | 1 |
-| squirrel | ranged_lob | golden hour | 2 (stamp live, place on Hedge Maze I8) |
+| squirrel | ranged_lob | golden hour | 2 (Hedge Maze) |
 | fox | chaser | golden hour | 2 |
-| bees | swarm | golden hour | 2 (planned I8) |
-| boar | blocker | golden hour | 3 (planned I8) |
+| bees | swarm | golden hour | 2 (Soft Paths) |
+| boar | blocker | golden hour | 3 (Green Corridor) |
 
 Folk: none native. Fox Hu may pass through as a trickster cameo (idea).
 
@@ -37,7 +37,7 @@ Folk: none native. Fox Hu may pass through as a trickster cameo (idea).
 | Item | Weight | Notes |
 | --- | --- | --- |
 | carrot | high | currency |
-| dew | low | slow-time buff (I8) |
+| dew | low | slow-time buff (Soft Paths) |
 | mooncake | rare | restores one heart |
 | osmanthus seed | one per station | keepsake |
 

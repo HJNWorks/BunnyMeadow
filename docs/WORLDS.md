@@ -57,17 +57,17 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| 1-1 Soft Paths | meadow | run, jump, dash already known. Bees, tortoise, dew, mooncake (I8) | Moon Pool | live. Lengthen to 4-5 chunks |
-| 1-2 Hedge Maze | orchard | wall bounce, crow lob. Place squirrel. Fence and fruit decor, not a peach heal (I8) | Moon Pool | live. Lengthen to 4-5 chunks |
-| 1-3 Cart Chase | meadow | boss: Fox Hu cart | Finish flag at the burrow. Cart there first is a retry | live |
+| 1-1 Soft Paths | meadow | run, jump, dash already known. Bees, tortoise, dew, mooncake | Moon Pool | live. 4 chunks |
+| 1-2 Hedge Maze | orchard | wall bounce, crow lob. Squirrel. Fence and fruit decor, not a peach heal | Moon Pool | live. 4 chunks |
+| 1-3 Cart Chase | meadow | boss: Fox Hu cart. Seed off the cart line | Finish flag at the burrow. Cart there first is a retry | live |
 
 ### World 2 — Bamboo Grove and River
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| 2-1 Green Corridor | bamboo | wall jump. Dense grove. Place frog, squirrel, goat. Grove-to-river edge (I8) | Moon Pool | live. Lengthen to 5-6 chunks |
-| 2-2 Floating Logs | riverbank | log ride, current. Place frog, heron (chunk reach), carp. Mooncakes on logs (I8) | Moon Pool | live. Lengthen to 4-5 chunks |
-| 2-3 Raft Gauntlet | riverbank | boss: Heron Fisher | World clear | live |
+| 2-1 Green Corridor | bamboo | wall jump. Frog, squirrel, goat, boar. Grove-to-river edge | Moon Pool | live. 5 chunks |
+| 2-2 Floating Logs | riverbank | log ride, current. Heron poke, carp. Mooncakes on logs | Moon Pool | live. 4 chunks |
+| 2-3 Raft Gauntlet | riverbank | boss: Heron Fisher. Seed off the dive line | World clear | live |
 
 ### World 3 — Lantern Village and Osmanthus Peak
 

@@ -22,8 +22,8 @@ the new map. No folklore without a [LORE.md](../LORE.md) row. I8 density stays o
 
 ## Still later
 
-I8 meadow through river density. More seeds per station. Eight-seed and full-set
-achievements. Dew. Han moon collider.
+I9 festival and Cloud Stair. More seeds per station. Full-set
+achievements. Han moon collider.
 
 ## Ship
 

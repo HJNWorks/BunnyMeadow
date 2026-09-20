@@ -23,11 +23,11 @@ LORE invented-earthly-neighbor row is accepted. Default: skip.
 
 | Creature | Class | Active hour | Min tier |
 | --- | --- | --- | --- |
-| frog | patrol | dusk | 2 (stamp live, place I8) |
-| squirrel | ranged_lob | dusk | 2 (stamp live, place I8) |
+| frog | patrol | dusk | 2 (Green Corridor) |
+| squirrel | ranged_lob | dusk | 2 (Green Corridor) |
 | crow | ranged_lob | dusk | 3 |
-| goat | blocker | dusk | 3 (stamp live, place I8) |
-| boar | blocker | dusk | 3 (planned I8) |
+| goat | blocker | dusk | 3 (Green Corridor) |
+| boar | blocker | dusk | 3 (Green Corridor) |
 
 ## Item table
 
@@ -40,7 +40,7 @@ LORE invented-earthly-neighbor row is accepted. Default: skip.
 
 ## Chunk usage
 
-- Story: 2-1 Green Corridor (lengthen I8. Dense grove plus river edge).
+- Story: 2-1 Green Corridor.
 - Endless: `endless_bamboo_t2_a/b`, `endless_bamboo_t3_a/b`, `endless_bamboo_t4_a/b`.
 - Meadow arcade map: `bamboo_clearing` (pantry 3).
 

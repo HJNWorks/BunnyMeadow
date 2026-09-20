@@ -15,8 +15,8 @@ The World 2 boss Heron Fisher is a scripted folk version; see
 ## Behaviour
 
 Slow or stationary, with a long poke in one direction after a crouch telegraph. It
-guards a lane; the player waits out the poke, then crosses. Chunk heron is unused on
-Chapter 1 maps. I8 places it on Floating Logs. The raft boss stays folk.
+guards a lane; the player waits out the poke, then crosses. Live on Floating Logs.
+The raft boss stays folk.
 
 ## Telegraph and counter
 

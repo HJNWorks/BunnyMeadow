@@ -1,6 +1,7 @@
 # Chapter 1 overhaul
 
-Status: I6 docs lock done. I7 Pool and Soft Paws live. Hub: [chapters.md](chapters.md).
+Status: I6 docs lock done. I7 Pool and Soft Paws live. I8 meadow through river live.
+Hub: [chapters.md](chapters.md).
 Spine: [../STORY.md](../STORY.md). Folklore: [../LORE.md](../LORE.md). Path map:
 [../WORLDS.md](../WORLDS.md). Build order:
 [../iterations/i7-w0-pool.md](../iterations/i7-w0-pool.md).
@@ -17,20 +18,16 @@ Sixteen stations. One lore beat (Burrow Eve). Moon in the Pool is a playable con
 map. Soft Paws plus twelve path levels plus Guanghan.
 
 Most maps are two or three chunks of 960 px (chase chunks 1200). Guanghan is two chunks
-with no wildlife. Mooncakes on Guanghan are spawned at runtime. Moon in the Pool
-authors one osmanthus seed. Remaining Chapter 1 chunks still omit item arrays.
+with no wildlife. Mooncakes on Guanghan are spawned at runtime. Moon in the Pool authors one osmanthus
+seed, carrots, and kit decor. Soft Paws through Raft Gauntlet hide further seeds.
+I8 Chapter 1 chunks author dew, mooncakes, and Path critters on meadow through river.
 
-Path filler is almost always hedgehog and crow. Soft Paws places hedgehog, fox, and
-bees. Soft Paths also places one fox. Cloud Stair places frost wisp, ice spit, and
-gale magpie. Fox Hu, Heron Fisher, Crane Envoy, Closing Gale, and Han are folk or
-events.
+Path filler is hedgehog, crow, plus the I8 Path ids on the lengthened maps. Soft Paws
+places hedgehog, fox, and bees.
 
-Stamps and the Path roster already exist for squirrel, frog, heron, cat, owl, and
-goat. None of those ids appear in Chapter 1 chunks. I8 is placement first, then new
-species.
-
-Dust mite, star wisp, and pestle sentry sit in the Cloud Stair / Guanghan picker.
-They ship on Chapter 2 chunks only. They do not debut on Earth.
+Cat and owl wait for I9. Dust mite, star wisp, and pestle sentry sit in the Cloud
+Stair / Guanghan picker. They ship on Chapter 2 chunks only. They do not debut on
+Earth.
 
 ## Lore gates
 
@@ -85,12 +82,12 @@ Target widths are later map work. Today is the lock. One chunk is 960 px unless 
 | Station | Today | Planned | Target |
 | --- | --- | --- | --- |
 | Burrow Eve | lore text | lore text. Blossom fall. Yue runs | no map |
-| Moon in the Pool | 2 chunks. Tunnel, pond, chips, one seed | dusk fireflies. Family kits as set dressing | 2 chunks |
-| Soft Paws | 3 chunks. Hedgehog, fox, bees | same verbs. No tutorial flag | 3 chunks |
+| Moon in the Pool | 2 chunks. Tunnel, pond, chips, seed, carrots, kits | dusk fireflies | 2 chunks |
+| Soft Paws | 3 chunks. Hedgehog, fox, bees, one seed | same verbs. No tutorial flag | 3 chunks |
 
 Unlock: Eve, then Pool map, then Soft Paws, then Soft Paths.
 
-Around the burrow: pond, family kits as non-HP set dressing, carrots, dew, fireflies
+Around the burrow: pond, family kits as non-HP set dressing, carrots, fireflies
 at dusk, one keepsake. [Burrow tunnels](../universe/environments/burrow-tunnels.md)
 are the first chunk of Moon in the Pool (root lifts, no chase). Not a fourth World Map
 station.
@@ -99,17 +96,17 @@ station.
 
 | Station | Today | Planned | Target |
 | --- | --- | --- | --- |
-| Soft Paths | 3 chunks. Fox, hedgehog | place bees, tortoise. Dew and a mooncake on high grass. One seed | 4-5 chunks |
-| Hedge Maze | 3 chunks. Crow, hedgehog. Wall bounce | place squirrel. Fence and fruit decor (not a peach heal). One seed | 4-5 chunks |
-| Cart Chase | 2 x 1200 chase. Fox Hu | unchanged as folk boss. One seed off the cart line | keep |
+| Soft Paths | 4 chunks. Bees, tortoise, dew, mooncake, seed | - | 4-5 chunks |
+| Hedge Maze | 4 chunks. Squirrel, fence, fruit pads, seed | - | 4-5 chunks |
+| Cart Chase | 2 x 1200 chase. Fox Hu. Seed off the cart line | unchanged as folk boss | keep |
 
 ### World 2 - Bamboo and River
 
 | Station | Today | Planned | Target |
 | --- | --- | --- | --- |
-| Green Corridor | 3 chunks. Hedgehog, crow. Tall hedge-asset shafts | dense grove. Place frog, squirrel, goat. Stalk walls, canopy shafts. Grove-to-river edge | 5-6 chunks |
-| Floating Logs | 3 chunks. Hedgehog, crow. Water, logs | place frog, heron (chunk reach, not only the boss), carp. Mooncakes on logs | 4-5 chunks |
-| Raft Gauntlet | 2 chunks. Heron Fisher | keep the three-dash boss. One seed | keep |
+| Green Corridor | 5 chunks. Frog, squirrel, goat, boar, grove-to-river, seed | - | 5-6 chunks |
+| Floating Logs | 4 chunks. Heron poke, carp, mooncakes, seed | - | 4-5 chunks |
+| Raft Gauntlet | 2 chunks. Heron Fisher. Seed off the dive line | keep the three-dash boss | keep |
 
 No panda.
 
@@ -158,13 +155,13 @@ Pages: [moon.md](../universe/environments/moon.md),
 | Item | Role on Chapter 1 | Status |
 | --- | --- | --- |
 | carrot | pantry currency. May still appear | live |
-| mooncake | restore one heart on Earth Story. Guanghan: warmth ammo | live effect. Place on Earth in I8 |
+| mooncake | restore one heart on Earth Story. Guanghan: warmth ammo | live on meadow and river |
 | osmanthus blossom | extra glide on Peak and Stair | live effect. Place in I9 |
-| lantern | glow. Festival and dusk groves | live effect. Place in I8-I9 |
-| dew | short slow-time. Meadow and orchard | planned graduate |
+| lantern | glow. Festival and dusk groves | live effect. Place in I9 |
+| dew | short slow-time. Meadow and orchard | live on Soft Paths |
 | sparkler | lantern-class timed light. Festival scenery, not a weapon | planned |
 | firefly (pickup) | brief glow. No mist wall | planned |
-| osmanthus seed | keepsake. One hidden spawn per playable station | live on Pool. More I8-I10 |
+| osmanthus seed | keepsake. One hidden spawn per playable station | live on eight stations. More I9-I10 |
 | heart sprite | do not ship | skipped |
 | moon letter | Endless only | idea |
 
@@ -177,9 +174,8 @@ levels, Guanghan. Fifteen. Burrow Eve stays lore and has none.
 
 ## Code later (not this lock)
 
-- Place existing Path ids (squirrel, frog, heron, cat, owl, goat) on maps.
-- Graduate tortoise, boar, carp, frost hare, lantern moth. Bees are live on Soft Paws.
-- Author item and decor arrays on remaining Chapter 1 chunks.
+- Place cat and owl. Graduate frost hare and lantern moth.
+- Author item and decor arrays on remaining Chapter 1 chunks (festival, Stair, palace).
 - Han court proximity volume. Leave resets hearts.
 - Palace walk chunks and far layer.
 - Han moon collider remains a separate TODO ([chapters.md](chapters.md)).
@@ -191,6 +187,6 @@ levels, Guanghan. Fifteen. Burrow Eve stays lore and has none.
 [I8](../iterations/i8-w1-w2-density.md) Meadow through river density.
 [I9](../iterations/i9-festival-cloud-stair.md) festival and Cloud Stair.
 [I10](../iterations/i10-guanghan-palace.md) palace walk and proximity Han.
-Keepsakes can start in I7 and fill through I10. First seed is live on the Pool map.
+Keepsakes fill through I10. Eight seeds are live. Full-set waits.
 
 Chapter 2 and 3 stay frozen except the roster note above.

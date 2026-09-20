@@ -31,7 +31,7 @@ motion without threat.
 | Item | Weight | Notes |
 | --- | --- | --- |
 | carrot | high | the pantry staple, stored here |
-| dew | low | planned I8 on the meadow mouth, not in the dark |
+| dew | low | meadow mouth. Not in the dark |
 | osmanthus seed | none here | hidden on the pond chunk |
 
 ## Endless status

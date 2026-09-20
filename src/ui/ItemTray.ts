@@ -56,6 +56,9 @@ export const ITEM_TRAY_CSS = `
 .bm-item-icon.is-well_silver {
   background: radial-gradient(circle at 35% 35%, #f4f8ff, #8aa0b4);
 }
+.bm-item-icon.is-dew {
+  background: radial-gradient(circle at 35% 35%, #d8f4ff, #6aa8c8);
+}
 `
 
 export function bindItemTray(root: HTMLElement): HTMLElement {

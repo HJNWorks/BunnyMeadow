@@ -23,14 +23,15 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | Web iteration I5 | done (Bunny Jump under Moon Tasks) |
 | Web iteration I6 | done (Chapter 1 docs lock) |
 | Web iteration I7 | done (Moon in the Pool + Soft Paws) |
-| Web iteration I8 | current (meadow through river density) |
+| Web iteration I8 | done (meadow through river density) |
+| Web iteration I9 | current (festival + Cloud Stair) |
 | M6–M8 desktop + store | postponed to the end, after the web iterations |
 
 ## Current phase
 
-Story milestones M0–M5 and web iterations I1–I7 are done. Current track is
-[I8 meadow through river](iterations/i8-w1-w2-density.md). Hub:
-[story/chapter1-overhaul.md](story/chapter1-overhaul.md). I9–I10 wait.
+Story milestones M0–M5 and web iterations I1–I8 are done. Current track is
+[I9 festival and Cloud Stair](iterations/i9-festival-cloud-stair.md). Hub:
+[story/chapter1-overhaul.md](story/chapter1-overhaul.md). I10 waits.
 Desktop and store milestones (M6–M8) stay postponed. See
 [iterations/README.md](iterations/README.md).
 
@@ -285,10 +286,17 @@ bump.
 
 ### Web iteration I8 — Meadow through river density
 
-**Status: current.** Detail: [iterations/i8-w1-w2-density.md](iterations/i8-w1-w2-density.md).
+**Status: done.** Detail: [iterations/i8-w1-w2-density.md](iterations/i8-w1-w2-density.md).
 
-Lengthen meadow through river maps. Place unused Path ids. Dew and mooncakes on Earth
-Story. More keepsakes. No panda. No `package.json` bump.
+Lengthen meadow through river maps. Place Path ids including carp. Dew and mooncakes on
+Earth Story. Eight keepsakes. `KEEPSAKE_EIGHT`. No panda. No `package.json` bump.
+
+### Web iteration I9 — Festival and Cloud Stair
+
+**Status: current.** Detail: [iterations/i9-festival-cloud-stair.md](iterations/i9-festival-cloud-stair.md).
+
+Paper Lights festival village. Cat and owl. Lengthen Cloud Stair. Frost hare. Sparkler.
+No `package.json` bump.
 
 ### M6 — Desktop shell
 
@@ -416,5 +424,5 @@ any local commands run on Windows.
 
 ## Suggested next coding session
 
-I8 meadow through river is the current track.
-[I8](iterations/i8-w1-w2-density.md). Desktop milestone [M6](#m6--desktop-shell) stays postponed.
+I9 festival and Cloud Stair is the current track.
+[I9](iterations/i9-festival-cloud-stair.md). Desktop milestone [M6](#m6--desktop-shell) stays postponed.

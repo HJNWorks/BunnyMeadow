@@ -1,16 +1,21 @@
 import chunkMeadowStart from "../data/chunks/chunk_meadow_start.json"
 import chunkMeadowGap from "../data/chunks/chunk_meadow_gap.json"
+import chunkMeadowRise from "../data/chunks/chunk_meadow_rise.json"
 import chunkMeadowPool from "../data/chunks/chunk_meadow_pool.json"
 import chunkOrchardA from "../data/chunks/chunk_orchard_a.json"
+import chunkOrchardFence from "../data/chunks/chunk_orchard_fence.json"
 import chunkOrchardB from "../data/chunks/chunk_orchard_b.json"
 import chunkHedgeEnd from "../data/chunks/chunk_hedge_end.json"
 import chunkChaseA from "../data/chunks/chunk_chase_a.json"
 import chunkChaseB from "../data/chunks/chunk_chase_b.json"
 import chunkBambooStart from "../data/chunks/chunk_bamboo_start.json"
+import chunkBambooGrove from "../data/chunks/chunk_bamboo_grove.json"
 import chunkBambooShaft from "../data/chunks/chunk_bamboo_shaft.json"
+import chunkBambooEdge from "../data/chunks/chunk_bamboo_edge.json"
 import chunkBambooPool from "../data/chunks/chunk_bamboo_pool.json"
 import chunkRiverStart from "../data/chunks/chunk_river_start.json"
 import chunkRiverLogs from "../data/chunks/chunk_river_logs.json"
+import chunkRiverReach from "../data/chunks/chunk_river_reach.json"
 import chunkRiverPool from "../data/chunks/chunk_river_pool.json"
 import chunkLanternStart from "../data/chunks/chunk_lantern_start.json"
 import chunkLanternGlide from "../data/chunks/chunk_lantern_glide.json"
@@ -132,7 +137,7 @@ export type AssembledRect = ChunkRect & {
 }
 
 export type AssembledDecor = {
-  kind: "hedge" | "vine" | "grass" | "lantern" | "log" | "burrow" | "falseMouth" | "rim" | "bowl" | "wound" | "cave" | "column"
+  kind: "hedge" | "vine" | "grass" | "lantern" | "log" | "burrow" | "kit" | "falseMouth" | "rim" | "bowl" | "wound" | "cave" | "column"
   x: number
   y: number
   w: number
@@ -172,17 +177,22 @@ export type AssembledLevel = {
 const REGISTRY: Record<string, ChunkDef> = {
   chunk_meadow_start: chunkMeadowStart as ChunkDef,
   chunk_meadow_gap: chunkMeadowGap as ChunkDef,
+  chunk_meadow_rise: chunkMeadowRise as ChunkDef,
   chunk_meadow_pool: chunkMeadowPool as ChunkDef,
   chunk_orchard_a: chunkOrchardA as ChunkDef,
+  chunk_orchard_fence: chunkOrchardFence as ChunkDef,
   chunk_orchard_b: chunkOrchardB as ChunkDef,
   chunk_hedge_end: chunkHedgeEnd as ChunkDef,
   chunk_chase_a: chunkChaseA as ChunkDef,
   chunk_chase_b: chunkChaseB as ChunkDef,
   chunk_bamboo_start: chunkBambooStart as ChunkDef,
+  chunk_bamboo_grove: chunkBambooGrove as ChunkDef,
   chunk_bamboo_shaft: chunkBambooShaft as ChunkDef,
+  chunk_bamboo_edge: chunkBambooEdge as ChunkDef,
   chunk_bamboo_pool: chunkBambooPool as ChunkDef,
   chunk_river_start: chunkRiverStart as ChunkDef,
   chunk_river_logs: chunkRiverLogs as ChunkDef,
+  chunk_river_reach: chunkRiverReach as ChunkDef,
   chunk_river_pool: chunkRiverPool as ChunkDef,
   chunk_lantern_start: chunkLanternStart as ChunkDef,
   chunk_lantern_glide: chunkLanternGlide as ChunkDef,

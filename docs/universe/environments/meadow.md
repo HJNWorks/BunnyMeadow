@@ -30,7 +30,7 @@ Home wildlife (see [../../creatures/wildlife/](../../creatures/wildlife/)):
 | hedgehog | patrol | afternoon | 1 |
 | crow | ranged_lob | afternoon | 2 |
 | bees | swarm | afternoon | 2 (Soft Paws) |
-| tortoise | patrol | afternoon | 1 (planned I8) |
+| tortoise | patrol | afternoon | 1 (Soft Paths) |
 | firefly | visual | dusk | 1 (planned) |
 
 Folk: Fox Hu appears here as the World 1 cart-chase boss ([../../creatures/folk/fox-hu.md](../../creatures/folk/fox-hu.md)).
@@ -42,8 +42,8 @@ See [../../items/placement.md](../../items/placement.md) for the slot mechanism.
 | Item | Weight | Notes |
 | --- | --- | --- |
 | carrot | high | currency, the staple |
-| dew | low | short slow-time buff (I8) |
-| mooncake | rare | restores one heart on Earth Story (I8) |
+| dew | low | short slow-time buff (Soft Paths) |
+| mooncake | rare | restores one heart on Earth Story (Soft Paths) |
 | osmanthus seed | one per station | keepsake. Never respawns |
 
 ## Chunk usage

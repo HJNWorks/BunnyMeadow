@@ -3,10 +3,10 @@
   "world": 1,
   "index": 1,
   "name": "Soft Paths",
-  "chunks": ["chunk_meadow_start", "chunk_meadow_gap", "chunk_meadow_pool"],
+  "chunks": ["chunk_meadow_start", "chunk_meadow_gap", "chunk_meadow_rise", "chunk_meadow_pool"],
   "playerSpawn": { "x": 120, "y": 900 },
-  "moonPool": { "chunk": 2, "x": 180, "y": 920 },
-  "exit": { "chunk": 2, "x": 820, "y": 920 },
+  "moonPool": { "chunk": 3, "x": 180, "y": 920 },
+  "exit": { "chunk": 3, "x": 820, "y": 920 },
   "moonLine": "Soft paths remember soft paws.",
   "objective": "Reach the burrow. Soft grass remembers soft paws."
 }

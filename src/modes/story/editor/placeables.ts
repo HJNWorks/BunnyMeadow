@@ -12,6 +12,7 @@ export type EditorEnvToken =
   | "grass"
   | "log"
   | "burrow"
+  | "kit"
   | "lantern"
   | "pool"
   | "falseMouth"
@@ -47,7 +48,7 @@ export type EditorEnvKit = {
 const KIT_CORE: EditorEnvToken[] = ["platform", "wall", "ceiling", "bridge", "water", "pool"]
 
 export const EDITOR_ENV_KITS: EditorEnvKit[] = [
-  { id: "meadow", chapter: "ch1", labelKey: "editor.envKit.meadow", kinds: [...KIT_CORE, "hedge", "vine", "grass", "burrow"] },
+  { id: "meadow", chapter: "ch1", labelKey: "editor.envKit.meadow", kinds: [...KIT_CORE, "hedge", "vine", "grass", "burrow", "kit"] },
   { id: "orchard", chapter: "ch1", labelKey: "editor.envKit.orchard", kinds: [...KIT_CORE, "hedge", "vine", "grass"] },
   { id: "bamboo", chapter: "ch1", labelKey: "editor.envKit.bamboo", kinds: [...KIT_CORE, "hedge", "vine", "log"] },
   { id: "riverbank", chapter: "ch1", labelKey: "editor.envKit.riverbank", kinds: [...KIT_CORE, "log", "grass"] },
@@ -75,6 +76,7 @@ export const DECOR_LABELS: Record<AssembledDecor["kind"], string> = {
   lantern: "Lantern",
   log: "Log",
   burrow: "Burrow",
+  kit: "Kit",
   falseMouth: "False mouth",
   rim: "Rim",
   bowl: "Bowl",
@@ -97,7 +99,7 @@ export const PLATFORM_ASSETS = [
 ] as const
 
 const PLACEABLES_BY_BIOME: Record<string, AssembledDecor["kind"][]> = {
-  meadow: ["hedge", "grass", "burrow"],
+  meadow: ["hedge", "grass", "burrow", "kit"],
   orchard: ["hedge", "grass"],
   bamboo: ["hedge", "log"],
   riverbank: ["log", "grass"],
@@ -129,6 +131,9 @@ export function defaultDecor(
   }
   if (kind === "burrow") {
     return { kind, x, y, w: 80, h: 50, rotation: 0, asset: "exit", env }
+  }
+  if (kind === "kit") {
+    return { kind, x, y, w: 40, h: 48, rotation: 0, env }
   }
   if (kind === "vine") {
     return { kind, x, y, w: 24, h: 110, rotation: 0, asset: "hedge", env }

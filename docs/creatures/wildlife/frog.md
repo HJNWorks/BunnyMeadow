@@ -14,8 +14,7 @@ No folklore role; plain wildlife.
 ## Behaviour
 
 Hops a short patrol arc near water and stalks. Its hop covers a gap, so it can appear
-mid-jump where a walking patrol could not. Stamp and Path roster are live. No Chapter
-1 chunk places this id yet. I8 placement.
+mid-jump where a walking patrol could not. Live on Green Corridor.
 
 ## Telegraph and counter
 

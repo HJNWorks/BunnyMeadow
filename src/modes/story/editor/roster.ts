@@ -13,6 +13,7 @@ export const CRITTER_LABELS: Record<string, string> = {
   boar: "Boar",
   tortoise: "Tortoise",
   bees: "Bees",
+  carp: "Carp",
   frost_wisp: "Frost wisp",
   ice_spit: "Ice spit",
   gale_magpie: "Gale magpie",
@@ -26,6 +27,7 @@ export const ITEM_LABELS: Record<string, string> = {
   mooncake: "Mooncake",
   osmanthus_blossom: "Blossom",
   osmanthus_seed: "Osmanthus seed",
+  dew: "Dew",
   lantern: "Lantern",
   star_grit: "Star grit",
   elixir_crumb: "Elixir crumb",
@@ -33,10 +35,10 @@ export const ITEM_LABELS: Record<string, string> = {
 }
 
 const CRITTERS_BY_BIOME: Record<string, string[]> = {
-  meadow: ["fox", "hedgehog", "crow", "bees"],
-  orchard: ["fox", "hedgehog", "crow", "squirrel", "bees"],
-  bamboo: ["crow", "squirrel", "frog", "goat"],
-  riverbank: ["crow", "frog", "heron"],
+  meadow: ["fox", "hedgehog", "crow", "bees", "tortoise"],
+  orchard: ["fox", "hedgehog", "crow", "squirrel", "bees", "boar"],
+  bamboo: ["crow", "squirrel", "frog", "goat", "boar"],
+  riverbank: ["crow", "frog", "heron", "tortoise", "carp"],
   lantern: ["crow", "cat", "owl"],
   osmanthus: ["cat", "owl", "goat"],
   cloudsea: ["frost_wisp", "ice_spit", "gale_magpie"],
@@ -44,8 +46,8 @@ const CRITTERS_BY_BIOME: Record<string, string[]> = {
 }
 
 const ITEMS_BY_BIOME: Record<string, string[]> = {
-  meadow: ["carrot", "osmanthus_seed"],
-  orchard: ["carrot", "mooncake"],
+  meadow: ["carrot", "osmanthus_seed", "dew"],
+  orchard: ["carrot", "mooncake", "dew"],
   bamboo: ["carrot", "lantern"],
   riverbank: ["carrot", "mooncake"],
   lantern: ["carrot", "lantern", "mooncake"],
@@ -77,7 +79,7 @@ export const CRITTER_CHAPTERS: CritterChapter[] = [
       {
         id: "path",
         labelKey: "editor.critterGroup.path",
-        ids: ["fox", "hedgehog", "crow", "squirrel", "frog", "heron", "cat", "owl", "goat", "bees", "tortoise", "boar"],
+        ids: ["fox", "hedgehog", "crow", "squirrel", "frog", "heron", "cat", "owl", "goat", "bees", "tortoise", "boar", "carp"],
       },
       {
         id: "moon",

@@ -1,0 +1,28 @@
+{
+  "id": "chunk_bamboo_edge",
+  "width": 960,
+  "height": 1080,
+  "groundY": 980,
+  "platforms": [
+    { "x": 0, "y": 980, "w": 280, "h": 100 },
+    { "x": 140, "y": 860, "w": 110, "h": 24 },
+    { "x": 720, "y": 980, "w": 240, "h": 100 },
+    { "x": 760, "y": 880, "w": 120, "h": 24 }
+  ],
+  "walls": [
+    { "x": 80, "y": 700, "w": 36, "h": 280 }
+  ],
+  "enemies": [
+    { "id": "boar", "x": 180, "y": 930 }
+  ],
+  "movers": [
+    { "x": 360, "y": 900, "w": 130, "h": 28, "axis": "x", "amplitude": 50, "speed": 1.05, "tint": 10066176, "break": { "profile": "wood" } }
+  ],
+  "hazards": [
+    { "x": 280, "y": 940, "w": 440, "h": 140, "kind": "water", "current": 36 }
+  ],
+  "items": [
+    { "id": "osmanthus_seed", "x": 820, "y": 848 }
+  ],
+  "color": "#6b9458"
+}

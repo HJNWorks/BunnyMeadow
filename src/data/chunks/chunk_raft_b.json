@@ -15,5 +15,8 @@
   "hazards": [
     { "x": 0, "y": 960, "w": 960, "h": 120, "kind": "water", "current": 32 }
   ],
+  "items": [
+    { "id": "osmanthus_seed", "x": 70, "y": 818 }
+  ],
   "color": "#4f7684"
 }

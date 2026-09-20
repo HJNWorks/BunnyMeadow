@@ -32,8 +32,8 @@ does not place pantry carrots.
 | Render cue | round golden pastry with a stamped top; warm glint |
 
 Most valuable on the Riverbank, where water costs hearts. Ties to the Mid-Autumn frame.
-In Earth Story the pastry restores one heart (I8 place on orchard, river, lantern,
-osmanthus). In Story Guanghan the same pastry is warmth ammo, not a heal: eat it to
+In Earth Story the pastry restores one heart on meadow and river. Lantern and
+osmanthus placement waits on I9. In Story Guanghan the same pastry is warmth ammo, not a heal: eat it to
 start a short timed buff, then dash Han. It appears on the top-center of remaining
 ledges while the court fight is live. Endless still restores a heart. Chapter 2 hops
 restore a heart. One job per context. Do not add a generic heart sprite.
@@ -113,7 +113,7 @@ Run-scoped. Not Yutu as an HP bar. The crumb is the pickup.
 | Field | Value |
 | --- | --- |
 | Category | run-buff |
-| Status | planned (I8) |
+| Status | live |
 | Effect | Short slow-time so a jump or dash reads easier |
 | Duration | short |
 | Home biomes | meadow, orchard |
@@ -160,7 +160,7 @@ festival ash. Han still has no fireballs.
 | Field | Value |
 | --- | --- |
 | Category | keepsake |
-| Status | live (Pool map). More stations I8-I10 |
+| Status | live (eight stations). More I9-I10 |
 | Effect | Increments `progress.story.keepsakes`. Unlocks Customize flecks and achievements. No hop power |
 | Duration | permanent collectible. Never respawns |
 | Home biomes | one hidden spawn per playable Chapter 1 station |

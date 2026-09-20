@@ -1,4 +1,6 @@
 import Phaser from "phaser"
+import enemiesData from "../../../data/enemies.json"
+import type { AssembledHazard } from "../../../systems/ChunkAssembler"
 
 type EnemyKit = {
   texture: string
@@ -68,6 +70,7 @@ const KITS: Record<string, EnemyKit> = {
   star_wisp: { texture: "story_critter_star_wisp", source: "story_starwisp", w: 52, h: 36, archetype: "swarm", speed: 18, fly: true },
   pestle_sentry: { texture: "story_critter_pestle_sentry", source: "story_pestle", w: 32, h: 36, archetype: "ranged_lob", speed: 0 },
   gale_magpie: { texture: "story_critter_gale_magpie", source: "story_magpie", w: 40, h: 28, archetype: "diver", speed: 160, fly: true },
+  carp: { texture: "story_critter_carp", source: "story_carp", w: 48, h: 24, archetype: "water_patrol", speed: 40, fly: true },
 }
 
 export function critterTextureKey(id: string): string {
@@ -76,6 +79,40 @@ export function critterTextureKey(id: string): string {
 
 export function getEnemyKit(id: string): EnemyKit {
   return KITS[id] ?? KITS.hedgehog!
+}
+
+function enemySafeFromAbove(id: string): boolean {
+  const row = (enemiesData.enemies as { id: string; safeFromAbove?: boolean }[]).find((entry) => entry.id === id)
+  return row?.safeFromAbove === true
+}
+
+export function bindCarpToWater(
+  sprite: Phaser.Physics.Arcade.Sprite,
+  hazards: AssembledHazard[],
+): void {
+  let best: AssembledHazard | null = null
+  let bestDist = Number.POSITIVE_INFINITY
+  for (const hazard of hazards) {
+    if (hazard.kind !== "water") {
+      continue
+    }
+    const cx = hazard.worldX + hazard.w * 0.5
+    const cy = hazard.worldY + hazard.h * 0.5
+    const dist = Math.hypot(sprite.x - cx, sprite.y - cy)
+    if (dist < bestDist) {
+      best = hazard
+      bestDist = dist
+    }
+  }
+  if (!best) {
+    return
+  }
+  sprite.setData("waterLeft", best.worldX)
+  sprite.setData("waterRight", best.worldX + best.w)
+  sprite.setData("waterTop", best.worldY)
+  sprite.setData("waterBottom", best.worldY + best.h)
+  sprite.setData("homeY", best.worldY + 20)
+  sprite.setPosition(sprite.x, best.worldY + 20)
 }
 
 export function listEnemyKits(): { id: string; kit: EnemyKit }[] {
@@ -179,8 +216,21 @@ export function spawnEnemy(
   sprite.setData("archetype", kit.archetype)
   sprite.setData("speed", kit.speed)
   sprite.setData("fly", kit.fly === true)
+  sprite.setData("safeFromAbove", enemySafeFromAbove(id))
   if (kit.archetype === "patrol") {
     sprite.setData("dir", 1)
+  }
+  if (kit.archetype === "reach") {
+    sprite.setData("phase", "idle")
+    sprite.setData("timer", 0.5 + Math.random() * 0.6)
+    sprite.setData("facing", 1)
+  }
+  if (kit.archetype === "water_patrol") {
+    sprite.setData("dir", 1)
+    sprite.setData("phase", "hover")
+    sprite.setData("timer", 0.8 + Math.random() * 0.6)
+    sprite.setData("homeX", x)
+    sprite.setData("homeY", y)
   }
   if (kit.archetype === "ranged_lob") {
     sprite.setData("cooldown", id === "ice_spit" || id === "pestle_sentry" ? 0.4 : 0)
@@ -295,6 +345,95 @@ export function updateEnemies(
       enemy.setVelocityX(0)
     } else if (arch === "reach") {
       enemy.setVelocityX(0)
+      let phase = String(enemy.getData("phase") || "idle")
+      let timer = Number(enemy.getData("timer") || 0) - dt
+      if (phase === "idle") {
+        if (timer <= 0 && Math.abs(target.x - enemy.x) < 280) {
+          const facing = target.x >= enemy.x ? 1 : -1
+          phase = "coil"
+          timer = 0.45
+          enemy.setFlipX(facing < 0)
+          enemy.setData("facing", facing)
+          enemy.setTint(0xc8b090)
+        }
+      } else if (phase === "coil") {
+        if (timer <= 0) {
+          phase = "strike"
+          timer = 0.35
+          enemy.clearTint()
+          const dir = Number(enemy.getData("facing") || 1)
+          const poke = scene.physics.add.image(enemy.x + dir * 40, enemy.y - 6, "story_frost")
+          poke.setDisplaySize(42, 10)
+          poke.setTint(0xf4e8d0)
+          poke.setData("archetype", "reach_poke")
+          poke.setData("safeFromAbove", false)
+          const pokeBody = poke.body as Phaser.Physics.Arcade.Body
+          pokeBody.setAllowGravity(false)
+          pokeBody.setGravity(0, 0)
+          enemies.add(poke)
+          enemy.setData("poke", poke)
+        }
+      } else if (phase === "strike") {
+        const poke = enemy.getData("poke") as Phaser.Physics.Arcade.Image | undefined
+        const dir = Number(enemy.getData("facing") || 1)
+        poke?.setPosition(enemy.x + dir * 40, enemy.y - 6)
+        if (timer <= 0) {
+          phase = "recover"
+          timer = 1.6
+          poke?.destroy()
+          enemy.setData("poke", null)
+        }
+      } else if (timer <= 0) {
+        phase = "idle"
+        timer = 1.2 + Math.random() * 0.8
+      }
+      enemy.setData("phase", phase)
+      enemy.setData("timer", timer)
+    } else if (arch === "water_patrol") {
+      const left = Number(enemy.getData("waterLeft") ?? enemy.x - 80)
+      const right = Number(enemy.getData("waterRight") ?? enemy.x + 80)
+      const top = Number(enemy.getData("waterTop") ?? enemy.y)
+      const homeY = Number(enemy.getData("homeY") ?? top + 20)
+      let phase = String(enemy.getData("phase") || "hover")
+      let timer = Number(enemy.getData("timer") || 0) - dt
+      let dir = Number(enemy.getData("dir") || 1)
+      if (phase === "hover") {
+        if (enemy.x <= left + 16) {
+          dir = 1
+        }
+        if (enemy.x >= right - 16) {
+          dir = -1
+        }
+        enemy.setData("dir", dir)
+        enemy.setVelocityX(dir * speed)
+        enemy.setVelocityY((homeY - enemy.y) * 4)
+        if (timer <= 0) {
+          phase = "breach"
+          timer = 0.42
+          enemy.setVelocityY(-220)
+        }
+      } else if (phase === "breach") {
+        if (timer <= 0) {
+          phase = "return"
+          timer = 0.7
+        }
+      } else {
+        enemy.setVelocityY((homeY - enemy.y) * 5)
+        enemy.setVelocityX(dir * speed * 0.4)
+        if (Math.abs(enemy.y - homeY) < 8 || timer <= 0) {
+          phase = "hover"
+          timer = 1.1 + Math.random() * 0.7
+          enemy.setY(homeY)
+        }
+      }
+      if (enemy.x < left + 8) {
+        enemy.setX(left + 8)
+      }
+      if (enemy.x > right - 8) {
+        enemy.setX(right - 8)
+      }
+      enemy.setData("phase", phase)
+      enemy.setData("timer", timer)
     } else if (arch === "blocker") {
       let stun = Number(enemy.getData("stun") || 0) - dt
       let charging = Number(enemy.getData("charging") || 0)

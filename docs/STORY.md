@@ -53,13 +53,13 @@ Mei runs to the pond. Chang'e answers through the water:
 
 ### 2. World 1 — Meadow and Hedgerows (day to golden hour)
 
-Enemies: foxes, crows, hedgehogs. Planned placement: squirrel, bees, tortoise.
+Enemies: foxes, crows, hedgehogs, bees, squirrels, tortoise.
 [Fox Hu](LORE.md#fox-spirits--huli-jing-狐狸精) steals the carrot basket the kits need.
 
 Boss: Fox Hu's carrot cart chase.
 
-Live stations: Soft Paths, Hedge Maze, Cart Chase. I8 lengthens Soft Paths and Hedge
-Maze and places dew and mooncakes on high grass. Cart Chase stays the folk boss.
+Live stations: Soft Paths, Hedge Maze, Cart Chase. Soft Paths and Hedge Maze are four
+chunks. Dew and mooncakes sit on high grass. Cart Chase stays the folk boss.
 
 Lesson mechanics: run, jump, dash, wall bounce. Controls were already taught on the
 Pool map.
@@ -70,15 +70,15 @@ Moon Pool sample:
 
 ### 3. World 2 — Bamboo Grove and River (dusk)
 
-Enemies: herons, frogs, carp. Falling bamboo. Planned: dense grove, then a grove-to-river
-edge. Place frog, squirrel, goat. Boar as orchard or bamboo blocker. Carp as water-patrol.
-Heron as a chunk reach enemy on the river, not only the raft boss. No panda.
+Enemies: herons, frogs, carp, squirrel, goat, boar. Falling bamboo. Dense grove, then
+a grove-to-river edge. Heron as a chunk reach enemy on the river, not only the raft
+boss. No panda.
 
 Mei learns Yue is fine but "above the clouds".
 
 Boss: the Heron Fisher on the river rafts (invented).
 
-Live stations: Green Corridor (bamboo wall bounce), Floating Logs (moving logs + river current), Raft Gauntlet (three dash hits on the heron). I8 lengthens 2-1 and 2-2. Mooncakes on logs.
+Live stations: Green Corridor (bamboo wall bounce), Floating Logs (moving logs + river current), Raft Gauntlet (three dash hits on the heron). 2-1 is five chunks. 2-2 is four. Mooncakes on logs.
 
 Moon Pool sample:
 

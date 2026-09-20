@@ -20,6 +20,9 @@ function textureForDecor(kind: AssembledDecor["kind"], asset?: string, env = "")
   if (kind === "column") {
     return "story_hedge_moon"
   }
+  if (kind === "kit") {
+    return "story_bunny"
+  }
   if (asset === "exit" || kind === "burrow") {
     return "story_exit"
   }
@@ -54,7 +57,10 @@ export function spawnDecorItem(
   )
   sprite.setDisplaySize(item.w, item.h)
   sprite.setAngle(item.rotation ?? 0)
-  sprite.setDepth(item.kind === "grass" ? 1.4 : 2)
+  sprite.setDepth(item.kind === "grass" ? 1.4 : item.kind === "kit" ? 3 : 2)
+  if (item.kind === "kit") {
+    sprite.setTint(index % 2 === 0 ? 0xf2d4b8 : 0xe8c8a0)
+  }
   if (item.kind === "lantern") {
     sprite.setTint(0xe07040)
   }

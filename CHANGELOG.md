@@ -8,6 +8,10 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Meadow through river density (I8). Longer Soft Paths, Hedge Maze, Green Corridor,
+  and Floating Logs. Dew, Earth mooncakes, carp water-patrol, eight keepsakes.
+  `KEEPSAKE_EIGHT`. Iteration:
+  [docs/iterations/i8-w1-w2-density.md](docs/iterations/i8-w1-w2-density.md).
 - Moon in the Pool playable (I7). Tunnel lead-in, one Moon Pool, tutorial chips,
   dusk fireflies. Soft Paws creature intro with bees. First osmanthus seed.
   `progress.story.keepsakes`. Achievement `KEEPSAKE_FIRST`. Iteration:

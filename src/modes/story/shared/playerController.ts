@@ -17,6 +17,7 @@ export type PlayerState = {
   baseGravity: number
   jumpBoost: number
   slowFall: number
+  dewSlow: number
 }
 
 export function createPlayerState(overrides: Partial<PlayerState> = {}): PlayerState {
@@ -33,6 +34,7 @@ export function createPlayerState(overrides: Partial<PlayerState> = {}): PlayerS
     baseGravity: 1200,
     jumpBoost: 0,
     slowFall: 0,
+    dewSlow: 0,
     ...overrides,
   }
 }

@@ -3,10 +3,10 @@
   "world": 2,
   "index": 2,
   "name": "Floating Logs",
-  "chunks": ["chunk_river_start", "chunk_river_logs", "chunk_river_pool"],
+  "chunks": ["chunk_river_start", "chunk_river_logs", "chunk_river_reach", "chunk_river_pool"],
   "playerSpawn": { "x": 100, "y": 900 },
-  "moonPool": { "chunk": 2, "x": 460, "y": 920 },
-  "exit": { "chunk": 2, "x": 820, "y": 920 },
+  "moonPool": { "chunk": 3, "x": 460, "y": 920 },
+  "exit": { "chunk": 3, "x": 820, "y": 920 },
   "moonLine": "Ride the silver water. Soft paws on soft wood.",
   "objective": "Hop the floating logs. The river carries you gently.",
   "sky": "#6b94a0"

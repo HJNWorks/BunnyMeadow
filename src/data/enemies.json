@@ -108,6 +108,133 @@
       "notes": "Dash passes through"
     },
     {
+      "id": "squirrel",
+      "archetype": "ranged_lob",
+      "displayName": "Squirrel",
+      "homeBiomes": ["orchard", "bamboo"],
+      "minTier": 2,
+      "senseRange": 240,
+      "attackRange": 200,
+      "telegraphTime": 0.4,
+      "cooldown": 1.8,
+      "speed": 50,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "squirrel_idle",
+        "move": "squirrel_run",
+        "attack": "squirrel_throw",
+        "hurt": "squirrel_hurt"
+      }
+    },
+    {
+      "id": "frog",
+      "archetype": "patrol",
+      "displayName": "Frog",
+      "homeBiomes": ["bamboo", "riverbank"],
+      "minTier": 2,
+      "senseRange": 0,
+      "attackRange": 24,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 55,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "frog_idle",
+        "move": "frog_hop",
+        "attack": "frog_idle",
+        "hurt": "frog_hurt"
+      }
+    },
+    {
+      "id": "heron",
+      "archetype": "reach",
+      "displayName": "Heron",
+      "homeBiomes": ["riverbank"],
+      "minTier": 3,
+      "senseRange": 280,
+      "attackRange": 56,
+      "telegraphTime": 0.45,
+      "cooldown": 1.6,
+      "speed": 0,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "heron_idle",
+        "move": "heron_idle",
+        "attack": "heron_poke",
+        "hurt": "heron_hurt"
+      }
+    },
+    {
+      "id": "tortoise",
+      "archetype": "patrol",
+      "displayName": "Tortoise",
+      "homeBiomes": ["meadow", "riverbank"],
+      "minTier": 1,
+      "senseRange": 0,
+      "attackRange": 24,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 22,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "tortoise_idle",
+        "move": "tortoise_walk",
+        "attack": "tortoise_idle",
+        "hurt": "tortoise_hurt"
+      }
+    },
+    {
+      "id": "boar",
+      "archetype": "blocker",
+      "displayName": "Boar",
+      "homeBiomes": ["orchard", "bamboo"],
+      "minTier": 3,
+      "senseRange": 180,
+      "attackRange": 40,
+      "telegraphTime": 0.4,
+      "cooldown": 1.2,
+      "speed": 95,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "boar_idle",
+        "move": "boar_run",
+        "attack": "boar_charge",
+        "hurt": "boar_hurt"
+      }
+    },
+    {
+      "id": "carp",
+      "archetype": "water_patrol",
+      "displayName": "Carp",
+      "homeBiomes": ["riverbank"],
+      "minTier": 3,
+      "senseRange": 0,
+      "attackRange": 28,
+      "telegraphTime": 0.2,
+      "cooldown": 1.1,
+      "speed": 40,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "carp_idle",
+        "move": "carp_swim",
+        "attack": "carp_breach",
+        "hurt": "carp_hurt"
+      },
+      "notes": "Stays in the water band. Breach slap"
+    },
+    {
       "id": "frost_wisp",
       "archetype": "swarm",
       "displayName": "Frost Wisp",

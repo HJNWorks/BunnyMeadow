@@ -14,8 +14,8 @@ No folklore role; plain wildlife. Listed as a Story W2 optional in [../../ENEMIE
 ## Behaviour
 
 Holds a line and charges when the player crosses it, then is stunned on a wall hit.
-It converts a corridor into a timing puzzle: bait the charge, then pass. Stamp is
-live. No Chapter 1 chunk places this id yet. I8 placement.
+It converts a corridor into a timing puzzle: bait the charge, then pass. Live on
+Green Corridor.
 
 ## Telegraph and counter
 

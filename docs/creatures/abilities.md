@@ -48,7 +48,7 @@ verb for a short time. Full catalog: [../items/catalog.md](../items/catalog.md).
 | --- | --- | --- |
 | osmanthus blossom | grants one extra glide charge (a second float) | until used |
 | lantern | pushes the mist wall back 80 m. HUD tray while the ~1.6 s glow lasts | instant + timed |
-| dew | slow-time so a jump or dash reads easier. Meadow and orchard | short |
+| dew | slow-time so a jump or dash reads easier. Meadow and orchard. Story only. Does not toggle accessibility slow time | short |
 | sparkler | lantern-class timed light. Festival scenery, not a weapon | timed |
 | mooncake | Endless and Earth Story: restores one heart. Guanghan: timed warmth so a dash can tag Han | instant / ~3 s |
 | osmanthus seed | keepsake. No verb change | permanent cosmetic / achievement |

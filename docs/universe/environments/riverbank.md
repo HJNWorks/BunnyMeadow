@@ -19,16 +19,16 @@ starts at 1200 m by distance while runs end near 145 m). The route walker in
 
 Logs, current, rafts. Water spans are crossed on drifting logs that move on the x or
 y axis. Falling into water costs a heart and respawns ahead. The current pushes the
-player, so timing a log ride matters. Mooncakes on logs (I8). Grove-to-river edge from
+player, so timing a log ride matters. Mooncakes on logs. Grove-to-river edge from
 Green Corridor so 2-2 is the same valley.
 
 ## Roster
 
 | Creature | Class | Active hour | Min tier |
 | --- | --- | --- | --- |
-| frog | patrol | dusk | 2 (stamp live, place I8) |
-| carp | patrol (water) | dusk | 3 (planned I8) |
-| heron | reach | dusk | 3 (chunk reach I8. Raft boss stays folk) |
+| frog | patrol | dusk | 2 (Green Corridor) |
+| carp | water_patrol | dusk | 3 (Floating Logs) |
+| heron | reach | dusk | 3 (Floating Logs poke. Raft boss stays folk) |
 | crow | ranged_lob | dusk | 3 |
 
 Folk: Heron Fisher, the World 2 boss ([../../creatures/folk/heron-fisher.md](../../creatures/folk/heron-fisher.md)).

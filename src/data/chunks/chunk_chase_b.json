@@ -12,5 +12,8 @@
   "enemies": [
     { "id": "fox", "x": 500, "y": 930 }
   ],
+  "items": [
+    { "id": "osmanthus_seed", "x": 770, "y": 768 }
+  ],
   "color": "#a8c88a"
 }

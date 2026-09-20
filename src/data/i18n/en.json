@@ -251,6 +251,8 @@
   "ach.PERFECT_HEARTS.desc": "Clear a Story level without losing a heart.",
   "ach.KEEPSAKE_FIRST.name": "First Seed",
   "ach.KEEPSAKE_FIRST.desc": "Find an osmanthus seed.",
+  "ach.KEEPSAKE_EIGHT.name": "Eight Seeds",
+  "ach.KEEPSAKE_EIGHT.desc": "Find eight osmanthus seeds.",
   "common.back": "Back",
   "common.pause": "Pause",
   "common.resume": "Resume",

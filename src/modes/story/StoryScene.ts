@@ -45,6 +45,7 @@ import {
   updateEnemies,
   freezeEnemyForEditor,
   constrainCreatureToWorld,
+  bindCarpToWater,
 } from "./shared/enemyKit"
 import { HAN_WARMTH, HanFight } from "./shared/hanBoss"
 import { BreakField, padBreakSpec } from "./shared/breakables"
@@ -380,6 +381,7 @@ export class StoryScene extends Phaser.Scene {
   private weather: WeatherHandle | null = null
   private lanternGlow: Phaser.GameObjects.Image | null = null
   private lanternGlowAlways = false
+  private dewVeil: Phaser.GameObjects.Rectangle | null = null
   private glowKind: string | null = null
   private checkpoint: { x: number; y: number } | null = null
   private won = false
@@ -632,6 +634,10 @@ export class StoryScene extends Phaser.Scene {
     this.lanternGlow = createLanternGlow(this)
     this.lanternGlow.setVisible(this.lanternGlowAlways)
     this.lanternGlow.setAlpha(this.lanternGlowAlways ? 0.55 : 1)
+    this.dewVeil = this.add.rectangle(960, 540, 1920, 1080, 0x6a88aa, 0.2)
+    this.dewVeil.setScrollFactor(0)
+    this.dewVeil.setDepth(19)
+    this.dewVeil.setVisible(false)
     if (look?.fog) {
       this.add
         .rectangle(960, 540, 1920, 1080, hexToNum(palette.fog), 0.16)
@@ -808,6 +814,9 @@ export class StoryScene extends Phaser.Scene {
       })
       sprite.setData("editKind", "enemy")
       sprite.setData("editIndex", i)
+      if (e.id === "carp") {
+        bindCarpToWater(sprite, world.hazards)
+      }
       if (this.editorMode === "build") {
         freezeEnemyForEditor(sprite)
       }
@@ -925,6 +934,17 @@ export class StoryScene extends Phaser.Scene {
           return
         }
         this.hurt()
+        return
+      }
+      const pBody = this.player.body as Phaser.Physics.Arcade.Body
+      const eBody = body.body as Phaser.Physics.Arcade.Body | null
+      if (
+        body.getData("safeFromAbove") === true &&
+        eBody &&
+        pBody.velocity.y > 80 &&
+        pBody.bottom <= eBody.center.y + 10
+      ) {
+        this.player.setVelocityY(-260)
         return
       }
       this.hurt()
@@ -1135,6 +1155,11 @@ export class StoryScene extends Phaser.Scene {
       this.syncHearts()
       return
     }
+    if (id === "dew") {
+      this.playerState.dewSlow = 1.2
+      this.dewVeil?.setVisible(true)
+      return
+    }
     if (id === "osmanthus_blossom") {
       this.playerState.glideCharges += 1
       return
@@ -1173,11 +1198,17 @@ export class StoryScene extends Phaser.Scene {
       void (async () => {
         if (save.progress.story.keepsakes.length >= 1) {
           await getPlatform().achievements.unlock("KEEPSAKE_FIRST")
-          // TODO: KEEPSAKE_EIGHT and KEEPSAKE_SET wait until more stations hide seeds (I8-I10)
           if (!save.progress.achievements.includes("KEEPSAKE_FIRST")) {
             save.progress.achievements.push("KEEPSAKE_FIRST")
           }
         }
+        if (save.progress.story.keepsakes.length >= 8) {
+          await getPlatform().achievements.unlock("KEEPSAKE_EIGHT")
+          if (!save.progress.achievements.includes("KEEPSAKE_EIGHT")) {
+            save.progress.achievements.push("KEEPSAKE_EIGHT")
+          }
+        }
+        // TODO: KEEPSAKE_SET waits until remaining Chapter 1 stations hide seeds (I9-I10)
         await persistSave()
       })()
       return
@@ -1654,6 +1685,9 @@ export class StoryScene extends Phaser.Scene {
     if (this.playerState.slowFall > 0) {
       buffs.push({ id: "elixir_crumb", remaining: this.playerState.slowFall, duration: 2.5 })
     }
+    if (this.playerState.dewSlow > 0) {
+      buffs.push({ id: "dew", remaining: this.playerState.dewSlow, duration: 1.2 })
+    }
     if (this.glowTimer > 0 && this.glowKind === "well_silver") {
       buffs.push({ id: "well_silver", remaining: this.glowTimer, duration: 1.6 })
     }
@@ -1905,11 +1939,16 @@ export class StoryScene extends Phaser.Scene {
     if (this.paused || this.won || this.lost || this.inDialogue || !this.player?.body) {
       return
     }
-    const dt = delta / 1000
+    const rawDt = delta / 1000
+    const dt = this.playerState.dewSlow > 0 ? rawDt * 0.45 : rawDt
     const input = getInput().snapshot()
     if (this.editorMode !== "build") {
-      this.hud.ticker.tick(dt, this.reducedMotion, input.confirmPressed)
+      this.hud.ticker.tick(rawDt, this.reducedMotion, input.confirmPressed)
     }
+    if (this.dewVeil) {
+      this.dewVeil.setVisible(this.playerState.dewSlow > 0)
+    }
+    this.playerState.dewSlow = Math.max(0, this.playerState.dewSlow - rawDt)
     if (this.editorMode === "build") {
       this.player.setVelocity(0, 0)
       for (const obj of this.enemies.getChildren()) {

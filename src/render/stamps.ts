@@ -16,8 +16,10 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_boar: { w: 52, h: 32 },
   story_tortoise: { w: 44, h: 28 },
   story_bees: { w: 44, h: 32 },
+  story_carp: { w: 48, h: 24 },
   story_carrot: { w: 24, h: 32 },
   story_mooncake: { w: 28, h: 28 },
+  story_dew: { w: 18, h: 24 },
   story_blossom: { w: 28, h: 28 },
   story_seed: { w: 20, h: 24 },
   story_lantern: { w: 24, h: 36 },
@@ -215,6 +217,20 @@ function drawTortoise(ctx: CanvasRenderingContext2D, cx: number, cy: number): vo
   ellipse(ctx, cx + 16, cy + 2, 6, 4, "#7a9858")
   circle(ctx, cx + 18, cy, 1.4, "#2a2010")
   ellipse(ctx, cx - 14, cy + 4, 4, 3, "#6d8a55")
+}
+
+function drawCarp(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx, cy + 2, 18, 8, "#3a4a58")
+  ellipse(ctx, cx + 2, cy, 16, 6, "#7a8a6a")
+  ellipse(ctx, cx + 4, cy + 4, 12, 4, "#d8c4a0")
+  tri(ctx, cx - 18, cy, cx - 28, cy - 8, cx - 24, cy + 6, "#4a5a48")
+  circle(ctx, cx + 12, cy - 1, 1.6, "#1a2018")
+}
+
+function drawDew(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx, cy + 4, 6, 8, "#9fd4e8")
+  ellipse(ctx, cx, cy + 2, 4, 6, "#d8f4ff")
+  circle(ctx, cx - 2, cy - 2, 1.6, "#ffffff")
 }
 
 function drawBees(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
@@ -522,8 +538,10 @@ const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: nu
   story_boar: drawBoar,
   story_tortoise: drawTortoise,
   story_bees: drawBees,
+  story_carp: drawCarp,
   story_carrot: drawCarrot,
   story_mooncake: drawMooncake,
+  story_dew: drawDew,
   story_blossom: drawBlossom,
   story_seed: drawSeed,
   story_lantern: drawLantern,

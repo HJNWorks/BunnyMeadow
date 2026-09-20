@@ -17,6 +17,7 @@ Player verbs and how items change them are in [creatures/abilities.md](creatures
 | diver | owl, magpie, Crane Envoy (boss) | Circles, then dives along a shown line |
 | swarm | bees | Slow cloud. Area denial. Dash passes through |
 | blocker | goat, boar | Charges when the player crosses its line. Stunned on wall hit |
+| water_patrol | carp | Hovers in a water band. Periodic breach |
 | boss | Fox Hu, Heron Fisher, Crane Envoy, Closing Gale, Han | Scripted phases composed from the above |
 
 Owls use `diver` as ordinary night enemies only. They are never Moon servants. See [LORE.md](LORE.md).
@@ -39,9 +40,9 @@ live ([I5](iterations/i5-bunny-jump.md)). Other roles wait.
 | frost_wisp, bees | drift | slow cloud. Dash still passes through |
 | tortoise | perch | slow pad sitter |
 
-Fox Hu's cart, Crane Envoy, Han, Chang'e, and Yue stay off this HP bar. Skip carp
-(no stamp) and dew (pickup). Bees, tortoise, and boar belong in Chapter 1 Path first
-(I7-I8). Jump debuts wait.
+Fox Hu's cart, Crane Envoy, Han, Chang'e, and Yue stay off this HP bar. Skip dew
+as a jump role. Bees, tortoise, boar, and carp are live on Chapter 1 Path. Jump
+debuts wait.
 
 ## JSON schema
 
@@ -105,9 +106,10 @@ Used on web today via Spawner. `reach` and later archetypes remain M3+.
 | owl | diver | Story W3 (enemy only) |
 | cat | reach | Story W3 |
 | bees | swarm | Meadow optional. Story Soft Paws |
-| tortoise | patrol | Story Chapter 1 Path (I8) |
-| boar | blocker | Story Chapter 1 Path (I8) |
-| goat | blocker | Endless (bamboo, osmanthus). Story I8 place |
+| tortoise | patrol | Story Soft Paths |
+| boar | blocker | Story Green Corridor |
+| goat | blocker | Endless (bamboo, osmanthus). Story Green Corridor |
+| carp | water_patrol | Story Floating Logs |
 | frost_wisp | swarm | Story W4. Palace corridors I10 |
 | ice_spit | ranged_lob | Story W4 |
 | gale_magpie | diver | Story W4 |
