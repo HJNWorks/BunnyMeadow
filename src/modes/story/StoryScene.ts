@@ -794,7 +794,7 @@ export class StoryScene extends Phaser.Scene {
     }
 
     this.enemies = this.physics.add.group()
-    this.projectiles = this.physics.add.group()
+    this.projectiles = this.physics.add.group({ allowGravity: false })
 
     for (let i = 0; i < world.enemies.length; i += 1) {
       const e = world.enemies[i]

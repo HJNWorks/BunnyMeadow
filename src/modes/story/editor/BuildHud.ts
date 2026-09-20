@@ -1859,7 +1859,7 @@ export function mountBuildHud(session: EditorSession): void {
       getAudio().playSfx("confirm")
     }
   }
-  requireEl<HTMLButtonElement>(root, "[data-ui=delete]").onclick = () => {
+  const deleteSelected = (): void => {
     const doomed = (group.length ? group : selected ? [selected] : []).filter(
       (item) => item.kind !== "spawn" && item.kind !== "exit",
     )
@@ -1892,6 +1892,9 @@ export function mountBuildHud(session: EditorSession): void {
       }
     }
     restart("build")
+  }
+  requireEl<HTMLButtonElement>(root, "[data-ui=delete]").onclick = () => {
+    deleteSelected()
   }
 
   xInput.onchange = applyInspect
@@ -2114,6 +2117,11 @@ export function mountBuildHud(session: EditorSession): void {
       event.target instanceof HTMLTextAreaElement ||
       event.target instanceof HTMLSelectElement
     if (typing) {
+      return
+    }
+    if (event.key === "Backspace" || event.key === "Delete") {
+      event.preventDefault()
+      deleteSelected()
       return
     }
     if (!(event.ctrlKey || event.metaKey)) {

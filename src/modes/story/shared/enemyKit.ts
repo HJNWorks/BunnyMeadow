@@ -26,17 +26,18 @@ export function fireRadialShot(
 ): Phaser.Physics.Arcade.Image {
   const x = ox + Math.cos(ang) * RADIAL_SPAWN
   const y = oy + Math.sin(ang) * RADIAL_SPAWN
-  const shot = scene.physics.add.image(x, y, key)
+  const shot = scene.add.image(x, y, key)
   shot.setDisplaySize(dw, dh)
   shot.setRotation(ang + (opts?.rotOff ?? 0))
   shot.setDepth(opts?.depth ?? 5)
   if (opts?.tint !== undefined) {
     shot.setTint(opts.tint)
   }
+  projectiles.add(shot)
   const body = shot.body as Phaser.Physics.Arcade.Body
   body.setAllowGravity(false)
+  body.setGravity(0, 0)
   body.setVelocity(Math.cos(ang) * speed, Math.sin(ang) * speed)
-  projectiles.add(shot)
   const lifeMs = opts?.lifeMs
   if (lifeMs && lifeMs > 0) {
     scene.time.delayedCall(lifeMs, () => {
@@ -45,7 +46,7 @@ export function fireRadialShot(
       }
     })
   }
-  return shot
+  return shot as Phaser.Physics.Arcade.Image
 }
 
 const KITS: Record<string, EnemyKit> = {
@@ -274,13 +275,19 @@ export function updateEnemies(
             lifeMs: 2000,
           })
         } else {
-          const shot = scene.physics.add.image(enemy.x, enemy.y, "story_bunny")
+          const shot = scene.add.image(enemy.x, enemy.y, "story_bunny")
           shot.setDisplaySize(14, 14)
           shot.setTint(0x4a3a2a)
-          const n = Math.hypot(dx, dy) || 1
-          shot.setVelocity((dx / n) * 220, (dy / n) * 180 - 80)
           projectiles.add(shot)
-          scene.time.delayedCall(2000, () => shot.destroy())
+          const n = Math.hypot(dx, dy) || 1
+          const body = shot.body as Phaser.Physics.Arcade.Body
+          body.setAllowGravity(true)
+          body.setVelocity((dx / n) * 220, (dy / n) * 180 - 80)
+          scene.time.delayedCall(2000, () => {
+            if (shot.active) {
+              shot.destroy()
+            }
+          })
         }
         cd = radial ? 1.7 : 1.8
       }

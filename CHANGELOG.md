@@ -37,7 +37,8 @@ All notable changes to this project are recorded here. The format follows
 ### Changed
 
 - Story editor Copy and Ctrl/Cmd+C store a clipboard. Ctrl/Cmd+V pastes at camera
-  center. Ctrl/Cmd+D still duplicates in place.
+  center. Ctrl/Cmd+D still duplicates in place. Backspace and Delete remove the
+  selection.
 - Ice spit, pestle sentry, and Han frost/star fans fire no-gravity shots along the
   aim ray. Crow and squirrel stay a gravity lob.
 - Editor Environment is theme then kind, one id each. Placed objects store `env`
