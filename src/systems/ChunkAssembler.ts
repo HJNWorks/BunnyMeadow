@@ -76,7 +76,17 @@ export type BreakSpec = {
   sources?: BreakSource[]
 }
 
-export type ChunkRect = { x: number; y: number; w: number; h: number; break?: BreakSpec; env?: string }
+export type PadSurface = "default" | "slick"
+
+export type ChunkRect = {
+  x: number
+  y: number
+  w: number
+  h: number
+  break?: BreakSpec
+  env?: string
+  surface?: PadSurface
+}
 
 export type PlaceableTrigger = {
   kind: "proximity"
@@ -145,7 +155,7 @@ export type ChunkDef = {
 
 export type AssembledRect = ChunkRect & {
   kind: "platform" | "wall" | "ceiling"
-  asset?: "ground" | "hedge" | "bridge" | "log" | "pool" | "exit" | "rim" | "bowl" | "wound" | "cave"
+  asset?: "ground" | "hedge" | "bridge" | "log" | "pool" | "exit" | "rim" | "bowl" | "wound" | "cave" | "ice"
   rotation?: number
 }
 
@@ -298,13 +308,16 @@ export class ChunkAssembler {
       height = Math.max(height, chunk.height)
       colors.push({ x, width: chunk.width, color: chunk.color })
       for (const p of chunk.platforms) {
+        const slick = p.surface === "slick"
         platforms.push({
           x: x + p.x,
           y: p.y,
           w: p.w,
           h: p.h,
           kind: "platform",
-          asset: "ground",
+          asset: slick ? "ice" : "ground",
+          surface: slick ? "slick" : p.surface,
+          env: p.env,
           break: p.break,
         })
       }

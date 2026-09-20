@@ -14,7 +14,8 @@ Invented frost sentry. Not Fengbo, Yu Shi, or a Skyrim-style draugr.
 ## Behaviour
 
 Perches on a stair pad and fires a frost pebble along an aim ray at Mei. No gravity.
-The shot leaves the perch so it does not die on the pad. Full 360 if Mei is above.
+The sentry stays seated on the nearest pad so Cloud Stair void does not eat it. The
+shot leaves the perch so it does not die on the pad. Full 360 if Mei is above.
 It guards a landing. Standing still on a hanging bridge is a bad idea.
 
 ## Telegraph and counter

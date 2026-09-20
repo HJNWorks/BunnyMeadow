@@ -54,7 +54,7 @@ What a landing does to Mei. Independent of whether the pad slides.
 | default | live | Story, Endless | Normal jump / walk. On a slide, carry only |
 | bounce | live | Bunny Jump | Auto-bounce. Jump unused. The climb verb |
 | boost | live | Bunny Jump lantern pads | Extra bounce velocity. No break |
-| slick | live | Bunny Jump ice. Story moon optional | Low friction. Dash still a nudge. Stacks with ice `break` |
+| slick | live | Bunny Jump ice. Story Cloud Stair | Low friction. Dash still a nudge. Stacks with ice `break` |
 
 ## Break
 
@@ -73,6 +73,7 @@ Profiles `stone`, `wood`, `ice` stay. Ice + `land` + slick is the frost pad.
 
 | Intent | Axes |
 | --- | --- |
+| Cloud Stair ice step | stamp ice, collision solid, motion still, surface slick, break none |
 | Cloud Stair hanging step | stamp bridge, collision solid (one_way later), motion slide, surface default, break none |
 | River log | stamp log, collision solid, motion slide, surface default, break wood + stand |
 | Bunny Jump brown pad | stamp ground or log, collision one_way, motion still, surface bounce, break wood + land hp 1 |

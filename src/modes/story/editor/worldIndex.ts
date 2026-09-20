@@ -199,6 +199,9 @@ export function inspectItemSelectHtml(): string {
 }
 
 export function envTokenLabel(token: string): string {
+  if (token === "ice") {
+    return "Ice"
+  }
   if (token === "platform") {
     return "Platform"
   }

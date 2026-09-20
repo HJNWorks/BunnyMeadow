@@ -49,13 +49,21 @@ export function buildExportBundle(
     y: number,
     w: number,
     h: number,
+    extra?: { surface?: string; break?: ChunkDef["platforms"][number]["break"] },
   ): void => {
     const anchor = worldToAnchor(world, x, y)
     const id = world.chunks[anchor.chunk]
     if (!id || !chunks[id]) {
       return
     }
-    const rect = { x: anchor.x, y, w, h }
+    const rect = {
+      x: anchor.x,
+      y,
+      w,
+      h,
+      ...(extra?.surface === "slick" ? { surface: "slick" as const } : {}),
+      ...(extra?.break ? { break: extra.break } : {}),
+    }
     if (kind === "wall") {
       chunks[id].walls.push(rect)
     } else if (kind === "ceiling") {
@@ -67,7 +75,10 @@ export function buildExportBundle(
   }
 
   for (const rect of overlay.platforms) {
-    pushRect(rect.kind, rect.x, rect.y, rect.w, rect.h)
+    pushRect(rect.kind, rect.x, rect.y, rect.w, rect.h, {
+      surface: rect.surface,
+      break: rect.break,
+    })
   }
 
   for (const enemy of overlay.enemies) {

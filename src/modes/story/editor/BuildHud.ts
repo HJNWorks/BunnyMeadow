@@ -1124,7 +1124,9 @@ export function mountBuildHud(session: EditorSession): void {
           ? t("editor.kind.wall")
           : rect.kind === "ceiling"
             ? t("editor.kind.ceiling")
-            : t("editor.kind.platform")
+            : rect.surface === "slick" || rect.asset === "ice"
+              ? t("editor.kind.ice")
+              : t("editor.kind.platform")
       xInput.value = String(rect.x)
       yInput.value = String(rect.y)
       wInput.value = String(rect.w)
@@ -1728,6 +1730,20 @@ export function mountBuildHud(session: EditorSession): void {
     const token = parsed.kind
     if (token === "platform") {
       overlay.platforms.push({ kind: "platform", x: at.x - 60, y: at.y, w: 120, h: 24, env: stamp })
+      restart("build")
+      return
+    }
+    if (token === "ice") {
+      overlay.platforms.push({
+        kind: "platform",
+        x: at.x - 70,
+        y: at.y,
+        w: 140,
+        h: 24,
+        env: stamp,
+        asset: "ice",
+        surface: "slick",
+      })
       restart("build")
       return
     }

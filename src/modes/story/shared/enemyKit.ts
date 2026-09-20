@@ -10,6 +10,7 @@ type EnemyKit = {
   archetype: string
   speed: number
   fly?: boolean
+  perch?: boolean
 }
 
 const RADIAL_SPAWN = 28
@@ -65,7 +66,7 @@ const KITS: Record<string, EnemyKit> = {
   tortoise: { texture: "story_critter_tortoise", source: "story_tortoise", w: 40, h: 28, archetype: "patrol", speed: 22 },
   bees: { texture: "story_critter_bees", source: "story_bees", w: 44, h: 32, archetype: "swarm", speed: 36, fly: true },
   frost_wisp: { texture: "story_critter_frost_wisp", source: "story_wisp", w: 64, h: 44, archetype: "swarm", speed: 28, fly: true },
-  ice_spit: { texture: "story_critter_ice_spit", source: "story_ice", w: 32, h: 32, archetype: "ranged_lob", speed: 0 },
+  ice_spit: { texture: "story_critter_ice_spit", source: "story_ice", w: 32, h: 32, archetype: "ranged_lob", speed: 0, perch: true },
   dust_mite: { texture: "story_critter_dust_mite", source: "story_dust", w: 52, h: 36, archetype: "swarm", speed: 28, fly: true },
   star_wisp: { texture: "story_critter_star_wisp", source: "story_starwisp", w: 64, h: 44, archetype: "swarm", speed: 18, fly: true },
   pestle_sentry: { texture: "story_critter_pestle_sentry", source: "story_pestle", w: 32, h: 36, archetype: "ranged_lob", speed: 0 },
@@ -195,6 +196,29 @@ function highestFloorTop(
   return best
 }
 
+function nearestPad(
+  sprite: Phaser.Physics.Arcade.Sprite,
+  platforms: Phaser.Physics.Arcade.StaticGroup,
+): { top: number; left: number; right: number } | null {
+  const midX = sprite.x
+  let best: { top: number; left: number; right: number; dist: number } | null = null
+  for (const obj of platforms.getChildren()) {
+    const pb = platformBody(obj)
+    if (!pb) {
+      continue
+    }
+    const overlap = midX >= pb.left - 16 && midX <= pb.right + 16
+    const cx = (pb.left + pb.right) * 0.5
+    const dx = overlap ? 0 : Math.abs(midX - cx)
+    const dy = Math.abs(pb.top - sprite.y)
+    const dist = dx * 2 + dy
+    if (!best || dist < best.dist) {
+      best = { top: pb.top, left: pb.left, right: pb.right, dist }
+    }
+  }
+  return best
+}
+
 export function constrainCreatureToWorld(
   scene: Phaser.Scene,
   sprite: Phaser.Physics.Arcade.Sprite,
@@ -208,10 +232,30 @@ export function constrainCreatureToWorld(
   sprite.setCollideWorldBounds(true)
   body.setMaxVelocity(560, 720)
   const fly = sprite.getData("fly") === true
+  const perch = sprite.getData("perch") === true
   if (fly) {
     body.setAllowGravity(false)
     body.setGravity(0, 0)
     body.setVelocity(0, 0)
+    return
+  }
+  if (perch) {
+    body.setAllowGravity(false)
+    body.setGravity(0, 0)
+    body.setImmovable(true)
+    body.setVelocity(0, 0)
+    const pad = nearestPad(sprite, platforms)
+    if (pad) {
+      const half = Math.max(8, sprite.displayHeight * 0.5)
+      sprite.setY(pad.top - half)
+      if (sprite.x < pad.left + 8) {
+        sprite.setX(pad.left + 8)
+      }
+      if (sprite.x > pad.right - 8) {
+        sprite.setX(pad.right - 8)
+      }
+      body.updateFromGameObject()
+    }
     return
   }
   body.setAllowGravity(true)
@@ -243,6 +287,7 @@ export function spawnEnemy(
   sprite.setData("archetype", kit.archetype)
   sprite.setData("speed", kit.speed)
   sprite.setData("fly", kit.fly === true)
+  sprite.setData("perch", kit.perch === true)
   sprite.setData("safeFromAbove", enemySafeFromAbove(id))
   if (kit.archetype === "patrol") {
     sprite.setData("dir", 1)
@@ -403,6 +448,11 @@ export function updateEnemies(
       }
       enemy.setData("cooldown", cd)
       enemy.setVelocityX(0)
+      if (enemy.getData("perch") === true) {
+        const body = enemy.body as Phaser.Physics.Arcade.Body
+        body.setAllowGravity(false)
+        enemy.setVelocityY(0)
+      }
     } else if (arch === "reach") {
       enemy.setVelocityX(0)
       let phase = String(enemy.getData("phase") || "idle")

@@ -29,6 +29,8 @@ exception to Moon Pool on every playable level.
 gale chase into the palace gate, not the throne.
 
 The stair is guarded by wind, frost wisps, ice spit, gale magpies, and frost hares.
+Ice pads (`surface: slick`) sit on No Return, Closing Gale, and mixed steps on First
+Steps. Walk them and Mei keeps sliding. Dash is still a short nudge.
 Optional faded festival lanterns torn by wind (Earth remnant, not palace jade). A
 closing gale on 4-3 is Han's outer habit turning guests back. Chang'e does not throw
 the storm. Fengbo is not dramatized.

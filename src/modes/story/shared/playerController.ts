@@ -46,6 +46,45 @@ export function tickPlayerTimers(state: PlayerState, dt: number): void {
   state.slowFall = Math.max(0, state.slowFall - dt)
 }
 
+function padBody(
+  obj: Phaser.GameObjects.GameObject,
+): Phaser.Physics.Arcade.StaticBody | Phaser.Physics.Arcade.Body | null {
+  return (obj as Phaser.GameObjects.GameObject & {
+    body?: Phaser.Physics.Arcade.StaticBody | Phaser.Physics.Arcade.Body | null
+  }).body ?? null
+}
+
+export function feetOnSlick(
+  player: Phaser.Physics.Arcade.Sprite,
+  platforms: Phaser.Physics.Arcade.StaticGroup,
+  extras: Phaser.GameObjects.GameObject[] = [],
+): boolean {
+  const body = player.body as Phaser.Physics.Arcade.Body | null
+  if (!body) {
+    return false
+  }
+  if (!body.blocked.down && !body.touching.down) {
+    return false
+  }
+  const hits = [...platforms.getChildren(), ...extras]
+  for (const obj of hits) {
+    const go = obj as Phaser.GameObjects.GameObject
+    if (go.getData("surface") !== "slick" || go.getData("broken") === true) {
+      continue
+    }
+    const pb = padBody(go)
+    if (!pb) {
+      continue
+    }
+    const overlapX = body.right > pb.left + 2 && body.left < pb.right - 2
+    const onTop = Math.abs(body.bottom - pb.top) <= 10
+    if (overlapX && onTop) {
+      return true
+    }
+  }
+  return false
+}
+
 export function updatePlayerMovement(
   player: Phaser.Physics.Arcade.Sprite,
   input: InputSnapshot,
@@ -105,6 +144,9 @@ export function updatePlayerMovement(
 
   if (state.dashTime > 0) {
     player.setVelocityX(state.facing * 520)
+  } else if (onFloor && player.getData("slick") === true) {
+    const want = input.moveX * 260
+    body.velocity.x += (want - body.velocity.x) * 0.1
   } else {
     player.setVelocityX(vx)
   }

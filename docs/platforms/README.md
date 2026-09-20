@@ -76,7 +76,7 @@ No new workshop keys. Stamps stay `story_ground`, `story_log`, `story_bridge`,
 
 | Mode | Collision default | Motion | Surface | Status |
 | --- | --- | --- | --- | --- |
-| Story | solid | still, plus movers as slide | default. stair / log ride from standing on a mover | live movers. one_way planned |
+| Story | solid | still, plus movers as slide | default. slick on ice pads. stair / log ride from standing on a mover | live movers. ice slick live. one_way planned |
 | Endless | solid | same mover kit | default | live movers. stand-break not ticked yet |
 | Bunny Jump | one_way | still, slide, optional vanish | bounce (auto), boost, slick | live. Vanish later. Same mover fields |
 | Meadow | n/a | n/a | n/a | top-down. No pads |

@@ -109,7 +109,7 @@ Hanging bridges sway. One fall fails the station. Soft copy ("the cloud took you
 Optional faded festival lanterns as Earth remnant, not palace jade.
 
 Live stations: First Steps (stair, faded lanterns, frost hare, a pool near spawn), No Return
-(no Moon Pool, denser ice, frost hares), Closing Gale (left storm wall like Fox Hu's
+(no Moon Pool, slick ice pads, frost hares), Closing Gale (left storm wall like Fox Hu's
 cart. Reach the palace gate, not the throne). 4-1 and 4-2 are four chunks each.
 
 Boss: the Closing Gale, a weather event, not a named immortal

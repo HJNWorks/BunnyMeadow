@@ -38,6 +38,7 @@ import {
   createPlayerState,
   tickPlayerTimers,
   updatePlayerMovement,
+  feetOnSlick,
   type PlayerState,
 } from "./shared/playerController"
 import {
@@ -325,6 +326,9 @@ const EPILOGUE_VOICE = [
 ] as const
 
 function storyPadTexture(rect: AssembledRect, stationEnv: string): string {
+  if (rect.surface === "slick" || rect.asset === "ice") {
+    return "story_ground_ice"
+  }
   const lunar = isLunarEnv(rect.env || stationEnv)
   if (rect.asset === "rim") {
     return "story_rim"
@@ -727,13 +731,21 @@ export class StoryScene extends Phaser.Scene {
         block.setData("editKind", "platform")
         block.setData("editIndex", i)
         block.setData("rectKind", rect.kind)
+        const slick = rect.surface === "slick" || rect.asset === "ice"
+        block.setData("surface", slick ? "slick" : "default")
         const padBreak = padBreakSpec(rect.break, { env, kind: rect.kind, h: rect.h })
         if (padBreak) {
           this.breaks?.register(block, padBreak)
         }
         if (this.editorMode !== "build") {
           const cap = this.add
-            .rectangle(rect.x + rect.w / 2, rect.y + 6, rect.w, 12, hexToNum(palette.ground))
+            .rectangle(
+              rect.x + rect.w / 2,
+              rect.y + 6,
+              rect.w,
+              12,
+              slick ? 0xe8f6ff : hexToNum(palette.ground),
+            )
             .setDepth(1.5)
           block.setData("cap", cap)
         }
@@ -2110,6 +2122,14 @@ export class StoryScene extends Phaser.Scene {
       return
     }
 
+    this.player.setData(
+      "slick",
+      feetOnSlick(
+        this.player,
+        this.platforms,
+        this.movers.map((row) => row.sprite),
+      ),
+    )
     updatePlayerMovement(this.player, input, this.playerState)
     this.dashFx?.tick(this.player, this.playerState.dashTime, this.playerState.facing, dt)
 

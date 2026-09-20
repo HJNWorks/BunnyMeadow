@@ -21,6 +21,7 @@ export type EditorEnvToken =
   | "wound"
   | "cave"
   | "column"
+  | "ice"
 
 export type EditorKitId =
   | "meadow"
@@ -54,7 +55,7 @@ export const EDITOR_ENV_KITS: EditorEnvKit[] = [
   { id: "riverbank", chapter: "ch1", labelKey: "editor.envKit.riverbank", kinds: [...KIT_CORE, "log", "grass"] },
   { id: "lantern", chapter: "ch1", labelKey: "editor.envKit.lantern", kinds: [...KIT_CORE, "lantern", "hedge"] },
   { id: "osmanthus", chapter: "ch1", labelKey: "editor.envKit.osmanthus", kinds: [...KIT_CORE, "lantern", "hedge"] },
-  { id: "cloudsea", chapter: "ch1", labelKey: "editor.envKit.cloudsea", kinds: [...KIT_CORE, "hedge"] },
+  { id: "cloudsea", chapter: "ch1", labelKey: "editor.envKit.cloudsea", kinds: [...KIT_CORE, "hedge", "ice"] },
   {
     id: "moon",
     chapter: "ch1",
@@ -96,6 +97,7 @@ export const PLATFORM_ASSETS = [
   "bowl",
   "wound",
   "cave",
+  "ice",
 ] as const
 
 const PLACEABLES_BY_BIOME: Record<string, AssembledDecor["kind"][]> = {

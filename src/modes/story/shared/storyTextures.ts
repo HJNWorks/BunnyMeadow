@@ -64,6 +64,21 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
     dirt.destroy()
   }
 
+  if (!scene.textures.exists("story_ground_ice")) {
+    const ice = scene.make.graphics({ x: 0, y: 0 })
+    ice.fillStyle(0x8fb8d4, 1)
+    ice.fillRect(0, 0, 64, 64)
+    ice.fillStyle(0xd8eefc, 1)
+    ice.fillRect(0, 0, 64, 14)
+    ice.fillStyle(0xb8d8ee, 1)
+    ice.fillTriangle(8, 14, 22, 14, 15, 28)
+    ice.fillTriangle(36, 14, 52, 14, 44, 30)
+    ice.fillStyle(0xf4fbff, 0.7)
+    ice.fillRect(0, 0, 64, 5)
+    ice.generateTexture("story_ground_ice", 64, 64)
+    ice.destroy()
+  }
+
   if (!scene.textures.exists("story_hedge")) {
     const hedge = scene.make.graphics({ x: 0, y: 0 })
     hedge.fillStyle(0x35532c, 1)
