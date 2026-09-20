@@ -965,7 +965,11 @@ export class StoryScene extends Phaser.Scene {
       this.hurt()
     })
     this.physics.add.overlap(this.projectiles, this.platforms, (shot) => {
-      ;(shot as Phaser.Physics.Arcade.Image).destroy()
+      const obj = shot as Phaser.GameObjects.GameObject
+      if (obj.getData("passPlatforms") === true) {
+        return
+      }
+      obj.destroy()
     })
 
     if (def.foxHu) {

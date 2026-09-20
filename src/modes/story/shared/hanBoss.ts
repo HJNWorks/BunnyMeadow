@@ -388,16 +388,16 @@ export class HanFight {
   }
 
   private roamPad(): { left: number; right: number } {
-    const pad = 140
+    const pad = 80
     const left = this.courtLeft + pad
-    const right = Math.max(left + 40, this.courtRight - pad)
+    const right = Math.max(left + 120, this.courtRight - pad)
     return { left, right }
   }
 
   private pickRoam(): void {
     const { left, right } = this.roamPad()
     this.aimX = Phaser.Math.Between(left, right)
-    this.aimY = Phaser.Math.Between(240, 520)
+    this.aimY = Phaser.Math.Between(220, 620)
     this.roamT = 1.2 + Math.random() * 1.6
   }
 
@@ -417,12 +417,24 @@ export class HanFight {
 
   private keepInCourt(): void {
     const { left, right } = this.roamPad()
-    this.sprite.x = Phaser.Math.Clamp(this.sprite.x, left, right)
-    this.sprite.y = Phaser.Math.Clamp(this.sprite.y, 220, 560)
-    const body = this.sprite.body as Phaser.Physics.Arcade.Body | null
-    if (body) {
-      body.updateFromGameObject()
+    const x = Phaser.Math.Clamp(this.sprite.x, left, right)
+    const y = Phaser.Math.Clamp(this.sprite.y, 180, 700)
+    if (Math.abs(x - this.sprite.x) < 0.5 && Math.abs(y - this.sprite.y) < 0.5) {
+      return
     }
+    this.sprite.setPosition(x, y)
+    const body = this.sprite.body as Phaser.Physics.Arcade.Body | null
+    if (!body) {
+      return
+    }
+    body.updateFromGameObject()
+    if (x <= left || x >= right) {
+      body.setVelocityX(-body.velocity.x)
+    }
+    if (y <= 180 || y >= 700) {
+      body.setVelocityY(-body.velocity.y)
+    }
+    this.pickRoam()
   }
 
   private aimAngle(): number {
@@ -506,6 +518,10 @@ export class HanFight {
       }
       const body = go.body
       if (!body || body.enable === false) {
+        continue
+      }
+      const mid = (body.left + body.right) * 0.5
+      if (mid < this.courtLeft || mid > this.courtRight) {
         continue
       }
       const w = body.right - body.left

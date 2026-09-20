@@ -340,7 +340,7 @@
         "attack": "wisp_idle",
         "hurt": "wisp_idle"
       },
-      "notes": "Dash passes through"
+      "notes": "Dash passes through. Frost spear fan toward Mei"
     },
     {
       "id": "dust_mite",
@@ -384,7 +384,7 @@
         "attack": "starwisp_idle",
         "hurt": "starwisp_idle"
       },
-      "notes": "Brighter slower swarm. Dash passes through"
+      "notes": "Brighter slower swarm. Close radial energy pulse. Dash passes through"
     },
     {
       "id": "pestle_sentry",

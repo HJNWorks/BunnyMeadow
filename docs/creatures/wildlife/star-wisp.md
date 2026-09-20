@@ -1,6 +1,6 @@
 # Wildlife — Star Wisp
 
-Status: live (Chapter 2 Quiet Wells, Far Silver, one Guanghan hall). Class: Wildlife. Archetype: swarm.
+Status: live (Chapter 2 Quiet Wells, Far Silver, one Guanghan hall). Class: Wildlife. Archetype: swarm. Close-range energy pulse.
 Hub: [../README.md](../README.md). Invented lunar fauna. Sibling of frost wisp, not
 a named star god.
 
@@ -14,11 +14,14 @@ a named star god.
 
 ## Behaviour
 
-A brighter, slower swarm than dust mite. Same kit. Dash still passes through.
+A brighter, slower swarm than dust mite. When Mei is close it pulses short radial
+energy waves that cost a heart. Dash still passes through the body. The pulse is the
+bite at short range.
 
 ## Telegraph and counter
 
-Telegraph: a silver glint in the cave dark. Counter: dash through, or wait.
+Telegraph: the spark warms, then two or three rings expand. Counter: leave the ring,
+or dash out. Do not stand next to it.
 
 ## Silhouette rule
 

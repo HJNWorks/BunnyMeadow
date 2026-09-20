@@ -64,7 +64,10 @@ All notable changes to this project are recorded here. The format follows
 - Editor Play on Guanghan no longer dies in Han teardown. Frost wisp, star wisp,
   and lantern moth read on night sky. Seed pickup shows `{n}/15` and Customize
   unlock lines (blossom at 1, osmanthus fleck at 8, full set at 15).
-- Han roam stays inside the court AABB. Only Mei leaving the court resets the fight.
+- Han roam stays inside the court AABB without pinning him in place. Court clamp only
+  runs when he actually leaves the volume. Mooncakes spawn on court pads only.
+- Frost wisp fires a three-spear frost fan. Star wisp pulses a short radial energy
+  wave when Mei is close. Dash still passes each cloud body.
 - Han last-heart fans rest about 1.3x longer than the opening cadence so the dual
   frost and star streams still leave a gap.
 - Guanghan mooncakes sit on live green pads. A cake whose ledge is gone does not

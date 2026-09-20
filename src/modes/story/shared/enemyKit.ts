@@ -262,6 +262,12 @@ export function spawnEnemy(
   if (kit.archetype === "ranged_lob") {
     sprite.setData("cooldown", id === "ice_spit" || id === "pestle_sentry" ? 0.4 : 0)
   }
+  if (id === "frost_wisp") {
+    sprite.setData("cooldown", 0.5 + Math.random() * 0.8)
+  }
+  if (id === "star_wisp") {
+    sprite.setData("pulseCd", 0.35 + Math.random() * 0.5)
+  }
   if (kit.archetype === "blocker") {
     sprite.setData("stun", 0)
     sprite.setData("charging", 0)
@@ -327,6 +333,14 @@ export function updateEnemies(
       return
     }
     const arch = enemy.getData("archetype") as string
+    if (
+      arch === "han_boss" ||
+      arch === "heron_boss" ||
+      arch === "crane_boss" ||
+      arch === "heron_done"
+    ) {
+      return
+    }
     const speed = Number(enemy.getData("speed") || 40)
     if (arch === "patrol") {
       let dir = Number(enemy.getData("dir") || 1)
@@ -522,6 +536,12 @@ export function updateEnemies(
       if (Math.abs(enemy.x - homeX) > 90) {
         enemy.setVelocityX(Math.sign(homeX - enemy.x) * speed)
       }
+      const id = String(enemy.getData("id") || "")
+      if (id === "frost_wisp") {
+        tickFrostWispShot(scene, enemy, projectiles, target, dt)
+      } else if (id === "star_wisp") {
+        tickStarWispPulse(scene, enemy, projectiles, target, dt)
+      }
     } else if (arch === "diver") {
       let phase = String(enemy.getData("phase") || "hover")
       let timer = Number(enemy.getData("timer") || 0) - dt
@@ -563,4 +583,95 @@ export function updateEnemies(
       enemy.setData("timer", timer)
     }
   })
+}
+
+function tickFrostWispShot(
+  scene: Phaser.Scene,
+  enemy: Phaser.Physics.Arcade.Sprite,
+  projectiles: Phaser.Physics.Arcade.Group,
+  target: { x: number; y: number },
+  dt: number,
+): void {
+  let cd = Number(enemy.getData("cooldown") || 0) - dt
+  const dx = target.x - enemy.x
+  const dy = target.y - enemy.y
+  const dist = Math.hypot(dx, dy)
+  if (cd <= 0 && dist < 480) {
+    const base = Math.atan2(dy, dx)
+    const count = 3
+    const spread = 0.5
+    for (let i = 0; i < count; i += 1) {
+      const t = i / (count - 1) - 0.5
+      fireRadialShot(scene, projectiles, enemy.x, enemy.y, base + t * spread, 280, "story_frost", 40, 10, {
+        lifeMs: 2200,
+      })
+    }
+    cd = 1.85 + Math.random() * 0.45
+  }
+  enemy.setData("cooldown", cd)
+}
+
+function tickStarWispPulse(
+  scene: Phaser.Scene,
+  enemy: Phaser.Physics.Arcade.Sprite,
+  projectiles: Phaser.Physics.Arcade.Group,
+  target: { x: number; y: number },
+  dt: number,
+): void {
+  let cd = Number(enemy.getData("pulseCd") || 0) - dt
+  const dist = Math.hypot(target.x - enemy.x, target.y - enemy.y)
+  if (cd <= 0 && dist < 150) {
+    emitStarPulse(scene, projectiles, enemy.x, enemy.y)
+    enemy.setTint(0xffe8a0)
+    scene.time.delayedCall(160, () => {
+      if (enemy.active) {
+        enemy.clearTint()
+      }
+    })
+    cd = 1.55
+  }
+  enemy.setData("pulseCd", cd)
+}
+
+function emitStarPulse(
+  scene: Phaser.Scene,
+  projectiles: Phaser.Physics.Arcade.Group,
+  ox: number,
+  oy: number,
+): void {
+  const hitR = 124
+  const hit = scene.add.circle(ox, oy, hitR, 0xfff4c8, 0.14)
+  hit.setStrokeStyle(3, 0xffe08a, 0.92)
+  hit.setDepth(7)
+  scene.physics.add.existing(hit)
+  const body = hit.body as Phaser.Physics.Arcade.Body
+  body.setAllowGravity(false)
+  body.setGravity(0, 0)
+  body.setCircle(hitR)
+  projectiles.add(hit)
+  hit.setData("passPlatforms", true)
+  scene.time.delayedCall(280, () => {
+    if (hit.active) {
+      hit.destroy()
+    }
+  })
+  for (let i = 1; i <= 2; i += 1) {
+    scene.time.delayedCall(i * 90, () => {
+      if (!scene.sys.isActive()) {
+        return
+      }
+      const ring = scene.add.circle(ox, oy, 42 + i * 34, 0xfff4c8, 0.08)
+      ring.setStrokeStyle(2, 0xffe08a, 0.7)
+      ring.setDepth(7)
+      scene.tweens.add({
+        targets: ring,
+        scale: 1.4,
+        alpha: 0,
+        duration: 300,
+        onComplete: () => {
+          ring.destroy()
+        },
+      })
+    })
+  }
 }

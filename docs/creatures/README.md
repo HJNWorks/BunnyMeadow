@@ -64,13 +64,13 @@ and the minimum tier at which the creature appears.
 | boar | blocker | orchard, bamboo | 3 | live (Story Green Corridor) |
 | tortoise | patrol | meadow, riverbank | 1 | live (Story Soft Paths) |
 | magpie | diver | cloudsea | 4 | live (Story) |
-| frost wisp | swarm | cloudsea, moon (palace halls) | 4 | live (Story). Palace corridors |
+| frost wisp | swarm | cloudsea, moon (palace halls) | 4 | live (Story). Frost spear fan. Palace corridors |
 | ice spit | ranged_lob | cloudsea | 4 | live (Story) |
 | frost hare | patrol | cloudsea | 4 | live (Story First Steps, No Return). Invented 霜兔 |
 | lantern moth | diver | lantern, osmanthus, moon (palace) | 3 | live (Story Paper Lights). Palace halls |
 | firefly | visual / optional glow | meadow, lantern | 1 | weather live. Pickup waits |
 | dust mite | swarm | moon (outer, dust) | 5 | live (Story). Chapter 2 only. Do not debut on Earth |
-| star wisp | swarm | moon (wells, silver, palace) | 5 | live (Story). Chapter 2 and one Guanghan hall. Not the Stair |
+| star wisp | swarm | moon (wells, silver, palace) | 5 | live (Story). Radial pulse. Chapter 2 and one Guanghan hall. Not the Stair |
 | pestle sentry | ranged_lob | moon (mortar) | 5 | live (Story). Chapter 2 only. Do not debut on Earth |
 | azure bird | diver | Peach Rows | n/a | idea |
 | jade mite | swarm | Grotto Heaven | n/a | idea |

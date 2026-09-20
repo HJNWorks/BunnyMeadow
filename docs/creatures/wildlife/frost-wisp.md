@@ -1,6 +1,6 @@
 # Wildlife — Frost Wisp
 
-Status: live (Story World 4, Guanghan palace corridors). Class: Wildlife. Archetype: swarm. Hub: [../README.md](../README.md).
+Status: live (Story World 4, Guanghan palace corridors). Class: Wildlife. Archetype: swarm. Shoots frost spears. Hub: [../README.md](../README.md).
 Invented ice spirit (霜魄). Not a canon snow god.
 
 | Field | Value |
@@ -13,13 +13,14 @@ Invented ice spirit (霜魄). Not a canon snow god.
 
 ## Behaviour
 
-A slow drifting frost cloud of ice shards that denies a step or a bridge. It has no
-single body to defeat. Route around it, or dash through. A dash passes safely.
+A slow drifting frost cloud of ice shards. It fires a three-spear frost fan toward Mei,
+the same night shard Han uses, at a slower cadence. The cloud body still has no HP bar.
+Route around the fan, or dash through the cloud. A dash passes the body and the spears.
 
 ## Telegraph and counter
 
-Telegraph: a pale haze on the stair. Counter: dash straight through, or wait for
-the cloud to drift off the step.
+Telegraph: shards lean toward Mei, then the fan leaves. Counter: step off the rays,
+or dash through. Wait if the cloud sits on a stair.
 
 ## Silhouette rule
 

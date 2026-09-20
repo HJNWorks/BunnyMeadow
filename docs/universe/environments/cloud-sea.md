@@ -39,7 +39,7 @@ Wildlife (Story):
 
 | Creature | Archetype | Notes |
 | --- | --- | --- |
-| frost wisp | swarm | Slow cloud. Dash passes through |
+| frost wisp | swarm | Slow cloud. Frost-spear fan at Mei. Dash passes through |
 | ice spit | ranged_lob | Frost pebble along an aim ray |
 | gale magpie | diver | Ordinary wind-borne wildlife. Not a Qixi plot |
 | frost hare | patrol | Invented 霜兔. Live on First Steps and No Return. Not Yutu |
