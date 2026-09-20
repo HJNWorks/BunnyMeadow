@@ -40,6 +40,8 @@ export type EditorLevelOverlay = {
   moonPools?: MoonPoolDef[]
   exit: { chunk: number; x: number; y: number }
   worldWidth: number
+  shippedWidth?: number
+  shippedChunks?: string[]
   platforms: AssembledRect[]
   movers: AssembledMover[]
   enemies: AssembledEnemy[]
@@ -123,12 +125,31 @@ export function cloneStoryLevel(def: StoryLevelDef): StoryLevelDef {
   return cloneJson(def)
 }
 
+export function overlayMatchesShipped(
+  overlay: EditorLevelOverlay,
+  def: StoryLevelDef,
+  world: AssembledLevel,
+): boolean {
+  if (overlay.shippedChunks && overlay.shippedChunks.join(",") !== def.chunks.join(",")) {
+    return false
+  }
+  if (typeof overlay.shippedWidth === "number" && overlay.shippedWidth !== world.width) {
+    return false
+  }
+  if (!overlay.shippedChunks && typeof overlay.shippedWidth !== "number") {
+    return overlay.worldWidth === world.width
+  }
+  return true
+}
+
 export function captureOverlay(def: StoryLevelDef, world: AssembledLevel): EditorLevelOverlay {
   return {
     playerSpawn: { ...def.playerSpawn },
     moonPools: poolsOf(def),
     exit: { ...def.exit },
     worldWidth: world.width,
+    shippedWidth: world.width,
+    shippedChunks: [...def.chunks],
     platforms: world.platforms.map((rect) => ({ ...rect })),
     movers: world.movers.map((mover) => ({ ...mover })),
     enemies: world.enemies.map((enemy) => ({ ...enemy })),
@@ -160,6 +181,10 @@ export function captureOverlay(def: StoryLevelDef, world: AssembledLevel): Edito
 export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): AssembledLevel {
   const overlay = getOverlay(def.id)
   if (!overlay) {
+    return world
+  }
+  if (!overlayMatchesShipped(overlay, def, world)) {
+    clearOverlay(def.id)
     return world
   }
   def.playerSpawn = { ...overlay.playerSpawn }
@@ -207,7 +232,10 @@ export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): Assembl
 
 export function ensureOverlay(def: StoryLevelDef, world: AssembledLevel): EditorLevelOverlay {
   const existing = getOverlay(def.id)
-  if (!existing) {
+  if (!existing || !overlayMatchesShipped(existing, def, world)) {
+    if (existing) {
+      clearOverlay(def.id)
+    }
     return captureOverlay(def, world)
   }
   normalizeOverlay(existing)

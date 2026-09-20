@@ -1038,8 +1038,8 @@ export class StoryScene extends Phaser.Scene {
 
     if (def.boss?.kind === "han") {
       this.bossNeeded = def.boss.hitsNeeded ?? 5
-      this.hanCourtLeft = Math.max(0, (def.chunks.length - 2) * 960)
-      this.hanCourtRight = def.chunks.length * 960
+      this.hanCourtLeft = Math.max(0, this.worldWidth - 1920)
+      this.hanCourtRight = this.worldWidth
       this.hud.bossHits.hidden = true
       this.hud.hanHearts.hidden = true
       if (this.editorMode === "build") {

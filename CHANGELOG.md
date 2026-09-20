@@ -58,6 +58,9 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Story play drops a browser map overlay when the shipped station width or chunk
+  list no longer matches. Guanghan is not replaced by an old Set active copy of
+  the two-chunk court.
 - Han last-heart fans rest about 1.3x longer than the opening cadence so the dual
   frost and star streams still leave a gap.
 - Guanghan mooncakes sit on live green pads. A cake whose ledge is gone does not

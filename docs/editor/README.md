@@ -14,7 +14,10 @@ Family tone: fail is retry. Off-limits as HP bars: Chang'e, Yue, Yutu, Wu Gang, 
 | Dash looks | `bunnymeadow.dash.overlay.v1` |
 | Workshop textures | `bunnymeadow.workshop.overlay.v1` |
 
-World Map / play on **that browser** uses the overlay. Other machines and a fresh browser use shipped JSON.
+World Map / play on **that browser** uses the overlay. Other machines and a fresh
+browser use shipped JSON. An overlay is dropped when the shipped station width or
+chunk list no longer matches (so a lengthened Guanghan is not replaced by an old
+Set active copy). Clear overlay in the editor still drops a matching copy by hand.
 
 To get a map **into the codebase**: Build → **Copy JSON** → open `{levelId}.editor.json` → paste `level` into `src/data/story/` and chunk keys into `src/data/chunks/`. Same pattern for dash JSON into `src/data/dashes.json`.
 
