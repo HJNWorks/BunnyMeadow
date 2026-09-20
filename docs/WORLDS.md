@@ -89,7 +89,7 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| M-1 Guanghan | moon | low gravity. Planned palace walk then Han court. Today: two-chunk fight | Gift beat. Yue and kits go home. Mei jumps Han's moon (today: epilogue cards). `MOON_RETURN` | live. Palace walk I10 |
+| M-1 Guanghan | moon | low gravity. Palace walk then Han court. Court AABB starts the fight | Gift beat. Yue and kits go home. Mei jumps Han's moon (today: epilogue cards). `MOON_RETURN` | live. 7 walk + 2 court |
 
 ### Chapter 2 — Journey on Moon (first stations live)
 

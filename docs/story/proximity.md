@@ -11,7 +11,7 @@ Accessibility **auto-dash on proximity** is an assist on Mei, not a map trigger.
 | Kind | Hit test | Used by | Not used by |
 | --- | --- | --- | --- |
 | contact | overlap with the **visible** sprite (ellipse-sized Arcade body) | burrow / exit, Moon Pool | generous boxes around those sprites |
-| proximity | circle or AABB **larger than** the sprite | future: pollen aura, lantern warmth, scripted spells, optional editor placeables | burrow, Moon Pool |
+| proximity | circle or AABB **larger than** the sprite | Han court AABB. Later: pollen aura, lantern warmth, scripted spells, optional editor placeables | burrow, Moon Pool |
 | volume | standing inside a rect (water current) | water hazards | checkpoints |
 
 ## Contact (live)
@@ -27,13 +27,14 @@ Win and checkpoint fire only when Mei's body overlaps the painted hole or puddle
 
 Water hazards use a rectangle. Standing inside applies current and can fail the station. Water is not a checkpoint.
 
-## Proximity (planned)
+## Proximity (live on Guanghan court)
 
 Proximity is a radius or box **beyond** the drawable. Use it for warmth, pollen, scripted spells, and optional placeables. Do not attach it to burrow or Moon Pool.
 
-First live use (I10): Han's court volume on Guanghan. Enter the court to start the
-fight. Leave the volume to cancel the fight and reset Han hearts. Mooncakes and spirit
-HUD spawn only while the fight is live. See [han.md](../creatures/folk/han.md) and
+First live use: Han's court AABB on Guanghan (last two chunks). Enter the court to
+start the fight. Leave the volume while he is not settled to cancel the fight and
+reset Han hearts. Mooncakes and spirit HUD spawn only while the fight is live.
+Leave after settled does not un-settle. See [han.md](../creatures/folk/han.md) and
 [guanghan-palace.md](../universe/environments/guanghan-palace.md).
 
 Editor overlay JSON (decor and hazards) may carry:

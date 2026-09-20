@@ -253,6 +253,8 @@
   "ach.KEEPSAKE_FIRST.desc": "Finde einen Osmanthussamen.",
   "ach.KEEPSAKE_EIGHT.name": "Acht Samen",
   "ach.KEEPSAKE_EIGHT.desc": "Finde acht Osmanthussamen.",
+  "ach.KEEPSAKE_SET.name": "Ganzer Satz",
+  "ach.KEEPSAKE_SET.desc": "Finde alle fünfzehn Osmanthussamen.",
   "common.back": "Zurück",
   "common.pause": "Pause",
   "common.resume": "Weiter",

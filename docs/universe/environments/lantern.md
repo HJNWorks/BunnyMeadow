@@ -28,7 +28,7 @@ Paper Lights. Paper Lights is longer than Tiger Road or Crane Summit.
 | cat | reach | night | 3 (Paper Lights) |
 | owl | diver | night | 3 (Paper Lights) |
 | crow | ranged_lob | night | 4 |
-| lantern moth | diver | night | 3 (Paper Lights. Palace halls I10) |
+| lantern moth | diver | night | 3 (Paper Lights, palace halls) |
 | firefly | visual | night | weather live. Pickup optional |
 
 Owls are ordinary night enemies only, never Moon servants ([../../LORE.md](../../LORE.md#cranes-as-immortal-messengers)).

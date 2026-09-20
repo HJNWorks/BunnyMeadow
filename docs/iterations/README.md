@@ -28,7 +28,9 @@ and the milestone list stay in [../ROADMAP.md](../ROADMAP.md).
 | [I7](i7-w0-pool.md) (done) | Moon in the Pool + Soft Paws | controls map, creature intro, first seed |
 | [I8](i8-w1-w2-density.md) (done) | Meadow through river | density, Path ids, dew, mooncakes |
 | [I9](i9-festival-cloud-stair.md) (done) | Festival + Cloud Stair | lantern village, frost hare, sparkler |
-| [I10](i10-guanghan-palace.md) (current) | Guanghan palace walk | walk, proximity Han, far layer |
+| [I10](i10-guanghan-palace.md) (done) | Guanghan palace walk | walk, proximity Han, far layer |
+
+Web iterations I1-I10 are done. Desktop milestone M6 stays postponed.
 
 ## Relationship to milestones
 

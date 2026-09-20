@@ -211,6 +211,7 @@ export class HanFight {
 
   destroy(): void {
     this.clearBurns()
+    this.hideBeam()
     this.beamSlab.destroy()
     this.beamCore.destroy()
     this.fxGfx.destroy()
@@ -218,6 +219,14 @@ export class HanFight {
     this.moon = null
     this.cake?.destroy()
     this.cake = null
+    this.projectiles.getChildren().slice().forEach((obj) => {
+      const shot = obj as Phaser.Physics.Arcade.Image
+      const key = shot.texture?.key
+      if (key === "story_frost" || key === "story_star") {
+        shot.destroy()
+      }
+    })
+    this.sprite.destroy()
   }
 
   update(dt: number): void {

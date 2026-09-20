@@ -34,6 +34,13 @@ import chunkRaftA from "../data/chunks/chunk_raft_a.json"
 import chunkRaftB from "../data/chunks/chunk_raft_b.json"
 import chunkCraneA from "../data/chunks/chunk_crane_a.json"
 import chunkCraneB from "../data/chunks/chunk_crane_b.json"
+import chunkPalaceGate from "../data/chunks/chunk_palace_gate.json"
+import chunkPalaceRoofs from "../data/chunks/chunk_palace_roofs.json"
+import chunkPalaceYard from "../data/chunks/chunk_palace_yard.json"
+import chunkPalaceScreens from "../data/chunks/chunk_palace_screens.json"
+import chunkPalaceHall from "../data/chunks/chunk_palace_hall.json"
+import chunkPalaceCassia from "../data/chunks/chunk_palace_cassia.json"
+import chunkPalaceStill from "../data/chunks/chunk_palace_still.json"
 import chunkMoonA from "../data/chunks/chunk_moon_a.json"
 import chunkMoonB from "../data/chunks/chunk_moon_b.json"
 import chunkStairStart from "../data/chunks/chunk_stair_start.json"
@@ -217,6 +224,13 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_raft_b: chunkRaftB as ChunkDef,
   chunk_crane_a: chunkCraneA as ChunkDef,
   chunk_crane_b: chunkCraneB as ChunkDef,
+  chunk_palace_gate: chunkPalaceGate as ChunkDef,
+  chunk_palace_roofs: chunkPalaceRoofs as ChunkDef,
+  chunk_palace_yard: chunkPalaceYard as ChunkDef,
+  chunk_palace_screens: chunkPalaceScreens as ChunkDef,
+  chunk_palace_hall: chunkPalaceHall as ChunkDef,
+  chunk_palace_cassia: chunkPalaceCassia as ChunkDef,
+  chunk_palace_still: chunkPalaceStill as ChunkDef,
   chunk_moon_a: chunkMoonA as ChunkDef,
   chunk_moon_b: chunkMoonB as ChunkDef,
   chunk_stair_start: chunkStairStart as ChunkDef,

@@ -1,12 +1,12 @@
 # Wildlife — Star Wisp
 
-Status: live (Chapter 2 Quiet Wells, Far Silver). Class: Wildlife. Archetype: swarm.
+Status: live (Chapter 2 Quiet Wells, Far Silver, one Guanghan hall). Class: Wildlife. Archetype: swarm.
 Hub: [../README.md](../README.md). Invented lunar fauna. Sibling of frost wisp, not
 a named star god.
 
 | Field | Value |
 | --- | --- |
-| Home biomes | moon (wells, silver). Optional Guanghan palace walk (I10). Not Earth. Not the Stair |
+| Home biomes | moon (wells, silver). One Guanghan palace hall. Not Earth. Not the Stair |
 | Active hour | eternal night |
 | Min tier | 5 |
 | Hearts | n/a (cloud) |

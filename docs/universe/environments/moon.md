@@ -20,18 +20,15 @@ Han court lives on the split page.
 
 ## Feel
 
-Low gravity, layered roofs, eternal night. Today the station is a duck-and-dash
-gauntlet against Han. Planned: a long palace walk, then the court. Floats replace
+Low gravity, layered roofs, eternal night. A palace walk, then the court. Floats replace
 running. Falls read as gentle drifts, not deaths. The gift beat still plays after he
 settles. Yue and the kits take the crane home. Mei jumps Han's moon into Chapter 2.
 Outer Cold uses `ch2_outer` ([outer-cold.md](outer-cold.md)).
 
 ## Roster
 
-Today: wildlife none. This rung is peopled by folk.
-
-Planned palace walk (not named folk): frost wisps, optional star wisps as palace cold,
-lantern moths. Do not debut dust mite or pestle sentry here.
+Walk: frost wisps, lantern moths, one star wisp as palace cold. Do not debut dust
+mite or pestle sentry here. Court: wildlife none. This rung is peopled by folk.
 
 Folk (see [../../creatures/folk/](../../creatures/folk/)):
 
@@ -60,7 +57,7 @@ and crosses the Cloud Sea. This is an idea, not scheduled.
 
 Grey lunar kit (`moon` palette). Regolith pads (`story_ground_moon`), not meadow
 grass. Stone columns, not leaf hedges. Weather: `starDrift`. No blossom snow. Night
-overlay always on. Low-gravity float tuning on the player controller. Planned
-dedicated Guanghan far layer (layered roofs, eternal night), not the Cloud Stair and
-not Chapter 2 dust. Optional `story_sky_moon` / `story_far_moon` far layers. Outer Cold
+overlay always on. Low-gravity float tuning on the player controller. Dedicated
+Guanghan far layer (`story_far_guanghan`, layered roofs, eternal night), not the Cloud
+Stair and not Chapter 2 dust. Chapter 2 keeps `story_far_moon`. Outer Cold
 uses `ch2_outer` ([outer-cold.md](outer-cold.md)).

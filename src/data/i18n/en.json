@@ -253,6 +253,8 @@
   "ach.KEEPSAKE_FIRST.desc": "Find an osmanthus seed.",
   "ach.KEEPSAKE_EIGHT.name": "Eight Seeds",
   "ach.KEEPSAKE_EIGHT.desc": "Find eight osmanthus seeds.",
+  "ach.KEEPSAKE_SET.name": "Full Set",
+  "ach.KEEPSAKE_SET.desc": "Find all fifteen osmanthus seeds.",
   "common.back": "Back",
   "common.pause": "Pause",
   "common.resume": "Resume",

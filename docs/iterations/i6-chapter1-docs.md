@@ -22,7 +22,7 @@ the hub.
 
 ## Still later
 
-Playable maps I8-I10. More keepsakes per station. Han moon collider.
+Remaining palace walk toward 18 chunks. Han moon collider.
 Chapter 2 stations 2 and 3 stay frozen.
 
 ## Ship

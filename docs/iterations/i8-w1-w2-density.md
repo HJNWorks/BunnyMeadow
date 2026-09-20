@@ -18,8 +18,7 @@ seeds. Family kits dress the Pool pond. No panda.
 
 ## Still later
 
-I10 palace walk, proximity Han, full-set keepsake. Han moon
-collider.
+Remaining palace walk toward 18 chunks. Han moon collider.
 
 ## Ship
 

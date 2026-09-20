@@ -19,8 +19,7 @@ map is the only path. No palace walk.
 
 ## Still later
 
-I10 palace walk, proximity Han, Guanghan far layer. Full-set keepsake. Han moon
-collider. Firefly pickup. Palace moths.
+Remaining palace walk toward 18 chunks. Han moon collider. Firefly pickup.
 
 ## Ship
 

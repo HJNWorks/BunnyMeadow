@@ -45,7 +45,7 @@ const CRITTERS_BY_BIOME: Record<string, string[]> = {
   lantern: ["crow", "cat", "owl", "lantern_moth"],
   osmanthus: ["cat", "owl", "goat", "lantern_moth"],
   cloudsea: ["frost_wisp", "ice_spit", "gale_magpie", "frost_hare"],
-  moon: ["dust_mite", "star_wisp", "pestle_sentry"],
+  moon: ["frost_wisp", "lantern_moth", "star_wisp", "dust_mite", "pestle_sentry"],
 }
 
 const ITEMS_BY_BIOME: Record<string, string[]> = {

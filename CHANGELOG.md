@@ -8,6 +8,11 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Guanghan palace walk (I10). Seven walk chunks in front of the two-chunk Han court.
+  Court AABB starts the fight. Leave resets unless settled. Frost wisps, lantern
+  moths, one star wisp. Stamp `story_far_guanghan`. Fifteenth seed. `KEEPSAKE_SET`.
+  Iteration:
+  [docs/iterations/i10-guanghan-palace.md](docs/iterations/i10-guanghan-palace.md).
 - Festival and Cloud Stair density (I9). Longer Paper Lights, First Steps, and
   No Return. Cat, owl, lantern moth, frost hare, sparkler. Fourteen keepsakes.
   Painted world map only. Iteration:

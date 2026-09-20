@@ -11,7 +11,7 @@ Family-tone woodland game. Phaser 4 + Vite + TypeScript. Web on GitHub Pages. St
 
 Audience: family / all ages (Mario or Kirby stakes). Light peril. Short readable dialogue. Kits (baby rabbits) may go missing by misunderstanding. No death, no predator kidnapping.
 
-First story release: Chapter 1, 4 worlds x 3 levels plus a moon finale. Chapter 2 first stations are live. Chapter 3 West of Silver is on the World Map with Soon worlds ([story/chapters.md](story/chapters.md)). Chapter 1 overhaul (docs lock, then I7-I10 maps): [story/chapter1-overhaul.md](story/chapter1-overhaul.md).
+First story release: Chapter 1, 4 worlds x 3 levels plus a moon finale. Chapter 2 first stations are live. Chapter 3 West of Silver is on the World Map with Soon worlds ([story/chapters.md](story/chapters.md)). Chapter 1 overhaul (docs lock, then I7-I10 maps live): [story/chapter1-overhaul.md](story/chapter1-overhaul.md).
 
 ## Modes
 
@@ -95,6 +95,7 @@ Ids in `src/data/achievements.json` match Steamworks one-to-one. Web tracks sile
 | PERFECT_HEARTS | Soft Landing | Clear a Story level without losing a heart |
 | KEEPSAKE_FIRST | First Seed | Find an osmanthus seed |
 | KEEPSAKE_EIGHT | Eight Seeds | Find eight osmanthus seeds |
+| KEEPSAKE_SET | Full Set | Find all fifteen osmanthus seeds |
 
 ## Scope guards
 

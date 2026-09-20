@@ -110,11 +110,11 @@ Used on web today via Spawner. `reach` and later archetypes remain M3+.
 | boar | blocker | Story Green Corridor |
 | goat | blocker | Endless (bamboo, osmanthus). Story Green Corridor |
 | carp | water_patrol | Story Floating Logs |
-| frost_wisp | swarm | Story W4. Palace corridors I10 |
+| frost_wisp | swarm | Story W4. Palace corridors |
 | ice_spit | ranged_lob | Story W4 |
 | gale_magpie | diver | Story W4 |
 | frost_hare | patrol | Story First Steps, No Return |
-| lantern_moth | diver | Story Paper Lights. Palace halls I10 |
+| lantern_moth | diver | Story Paper Lights. Palace halls |
 | dust_mite | swarm | Story Chapter 2. Not Earth |
-| star_wisp | swarm | Story Chapter 2. Optional Guanghan palace leak |
+| star_wisp | swarm | Story Chapter 2. One Guanghan palace hall |
 | pestle_sentry | ranged_lob | Story Chapter 2. Not Earth |

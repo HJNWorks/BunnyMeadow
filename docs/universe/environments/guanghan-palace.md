@@ -1,39 +1,40 @@
 # Environment — Guanghan Palace (walk and court)
 
-Status: planned split (I10). Kit: `moon`. Hub: [moon.md](moon.md). Story:
+Status: live (I10 first ship). Kit: `moon`. Hub: [moon.md](moon.md). Story:
 [../../STORY.md](../../STORY.md). Overhaul:
 [../../story/chapter1-overhaul.md](../../story/chapter1-overhaul.md).
 Folk: [../../creatures/folk/han.md](../../creatures/folk/han.md).
 Triggers: [../../story/proximity.md](../../story/proximity.md).
 
-Today the finale is two chunks of Han's fight and no wildlife. This page is the lock
-for a palace walk, then a court.
+Palace walk, then Han court. Remaining walk toward 18 chunks is later.
 
 ## Palace walk
 
-Low gravity the whole station. Roofs, courtyards, moon doors, columns (already an env
-token), screens, still pools that are not Han, cassia glimpses (Wu Gang as background
-later). About 18 chunks, on the order of 10 screens, versus today's 2.
+Low gravity the whole station. Roofs, courtyards, moon doors, columns, screens,
+still pools that are not Han, cassia glimpses (Wu Gang stays off the HP bar).
+Seven walk chunks this wave, then two court chunks. Target remains about 18 walk
+chunks, on the order of 10 screens.
 
 Wildlife (not named folk):
 
 | Creature | Notes |
 | --- | --- |
 | frost wisp | corridors. Already live on Cloud Stair |
-| star wisp | optional palace cold. Invented leak. Do not debut on Earth or the Stair |
+| star wisp | one palace hall. Invented leak. Do not debut on Earth or the Stair |
 | lantern moth | halls. Drawn to screens and lamps |
 
 Chang'e, Yutu, Wu Gang, and the toad stay off the HP bar. They appear after Han
 settles, as now.
 
-Far layer: dedicated Guanghan (layered roofs, eternal night). Not the Cloud Stair.
-Not Chapter 2 dust.
+Far layer: dedicated Guanghan (`story_far_guanghan`, layered roofs, eternal night).
+Not the Cloud Stair. Not Chapter 2 dust. Chapter 2 keeps `story_far_moon`.
 
 ## Han court
 
-Last 1-2 chunks. First live proximity trigger (planned): enter the court to start the
-fight. Leave the volume to cancel the fight and reset Han hearts. Mooncakes and spirit
-HUD only while the fight is live.
+Last two chunks. First live proximity trigger: enter the court AABB to start the
+fight. Leave the volume while he is not settled to cancel the fight and reset Han
+hearts. Mooncakes and spirit HUD only while the fight is live. Leave after settled
+does not un-settle. Exit and epilogue stay available.
 
 Fight rules stay on [han.md](../../creatures/folk/han.md). Five spirit hearts. Warmth
 dash. No fireballs.

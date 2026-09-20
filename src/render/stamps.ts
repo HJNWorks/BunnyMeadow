@@ -35,6 +35,7 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_cave: { w: 64, h: 64 },
   story_sky_moon: { w: 256, h: 128 },
   story_far_moon: { w: 256, h: 96 },
+  story_far_guanghan: { w: 256, h: 96 },
   story_dust: { w: 52, h: 36 },
   story_starwisp: { w: 52, h: 36 },
   story_pestle: { w: 32, h: 36 },
@@ -464,6 +465,49 @@ function drawFarMoon(ctx: CanvasRenderingContext2D, cx: number, cy: number): voi
   ctx.fill()
 }
 
+function drawFarGuanghan(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  const w = 256
+  const h = 96
+  const x0 = cx - w * 0.5
+  const y0 = cy - h * 0.5
+  ctx.fillStyle = "#10141c"
+  ctx.fillRect(x0, y0, w, h)
+  ctx.fillStyle = "#2a3240"
+  ctx.beginPath()
+  ctx.arc(x0 + 210, y0 + 22, 16, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#1a2028"
+  ctx.fillRect(x0 + 18, y0 + 58, 70, 28)
+  ctx.fillStyle = "#242c38"
+  ctx.beginPath()
+  ctx.moveTo(x0 + 10, y0 + 58)
+  ctx.lineTo(x0 + 53, y0 + 38)
+  ctx.lineTo(x0 + 96, y0 + 58)
+  ctx.closePath()
+  ctx.fill()
+  ctx.fillStyle = "#1c2430"
+  ctx.fillRect(x0 + 96, y0 + 52, 86, 34)
+  ctx.fillStyle = "#2a3442"
+  ctx.beginPath()
+  ctx.moveTo(x0 + 88, y0 + 52)
+  ctx.lineTo(x0 + 139, y0 + 28)
+  ctx.lineTo(x0 + 190, y0 + 52)
+  ctx.closePath()
+  ctx.fill()
+  ctx.fillStyle = "#181e28"
+  ctx.fillRect(x0 + 178, y0 + 62, 64, 24)
+  ctx.fillStyle = "#263040"
+  ctx.beginPath()
+  ctx.moveTo(x0 + 170, y0 + 62)
+  ctx.lineTo(x0 + 210, y0 + 44)
+  ctx.lineTo(x0 + 250, y0 + 62)
+  ctx.closePath()
+  ctx.fill()
+  ctx.fillStyle = "#3a4450"
+  ctx.fillRect(x0 + 46, y0 + 68, 8, 18)
+  ctx.fillRect(x0 + 128, y0 + 62, 8, 24)
+}
+
 function drawDust(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
   ellipse(ctx, cx + 2, cy, 24, 14, "#c4b89a")
   ellipse(ctx, cx - 4, cy - 2, 12, 8, "#e0d6c4")
@@ -585,6 +629,7 @@ const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: nu
   story_cave: drawCave,
   story_sky_moon: drawSkyMoon,
   story_far_moon: drawFarMoon,
+  story_far_guanghan: drawFarGuanghan,
   story_dust: drawDust,
   story_starwisp: drawStarWisp,
   story_pestle: drawPestle,

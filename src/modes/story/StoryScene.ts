@@ -373,6 +373,8 @@ export class StoryScene extends Phaser.Scene {
   private cranePhase: "dive" | "bow" | "done" = "dive"
   private craneDives = 0
   private han: HanFight | null = null
+  private hanCourtLeft = 0
+  private hanCourtRight = 0
   private epilogueStep = 0
   private epilogueLines: string[] = []
   private health = 3
@@ -1036,32 +1038,13 @@ export class StoryScene extends Phaser.Scene {
 
     if (def.boss?.kind === "han") {
       this.bossNeeded = def.boss.hitsNeeded ?? 5
-      this.han = new HanFight(
-        this,
-        def.boss.x ?? 1620,
-        def.boss.y ?? 380,
-        this.player,
-        this.projectiles,
-        this.worldWidth,
-        {
-          reducedMotion: this.reducedMotion,
-          speak: this.editorMode === "build"
-            ? undefined
-            : (line) => {
-              this.hud.ticker.show(t(`story.han.line.${line}`), `han.${line}`)
-            },
-          platforms: this.platforms,
-          clipExtras: this.movers.map((row) => row.sprite),
-          onBeamHurt: (info) => {
-            this.breaks?.hurtRay(info.ox, info.oy, info.ux, info.uy, info.len, info.dt, "beam")
-          },
-        },
-      )
-      this.enemies.add(this.han.sprite)
+      this.hanCourtLeft = Math.max(0, (def.chunks.length - 2) * 960)
+      this.hanCourtRight = def.chunks.length * 960
       this.hud.bossHits.hidden = true
-      this.hud.hanHearts.hidden = false
-      this.syncBossHits()
-      getAudio().playMusic("boss")
+      this.hud.hanHearts.hidden = true
+      if (this.editorMode === "build") {
+        this.startHanFight()
+      }
     }
 
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12)
@@ -1215,7 +1198,12 @@ export class StoryScene extends Phaser.Scene {
             save.progress.achievements.push("KEEPSAKE_EIGHT")
           }
         }
-        // TODO: KEEPSAKE_SET waits until Guanghan hides the last seed (I10)
+        if (save.progress.story.keepsakes.length >= 15) {
+          await getPlatform().achievements.unlock("KEEPSAKE_SET")
+          if (!save.progress.achievements.includes("KEEPSAKE_SET")) {
+            save.progress.achievements.push("KEEPSAKE_SET")
+          }
+        }
         await persistSave()
       })()
       return
@@ -1602,8 +1590,12 @@ export class StoryScene extends Phaser.Scene {
       this.hud.hanHearts.hidden = true
       return
     }
-    if (this.level.boss.kind === "han" && this.han) {
+    if (this.level.boss.kind === "han") {
       this.hud.bossHits.hidden = true
+      if (!this.han) {
+        this.hud.hanHearts.hidden = true
+        return
+      }
       this.hud.hanHearts.hidden = false
       const full = this.han.hearts
       const empty = Math.max(0, this.han.needed - this.han.hearts)
@@ -1699,6 +1691,66 @@ export class StoryScene extends Phaser.Scene {
       buffs.push({ id: this.glowKind, remaining: this.glowTimer, duration: 1.6 })
     }
     renderItemTray(this.hud.itemTray, buffs)
+  }
+
+  private tickHanCourt(): void {
+    if (this.level.boss?.kind !== "han" || this.editorMode === "build") {
+      return
+    }
+    const inCourt = this.player.x >= this.hanCourtLeft && this.player.x <= this.hanCourtRight
+    if (inCourt && !this.han) {
+      this.startHanFight()
+      return
+    }
+    if (!inCourt && this.han && !this.han.settled) {
+      this.resetHanFight()
+    }
+  }
+
+  private startHanFight(): void {
+    const boss = this.level.boss
+    if (!boss || this.han) {
+      return
+    }
+    this.han = new HanFight(
+      this,
+      boss.x ?? this.hanCourtLeft + 660,
+      boss.y ?? 380,
+      this.player,
+      this.projectiles,
+      this.worldWidth,
+      {
+        reducedMotion: this.reducedMotion,
+        speak: this.editorMode === "build"
+          ? undefined
+          : (line) => {
+            this.hud.ticker.show(t(`story.han.line.${line}`), `han.${line}`)
+          },
+        platforms: this.platforms,
+        clipExtras: this.movers.map((row) => row.sprite),
+        onBeamHurt: (info) => {
+          this.breaks?.hurtRay(info.ox, info.oy, info.ux, info.uy, info.len, info.dt, "beam")
+        },
+      },
+    )
+    this.enemies.add(this.han.sprite)
+    this.hud.bossHits.hidden = true
+    this.hud.hanHearts.hidden = false
+    this.syncBossHits()
+    if (this.editorMode !== "build") {
+      getAudio().playMusic("boss")
+    }
+  }
+
+  private resetHanFight(): void {
+    if (!this.han || this.han.settled) {
+      return
+    }
+    this.han.destroy()
+    this.han = null
+    this.hud.hanHearts.hidden = true
+    this.syncBossHits()
+    getAudio().playMusic("moon")
   }
 
   private updateBoss(dt: number): void {
@@ -1968,6 +2020,7 @@ export class StoryScene extends Phaser.Scene {
     this.invuln = Math.max(0, this.invuln - dt)
     tickPlayerTimers(this.playerState, dt)
     this.waterGrace = Math.max(0, this.waterGrace - dt * 0.5)
+    this.tickHanCourt()
     this.updateBoss(dt)
     this.syncItemTray()
     this.han?.tryEatCake()

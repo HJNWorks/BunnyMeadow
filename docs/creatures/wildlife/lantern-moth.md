@@ -1,6 +1,6 @@
 # Wildlife — Lantern Moth
 
-Status: live (Story Paper Lights). Palace halls wait I10. Class: Wildlife. Archetype: diver (weak). Hub:
+Status: live (Story Paper Lights, Guanghan palace halls). Class: Wildlife. Archetype: diver (weak). Hub:
 [../README.md](../README.md). Plain wildlife. The 扑火 image (drawn to festival light)
 is cultural, not a named immortal. No folk HP bar.
 

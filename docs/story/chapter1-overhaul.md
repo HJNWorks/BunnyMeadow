@@ -1,15 +1,14 @@
 # Chapter 1 overhaul
 
 Status: I6 docs lock done. I7 Pool and Soft Paws live. I8 meadow through river live.
-I9 festival and Cloud Stair live.
+I9 festival and Cloud Stair live. I10 Guanghan palace walk live.
 Hub: [chapters.md](chapters.md).
 Spine: [../STORY.md](../STORY.md). Folklore: [../LORE.md](../LORE.md). Path map:
 [../WORLDS.md](../WORLDS.md). Build order:
 [../iterations/i7-w0-pool.md](../iterations/i7-w0-pool.md).
 
-Chapter 1 (Burrow to Moon) is playable end to end. This page locks what the climb
-should become. Remaining playable JSON waits until a later iteration graduates a
-row here from planned to live.
+Chapter 1 (Burrow to Moon) is playable end to end. Remaining walk length toward 18
+chunks and the Han moon collider stay later, not a numbered iteration.
 
 Readers here are not assumed to have the codebase open.
 
@@ -18,18 +17,21 @@ Readers here are not assumed to have the codebase open.
 Sixteen stations. One lore beat (Burrow Eve). Moon in the Pool is a playable controls
 map. Soft Paws plus twelve path levels plus Guanghan.
 
-Most maps are two to five chunks of 960 px (chase chunks 1200). Guanghan is two chunks
-with no wildlife. Mooncakes on Guanghan are spawned at runtime. Moon in the Pool authors one osmanthus
-seed, carrots, and kit decor. Soft Paws through Closing Gale hide further seeds.
+Most maps are two to five chunks of 960 px (chase chunks 1200). Guanghan is seven
+walk chunks plus two court chunks. Mooncakes on Guanghan court spawn while the fight
+is live. Moon in the Pool authors one osmanthus
+seed, carrots, and kit decor. Soft Paws through Guanghan hide further seeds.
 I8 Chapter 1 chunks author dew, mooncakes, and Path critters on meadow through river.
-I9 authors festival and Cloud Stair density.
+I9 authors festival and Cloud Stair density. I10 authors the palace walk, proximity
+Han, Guanghan far layer, and the fifteenth seed.
 
 Path filler is hedgehog, crow, plus the I8 Path ids on the lengthened maps. Soft Paws
 places hedgehog, fox, and bees. Paper Lights places cat, owl, and lantern moth.
+Guanghan walk places frost wisps, lantern moths, and one star wisp.
 
-Dust mite, star wisp, and pestle sentry sit in the Cloud
-Stair / Guanghan picker. They ship on Chapter 2 chunks only. They do not debut on
-Earth.
+Dust mite and pestle sentry sit in the Cloud Stair / Guanghan picker. They ship on
+Chapter 2 chunks only. They do not debut on Earth. Star wisp ships on Chapter 2 and
+one palace hall.
 
 ## Lore gates
 
@@ -48,7 +50,7 @@ Fox Hu, Xiwangmu. Fox Hu's cart remains the World 1 boss exception.
 | Cicadas | skip | Summer insect | - |
 | Fireflies | live as Pool dusk weather | Already lantern weather | Optional glow pickup still later. Not a folk HP bar |
 | Bees | live on Soft Paws | Ordinary meadow wildlife | W0/W1 swarm. Dash through |
-| Lantern moth | planned invent | 扑火. Drawn to festival light | Weak night flyer. Ordinary wildlife |
+| Lantern moth | live invent | 扑火. Drawn to festival light | Weak night flyer. Ordinary wildlife |
 | Fireworks | planned scenery | Traditional Mid-Autumn is lanterns first | Background bursts plus sparkler (lantern-class light). Not a weapon. Not Han's kit |
 | Generic heart pickup | skip | Mooncake already restores one heart | Place mooncakes on Earth Story. Guanghan cakes stay warmth ammo |
 | Second pantry currency | skip | Carrots already bank | Keepsake osmanthus seeds instead. No hop power |
@@ -139,8 +141,8 @@ Split the moon rung:
 
 | Beat | Today | Planned | Target |
 | --- | --- | --- | --- |
-| Palace walk | missing | roofs, courtyards, moon doors, columns, screens, still pools that are not Han, cassia glimpses. Low gravity the whole station. Frost wisps in corridors. Optional star wisps as palace cold. Lantern moths in halls | about 18 chunks (on the order of 10 screens) |
-| Han court | whole station is the fight | last 1-2 chunks. Proximity start. Leave volume cancels the fight and resets Han hearts. Mooncakes and spirit HUD only while the fight is live | 2 chunks |
+| Palace walk | 7 chunks. Roofs, courtyard, moon-door screens, columns, still-pool decor, cassia glimpse. Low gravity. Frost wisps, moths, one star wisp. Hidden seed | remaining length toward 18 chunks | about 18 chunks (on the order of 10 screens) |
+| Han court | last 2 chunks. Court AABB starts the fight. Leave resets unless settled. Mooncakes and spirit HUD only while the fight is live | Han moon collider | 2 chunks |
 
 Chang'e, Yutu, Wu Gang, and the toad stay off the HP bar. They appear after Han
 settles, as now.
@@ -163,7 +165,7 @@ Pages: [moon.md](../universe/environments/moon.md),
 | dew | short slow-time. Meadow and orchard | live on Soft Paths |
 | sparkler | lantern-class timed light. Festival scenery, not a weapon | live on Paper Lights |
 | firefly (pickup) | brief glow. No mist wall | planned |
-| osmanthus seed | keepsake. One hidden spawn per playable station | live on fourteen stations. Guanghan I10 |
+| osmanthus seed | keepsake. One hidden spawn per playable station | live on fifteen stations |
 | heart sprite | do not ship | skipped |
 | moon letter | Endless only | idea |
 
@@ -176,8 +178,7 @@ levels, Guanghan. Fifteen. Burrow Eve stays lore and has none.
 
 ## Code later (not this lock)
 
-- Han court proximity volume. Leave resets hearts.
-- Palace walk chunks and far layer. Palace moths.
+- Remaining palace walk toward 18 chunks.
 - Han moon collider remains a separate TODO ([chapters.md](chapters.md)).
 
 ## Build waves
@@ -186,7 +187,7 @@ levels, Guanghan. Fifteen. Burrow Eve stays lore and has none.
 [I7](../iterations/i7-w0-pool.md) Pool map and Soft Paws creature intro.
 [I8](../iterations/i8-w1-w2-density.md) Meadow through river density.
 [I9](../iterations/i9-festival-cloud-stair.md) festival and Cloud Stair live.
-[I10](../iterations/i10-guanghan-palace.md) palace walk and proximity Han.
-Keepsakes fill through I10. Fourteen seeds are live. Full-set waits.
+[I10](../iterations/i10-guanghan-palace.md) palace walk and proximity Han live.
+Fifteen seeds are live. `KEEPSAKE_SET` unlocks at the full set.
 
 Chapter 2 and 3 stay frozen except the roster note above.

@@ -143,9 +143,10 @@ export function applySky(
         .setAlpha(0.88)
         .setDepth(-3.2)
     }
-    if (scene.textures.exists("story_far_moon")) {
+    const farKey = env === "moon" ? "story_far_guanghan" : "story_far_moon"
+    if (scene.textures.exists(farKey)) {
       scene.add
-        .image(960, 280, "story_far_moon")
+        .image(960, 280, farKey)
         .setDisplaySize(1920, 480)
         .setScrollFactor(0.1)
         .setAlpha(0.72)

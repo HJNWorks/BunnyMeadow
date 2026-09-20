@@ -25,13 +25,14 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | Web iteration I7 | done (Moon in the Pool + Soft Paws) |
 | Web iteration I8 | done (meadow through river density) |
 | Web iteration I9 | done (festival + Cloud Stair) |
-| Web iteration I10 | current (Guanghan palace walk) |
+| Web iteration I10 | done (Guanghan palace walk) |
 | M6–M8 desktop + store | postponed to the end, after the web iterations |
 
 ## Current phase
 
-Story milestones M0–M5 and web iterations I1–I9 are done. Current track is
-[I10 Guanghan palace walk](iterations/i10-guanghan-palace.md). Hub:
+Story milestones M0–M5 and web iterations I1–I10 are done. Current phase is
+desktop and store postponed. Remaining palace walk length toward 18 chunks and
+the Han moon collider are later, not a numbered iteration. Hub:
 [story/chapter1-overhaul.md](story/chapter1-overhaul.md).
 Desktop and store milestones (M6–M8) stay postponed. See
 [iterations/README.md](iterations/README.md).
@@ -301,10 +302,10 @@ Sparkler. Fourteen keepsakes. Ink-path toggle removed. No `package.json` bump.
 
 ### Web iteration I10 — Guanghan palace walk
 
-**Status: current.** Detail: [iterations/i10-guanghan-palace.md](iterations/i10-guanghan-palace.md).
+**Status: done.** Detail: [iterations/i10-guanghan-palace.md](iterations/i10-guanghan-palace.md).
 
-Palace walk, proximity Han, Guanghan far layer. Full-set keepsake. No `package.json`
-bump.
+Seven palace walk chunks, proximity Han, Guanghan far layer, fifteenth seed,
+`KEEPSAKE_SET`. Remaining walk toward 18 chunks is later. No `package.json` bump.
 
 ### M6 — Desktop shell
 
@@ -432,5 +433,6 @@ any local commands run on Windows.
 
 ## Suggested next coding session
 
-I10 Guanghan palace walk is the current track.
-[I10](iterations/i10-guanghan-palace.md). Desktop milestone [M6](#m6--desktop-shell) stays postponed.
+Web iterations I1–I10 are done. Remaining palace walk length toward 18 chunks and
+the Han moon collider stay later, not a numbered iteration. Desktop milestone
+[M6](#m6--desktop-shell) stays postponed.

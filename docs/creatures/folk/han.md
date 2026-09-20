@@ -13,10 +13,10 @@ still plays first.
 
 ## Boss encounter
 
-Guanghan, moon finale after the Cloud Stair. Today the whole two-chunk station is this
-fight. Planned I10: a palace walk first, then this court as the last 1-2 chunks. Enter
-the court (proximity volume) to start. Leave the volume to cancel the fight and reset
-Han hearts. Mooncakes and spirit HUD only while the fight is live. Spirit hearts start
+Guanghan, moon finale after the Cloud Stair. Palace walk first, then this court as
+the last two chunks. Enter the court AABB to start. Leave the volume while he is
+not settled to cancel the fight and reset Han hearts. Leave after settled does not
+un-settle. Mooncakes and spirit HUD only while the fight is live. Spirit hearts start
 at 5/5. Mei cannot attack. A consumed
 mooncake starts a short warmth buff (about 3 s). Only a dash into Han while that
 buff is live removes one spirit heart. A bare dash does nothing to him and still costs

@@ -16,6 +16,7 @@
     { "id": "ALL_MAPS", "name": "Every Path", "description": "Unlock all Meadow maps." },
     { "id": "PERFECT_HEARTS", "name": "Soft Landing", "description": "Clear a Story level without losing a heart." },
     { "id": "KEEPSAKE_FIRST", "name": "First Seed", "description": "Find an osmanthus seed." },
-    { "id": "KEEPSAKE_EIGHT", "name": "Eight Seeds", "description": "Find eight osmanthus seeds." }
+    { "id": "KEEPSAKE_EIGHT", "name": "Eight Seeds", "description": "Find eight osmanthus seeds." },
+    { "id": "KEEPSAKE_SET", "name": "Full Set", "description": "Find all fifteen osmanthus seeds." }
   ]
 }

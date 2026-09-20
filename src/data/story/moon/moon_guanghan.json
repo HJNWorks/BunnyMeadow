@@ -3,10 +3,20 @@
   "world": 4,
   "index": 1,
   "name": "Guanghan",
-  "chunks": ["chunk_moon_a", "chunk_moon_b"],
+  "chunks": [
+    "chunk_palace_gate",
+    "chunk_palace_roofs",
+    "chunk_palace_yard",
+    "chunk_palace_screens",
+    "chunk_palace_hall",
+    "chunk_palace_cassia",
+    "chunk_palace_still",
+    "chunk_moon_a",
+    "chunk_moon_b"
+  ],
   "playerSpawn": { "x": 180, "y": 930 },
   "moonPool": { "chunk": 0, "x": 40, "y": 920 },
-  "exit": { "chunk": 1, "x": 860, "y": 800 },
+  "exit": { "chunk": 8, "x": 860, "y": 800 },
   "moonLine": "The old cold kept guests. I did not.",
   "objective": "Duck the frost. Eat a mooncake, then dash Han.",
   "sky": "#12161c",
@@ -15,7 +25,7 @@
   "boss": {
     "kind": "han",
     "hitsNeeded": 5,
-    "x": 1620,
+    "x": 7380,
     "y": 380
   }
 }

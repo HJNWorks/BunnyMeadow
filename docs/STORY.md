@@ -121,16 +121,16 @@ Moon Pool sample (4-1 only):
 
 ### 6. Finale — Guanghan Palace (low gravity)
 
-Split the moon rung. Today the whole station is Han's two-chunk fight. Planned: a
-palace walk (about ten screens) then Han's court (last 1-2 screens). Low gravity the
-whole station. Palace wildlife: frost wisps in corridors, optional star wisps as palace
+Split the moon rung. A palace walk (seven 960 chunks this wave) then Han's court
+(last two chunks). Remaining walk toward about 18 chunks is later. Low gravity the
+whole station. Palace wildlife: frost wisps in corridors, one star wisp as palace
 cold, lantern moths in halls. Chang'e, Yutu, Wu Gang, and the toad stay off the HP bar.
 Pages: [universe/environments/moon.md](universe/environments/moon.md),
 [universe/environments/guanghan-palace.md](universe/environments/guanghan-palace.md).
 
 [Han](creatures/folk/han.md), an old ghost of Vast Cold, keeps guests in the layered
-roofs. Planned first live proximity: enter the court to start the fight. Leave the
-volume to cancel the fight and reset Han hearts. Mooncakes and spirit HUD only while
+roofs. Enter the court AABB to start the fight. Leave the volume while he is not
+settled to cancel the fight and reset Han hearts. Mooncakes and spirit HUD only while
 the fight is live. Duck frost spears, eat a mooncake in the open, dash him while the
 warmth lasts.
 Five spirit hearts. Starfall after the second hit, both volleys on the last heart. From

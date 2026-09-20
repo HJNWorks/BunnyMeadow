@@ -160,7 +160,7 @@ festival ash. Han still has no fireballs.
 | Field | Value |
 | --- | --- |
 | Category | keepsake |
-| Status | live (fourteen stations). Guanghan I10 |
+| Status | live (fifteen stations) |
 | Effect | Increments `progress.story.keepsakes`. Unlocks Customize flecks and achievements. No hop power |
 | Duration | permanent collectible. Never respawns |
 | Home biomes | one hidden spawn per playable Chapter 1 station |

@@ -1,11 +1,11 @@
 # Wildlife — Frost Wisp
 
-Status: live (Story World 4). Class: Wildlife. Archetype: swarm. Hub: [../README.md](../README.md).
+Status: live (Story World 4, Guanghan palace corridors). Class: Wildlife. Archetype: swarm. Hub: [../README.md](../README.md).
 Invented ice spirit (霜魄). Not a canon snow god.
 
 | Field | Value |
 | --- | --- |
-| Home biomes | cloudsea |
+| Home biomes | cloudsea, moon (palace corridors) |
 | Active hour | deep night |
 | Min tier | 4 |
 | Hearts | n/a (cloud) |
