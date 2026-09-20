@@ -35,12 +35,11 @@ Soft Paths. Overhaul hub: [story/chapter1-overhaul.md](story/chapter1-overhaul.m
 | Station | Purpose |
 | --- | --- |
 | Burrow Eve | Mid-Autumn setting. Yue and the glowing blossom (text beat). No map |
-| Moon in the Pool | Planned playable controls map. Grass, one Moon Pool (Chang'e's first reflection), no wildlife. Float chips teach run, jump, dash. Reach the puddle, hear the line, reach a tiny exit. Today this station is still lore text |
+| Moon in the Pool | Playable controls map. Tunnel lead-in, grass, one Moon Pool, no wildlife. Float chips teach run, jump, dash. Reach the puddle, hear the line, reach a tiny exit |
 | Soft Paws | Creatures, not controls. Hedgehog, fox, bees. Burrow exit. Same verbs already known from the Pool map |
 
-Completing Soft Paws unlocks Soft Paths. Teaching float chips move to Moon in the Pool
-in I7. Until then Soft Paws still floats move, jump, and dash next to Mei. Other
-stations keep those chips in the top bar, already docked.
+Completing Soft Paws unlocks Soft Paths. Teaching float chips live on Moon in the Pool.
+Other stations keep those chips in the top bar, already docked.
 
 ### 1. Prologue beat (told in World 0)
 

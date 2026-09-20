@@ -93,6 +93,7 @@ Ids in `src/data/achievements.json` match Steamworks one-to-one. Web tracks sile
 | PANTRY_5 | Full Pantry | Reach pantry level 5 |
 | ALL_MAPS | Every Path | Unlock all Meadow maps |
 | PERFECT_HEARTS | Soft Landing | Clear a Story level without losing a heart |
+| KEEPSAKE_FIRST | First Seed | Find an osmanthus seed |
 
 ## Scope guards
 

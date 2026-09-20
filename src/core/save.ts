@@ -69,6 +69,7 @@ export type SaveV1 = {
       cleared: string[]
       checkpoints: Record<string, string>
       controlHints: string[]
+      keepsakes: string[]
     }
     tasksCompleted: string[]
     bunnyJumpBest: number
@@ -140,6 +141,7 @@ export function createDefaultSave(slot = 0): SaveV1 {
         cleared: [],
         checkpoints: {},
         controlHints: [],
+        keepsakes: [],
       },
       tasksCompleted: [],
       bunnyJumpBest: 0,
@@ -225,6 +227,13 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
     }
     if (!Array.isArray(merged.progress.story.cleared)) {
       merged.progress.story.cleared = []
+    }
+    if (!Array.isArray(merged.progress.story.keepsakes)) {
+      merged.progress.story.keepsakes = []
+    } else {
+      merged.progress.story.keepsakes = merged.progress.story.keepsakes.filter(
+        (value) => typeof value === "string",
+      )
     }
     const presets: DifficultyId[] = ["sprout", "hopper", "wildhare", "moonlit", "hardcore"]
     const rawRuns = isObject(merged.progress.endlessRuns)

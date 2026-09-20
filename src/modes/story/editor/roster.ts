@@ -25,6 +25,7 @@ export const ITEM_LABELS: Record<string, string> = {
   carrot: "Carrot",
   mooncake: "Mooncake",
   osmanthus_blossom: "Blossom",
+  osmanthus_seed: "Osmanthus seed",
   lantern: "Lantern",
   star_grit: "Star grit",
   elixir_crumb: "Elixir crumb",
@@ -32,8 +33,8 @@ export const ITEM_LABELS: Record<string, string> = {
 }
 
 const CRITTERS_BY_BIOME: Record<string, string[]> = {
-  meadow: ["fox", "hedgehog", "crow"],
-  orchard: ["fox", "hedgehog", "crow", "squirrel"],
+  meadow: ["fox", "hedgehog", "crow", "bees"],
+  orchard: ["fox", "hedgehog", "crow", "squirrel", "bees"],
   bamboo: ["crow", "squirrel", "frog", "goat"],
   riverbank: ["crow", "frog", "heron"],
   lantern: ["crow", "cat", "owl"],
@@ -43,7 +44,7 @@ const CRITTERS_BY_BIOME: Record<string, string[]> = {
 }
 
 const ITEMS_BY_BIOME: Record<string, string[]> = {
-  meadow: ["carrot"],
+  meadow: ["carrot", "osmanthus_seed"],
   orchard: ["carrot", "mooncake"],
   bamboo: ["carrot", "lantern"],
   riverbank: ["carrot", "mooncake"],
@@ -76,7 +77,7 @@ export const CRITTER_CHAPTERS: CritterChapter[] = [
       {
         id: "path",
         labelKey: "editor.critterGroup.path",
-        ids: ["fox", "hedgehog", "crow", "squirrel", "frog", "heron", "cat", "owl", "goat"],
+        ids: ["fox", "hedgehog", "crow", "squirrel", "frog", "heron", "cat", "owl", "goat", "bees", "tortoise", "boar"],
       },
       {
         id: "moon",
@@ -93,13 +94,7 @@ export const CRITTER_CHAPTERS: CritterChapter[] = [
   {
     id: "ch3",
     labelKey: "story.chapter.ch3.title",
-    groups: [
-      {
-        id: "later",
-        labelKey: "editor.critterGroup.later",
-        ids: ["bees", "tortoise", "boar"],
-      },
-    ],
+    groups: [],
   },
 ]
 

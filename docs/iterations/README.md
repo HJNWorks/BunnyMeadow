@@ -24,9 +24,9 @@ and the milestone list stay in [../ROADMAP.md](../ROADMAP.md).
 | [I3](i3-theme-rendering.md) (done) | Theme and rendering | palettes.json, sky lerp, weather, night lighting |
 | [I4](i4-audio-i18n.md) (done) | Audio and i18n | the remaining open M5 items |
 | [I5](i5-bunny-jump.md) (done) | Bunny Jump under Moon Tasks | climb scene, one-way bounce, local best |
-| [I6](i6-chapter1-docs.md) (current) | Chapter 1 docs lock | lore gates, station briefs, I7-I10 shells |
-| [I7](i7-w0-pool.md) | Moon in the Pool + Soft Paws | controls map, creature intro |
-| [I8](i8-w1-w2-density.md) | Meadow through river | density, Path ids, dew, mooncakes |
+| [I6](i6-chapter1-docs.md) (done) | Chapter 1 docs lock | lore gates, station briefs, I7-I10 shells |
+| [I7](i7-w0-pool.md) (done) | Moon in the Pool + Soft Paws | controls map, creature intro, first seed |
+| [I8](i8-w1-w2-density.md) (current) | Meadow through river | density, Path ids, dew, mooncakes |
 | [I9](i9-festival-cloud-stair.md) | Festival + Cloud Stair | lantern village, frost hare, Earth gravity |
 | [I10](i10-guanghan-palace.md) | Guanghan palace walk | walk, proximity Han, far layer |
 

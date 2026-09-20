@@ -609,11 +609,11 @@ export class StoryScene extends Phaser.Scene {
     if (look?.fog) {
       palette.fog = look.fog
     }
-    if (look?.hour) {
-      palette.hour = look.hour as PaletteHour
+    if (look?.hour ?? def.hour) {
+      palette.hour = (look?.hour ?? def.hour) as PaletteHour
     }
-    if (look?.weather) {
-      palette.weather = look.weather as WeatherPreset
+    if (look?.weather ?? def.weather) {
+      palette.weather = (look?.weather ?? def.weather) as WeatherPreset
     }
     this.cameras.main.setBounds(0, 0, world.width, 1080)
     applySky(this, palette, env)
@@ -832,9 +832,13 @@ export class StoryScene extends Phaser.Scene {
       })),
     ]
     const pickupList = overlay?.pickups ?? shippedPickups
+    const keepsakes = new Set(getSave().progress.story.keepsakes ?? [])
     for (let i = 0; i < pickupList.length; i += 1) {
       const item = pickupList[i]
       if (!item) {
+        continue
+      }
+      if (this.editorMode === null && item.id === "osmanthus_seed" && keepsakes.has(this.level.id)) {
         continue
       }
       const look = getItemLook(item.id)
@@ -1153,6 +1157,29 @@ export class StoryScene extends Phaser.Scene {
       this.glowTimer = 1.6
       this.glowKind = "well_silver"
       this.lanternGlow?.setVisible(true)
+      return
+    }
+    if (id === "osmanthus_seed") {
+      if (this.editorMode) {
+        return
+      }
+      const save = getSave()
+      if (!Array.isArray(save.progress.story.keepsakes)) {
+        save.progress.story.keepsakes = []
+      }
+      if (!save.progress.story.keepsakes.includes(this.level.id)) {
+        save.progress.story.keepsakes.push(this.level.id)
+      }
+      void (async () => {
+        if (save.progress.story.keepsakes.length >= 1) {
+          await getPlatform().achievements.unlock("KEEPSAKE_FIRST")
+          // TODO: KEEPSAKE_EIGHT and KEEPSAKE_SET wait until more stations hide seeds (I8-I10)
+          if (!save.progress.achievements.includes("KEEPSAKE_FIRST")) {
+            save.progress.achievements.push("KEEPSAKE_FIRST")
+          }
+        }
+        await persistSave()
+      })()
       return
     }
     if (id !== "carrot") {

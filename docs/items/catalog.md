@@ -160,7 +160,7 @@ festival ash. Han still has no fireballs.
 | Field | Value |
 | --- | --- |
 | Category | keepsake |
-| Status | planned (I7-I10) |
+| Status | live (Pool map). More stations I8-I10 |
 | Effect | Increments `progress.story.keepsakes`. Unlocks Customize flecks and achievements. No hop power |
 | Duration | permanent collectible. Never respawns |
 | Home biomes | one hidden spawn per playable Chapter 1 station |

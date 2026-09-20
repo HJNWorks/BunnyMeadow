@@ -94,8 +94,8 @@ entry there.
 ## Versioning rules
 
 - Story milestones M0-M5 are done. Web iterations I1-I4 are done (`v0.2.0`). I5 is
-  Bunny Jump live. I6 is the Chapter 1 docs lock. The remaining desktop and store
-  milestones (M6-M8) are postponed. See [ROADMAP.md](ROADMAP.md).
+  Bunny Jump live. I6 is the Chapter 1 docs lock. I7 is Moon in the Pool live. The
+  remaining desktop and store milestones (M6-M8) are postponed. See [ROADMAP.md](ROADMAP.md).
 - Web iterations live under [iterations/](iterations/README.md).
   Each iteration has one page listing its data and doc deltas.
 - Design pages describe the target. Iteration pages describe the change that moves

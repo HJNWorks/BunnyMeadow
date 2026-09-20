@@ -75,7 +75,7 @@ and the minimum tier at which the creature appears.
 | azure bird | diver | Peach Rows | n/a | idea |
 | jade mite | swarm | Grotto Heaven | n/a | idea |
 | copper sentry | ranged_lob | Hanging Ridges | n/a | idea |
-| bees | swarm | meadow, orchard | 2 | planned (I7-I8). Chapter 1 Path, not Chapter 3 |
+| bees | swarm | meadow, orchard | 2 | live (Story Soft Paws). Chapter 1 Path |
 | dew | item (slow-time). Not a wildlife HP bar | meadow, orchard | 1 | planned (I8). See [items/catalog.md](../items/catalog.md) |
 
 Guard: owls are ill omens in tradition and must never serve the Moon. They are
@@ -100,7 +100,7 @@ Other jump roles wait.
 | dust mite | drift | live |
 | star wisp | drift | live |
 | pestle sentry | drop_shot | live |
-| bees | drift | planned (Story I7-I8. Jump later) |
+| bees | drift | live Story. Jump later |
 | tortoise | perch | planned (Story I8. Jump later) |
 | boar | ledge_charge | planned (Story I8. Jump later) |
 | frost hare | skip | planned Story Cloud Stair |

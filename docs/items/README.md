@@ -37,7 +37,7 @@ Full entries on [catalog.md](catalog.md).
 | dew | run-buff | short slow-time | planned (I8) |
 | sparkler | run-buff | lantern-class timed light. Not a weapon | planned (I9) |
 | firefly (pickup) | run-buff | brief glow. No mist wall | planned |
-| osmanthus seed | keepsake | one hidden spawn per playable station | planned (I7-I10) |
+| osmanthus seed | keepsake | one hidden spawn per playable station | live on Pool. More I8-I10 |
 | heart sprite | - | do not ship. Mooncake already restores | skipped |
 | moon letter | key | opens the sky/moon edges in Endless | idea |
 | cosmetic drop | cosmetic | ancestor of keepsakes. Prefer osmanthus seed | idea |
@@ -53,6 +53,6 @@ that weights what fills a slot. This is the same slot idea used for enemies. See
 
 Today carrots, mooncakes, blossoms, and lanterns come from item slots filled by
 `EndlessGenerator.fill` against `src/data/items.json`. `carrotChance` is the chance a
-slot is filled. Empty rolls stay empty. Chapter 1 Story chunks author none of those
-arrays yet. I8-I10 place mooncakes, dew, lanterns, blossoms, sparklers, and keepsakes
-on Earth and palace maps. No heart sprite.
+slot is filled. Empty rolls stay empty. Moon in the Pool authors one osmanthus seed.
+Remaining Chapter 1 Story chunks wait until I8-I10 for mooncakes, dew, lanterns, and
+more seeds. No heart sprite.

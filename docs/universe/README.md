@@ -21,7 +21,7 @@ One night, one ascent to Guanghan, then lunar country. Chapter 1 rungs, low to h
 
 | Rung | Environment | Altitude | Hour | Status |
 | --- | --- | --- | --- | --- |
-| 0 | Burrow Tunnels | underground | afternoon | planned |
+| 0 | Burrow Tunnels | underground | afternoon | live (Pool lead-in chunk) |
 | 1 | Meadow | ground | afternoon | live |
 | 2 | Orchard | low hills | golden hour | live |
 | 3 | Bamboo Grove | hills | dusk | live |

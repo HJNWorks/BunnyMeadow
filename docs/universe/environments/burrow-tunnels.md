@@ -1,7 +1,7 @@
 # Environment — Burrow Tunnels
 
-Status: planned. The rung below Meadow: the dark warren the kits live in, seen at the
-very start of the night. Hub: [../README.md](../README.md).
+Status: live as the first chunk of Moon in the Pool (`chunk_pool_tunnel`). Not a
+fourth World Map station. Hub: [../README.md](../README.md).
 
 ## Five axes
 
@@ -18,9 +18,8 @@ very start of the night. Hub: [../README.md](../README.md).
 Narrow, dark, cosy. A short opening rung: root-lined tunnels lit by a thin shaft of
 afternoon light from the entrance. Vertical lifts (root bundles) carry the player up
 toward the meadow mouth. No enemies chase here. It is a warm-up before the open field.
-Optional I7 lead-in. The first playable map is Moon in the Pool (pond, no wildlife,
-controls). Family kits as non-HP set dressing around the burrow. Fireflies at dusk
-outside. One keepsake.
+The first playable map is Moon in the Pool (pond, no wildlife, controls). Fireflies at
+dusk outside. One keepsake on the pond chunk, not in the dark.
 
 ## Roster
 
@@ -33,7 +32,7 @@ motion without threat.
 | --- | --- | --- |
 | carrot | high | the pantry staple, stored here |
 | dew | low | planned I8 on the meadow mouth, not in the dark |
-| osmanthus seed | one if this lead-in ships | keepsake |
+| osmanthus seed | none here | hidden on the pond chunk |
 
 ## Endless status
 

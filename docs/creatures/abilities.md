@@ -8,9 +8,9 @@ The verbs Mei has, where each is taught, and how items change them. Hub:
 
 | Verb | Input | Taught on rung | Status |
 | --- | --- | --- | --- |
-| run | move | Moon in the Pool (planned I7). Soft Paws until then | live on Soft Paws |
-| jump | jump | Moon in the Pool (planned I7). Soft Paws until then | live on Soft Paws |
-| dash | dash | Moon in the Pool (planned I7). Soft Paws until then | live on Soft Paws |
+| run | move | Moon in the Pool | live |
+| jump | jump | Moon in the Pool | live |
+| dash | dash | Moon in the Pool | live |
 | wall bounce / wall jump | jump against a wall | Orchard, mastered in Bamboo | live |
 | log ride | stand on a drifting mover | Riverbank | live |
 | tiger ride | scripted mount | Lantern (Tiger Road) | live |

@@ -48,7 +48,7 @@ Overhaul: [story/chapter1-overhaul.md](story/chapter1-overhaul.md).
 | Station | Kind | Notes |
 | --- | --- | --- |
 | Burrow Eve | lore | Mid-Autumn setting. Stays text |
-| Moon in the Pool | lore today. Planned: level | Controls map. Grass, one Moon Pool, no wildlife. I7 needs a `levelId` and chunks. Station id stays `w0_lore_moon` |
+| Moon in the Pool | level | Controls map. Tunnel lead-in, one Moon Pool, no wildlife. Station id `w0_lore_moon` |
 | Soft Paws | level | Creature intro after the Pool map. Hedgehog, fox, bees. Unlocks Soft Paths |
 
 Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progress.story.cleared`.

@@ -1,0 +1,17 @@
+{
+  "id": "w0_lore_moon",
+  "world": 0,
+  "index": 2,
+  "name": "Moon in the Pool",
+  "chunks": ["chunk_pool_tunnel", "chunk_pool_pond"],
+  "playerSpawn": { "x": 120, "y": 900 },
+  "moonPool": { "chunk": 1, "x": 380, "y": 920 },
+  "exit": { "chunk": 1, "x": 860, "y": 920 },
+  "moonLine": "Follow the blossoms. Each night I will light a pool for you.",
+  "objective": "Reach the puddle. Hear the Moon. Reach the tiny exit.",
+  "tutorial": true,
+  "env": "meadow",
+  "hour": "dusk",
+  "weather": "fireflies",
+  "sky": "#8aa07a"
+}

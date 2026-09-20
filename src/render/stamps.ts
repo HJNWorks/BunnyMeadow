@@ -19,6 +19,7 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_carrot: { w: 24, h: 32 },
   story_mooncake: { w: 28, h: 28 },
   story_blossom: { w: 28, h: 28 },
+  story_seed: { w: 20, h: 24 },
   story_lantern: { w: 24, h: 36 },
   story_han: { w: 96, h: 140 },
   story_ground_moon: { w: 64, h: 64 },
@@ -245,6 +246,12 @@ function drawBlossom(ctx: CanvasRenderingContext2D, cx: number, cy: number): voi
     ellipse(ctx, cx + Math.cos(a) * 6, cy + Math.sin(a) * 6, 5, 4, "#f2d4e8")
   }
   circle(ctx, cx, cy, 3, "#e2b84a")
+}
+
+function drawSeed(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx, cy + 2, 6, 9, "#6b4a1e")
+  ellipse(ctx, cx - 1, cy, 4, 6, "#8a6230")
+  circle(ctx, cx + 2, cy - 2, 1.5, "#e2b84a")
 }
 
 function drawLantern(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
@@ -518,6 +525,7 @@ const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: nu
   story_carrot: drawCarrot,
   story_mooncake: drawMooncake,
   story_blossom: drawBlossom,
+  story_seed: drawSeed,
   story_lantern: drawLantern,
   story_han: drawHan,
   story_ground_moon: drawGroundMoon,

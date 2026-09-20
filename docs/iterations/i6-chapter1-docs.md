@@ -1,6 +1,6 @@
 # Iteration I6 — Chapter 1 docs lock
 
-Status: shipping (docs only). Hub: [README.md](README.md). Design:
+Status: done. Hub: [README.md](README.md). Design:
 [../story/chapter1-overhaul.md](../story/chapter1-overhaul.md).
 
 Locks Chapter 1 lore gates, station briefs, keep/skip, target lengths, and the
@@ -22,7 +22,7 @@ the hub.
 
 ## Still later
 
-Playable maps I7-I10. Keepsakes save field. Editor roster move. Han moon collider.
+Playable maps I8-I10. More keepsakes per station. Han moon collider.
 Chapter 2 stations 2 and 3 stay frozen.
 
 ## Ship

@@ -1,8 +1,8 @@
 # Wildlife — Bees
 
-Status: planned (I7 Soft Paws, I8 meadow). Class: Wildlife. Archetype: swarm. Hub:
+Status: live (Story Soft Paws). Class: Wildlife. Archetype: swarm. Hub:
 [../README.md](../README.md).
-No folklore role; plain wildlife. Chapter 1 Path, not Chapter 3 Later. Listed as a
+No folklore role; plain wildlife. Chapter 1 Path. Listed as a
 Meadow optional in [../../ENEMIES.md](../../ENEMIES.md).
 
 | Field | Value |
@@ -30,6 +30,6 @@ A loose particle cloud, not a sprite. Reads as area, not enemy.
 ## Bunny Jump
 
 Jump role: drift. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
-Story debut is Chapter 1 Path (I7-I8), not Bunny Jump first. Slow swarm cloud. Dash
+Story is live on Soft Paws. Jump later. Slow swarm cloud. Dash
 still passes through. The workshop stamp seeds the cloud. No new folk key. Design:
 [../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

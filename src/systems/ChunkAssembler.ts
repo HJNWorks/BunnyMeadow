@@ -21,6 +21,8 @@ import chunkOsmanthusPool from "../data/chunks/chunk_osmanthus_pool.json"
 import chunkPawsMove from "../data/chunks/chunk_paws_move.json"
 import chunkPawsJump from "../data/chunks/chunk_paws_jump.json"
 import chunkPawsBurrow from "../data/chunks/chunk_paws_burrow.json"
+import chunkPoolTunnel from "../data/chunks/chunk_pool_tunnel.json"
+import chunkPoolPond from "../data/chunks/chunk_pool_pond.json"
 import chunkRaftA from "../data/chunks/chunk_raft_a.json"
 import chunkRaftB from "../data/chunks/chunk_raft_b.json"
 import chunkCraneA from "../data/chunks/chunk_crane_a.json"
@@ -191,6 +193,8 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_paws_move: chunkPawsMove as ChunkDef,
   chunk_paws_jump: chunkPawsJump as ChunkDef,
   chunk_paws_burrow: chunkPawsBurrow as ChunkDef,
+  chunk_pool_tunnel: chunkPoolTunnel as ChunkDef,
+  chunk_pool_pond: chunkPoolPond as ChunkDef,
   chunk_raft_a: chunkRaftA as ChunkDef,
   chunk_raft_b: chunkRaftB as ChunkDef,
   chunk_crane_a: chunkCraneA as ChunkDef,

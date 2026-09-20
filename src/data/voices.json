@@ -76,10 +76,10 @@
           "class": "folk",
           "cues": [
             {
-              "id": "change.beat.w0_lore_moon",
-              "channel": "beat",
-              "when": "World 0 station Moon in the Pool, second line.",
-              "i18nKey": "story.station.w0_lore_moon.line1",
+              "id": "change.pool.w0_lore_moon",
+              "channel": "ticker",
+              "when": "Moon Pool contact on Moon in the Pool.",
+              "i18nKey": "story.level.w0_lore_moon.moon",
               "station": "w0_lore_moon",
               "live": true,
               "voice": "character",

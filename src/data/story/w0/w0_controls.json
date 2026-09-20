@@ -9,6 +9,5 @@
   "exit": { "chunk": 2, "x": 860, "y": 920 },
   "moonLine": "Soft paws remember soft grass. The burrow waits ahead.",
   "objective": "Walk, jump, and dash. Meet a few meadow friends. Reach the burrow.",
-  "tutorial": true,
   "sky": "#cfe0a0"
 }

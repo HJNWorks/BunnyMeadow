@@ -1,4 +1,5 @@
 import level00 from "../../data/story/w0/w0_controls.json"
+import levelPool from "../../data/story/w0/w0_lore_moon.json"
 import level11 from "../../data/story/w1/w1_1_soft_paths.json"
 import level12 from "../../data/story/w1/w1_2_hedge_maze.json"
 import level13 from "../../data/story/w1/w1_3_cart_chase.json"
@@ -62,6 +63,8 @@ export type StoryLevelDef = {
   noCheckpoint?: boolean
   sky?: string
   env?: string
+  hour?: string
+  weather?: string
   foxHu?: { startX: number; y: number; speed: number }
   leftChase?: StoryLeftChase
   boss?: StoryBossDef
@@ -74,6 +77,7 @@ export type StoryLevelDef = {
 }
 
 const LEVELS: StoryLevelDef[] = [
+  levelPool as StoryLevelDef,
   level00 as StoryLevelDef,
   level11 as StoryLevelDef,
   level12 as StoryLevelDef,

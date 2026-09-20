@@ -61,7 +61,7 @@ Toolbar: Selection Mode Object or Region. Region: drag a rectangle; every object
 
 The editor top bar is `position: fixed` but its `top` is not a magic pixel. `placeBelowStoryChrome` in `src/ui/playfieldFrame.ts` sits it under `.meadow-bar` (title and pause row). Hearts, status ticker, and boss hearts live on the playfield via `mountPlayfieldHud`, not in that chrome. `watchStoryChrome` observes the chrome nodes, not the full-viewport root. Playfield inset runs `beforeMeasure` so the canvas follows. New editor bars must use the same helpers.
 
-Native critter pickers: `src/modes/story/editor/roster.ts`. Chapter 1 nests Path (fox through goat) and Cloud Stair / Guanghan. Code still parks bees, tortoise, and boar under Chapter 3 Later. Docs lock: those three belong in Chapter 1 Path. Move the picker in I8. Do not debut dust mite, star wisp, or pestle sentry on Earth.
+Native critter pickers: `src/modes/story/editor/roster.ts`. Chapter 1 nests Path (fox through goat, plus bees, tortoise, boar) and Cloud Stair / Guanghan. Do not debut dust mite, star wisp, or pestle sentry on Earth.
 
 ## Phases
 
@@ -71,7 +71,7 @@ Hedge art selectable. Palette / weather / water / sky in the inspector. Map widt
 
 ### B — What already lives on the path
 
-Native pickers follow [WORLDS.md](../WORLDS.md) and [creatures/README.md](../creatures/README.md). The Environment tree is not filtered by the open station. Bees, tortoise, and boar belong in Chapter 1 Path (I8 picker move). Carp stays unlabeled until a water-patrol archetype ships. Dew is an item, not a wildlife picker.
+Native pickers follow [WORLDS.md](../WORLDS.md) and [creatures/README.md](../creatures/README.md). The Environment tree is not filtered by the open station. Bees, tortoise, and boar sit in Chapter 1 Path. Carp stays unlabeled until a water-patrol archetype ships. Dew is an item, not a wildlife picker.
 
 ### C — New beings only with lore
 

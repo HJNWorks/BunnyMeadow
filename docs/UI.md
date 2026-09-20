@@ -155,7 +155,8 @@ Three slots behind `SaveStore` (`core/platform`). Web: `localStorage`. Desktop: 
       "level": 1,
       "cleared": [],
       "checkpoints": {},
-      "controlHints": []
+      "controlHints": [],
+      "keepsakes": []
     },
     "tasksCompleted": [],
     "bunnyJumpBest": 0,
@@ -167,7 +168,7 @@ Three slots behind `SaveStore` (`core/platform`). Web: `localStorage`. Desktop: 
 
 Migration: `migrateSave(raw) -> SaveV1`. Bump `version` and add a branch per old version. Never write without migrating first. Never add a parallel store for story/tasks/endless.
 
-`progress.story.cleared` holds World 0 station ids (`w0_setting`, `w0_lore_moon`, `w0_controls`) and level ids (`w1_1_soft_paths`, …). Saves that already cleared any `w1_*` level auto-gain the three W0 stations on migrate. Positional checkpoints are not persisted. Planned I7+: `progress.story.keepsakes` as a list of station ids (osmanthus seeds). Never respawns. migrateSave later. See [items/catalog.md](items/catalog.md) and [story/chapter1-overhaul.md](story/chapter1-overhaul.md).
+`progress.story.cleared` holds World 0 station ids (`w0_setting`, `w0_lore_moon`, `w0_controls`) and level ids (`w1_1_soft_paths`, …). Saves that already cleared any `w1_*` level auto-gain the three W0 stations on migrate. Positional checkpoints are not persisted. `progress.story.keepsakes` is a list of station ids (osmanthus seeds). Never respawns. See [items/catalog.md](items/catalog.md).
 
 World Map: one landscape painting per chapter, HTML cards on art nodes. Chapter 1 is `Story-Background.png`. Chapter 2 is `Story-Background-ch2.png`. Chapter 3 is `Story-Background-ch3.png`. All three decode during Preload so Story Path does not flash an empty frame. One world rail open at a time. W0 stations open a DomShell beat panel. Level stations start Story. Badges show cleared/total per world (3/3 when bosses are done; moon when unlocked). Chapter 2 and Chapter 3 chips unlock after `moon_guanghan`. Chapter 3 worlds stay Soon. Hub: [story/chapters.md](story/chapters.md).
 

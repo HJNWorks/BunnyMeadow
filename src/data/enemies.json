@@ -86,6 +86,28 @@
       }
     },
     {
+      "id": "bees",
+      "archetype": "swarm",
+      "displayName": "Bees",
+      "homeBiomes": ["meadow", "orchard"],
+      "minTier": 2,
+      "senseRange": 0,
+      "attackRange": 36,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 36,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "bees_idle",
+        "move": "bees_drift",
+        "attack": "bees_idle",
+        "hurt": "bees_idle"
+      },
+      "notes": "Dash passes through"
+    },
+    {
       "id": "frost_wisp",
       "archetype": "swarm",
       "displayName": "Frost Wisp",

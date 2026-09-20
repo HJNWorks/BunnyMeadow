@@ -1,27 +1,29 @@
 # Chapter 1 overhaul
 
-Status: planned (I6 docs lock). Hub: [chapters.md](chapters.md). Spine: [../STORY.md](../STORY.md).
-Folklore: [../LORE.md](../LORE.md). Path map: [../WORLDS.md](../WORLDS.md). Build order:
-[../iterations/i6-chapter1-docs.md](../iterations/i6-chapter1-docs.md).
+Status: I6 docs lock done. I7 Pool and Soft Paws live. Hub: [chapters.md](chapters.md).
+Spine: [../STORY.md](../STORY.md). Folklore: [../LORE.md](../LORE.md). Path map:
+[../WORLDS.md](../WORLDS.md). Build order:
+[../iterations/i7-w0-pool.md](../iterations/i7-w0-pool.md).
 
 Chapter 1 (Burrow to Moon) is playable end to end. This page locks what the climb
-should become. Playable JSON, stamps, and `path.ts` wait until a later iteration
-graduates a row here from planned to live.
+should become. Remaining playable JSON waits until a later iteration graduates a
+row here from planned to live.
 
 Readers here are not assumed to have the codebase open.
 
 ## What is live today
 
-Sixteen stations. Two lore beats (Burrow Eve, Moon in the Pool). Soft Paws plus twelve
-path levels plus Guanghan.
+Sixteen stations. One lore beat (Burrow Eve). Moon in the Pool is a playable controls
+map. Soft Paws plus twelve path levels plus Guanghan.
 
 Most maps are two or three chunks of 960 px (chase chunks 1200). Guanghan is two chunks
-with no wildlife. Mooncakes on Guanghan are spawned at runtime. No Chapter 1 chunk
-authors items, carrots, or decor.
+with no wildlife. Mooncakes on Guanghan are spawned at runtime. Moon in the Pool
+authors one osmanthus seed. Remaining Chapter 1 chunks still omit item arrays.
 
-Path filler is almost always hedgehog and crow. Soft Paws and Soft Paths also place
-one fox. Cloud Stair places frost wisp, ice spit, and gale magpie. Fox Hu, Heron
-Fisher, Crane Envoy, Closing Gale, and Han are folk or events.
+Path filler is almost always hedgehog and crow. Soft Paws places hedgehog, fox, and
+bees. Soft Paths also places one fox. Cloud Stair places frost wisp, ice spit, and
+gale magpie. Fox Hu, Heron Fisher, Crane Envoy, Closing Gale, and Han are folk or
+events.
 
 Stamps and the Path roster already exist for squirrel, frog, heron, cat, owl, and
 goat. None of those ids appear in Chapter 1 chunks. I8 is placement first, then new
@@ -45,8 +47,8 @@ Fox Hu, Xiwangmu. Fox Hu's cart remains the World 1 boss exception.
 | Yeti | skip | Himalayan. Not Chinese moon lore | Do not import |
 | Angry white hares | invent as frost hare (霜兔) | White hare collides with Yutu and with Mei/Yue as kits | Ordinary mountain hares bleached by Vast Cold on the Stair. Not Yutu, not kits |
 | Cicadas | skip | Summer insect | - |
-| Fireflies | planned | Already lantern weather | Visual plus optional glow pickup. Not a folk HP bar |
-| Bees | planned (graduate idea) | Ordinary meadow wildlife | W0/W1 swarm. Dash through |
+| Fireflies | live as Pool dusk weather | Already lantern weather | Optional glow pickup still later. Not a folk HP bar |
+| Bees | live on Soft Paws | Ordinary meadow wildlife | W0/W1 swarm. Dash through |
 | Lantern moth | planned invent | 扑火. Drawn to festival light | Weak night flyer. Ordinary wildlife |
 | Fireworks | planned scenery | Traditional Mid-Autumn is lanterns first | Background bursts plus sparkler (lantern-class light). Not a weapon. Not Han's kit |
 | Generic heart pickup | skip | Mooncake already restores one heart | Place mooncakes on Earth Story. Guanghan cakes stay warmth ammo |
@@ -83,17 +85,15 @@ Target widths are later map work. Today is the lock. One chunk is 960 px unless 
 | Station | Today | Planned | Target |
 | --- | --- | --- | --- |
 | Burrow Eve | lore text | lore text. Blossom fall. Yue runs | no map |
-| Moon in the Pool | lore text | playable controls map. Grass, one Moon Pool, no wildlife. Float chips teach run, jump, dash | 1-2 chunks |
-| Soft Paws | tutorial level. Hedgehog, fox, burrow | drop tutorial flag. Creatures, not controls. Hedgehog, fox, bees | 3 chunks |
+| Moon in the Pool | 2 chunks. Tunnel, pond, chips, one seed | dusk fireflies. Family kits as set dressing | 2 chunks |
+| Soft Paws | 3 chunks. Hedgehog, fox, bees | same verbs. No tutorial flag | 3 chunks |
 
 Unlock: Eve, then Pool map, then Soft Paws, then Soft Paths.
 
 Around the burrow: pond, family kits as non-HP set dressing, carrots, dew, fireflies
 at dusk, one keepsake. [Burrow tunnels](../universe/environments/burrow-tunnels.md)
-remain a planned short lead-in (root lifts, no chase).
-
-Code later: `w0_lore_moon` needs `kind: level`, a `levelId`, and chunks. Do not
-rename the station id. Save `cleared` already stores it.
+are the first chunk of Moon in the Pool (root lifts, no chase). Not a fourth World Map
+station.
 
 ### World 1 - Meadow and Hedgerows
 
@@ -164,7 +164,7 @@ Pages: [moon.md](../universe/environments/moon.md),
 | dew | short slow-time. Meadow and orchard | planned graduate |
 | sparkler | lantern-class timed light. Festival scenery, not a weapon | planned |
 | firefly (pickup) | brief glow. No mist wall | planned |
-| osmanthus seed | keepsake. One hidden spawn per playable station | planned |
+| osmanthus seed | keepsake. One hidden spawn per playable station | live on Pool. More I8-I10 |
 | heart sprite | do not ship | skipped |
 | moon letter | Endless only | idea |
 
@@ -173,18 +173,15 @@ Counter unlocks Customize flecks and achievements (first seed, eight seeds, full
 Chapter 1 set). No hop power. Carrots still feed the pantry.
 
 Playable stations that can hide a seed: Moon in the Pool, Soft Paws, the twelve path
-levels, Guanghan. Fifteen if the Pool map ships. Burrow Eve stays lore and has none.
+levels, Guanghan. Fifteen. Burrow Eve stays lore and has none.
 
 ## Code later (not this lock)
 
-- `w0_lore_moon` becomes a level. New chunks. Teaching float chips move off Soft Paws.
 - Place existing Path ids (squirrel, frog, heron, cat, owl, goat) on maps.
-- Graduate bees, tortoise, boar, carp, frost hare, lantern moth.
-- Author item and decor arrays on Chapter 1 chunks.
-- `progress.story.keepsakes` plus migrateSave.
+- Graduate tortoise, boar, carp, frost hare, lantern moth. Bees are live on Soft Paws.
+- Author item and decor arrays on remaining Chapter 1 chunks.
 - Han court proximity volume. Leave resets hearts.
 - Palace walk chunks and far layer.
-- Editor roster: bees, tortoise, boar under Chapter 1 Path, not Chapter 3 Later.
 - Han moon collider remains a separate TODO ([chapters.md](chapters.md)).
 
 ## Build waves
@@ -194,6 +191,6 @@ levels, Guanghan. Fifteen if the Pool map ships. Burrow Eve stays lore and has n
 [I8](../iterations/i8-w1-w2-density.md) Meadow through river density.
 [I9](../iterations/i9-festival-cloud-stair.md) festival and Cloud Stair.
 [I10](../iterations/i10-guanghan-palace.md) palace walk and proximity Han.
-Keepsakes can start in I7 and fill through I10.
+Keepsakes can start in I7 and fill through I10. First seed is live on the Pool map.
 
 Chapter 2 and 3 stay frozen except the roster note above.

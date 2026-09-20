@@ -104,7 +104,7 @@ Used on web today via Spawner. `reach` and later archetypes remain M3+.
 | frog | patrol | Story W2 |
 | owl | diver | Story W3 (enemy only) |
 | cat | reach | Story W3 |
-| bees | swarm | Meadow optional. Story Chapter 1 Path (I7-I8) |
+| bees | swarm | Meadow optional. Story Soft Paws |
 | tortoise | patrol | Story Chapter 1 Path (I8) |
 | boar | blocker | Story Chapter 1 Path (I8) |
 | goat | blocker | Endless (bamboo, osmanthus). Story I8 place |
