@@ -13,8 +13,8 @@ Invented ice spirit (霜魄). Not a canon snow god.
 
 ## Behaviour
 
-A slow drifting frost cloud that denies a step or a bridge. It has no single body
-to defeat. Route around it, or dash through. A dash passes safely.
+A slow drifting frost cloud of ice shards that denies a step or a bridge. It has no
+single body to defeat. Route around it, or dash through. A dash passes safely.
 
 ## Telegraph and counter
 
@@ -23,7 +23,8 @@ the cloud to drift off the step.
 
 ## Silhouette rule
 
-Loose oval mist, not a person. Reads as weather with a bite, not a named ghost.
+Loose ice shards with a trailing frost comma. Not a person. Reads as weather with a
+bite, not a named ghost.
 
 ## Bunny Jump
 

@@ -22,7 +22,7 @@ Telegraph: a silver glint in the cave dark. Counter: dash through, or wait.
 
 ## Silhouette rule
 
-Bright oval mist with a few specks. Not a palace lady. Not Cloud Stair ice.
+A four-point spark with a few motes. Not a palace lady. Not Cloud Stair ice.
 
 ## Bunny Jump
 

@@ -87,6 +87,8 @@ export type HanFightOpts = {
   speak?: (line: HanLine) => void
   platforms: Phaser.Physics.Arcade.StaticGroup
   clipExtras?: Phaser.GameObjects.GameObject[]
+  courtLeft?: number
+  courtRight?: number
   onBeamHurt?: (info: {
     dt: number
     ox: number
@@ -144,6 +146,8 @@ export class HanFight {
   private fxGfx: Phaser.GameObjects.Graphics
   private moon: Phaser.GameObjects.Image | null = null
   private gone = false
+  private courtLeft = 0
+  private courtRight = 0
 
   constructor(
     private scene: Phaser.Scene,
@@ -155,6 +159,8 @@ export class HanFight {
     opts: HanFightOpts,
   ) {
     this.worldWidth = worldWidth
+    this.courtLeft = opts.courtLeft ?? 0
+    this.courtRight = opts.courtRight ?? worldWidth
     this.reducedMotion = opts.reducedMotion
     this.speak = opts.speak
     this.platforms = opts.platforms
@@ -184,6 +190,7 @@ export class HanFight {
     this.fxGfx = scene.add.graphics().setDepth(10)
     ensurePalaceMoon(scene)
     this.pickRoam()
+    this.keepInCourt()
     this.say("full")
   }
 
@@ -263,6 +270,7 @@ export class HanFight {
     const locking = this.beamMode === "charge" || this.beamMode === "beam"
     if (locking) {
       this.sprite.setVelocity(0, 0)
+      this.keepInCourt()
     } else {
       this.roam(dt)
     }
@@ -379,9 +387,16 @@ export class HanFight {
     return 96
   }
 
-  private pickRoam(): void {
+  private roamPad(): { left: number; right: number } {
     const pad = 140
-    this.aimX = Phaser.Math.Between(pad, Math.max(pad + 40, this.worldWidth - pad))
+    const left = this.courtLeft + pad
+    const right = Math.max(left + 40, this.courtRight - pad)
+    return { left, right }
+  }
+
+  private pickRoam(): void {
+    const { left, right } = this.roamPad()
+    this.aimX = Phaser.Math.Between(left, right)
     this.aimY = Phaser.Math.Between(240, 520)
     this.roamT = 1.2 + Math.random() * 1.6
   }
@@ -397,8 +412,17 @@ export class HanFight {
     const dist = Math.hypot(dx, dy) || 1
     this.sprite.setVelocity((dx / dist) * speed, (dy / dist) * speed)
     this.sprite.setFlipX(this.player.x < this.sprite.x)
-    this.sprite.x = Phaser.Math.Clamp(this.sprite.x, 120, this.worldWidth - 120)
+    this.keepInCourt()
+  }
+
+  private keepInCourt(): void {
+    const { left, right } = this.roamPad()
+    this.sprite.x = Phaser.Math.Clamp(this.sprite.x, left, right)
     this.sprite.y = Phaser.Math.Clamp(this.sprite.y, 220, 560)
+    const body = this.sprite.body as Phaser.Physics.Arcade.Body | null
+    if (body) {
+      body.updateFromGameObject()
+    }
   }
 
   private aimAngle(): number {

@@ -129,8 +129,8 @@ Pages: [universe/environments/moon.md](universe/environments/moon.md),
 [universe/environments/guanghan-palace.md](universe/environments/guanghan-palace.md).
 
 [Han](creatures/folk/han.md), an old ghost of Vast Cold, keeps guests in the layered
-roofs. Enter the court AABB to start the fight. Leave the volume while he is not
-settled to cancel the fight and reset Han hearts. Mooncakes and spirit HUD only while
+roofs. Enter the court AABB to start the fight. Han stays inside that court. Leave the
+volume while he is not settled to cancel the fight and reset Han hearts. Mooncakes and spirit HUD only while
 the fight is live. Duck frost spears, eat a mooncake in the open, dash him while the
 warmth lasts.
 Five spirit hearts. Starfall after the second hit, both volleys on the last heart. From

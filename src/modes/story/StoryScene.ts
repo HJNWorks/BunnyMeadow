@@ -1779,6 +1779,8 @@ export class StoryScene extends Phaser.Scene {
           },
         platforms: this.platforms,
         clipExtras: this.movers.map((row) => row.sprite),
+        courtLeft: this.hanCourtLeft,
+        courtRight: this.hanCourtRight,
         onBeamHurt: (info) => {
           this.breaks?.hurtRay(info.ox, info.oy, info.ux, info.uy, info.len, info.dt, "beam")
         },
