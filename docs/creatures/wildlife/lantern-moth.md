@@ -1,6 +1,6 @@
 # Wildlife — Lantern Moth
 
-Status: planned (I9, I10). Class: Wildlife. Archetype: diver (weak). Hub:
+Status: live (Story Paper Lights). Palace halls wait I10. Class: Wildlife. Archetype: diver (weak). Hub:
 [../README.md](../README.md). Plain wildlife. The 扑火 image (drawn to festival light)
 is cultural, not a named immortal. No folk HP bar.
 
@@ -11,7 +11,7 @@ is cultural, not a named immortal. No folk HP bar.
 | Min tier | 3 |
 | Hearts | 1 |
 | Safe from above | no (airborne) |
-| Id | `lantern_moth` (later) |
+| Id | `lantern_moth` |
 
 ## Behaviour
 

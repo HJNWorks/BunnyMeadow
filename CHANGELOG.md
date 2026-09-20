@@ -8,6 +8,10 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Festival and Cloud Stair density (I9). Longer Paper Lights, First Steps, and
+  No Return. Cat, owl, lantern moth, frost hare, sparkler. Fourteen keepsakes.
+  Painted world map only. Iteration:
+  [docs/iterations/i9-festival-cloud-stair.md](docs/iterations/i9-festival-cloud-stair.md).
 - Meadow through river density (I8). Longer Soft Paths, Hedge Maze, Green Corridor,
   and Floating Logs. Dew, Earth mooncakes, carp water-patrol, eight keepsakes.
   `KEEPSAKE_EIGHT`. Iteration:

@@ -144,7 +144,7 @@ use this key. Moon letter stays Endless-only.
 | Field | Value |
 | --- | --- |
 | Category | run-buff |
-| Status | planned (I9) |
+| Status | live |
 | Effect | Brief lantern-class light. Same glow hook. No mist wall. Not a weapon |
 | Duration | timed |
 | Home biomes | lantern |
@@ -160,7 +160,7 @@ festival ash. Han still has no fireballs.
 | Field | Value |
 | --- | --- |
 | Category | keepsake |
-| Status | live (eight stations). More I9-I10 |
+| Status | live (fourteen stations). Guanghan I10 |
 | Effect | Increments `progress.story.keepsakes`. Unlocks Customize flecks and achievements. No hop power |
 | Duration | permanent collectible. Never respawns |
 | Home biomes | one hidden spawn per playable Chapter 1 station |

@@ -58,17 +58,17 @@ and the minimum tier at which the creature appears.
 | frog | patrol | bamboo, riverbank | 2 | live (Story Green Corridor) |
 | heron | reach | riverbank | 3 | live (Story Floating Logs). Raft boss stays folk |
 | carp | water_patrol | riverbank | 3 | live (Story Floating Logs) |
-| cat | reach | lantern, osmanthus | 3 | live (Story). Stamp unused on Chapter 1 chunks. I9 place |
-| owl | diver | lantern, osmanthus | 3 | live (Story). Stamp unused on Chapter 1 chunks. I9 place |
+| cat | reach | lantern, osmanthus | 3 | live (Story Paper Lights) |
+| owl | diver | lantern, osmanthus | 3 | live (Story Paper Lights) |
 | goat | blocker | bamboo, osmanthus | 3 | live (Story Green Corridor) |
 | boar | blocker | orchard, bamboo | 3 | live (Story Green Corridor) |
 | tortoise | patrol | meadow, riverbank | 1 | live (Story Soft Paths) |
 | magpie | diver | cloudsea | 4 | live (Story) |
 | frost wisp | swarm | cloudsea, moon (palace halls) | 4 | live (Story). Palace corridors I10 |
 | ice spit | ranged_lob | cloudsea | 4 | live (Story) |
-| frost hare | patrol / chaser | cloudsea | 4 | planned (I9). Invented 霜兔 |
-| lantern moth | diver | lantern, osmanthus, moon (palace) | 3 | planned (I9, I10) |
-| firefly | visual / optional glow | meadow, lantern | 1 | planned (I7 visual, I9) |
+| frost hare | patrol | cloudsea | 4 | live (Story First Steps, No Return). Invented 霜兔 |
+| lantern moth | diver | lantern, osmanthus, moon (palace) | 3 | live (Story Paper Lights). Palace halls I10 |
+| firefly | visual / optional glow | meadow, lantern | 1 | weather live. Pickup waits |
 | dust mite | swarm | moon (outer, dust) | 5 | live (Story). Chapter 2 only. Do not debut on Earth |
 | star wisp | swarm | moon (wells, silver, palace optional) | 5 | live (Story). Chapter 2. Optional Guanghan palace leak. Not the Stair |
 | pestle sentry | ranged_lob | moon (mortar) | 5 | live (Story). Chapter 2 only. Do not debut on Earth |

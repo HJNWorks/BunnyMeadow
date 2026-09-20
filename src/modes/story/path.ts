@@ -22,8 +22,6 @@ export type Ch3WorldId =
 
 export type StoryWorldId = Ch1WorldId | Ch2WorldId | Ch3WorldId
 
-export type StoryPathLayout = "ink" | "art"
-
 export type StoryStationKind = "lore" | "controls" | "level"
 
 export type StoryWorldStatus = "live" | "soon"
@@ -66,15 +64,6 @@ const CHAPTERS: StoryChapterNode[] = [
   { id: "ch3", status: "live" },
 ]
 
-const INK_POS: Record<Ch1WorldId, { x: number; y: number }> = {
-  w0: { x: 12, y: 78 },
-  w1: { x: 29, y: 61 },
-  w2: { x: 46, y: 46 },
-  w3: { x: 64, y: 32 },
-  w4: { x: 81, y: 50 },
-  moon: { x: 82, y: 18 },
-}
-
 const ART_POS: Record<Ch1WorldId, { x: number; y: number }> = {
   w0: { x: 24, y: 78 },
   w1: { x: 24, y: 48 },
@@ -84,15 +73,6 @@ const ART_POS: Record<Ch1WorldId, { x: number; y: number }> = {
   moon: { x: 84, y: 23 },
 }
 
-const CH2_INK_POS: Record<Ch2WorldId, { x: number; y: number }> = {
-  ch2_outer: { x: 12, y: 80 },
-  ch2_cassia: { x: 29, y: 58 },
-  ch2_mortar: { x: 47, y: 48 },
-  ch2_dust: { x: 64, y: 72 },
-  ch2_wells: { x: 78, y: 46 },
-  ch2_silver: { x: 86, y: 20 },
-}
-
 const CH2_ART_POS: Record<Ch2WorldId, { x: number; y: number }> = {
   ch2_outer: { x: 14, y: 72 },
   ch2_cassia: { x: 30, y: 34 },
@@ -100,15 +80,6 @@ const CH2_ART_POS: Record<Ch2WorldId, { x: number; y: number }> = {
   ch2_dust: { x: 74, y: 78 },
   ch2_wells: { x: 82, y: 42 },
   ch2_silver: { x: 88, y: 16 },
-}
-
-const CH3_INK_POS: Record<Ch3WorldId, { x: number; y: number }> = {
-  ch3_shore: { x: 18, y: 80 },
-  ch3_water: { x: 22, y: 42 },
-  ch3_ridges: { x: 46, y: 52 },
-  ch3_peach: { x: 78, y: 50 },
-  ch3_grotto: { x: 52, y: 18 },
-  ch3_pool: { x: 86, y: 16 },
 }
 
 const CH3_ART_POS: Record<Ch3WorldId, { x: number; y: number }> = {
@@ -476,19 +447,19 @@ function isCh3World(id: StoryWorldId): id is Ch3WorldId {
   return id.startsWith("ch3_")
 }
 
-function posFor(id: StoryWorldId, layout: StoryPathLayout): { x: number; y: number } | undefined {
+function posFor(id: StoryWorldId): { x: number; y: number } | undefined {
   if (isCh3World(id)) {
-    return layout === "art" ? CH3_ART_POS[id] : CH3_INK_POS[id]
+    return CH3_ART_POS[id]
   }
   if (isCh2World(id)) {
-    return layout === "art" ? CH2_ART_POS[id] : CH2_INK_POS[id]
+    return CH2_ART_POS[id]
   }
-  return layout === "art" ? ART_POS[id] : INK_POS[id]
+  return ART_POS[id]
 }
 
-function positionedWorlds(layout: StoryPathLayout, chapter: StoryChapterId = "ch1"): StoryWorldNode[] {
+function positionedWorlds(chapter: StoryChapterId = "ch1"): StoryWorldNode[] {
   return WORLD_DEFS.filter((def) => def.chapter === chapter).flatMap((def) => {
-    const pos = posFor(def.id, layout)
+    const pos = posFor(def.id)
     if (!pos) {
       return []
     }
@@ -591,23 +562,22 @@ export function isChapterUnlocked(save: SaveV1, chapter: StoryChapterId): boolea
   return false
 }
 
-export function listWorlds(layout: StoryPathLayout = "ink", chapter: StoryChapterId = "ch1"): StoryWorldNode[] {
-  return positionedWorlds(layout, chapter)
+export function listWorlds(chapter: StoryChapterId = "ch1"): StoryWorldNode[] {
+  return positionedWorlds(chapter)
 }
 
-export function listAllWorlds(layout: StoryPathLayout = "ink"): StoryWorldNode[] {
-  return [...listWorlds(layout, "ch1"), ...listWorlds(layout, "ch2"), ...listWorlds(layout, "ch3")]
+export function listAllWorlds(): StoryWorldNode[] {
+  return [...listWorlds("ch1"), ...listWorlds("ch2"), ...listWorlds("ch3")]
 }
 
 export function findOverlappingWorldNodes(
-  layout: StoryPathLayout = "ink",
   frameW = 980,
   frameH = 420,
   cardW = 160,
   cardH = 96,
   chapter: StoryChapterId = "ch1",
 ): string[] {
-  const worlds = positionedWorlds(layout, chapter)
+  const worlds = positionedWorlds(chapter)
   const halfW = (cardW / frameW) * 50
   const halfH = (cardH / frameH) * 50
   const hits: string[] = []
@@ -625,8 +595,8 @@ export function findOverlappingWorldNodes(
   return hits
 }
 
-export function getWorld(id: StoryWorldId, layout: StoryPathLayout = "ink"): StoryWorldNode | undefined {
-  return listAllWorlds(layout).find((world) => world.id === id)
+export function getWorld(id: StoryWorldId): StoryWorldNode | undefined {
+  return listAllWorlds().find((world) => world.id === id)
 }
 
 export function getStation(id: string): StoryStation | undefined {

@@ -62,7 +62,7 @@ export function envForEditorLevel(level: StoryLevelDef): string {
 
 export function listEditorWorldIndex(chapter?: StoryChapterId): EditorWorldEntry[] {
   const playable = new Map(listStoryLevels().map((level) => [level.id, level]))
-  const worlds = chapter ? listWorlds("ink", chapter) : listAllWorlds()
+  const worlds = chapter ? listWorlds(chapter) : listAllWorlds()
   return worlds.map((world) => {
     const stations = world.stationIds
       .map((id) => getStation(id))

@@ -1,0 +1,26 @@
+{
+  "id": "chunk_stair_lanterns",
+  "width": 960,
+  "height": 1080,
+  "groundY": 1080,
+  "platforms": [
+    { "x": 0, "y": 820, "w": 160, "h": 24 },
+    { "x": 220, "y": 740, "w": 120, "h": 24 },
+    { "x": 420, "y": 660, "w": 130, "h": 24 },
+    { "x": 640, "y": 600, "w": 120, "h": 24 },
+    { "x": 820, "y": 620, "w": 140, "h": 24 }
+  ],
+  "walls": [],
+  "enemies": [
+    { "id": "frost_hare", "x": 480, "y": 620 }
+  ],
+  "items": [
+    { "id": "osmanthus_seed", "x": 280, "y": 708 }
+  ],
+  "decor": [
+    { "kind": "lantern", "x": 40, "y": 772, "w": 24, "h": 40 },
+    { "kind": "lantern", "x": 460, "y": 612, "w": 24, "h": 40 },
+    { "kind": "lantern", "x": 860, "y": 572, "w": 24, "h": 40 }
+  ],
+  "color": "#8aa8c8"
+}

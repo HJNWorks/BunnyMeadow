@@ -27,8 +27,8 @@ and the milestone list stay in [../ROADMAP.md](../ROADMAP.md).
 | [I6](i6-chapter1-docs.md) (done) | Chapter 1 docs lock | lore gates, station briefs, I7-I10 shells |
 | [I7](i7-w0-pool.md) (done) | Moon in the Pool + Soft Paws | controls map, creature intro, first seed |
 | [I8](i8-w1-w2-density.md) (done) | Meadow through river | density, Path ids, dew, mooncakes |
-| [I9](i9-festival-cloud-stair.md) (current) | Festival + Cloud Stair | lantern village, frost hare, Earth gravity |
-| [I10](i10-guanghan-palace.md) | Guanghan palace walk | walk, proximity Han, far layer |
+| [I9](i9-festival-cloud-stair.md) (done) | Festival + Cloud Stair | lantern village, frost hare, sparkler |
+| [I10](i10-guanghan-palace.md) (current) | Guanghan palace walk | walk, proximity Han, far layer |
 
 ## Relationship to milestones
 

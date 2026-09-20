@@ -11,5 +11,8 @@
   ],
   "walls": [],
   "enemies": [],
+  "items": [
+    { "id": "osmanthus_seed", "x": 260, "y": 788 }
+  ],
   "color": "#322940"
 }

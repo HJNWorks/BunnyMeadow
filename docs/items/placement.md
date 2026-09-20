@@ -40,7 +40,7 @@ A slot's `allow` list intersects the table: only items in both can appear.
 
 Story Chapter 1 authors pickups on maps. Keepsakes are
 not Endless weights. They are unique station spawns. Dew is Story-authored and stays
-off this Endless table. Sparkler waits I9. No heart sprite column.
+off this Endless table. Sparkler is Story-authored. No heart sprite column.
 
 ## The lantern and the mist wall
 

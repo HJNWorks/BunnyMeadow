@@ -25,7 +25,7 @@ Below is empty cloud. One fall fails the station. Soft copy, not gore. This is a
 exception to Moon Pool on every playable level.
 
 4-1 First Steps may keep a pool near spawn. 4-2 No Return and 4-3 Closing Gale set
-`noCheckpoint`. There is no mid-run restore. I9 lengthens 4-1 and 4-2. 4-3 stays the
+`noCheckpoint`. There is no mid-run restore. 4-1 and 4-2 are four chunks. 4-3 stays the
 gale chase into the palace gate, not the throne.
 
 The stair is guarded by wind, frost wisps, ice spit, gale magpies, and frost hares.
@@ -42,7 +42,7 @@ Wildlife (Story):
 | frost wisp | swarm | Slow cloud. Dash passes through |
 | ice spit | ranged_lob | Frost pebble along an aim ray |
 | gale magpie | diver | Ordinary wind-borne wildlife. Not a Qixi plot |
-| frost hare | patrol / chaser | Invented 霜兔. I9. Not Yutu |
+| frost hare | patrol | Invented 霜兔. Live on First Steps and No Return. Not Yutu |
 
 Folk event: Closing Gale (left chase wall on 4-3). Not a named immortal HP bar.
 

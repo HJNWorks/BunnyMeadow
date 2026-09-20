@@ -5,6 +5,7 @@
     { "id": "mooncake", "category": "restore", "weightKey": "mooncake" },
     { "id": "osmanthus_blossom", "category": "run-buff", "weightKey": "blossom" },
     { "id": "dew", "category": "run-buff", "weightKey": "dew" },
+    { "id": "sparkler", "category": "run-buff", "weightKey": "sparkler" },
     { "id": "lantern", "category": "run-buff", "weightKey": "lantern" },
     { "id": "star_grit", "category": "run-buff", "weightKey": "star_grit" },
     { "id": "elixir_crumb", "category": "run-buff", "weightKey": "elixir_crumb" },

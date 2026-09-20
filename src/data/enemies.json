@@ -235,6 +235,92 @@
       "notes": "Stays in the water band. Breach slap"
     },
     {
+      "id": "cat",
+      "archetype": "reach",
+      "displayName": "Cat",
+      "homeBiomes": ["lantern", "osmanthus"],
+      "minTier": 3,
+      "senseRange": 280,
+      "attackRange": 40,
+      "telegraphTime": 0.45,
+      "cooldown": 1.6,
+      "speed": 20,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "cat_idle",
+        "move": "cat_idle",
+        "attack": "cat_swipe",
+        "hurt": "cat_hurt"
+      }
+    },
+    {
+      "id": "owl",
+      "archetype": "diver",
+      "displayName": "Owl",
+      "homeBiomes": ["lantern", "osmanthus"],
+      "minTier": 3,
+      "senseRange": 420,
+      "attackRange": 36,
+      "telegraphTime": 0.4,
+      "cooldown": 1.1,
+      "speed": 150,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "owl_idle",
+        "move": "owl_circle",
+        "attack": "owl_dive",
+        "hurt": "owl_hurt"
+      }
+    },
+    {
+      "id": "frost_hare",
+      "archetype": "patrol",
+      "displayName": "Frost Hare",
+      "homeBiomes": ["cloudsea"],
+      "minTier": 4,
+      "senseRange": 220,
+      "attackRange": 24,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 70,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "frost_hare_idle",
+        "move": "frost_hare_hop",
+        "attack": "frost_hare_hop",
+        "hurt": "frost_hare_hurt"
+      },
+      "notes": "Not Yutu. Hop patrol. Chase in sense range"
+    },
+    {
+      "id": "lantern_moth",
+      "archetype": "diver",
+      "displayName": "Lantern Moth",
+      "homeBiomes": ["lantern", "osmanthus"],
+      "minTier": 3,
+      "senseRange": 360,
+      "attackRange": 28,
+      "telegraphTime": 0.3,
+      "cooldown": 1.1,
+      "speed": 90,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "moth_idle",
+        "move": "moth_drift",
+        "attack": "moth_stoop",
+        "hurt": "moth_hurt"
+      },
+      "notes": "Dash passes through. Weak stoop toward lanterns"
+    },
+    {
       "id": "frost_wisp",
       "archetype": "swarm",
       "displayName": "Frost Wisp",

@@ -16,6 +16,9 @@
     { "id": "frost_wisp", "x": 560, "y": 240 },
     { "id": "ice_spit", "x": 680, "y": 248 }
   ],
+  "items": [
+    { "id": "osmanthus_seed", "x": 860, "y": 208 }
+  ],
   "movers": [
     {
       "x": 500,

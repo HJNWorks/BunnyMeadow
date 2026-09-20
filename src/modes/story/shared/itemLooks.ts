@@ -10,6 +10,7 @@ const LOOKS: ItemLook[] = [
   { id: "osmanthus_blossom", texture: "story_item_osmanthus_blossom", source: "story_blossom" },
   { id: "osmanthus_seed", texture: "story_item_osmanthus_seed", source: "story_seed" },
   { id: "dew", texture: "story_item_dew", source: "story_dew" },
+  { id: "sparkler", texture: "story_item_sparkler", source: "story_sparkler" },
   { id: "lantern", texture: "story_item_lantern", source: "story_lantern" },
   { id: "star_grit", texture: "story_item_star_grit", source: "story_grit" },
   { id: "elixir_crumb", texture: "story_item_elixir_crumb", source: "story_elixir" },

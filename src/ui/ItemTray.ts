@@ -59,6 +59,9 @@ export const ITEM_TRAY_CSS = `
 .bm-item-icon.is-dew {
   background: radial-gradient(circle at 35% 35%, #d8f4ff, #6aa8c8);
 }
+.bm-item-icon.is-sparkler {
+  background: radial-gradient(circle at 35% 35%, #ffe08a, #e07040);
+}
 `
 
 export function bindItemTray(root: HTMLElement): HTMLElement {

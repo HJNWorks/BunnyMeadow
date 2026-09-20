@@ -1,9 +1,27 @@
 # Iteration I9 — Festival and Cloud Stair
 
-Status: current. Hub: [README.md](README.md). Design:
+Status: live. Hub: [README.md](README.md). Design:
 [../story/chapter1-overhaul.md](../story/chapter1-overhaul.md).
 
-I8 is live. This wave turns Paper Lights into a festival village: stalls, lantern
-strings, firefly weather, sparkler VFX. Place cat and owl. Lengthen First Steps and
-No Return. Frost hare. Cloud Stair stays Earth gravity. Vast Cold leaks down. Not
-lunar ground. Closing Gale still chases into the palace gate, not the throne.
+Paper Lights is a festival village. Cat, owl, and lantern moth sit on Earth night
+maps. First Steps and No Return are longer. Frost hare hops the Cloud Stair.
+Sparkler is a short glow. Fourteen stations hide osmanthus seeds. The painted world
+map is the only path. No palace walk.
+
+## Deltas
+
+- Chunks `chunk_lantern_street`, `chunk_lantern_rooftop`, `chunk_stair_lanterns`,
+  `chunk_stair_gap`, `chunk_stair_ice`, `chunk_stair_drop`
+- `sparkler` pickup. `frost_hare` hop patrol. `lantern_moth` weak diver
+- Seeds on Paper Lights through Closing Gale
+- Ink-path toggle and `inkBrushPath` removed. Painted map only
+- No `package.json` bump
+
+## Still later
+
+I10 palace walk, proximity Han, Guanghan far layer. Full-set keepsake. Han moon
+collider. Firefly pickup. Palace moths.
+
+## Ship
+
+Pages updates when the files land on `main`.

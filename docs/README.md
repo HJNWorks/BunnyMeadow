@@ -95,7 +95,8 @@ entry there.
 
 - Story milestones M0-M5 are done. Web iterations I1-I4 are done (`v0.2.0`). I5 is
   Bunny Jump live. I6 is the Chapter 1 docs lock. I7 is Moon in the Pool live. I8 is
-  meadow through river live. Current track is I9 festival and Cloud Stair. The remaining desktop and store milestones (M6-M8) are
+  meadow through river live. I9 is festival and Cloud Stair live. Current track is I10
+  Guanghan palace walk. The remaining desktop and store milestones (M6-M8) are
   postponed. See [ROADMAP.md](ROADMAP.md).
 - Web iterations live under [iterations/](iterations/README.md).
   Each iteration has one page listing its data and doc deltas.

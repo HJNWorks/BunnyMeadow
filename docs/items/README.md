@@ -35,9 +35,9 @@ Full entries on [catalog.md](catalog.md).
 | osmanthus blossom | run-buff | one extra glide charge | live |
 | lantern | run-buff | pushes the mist back 80 m, brief lantern glow | live |
 | dew | run-buff | short slow-time | live on Soft Paths |
-| sparkler | run-buff | lantern-class timed light. Not a weapon | planned (I9) |
+| sparkler | run-buff | lantern-class timed light. Not a weapon | live on Paper Lights |
 | firefly (pickup) | run-buff | brief glow. No mist wall | planned |
-| osmanthus seed | keepsake | one hidden spawn per playable station | live on eight stations. More I9-I10 |
+| osmanthus seed | keepsake | one hidden spawn per playable station | live on fourteen stations. Guanghan I10 |
 | heart sprite | - | do not ship. Mooncake already restores | skipped |
 | moon letter | key | opens the sky/moon edges in Endless | idea |
 | cosmetic drop | cosmetic | ancestor of keepsakes. Prefer osmanthus seed | idea |
@@ -54,5 +54,5 @@ that weights what fills a slot. This is the same slot idea used for enemies. See
 Today carrots, mooncakes, blossoms, and lanterns come from item slots filled by
 `EndlessGenerator.fill` against `src/data/items.json`. `carrotChance` is the chance a
 slot is filled. Empty rolls stay empty. Moon in the Pool authors one osmanthus seed.
-Meadow through river author dew, mooncakes, and more seeds. Remaining Chapter 1 Story
-chunks wait until I9-I10 for lanterns, blossoms, and festival pickups. No heart sprite.
+Meadow through river author dew, mooncakes, and more seeds. Festival and Stair author
+lanterns, blossoms, sparkler, and more seeds. Guanghan keepsake waits I10. No heart sprite.

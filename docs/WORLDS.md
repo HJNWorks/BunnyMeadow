@@ -73,17 +73,17 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| 3-1 Paper Lights | lantern | lantern glide. Festival village, fireflies, sparkler, place cat and owl (I9) | Moon Pool | live. Lengthen to 5-6 chunks |
-| 3-2 Tiger Road | osmanthus | tiger ride (Tu'er Ye) | Moon Pool | live |
-| 3-3 Crane Summit | osmanthus | boss: Crane Envoy | Ride to the Cloud Stair | live |
+| 3-1 Paper Lights | lantern | lantern glide. Festival village, fireflies, sparkler, cat, owl, moth | Moon Pool | live. 5 chunks |
+| 3-2 Tiger Road | osmanthus | tiger ride (Tu'er Ye). Seed off the ride | Moon Pool | live |
+| 3-3 Crane Summit | osmanthus | boss: Crane Envoy. Seed off the dive | Ride to the Cloud Stair | live |
 
 ### World 4 — Cloud Stair
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| 4-1 First Steps | cloudsea | stair climb, one hanging bridge. Earth gravity. Frost hare (I9) | Moon Pool near spawn | live. Lengthen to 4-6 chunks |
-| 4-2 No Return | cloudsea | denser frost, two bridges, no mid save. Frost hare (I9) | Station restart on fall | live. Lengthen to 4-6 chunks |
-| 4-3 Closing Gale | cloudsea | left storm wall (Fox Hu timing) | Palace gate, not the throne / world clear | live |
+| 4-1 First Steps | cloudsea | stair climb, hanging bridge. Earth gravity. Frost hare, faded lanterns | Moon Pool near spawn | live. 4 chunks |
+| 4-2 No Return | cloudsea | denser frost, bridges, no mid save. Frost hare | Station restart on fall | live. 4 chunks |
+| 4-3 Closing Gale | cloudsea | left storm wall (Fox Hu timing). Seed off the gale | Palace gate, not the throne / world clear | live |
 
 ### Finale
 

@@ -1,10 +1,8 @@
 import Phaser from "phaser"
-import { getContentFlags } from "../../core/ModeContext"
 import { getSave, persistSave } from "../../core/session"
 import { mountDomShell, requireEl } from "../../ui/DomShell"
 import { t } from "../../core/i18n"
 import { getAudio } from "../../core/audio"
-import { buildInkBrushSvg, inkProgressForWorlds } from "../../ui/inkBrushPath"
 import {
   chapterOfWorld,
   defaultExpandedWorld,
@@ -18,13 +16,10 @@ import {
   listWorlds,
   worldClearCount,
   type StoryChapterId,
-  type StoryPathLayout,
   type StoryStation,
   type StoryWorldId,
 } from "./path"
 import { mountStoryMapArt } from "./mapArt"
-
-const MAP_LAYOUT_KEY = "bunnymeadow.storyMapLayout"
 
 const PATH_CSS = `
 .story-path-shell { max-width: 1100px; }
@@ -57,28 +52,6 @@ const PATH_CSS = `
 .story-path-frame.is-art:not(.is-art-ready) .story-path-art,
 .story-path-frame.is-art:not(.is-art-ready) .story-path-node {
   visibility: hidden;
-}
-.story-path-svg, .story-ink-svg { width: 100%; height: 420px; display: block; }
-.story-path-frame.is-art .story-ink-svg { display: none; }
-.story-ink-drawn .story-ink-stroke {
-  stroke-dasharray: 1200;
-  stroke-dashoffset: 1200;
-  animation: story-ink-draw 1.6s ease forwards;
-}
-.story-ink-drawn .story-ink-ribbon {
-  opacity: 0;
-  animation: story-ink-fade 1.2s ease 0.2s forwards;
-}
-.story-ink-ghost { pointer-events: none; }
-@keyframes story-ink-draw {
-  to { stroke-dashoffset: 0; }
-}
-@keyframes story-ink-fade {
-  to { opacity: 0.18; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .story-ink-drawn .story-ink-stroke,
-  .story-ink-drawn .story-ink-ribbon { animation: none; stroke-dashoffset: 0; opacity: 0.18; }
 }
 .story-path-node {
   position: absolute;
@@ -176,29 +149,10 @@ const PATH_CSS = `
 .story-path-dev { margin-left: auto; opacity: 0.72; font-size: 12px; }
 `
 
-function readLayoutPreference(fallback: StoryPathLayout): StoryPathLayout {
-  try {
-    const raw = sessionStorage.getItem(MAP_LAYOUT_KEY)
-    if (raw === "ink" || raw === "art") {
-      return raw
-    }
-  } catch {
-  }
-  return fallback
-}
-
-function writeLayoutPreference(layout: StoryPathLayout): void {
-  try {
-    sessionStorage.setItem(MAP_LAYOUT_KEY, layout)
-  } catch {
-  }
-}
-
 export class WorldMapScene extends Phaser.Scene {
   private expanded: StoryWorldId = "w0"
   private chapter: StoryChapterId = "ch1"
   private beatRoot: HTMLElement | null = null
-  private layout: StoryPathLayout = "ink"
 
   constructor() {
     super("WorldMap")
@@ -207,29 +161,14 @@ export class WorldMapScene extends Phaser.Scene {
   create(data?: { chapter?: StoryChapterId }): void {
     getAudio().playMusic("menu")
     const save = getSave()
-    const flags = getContentFlags()
-    const defaultLayout: StoryPathLayout = flags.storyMapArt ? "art" : "ink"
-    this.layout = flags.storyMapArt ? readLayoutPreference(defaultLayout) : "ink"
     const suggested = defaultExpandedWorld(save)
     this.chapter = data?.chapter ?? chapterOfWorld(suggested)
     if (!isChapterUnlocked(save, this.chapter)) {
       this.chapter = "ch1"
     }
-    const worlds = listWorlds(this.layout, this.chapter)
+    const worlds = listWorlds(this.chapter)
     const inChapter = worlds.find((world) => world.id === suggested)
     this.expanded = inChapter ? suggested : (worlds[0]?.id ?? "w0")
-    const inkPoints = worlds.map((world) => ({
-      x: (world.x / 100) * 1000,
-      y: (world.y / 100) * 420,
-    }))
-    const progress = inkProgressForWorlds(worlds, (id) => isWorldUnlocked(save, id as StoryWorldId))
-    const inkSvg = buildInkBrushSvg(inkPoints, {
-      progress,
-      feathers: 5,
-      seed: 11,
-      ink: "#2c3a28",
-      ghostInk: "#6f804844",
-    })
 
     const nodes = worlds
       .map((world) => {
@@ -283,20 +222,12 @@ export class WorldMapScene extends Phaser.Scene {
         <h1>${t(`story.path.title.${this.chapter}`)}</h1>
         <p class="bm-tagline" data-ui="pathTagline">${t(`story.path.tagline.${this.chapter}`)}</p>
         <div class="story-path-chapters">${chapterChips}</div>
-        <div class="story-path-frame${this.layout === "art" ? " is-art" : ""}" data-ui="frame">
-          ${inkSvg}
+        <div class="story-path-frame is-art" data-ui="frame">
           ${nodes}
         </div>
         <div class="story-path-rail" data-ui="rail"></div>
         <div class="bm-actions bm-start">
           <button type="button" class="bm-btn ghost" data-ui="back">${t("common.modes")}</button>
-          ${
-            flags.storyMapArt
-              ? `<button type="button" class="bm-btn ghost story-path-dev" data-ui="toggleMap">${
-                  this.layout === "art" ? t("story.path.ink") : t("story.path.art")
-                }</button>`
-              : ""
-          }
           <button type="button" class="bm-btn ghost story-path-dev" data-ui="devReset">${t("story.path.devReset")}</button>
         </div>
       </div>
@@ -314,9 +245,7 @@ export class WorldMapScene extends Phaser.Scene {
 
     this.beatRoot = requireEl<HTMLElement>(root, "[data-ui=beat]")
     const frame = requireEl<HTMLElement>(root, "[data-ui=frame]")
-    if (this.layout === "art") {
-      mountStoryMapArt(frame, this.chapter)
-    }
+    mountStoryMapArt(frame, this.chapter)
     const rail = requireEl<HTMLElement>(root, "[data-ui=rail]")
     const tagline = requireEl<HTMLElement>(root, "[data-ui=pathTagline]")
 
@@ -387,16 +316,6 @@ export class WorldMapScene extends Phaser.Scene {
     requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {
       getAudio().playSfx("cancel")
       this.scene.start("ModeSelect")
-    }
-
-    const toggleMap = root.querySelector("[data-ui=toggleMap]") as HTMLButtonElement | null
-    if (toggleMap) {
-      toggleMap.onclick = () => {
-        getAudio().playSfx("confirm")
-        const next: StoryPathLayout = this.layout === "art" ? "ink" : "art"
-        writeLayoutPreference(next)
-        this.scene.restart()
-      }
     }
 
     requireEl<HTMLButtonElement>(root, "[data-ui=devReset]").onclick = () => {

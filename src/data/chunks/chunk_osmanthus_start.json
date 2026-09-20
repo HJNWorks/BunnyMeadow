@@ -13,5 +13,8 @@
   "enemies": [
     { "id": "hedgehog", "x": 760, "y": 810 }
   ],
+  "items": [
+    { "id": "osmanthus_seed", "x": 270, "y": 848 }
+  ],
   "color": "#4a3f55"
 }

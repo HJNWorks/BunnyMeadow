@@ -17,8 +17,7 @@ ordinary night enemies only, never Moon servants. See
 ## Behaviour
 
 Circles overhead, then dives along a shown line. The night counterpart to the crow:
-vertical threat instead of a lobbed arc. Stamp and Path roster are live. No Chapter 1
-chunk places this id yet. I9 placement.
+vertical threat instead of a lobbed arc. Live on Paper Lights.
 
 ## Telegraph and counter
 

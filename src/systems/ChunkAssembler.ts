@@ -18,7 +18,9 @@ import chunkRiverLogs from "../data/chunks/chunk_river_logs.json"
 import chunkRiverReach from "../data/chunks/chunk_river_reach.json"
 import chunkRiverPool from "../data/chunks/chunk_river_pool.json"
 import chunkLanternStart from "../data/chunks/chunk_lantern_start.json"
+import chunkLanternStreet from "../data/chunks/chunk_lantern_street.json"
 import chunkLanternGlide from "../data/chunks/chunk_lantern_glide.json"
+import chunkLanternRooftop from "../data/chunks/chunk_lantern_rooftop.json"
 import chunkLanternPool from "../data/chunks/chunk_lantern_pool.json"
 import chunkOsmanthusStart from "../data/chunks/chunk_osmanthus_start.json"
 import chunkOsmanthusRide from "../data/chunks/chunk_osmanthus_ride.json"
@@ -35,9 +37,13 @@ import chunkCraneB from "../data/chunks/chunk_crane_b.json"
 import chunkMoonA from "../data/chunks/chunk_moon_a.json"
 import chunkMoonB from "../data/chunks/chunk_moon_b.json"
 import chunkStairStart from "../data/chunks/chunk_stair_start.json"
+import chunkStairLanterns from "../data/chunks/chunk_stair_lanterns.json"
 import chunkStairAscent from "../data/chunks/chunk_stair_ascent.json"
+import chunkStairGap from "../data/chunks/chunk_stair_gap.json"
 import chunkStairMidA from "../data/chunks/chunk_stair_mid_a.json"
+import chunkStairIce from "../data/chunks/chunk_stair_ice.json"
 import chunkStairMidB from "../data/chunks/chunk_stair_mid_b.json"
+import chunkStairDrop from "../data/chunks/chunk_stair_drop.json"
 import chunkStairGaleA from "../data/chunks/chunk_stair_gale_a.json"
 import chunkStairGaleB from "../data/chunks/chunk_stair_gale_b.json"
 import chunkCh2OuterA from "../data/chunks/chunk_ch2_outer_a.json"
@@ -195,7 +201,9 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_river_reach: chunkRiverReach as ChunkDef,
   chunk_river_pool: chunkRiverPool as ChunkDef,
   chunk_lantern_start: chunkLanternStart as ChunkDef,
+  chunk_lantern_street: chunkLanternStreet as ChunkDef,
   chunk_lantern_glide: chunkLanternGlide as ChunkDef,
+  chunk_lantern_rooftop: chunkLanternRooftop as ChunkDef,
   chunk_lantern_pool: chunkLanternPool as ChunkDef,
   chunk_osmanthus_start: chunkOsmanthusStart as ChunkDef,
   chunk_osmanthus_ride: chunkOsmanthusRide as ChunkDef,
@@ -212,9 +220,13 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_moon_a: chunkMoonA as ChunkDef,
   chunk_moon_b: chunkMoonB as ChunkDef,
   chunk_stair_start: chunkStairStart as ChunkDef,
+  chunk_stair_lanterns: chunkStairLanterns as ChunkDef,
   chunk_stair_ascent: chunkStairAscent as ChunkDef,
+  chunk_stair_gap: chunkStairGap as ChunkDef,
   chunk_stair_mid_a: chunkStairMidA as ChunkDef,
+  chunk_stair_ice: chunkStairIce as ChunkDef,
   chunk_stair_mid_b: chunkStairMidB as ChunkDef,
+  chunk_stair_drop: chunkStairDrop as ChunkDef,
   chunk_stair_gale_a: chunkStairGaleA as ChunkDef,
   chunk_stair_gale_b: chunkStairGaleB as ChunkDef,
   chunk_ch2_outer_a: chunkCh2OuterA as ChunkDef,

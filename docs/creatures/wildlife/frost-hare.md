@@ -1,6 +1,6 @@
 # Wildlife — Frost Hare
 
-Status: planned (I9). Class: Wildlife. Archetype: patrol or chaser. Hub:
+Status: live (Story First Steps, No Return). Class: Wildlife. Archetype: patrol. Hub:
 [../README.md](../README.md). Invented: [../../LORE.md](../../LORE.md).
 
 Ordinary mountain hares bleached and agitated by Vast Cold leaking down the Cloud Stair.
@@ -13,7 +13,7 @@ Not Yutu. Not Mei or Yue as kits. Not a moon immortal. Family fail is retry.
 | Min tier | 4 |
 | Hearts | 1 |
 | Safe from above | yes (hop-over) |
-| Id | `frost_hare` (later) |
+| Id | `frost_hare` |
 
 ## Behaviour
 

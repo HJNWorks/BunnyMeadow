@@ -93,7 +93,7 @@ Sparkler and firework bursts as scenery, not a weapon. Stalls and hanging lanter
 
 Boss: the Crane Envoy. It realizes the mistake and carries Mei to the foot of the Cloud Stair, not the palace door.
 
-Live stations: Paper Lights (hold jump to glide), Tiger Road (scripted tiger ride), Crane Summit (dive telegraph, soft bow exit). I9 lengthens Paper Lights more than the scripted rides. Place cat and owl. Lantern and mooncake pickups.
+Live stations: Paper Lights (hold jump to glide, festival village), Tiger Road (scripted tiger ride), Crane Summit (dive telegraph, soft bow exit). Paper Lights is five chunks. Cat, owl, and lantern moth sit on the village. Lantern, mooncake, sparkler, and blossom pickups.
 
 Mechanics: lantern glide, tiger ride, wind.
 
@@ -108,9 +108,9 @@ leaks down from Guanghan. Wind, void, frost wisps, ice spit, gale magpies, frost
 Hanging bridges sway. One fall fails the station. Soft copy ("the cloud took you").
 Optional faded festival lanterns as Earth remnant, not palace jade.
 
-Live stations: First Steps (short stair, one bridge, a pool near spawn), No Return
-(no Moon Pool, denser ice, two bridges), Closing Gale (left storm wall like Fox Hu's
-cart. Reach the palace gate, not the throne). I9 lengthens 4-1 and 4-2.
+Live stations: First Steps (stair, faded lanterns, frost hare, a pool near spawn), No Return
+(no Moon Pool, denser ice, frost hares), Closing Gale (left storm wall like Fox Hu's
+cart. Reach the palace gate, not the throne). 4-1 and 4-2 are four chunks each.
 
 Boss: the Closing Gale, a weather event, not a named immortal
 ([creatures/folk/closing-gale.md](creatures/folk/closing-gale.md)).

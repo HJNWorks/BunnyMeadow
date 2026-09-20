@@ -1,6 +1,7 @@
 # Chapter 1 overhaul
 
 Status: I6 docs lock done. I7 Pool and Soft Paws live. I8 meadow through river live.
+I9 festival and Cloud Stair live.
 Hub: [chapters.md](chapters.md).
 Spine: [../STORY.md](../STORY.md). Folklore: [../LORE.md](../LORE.md). Path map:
 [../WORLDS.md](../WORLDS.md). Build order:
@@ -17,15 +18,16 @@ Readers here are not assumed to have the codebase open.
 Sixteen stations. One lore beat (Burrow Eve). Moon in the Pool is a playable controls
 map. Soft Paws plus twelve path levels plus Guanghan.
 
-Most maps are two or three chunks of 960 px (chase chunks 1200). Guanghan is two chunks
+Most maps are two to five chunks of 960 px (chase chunks 1200). Guanghan is two chunks
 with no wildlife. Mooncakes on Guanghan are spawned at runtime. Moon in the Pool authors one osmanthus
-seed, carrots, and kit decor. Soft Paws through Raft Gauntlet hide further seeds.
+seed, carrots, and kit decor. Soft Paws through Closing Gale hide further seeds.
 I8 Chapter 1 chunks author dew, mooncakes, and Path critters on meadow through river.
+I9 authors festival and Cloud Stair density.
 
 Path filler is hedgehog, crow, plus the I8 Path ids on the lengthened maps. Soft Paws
-places hedgehog, fox, and bees.
+places hedgehog, fox, and bees. Paper Lights places cat, owl, and lantern moth.
 
-Cat and owl wait for I9. Dust mite, star wisp, and pestle sentry sit in the Cloud
+Dust mite, star wisp, and pestle sentry sit in the Cloud
 Stair / Guanghan picker. They ship on Chapter 2 chunks only. They do not debut on
 Earth.
 
@@ -114,9 +116,9 @@ No panda.
 
 | Station | Today | Planned | Target |
 | --- | --- | --- | --- |
-| Paper Lights | 3 chunks. Hedgehog, crow. Glide pads | festival village. Stalls, lantern strings, firefly weather, sparkler bursts. Place cat, owl. Lantern and mooncake pickups | 5-6 chunks |
-| Tiger Road | 3 chunks. Scripted tiger | keep the folk ride. Lengthen Paper Lights instead | keep |
-| Crane Summit | 2 chunks. Crane Envoy | keep the bow exit to the Stair | keep |
+| Paper Lights | 5 chunks. Stalls, lanterns, cat, owl, moth, sparkler, seed | - | 5-6 chunks |
+| Tiger Road | 3 chunks. Scripted tiger. Seed off the ride | keep the folk ride | keep |
+| Crane Summit | 2 chunks. Crane Envoy. Seed off the dive | keep the bow exit | keep |
 
 Owls stay ordinary night enemies.
 
@@ -127,9 +129,9 @@ Vast Cold leaks down from Guanghan.
 
 | Station | Today | Planned | Target |
 | --- | --- | --- | --- |
-| First Steps | 2 chunks. Frost wisp, magpie, one bridge | longer stair. Frost hare. Faded festival lanterns as Earth remnant | 4-6 chunks |
-| No Return | 2 chunks. No pool | longer. Denser ice. Frost hare | 4-6 chunks |
-| Closing Gale | 2 chunks. Left storm | keep the chase into the palace gate, not the throne | keep |
+| First Steps | 4 chunks. Frost hare, faded lanterns, seed | - | 4-6 chunks |
+| No Return | 4 chunks. Denser ice, frost hare, seed | - | 4-6 chunks |
+| Closing Gale | 2 chunks. Left storm. Seed off the gale | keep the chase into the palace gate | keep |
 
 ### Finale - Guanghan
 
@@ -156,12 +158,12 @@ Pages: [moon.md](../universe/environments/moon.md),
 | --- | --- | --- |
 | carrot | pantry currency. May still appear | live |
 | mooncake | restore one heart on Earth Story. Guanghan: warmth ammo | live on meadow and river |
-| osmanthus blossom | extra glide on Peak and Stair | live effect. Place in I9 |
-| lantern | glow. Festival and dusk groves | live effect. Place in I9 |
+| osmanthus blossom | extra glide on Peak and Stair | live on Paper Lights and First Steps |
+| lantern | glow. Festival | live on Paper Lights |
 | dew | short slow-time. Meadow and orchard | live on Soft Paths |
-| sparkler | lantern-class timed light. Festival scenery, not a weapon | planned |
+| sparkler | lantern-class timed light. Festival scenery, not a weapon | live on Paper Lights |
 | firefly (pickup) | brief glow. No mist wall | planned |
-| osmanthus seed | keepsake. One hidden spawn per playable station | live on eight stations. More I9-I10 |
+| osmanthus seed | keepsake. One hidden spawn per playable station | live on fourteen stations. Guanghan I10 |
 | heart sprite | do not ship | skipped |
 | moon letter | Endless only | idea |
 
@@ -174,10 +176,8 @@ levels, Guanghan. Fifteen. Burrow Eve stays lore and has none.
 
 ## Code later (not this lock)
 
-- Place cat and owl. Graduate frost hare and lantern moth.
-- Author item and decor arrays on remaining Chapter 1 chunks (festival, Stair, palace).
 - Han court proximity volume. Leave resets hearts.
-- Palace walk chunks and far layer.
+- Palace walk chunks and far layer. Palace moths.
 - Han moon collider remains a separate TODO ([chapters.md](chapters.md)).
 
 ## Build waves
@@ -185,8 +185,8 @@ levels, Guanghan. Fifteen. Burrow Eve stays lore and has none.
 [I6](../iterations/i6-chapter1-docs.md) this docs lock.
 [I7](../iterations/i7-w0-pool.md) Pool map and Soft Paws creature intro.
 [I8](../iterations/i8-w1-w2-density.md) Meadow through river density.
-[I9](../iterations/i9-festival-cloud-stair.md) festival and Cloud Stair.
+[I9](../iterations/i9-festival-cloud-stair.md) festival and Cloud Stair live.
 [I10](../iterations/i10-guanghan-palace.md) palace walk and proximity Han.
-Keepsakes fill through I10. Eight seeds are live. Full-set waits.
+Keepsakes fill through I10. Fourteen seeds are live. Full-set waits.
 
 Chapter 2 and 3 stay frozen except the roster note above.

@@ -1,6 +1,6 @@
 import Phaser from "phaser"
 import enemiesData from "../../../data/enemies.json"
-import type { AssembledHazard } from "../../../systems/ChunkAssembler"
+import type { AssembledDecor, AssembledHazard } from "../../../systems/ChunkAssembler"
 
 type EnemyKit = {
   texture: string
@@ -71,6 +71,8 @@ const KITS: Record<string, EnemyKit> = {
   pestle_sentry: { texture: "story_critter_pestle_sentry", source: "story_pestle", w: 32, h: 36, archetype: "ranged_lob", speed: 0 },
   gale_magpie: { texture: "story_critter_gale_magpie", source: "story_magpie", w: 40, h: 28, archetype: "diver", speed: 160, fly: true },
   carp: { texture: "story_critter_carp", source: "story_carp", w: 48, h: 24, archetype: "water_patrol", speed: 40, fly: true },
+  frost_hare: { texture: "story_critter_frost_hare", source: "story_frost_hare", w: 40, h: 32, archetype: "patrol", speed: 70 },
+  lantern_moth: { texture: "story_critter_lantern_moth", source: "story_moth", w: 36, h: 24, archetype: "diver", speed: 90, fly: true },
 }
 
 export function critterTextureKey(id: string): string {
@@ -113,6 +115,31 @@ export function bindCarpToWater(
   sprite.setData("waterBottom", best.worldY + best.h)
   sprite.setData("homeY", best.worldY + 20)
   sprite.setPosition(sprite.x, best.worldY + 20)
+}
+
+export function bindMothToLantern(
+  sprite: Phaser.Physics.Arcade.Sprite,
+  decor: AssembledDecor[],
+): void {
+  let best: AssembledDecor | null = null
+  let bestDist = Number.POSITIVE_INFINITY
+  for (const piece of decor) {
+    if (piece.kind !== "lantern") {
+      continue
+    }
+    const cx = piece.x + piece.w * 0.5
+    const cy = piece.y + piece.h * 0.5
+    const dist = Math.hypot(sprite.x - cx, sprite.y - cy)
+    if (dist < bestDist) {
+      best = piece
+      bestDist = dist
+    }
+  }
+  if (!best) {
+    return
+  }
+  sprite.setData("lightX", best.x + best.w * 0.5)
+  sprite.setData("lightY", best.y + best.h * 0.5)
 }
 
 export function listEnemyKits(): { id: string; kit: EnemyKit }[] {
@@ -248,6 +275,12 @@ export function spawnEnemy(
     sprite.setData("phase", "hover")
     sprite.setData("timer", 0.8 + Math.random() * 0.8)
   }
+  if (id === "lantern_moth") {
+    sprite.setData("dashThrough", true)
+  }
+  if (id === "frost_hare") {
+    sprite.setData("hop", 0.2 + Math.random() * 0.3)
+  }
   enemies.add(sprite)
   if (opts?.pin) {
     freezeEnemyForEditor(sprite)
@@ -299,11 +332,24 @@ export function updateEnemies(
       let dir = Number(enemy.getData("dir") || 1)
       const body = enemy.body as Phaser.Physics.Arcade.Body
       const onFloor = body.blocked.down || body.touching.down
+      const id = String(enemy.getData("id") || "")
+      if (id === "frost_hare" && Math.hypot(target.x - enemy.x, target.y - enemy.y) < 220) {
+        dir = target.x >= enemy.x ? 1 : -1
+        enemy.setData("dir", dir)
+      }
       if (body.blocked.left || body.blocked.right || (onFloor && !patrolHasFloorAhead(enemy, dir, platforms))) {
         dir *= -1
         enemy.setData("dir", dir)
       }
       enemy.setVelocityX(dir * speed)
+      if (id === "frost_hare") {
+        let hop = Number(enemy.getData("hop") || 0) - dt
+        if (onFloor && hop <= 0) {
+          enemy.setVelocityY(-220)
+          hop = 0.55 + Math.random() * 0.25
+        }
+        enemy.setData("hop", hop)
+      }
     } else if (arch === "chaser" || arch === "foxhu") {
       const dx = target.x - enemy.x
       enemy.setVelocityX(Math.sign(dx) * speed)
@@ -361,10 +407,16 @@ export function updateEnemies(
           phase = "strike"
           timer = 0.35
           enemy.clearTint()
+          const id = String(enemy.getData("id") || "")
+          const cat = id === "cat"
           const dir = Number(enemy.getData("facing") || 1)
-          const poke = scene.physics.add.image(enemy.x + dir * 40, enemy.y - 6, "story_frost")
-          poke.setDisplaySize(42, 10)
-          poke.setTint(0xf4e8d0)
+          const poke = scene.physics.add.image(
+            enemy.x + dir * (cat ? 28 : 40),
+            enemy.y + (cat ? 4 : -6),
+            "story_frost",
+          )
+          poke.setDisplaySize(cat ? 28 : 42, cat ? 14 : 10)
+          poke.setTint(cat ? 0xe8c4a0 : 0xf4e8d0)
           poke.setData("archetype", "reach_poke")
           poke.setData("safeFromAbove", false)
           const pokeBody = poke.body as Phaser.Physics.Arcade.Body
@@ -376,7 +428,8 @@ export function updateEnemies(
       } else if (phase === "strike") {
         const poke = enemy.getData("poke") as Phaser.Physics.Arcade.Image | undefined
         const dir = Number(enemy.getData("facing") || 1)
-        poke?.setPosition(enemy.x + dir * 40, enemy.y - 6)
+        const cat = String(enemy.getData("id") || "") === "cat"
+        poke?.setPosition(enemy.x + dir * (cat ? 28 : 40), enemy.y + (cat ? 4 : -6))
         if (timer <= 0) {
           phase = "recover"
           timer = 1.6
@@ -480,9 +533,13 @@ export function updateEnemies(
         enemy.setVelocity(Math.sin(hoverT) * 50, Math.cos(hoverT) * 28)
         if (timer <= 0 && Math.abs(target.x - enemy.x) < 420) {
           phase = "dive"
-          timer = 0.7
-          const dx = target.x - enemy.x
-          const dy = target.y - enemy.y
+          timer = String(enemy.getData("id") || "") === "lantern_moth" ? 0.55 : 0.7
+          const lightX = Number(enemy.getData("lightX"))
+          const lightY = Number(enemy.getData("lightY"))
+          const aimX = Number.isFinite(lightX) ? lightX : target.x
+          const aimY = Number.isFinite(lightY) ? lightY : target.y
+          const dx = aimX - enemy.x
+          const dy = aimY - enemy.y
           const n = Math.hypot(dx, dy) || 1
           enemy.setVelocity((dx / n) * speed, (dy / n) * speed)
         }

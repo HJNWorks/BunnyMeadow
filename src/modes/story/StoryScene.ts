@@ -46,6 +46,7 @@ import {
   freezeEnemyForEditor,
   constrainCreatureToWorld,
   bindCarpToWater,
+  bindMothToLantern,
 } from "./shared/enemyKit"
 import { HAN_WARMTH, HanFight } from "./shared/hanBoss"
 import { BreakField, padBreakSpec } from "./shared/breakables"
@@ -379,6 +380,7 @@ export class StoryScene extends Phaser.Scene {
   private invuln = 0
   private playerState: PlayerState = createPlayerState()
   private weather: WeatherHandle | null = null
+  private sparklerAsh: WeatherHandle | null = null
   private lanternGlow: Phaser.GameObjects.Image | null = null
   private lanternGlowAlways = false
   private dewVeil: Phaser.GameObjects.Rectangle | null = null
@@ -628,6 +630,8 @@ export class StoryScene extends Phaser.Scene {
 
     const reducedMotion = save.settings.accessibility.reducedMotion
     this.weather = createWeather(this, palette.weather, world.width, reducedMotion)
+    this.sparklerAsh =
+      env === "lantern" ? createWeather(this, "lanternAsh", world.width, reducedMotion) : null
     const night = lookNightAlpha(palette.hour, look)
     createNightOverlay(this, night)
     this.lanternGlowAlways = look?.lanternGlow ?? env === "lantern"
@@ -817,6 +821,9 @@ export class StoryScene extends Phaser.Scene {
       if (e.id === "carp") {
         bindCarpToWater(sprite, world.hazards)
       }
+      if (e.id === "lantern_moth") {
+        bindMothToLantern(sprite, world.decor)
+      }
       if (this.editorMode === "build") {
         freezeEnemyForEditor(sprite)
       }
@@ -929,7 +936,7 @@ export class StoryScene extends Phaser.Scene {
         this.enterDeadState(t("story.dead.gale"))
         return
       }
-      if (arch === "swarm") {
+      if (arch === "swarm" || body.getData("dashThrough") === true) {
         if (this.playerState.dashTime > 0) {
           return
         }
@@ -1164,9 +1171,9 @@ export class StoryScene extends Phaser.Scene {
       this.playerState.glideCharges += 1
       return
     }
-    if (id === "lantern") {
+    if (id === "lantern" || id === "sparkler") {
       this.glowTimer = 1.6
-      this.glowKind = "lantern"
+      this.glowKind = id
       this.lanternGlow?.setVisible(true)
       return
     }
@@ -1208,7 +1215,7 @@ export class StoryScene extends Phaser.Scene {
             save.progress.achievements.push("KEEPSAKE_EIGHT")
           }
         }
-        // TODO: KEEPSAKE_SET waits until remaining Chapter 1 stations hide seeds (I9-I10)
+        // TODO: KEEPSAKE_SET waits until Guanghan hides the last seed (I10)
         await persistSave()
       })()
       return
@@ -1688,8 +1695,8 @@ export class StoryScene extends Phaser.Scene {
     if (this.playerState.dewSlow > 0) {
       buffs.push({ id: "dew", remaining: this.playerState.dewSlow, duration: 1.2 })
     }
-    if (this.glowTimer > 0 && this.glowKind === "well_silver") {
-      buffs.push({ id: "well_silver", remaining: this.glowTimer, duration: 1.6 })
+    if (this.glowTimer > 0 && (this.glowKind === "well_silver" || this.glowKind === "lantern" || this.glowKind === "sparkler")) {
+      buffs.push({ id: this.glowKind, remaining: this.glowTimer, duration: 1.6 })
     }
     renderItemTray(this.hud.itemTray, buffs)
   }
@@ -1955,6 +1962,7 @@ export class StoryScene extends Phaser.Scene {
         freezeEnemyForEditor(obj as Phaser.Physics.Arcade.Sprite)
       }
       this.weather?.update(dt, this.cameras.main.scrollX)
+      this.sparklerAsh?.update(dt, this.cameras.main.scrollX)
       return
     }
     this.invuln = Math.max(0, this.invuln - dt)
@@ -2007,6 +2015,7 @@ export class StoryScene extends Phaser.Scene {
     }
 
     this.weather?.update(dt, this.cameras.main.scrollX)
+    this.sparklerAsh?.update(dt, this.cameras.main.scrollX)
     if (this.glowTimer > 0) {
       this.glowTimer = Math.max(0, this.glowTimer - dt)
       if (this.glowTimer <= 0 && this.lanternGlow && !this.lanternGlowAlways) {

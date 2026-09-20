@@ -18,7 +18,7 @@ seeds. Family kits dress the Pool pond. No panda.
 
 ## Still later
 
-I9 festival village, cat, owl, frost hare, sparkler. Full-set keepsake. Han moon
+I10 palace walk, proximity Han, full-set keepsake. Han moon
 collider.
 
 ## Ship

@@ -24,14 +24,15 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | Web iteration I6 | done (Chapter 1 docs lock) |
 | Web iteration I7 | done (Moon in the Pool + Soft Paws) |
 | Web iteration I8 | done (meadow through river density) |
-| Web iteration I9 | current (festival + Cloud Stair) |
+| Web iteration I9 | done (festival + Cloud Stair) |
+| Web iteration I10 | current (Guanghan palace walk) |
 | M6–M8 desktop + store | postponed to the end, after the web iterations |
 
 ## Current phase
 
-Story milestones M0–M5 and web iterations I1–I8 are done. Current track is
-[I9 festival and Cloud Stair](iterations/i9-festival-cloud-stair.md). Hub:
-[story/chapter1-overhaul.md](story/chapter1-overhaul.md). I10 waits.
+Story milestones M0–M5 and web iterations I1–I9 are done. Current track is
+[I10 Guanghan palace walk](iterations/i10-guanghan-palace.md). Hub:
+[story/chapter1-overhaul.md](story/chapter1-overhaul.md).
 Desktop and store milestones (M6–M8) stay postponed. See
 [iterations/README.md](iterations/README.md).
 
@@ -293,10 +294,17 @@ Earth Story. Eight keepsakes. `KEEPSAKE_EIGHT`. No panda. No `package.json` bump
 
 ### Web iteration I9 — Festival and Cloud Stair
 
-**Status: current.** Detail: [iterations/i9-festival-cloud-stair.md](iterations/i9-festival-cloud-stair.md).
+**Status: done.** Detail: [iterations/i9-festival-cloud-stair.md](iterations/i9-festival-cloud-stair.md).
 
-Paper Lights festival village. Cat and owl. Lengthen Cloud Stair. Frost hare. Sparkler.
-No `package.json` bump.
+Paper Lights festival village. Cat, owl, lantern moth. Lengthen Cloud Stair. Frost hare.
+Sparkler. Fourteen keepsakes. Ink-path toggle removed. No `package.json` bump.
+
+### Web iteration I10 — Guanghan palace walk
+
+**Status: current.** Detail: [iterations/i10-guanghan-palace.md](iterations/i10-guanghan-palace.md).
+
+Palace walk, proximity Han, Guanghan far layer. Full-set keepsake. No `package.json`
+bump.
 
 ### M6 — Desktop shell
 
@@ -424,5 +432,5 @@ any local commands run on Windows.
 
 ## Suggested next coding session
 
-I9 festival and Cloud Stair is the current track.
-[I9](iterations/i9-festival-cloud-stair.md). Desktop milestone [M6](#m6--desktop-shell) stays postponed.
+I10 Guanghan palace walk is the current track.
+[I10](iterations/i10-guanghan-palace.md). Desktop milestone [M6](#m6--desktop-shell) stays postponed.

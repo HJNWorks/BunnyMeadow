@@ -17,12 +17,15 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_tortoise: { w: 44, h: 28 },
   story_bees: { w: 44, h: 32 },
   story_carp: { w: 48, h: 24 },
+  story_frost_hare: { w: 40, h: 32 },
+  story_moth: { w: 36, h: 24 },
   story_carrot: { w: 24, h: 32 },
   story_mooncake: { w: 28, h: 28 },
   story_dew: { w: 18, h: 24 },
   story_blossom: { w: 28, h: 28 },
   story_seed: { w: 20, h: 24 },
   story_lantern: { w: 24, h: 36 },
+  story_sparkler: { w: 16, h: 28 },
   story_han: { w: 96, h: 140 },
   story_ground_moon: { w: 64, h: 64 },
   story_hedge_moon: { w: 40, h: 64 },
@@ -231,6 +234,31 @@ function drawDew(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
   ellipse(ctx, cx, cy + 4, 6, 8, "#9fd4e8")
   ellipse(ctx, cx, cy + 2, 4, 6, "#d8f4ff")
   circle(ctx, cx - 2, cy - 2, 1.6, "#ffffff")
+}
+
+function drawFrostHare(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx, cy + 6, 14, 9, "#e8eef4")
+  circle(ctx, cx + 10, cy - 2, 7, "#f4f8fc")
+  ellipse(ctx, cx + 4, cy - 10, 3, 8, "#d8e0e8")
+  ellipse(ctx, cx + 12, cy - 10, 3, 8, "#d8e0e8")
+  ellipse(ctx, cx - 12, cy + 4, 7, 3, "#e8eef4")
+  circle(ctx, cx + 12, cy - 4, 1.5, "#2a2010")
+}
+
+function drawMoth(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx - 8, cy, 10, 6, "#f4e8c8")
+  ellipse(ctx, cx + 8, cy, 10, 6, "#f4e8c8")
+  ellipse(ctx, cx, cy + 2, 5, 4, "#d8c4a0")
+  circle(ctx, cx + 2, cy, 1.2, "#2a2010")
+}
+
+function drawSparkler(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#6a4a32"
+  ctx.fillRect(cx - 1.5, cy + 2, 3, 12)
+  circle(ctx, cx, cy - 4, 5, "#f0c060")
+  circle(ctx, cx - 3, cy - 8, 2, "#ffe08a")
+  circle(ctx, cx + 4, cy - 6, 1.6, "#ffd070")
+  circle(ctx, cx, cy - 10, 1.4, "#fff4c8")
 }
 
 function drawBees(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
@@ -539,12 +567,15 @@ const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: nu
   story_tortoise: drawTortoise,
   story_bees: drawBees,
   story_carp: drawCarp,
+  story_frost_hare: drawFrostHare,
+  story_moth: drawMoth,
   story_carrot: drawCarrot,
   story_mooncake: drawMooncake,
   story_dew: drawDew,
   story_blossom: drawBlossom,
   story_seed: drawSeed,
   story_lantern: drawLantern,
+  story_sparkler: drawSparkler,
   story_han: drawHan,
   story_ground_moon: drawGroundMoon,
   story_hedge_moon: drawHedgeMoon,
