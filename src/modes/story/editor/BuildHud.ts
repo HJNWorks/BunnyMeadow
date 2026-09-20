@@ -226,11 +226,33 @@ const CSS = `
 .bm-editor-hud .bm-editor-menu-panel details {
   margin-bottom: 6px;
 }
+.bm-editor-hud .bm-editor-menu-panel details details {
+  margin-left: 8px;
+  margin-bottom: 2px;
+}
 .bm-editor-hud .bm-editor-menu-panel summary {
   cursor: pointer;
   font-size: 12px;
   font-weight: 700;
   color: #34583e;
+}
+.bm-editor-hud .bm-editor-tree-empty {
+  margin: 0;
+  padding: 4px 6px;
+  font-size: 12px;
+  color: #71816e;
+}
+.bm-editor-hud .bm-editor-add-btn {
+  width: 168px;
+  font-size: 13px;
+  background: #fff;
+  border: 1px solid #d5dcc4;
+  border-radius: 8px;
+  padding: 4px 8px;
+  color: #304c39;
+  min-height: 28px;
+  text-align: left;
+  cursor: pointer;
 }
 .bm-editor-hud .bm-editor-add-item {
   display: block;
@@ -295,12 +317,14 @@ export function mountBuildHud(session: EditorSession): void {
           <select data-ui="stationId"></select>
         </label>
         <div class="bm-editor-tools" data-ui="inspect" ${session.mode === "build" ? "" : "hidden"}>
-          <label>${t("editor.addEnv")}
-            <select data-ui="envAdd" class="wide">${addMenus.env}</select>
-          </label>
-          <label>${t("editor.addCreatures")}
-            <select data-ui="critterAdd" class="wide">${addMenus.creatures}</select>
-          </label>
+          <div class="bm-editor-menu">
+            <button type="button" class="bm-editor-add-btn" data-ui="envPanelBtn" aria-expanded="false">${t("editor.addEnv")}</button>
+            <div class="bm-editor-menu-panel" data-ui="envPanel" hidden>${addMenus.env}</div>
+          </div>
+          <div class="bm-editor-menu">
+            <button type="button" class="bm-editor-add-btn" data-ui="critterPanelBtn" aria-expanded="false">${t("editor.addCreatures")}</button>
+            <div class="bm-editor-menu-panel" data-ui="critterPanel" hidden>${addMenus.creatures}</div>
+          </div>
           <div class="bm-editor-menu">
             <button type="button" class="bm-btn ghost" data-ui="selPanelBtn" aria-expanded="false">${t("editor.section.edit")}</button>
             <div class="bm-editor-menu-panel" data-ui="selPanel" hidden>
@@ -417,8 +441,10 @@ export function mountBuildHud(session: EditorSession): void {
   const chapterIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=chapterId]")
   const worldIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=worldId]")
   const stationIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=stationId]")
-  const envAdd = requireEl<HTMLSelectElement>(root, "[data-ui=envAdd]")
-  const critterAdd = requireEl<HTMLSelectElement>(root, "[data-ui=critterAdd]")
+  const envPanelBtn = requireEl<HTMLButtonElement>(root, "[data-ui=envPanelBtn]")
+  const critterPanelBtn = requireEl<HTMLButtonElement>(root, "[data-ui=critterPanelBtn]")
+  const envPanel = requireEl<HTMLElement>(root, "[data-ui=envPanel]")
+  const critterPanel = requireEl<HTMLElement>(root, "[data-ui=critterPanel]")
   const selModeEl = requireEl<HTMLSelectElement>(root, "[data-ui=selMode]")
   const selPanelBtn = requireEl<HTMLButtonElement>(root, "[data-ui=selPanelBtn]")
   const lookPanelBtn = requireEl<HTMLButtonElement>(root, "[data-ui=lookPanelBtn]")
@@ -1598,6 +1624,8 @@ export function mountBuildHud(session: EditorSession): void {
   }
 
   const menuPairs = [
+    { panel: envPanel, btn: envPanelBtn },
+    { panel: critterPanel, btn: critterPanelBtn },
     { panel: selPanel, btn: selPanelBtn },
     { panel: lookPanel, btn: lookPanelBtn },
   ]
@@ -1618,6 +1646,14 @@ export function mountBuildHud(session: EditorSession): void {
     }
   }
 
+  envPanelBtn.onclick = (event) => {
+    event.stopPropagation()
+    toggleMenu(envPanel, envPanelBtn)
+  }
+  critterPanelBtn.onclick = (event) => {
+    event.stopPropagation()
+    toggleMenu(critterPanel, critterPanelBtn)
+  }
   selPanelBtn.onclick = (event) => {
     event.stopPropagation()
     toggleMenu(selPanel, selPanelBtn)
@@ -1627,14 +1663,22 @@ export function mountBuildHud(session: EditorSession): void {
     toggleMenu(lookPanel, lookPanelBtn)
   }
 
-  envAdd.onchange = () => {
-    const token = envAdd.value
+  envPanel.onclick = (event) => {
+    const btn = (event.target as HTMLElement | null)?.closest("[data-add]")
+    if (!(btn instanceof HTMLElement)) {
+      return
+    }
+    const token = btn.getAttribute("data-add")
     if (token) {
       addToken(token)
     }
   }
-  critterAdd.onchange = () => {
-    const token = critterAdd.value
+  critterPanel.onclick = (event) => {
+    const btn = (event.target as HTMLElement | null)?.closest("[data-add]")
+    if (!(btn instanceof HTMLElement)) {
+      return
+    }
+    const token = btn.getAttribute("data-add")
     if (token) {
       addToken(token)
     }

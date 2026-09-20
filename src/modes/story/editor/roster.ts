@@ -62,23 +62,48 @@ export type CritterGroup = {
   ids: string[]
 }
 
-export const CRITTER_GROUPS: CritterGroup[] = [
+export type CritterChapter = {
+  id: "ch1" | "ch2" | "ch3"
+  labelKey: string
+  groups: CritterGroup[]
+}
+
+export const CRITTER_CHAPTERS: CritterChapter[] = [
   {
     id: "ch1",
-    labelKey: "editor.critterGroup.ch1",
-    ids: ["fox", "hedgehog", "crow", "squirrel", "frog", "heron", "cat", "owl", "goat"],
+    labelKey: "story.chapter.ch1.title",
+    groups: [
+      {
+        id: "path",
+        labelKey: "editor.critterGroup.path",
+        ids: ["fox", "hedgehog", "crow", "squirrel", "frog", "heron", "cat", "owl", "goat"],
+      },
+      {
+        id: "moon",
+        labelKey: "editor.critterGroup.moon",
+        ids: ["frost_wisp", "ice_spit", "gale_magpie", "dust_mite", "star_wisp", "pestle_sentry"],
+      },
+    ],
   },
   {
-    id: "moon",
-    labelKey: "editor.critterGroup.moon",
-    ids: ["frost_wisp", "ice_spit", "gale_magpie", "dust_mite", "star_wisp", "pestle_sentry"],
+    id: "ch2",
+    labelKey: "story.chapter.ch2.title",
+    groups: [],
   },
   {
-    id: "later",
-    labelKey: "editor.critterGroup.later",
-    ids: ["bees", "tortoise", "boar"],
+    id: "ch3",
+    labelKey: "story.chapter.ch3.title",
+    groups: [
+      {
+        id: "later",
+        labelKey: "editor.critterGroup.later",
+        ids: ["bees", "tortoise", "boar"],
+      },
+    ],
   },
 ]
+
+export const CRITTER_GROUPS: CritterGroup[] = CRITTER_CHAPTERS.flatMap((chapter) => chapter.groups)
 
 function splitList(all: string[], native: string[]): { native: string[]; other: string[] } {
   const seen = new Set(native)

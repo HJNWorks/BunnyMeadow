@@ -5,8 +5,9 @@ Data schema for enemies lives in the hub [../ENEMIES.md](../ENEMIES.md) and in
 `src/data/enemies.json`. Folklore backing for named creatures lives in
 [../LORE.md](../LORE.md); no named creature appears without an entry there.
 
-Editor pickers follow this index. Wildlife ids appear once, grouped by debut chapter.
-Folk stay out of the Creatures select. Invented folk only fill an empty job. See
+Editor pickers follow this index. Wildlife ids appear once under Chapter 1, 2, or 3,
+with Path and Cloud Stair / Guanghan nested inside Chapter 1. Folk stay out of the
+Creatures tree. Invented folk only fill an empty job. See
 [../editor/README.md](../editor/README.md) Phase C.
 
 ## Creature classes

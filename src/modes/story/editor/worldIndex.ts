@@ -5,7 +5,7 @@ import { storyEnvForLevel } from "../shared/themeKit"
 import {
   ALL_CRITTERS,
   ALL_ITEMS,
-  CRITTER_GROUPS,
+  CRITTER_CHAPTERS,
   CRITTER_LABELS,
   ITEM_LABELS,
   crittersForEnv,
@@ -124,37 +124,71 @@ function groupHtml(label: string, inner: string): string {
   return `<optgroup label="${label}">${inner}</optgroup>`
 }
 
+function addItemHtml(token: string, label: string): string {
+  return `<button type="button" class="bm-editor-add-item" data-add="${token}">${label}</button>`
+}
+
+function detailsHtml(label: string, inner: string): string {
+  return `<details><summary>${label}</summary>${inner}</details>`
+}
+
+const ENV_CHAPTERS: { id: "ch1" | "ch2" | "ch3"; labelKey: string }[] = [
+  { id: "ch1", labelKey: "story.chapter.ch1.title" },
+  { id: "ch2", labelKey: "story.chapter.ch2.title" },
+  { id: "ch3", labelKey: "story.chapter.ch3.title" },
+]
+
 export function additionSelectHtml(): { env: string; creatures: string } {
-  const blank = optionHtml("", t("editor.addChoose"))
-  const envKits = EDITOR_ENV_KITS.map((kit) =>
-    groupHtml(
-      t(kit.labelKey),
-      kit.kinds.map((kind) => optionHtml(`${kind}@${kit.id}`, envTokenLabel(kind))).join(""),
-    ),
-  ).join("")
-  const items = groupHtml(
+  const envChapters = ENV_CHAPTERS.map((chapter) => {
+    const kits = EDITOR_ENV_KITS.filter((kit) => kit.chapter === chapter.id)
+    const inner =
+      kits.length === 0
+        ? `<p class="bm-editor-tree-empty">${t("mode.soon")}</p>`
+        : kits
+            .map((kit) =>
+              detailsHtml(
+                t(kit.labelKey),
+                kit.kinds.map((kind) => addItemHtml(`${kind}@${kit.id}`, envTokenLabel(kind))).join(""),
+              ),
+            )
+            .join("")
+    return detailsHtml(t(chapter.labelKey), inner)
+  }).join("")
+  const items = detailsHtml(
     t("editor.envKit.items"),
-    ALL_ITEMS.map((id) => optionHtml(`item:${id}`, itemLabel(id))).join(""),
+    ALL_ITEMS.map((id) => addItemHtml(`item:${id}`, itemLabel(id))).join(""),
   )
-  const creatures = CRITTER_GROUPS.map((group) =>
-    groupHtml(
-      t(group.labelKey),
-      group.ids.map((id) => optionHtml(`critter:${id}`, critterLabel(id))).join(""),
-    ),
-  ).join("")
+  const creatures = CRITTER_CHAPTERS.map((chapter) => {
+    const inner =
+      chapter.groups.length === 0
+        ? `<p class="bm-editor-tree-empty">${t("mode.soon")}</p>`
+        : chapter.groups
+            .map((group) =>
+              detailsHtml(
+                t(group.labelKey),
+                group.ids.map((id) => addItemHtml(`critter:${id}`, critterLabel(id))).join(""),
+              ),
+            )
+            .join("")
+    return detailsHtml(t(chapter.labelKey), inner)
+  }).join("")
   return {
-    env: `${blank}${envKits}${items}`,
-    creatures: `${blank}${creatures}`,
+    env: `${envChapters}${items}`,
+    creatures,
   }
 }
 
 export function inspectEnemySelectHtml(): string {
-  return CRITTER_GROUPS.map((group) =>
-    groupHtml(
-      t(group.labelKey),
-      group.ids.map((id) => optionHtml(id, critterLabel(id))).join(""),
-    ),
-  ).join("")
+  return CRITTER_CHAPTERS.map((chapter) => {
+    const ids = chapter.groups.flatMap((group) => group.ids)
+    if (!ids.length) {
+      return ""
+    }
+    return groupHtml(
+      t(chapter.labelKey),
+      ids.map((id) => optionHtml(id, critterLabel(id))).join(""),
+    )
+  }).join("")
 }
 
 export function inspectItemSelectHtml(): string {

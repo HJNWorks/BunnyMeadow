@@ -4,8 +4,8 @@ import { fireRadialShot } from "./enemyKit"
 
 const HEARTS = 5
 export const HAN_WARMTH = 3.0
-const FROST_GAPS = [0.42, 0.42, 0.9, 0.28, 0.28, 1.1]
-const STAR_GAPS = [0.78, 0.52, 1.0]
+const FROST_GAPS = [0.4, 0.4, 3.6, 0.3, 0.3, 4.2]
+const STAR_GAPS = [0.4, 0.4, 3.9]
 const BEAM_LEN = 1800
 const CAKE_LIFT = 18
 const LEDGE_MAX_H = 60

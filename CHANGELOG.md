@@ -36,13 +36,16 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- Han frost and star fans fire in short bursts with about 3x longer rests so the
+  volley is avoidable.
 - Story editor Copy and Ctrl/Cmd+C store a clipboard. Ctrl/Cmd+V pastes at camera
   center. Ctrl/Cmd+D still duplicates in place. Backspace and Delete remove the
   selection.
 - Ice spit, pestle sentry, and Han frost/star fans fire no-gravity shots along the
   aim ray. Crow and squirrel stay a gravity lob.
-- Editor Environment is theme then kind, one id each. Placed objects store `env`
-  so a meadow pad can sit on Guanghan. Creatures group by debut chapter.
+- Editor Environment and Creatures are collapsible Chapter 1-3 trees. Themes and
+  Path / Cloud Stair groups sit inside the chapter. Placed objects store `env`
+  so a meadow pad can sit on Guanghan.
 - Bunny Jump pads chain from the last landing. Random offsets stay inside one
   bounce of run speed so hops stay reachable without a dash.
 - Bunny Jump HUD no longer covers the playfield. The bar sits above the canvas

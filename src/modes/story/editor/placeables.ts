@@ -39,6 +39,7 @@ export type EditorKitId =
 
 export type EditorEnvKit = {
   id: EditorKitId
+  chapter: "ch1" | "ch2" | "ch3"
   labelKey: string
   kinds: EditorEnvToken[]
 }
@@ -46,24 +47,25 @@ export type EditorEnvKit = {
 const KIT_CORE: EditorEnvToken[] = ["platform", "wall", "ceiling", "bridge", "water", "pool"]
 
 export const EDITOR_ENV_KITS: EditorEnvKit[] = [
-  { id: "meadow", labelKey: "editor.envKit.meadow", kinds: [...KIT_CORE, "hedge", "vine", "grass", "burrow"] },
-  { id: "orchard", labelKey: "editor.envKit.orchard", kinds: [...KIT_CORE, "hedge", "vine", "grass"] },
-  { id: "bamboo", labelKey: "editor.envKit.bamboo", kinds: [...KIT_CORE, "hedge", "vine", "log"] },
-  { id: "riverbank", labelKey: "editor.envKit.riverbank", kinds: [...KIT_CORE, "log", "grass"] },
-  { id: "lantern", labelKey: "editor.envKit.lantern", kinds: [...KIT_CORE, "lantern", "hedge"] },
-  { id: "osmanthus", labelKey: "editor.envKit.osmanthus", kinds: [...KIT_CORE, "lantern", "hedge"] },
-  { id: "cloudsea", labelKey: "editor.envKit.cloudsea", kinds: [...KIT_CORE, "hedge"] },
+  { id: "meadow", chapter: "ch1", labelKey: "editor.envKit.meadow", kinds: [...KIT_CORE, "hedge", "vine", "grass", "burrow"] },
+  { id: "orchard", chapter: "ch1", labelKey: "editor.envKit.orchard", kinds: [...KIT_CORE, "hedge", "vine", "grass"] },
+  { id: "bamboo", chapter: "ch1", labelKey: "editor.envKit.bamboo", kinds: [...KIT_CORE, "hedge", "vine", "log"] },
+  { id: "riverbank", chapter: "ch1", labelKey: "editor.envKit.riverbank", kinds: [...KIT_CORE, "log", "grass"] },
+  { id: "lantern", chapter: "ch1", labelKey: "editor.envKit.lantern", kinds: [...KIT_CORE, "lantern", "hedge"] },
+  { id: "osmanthus", chapter: "ch1", labelKey: "editor.envKit.osmanthus", kinds: [...KIT_CORE, "lantern", "hedge"] },
+  { id: "cloudsea", chapter: "ch1", labelKey: "editor.envKit.cloudsea", kinds: [...KIT_CORE, "hedge"] },
   {
     id: "moon",
+    chapter: "ch1",
     labelKey: "editor.envKit.moon",
     kinds: [...KIT_CORE, "lantern", "cave", "column", "falseMouth", "rim", "bowl", "wound"],
   },
-  { id: "ch2_outer", labelKey: "editor.envKit.ch2_outer", kinds: [...KIT_CORE, "lantern", "column"] },
-  { id: "ch2_cassia", labelKey: "editor.envKit.ch2_cassia", kinds: [...KIT_CORE, "wound"] },
-  { id: "ch2_mortar", labelKey: "editor.envKit.ch2_mortar", kinds: [...KIT_CORE, "bowl", "rim"] },
-  { id: "ch2_dust", labelKey: "editor.envKit.ch2_dust", kinds: [...KIT_CORE, "rim"] },
-  { id: "ch2_wells", labelKey: "editor.envKit.ch2_wells", kinds: [...KIT_CORE, "cave", "falseMouth"] },
-  { id: "ch2_silver", labelKey: "editor.envKit.ch2_silver", kinds: [...KIT_CORE, "bowl", "lantern"] },
+  { id: "ch2_outer", chapter: "ch2", labelKey: "editor.envKit.ch2_outer", kinds: [...KIT_CORE, "lantern", "column"] },
+  { id: "ch2_cassia", chapter: "ch2", labelKey: "editor.envKit.ch2_cassia", kinds: [...KIT_CORE, "wound"] },
+  { id: "ch2_mortar", chapter: "ch2", labelKey: "editor.envKit.ch2_mortar", kinds: [...KIT_CORE, "bowl", "rim"] },
+  { id: "ch2_dust", chapter: "ch2", labelKey: "editor.envKit.ch2_dust", kinds: [...KIT_CORE, "rim"] },
+  { id: "ch2_wells", chapter: "ch2", labelKey: "editor.envKit.ch2_wells", kinds: [...KIT_CORE, "cave", "falseMouth"] },
+  { id: "ch2_silver", chapter: "ch2", labelKey: "editor.envKit.ch2_silver", kinds: [...KIT_CORE, "bowl", "lantern"] },
 ]
 
 export const DECOR_LABELS: Record<AssembledDecor["kind"], string> = {

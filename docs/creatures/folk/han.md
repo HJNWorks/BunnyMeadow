@@ -34,7 +34,9 @@ Shards spawn off the body along each ray so a ledge does not eat them:
   cards are unchanged. Later: the moon is a contact pad. Jumping it unlocks Chapter 2
   ([../../story/chapters.md](../../story/chapters.md)). It is not an Earth-to-moon portal.
 
-Spike fan timing and counts are unchanged from the first live fight. The beam is a long tracking rectangle, not a projectile. It leaves from the half-moon on Han's helmet. Platforms and walls clip it, so Mei can hide. The impact leaves a spark, rising embers, and a fading scorch trail. On the last heart the hot slab lasts 5.5 s and damages every registered ledge it crosses (three crack stages and a darken, then the collider drops). Reduced motion keeps one mark. Dash i-frames still apply. Reduced motion shortens the charge and skips spiral motes.
+Frost and star fans fire in short bursts, then rest about three times as long as
+the old volley cadence so Mei has a gap to eat and dash. Counts per fan are
+unchanged. The beam is a long tracking rectangle, not a projectile. It leaves from the half-moon on Han's helmet. Platforms and walls clip it, so Mei can hide. The impact leaves a spark, rising embers, and a fading scorch trail. On the last heart the hot slab lasts 5.5 s and damages every registered ledge it crosses (three crack stages and a darken, then the collider drops). Reduced motion keeps one mark. Dash i-frames still apply. Reduced motion shortens the charge and skips spiral motes.
 
 Han speaks four ticker lines on the same HUD as Moon Pools (no pause). Full health, 3
 hearts, 1 heart, and beaten. Cue ids and later wav names:

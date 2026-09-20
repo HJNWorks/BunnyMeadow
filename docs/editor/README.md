@@ -46,7 +46,7 @@ Build bar: Play, Build, Set active, Copy JSON, Back to Settings. World, station,
 
 A **Chapter** dropdown sits left of World in `src/modes/story/editor/BuildHud.ts`. Chapter 1 lists live worlds. Chapter 2 lists the six first stations. Chapter 3 stays empty. Hub: [../story/chapters.md](../story/chapters.md).
 
-Object Addition: Environment and Creatures are one-level optgroup selects. Each kind or wildlife id appears once. Environment is theme then kind (`platform@meadow`). A placed rect, decor, or mover stores `env` so a meadow pad can sit on Guanghan. Stamp art uses that `env`, then the station kit for old JSON. Meadow through Cloud Stair share grass ground. Guanghan and Chapter 2 kits share lunar ground, plus rim, bowl, wound, and cave where those kinds exist. Chapter 3 kits stay out until they have stamps. Items sit in one Items group. Creatures group by debut (Chapter 1, Cloud Stair / Guanghan, Later). Folk stay out of the picker. Bees, tortoise, and boar live under Later. Pestle sentry is listed once under Guanghan and still placeable on Chapter 2 maps. Inspect id lists use the same grouping.
+Object Addition: Environment and Creatures open as collapsible trees. Top level is Chapter 1, 2, and 3. Themes (Meadow, Cloud Stair, Guanghan, Outer Cold, …) sit inside the chapter. Creatures nest Path and Cloud Stair / Guanghan under Chapter 1, and Later under Chapter 3. Chapter 2 wildlife stays empty until unique ids exist. Items are their own collapsed group. Each kind or wildlife id appears once. Placement still writes `env` (`platform@meadow`) so a meadow pad can sit on Guanghan. Stamp art uses that `env`, then the station kit for old JSON. Meadow through Cloud Stair share grass ground. Guanghan and Chapter 2 kits share lunar ground, plus rim, bowl, wound, and cave where those kinds exist. Chapter 3 stamps stay out. Folk stay out of the picker. Pestle sentry is listed once under Cloud Stair / Guanghan and still placeable on Chapter 2 maps. Inspect id lists group by chapter.
 
 Wall is the green collision slab. Hedge/vine art is a separate selectable decor object (`overlay.decor`). Water is a first-class hazard (`overlay.hazards`) with current. Burrow exit and Moon Pool are **contact** with the visible sprite. Water is a **volume**. Optional overlay field on decor and hazards:
 
@@ -61,7 +61,7 @@ Toolbar: Selection Mode Object or Region. Region: drag a rectangle; every object
 
 The editor top bar is `position: fixed` but its `top` is not a magic pixel. `placeBelowStoryChrome` in `src/ui/playfieldFrame.ts` sits it under `.meadow-bar` (title and pause row). Hearts, status ticker, and boss hearts live on the playfield via `mountPlayfieldHud`, not in that chrome. `watchStoryChrome` observes the chrome nodes, not the full-viewport root. Playfield inset runs `beforeMeasure` so the canvas follows. New editor bars must use the same helpers.
 
-Native critter pickers: `src/modes/story/editor/roster.ts`. Chapter 1 lists fox through goat once. Moon ids list once under Cloud Stair / Guanghan. Bees, tortoise, and boar stay under Later.
+Native critter pickers: `src/modes/story/editor/roster.ts`. Chapter 1 nests Path (fox through goat) and Cloud Stair / Guanghan. Chapter 3 nests Later (bees, tortoise, boar).
 
 ## Phases
 
