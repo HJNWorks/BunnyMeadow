@@ -15,9 +15,10 @@ Status: live. The starting rung of the Ladder and the game's default backdrop. H
 
 ## Feel
 
-Soft grass, the burrow entrance, carrots in the open. This is the teaching rung: a
-first-time player learns to move, jump and dash here with no water, no shafts and no
-wind. Gaps are short and forgiving.
+Soft grass, the burrow entrance, carrots in the open. Teaching run, jump, and dash
+moves to Moon in the Pool in I7. Meadow then carries the first creatures (hedgehog,
+fox, bees, tortoise). Gaps stay short and forgiving. Fireflies at dusk around the pond.
+Family kits as non-HP set dressing. One keepsake. No generic heart pickup.
 
 ## Roster
 
@@ -28,6 +29,9 @@ Home wildlife (see [../../creatures/wildlife/](../../creatures/wildlife/)):
 | fox | chaser | afternoon | 1 |
 | hedgehog | patrol | afternoon | 1 |
 | crow | ranged_lob | afternoon | 2 |
+| bees | swarm | afternoon | 2 (planned I7-I8) |
+| tortoise | patrol | afternoon | 1 (planned I8) |
+| firefly | visual | dusk | 1 (planned) |
 
 Folk: Fox Hu appears here as the World 1 cart-chase boss ([../../creatures/folk/fox-hu.md](../../creatures/folk/fox-hu.md)).
 
@@ -38,11 +42,13 @@ See [../../items/placement.md](../../items/placement.md) for the slot mechanism.
 | Item | Weight | Notes |
 | --- | --- | --- |
 | carrot | high | currency, the staple |
-| dew | low | short slow-time buff |
+| dew | low | short slow-time buff (I8) |
+| mooncake | rare | restores one heart on Earth Story (I8) |
+| osmanthus seed | one per station | keepsake. Never respawns |
 
 ## Chunk usage
 
-- Story: 1-1 Soft Paths, 1-3 Cart Chase ([../../WORLDS.md](../../WORLDS.md)).
+- Story: Moon in the Pool (planned I7), Soft Paws, 1-1 Soft Paths, 1-3 Cart Chase ([../../WORLDS.md](../../WORLDS.md)).
 - Endless: `endless_meadow_t1_a/b`, `endless_meadow_t2_a/b`, plus `endless_start`.
 - Meadow arcade map: `meadow_home`.
 

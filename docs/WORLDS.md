@@ -23,7 +23,7 @@ Shared by Meadow, Story, Tasks, Endless. Each kit: tileset, palette, parallax la
 | lantern | Lantern Village | night | Festival stalls, lanterns |
 | osmanthus | Osmanthus Peak | night | Wind, blossom fall, tiger path |
 | cloudsea | Cloud Sea | deep night | Cloud Stair, hanging bridges, frost, void |
-| moon | Moon Garden | eternal night | Low gravity, Guanghan Palace, Wu Gang's tree. Outer Cold reuses this kit |
+| moon | Moon Garden | eternal night | Low gravity kit. Palace walk and Han court split in [universe/environments/guanghan-palace.md](universe/environments/guanghan-palace.md). Outer Cold reuses this kit |
 | cassia | Cassia Wound | eternal night | planned. Self-healing osmanthus region |
 | mortar | Mortar Yard | eternal night | planned. Elixir pestle yard, not a kitchen |
 | dustsea | Dust Sea | eternal night | planned. Crater plains, invented fauna |
@@ -43,11 +43,13 @@ Path progress (Chapter 1): Worlds 1–4 each expose three clearable stations (tw
 
 ### World 0 — Burrow Eve
 
+Overhaul: [story/chapter1-overhaul.md](story/chapter1-overhaul.md).
+
 | Station | Kind | Notes |
 | --- | --- | --- |
-| Burrow Eve | lore | Mid-Autumn setting |
-| Moon in the Pool | lore | Chang'e through water |
-| Soft Paws | level | In-game intro hop; unlocks Soft Paths |
+| Burrow Eve | lore | Mid-Autumn setting. Stays text |
+| Moon in the Pool | lore today. Planned: level | Controls map. Grass, one Moon Pool, no wildlife. I7 needs a `levelId` and chunks. Station id stays `w0_lore_moon` |
+| Soft Paws | level | Creature intro after the Pool map. Hedgehog, fox, bees. Unlocks Soft Paths |
 
 Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progress.story.cleared`.
 
@@ -55,23 +57,23 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| 1-1 Soft Paths | meadow | run, jump, dash | Moon Pool | live |
-| 1-2 Hedge Maze | orchard | wall bounce, crow lob | Moon Pool | live |
+| 1-1 Soft Paths | meadow | run, jump, dash already known. Bees, tortoise, dew, mooncake (I8) | Moon Pool | live. Lengthen to 4-5 chunks |
+| 1-2 Hedge Maze | orchard | wall bounce, crow lob. Place squirrel. Fence and fruit decor, not a peach heal (I8) | Moon Pool | live. Lengthen to 4-5 chunks |
 | 1-3 Cart Chase | meadow | boss: Fox Hu cart | Finish flag at the burrow. Cart there first is a retry | live |
 
 ### World 2 — Bamboo Grove and River
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| 2-1 Green Corridor | bamboo | wall jump | Moon Pool | live |
-| 2-2 Floating Logs | riverbank | log ride, current | Moon Pool | live |
+| 2-1 Green Corridor | bamboo | wall jump. Dense grove. Place frog, squirrel, goat. Grove-to-river edge (I8) | Moon Pool | live. Lengthen to 5-6 chunks |
+| 2-2 Floating Logs | riverbank | log ride, current. Place frog, heron (chunk reach), carp. Mooncakes on logs (I8) | Moon Pool | live. Lengthen to 4-5 chunks |
 | 2-3 Raft Gauntlet | riverbank | boss: Heron Fisher | World clear | live |
 
 ### World 3 — Lantern Village and Osmanthus Peak
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| 3-1 Paper Lights | lantern | lantern glide | Moon Pool | live |
+| 3-1 Paper Lights | lantern | lantern glide. Festival village, fireflies, sparkler, place cat and owl (I9) | Moon Pool | live. Lengthen to 5-6 chunks |
 | 3-2 Tiger Road | osmanthus | tiger ride (Tu'er Ye) | Moon Pool | live |
 | 3-3 Crane Summit | osmanthus | boss: Crane Envoy | Ride to the Cloud Stair | live |
 
@@ -79,15 +81,15 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| 4-1 First Steps | cloudsea | stair climb, one hanging bridge | Moon Pool near spawn | live |
-| 4-2 No Return | cloudsea | denser frost, two bridges, no mid save | Station restart on fall | live |
-| 4-3 Closing Gale | cloudsea | left storm wall (Fox Hu timing) | Palace gate / world clear | live |
+| 4-1 First Steps | cloudsea | stair climb, one hanging bridge. Earth gravity. Frost hare (I9) | Moon Pool near spawn | live. Lengthen to 4-6 chunks |
+| 4-2 No Return | cloudsea | denser frost, two bridges, no mid save. Frost hare (I9) | Station restart on fall | live. Lengthen to 4-6 chunks |
+| 4-3 Closing Gale | cloudsea | left storm wall (Fox Hu timing) | Palace gate, not the throne / world clear | live |
 
 ### Finale
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| M-1 Guanghan | moon | low gravity, duck roofs, mooncake warmth dash vs Han | Gift beat. Yue and kits go home. Mei jumps Han's moon (today: epilogue cards). `MOON_RETURN` | live |
+| M-1 Guanghan | moon | low gravity. Planned palace walk then Han court. Today: two-chunk fight | Gift beat. Yue and kits go home. Mei jumps Han's moon (today: epilogue cards). `MOON_RETURN` | live. Palace walk I10 |
 
 ### Chapter 2 — Journey on Moon (first stations live)
 

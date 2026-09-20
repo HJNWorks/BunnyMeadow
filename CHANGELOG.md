@@ -8,6 +8,11 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Chapter 1 overhaul docs lock (I6). Lore gates, station briefs, keep/skip, Guanghan
+  palace walk versus Han court. Hub:
+  [docs/story/chapter1-overhaul.md](docs/story/chapter1-overhaul.md). Iteration:
+  [docs/iterations/i6-chapter1-docs.md](docs/iterations/i6-chapter1-docs.md). No
+  playable JSON in this pass.
 - Bunny Jump under Moon Tasks. Scene `BunnyJump`: one-way auto-bounce climb,
   height bands, moon disc, local best `progress.bunnyJumpBest`. Perch fox and
   hedgehog. Crumble `land`, lantern boost, slide, ice slick. Design:

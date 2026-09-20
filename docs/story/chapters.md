@@ -20,6 +20,8 @@ Crane Envoy, Fox Hu, Xiwangmu.
 
 The live climb. Worlds 0 to 4 plus Guanghan. Painting:
 [../../public/Story-Background.png](../../public/Story-Background.png).
+Overhaul (docs lock, then sequenced map work):
+[chapter1-overhaul.md](chapter1-overhaul.md).
 
 Guanghan is already the moon palace. Han settles into a grown moon at his last place.
 That moon is the **inner gate** into the rest of Vast Cold, not a first arrival from

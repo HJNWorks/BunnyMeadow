@@ -21,14 +21,16 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 | M5 Endless mode | done |
 | Web iterations I1–I4 | done (tagged `v0.2.0`) |
 | Web iteration I5 | done (Bunny Jump under Moon Tasks) |
+| Web iteration I6 | current (Chapter 1 docs lock) |
 | M6–M8 desktop + store | postponed to the end, after the web iterations |
 
 ## Current phase
 
-Story milestones M0–M5 and web iterations I1–I4 are done. Current track is
-[I5 Bunny Jump](iterations/i5-bunny-jump.md) (live). Remaining jump-kit roles and
-vanish pads wait. Desktop and
-store milestones (M6–M8) stay postponed. See [iterations/README.md](iterations/README.md).
+Story milestones M0–M5 and web iterations I1–I5 are done. Current track is
+[I6 Chapter 1 docs lock](iterations/i6-chapter1-docs.md). Hub:
+[story/chapter1-overhaul.md](story/chapter1-overhaul.md). Map work waits on I7–I10.
+Desktop and store milestones (M6–M8) stay postponed. See
+[iterations/README.md](iterations/README.md).
 
 ## Done
 
@@ -114,6 +116,7 @@ Fields later milestones fill that must exist from M1:
 - `progress.tasksCompleted`
 - `progress.endlessBest`
 - `progress.bunnyJumpBest` (I5. Local best height after the moon disc)
+- `progress.story.keepsakes` (I7+. List of station ids. Planned)
 - `progress.pantryLevel` / `pantryCarrots` / `meadowMapsUnlocked`
 - `progress.achievements`
 - `settings.bindings` (includes `jump`)
@@ -262,6 +265,14 @@ Playable `BunnyJump` scene, `land` in the break field, perch wildlife in `jumpKi
 `tasks.json` / TaskRunner, `progress.bunnyJumpBest`. Remaining jump roles and vanish
 pads wait. No `package.json` bump. No new Steam achievement. Lantern Run stays deferred.
 
+### Web iteration I6 — Chapter 1 docs lock
+
+**Status: current.** Detail: [iterations/i6-chapter1-docs.md](iterations/i6-chapter1-docs.md).
+Hub: [story/chapter1-overhaul.md](story/chapter1-overhaul.md).
+
+Docs only. Lore gates, station briefs, keep/skip, palace walk versus Han court.
+Playable maps wait on I7–I10. No chunk JSON. No `path.ts`. No `package.json` bump.
+
 ### M6 — Desktop shell
 
 **Status: postponed** (resumes after the current web track). Retained at the end of the
@@ -388,5 +399,5 @@ any local commands run on Windows.
 
 ## Suggested next coding session
 
-I5 Bunny Jump docs are the current track. Code for the climb is the next coding
-session after this slice. Desktop milestone [M6](#m6--desktop-shell) stays postponed.
+I6 Chapter 1 docs lock is the current track. Map work starts at
+[I7](iterations/i7-w0-pool.md). Desktop milestone [M6](#m6--desktop-shell) stays postponed.

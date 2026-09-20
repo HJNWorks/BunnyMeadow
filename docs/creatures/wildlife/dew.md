@@ -1,25 +1,27 @@
 # Wildlife — Dew
 
-Status: idea. Class: Wildlife (or item). Archetype: swarm (optional) or pickup. Hub: [../README.md](../README.md).
-No folklore role. Do not add to native editor pickers until this page is live in data.
+Status: planned as item (I8). This wildlife page is leftover. Slow-time lives on
+[../../items/catalog.md](../../items/catalog.md). Dusk lights live on
+[firefly.md](firefly.md). Do not ship a second dew sprite.
 
 | Field | Value |
 | --- | --- |
-| Home biomes | meadow, riverbank |
-| Active hour | morning, afternoon |
+| Home biomes | meadow, orchard |
+| Active hour | afternoon, golden hour |
 | Min tier | 1 |
 | Hearts | n/a |
 | Safe from above | n/a |
 
 ## Behaviour
 
-Idea: a small wet glint on grass or a log. As wildlife it would be a harmless sparkle
-cloud. As an item it would be a short cleanse or extra hop. Pick one job before shipping.
+Pickup only. Short slow-time so a jump or dash reads easier. Overlaps the
+accessibility slow-time option, so keep the effect short and clearly a consumable.
 
 ## Telegraph and counter
 
-If it is wildlife, the glint is the telegraph. If it is an item, it sits still like a carrot.
+It sits still like a carrot. A bright droplet.
 
 ## Silhouette rule
 
-A drop, not a creature body. Family tone. Fail is retry.
+A drop, not a creature body. Not a heart sprite. Family tone. Fail is retry.
+

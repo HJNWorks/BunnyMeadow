@@ -17,7 +17,10 @@ very start of the night. Hub: [../README.md](../README.md).
 
 Narrow, dark, cosy. A short opening rung: root-lined tunnels lit by a thin shaft of
 afternoon light from the entrance. Vertical lifts (root bundles) carry the player up
-toward the meadow mouth. No enemies chase here; it is a warm-up before the open field.
+toward the meadow mouth. No enemies chase here. It is a warm-up before the open field.
+Optional I7 lead-in. The first playable map is Moon in the Pool (pond, no wildlife,
+controls). Family kits as non-HP set dressing around the burrow. Fireflies at dusk
+outside. One keepsake.
 
 ## Roster
 
@@ -29,6 +32,8 @@ motion without threat.
 | Item | Weight | Notes |
 | --- | --- | --- |
 | carrot | high | the pantry staple, stored here |
+| dew | low | planned I8 on the meadow mouth, not in the dark |
+| osmanthus seed | one if this lead-in ships | keepsake |
 
 ## Endless status
 

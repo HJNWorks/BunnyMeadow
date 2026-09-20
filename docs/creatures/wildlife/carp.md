@@ -1,7 +1,8 @@
 # Wildlife — Carp
 
-Status: idea. Class: Wildlife. Archetype: patrol (water). Hub: [../README.md](../README.md).
-No folklore role; plain wildlife. Would be the first water-bound enemy.
+Status: planned (I8). Class: Wildlife. Archetype: patrol (water). Hub: [../README.md](../README.md).
+No folklore role; plain wildlife. First water-bound enemy. Needs a water-patrol
+behaviour that is not ground patrol.
 
 | Field | Value |
 | --- | --- |
@@ -27,5 +28,5 @@ Broad-backed fish; only the shadow and ripple are visible until it breaches.
 
 ## Open questions
 
-Needs a water-patrol behaviour that is not the same as ground patrol. Scheduled work,
-if any, would land in [../../iterations/i2-creatures-items.md](../../iterations/i2-creatures-items.md).
+Needs a water-patrol behaviour that is not the same as ground patrol. Map work:
+[../../iterations/i8-w1-w2-density.md](../../iterations/i8-w1-w2-density.md).

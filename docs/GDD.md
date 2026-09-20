@@ -11,7 +11,7 @@ Family-tone woodland game. Phaser 4 + Vite + TypeScript. Web on GitHub Pages. St
 
 Audience: family / all ages (Mario or Kirby stakes). Light peril. Short readable dialogue. Kits (baby rabbits) may go missing by misunderstanding. No death, no predator kidnapping.
 
-First story release: Chapter 1, 4 worlds x 3 levels plus a moon finale. Chapter 2 first stations are live. Chapter 3 West of Silver is on the World Map with Soon worlds ([story/chapters.md](story/chapters.md)).
+First story release: Chapter 1, 4 worlds x 3 levels plus a moon finale. Chapter 2 first stations are live. Chapter 3 West of Silver is on the World Map with Soon worlds ([story/chapters.md](story/chapters.md)). Chapter 1 overhaul (docs lock, then I7-I10 maps): [story/chapter1-overhaul.md](story/chapter1-overhaul.md).
 
 ## Modes
 
@@ -44,7 +44,7 @@ Infinite left-to-right runner from Story chunk prefabs. Free player pace under a
 
 ## Meta progression
 
-Carrots from any mode feed the burrow pantry. Pantry levels unlock cosmetics and Meadow maps only. Beating Han unlocks Mei's moon helmet the same way `MOON_RETURN` unlocks the moon dash. No gameplay power creep. Difficulty stays honest.
+Carrots from any mode feed the burrow pantry. Pantry levels unlock cosmetics and Meadow maps only. Beating Han unlocks Mei's moon helmet the same way `MOON_RETURN` unlocks the moon dash. Keepsakes (osmanthus seeds) are a separate saved list. They never respawn. They unlock Customize flecks and achievements only. They do not change hop power. Carrots still feed the pantry. No gameplay power creep. Difficulty stays honest.
 
 ## Difficulty (data-driven)
 
@@ -84,6 +84,7 @@ Ids in `src/data/achievements.json` match Steamworks one-to-one. Web tracks sile
 | WORLD1_CLEAR | Hedgerow Hopper | Clear Story World 1 |
 | WORLD2_CLEAR | Bamboo Runner | Clear Story World 2 |
 | WORLD3_CLEAR | Lantern Climber | Clear Story World 3 |
+| WORLD4_CLEAR | Cloud Step | Clear Story World 4 |
 | MOON_RETURN | Moon Return | Finish the moon finale |
 | FOX_FOILED | Fox Foiled | Beat Fox Hu cart chase |
 | CRANE_FRIEND | Crane Friend | Resolve the Crane Envoy fight |

@@ -27,6 +27,7 @@ docs/
   STORY.md             narrative spine (Chapter 1 live)
   story/
     chapters.md        Chapter 1 live, Chapter 2 first stations, Chapter 3 West of Silver planned
+    chapter1-overhaul.md  Chapter 1 docs lock (I6). Station briefs, lore gates
     chapter2-map-prompt.md  paste-ready Chapter 2 painting prompt
     chapter3-map-prompt.md  paste-ready Chapter 3 painting prompt
     proximity.md       contact vs proximity vs volume triggers
@@ -43,7 +44,7 @@ docs/
     README.md          the Ladder and the five axes
     biome-graph.md     environment nodes, edges, bridges, endless route
     timeline.md        where every mode and world sits in the one night
-    environments/      one page per environment kit
+    environments/      one page per environment kit (guanghan-palace.md splits walk vs court)
   creatures/           the bestiary
     README.md          index + creature classes
     abilities.md       player verbs and item interactions
@@ -73,7 +74,7 @@ docs/
     performance.md     atlas and draw-call budgets
   iterations/          web iteration track (post-M5)
     README.md          scheme
-    i1-biome-route.md .. i5-bunny-jump.md
+    i1-biome-route.md .. i10-guanghan-palace.md
 ```
 
 ## Status vocabulary
@@ -93,8 +94,8 @@ entry there.
 ## Versioning rules
 
 - Story milestones M0-M5 are done. Web iterations I1-I4 are done (`v0.2.0`). I5 is
-  Bunny Jump live. The remaining desktop and store milestones (M6-M8) are
-  postponed. See [ROADMAP.md](ROADMAP.md).
+  Bunny Jump live. I6 is the Chapter 1 docs lock. The remaining desktop and store
+  milestones (M6-M8) are postponed. See [ROADMAP.md](ROADMAP.md).
 - Web iterations live under [iterations/](iterations/README.md).
   Each iteration has one page listing its data and doc deltas.
 - Design pages describe the target. Iteration pages describe the change that moves

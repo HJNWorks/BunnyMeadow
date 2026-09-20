@@ -16,7 +16,8 @@ Status: live. The second rung: low hills of fruit trees at golden hour. Hub:
 ## Feel
 
 Fruit trees and fences. The rung where gaps widen and the first wall-bounce shapes
-appear. Warm low sun, long shadows.
+appear. Warm low sun, long shadows. New stamps (I8): taller grass clumps, fence posts,
+orchard fruit as decor only. Fruit is not a peach heal.
 
 ## Roster
 
@@ -24,8 +25,10 @@ appear. Warm low sun, long shadows.
 | --- | --- | --- | --- |
 | hedgehog | patrol | golden hour | 1 |
 | crow | ranged_lob | golden hour | 1 |
-| squirrel | ranged_lob | golden hour | 2 |
+| squirrel | ranged_lob | golden hour | 2 (stamp live, place on Hedge Maze I8) |
 | fox | chaser | golden hour | 2 |
+| bees | swarm | golden hour | 2 (planned I8) |
+| boar | blocker | golden hour | 3 (planned I8) |
 
 Folk: none native. Fox Hu may pass through as a trickster cameo (idea).
 
@@ -34,8 +37,9 @@ Folk: none native. Fox Hu may pass through as a trickster cameo (idea).
 | Item | Weight | Notes |
 | --- | --- | --- |
 | carrot | high | currency |
-| dew | low | slow-time buff |
+| dew | low | slow-time buff (I8) |
 | mooncake | rare | restores one heart |
+| osmanthus seed | one per station | keepsake |
 
 ## Chunk usage
 

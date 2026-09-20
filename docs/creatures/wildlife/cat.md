@@ -14,7 +14,8 @@ No folklore role; plain wildlife.
 ## Behaviour
 
 A night reach enemy. Sits on a ledge and swipes a long paw in one direction on a
-crouch telegraph, guarding festival rooftops and mountain ledges.
+crouch telegraph, guarding festival rooftops and mountain ledges. Stamp and Path
+roster are live. No Chapter 1 chunk places this id yet. I9 placement.
 
 ## Telegraph and counter
 

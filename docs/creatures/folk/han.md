@@ -13,7 +13,11 @@ still plays first.
 
 ## Boss encounter
 
-Guanghan, moon finale after the Cloud Stair. Spirit hearts start at 5/5. Mei cannot attack. A consumed
+Guanghan, moon finale after the Cloud Stair. Today the whole two-chunk station is this
+fight. Planned I10: a palace walk first, then this court as the last 1-2 chunks. Enter
+the court (proximity volume) to start. Leave the volume to cancel the fight and reset
+Han hearts. Mooncakes and spirit HUD only while the fight is live. Spirit hearts start
+at 5/5. Mei cannot attack. A consumed
 mooncake starts a short warmth buff (about 3 s). Only a dash into Han while that
 buff is live removes one spirit heart. A bare dash does nothing to him and still costs
 Mei a heart on contact.
@@ -56,7 +60,7 @@ center of the playfield. Mei hearts sit at the top left.
 ## Guard
 
 No fireballs, no water as a weapon, no stove. Hou Yi and the ten suns stay background.
-Festival lanterns belong to World 3.
+Festival lanterns belong to World 3. Sparklers stay lantern-class light, not this kit.
 
 ## Silhouette rule
 

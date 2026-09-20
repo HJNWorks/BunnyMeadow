@@ -17,7 +17,7 @@ camera, height bands, moon disc win, local best `progress.bunnyJumpBest`. No
 ## Still later
 
 hop_ledge, drop_shot, stoop, column_swipe, ledge_charge, drift in `jumpKit`.
-Vanish pads. Bees / tortoise / boar debuts. Lantern Run stays deferred.
+Vanish pads. Bees / tortoise / boar jump debuts after Story I8. Lantern Run stays deferred.
 
 ## Ship
 

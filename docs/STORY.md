@@ -27,17 +27,20 @@ Dialogue rule: two lines max per exchange. Skippable. Moon Pool lines are one li
 Live spine is **Chapter 1 — Burrow to Moon** plus Chapter 2 first stations. Chapter 3
 West of Silver is on the World Map with Soon worlds.
 
-### 0. World 0 — Burrow Eve (stations, no platforming)
+### 0. World 0 — Burrow Eve
 
-Path-map root. Three DomShell stations unlock World 1:
+Path-map root. Unlock chain: Burrow Eve, then Moon in the Pool, then Soft Paws, then
+Soft Paths. Overhaul hub: [story/chapter1-overhaul.md](story/chapter1-overhaul.md).
 
 | Station | Purpose |
 | --- | --- |
-| Burrow Eve | Mid-Autumn setting. Yue and the glowing blossom (text beat) |
-| Moon in the Pool | Chang'e through water. Follow the blossoms (text beat) |
-| Soft Paws | Playable intro: move, jump, dash, hedgehog, fox, burrow exit |
+| Burrow Eve | Mid-Autumn setting. Yue and the glowing blossom (text beat). No map |
+| Moon in the Pool | Planned playable controls map. Grass, one Moon Pool (Chang'e's first reflection), no wildlife. Float chips teach run, jump, dash. Reach the puddle, hear the line, reach a tiny exit. Today this station is still lore text |
+| Soft Paws | Creatures, not controls. Hedgehog, fox, bees. Burrow exit. Same verbs already known from the Pool map |
 
-Completing Soft Paws unlocks Soft Paths. Soft Paws is the only station that floats the move/jump/dash intro next to Mei. Other stations keep those chips in the top bar, already docked.
+Completing Soft Paws unlocks Soft Paths. Teaching float chips move to Moon in the Pool
+in I7. Until then Soft Paws still floats move, jump, and dash next to Mei. Other
+stations keep those chips in the top bar, already docked.
 
 ### 1. Prologue beat (told in World 0)
 
@@ -51,13 +54,16 @@ Mei runs to the pond. Chang'e answers through the water:
 
 ### 2. World 1 — Meadow and Hedgerows (day to golden hour)
 
-Enemies: foxes, crows, hedgehogs. [Fox Hu](LORE.md#fox-spirits--huli-jing-狐狸精) steals the carrot basket the kits need.
+Enemies: foxes, crows, hedgehogs. Planned placement: squirrel, bees, tortoise.
+[Fox Hu](LORE.md#fox-spirits--huli-jing-狐狸精) steals the carrot basket the kits need.
 
 Boss: Fox Hu's carrot cart chase.
 
-Live stations: Soft Paths, Hedge Maze, Cart Chase.
+Live stations: Soft Paths, Hedge Maze, Cart Chase. I8 lengthens Soft Paths and Hedge
+Maze and places dew and mooncakes on high grass. Cart Chase stays the folk boss.
 
-Lesson mechanics: run, jump, dash, wall bounce.
+Lesson mechanics: run, jump, dash, wall bounce. Controls were already taught on the
+Pool map.
 
 Moon Pool sample:
 
@@ -65,13 +71,15 @@ Moon Pool sample:
 
 ### 3. World 2 — Bamboo Grove and River (dusk)
 
-Enemies: herons, frogs, carp. Falling bamboo.
+Enemies: herons, frogs, carp. Falling bamboo. Planned: dense grove, then a grove-to-river
+edge. Place frog, squirrel, goat. Boar as orchard or bamboo blocker. Carp as water-patrol.
+Heron as a chunk reach enemy on the river, not only the raft boss. No panda.
 
 Mei learns Yue is fine but "above the clouds".
 
 Boss: the Heron Fisher on the river rafts (invented).
 
-Live stations: Green Corridor (bamboo wall bounce), Floating Logs (moving logs + river current), Raft Gauntlet (three dash hits on the heron).
+Live stations: Green Corridor (bamboo wall bounce), Floating Logs (moving logs + river current), Raft Gauntlet (three dash hits on the heron). I8 lengthens 2-1 and 2-2. Mooncakes on logs.
 
 Moon Pool sample:
 
@@ -79,13 +87,14 @@ Moon Pool sample:
 
 ### 4. World 3 — Lantern Village and Osmanthus Peak (night, festival)
 
-Mid-Autumn lanterns, cats, owls (ordinary night enemies only), fireworks.
+Mid-Autumn lanterns, cats, owls (ordinary night enemies only). Fireflies as weather.
+Sparkler and firework bursts as scenery, not a weapon. Stalls and hanging lantern strings.
 
 [Lord Rabbit](LORE.md#tuer-ye--lord-rabbit-兔兒爺) lends his tiger for the ascent.
 
 Boss: the Crane Envoy. It realizes the mistake and carries Mei to the foot of the Cloud Stair, not the palace door.
 
-Live stations: Paper Lights (hold jump to glide), Tiger Road (scripted tiger ride), Crane Summit (dive telegraph, soft bow exit).
+Live stations: Paper Lights (hold jump to glide), Tiger Road (scripted tiger ride), Crane Summit (dive telegraph, soft bow exit). I9 lengthens Paper Lights more than the scripted rides. Place cat and owl. Lantern and mooncake pickups.
 
 Mechanics: lantern glide, tiger ride, wind.
 
@@ -95,12 +104,14 @@ Moon Pool sample:
 
 ### 5. World 4 — Cloud Stair (deep night)
 
-The last walk. Wind, void, frost wisps, ice spit, and gale magpies. Hanging bridges
-sway. One fall fails the station. Soft copy ("the cloud took you").
+Own biome. Earth gravity. Pale cloud sea. Not lunar ground. Not 0.42 g. Vast Cold
+leaks down from Guanghan. Wind, void, frost wisps, ice spit, gale magpies, frost hares.
+Hanging bridges sway. One fall fails the station. Soft copy ("the cloud took you").
+Optional faded festival lanterns as Earth remnant, not palace jade.
 
 Live stations: First Steps (short stair, one bridge, a pool near spawn), No Return
 (no Moon Pool, denser ice, two bridges), Closing Gale (left storm wall like Fox Hu's
-cart. Reach the palace gate).
+cart. Reach the palace gate, not the throne). I9 lengthens 4-1 and 4-2.
 
 Boss: the Closing Gale, a weather event, not a named immortal
 ([creatures/folk/closing-gale.md](creatures/folk/closing-gale.md)).
@@ -111,8 +122,18 @@ Moon Pool sample (4-1 only):
 
 ### 6. Finale — Guanghan Palace (low gravity)
 
+Split the moon rung. Today the whole station is Han's two-chunk fight. Planned: a
+palace walk (about ten screens) then Han's court (last 1-2 screens). Low gravity the
+whole station. Palace wildlife: frost wisps in corridors, optional star wisps as palace
+cold, lantern moths in halls. Chang'e, Yutu, Wu Gang, and the toad stay off the HP bar.
+Pages: [universe/environments/moon.md](universe/environments/moon.md),
+[universe/environments/guanghan-palace.md](universe/environments/guanghan-palace.md).
+
 [Han](creatures/folk/han.md), an old ghost of Vast Cold, keeps guests in the layered
-roofs. Duck frost spears, eat a mooncake in the open, dash him while the warmth lasts.
+roofs. Planned first live proximity: enter the court to start the fight. Leave the
+volume to cancel the fight and reset Han hearts. Mooncakes and spirit HUD only while
+the fight is live. Duck frost spears, eat a mooncake in the open, dash him while the
+warmth lasts.
 Five spirit hearts. Starfall after the second hit, both volleys on the last heart. From
 three hearts he may charge a tracking lunar beam (two hearts if it lands). The beam
 leaves from his helmet. Roofs and walls stop it, so Mei can hide. On the last heart

@@ -15,6 +15,7 @@ No folklore role; plain wildlife.
 
 Throws acorns on a parabola like the crow, but from tree cover and at a faster
 cadence with a shorter arc. Rewards reading two lobbers at once in the orchard.
+Stamp and Path roster are live. No Chapter 1 chunk places this id yet. I8 placement.
 
 ## Telegraph and counter
 

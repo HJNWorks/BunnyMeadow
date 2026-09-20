@@ -31,7 +31,7 @@ Grounded wildlife and Fox Hu's cart must pass `constrainCreatureToWorld` in
 add restores gravity, and the world has no floor bound, so a spawn that skips this
 falls through the map on the first frame. The constraint syncs the body, collides with
 platforms, and seats feet on the nearest floor. Flying kits (crow, owl, bees, frost
-wisp, gale magpie, dust mite, star wisp) skip the seat.
+wisp, gale magpie, dust mite, star wisp, lantern moth) skip the seat.
 
 | Archetype | Behaviour |
 | --- | --- |
@@ -54,26 +54,29 @@ and the minimum tier at which the creature appears.
 | fox | chaser | meadow, orchard | 1 | live |
 | hedgehog | patrol | meadow, orchard | 1 | live |
 | crow | ranged_lob | meadow, orchard, bamboo, riverbank, lantern | 2 | live |
-| squirrel | ranged_lob | orchard, bamboo | 2 | live (Story) |
-| frog | patrol | bamboo, riverbank | 2 | live (Story) |
-| heron | reach | riverbank | 3 | live (Story) |
-| carp | patrol (water) | riverbank | 3 | idea |
-| cat | reach | lantern, osmanthus | 3 | live (Story) |
-| owl | diver | lantern, osmanthus | 3 | live (Story) |
-| goat | blocker | bamboo, osmanthus | 3 | live |
-| boar | blocker | orchard, bamboo | 3 | idea |
-| tortoise | patrol | meadow, riverbank | 1 | idea |
+| squirrel | ranged_lob | orchard, bamboo | 2 | live (Story). Stamp unused on Chapter 1 chunks. I8 place |
+| frog | patrol | bamboo, riverbank | 2 | live (Story). Stamp unused on Chapter 1 chunks. I8 place |
+| heron | reach | riverbank | 3 | live (Story). Chunk heron unused. I8 place. Raft boss stays folk |
+| carp | patrol (water) | riverbank | 3 | planned (I8). Needs a water-patrol archetype |
+| cat | reach | lantern, osmanthus | 3 | live (Story). Stamp unused on Chapter 1 chunks. I9 place |
+| owl | diver | lantern, osmanthus | 3 | live (Story). Stamp unused on Chapter 1 chunks. I9 place |
+| goat | blocker | bamboo, osmanthus | 3 | live. Stamp unused on Chapter 1 chunks. I8 place |
+| boar | blocker | orchard, bamboo | 3 | planned (I8). Chapter 1 Path, not Chapter 3 |
+| tortoise | patrol | meadow, riverbank | 1 | planned (I8). Chapter 1 Path, not Chapter 3 |
 | magpie | diver | cloudsea | 4 | live (Story) |
-| frost wisp | swarm | cloudsea | 4 | live (Story) |
+| frost wisp | swarm | cloudsea, moon (palace halls) | 4 | live (Story). Palace corridors I10 |
 | ice spit | ranged_lob | cloudsea | 4 | live (Story) |
-| dust mite | swarm | moon (outer, dust) | 5 | live (Story) |
-| star wisp | swarm | moon (wells, silver) | 5 | live (Story) |
-| pestle sentry | ranged_lob | moon (mortar) | 5 | live (Story) |
+| frost hare | patrol / chaser | cloudsea | 4 | planned (I9). Invented 霜兔 |
+| lantern moth | diver | lantern, osmanthus, moon (palace) | 3 | planned (I9, I10) |
+| firefly | visual / optional glow | meadow, lantern | 1 | planned (I7 visual, I9) |
+| dust mite | swarm | moon (outer, dust) | 5 | live (Story). Chapter 2 only. Do not debut on Earth |
+| star wisp | swarm | moon (wells, silver, palace optional) | 5 | live (Story). Chapter 2. Optional Guanghan palace leak. Not the Stair |
+| pestle sentry | ranged_lob | moon (mortar) | 5 | live (Story). Chapter 2 only. Do not debut on Earth |
 | azure bird | diver | Peach Rows | n/a | idea |
 | jade mite | swarm | Grotto Heaven | n/a | idea |
 | copper sentry | ranged_lob | Hanging Ridges | n/a | idea |
-| bees | swarm | meadow, orchard | 2 | idea |
-| dew | swarm or pickup | meadow, riverbank | 1 | idea |
+| bees | swarm | meadow, orchard | 2 | planned (I7-I8). Chapter 1 Path, not Chapter 3 |
+| dew | item (slow-time). Not a wildlife HP bar | meadow, orchard | 1 | planned (I8). See [items/catalog.md](../items/catalog.md) |
 
 Guard: owls are ill omens in tradition and must never serve the Moon. They are
 ordinary night enemies only ([../LORE.md](../LORE.md#cranes-as-immortal-messengers)).
@@ -97,12 +100,13 @@ Other jump roles wait.
 | dust mite | drift | live |
 | star wisp | drift | live |
 | pestle sentry | drop_shot | live |
-| bees | drift | idea (debut in Bunny Jump) |
-| tortoise | perch | idea (debut in Bunny Jump) |
-| boar | ledge_charge | idea (debut in Bunny Jump) |
+| bees | drift | planned (Story I7-I8. Jump later) |
+| tortoise | perch | planned (Story I8. Jump later) |
+| boar | ledge_charge | planned (Story I8. Jump later) |
+| frost hare | skip | planned Story Cloud Stair |
 
-Skip carp and dew. Skip Chapter 3 idea fauna (azure bird, jade mite, copper sentry).
-Folk stay off this HP bar.
+Skip carp, firefly, and dew as jump roles. Skip Chapter 3 idea fauna (azure bird, jade mite, copper sentry).
+Folk stay off this HP bar. Bees, tortoise, and boar belong in Chapter 1 Path, not Chapter 3 Later.
 
 ## Folk
 

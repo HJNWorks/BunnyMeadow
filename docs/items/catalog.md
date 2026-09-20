@@ -32,9 +32,11 @@ does not place pantry carrots.
 | Render cue | round golden pastry with a stamped top; warm glint |
 
 Most valuable on the Riverbank, where water costs hearts. Ties to the Mid-Autumn frame.
-In Story Guanghan the same pastry is warmth ammo, not a heal: eat it to start a short
-timed buff, then dash Han. It appears on the top-center of remaining ledges.
-Endless still restores a heart. Chapter 2 hops restore a heart. One job per context.
+In Earth Story the pastry restores one heart (I8 place on orchard, river, lantern,
+osmanthus). In Story Guanghan the same pastry is warmth ammo, not a heal: eat it to
+start a short timed buff, then dash Han. It appears on the top-center of remaining
+ledges while the court fight is live. Endless still restores a heart. Chapter 2 hops
+restore a heart. One job per context. Do not add a generic heart sprite.
 
 ## osmanthus blossom
 
@@ -111,7 +113,7 @@ Run-scoped. Not Yutu as an HP bar. The crumb is the pickup.
 | Field | Value |
 | --- | --- |
 | Category | run-buff |
-| Status | idea |
+| Status | planned (I8) |
 | Effect | Short slow-time so a jump or dash reads easier |
 | Duration | short |
 | Home biomes | meadow, orchard |
@@ -134,7 +136,45 @@ consumable, not a mode.
 | Render cue | a folded silver note with a faint moon seal; a soft chime on pickup |
 
 Turns the terminal reward rungs on. Without it, `osmanthus -> cloudsea` stays closed
-([../universe/biome-graph.md](../universe/biome-graph.md)).
+([../universe/biome-graph.md](../universe/biome-graph.md)). Story Chapter 1 does not
+use this key. Moon letter stays Endless-only.
+
+## sparkler
+
+| Field | Value |
+| --- | --- |
+| Category | run-buff |
+| Status | planned (I9) |
+| Effect | Brief lantern-class light. Same glow hook. No mist wall. Not a weapon |
+| Duration | timed |
+| Home biomes | lantern |
+| Rarity | uncommon |
+| Render cue | a short sparkler burst. Festival ash, not Han frost |
+
+Scenery first (background fireworks). Optional pickup for a timed glow. Traditional
+Mid-Autumn is lanterns, mooncakes, osmanthus. Modern festivals use fireworks. Invented
+festival ash. Han still has no fireballs.
+
+## osmanthus seed
+
+| Field | Value |
+| --- | --- |
+| Category | keepsake |
+| Status | planned (I7-I10) |
+| Effect | Increments `progress.story.keepsakes`. Unlocks Customize flecks and achievements. No hop power |
+| Duration | permanent collectible. Never respawns |
+| Home biomes | one hidden spawn per playable Chapter 1 station |
+| Rarity | unique per station |
+| Render cue | a small osmanthus seed (桂子). Quiet glint, not a carrot sparkle |
+
+Fallen from Wu Gang's tree. Canon plant. Invented scatter. Save is a list of station
+ids. Burrow Eve stays lore and has none. Counter examples: first seed, eight seeds,
+full Chapter 1 set. Carrots still feed the pantry.
+
+## heart sprite
+
+Do not ship. Mooncake already restores one heart on Earth Story. Guanghan cakes stay
+warmth ammo.
 
 ## cosmetic drop
 
@@ -149,7 +189,7 @@ Turns the terminal reward rungs on. Without it, `osmanthus -> cloudsea` stays cl
 | Render cue | a sparkling wrapped token; a distinct unlock jingle |
 
 An alternative to pantry-only cosmetic unlocks, giving a long run a rare surprise. Never
-affects stats.
+affects stats. Chapter 1 prefers the osmanthus seed keepsake over this generic token.
 
 ## jade dew
 

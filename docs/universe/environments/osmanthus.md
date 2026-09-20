@@ -36,7 +36,8 @@ Folk: Crane Envoy, the World 3 boss ([../../creatures/folk/crane-envoy.md](../..
 | carrot | medium | currency, sparser here |
 | osmanthus blossom | uncommon | one glide charge; thematically native (blossom fall) |
 | mooncake | rare | restores one heart |
-| moon letter | rare | key item; can unlock the Cloud Sea edge in Endless |
+| moon letter | rare | key item; can unlock the Cloud Sea edge in Endless. Story does not use it |
+| osmanthus seed | one per station | keepsake. Fallen from Wu Gang's tree |
 
 ## Chunk usage
 

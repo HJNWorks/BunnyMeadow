@@ -97,15 +97,15 @@ ordinary night enemies. They never serve the Moon.
 
 ### Debut in this mode (stamps already exist)
 
-Story status for these is still idea. Bunny Jump is their first scheduled use.
+Story Path ships bees, tortoise, and boar first (I7-I8). Jump roles wait.
 
 | Wildlife | Jump role |
 | --- | --- |
 | bees | drift |
 | tortoise | perch |
-| boar | ledge_charge (if still idea in Story) |
+| boar | ledge_charge |
 
-Skip carp (no stamp). Skip dew as an enemy (pickup idea only).
+Skip carp (no stamp). Skip dew as an enemy (pickup). Skip frost hare.
 
 ## Code
 

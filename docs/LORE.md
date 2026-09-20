@@ -174,8 +174,12 @@ Status values:
 | Other Shore | Invented. Far side of the One Moon Pool | Not Earth. Not Guanghan roofs |
 | Grotto Heaven path | Invented geography using 洞天 as jade caves on the Kunlun climb | Not Quiet Wells dust. Not a burrow village |
 | Peach refusal | Invented beat. Mei refuses the peach of immortality | Xiwangmu still holds the peaches. Chang'e's loneliness stays. Mei stays mortal |
-| Lunar fauna | Invented moon wildlife with odd silhouettes and folk names (dust mites, crater crabs, star wisps) | Not NASA colonies. Not named immortals. Chang'e, Yue, Yutu, Wu Gang, moon toad stay off HP bars |
+| Lunar fauna | Invented moon wildlife with odd silhouettes and folk names (dust mites, crater crabs, star wisps). Star wisps may leak into the Guanghan palace walk | Not NASA colonies. Not named immortals. Chang'e, Yue, Yutu, Wu Gang, moon toad stay off HP bars. Do not debut on Earth or the Cloud Stair |
 | Osmanthus blossom fall | A glowing blossom from Wu Gang's tree drifts to earth and starts the plot | Wu Gang's tree is canon. The fall event is invented |
+| Frost hare (霜兔) | Ordinary mountain hares bleached and agitated by Vast Cold on the Cloud Stair. Patrol or chaser | Not Yutu. Not Mei or Yue as kits. Not a moon immortal |
+| Osmanthus seeds (桂子) | Fallen from Wu Gang's tree. One hidden keepsake per playable station | Canon plant. Invented scatter. Never a second pantry. No hop power |
+| Guanghan palace walk | Invented geography. Long low-g walk through roofs and courtyards before Han's court | Must not replace Chang'e's authority or the gift beat. Wu Gang stays background until after Han |
+| Sparkler / festival ash | Background bursts and a lantern-class timed light on Lantern Peak | Traditional Mid-Autumn is lanterns first. Not a firework weapon. Not Han's kit |
 | Heron Fisher | World 2 boss. Invented animal antagonist | Fine. Herons are ordinary wildlife, not folklore deities |
 | Han | Moon boss. Old invented ghost of Vast Cold. The palace's habit of keeping guests. His grown moon is the inner gate Mei jumps to enter Chapter 2 | Must not be Chang'e, Yue, Yutu, Wu Gang, or the moon toad. No fire or water kit. Not an Earth-to-moon portal. Guanghan is already the palace |
 | Cloud Stair (云梯) | Invented geography between Osmanthus Peak and Guanghan. Crane drop-off, then a walk | Must not replace the palace or Chang'e's authority. Fengbo is not dramatized |
@@ -201,5 +205,7 @@ Status values:
 | Japanese mochi rabbit | forbidden |
 | NASA colonies, flying saucers, abandoned Earth bases | forbidden |
 | Sasa Jataka gift beat | invented inspiration (labeled) |
-| Mei, Yue, Moon Pools, One Moon Pool, Other Shore, Grotto Heaven path, peach refusal, lunar fauna, Heron Fisher, Han, Cloud Stair, frost wisps, Closing Gale | invented |
+| Mei, Yue, Moon Pools, One Moon Pool, Other Shore, Grotto Heaven path, peach refusal, lunar fauna, Heron Fisher, Han, Cloud Stair, frost wisps, Closing Gale, frost hare, osmanthus seeds, palace walk, sparkler | invented |
+| Giant panda as folk or moon neighbor | forbidden (default skip) |
+| Yeti | forbidden |
 | Star raft (星槎) | adapted (optional wreck) |

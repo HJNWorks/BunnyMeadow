@@ -1,7 +1,8 @@
 # Wildlife — Tortoise
 
-Status: idea. Class: Wildlife. Archetype: patrol. Hub: [../README.md](../README.md).
-No folklore role; plain wildlife. Named as a patrol example in [../../ENEMIES.md](../../ENEMIES.md).
+Status: planned (I8). Class: Wildlife. Archetype: patrol. Hub: [../README.md](../README.md).
+No folklore role; plain wildlife. Chapter 1 Path, not Chapter 3 Later. Named as a
+patrol example in [../../ENEMIES.md](../../ENEMIES.md).
 
 | Field | Value |
 | --- | --- |
@@ -28,6 +29,6 @@ Domed shell, stubby legs. Reads as furniture, not threat.
 ## Bunny Jump
 
 Jump role: perch. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
-Debut in this mode. Story status stays idea. Slow pad sitter. Side contact costs a
-heart. Landing from above is safe (shell). Stamp already exists. Design:
+Story debut is Chapter 1 Path (I8), not Bunny Jump first. Slow pad sitter. Side
+contact costs a heart. Landing from above is safe (shell). Stamp already exists. Design:
 [../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

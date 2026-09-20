@@ -31,6 +31,11 @@ Water hazards use a rectangle. Standing inside applies current and can fail the 
 
 Proximity is a radius or box **beyond** the drawable. Use it for warmth, pollen, scripted spells, and optional placeables. Do not attach it to burrow or Moon Pool.
 
+First live use (I10): Han's court volume on Guanghan. Enter the court to start the
+fight. Leave the volume to cancel the fight and reset Han hearts. Mooncakes and spirit
+HUD spawn only while the fight is live. See [han.md](../creatures/folk/han.md) and
+[guanghan-palace.md](../universe/environments/guanghan-palace.md).
+
 Editor overlay JSON (decor and hazards) may carry:
 
 ```json

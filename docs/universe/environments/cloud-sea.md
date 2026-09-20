@@ -16,17 +16,22 @@ Osmanthus Peak and the Moon: a stair of cloud and hanging bridges. Hub:
 
 ## Feel
 
+Own biome. Earth gravity. Pale cloud sea. Hanging bridges. Void fail. Do not use lunar
+ground or 0.42 g. Vast Cold leaks down from Guanghan. That is the biome definition.
+
 The painting's white stair in the cloud, left of Guanghan. The Crane Envoy sets Mei
 down at the foot. She walks. Platforms are stacked steps and thin hanging bridges.
 Below is empty cloud. One fall fails the station. Soft copy, not gore. This is an
 exception to Moon Pool on every playable level.
 
 4-1 First Steps may keep a pool near spawn. 4-2 No Return and 4-3 Closing Gale set
-`noCheckpoint`. There is no mid-run restore.
+`noCheckpoint`. There is no mid-run restore. I9 lengthens 4-1 and 4-2. 4-3 stays the
+gale chase into the palace gate, not the throne.
 
-The stair is guarded by wind, frost wisps, and ice spit. A closing gale on 4-3 is
-Han's outer habit turning guests back. Chang'e does not throw the storm. Fengbo is
-not dramatized.
+The stair is guarded by wind, frost wisps, ice spit, gale magpies, and frost hares.
+Optional faded festival lanterns torn by wind (Earth remnant, not palace jade). A
+closing gale on 4-3 is Han's outer habit turning guests back. Chang'e does not throw
+the storm. Fengbo is not dramatized.
 
 ## Roster
 
@@ -37,6 +42,7 @@ Wildlife (Story):
 | frost wisp | swarm | Slow cloud. Dash passes through |
 | ice spit | ranged_lob | Frost pebble along an aim ray |
 | gale magpie | diver | Ordinary wind-borne wildlife. Not a Qixi plot |
+| frost hare | patrol / chaser | Invented 霜兔. I9. Not Yutu |
 
 Folk event: Closing Gale (left chase wall on 4-3). Not a named immortal HP bar.
 
@@ -46,6 +52,7 @@ Folk event: Closing Gale (left chase wall on 4-3). Not a named immortal HP bar.
 | --- | --- | --- |
 | osmanthus blossom | uncommon | one glide charge, useful given the long gaps |
 | moon letter | rare | Endless key. Not used on the Story stair |
+| osmanthus seed | one per station | keepsake |
 
 ## Endless status
 

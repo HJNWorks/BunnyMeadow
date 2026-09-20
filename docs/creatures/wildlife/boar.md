@@ -1,7 +1,8 @@
 # Wildlife — Boar
 
-Status: idea. Class: Wildlife. Archetype: blocker. Hub: [../README.md](../README.md).
+Status: planned (I8). Class: Wildlife. Archetype: blocker. Hub: [../README.md](../README.md).
 No folklore role; plain wildlife. A heavier daytime counterpart to the goat.
+Chapter 1 Path (orchard or bamboo), not Chapter 3 Later.
 
 | Field | Value |
 | --- | --- |
@@ -29,6 +30,6 @@ Bulky, low, tusked. Reads heavier and slower to stop than the goat.
 ## Bunny Jump
 
 Jump role: ledge_charge. Status: planned ([I5](../../iterations/i5-bunny-jump.md)).
-Debut in this mode if Story still lists it as idea. Charges across a wide pad. Side
+Story debut is Chapter 1 Path (I8). Charges across a wide pad. Side
 contact costs a heart. Landing from above removes it. Stamp already exists. Design:
 [../../modes/tasks/bunny-jump.md](../../modes/tasks/bunny-jump.md).

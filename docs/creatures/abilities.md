@@ -8,9 +8,9 @@ The verbs Mei has, where each is taught, and how items change them. Hub:
 
 | Verb | Input | Taught on rung | Status |
 | --- | --- | --- | --- |
-| run | move | Meadow (Soft Paws) | live |
-| jump | jump | Meadow | live |
-| dash | dash | Meadow | live |
+| run | move | Moon in the Pool (planned I7). Soft Paws until then | live on Soft Paws |
+| jump | jump | Moon in the Pool (planned I7). Soft Paws until then | live on Soft Paws |
+| dash | dash | Moon in the Pool (planned I7). Soft Paws until then | live on Soft Paws |
 | wall bounce / wall jump | jump against a wall | Orchard, mastered in Bamboo | live |
 | log ride | stand on a drifting mover | Riverbank | live |
 | tiger ride | scripted mount | Lantern (Tiger Road) | live |
@@ -48,8 +48,10 @@ verb for a short time. Full catalog: [../items/catalog.md](../items/catalog.md).
 | --- | --- | --- |
 | osmanthus blossom | grants one extra glide charge (a second float) | until used |
 | lantern | pushes the mist wall back 80 m. HUD tray while the ~1.6 s glow lasts | instant + timed |
-| dew | slow-time so a jump or dash reads easier | short |
-| mooncake | Endless: restores one heart. Guanghan: timed warmth so a dash can tag Han | instant / ~3 s |
+| dew | slow-time so a jump or dash reads easier. Meadow and orchard | short |
+| sparkler | lantern-class timed light. Festival scenery, not a weapon | timed |
+| mooncake | Endless and Earth Story: restores one heart. Guanghan: timed warmth so a dash can tag Han | instant / ~3 s |
+| osmanthus seed | keepsake. No verb change | permanent cosmetic / achievement |
 | moon letter | key: unlocks the sky/moon edges in Endless | held |
 
 ## Accessibility overrides

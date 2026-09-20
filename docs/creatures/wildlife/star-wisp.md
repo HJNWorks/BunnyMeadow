@@ -6,7 +6,7 @@ a named star god.
 
 | Field | Value |
 | --- | --- |
-| Home biomes | moon (wells, silver) |
+| Home biomes | moon (wells, silver). Optional Guanghan palace walk (I10). Not Earth. Not the Stair |
 | Active hour | eternal night |
 | Min tier | 5 |
 | Hearts | n/a (cloud) |

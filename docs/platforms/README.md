@@ -88,6 +88,6 @@ that carry so a hopping pad does not slide out from under a bounce.
 
 - Vanish pads
 - Remaining jump roles: hop_ledge, drop_shot, stoop, column_swipe, ledge_charge, drift
-- Bees / tortoise / boar debuts
+- Bees / tortoise / boar jump debuts after Story I8
 
 Skip a second mover class. Skip carp. Skip new folk.

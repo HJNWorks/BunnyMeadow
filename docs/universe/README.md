@@ -29,7 +29,7 @@ One night, one ascent to Guanghan, then lunar country. Chapter 1 rungs, low to h
 | 5 | Lantern Village | foothill town | night | live |
 | 6 | Osmanthus Peak | mountain | deep night | live |
 | 7 | Cloud Sea | sky | deep night | live (Story) |
-| 8 | Moon Garden | moon | eternal night | live |
+| 8 | Moon Garden | moon | eternal night | live (kit). Palace walk vs court: [environments/guanghan-palace.md](environments/guanghan-palace.md) |
 
 Chapter 2 (first stations live, still altitude moon, eternal night). Does not re-enter Earth rungs:
 
@@ -105,4 +105,6 @@ Derivation rules:
 - [environments/](environments/) - one page per environment with its five axes
   filled in, roster, item table, and render notes. Chapter 1 rungs, Chapter 2
   (Outer Cold through Far Silver), Chapter 3 planned (Other Shore through West
-  Pool).
+  Pool). Guanghan palace walk vs Han court:
+  [environments/guanghan-palace.md](environments/guanghan-palace.md).
+  Chapter 1 overhaul: [../story/chapter1-overhaul.md](../story/chapter1-overhaul.md).

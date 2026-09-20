@@ -38,6 +38,10 @@ Weights are numbers (high 10, medium 6, uncommon 3, rare 1):
 
 A slot's `allow` list intersects the table: only items in both can appear.
 
+Story Chapter 1 does not fill slots yet. I8-I10 author pickups on maps. Keepsakes are
+not Endless weights. They are unique station spawns. Sparkler and dew stay off this
+Endless table until those items ship in `items.json`. No heart sprite column.
+
 ## The lantern and the mist wall
 
 On pickup, Endless moves the chase wall back 80 m (`mistPushMeters` in `items.json`),

@@ -8,7 +8,9 @@ Abilities they modify: [../creatures/abilities.md](../creatures/abilities.md).
 
 No power creep. Items are run-scoped or cosmetic. Nothing an item does survives a run as
 a permanent stat gain. Meta progression is carrots into the burrow pantry, and the
-pantry unlocks cosmetics and Meadow maps only, never gameplay power. This is a GDD scope
+pantry unlocks cosmetics and Meadow maps only, never gameplay power. Keepsakes
+(osmanthus seeds) are a separate saved list. They never respawn. They unlock Customize
+flecks and achievements only. They do not change hop power. This is a GDD scope
 guard and it keeps every difficulty preset honest.
 
 ## Categories
@@ -20,6 +22,7 @@ guard and it keeps every difficulty preset honest.
 | run-buff | bend a verb briefly | consumed in run |
 | key | open otherwise-closed routes | held for the run |
 | cosmetic drop | unlock a cosmetic option | banked at run end |
+| keepsake | hidden station token. Not pantry | saved. Never respawns |
 
 ## The catalog at a glance
 
@@ -28,12 +31,16 @@ Full entries on [catalog.md](catalog.md).
 | Item | Category | Effect | Status |
 | --- | --- | --- | --- |
 | carrot | currency | pantry currency | live |
-| mooncake | restore | restores one heart in Endless. Story Guanghan: timed warmth dash | live |
+| mooncake | restore | restores one heart in Endless and Earth Story. Guanghan: timed warmth dash | live effect. Place on Earth Story I8 |
 | osmanthus blossom | run-buff | one extra glide charge | live |
 | lantern | run-buff | pushes the mist back 80 m, brief lantern glow | live |
-| dew | run-buff | short slow-time | idea |
+| dew | run-buff | short slow-time | planned (I8) |
+| sparkler | run-buff | lantern-class timed light. Not a weapon | planned (I9) |
+| firefly (pickup) | run-buff | brief glow. No mist wall | planned |
+| osmanthus seed | keepsake | one hidden spawn per playable station | planned (I7-I10) |
+| heart sprite | - | do not ship. Mooncake already restores | skipped |
 | moon letter | key | opens the sky/moon edges in Endless | idea |
-| cosmetic drop | cosmetic | unlocks a Customize option | idea |
+| cosmetic drop | cosmetic | ancestor of keepsakes. Prefer osmanthus seed | idea |
 | jade dew | run-buff | brief west glow. Not immortality | idea |
 | peach petal | cosmetic | blossom fleck. Not a heal | idea |
 
@@ -46,4 +53,6 @@ that weights what fills a slot. This is the same slot idea used for enemies. See
 
 Today carrots, mooncakes, blossoms, and lanterns come from item slots filled by
 `EndlessGenerator.fill` against `src/data/items.json`. `carrotChance` is the chance a
-slot is filled. Empty rolls stay empty.
+slot is filled. Empty rolls stay empty. Chapter 1 Story chunks author none of those
+arrays yet. I8-I10 place mooncakes, dew, lanterns, blossoms, sparklers, and keepsakes
+on Earth and palace maps. No heart sprite.

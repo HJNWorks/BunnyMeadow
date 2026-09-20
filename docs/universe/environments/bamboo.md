@@ -14,28 +14,33 @@ Status: live. The third rung: dusk hills of tall bamboo. Hub: [../README.md](../
 
 ## Feel
 
-Tall stalks and vertical shafts. The rung that demands wall jumps: falling bamboo
-shafts and narrow vertical corridors. Light drops toward dusk.
+Tall stalks and vertical shafts. Planned dense grove: stalk walls, canopy shafts,
+falling shafts already described, then a grove-to-river edge so 2-2 reads as the same
+valley. The rung that demands wall jumps. Light drops toward dusk. No panda unless a
+LORE invented-earthly-neighbor row is accepted. Default: skip.
 
 ## Roster
 
 | Creature | Class | Active hour | Min tier |
 | --- | --- | --- | --- |
-| frog | patrol | dusk | 2 |
-| squirrel | ranged_lob | dusk | 2 |
+| frog | patrol | dusk | 2 (stamp live, place I8) |
+| squirrel | ranged_lob | dusk | 2 (stamp live, place I8) |
 | crow | ranged_lob | dusk | 3 |
-| goat | blocker | dusk | 3 |
+| goat | blocker | dusk | 3 (stamp live, place I8) |
+| boar | blocker | dusk | 3 (planned I8) |
 
 ## Item table
 
 | Item | Weight | Notes |
 | --- | --- | --- |
 | carrot | high | currency |
-| lantern | rare | light + pushes mist back |
+| lantern | rare | light + pushes mist back. Dusk groves |
+| mooncake | rare | restores one heart |
+| osmanthus seed | one per station | keepsake |
 
 ## Chunk usage
 
-- Story: 2-1 Green Corridor.
+- Story: 2-1 Green Corridor (lengthen I8. Dense grove plus river edge).
 - Endless: `endless_bamboo_t2_a/b`, `endless_bamboo_t3_a/b`, `endless_bamboo_t4_a/b`.
 - Meadow arcade map: `bamboo_clearing` (pantry 3).
 

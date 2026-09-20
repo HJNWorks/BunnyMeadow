@@ -40,8 +40,8 @@ live ([I5](iterations/i5-bunny-jump.md)). Other roles wait.
 | tortoise | perch | slow pad sitter |
 
 Fox Hu's cart, Crane Envoy, Han, Chang'e, and Yue stay off this HP bar. Skip carp
-(no stamp) and dew (pickup idea). Bees, tortoise, and boar debut here if Story still
-lists them as idea.
+(no stamp) and dew (pickup). Bees, tortoise, and boar belong in Chapter 1 Path first
+(I7-I8). Jump debuts wait.
 
 ## JSON schema
 
@@ -104,11 +104,15 @@ Used on web today via Spawner. `reach` and later archetypes remain M3+.
 | frog | patrol | Story W2 |
 | owl | diver | Story W3 (enemy only) |
 | cat | reach | Story W3 |
-| bees | swarm | Meadow optional |
-| goat | blocker | Endless (bamboo, osmanthus) |
-| frost_wisp | swarm | Story W4 |
+| bees | swarm | Meadow optional. Story Chapter 1 Path (I7-I8) |
+| tortoise | patrol | Story Chapter 1 Path (I8) |
+| boar | blocker | Story Chapter 1 Path (I8) |
+| goat | blocker | Endless (bamboo, osmanthus). Story I8 place |
+| frost_wisp | swarm | Story W4. Palace corridors I10 |
 | ice_spit | ranged_lob | Story W4 |
 | gale_magpie | diver | Story W4 |
-| dust_mite | swarm | Story Chapter 2 |
-| star_wisp | swarm | Story Chapter 2 |
-| pestle_sentry | ranged_lob | Story Chapter 2 |
+| frost_hare | patrol / chaser | Story W4 (I9) |
+| lantern_moth | diver | Story W3 / Guanghan (I9-I10) |
+| dust_mite | swarm | Story Chapter 2. Not Earth |
+| star_wisp | swarm | Story Chapter 2. Optional Guanghan palace leak |
+| pestle_sentry | ranged_lob | Story Chapter 2. Not Earth |
