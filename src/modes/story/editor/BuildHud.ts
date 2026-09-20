@@ -801,7 +801,11 @@ export function mountBuildHud(session: EditorSession): void {
   }
 
   const restart = (mode: EditorMode): void => {
-    persist()
+    try {
+      persist()
+    } catch {
+      statusEl.textContent = t("editor.note")
+    }
     session.scene.scene.restart({
       levelId: session.level.id,
       editor: { mode },

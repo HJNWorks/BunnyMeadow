@@ -2,7 +2,7 @@ import { getPlatform } from "./platform"
 
 export type FurOption = "cream" | "brown" | "gray" | "moon-white"
 export type EarsOption = "upright" | "lop" | "tufted"
-export type AccessoryOption = "none" | "scarf" | "lantern" | "blossom" | "moon-helmet"
+export type AccessoryOption = "none" | "scarf" | "lantern" | "blossom" | "osmanthus" | "moon-helmet"
 export type DifficultyId = "sprout" | "hopper" | "wildhare" | "moonlit" | "hardcore"
 export type LanguageId = "en" | "de" | "zh"
 
@@ -265,7 +265,7 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
     if (typeof merged.player.equippedDash !== "string" || !merged.player.equippedDash) {
       merged.player.equippedDash = "meadow"
     }
-    const accessories: AccessoryOption[] = ["none", "scarf", "lantern", "blossom", "moon-helmet"]
+    const accessories: AccessoryOption[] = ["none", "scarf", "lantern", "blossom", "osmanthus", "moon-helmet"]
     if (!accessories.includes(merged.player.accessory)) {
       merged.player.accessory = "none"
     }

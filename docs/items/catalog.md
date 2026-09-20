@@ -161,7 +161,7 @@ festival ash. Han still has no fireballs.
 | --- | --- |
 | Category | keepsake |
 | Status | live (fifteen stations) |
-| Effect | Increments `progress.story.keepsakes`. Unlocks Customize flecks and achievements. No hop power |
+| Effect | Increments `progress.story.keepsakes`. Unlocks Customize flecks (blossom at 1, osmanthus at 8) and achievements. No hop power |
 | Duration | permanent collectible. Never respawns |
 | Home biomes | one hidden spawn per playable Chapter 1 station |
 | Rarity | unique per station |

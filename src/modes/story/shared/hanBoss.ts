@@ -143,6 +143,7 @@ export class HanFight {
   private motes: Mote[] = []
   private fxGfx: Phaser.GameObjects.Graphics
   private moon: Phaser.GameObjects.Image | null = null
+  private gone = false
 
   constructor(
     private scene: Phaser.Scene,
@@ -210,23 +211,36 @@ export class HanFight {
   }
 
   destroy(): void {
+    if (this.gone) {
+      return
+    }
+    this.gone = true
     this.clearBurns()
     this.hideBeam()
-    this.beamSlab.destroy()
-    this.beamCore.destroy()
-    this.fxGfx.destroy()
-    this.moon?.destroy()
+    this.drop(this.beamSlab)
+    this.drop(this.beamCore)
+    this.drop(this.fxGfx)
+    this.drop(this.moon)
     this.moon = null
-    this.cake?.destroy()
+    this.drop(this.cake)
     this.cake = null
-    this.projectiles.getChildren().slice().forEach((obj) => {
-      const shot = obj as Phaser.Physics.Arcade.Image
-      const key = shot.texture?.key
-      if (key === "story_frost" || key === "story_star") {
-        shot.destroy()
-      }
-    })
-    this.sprite.destroy()
+    if (this.projectiles?.scene) {
+      this.projectiles.getChildren().slice().forEach((obj) => {
+        const shot = obj as Phaser.Physics.Arcade.Image
+        const key = shot.texture?.key
+        if (key === "story_frost" || key === "story_star") {
+          this.drop(shot)
+        }
+      })
+    }
+    this.drop(this.sprite)
+  }
+
+  private drop(obj?: Phaser.GameObjects.GameObject | null): void {
+    if (!obj || !obj.scene) {
+      return
+    }
+    obj.destroy()
   }
 
   update(dt: number): void {
@@ -607,9 +621,13 @@ export class HanFight {
   }
 
   private hideBeam(): void {
-    this.beamSlab.setVisible(false)
-    this.beamCore.setVisible(false)
-    if (this.beamMode === "idle" && this.sprite.tintTopLeft === 0xe8f4ff) {
+    if (this.beamSlab.scene) {
+      this.beamSlab.setVisible(false)
+    }
+    if (this.beamCore.scene) {
+      this.beamCore.setVisible(false)
+    }
+    if (this.beamMode === "idle" && this.sprite.scene && this.sprite.tintTopLeft === 0xe8f4ff) {
       this.sprite.clearTint()
     }
   }

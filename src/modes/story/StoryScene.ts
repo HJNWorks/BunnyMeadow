@@ -349,6 +349,8 @@ function storyWallTexture(rect: AssembledRect, stationEnv: string): string {
   return lunar ? "story_hedge_moon" : "story_hedge"
 }
 
+const KEEPSAKE_TOTAL = 15
+
 export class StoryScene extends Phaser.Scene {
   private levelId = "w1_1_soft_paths"
   private level!: StoryLevelDef
@@ -1133,11 +1135,43 @@ export class StoryScene extends Phaser.Scene {
     })
   }
 
+  private playSeedPing(x: number, y: number): void {
+    if (this.reducedMotion) {
+      return
+    }
+    const ring = this.add.ellipse(x, y, 22, 22, 0xffe08a, 0.7).setDepth(8)
+    ring.setBlendMode(Phaser.BlendModes.ADD)
+    this.tweens.add({
+      targets: ring,
+      scaleX: 2.4,
+      scaleY: 2.4,
+      alpha: 0,
+      duration: 520,
+      ease: "Sine.easeOut",
+      onComplete: () => {
+        ring.destroy()
+      },
+    })
+    const glint = this.add.ellipse(x, y - 6, 10, 10, 0xfff6d0, 0.9).setDepth(9)
+    this.tweens.add({
+      targets: glint,
+      y: y - 28,
+      alpha: 0,
+      duration: 640,
+      ease: "Sine.easeOut",
+      onComplete: () => {
+        glint.destroy()
+      },
+    })
+  }
+
   private collectPickup(sprite: Phaser.GameObjects.Image): void {
     if (this.editorMode === "build" || !sprite.active) {
       return
     }
     const id = String(sprite.getData("itemId") || "carrot")
+    const atX = sprite.x
+    const atY = sprite.y
     sprite.destroy()
     getAudio().playSfx("pickup")
     if (id === "mooncake") {
@@ -1175,6 +1209,7 @@ export class StoryScene extends Phaser.Scene {
       return
     }
     if (id === "osmanthus_seed") {
+      this.playSeedPing(atX, atY)
       if (this.editorMode) {
         return
       }
@@ -1182,8 +1217,20 @@ export class StoryScene extends Phaser.Scene {
       if (!Array.isArray(save.progress.story.keepsakes)) {
         save.progress.story.keepsakes = []
       }
-      if (!save.progress.story.keepsakes.includes(this.level.id)) {
+      const fresh = !save.progress.story.keepsakes.includes(this.level.id)
+      if (fresh) {
         save.progress.story.keepsakes.push(this.level.id)
+      }
+      const n = save.progress.story.keepsakes.length
+      this.hud.ticker.show(t("story.seed.count", { n, total: KEEPSAKE_TOTAL }))
+      if (fresh && n === 1) {
+        this.hud.ticker.show(t("story.seed.blossom"))
+      }
+      if (fresh && n === 8) {
+        this.hud.ticker.show(t("story.seed.eight"))
+      }
+      if (fresh && n === KEEPSAKE_TOTAL) {
+        this.hud.ticker.show(t("story.seed.set"))
       }
       void (async () => {
         if (save.progress.story.keepsakes.length >= 1) {
@@ -1198,7 +1245,7 @@ export class StoryScene extends Phaser.Scene {
             save.progress.achievements.push("KEEPSAKE_EIGHT")
           }
         }
-        if (save.progress.story.keepsakes.length >= 15) {
+        if (save.progress.story.keepsakes.length >= KEEPSAKE_TOTAL) {
           await getPlatform().achievements.unlock("KEEPSAKE_SET")
           if (!save.progress.achievements.includes("KEEPSAKE_SET")) {
             save.progress.achievements.push("KEEPSAKE_SET")
@@ -1431,6 +1478,10 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private retryStation(): void {
+    if (this.editorMode === "play") {
+      this.respawn()
+      return
+    }
     if (this.level.boss?.kind === "han") {
       this.scene.restart({
         levelId: this.levelId,

@@ -44,7 +44,7 @@ Infinite left-to-right runner from Story chunk prefabs. Free player pace under a
 
 ## Meta progression
 
-Carrots from any mode feed the burrow pantry. Pantry levels unlock cosmetics and Meadow maps only. Beating Han unlocks Mei's moon helmet the same way `MOON_RETURN` unlocks the moon dash. Keepsakes (osmanthus seeds) are a separate saved list. They never respawn. They unlock Customize flecks and achievements only. They do not change hop power. Carrots still feed the pantry. No gameplay power creep. Difficulty stays honest.
+Carrots from any mode feed the burrow pantry. Pantry levels unlock cosmetics and Meadow maps only. Beating Han unlocks Mei's moon helmet the same way `MOON_RETURN` unlocks the moon dash. Keepsakes (osmanthus seeds) are a separate saved list. They never respawn. They unlock Customize flecks (blossom accessory at the first seed, osmanthus fleck at eight, full-set at fifteen) and achievements only. They do not change hop power. Carrots still feed the pantry. No gameplay power creep. Difficulty stays honest.
 
 ## Difficulty (data-driven)
 

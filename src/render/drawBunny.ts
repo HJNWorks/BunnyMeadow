@@ -93,6 +93,11 @@ export function drawBunny(
     ellipse(ctx, -14, -18, 4, 4, "#f2a0b8")
     ellipse(ctx, -10, -20, 3, 3, "#f7c4d2")
     ellipse(ctx, -12, -16, 2, 2, "#e87898")
+  } else if (cosmetics.accessory === "osmanthus") {
+    ellipse(ctx, 13, -16, 3.5, 3.5, "#e8c45a")
+    ellipse(ctx, 16, -13, 2.5, 2.5, "#f4d878")
+    ellipse(ctx, 10, -13, 2.5, 2.5, "#d4a848")
+    ellipse(ctx, 13, -14, 1.4, 1.4, "#f8eec0")
   } else if (cosmetics.accessory === "moon-helmet") {
     ellipse(ctx, 0, -16, 16, 8, "#c8d4e4")
     ctx.fillStyle = "#a8b8c8"

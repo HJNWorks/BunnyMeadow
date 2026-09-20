@@ -54,7 +54,10 @@ export function isAccessoryUnlocked(save: SaveV1, accessory: AccessoryOption): b
       save.progress.story.cleared.includes("moon_guanghan")
     )
   }
-  if (accessory === "blossom" && save.progress.story.keepsakes.includes("w0_lore_moon")) {
+  if (accessory === "blossom" && save.progress.story.keepsakes.length >= 1) {
+    return true
+  }
+  if (accessory === "osmanthus" && save.progress.story.keepsakes.length >= 8) {
     return true
   }
   return save.progress.pantryLevel >= 3

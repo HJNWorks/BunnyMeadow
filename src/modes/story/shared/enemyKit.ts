@@ -64,15 +64,15 @@ const KITS: Record<string, EnemyKit> = {
   boar: { texture: "story_critter_boar", source: "story_boar", w: 48, h: 36, archetype: "blocker", speed: 95 },
   tortoise: { texture: "story_critter_tortoise", source: "story_tortoise", w: 40, h: 28, archetype: "patrol", speed: 22 },
   bees: { texture: "story_critter_bees", source: "story_bees", w: 44, h: 32, archetype: "swarm", speed: 36, fly: true },
-  frost_wisp: { texture: "story_critter_frost_wisp", source: "story_wisp", w: 52, h: 36, archetype: "swarm", speed: 28, fly: true },
+  frost_wisp: { texture: "story_critter_frost_wisp", source: "story_wisp", w: 64, h: 44, archetype: "swarm", speed: 28, fly: true },
   ice_spit: { texture: "story_critter_ice_spit", source: "story_ice", w: 32, h: 32, archetype: "ranged_lob", speed: 0 },
   dust_mite: { texture: "story_critter_dust_mite", source: "story_dust", w: 52, h: 36, archetype: "swarm", speed: 28, fly: true },
-  star_wisp: { texture: "story_critter_star_wisp", source: "story_starwisp", w: 52, h: 36, archetype: "swarm", speed: 18, fly: true },
+  star_wisp: { texture: "story_critter_star_wisp", source: "story_starwisp", w: 64, h: 44, archetype: "swarm", speed: 18, fly: true },
   pestle_sentry: { texture: "story_critter_pestle_sentry", source: "story_pestle", w: 32, h: 36, archetype: "ranged_lob", speed: 0 },
   gale_magpie: { texture: "story_critter_gale_magpie", source: "story_magpie", w: 40, h: 28, archetype: "diver", speed: 160, fly: true },
   carp: { texture: "story_critter_carp", source: "story_carp", w: 48, h: 24, archetype: "water_patrol", speed: 40, fly: true },
   frost_hare: { texture: "story_critter_frost_hare", source: "story_frost_hare", w: 40, h: 32, archetype: "patrol", speed: 70 },
-  lantern_moth: { texture: "story_critter_lantern_moth", source: "story_moth", w: 36, h: 24, archetype: "diver", speed: 90, fly: true },
+  lantern_moth: { texture: "story_critter_lantern_moth", source: "story_moth", w: 48, h: 32, archetype: "diver", speed: 90, fly: true },
 }
 
 export function critterTextureKey(id: string): string {

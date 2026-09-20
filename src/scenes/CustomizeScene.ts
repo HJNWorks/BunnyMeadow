@@ -73,7 +73,7 @@ export class CustomizeScene extends Phaser.Scene {
         <div class="bm-field">
           <label for="accessory">${t("customize.accessory")}</label>
           <select id="accessory" data-ui="accessory">
-            ${(["none", "scarf", "lantern", "blossom", "moon-helmet"] as AccessoryOption[])
+            ${(["none", "scarf", "lantern", "blossom", "osmanthus", "moon-helmet"] as AccessoryOption[])
               .map((v) => {
                 const unlocked = isAccessoryUnlocked(save, v)
                 const label = t(`customize.accessory.${v}`)

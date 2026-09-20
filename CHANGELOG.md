@@ -61,6 +61,9 @@ All notable changes to this project are recorded here. The format follows
 - Story play drops a browser map overlay when the shipped station width or chunk
   list no longer matches. Guanghan is not replaced by an old Set active copy of
   the two-chunk court.
+- Editor Play on Guanghan no longer dies in Han teardown. Frost wisp, star wisp,
+  and lantern moth read on night sky. Seed pickup shows `{n}/15` and Customize
+  unlock lines (blossom at 1, osmanthus fleck at 8, full set at 15).
 - Han last-heart fans rest about 1.3x longer than the opening cadence so the dual
   frost and star streams still leave a gap.
 - Guanghan mooncakes sit on live green pads. A cake whose ledge is gone does not

@@ -107,8 +107,10 @@ function drawMagpie(ctx: CanvasRenderingContext2D, cx: number, cy: number): void
 }
 
 function drawWisp(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
-  ellipse(ctx, cx + 2, cy, 24, 15, "#d8ecff")
-  ellipse(ctx, cx - 2, cy - 2, 11, 8, "#f4fbff")
+  ellipse(ctx, cx, cy + 1, 20, 13, "#3a6a88")
+  ellipse(ctx, cx + 1, cy, 16, 11, "#8fd4ff")
+  ellipse(ctx, cx - 2, cy - 3, 8, 6, "#f4fbff")
+  circle(ctx, cx + 8, cy - 6, 2.4, "#dff4ff")
 }
 
 function drawIce(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
@@ -247,10 +249,12 @@ function drawFrostHare(ctx: CanvasRenderingContext2D, cx: number, cy: number): v
 }
 
 function drawMoth(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
-  ellipse(ctx, cx - 8, cy, 10, 6, "#f4e8c8")
-  ellipse(ctx, cx + 8, cy, 10, 6, "#f4e8c8")
-  ellipse(ctx, cx, cy + 2, 5, 4, "#d8c4a0")
-  circle(ctx, cx + 2, cy, 1.2, "#2a2010")
+  ellipse(ctx, cx - 9, cy, 11, 7, "#f0a048")
+  ellipse(ctx, cx + 9, cy, 11, 7, "#f0a048")
+  ellipse(ctx, cx - 8, cy - 1, 7, 4, "#ffe08a")
+  ellipse(ctx, cx + 8, cy - 1, 7, 4, "#ffe08a")
+  ellipse(ctx, cx, cy + 2, 5, 4, "#6a3a24")
+  circle(ctx, cx + 2, cy, 1.4, "#2a2010")
 }
 
 function drawSparkler(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
@@ -515,10 +519,11 @@ function drawDust(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
 }
 
 function drawStarWisp(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
-  ellipse(ctx, cx, cy, 22, 14, "#d0dce8")
-  ellipse(ctx, cx - 2, cy - 2, 10, 7, "#f4f8ff")
-  circle(ctx, cx + 8, cy - 8, 2.2, "#e8eef6")
-  circle(ctx, cx - 10, cy + 6, 1.6, "#e8eef6")
+  ellipse(ctx, cx, cy + 1, 18, 12, "#6a5a38")
+  ellipse(ctx, cx, cy, 14, 10, "#f4e08a")
+  ellipse(ctx, cx - 2, cy - 3, 7, 5, "#fff6d0")
+  circle(ctx, cx + 8, cy - 8, 2.6, "#fff8e0")
+  circle(ctx, cx - 10, cy + 6, 2, "#ffe8a8")
 }
 
 function drawPestle(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
