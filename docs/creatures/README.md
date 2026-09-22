@@ -56,7 +56,7 @@ and the minimum tier at which the creature appears.
 | crow | ranged_lob | meadow, orchard, bamboo, riverbank, lantern | 2 | live |
 | squirrel | ranged_lob | orchard, bamboo | 2 | live (Story Hedge Maze, Green Corridor) |
 | frog | patrol | bamboo, riverbank | 2 | live (Story Green Corridor) |
-| heron | reach | riverbank | 3 | live (Story Floating Logs). Raft boss stays folk |
+| heron | fisher | riverbank | 3 | live (Story Floating Logs, Raft Gauntlet). Circles water, stoops for two hearts |
 | carp | water_patrol | riverbank | 3 | live (Story Floating Logs) |
 | cat | reach | lantern, osmanthus | 3 | live (Story Paper Lights) |
 | owl | diver | lantern, osmanthus | 3 | live (Story Paper Lights) |

@@ -28,10 +28,10 @@ Green Corridor so 2-2 is the same valley.
 | --- | --- | --- | --- |
 | frog | patrol | dusk | 2 (Green Corridor) |
 | carp | water_patrol | dusk | 3 (Floating Logs) |
-| heron | reach | dusk | 3 (Floating Logs poke. Raft boss stays folk) |
+| heron | fisher | dusk | 3 (Floating Logs and Raft Gauntlet. Circles, then stoops) |
 | crow | ranged_lob | dusk | 3 |
 
-Folk: Heron Fisher, the World 2 boss ([../../creatures/folk/heron-fisher.md](../../creatures/folk/heron-fisher.md)).
+Wildlife: heron (circles the water and stoops), carp, frog. Folk name Heron Fisher is the same kit on the rafts, two of them, with the burrow open.
 
 ## Item table
 

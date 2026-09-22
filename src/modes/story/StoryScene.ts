@@ -47,6 +47,7 @@ import {
   freezeEnemyForEditor,
   constrainCreatureToWorld,
   bindCarpToWater,
+  bindHeronToWater,
   bindMothToLantern,
 } from "./shared/enemyKit"
 import { HAN_WARMTH, HanFight } from "./shared/hanBoss"
@@ -415,6 +416,7 @@ export class StoryScene extends Phaser.Scene {
   private reducedMotion = false
   private poolRipple: Phaser.GameObjects.Ellipse | null = null
   private cartFinishX: number | null = null
+  private cartFlagSprite: Phaser.GameObjects.Image | null = null
   private foxResetOnRespawn = false
 
   constructor() {
@@ -468,6 +470,7 @@ export class StoryScene extends Phaser.Scene {
     this.glowKind = null
     this.poolRipple = null
     this.cartFinishX = null
+    this.cartFlagSprite = null
     this.foxResetOnRespawn = false
     this.physics.world.isPaused = false
 
@@ -837,6 +840,9 @@ export class StoryScene extends Phaser.Scene {
       if (e.id === "carp") {
         bindCarpToWater(sprite, world.hazards)
       }
+      if (e.id === "heron") {
+        bindHeronToWater(sprite, world.hazards)
+      }
       if (e.id === "lantern_moth") {
         bindMothToLantern(sprite, world.decor)
       }
@@ -970,7 +976,12 @@ export class StoryScene extends Phaser.Scene {
         this.player.setVelocityY(-260)
         return
       }
-      this.hurt()
+      const raw = Number(body.getData("contactDamage"))
+      const amount = Number.isFinite(raw) ? raw : 1
+      if (amount <= 0) {
+        return
+      }
+      this.hurt({ amount })
     })
     this.physics.add.overlap(this.player, this.projectiles, (_p, shot) => {
       ;(shot as Phaser.Physics.Arcade.Image).destroy()
@@ -996,12 +1007,15 @@ export class StoryScene extends Phaser.Scene {
       } else {
         constrainCreatureToWorld(this, this.foxHu, this.platforms)
       }
+      this.seatCart(this.foxHu)
       const cartBody = this.foxHu.body as Phaser.Physics.Arcade.Body
       cartBody.setAllowGravity(false)
       this.foxHu.setImmovable(true)
-      this.cartFinishX = this.exitZone.x - 56
-      const flag = this.add.image(this.cartFinishX, this.exitZone.y + 4, "story_flag")
-      flag.setDepth(2)
+      const flagAt = def.cartFlag ?? { x: this.exitZone.x + 120, y: this.exitZone.y }
+      this.cartFinishX = flagAt.x
+      this.cartFlagSprite = this.add.image(flagAt.x, flagAt.y, "story_flag")
+      this.cartFlagSprite.setDepth(2)
+      this.cartFlagSprite.setData("editKind", "flag")
     }
 
     if (def.leftChase?.kind === "gale") {
@@ -1091,6 +1105,7 @@ export class StoryScene extends Phaser.Scene {
         pickups: this.pickups,
         decor: this.decorSprites,
         waters: this.waterRects,
+        cartFlag: this.cartFlagSprite,
         env,
         mode: this.editorMode,
       })
@@ -1517,11 +1532,52 @@ export class StoryScene extends Phaser.Scene {
     this.syncHearts()
     this.player.clearTint()
     if (this.foxResetOnRespawn && this.foxHu && this.level.foxHu) {
-      this.foxHu.setPosition(this.level.foxHu.startX, this.level.foxHu.y)
+      this.foxHu.setX(this.level.foxHu.startX)
       this.foxHu.setVelocity(0, 0)
+      this.seatCart(this.foxHu)
       this.foxHu.setData("speed", this.level.foxHu.speed)
       this.foxResetOnRespawn = false
     }
+  }
+
+  private floorUnderCart(x: number, feet: number): number | null {
+    let best: number | null = null
+    for (const obj of this.platforms.getChildren()) {
+      const go = obj as Phaser.GameObjects.GameObject & {
+        getData: (key: string) => unknown
+        body?: Phaser.Physics.Arcade.StaticBody | Phaser.Physics.Arcade.Body | null
+      }
+      const kind = go.getData("rectKind")
+      if (kind === "wall" || kind === "ceiling" || go.getData("broken") === true) {
+        continue
+      }
+      const body = go.body
+      if (!body || x < body.left || x > body.right) {
+        continue
+      }
+      if (body.top < feet - 24) {
+        continue
+      }
+      if (best === null || body.top < best) {
+        best = body.top
+      }
+    }
+    return best
+  }
+
+  private seatCart(cart: Phaser.Physics.Arcade.Sprite): void {
+    const half = Math.max(16, cart.displayHeight * 0.5)
+    const floor = this.floorUnderCart(cart.x, cart.y + half)
+    if (floor !== null) {
+      cart.setY(floor - half)
+    }
+    const body = cart.body as Phaser.Physics.Arcade.Body | null
+    if (!body) {
+      return
+    }
+    body.setAllowGravity(false)
+    body.setVelocityY(0)
+    body.updateFromGameObject()
   }
 
   private onCartFinished(): void {
@@ -1956,12 +2012,6 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private exitBlockedReason(): string | null {
-    if (this.level.foxHu && this.foxHu && this.foxHu.x < this.exitZone.x - 40) {
-      return t("story.exit.fox")
-    }
-    if (this.level.boss?.kind === "heron" && this.bossHits < this.bossNeeded) {
-      return t("story.exit.heron", { hits: this.bossHits, need: this.bossNeeded })
-    }
     if (this.level.boss?.kind === "crane" && this.cranePhase === "dive") {
       return t("story.exit.crane")
     }
@@ -2134,6 +2184,9 @@ export class StoryScene extends Phaser.Scene {
     this.dashFx?.tick(this.player, this.playerState.dashTime, this.playerState.facing, dt)
 
     updateEnemies(this, this.enemies, this.projectiles, this.platforms, this.player, dt)
+    if (this.foxHu && !this.lost && !this.won) {
+      this.seatCart(this.foxHu)
+    }
 
     if (
       this.foxHu &&

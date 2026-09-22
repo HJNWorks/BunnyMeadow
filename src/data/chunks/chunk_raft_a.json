@@ -15,5 +15,8 @@
   "hazards": [
     { "x": 0, "y": 960, "w": 960, "h": 120, "kind": "water", "current": 28 }
   ],
+  "enemies": [
+    { "id": "heron", "x": 420, "y": 760 }
+  ],
   "color": "#5f8794"
 }

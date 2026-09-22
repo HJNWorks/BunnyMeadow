@@ -64,8 +64,10 @@ All notable changes to this project are recorded here. The format follows
 - Editor Play on Guanghan no longer dies in Han teardown. Frost wisp, star wisp,
   and lantern moth read on night sky. Seed pickup shows `{n}/15` and Customize
   unlock lines (blossom at 1, osmanthus fleck at 8, full set at 15).
-- Cloud Stair ice pads (`surface: slick`). Low friction while Mei's feet are on them.
-  Ice spit perches on the nearest pad and no longer falls into the void on Closing Gale.
+- Editor boxes resize from the outline. Edge and corner handles keep the opposite side fixed.
+- Cart Chase seats the cart on the floor after a fail. The finish flag is its own marker, past the burrow, and the hole can be entered before the cart arrives.
+- Boar contact costs two hearts. A landing from above does not.
+- Herons circle the water and stoop for two hearts. Raft Gauntlet has two, and the burrow does not require a kill.
 - Frost wisp fires a three-spear frost fan. Star wisp pulses a short radial energy
   wave when Mei is close. Dash still passes each cloud body.
 - Han last-heart fans rest about 1.3x longer than the opening cadence so the dual

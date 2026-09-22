@@ -58,7 +58,7 @@ const KITS: Record<string, EnemyKit> = {
   crow: { texture: "story_critter_crow", source: "story_crow", w: 36, h: 28, archetype: "ranged_lob", speed: 40, fly: true },
   squirrel: { texture: "story_critter_squirrel", source: "story_squirrel", w: 36, h: 36, archetype: "ranged_lob", speed: 50 },
   frog: { texture: "story_critter_frog", source: "story_frog", w: 36, h: 28, archetype: "patrol", speed: 55 },
-  heron: { texture: "story_critter_heron", source: "story_heron", w: 42, h: 52, archetype: "reach", speed: 0 },
+  heron: { texture: "story_critter_heron", source: "story_heron", w: 36, h: 64, archetype: "fisher", speed: 80, fly: true },
   cat: { texture: "story_critter_cat", source: "story_cat", w: 40, h: 32, archetype: "reach", speed: 20 },
   owl: { texture: "story_critter_owl", source: "story_owl", w: 38, h: 32, archetype: "diver", speed: 150, fly: true },
   goat: { texture: "story_critter_goat", source: "story_goat", w: 44, h: 40, archetype: "blocker", speed: 110 },
@@ -84,9 +84,19 @@ export function getEnemyKit(id: string): EnemyKit {
   return KITS[id] ?? KITS.hedgehog!
 }
 
+function enemyRow(id: string): { safeFromAbove?: boolean; contactDamage?: number } | undefined {
+  return (enemiesData.enemies as { id: string; safeFromAbove?: boolean; contactDamage?: number }[]).find(
+    (entry) => entry.id === id,
+  )
+}
+
 function enemySafeFromAbove(id: string): boolean {
-  const row = (enemiesData.enemies as { id: string; safeFromAbove?: boolean }[]).find((entry) => entry.id === id)
-  return row?.safeFromAbove === true
+  return enemyRow(id)?.safeFromAbove === true
+}
+
+function enemyContactDamage(id: string): number {
+  const value = enemyRow(id)?.contactDamage
+  return typeof value === "number" ? value : 1
 }
 
 export function bindCarpToWater(
@@ -116,6 +126,38 @@ export function bindCarpToWater(
   sprite.setData("waterBottom", best.worldY + best.h)
   sprite.setData("homeY", best.worldY + 20)
   sprite.setPosition(sprite.x, best.worldY + 20)
+}
+
+export function bindHeronToWater(
+  sprite: Phaser.Physics.Arcade.Sprite,
+  hazards: AssembledHazard[],
+): void {
+  let best: AssembledHazard | null = null
+  let bestDist = Number.POSITIVE_INFINITY
+  for (const hazard of hazards) {
+    if (hazard.kind !== "water") {
+      continue
+    }
+    const cx = hazard.worldX + hazard.w * 0.5
+    const cy = hazard.worldY
+    const dist = Math.hypot(sprite.x - cx, sprite.y - cy)
+    if (dist < bestDist) {
+      best = hazard
+      bestDist = dist
+    }
+  }
+  if (!best) {
+    sprite.setData("loopX", sprite.x)
+    sprite.setData("loopY", sprite.y - 40)
+    sprite.setData("loopRx", 90)
+    return
+  }
+  sprite.setData("loopX", best.worldX + best.w * 0.5)
+  sprite.setData("loopY", best.worldY - 78)
+  sprite.setData("loopRx", Math.max(90, best.w * 0.28))
+  sprite.setData("waterTop", best.worldY)
+  sprite.setData("waterLeft", best.worldX)
+  sprite.setData("waterRight", best.worldX + best.w)
 }
 
 export function bindMothToLantern(
@@ -289,6 +331,14 @@ export function spawnEnemy(
   sprite.setData("fly", kit.fly === true)
   sprite.setData("perch", kit.perch === true)
   sprite.setData("safeFromAbove", enemySafeFromAbove(id))
+  sprite.setData("contactDamage", enemyContactDamage(id))
+  if (kit.archetype === "fisher") {
+    sprite.setData("phase", "circuit")
+    sprite.setData("ang", Math.random() * Math.PI * 2)
+    sprite.setData("homeX", x)
+    sprite.setData("homeY", y)
+    sprite.setData("contactDamage", 0)
+  }
   if (kit.archetype === "patrol") {
     sprite.setData("dir", 1)
   }
@@ -592,6 +642,8 @@ export function updateEnemies(
       } else if (id === "star_wisp") {
         tickStarWispPulse(scene, enemy, projectiles, target, dt)
       }
+    } else if (arch === "fisher") {
+      tickHeronCircuit(enemy, target, dt)
     } else if (arch === "diver") {
       let phase = String(enemy.getData("phase") || "hover")
       let timer = Number(enemy.getData("timer") || 0) - dt
@@ -724,4 +776,60 @@ function emitStarPulse(
       })
     })
   }
+}
+
+function tickHeronCircuit(
+  enemy: Phaser.Physics.Arcade.Sprite,
+  target: { x: number; y: number },
+  dt: number,
+): void {
+  let phase = String(enemy.getData("phase") || "circuit")
+  let ang = Number(enemy.getData("ang") || 0)
+  const loopX = Number(enemy.getData("loopX") ?? enemy.getData("homeX") ?? enemy.x)
+  const loopY = Number(enemy.getData("loopY") ?? enemy.getData("homeY") ?? enemy.y)
+  const rx = Number(enemy.getData("loopRx") || 120)
+  const ry = 26
+  const speed = Number(enemy.getData("speed") || 80)
+  const waterTop = Number(enemy.getData("waterTop"))
+  if (phase === "circuit") {
+    ang += dt * 0.85
+    enemy.setPosition(loopX + Math.cos(ang) * rx, loopY + Math.sin(ang) * ry)
+    enemy.setVelocity(0, 0)
+    enemy.setFlipX(Math.sin(ang) < 0)
+    enemy.setData("contactDamage", 0)
+    const dx = target.x - enemy.x
+    const dy = target.y - enemy.y
+    if (Math.hypot(dx, dy) < 230 && dy > -30) {
+      phase = "stoop"
+      enemy.setData("stoopT", 0.72)
+      enemy.setData("contactDamage", 2)
+      const n = Math.hypot(dx, dy) || 1
+      enemy.setVelocity((dx / n) * 260, Math.max(80, (dy / n) * 340))
+    }
+  } else if (phase === "stoop") {
+    let left = Number(enemy.getData("stoopT") || 0) - dt
+    enemy.setData("contactDamage", 2)
+    const hitWater = Number.isFinite(waterTop) && enemy.y >= waterTop - 18
+    if (left <= 0 || hitWater) {
+      phase = "climb"
+      left = 0
+      enemy.setData("contactDamage", 0)
+      enemy.setVelocity(0, -180)
+    }
+    enemy.setData("stoopT", left)
+  } else {
+    const aimX = loopX + Math.cos(ang) * rx
+    const aimY = loopY
+    const dx = aimX - enemy.x
+    const dy = aimY - enemy.y
+    const n = Math.hypot(dx, dy) || 1
+    enemy.setVelocity((dx / n) * speed, (dy / n) * speed)
+    enemy.setData("contactDamage", 0)
+    if (n < 24) {
+      phase = "circuit"
+      enemy.setVelocity(0, 0)
+    }
+  }
+  enemy.setData("phase", phase)
+  enemy.setData("ang", ang)
 }

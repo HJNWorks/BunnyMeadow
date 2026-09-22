@@ -78,7 +78,7 @@ Mei learns Yue is fine but "above the clouds".
 
 Boss: the Heron Fisher on the river rafts (invented).
 
-Live stations: Green Corridor (bamboo wall bounce), Floating Logs (moving logs + river current), Raft Gauntlet (three dash hits on the heron). 2-1 is five chunks. 2-2 is four. Mooncakes on logs.
+Live stations: Green Corridor (bamboo wall bounce), Floating Logs (moving logs + river current), Raft Gauntlet (two circling herons, burrow stays open). 2-1 is five chunks. 2-2 is four. Mooncakes on logs.
 
 Moon Pool sample:
 
@@ -193,8 +193,8 @@ Painting prompt: [story/chapter3-map-prompt.md](story/chapter3-map-prompt.md). W
 
 | World | Boss | Win condition | Tone |
 | --- | --- | --- | --- |
-| 1 | Fox Hu cart chase | Reach the burrow before the cart hits the finish flag / tip the cart | Comic |
-| 2 | Heron Fisher | Survive raft gauntlet, land a dash on the heron three times | Sporty |
+| 1 | Fox Hu cart chase | Enter the burrow before the cart reaches the finish flag. The flag sits past the hole | Comic |
+| 2 | Heron Fisher | Cross the rafts while two herons stoop. No kill required | Sporty |
 | 3 | Crane Envoy | Dodge dives, then accept the ride when it bows | Soft resolution |
 | 4 | Closing Gale | Reach the palace gate before the storm wall | Timed chase |
 | Moon | Han | Eat a mooncake, dash while warmth lasts, five spirit hearts, then the gift beat and Han's moon | Quiet gauntlet |

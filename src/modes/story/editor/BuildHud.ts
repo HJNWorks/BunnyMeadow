@@ -58,11 +58,12 @@ export type EditorSession = {
   pickups: Phaser.Physics.Arcade.StaticGroup
   decor: Phaser.GameObjects.Image[]
   waters: Phaser.GameObjects.Rectangle[]
+  cartFlag: Phaser.GameObjects.Image | null
   env: string
   mode: EditorMode
 }
 
-type SelKind = "spawn" | "pool" | "exit" | "platform" | "mover" | "enemy" | "pickup" | "decor" | "hazard"
+type SelKind = "spawn" | "pool" | "exit" | "flag" | "platform" | "mover" | "enemy" | "pickup" | "decor" | "hazard"
 
 type Selection = { kind: SelKind; index: number }
 
@@ -282,6 +283,76 @@ function hitRect(x: number, y: number, rect: AssembledRect): boolean {
   return x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h
 }
 
+type WorldBox = { x: number; y: number; w: number; h: number }
+
+type BoxEdge = "n" | "s" | "e" | "w" | "nw" | "ne" | "sw" | "se"
+
+function boxEdge(wx: number, wy: number, box: WorldBox): BoxEdge | "in" | null {
+  const { x, y, w, h } = box
+  const bandX = Math.min(10, Math.max(6, w * 0.28))
+  const bandY = Math.min(10, Math.max(6, h * 0.28))
+  if (wx < x - bandX || wx > x + w + bandX || wy < y - bandY || wy > y + h + bandY) {
+    return null
+  }
+  const onL = Math.abs(wx - x) <= bandX && wx <= x + w * 0.5
+  const onR = Math.abs(wx - (x + w)) <= bandX && wx >= x + w * 0.5
+  const onT = Math.abs(wy - y) <= bandY && wy <= y + h * 0.5
+  const onB = Math.abs(wy - (y + h)) <= bandY && wy >= y + h * 0.5
+  if (onT && onL) {
+    return "nw"
+  }
+  if (onT && onR) {
+    return "ne"
+  }
+  if (onB && onL) {
+    return "sw"
+  }
+  if (onB && onR) {
+    return "se"
+  }
+  if (onT) {
+    return "n"
+  }
+  if (onB) {
+    return "s"
+  }
+  if (onL) {
+    return "w"
+  }
+  if (onR) {
+    return "e"
+  }
+  if (wx >= x && wx <= x + w && wy >= y && wy <= y + h) {
+    return "in"
+  }
+  return null
+}
+
+function resizedBox(box: WorldBox, edge: BoxEdge, px: number, py: number): WorldBox {
+  const min = 20
+  const right = box.x + box.w
+  const bottom = box.y + box.h
+  let x = box.x
+  let y = box.y
+  let w = box.w
+  let h = box.h
+  if (edge === "e" || edge === "ne" || edge === "se") {
+    w = Math.max(min, px - box.x)
+  }
+  if (edge === "w" || edge === "nw" || edge === "sw") {
+    x = Math.min(px, right - min)
+    w = right - x
+  }
+  if (edge === "s" || edge === "se" || edge === "sw") {
+    h = Math.max(min, py - box.y)
+  }
+  if (edge === "n" || edge === "ne" || edge === "nw") {
+    y = Math.min(py, bottom - min)
+    h = bottom - y
+  }
+  return { x, y, w, h }
+}
+
 function refreshBody(go: Phaser.GameObjects.GameObject): void {
   const body = (go as Phaser.Physics.Arcade.Sprite).body as
     | Phaser.Physics.Arcade.Body
@@ -463,6 +534,7 @@ export function mountBuildHud(session: EditorSession): void {
   let baseline: { sel: Selection; snap: unknown } | null = null
   let dragging: Selection | null = null
   let draggingGroup = false
+  let resizeDrag: { sel: Selection; edge: BoxEdge; box: WorldBox } | null = null
   let grabX = 0
   let grabY = 0
   let dragOriginX = 0
@@ -557,6 +629,9 @@ export function mountBuildHud(session: EditorSession): void {
       const origin = session.world.chunkOrigins[overlay.exit.chunk] ?? 0
       return { x: origin + overlay.exit.x, y: overlay.exit.y }
     }
+    if (sel.kind === "flag") {
+      return { x: overlay.cartFlag?.x ?? 0, y: overlay.cartFlag?.y ?? 0 }
+    }
     if (sel.kind === "platform") {
       const rect = overlay.platforms[sel.index]
       return { x: rect?.x ?? 0, y: rect?.y ?? 0 }
@@ -597,6 +672,9 @@ export function mountBuildHud(session: EditorSession): void {
       const origin = session.world.chunkOrigins[overlay.exit.chunk] ?? 0
       return { x: origin + overlay.exit.x - 48, y: overlay.exit.y - 48, w: 96, h: 96 }
     }
+    if (sel.kind === "flag" && overlay.cartFlag) {
+      return { x: overlay.cartFlag.x - 24, y: overlay.cartFlag.y - 40, w: 48, h: 84 }
+    }
     if (sel.kind === "platform") {
       const rect = overlay.platforms[sel.index]
       return rect ? { x: rect.x, y: rect.y, w: rect.w, h: rect.h } : null
@@ -632,6 +710,9 @@ export function mountBuildHud(session: EditorSession): void {
       { kind: "spawn", index: 0 },
       { kind: "exit", index: 0 },
     ]
+    if (overlay.cartFlag) {
+      out.push({ kind: "flag", index: 0 })
+    }
     ;(overlay.moonPools ?? []).forEach((_, index) => out.push({ kind: "pool", index }))
     overlay.platforms.forEach((_, index) => out.push({ kind: "platform", index }))
     overlay.movers.forEach((_, index) => out.push({ kind: "mover", index }))
@@ -658,6 +739,9 @@ export function mountBuildHud(session: EditorSession): void {
     }
     if (sel.kind === "exit") {
       return cloneJson(overlay.exit)
+    }
+    if (sel.kind === "flag") {
+      return overlay.cartFlag ? cloneJson(overlay.cartFlag) : null
     }
     if (sel.kind === "platform") {
       const rect = overlay.platforms[sel.index]
@@ -697,6 +781,10 @@ export function mountBuildHud(session: EditorSession): void {
       overlay.exit = cloneJson(snap as { chunk: number; x: number; y: number })
       return
     }
+    if (sel.kind === "flag") {
+      overlay.cartFlag = cloneJson(snap as { x: number; y: number })
+      return
+    }
     if (sel.kind === "platform") {
       overlay.platforms[sel.index] = cloneJson(snap as (typeof overlay.platforms)[number])
       return
@@ -721,7 +809,7 @@ export function mountBuildHud(session: EditorSession): void {
   }
 
   const appendCopy = (kind: SelKind, snap: unknown): Selection | null => {
-    if (kind === "spawn" || kind === "exit") {
+    if (kind === "spawn" || kind === "exit" || kind === "flag") {
       return null
     }
     if (kind === "pool") {
@@ -881,6 +969,10 @@ export function mountBuildHud(session: EditorSession): void {
       const origin = session.world.chunkOrigins[overlay.exit.chunk] ?? 0
       session.exitZone.setPosition(origin + overlay.exit.x, overlay.exit.y)
       applyContactBody(session.exitZone, EXIT_CONTACT)
+    } else if (focus.kind === "flag") {
+      if (overlay.cartFlag && session.cartFlag) {
+        session.cartFlag.setPosition(overlay.cartFlag.x, overlay.cartFlag.y)
+      }
     } else if (focus.kind === "platform") {
       syncPlatform(focus.index)
     } else if (focus.kind === "mover") {
@@ -940,6 +1032,10 @@ export function mountBuildHud(session: EditorSession): void {
     } else if (focus.kind === "exit") {
       const origin = session.world.chunkOrigins[overlay.exit.chunk] ?? 0
       marks.strokeCircle(origin + overlay.exit.x, overlay.exit.y, 48)
+    } else if (focus.kind === "flag") {
+      if (overlay.cartFlag) {
+        marks.strokeCircle(overlay.cartFlag.x, overlay.cartFlag.y, 28)
+      }
     } else if (focus.kind === "platform") {
       const rect = overlay.platforms[focus.index]
       if (rect) {
@@ -992,6 +1088,12 @@ export function mountBuildHud(session: EditorSession): void {
     marks.lineStyle(2, 0xdc854e, 1)
     for (const item of items) {
       drawSelMark(item)
+    }
+    if (items.length === 1 && items[0]) {
+      const box = boxOf(items[0])
+      if (box) {
+        drawHandles(box)
+      }
     }
   }
 
@@ -1113,6 +1215,10 @@ export function mountBuildHud(session: EditorSession): void {
       hint.textContent = t("editor.kind.exit")
       xInput.value = String(origin + overlay.exit.x)
       yInput.value = String(overlay.exit.y)
+    } else if (selected.kind === "flag") {
+      hint.textContent = t("editor.kind.flag")
+      xInput.value = String(overlay.cartFlag?.x ?? 0)
+      yInput.value = String(overlay.cartFlag?.y ?? 0)
     } else if (selected.kind === "platform") {
       const rect = overlay.platforms[selected.index]
       if (!rect) {
@@ -1230,6 +1336,9 @@ export function mountBuildHud(session: EditorSession): void {
         return { kind: "exit", index: 0 }
       }
     }
+    if (overlay.cartFlag && Phaser.Math.Distance.Between(wx, wy, overlay.cartFlag.x, overlay.cartFlag.y) < 36) {
+      return { kind: "flag", index: 0 }
+    }
     for (let i = overlay.movers.length - 1; i >= 0; i -= 1) {
       const mover = overlay.movers[i]
       if (
@@ -1275,6 +1384,142 @@ export function mountBuildHud(session: EditorSession): void {
     return null
   }
 
+  const boxOf = (sel: Selection): WorldBox | null => {
+    if (sel.kind === "platform") {
+      const rect = overlay.platforms[sel.index]
+      if (!rect) {
+        return null
+      }
+      return { x: rect.x, y: rect.y, w: rect.w, h: rect.h }
+    }
+    if (sel.kind === "mover") {
+      const mover = overlay.movers[sel.index]
+      if (!mover) {
+        return null
+      }
+      return { x: mover.worldX, y: mover.worldY, w: mover.w, h: mover.h }
+    }
+    if (sel.kind === "decor") {
+      const item = overlay.decor?.[sel.index]
+      if (!item) {
+        return null
+      }
+      return { x: item.x, y: item.y, w: item.w, h: item.h }
+    }
+    if (sel.kind === "hazard") {
+      const item = overlay.hazards?.[sel.index]
+      if (!item) {
+        return null
+      }
+      return { x: item.worldX, y: item.worldY, w: item.w, h: item.h }
+    }
+    return null
+  }
+
+  const writeBox = (sel: Selection, box: WorldBox): void => {
+    if (sel.kind === "platform") {
+      const rect = overlay.platforms[sel.index]
+      if (!rect) {
+        return
+      }
+      rect.x = box.x
+      rect.y = box.y
+      rect.w = box.w
+      rect.h = box.h
+    } else if (sel.kind === "mover") {
+      const mover = overlay.movers[sel.index]
+      if (!mover) {
+        return
+      }
+      const local = worldToAnchor(session.world, box.x, box.y)
+      mover.worldX = box.x
+      mover.worldY = box.y
+      mover.x = local.x
+      mover.y = box.y
+      mover.w = box.w
+      mover.h = box.h
+    } else if (sel.kind === "decor") {
+      const item = overlay.decor?.[sel.index]
+      if (!item) {
+        return
+      }
+      item.x = box.x
+      item.y = box.y
+      item.w = box.w
+      item.h = box.h
+    } else if (sel.kind === "hazard") {
+      const item = overlay.hazards?.[sel.index]
+      if (!item) {
+        return
+      }
+      const local = worldToAnchor(session.world, box.x, box.y)
+      item.worldX = box.x
+      item.worldY = box.y
+      item.x = local.x
+      item.y = box.y
+      item.w = box.w
+      item.h = box.h
+    }
+  }
+
+  const drawHandles = (box: WorldBox): void => {
+    const pts: [number, number][] = [
+      [box.x, box.y],
+      [box.x + box.w * 0.5, box.y],
+      [box.x + box.w, box.y],
+      [box.x, box.y + box.h * 0.5],
+      [box.x + box.w, box.y + box.h * 0.5],
+      [box.x, box.y + box.h],
+      [box.x + box.w * 0.5, box.y + box.h],
+      [box.x + box.w, box.y + box.h],
+    ]
+    marks.fillStyle(0xfffaf0, 1)
+    marks.lineStyle(2, 0xdc854e, 1)
+    for (const [px, py] of pts) {
+      marks.strokeRect(px - 5, py - 5, 10, 10)
+      marks.fillRect(px - 4, py - 4, 8, 8)
+    }
+  }
+
+  const pickBox = (wx: number, wy: number): { sel: Selection; edge: BoxEdge | "in" } | null => {
+    const consider = (sel: Selection): { sel: Selection; edge: BoxEdge | "in" } | null => {
+      const box = boxOf(sel)
+      if (!box) {
+        return null
+      }
+      const edge = boxEdge(wx, wy, box)
+      if (!edge) {
+        return null
+      }
+      return { sel, edge }
+    }
+    for (let i = overlay.movers.length - 1; i >= 0; i -= 1) {
+      const hit = consider({ kind: "mover", index: i })
+      if (hit) {
+        return hit
+      }
+    }
+    for (let i = (overlay.decor ?? []).length - 1; i >= 0; i -= 1) {
+      const hit = consider({ kind: "decor", index: i })
+      if (hit) {
+        return hit
+      }
+    }
+    for (let i = (overlay.hazards ?? []).length - 1; i >= 0; i -= 1) {
+      const hit = consider({ kind: "hazard", index: i })
+      if (hit) {
+        return hit
+      }
+    }
+    for (let i = overlay.platforms.length - 1; i >= 0; i -= 1) {
+      const hit = consider({ kind: "platform", index: i })
+      if (hit) {
+        return hit
+      }
+    }
+    return null
+  }
+
   const placeSel = (sel: Selection, x: number, y: number): void => {
     if (sel.kind === "spawn") {
       overlay.playerSpawn = { x, y }
@@ -1288,6 +1533,8 @@ export function mountBuildHud(session: EditorSession): void {
       }
     } else if (sel.kind === "exit") {
       overlay.exit = worldToAnchor(session.world, x, y)
+    } else if (sel.kind === "flag") {
+      overlay.cartFlag = { x, y }
     } else if (sel.kind === "platform") {
       const rect = overlay.platforms[sel.index]
       if (rect) {
@@ -1925,7 +2172,7 @@ export function mountBuildHud(session: EditorSession): void {
   }
   const deleteSelected = (): void => {
     const doomed = (group.length ? group : selected ? [selected] : []).filter(
-      (item) => item.kind !== "spawn" && item.kind !== "exit",
+      (item) => item.kind !== "spawn" && item.kind !== "exit" && item.kind !== "flag",
     )
     if (!doomed.length) {
       return
@@ -2065,6 +2312,16 @@ export function mountBuildHud(session: EditorSession): void {
       panScrollY = session.scene.cameras.main.scrollY
       return
     }
+    const boxHit = selModeEl.value === "region" ? null : pickBox(worldPoint.x, worldPoint.y)
+    if (boxHit && boxHit.edge !== "in") {
+      adoptSelection(boxHit.sel)
+      const box = boxOf(boxHit.sel)
+      if (box) {
+        resizeDrag = { sel: boxHit.sel, edge: boxHit.edge, box }
+      }
+      fillInspect()
+      return
+    }
     const hit = pickAt(worldPoint.x, worldPoint.y)
     if (selModeEl.value === "region") {
       if (hit && inGroup(hit)) {
@@ -2092,6 +2349,14 @@ export function mountBuildHud(session: EditorSession): void {
 
   const onMove = (pointer: Phaser.Input.Pointer): void => {
     if (session.mode !== "build") {
+      return
+    }
+    if (resizeDrag) {
+      const worldPoint = session.scene.cameras.main.getWorldPoint(pointer.x, pointer.y)
+      const next = resizedBox(resizeDrag.box, resizeDrag.edge, snap10(worldPoint.x), snap10(worldPoint.y))
+      writeBox(resizeDrag.sel, next)
+      syncOne(resizeDrag.sel)
+      fillInspect()
       return
     }
     if (marquee) {
@@ -2151,11 +2416,12 @@ export function mountBuildHud(session: EditorSession): void {
       fillInspect()
       return
     }
-    if (dragging || draggingGroup) {
+    if (dragging || draggingGroup || resizeDrag) {
       persist()
     }
     dragging = null
     draggingGroup = false
+    resizeDrag = null
     panning = false
   }
 

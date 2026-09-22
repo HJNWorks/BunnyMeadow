@@ -1,7 +1,7 @@
 # Wildlife — Heron
 
-Status: live (Story). Class: Wildlife. Archetype: reach. Hub: [../README.md](../README.md).
-The World 2 boss Heron Fisher is a scripted folk version; see
+Status: live (Story). Class: Wildlife. Archetype: fisher. Hub: [../README.md](../README.md).
+Raft Gauntlet uses two of these. They are not a hit-count boss. See
 [../folk/heron-fisher.md](../folk/heron-fisher.md).
 
 | Field | Value |
@@ -14,18 +14,19 @@ The World 2 boss Heron Fisher is a scripted folk version; see
 
 ## Behaviour
 
-Slow or stationary, with a long poke in one direction after a crouch telegraph. It
-guards a lane; the player waits out the poke, then crosses. Live on Floating Logs.
-The raft boss stays folk.
+Circles above the nearest water. When Mei comes inside the loop it stoops down.
+The stoop costs two hearts. The circle itself does not. It climbs back to the loop
+after the stoop. Live on Floating Logs and as a pair on Raft Gauntlet. The burrow
+on the rafts does not require a kill.
 
 ## Telegraph and counter
 
-Telegraph: neck coils back in a clear crouch pose before the strike. Counter: cross
-right after the poke retracts; the recovery window is generous.
+Telegraph: the circuit tightens, then the bird drops. Counter: leave the line, or
+dash through the stoop. Do not stand under the loop.
 
 ## Silhouette rule
 
-Tall, thin, long neck and beak. The coiled neck is the danger frame.
+Tall, thin, long legs, S-neck, and a spear beak. Not a pale blob.
 
 ## Bunny Jump
 

@@ -10,5 +10,6 @@
   "moonLine": "Fox Hu runs. The basket waits at home.",
   "objective": "Beat Fox Hu's cart to the burrow basket.",
   "foxHu": { "startX": 280, "y": 900, "speed": 150 },
+  "cartFlag": { "x": 2370, "y": 930 },
   "boss": { "kind": "fox_cart" }
 }

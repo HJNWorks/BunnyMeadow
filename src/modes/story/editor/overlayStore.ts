@@ -39,6 +39,7 @@ export type EditorLevelOverlay = {
   moonPool?: MoonPoolDef
   moonPools?: MoonPoolDef[]
   exit: { chunk: number; x: number; y: number }
+  cartFlag?: { x: number; y: number }
   worldWidth: number
   shippedWidth?: number
   shippedChunks?: string[]
@@ -147,6 +148,7 @@ export function captureOverlay(def: StoryLevelDef, world: AssembledLevel): Edito
     playerSpawn: { ...def.playerSpawn },
     moonPools: poolsOf(def),
     exit: { ...def.exit },
+    cartFlag: def.cartFlag ? { ...def.cartFlag } : undefined,
     worldWidth: world.width,
     shippedWidth: world.width,
     shippedChunks: [...def.chunks],
@@ -191,6 +193,9 @@ export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): Assembl
   def.moonPools = overlayPools(overlay)
   def.moonPool = undefined
   def.exit = { ...overlay.exit }
+  if (overlay.cartFlag) {
+    def.cartFlag = { ...overlay.cartFlag }
+  }
   const width =
     typeof overlay.worldWidth === "number" && overlay.worldWidth > 0
       ? overlay.worldWidth
@@ -253,6 +258,9 @@ export function ensureOverlay(def: StoryLevelDef, world: AssembledLevel): Editor
   }
   if (!existing.look) {
     existing.look = { env: def.env, sky: def.sky }
+  }
+  if (!existing.cartFlag && def.cartFlag) {
+    existing.cartFlag = { ...def.cartFlag }
   }
   return existing
 }

@@ -14,9 +14,8 @@ Chapter 1 Path (orchard or bamboo), not Chapter 3 Later.
 
 ## Behaviour
 
-Idea: a longer, faster charge than the goat with more recovery, and possibly two
-hearts so it survives one wall hit. It would give the orchard a heavy that anchors a
-lane the player must clear before a lobber above.
+A charge into Mei costs two hearts. Landing on it from above still bounces and does
+not take those hearts. It anchors a lane in Green Corridor.
 
 ## Telegraph and counter
 

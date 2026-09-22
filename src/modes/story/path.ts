@@ -164,7 +164,7 @@ const STATIONS: Record<string, StoryStation> = {
     id: "w2_3_raft_gauntlet",
     kind: "level",
     title: "Raft Gauntlet",
-    blurb: "Dash the Heron Fisher three times on the rafts.",
+    blurb: "Two herons stoop over the rafts. The burrow stays open.",
     lines: [],
     levelId: "w2_3_raft_gauntlet",
   },

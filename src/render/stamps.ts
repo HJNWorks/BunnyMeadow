@@ -92,10 +92,15 @@ function drawCrow(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
 }
 
 function drawHeron(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
-  ellipse(ctx, cx, cy + 8, 14, 20, "#d8e0e8")
-  tri(ctx, cx, cy - 20, cx - 6, cy, cx + 6, cy, "#b0bcc8")
-  tri(ctx, cx, cy - 22, cx + 16, cy - 18, cx, cy - 14, "#e8a040")
-  circle(ctx, cx + 4, cy - 6, 2, "#304050")
+  ellipse(ctx, cx - 5, cy + 16, 1.3, 12, "#c5d0d8")
+  ellipse(ctx, cx + 4, cy + 16, 1.3, 12, "#c5d0d8")
+  ellipse(ctx, cx - 7, cy + 27, 4, 1.3, "#e8a040")
+  ellipse(ctx, cx + 6, cy + 27, 4, 1.3, "#e8a040")
+  ellipse(ctx, cx, cy + 2, 11, 7, "#d5e0e8")
+  ellipse(ctx, cx + 1, cy - 6, 3.2, 8, "#eef3f6")
+  ellipse(ctx, cx + 2, cy - 16, 4.5, 3.4, "#f7fafc")
+  tri(ctx, cx + 5, cy - 16, cx + 22, cy - 14, cx + 5, cy - 12, "#e8a040")
+  circle(ctx, cx + 1, cy - 17, 1.2, "#243040")
 }
 
 function drawMagpie(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {

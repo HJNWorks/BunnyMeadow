@@ -66,6 +66,7 @@ export type StoryLevelDef = {
   hour?: string
   weather?: string
   foxHu?: { startX: number; y: number; speed: number }
+  cartFlag?: { x: number; y: number }
   leftChase?: StoryLeftChase
   boss?: StoryBossDef
   ride?: {

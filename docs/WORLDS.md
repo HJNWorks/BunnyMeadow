@@ -67,7 +67,7 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 | --- | --- | --- | --- | --- |
 | 2-1 Green Corridor | bamboo | wall jump. Frog, squirrel, goat, boar. Grove-to-river edge | Moon Pool | live. 5 chunks |
 | 2-2 Floating Logs | riverbank | log ride, current. Heron poke, carp. Mooncakes on logs | Moon Pool | live. 4 chunks |
-| 2-3 Raft Gauntlet | riverbank | boss: Heron Fisher. Seed off the dive line | World clear | live |
+| 2-3 Raft Gauntlet | riverbank | two herons over the water. Burrow stays open. Seed on the second raft | World clear | live |
 
 ### World 3 — Lantern Village and Osmanthus Peak
 

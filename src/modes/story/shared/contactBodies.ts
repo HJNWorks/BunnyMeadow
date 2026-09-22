@@ -4,7 +4,7 @@ export const POOL_CONTACT = { w: 74, h: 30, ox: -37, oy: -13 }
 export const POOL_DORMANT_TINT = 0x5a6e82
 export const POOL_AWAKE_TINT = 0xe8f4ff
 
-export const EXIT_HOLE = { rx: 16, ry: 11, cy: 9 }
+export const EXIT_HOLE = { rx: 32, ry: 26, cy: 8 }
 
 export function applyContactBody(
   go: Phaser.GameObjects.GameObject,
