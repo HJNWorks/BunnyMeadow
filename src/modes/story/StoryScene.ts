@@ -370,6 +370,15 @@ export class StoryScene extends Phaser.Scene {
   private foxHu: Phaser.Physics.Arcade.Sprite | null = null
   private galeWall: Phaser.Physics.Arcade.Sprite | null = null
   private galeSpeed = 0
+  private galeClock = 0
+  private galeMotes: {
+    sprite: Phaser.GameObjects.Image
+    lane: number
+    phase: number
+    spin: number
+    reach: number
+    kind: "cloud" | "ice" | "snow"
+  }[] = []
   private bossSprite: Phaser.Physics.Arcade.Sprite | null = null
   private diveLine: Phaser.GameObjects.Rectangle | null = null
   private bossHits = 0
@@ -448,6 +457,8 @@ export class StoryScene extends Phaser.Scene {
     this.foxHu = null
     this.galeWall = null
     this.galeSpeed = 0
+    this.galeClock = 0
+    this.galeMotes = []
     this.moonPools = []
     this.bossSprite = null
     this.diveLine = null
@@ -1019,19 +1030,7 @@ export class StoryScene extends Phaser.Scene {
     }
 
     if (def.leftChase?.kind === "gale") {
-      this.galeSpeed = def.leftChase.speed
-      this.galeWall = this.physics.add.sprite(def.leftChase.startX, def.leftChase.y, "story_gale")
-      this.galeWall.setDisplaySize(160, 1080)
-      this.galeWall.setData("archetype", "gale")
-      this.galeWall.setImmovable(true)
-      this.galeWall.setDepth(8)
-      this.galeWall.setAlpha(0.72)
-      this.galeWall.setCollideWorldBounds(false)
-      const galeBody = this.galeWall.body as Phaser.Physics.Arcade.Body
-      galeBody.setAllowGravity(false)
-      galeBody.setSize(this.galeWall.frame.width, this.galeWall.frame.height)
-      galeBody.updateFromGameObject()
-      this.enemies.add(this.galeWall)
+      this.spawnGaleWall(def.leftChase.startX, def.leftChase.speed)
     }
 
     if (def.boss?.kind === "heron") {
@@ -1537,6 +1536,79 @@ export class StoryScene extends Phaser.Scene {
       this.seatCart(this.foxHu)
       this.foxHu.setData("speed", this.level.foxHu.speed)
       this.foxResetOnRespawn = false
+    }
+  }
+
+  private spawnGaleWall(x: number, speed: number): void {
+    this.galeSpeed = speed
+    this.galeClock = 0
+    this.galeMotes = []
+    const wall = this.physics.add.sprite(x, 540, "story_gale")
+    wall.setDisplaySize(220, 1200)
+    wall.setData("archetype", "gale")
+    wall.setImmovable(true)
+    wall.setDepth(7)
+    wall.setAlpha(0.34)
+    wall.setCollideWorldBounds(false)
+    this.enemies.add(wall)
+    const body = wall.body as Phaser.Physics.Arcade.Body
+    body.setAllowGravity(false)
+    body.setGravity(0, 0)
+    body.setVelocity(0, 0)
+    body.setSize(wall.width, wall.height)
+    body.updateFromGameObject()
+    this.galeWall = wall
+    const kinds = ["cloud", "ice", "snow"] as const
+    const keys = {
+      cloud: "story_gale_cloud",
+      ice: "story_gale_ice",
+      snow: "story_gale_snow",
+    }
+    const count = this.reducedMotion ? 16 : 40
+    for (let i = 0; i < count; i += 1) {
+      const kind = kinds[i % kinds.length] ?? "cloud"
+      const sprite = this.add.image(x, 0, keys[kind])
+      sprite.setDepth(8)
+      this.galeMotes.push({
+        sprite,
+        lane: (i / count) * 1080,
+        phase: Math.random() * Math.PI * 2,
+        spin: kind === "ice" ? 1.6 : 0.55 + Math.random() * 0.7,
+        reach: kind === "cloud" ? 50 + Math.random() * 40 : 18 + Math.random() * 36,
+        kind,
+      })
+    }
+    this.tickGale(0)
+  }
+
+  private tickGale(dt: number): void {
+    const wall = this.galeWall
+    if (!wall) {
+      return
+    }
+    const body = wall.body as Phaser.Physics.Arcade.Body
+    body.setAllowGravity(false)
+    body.setGravity(0, 0)
+    wall.y = 540
+    wall.setVelocity(this.galeSpeed, 0)
+    this.galeClock += dt
+    const traveled = Math.max(0, wall.x + 120)
+    const close = Phaser.Math.Clamp(traveled / Math.max(640, this.worldWidth * 0.7), 0, 1)
+    const width = 210 + close * 180
+    wall.setDisplaySize(width, 1200)
+    wall.setAlpha(0.22 + close * 0.5)
+    body.setSize(wall.width, wall.height)
+    body.updateFromGameObject()
+    body.setVelocity(this.galeSpeed, 0)
+    for (const mote of this.galeMotes) {
+      const swirl = this.galeClock * mote.spin + mote.phase
+      const rad = mote.reach * (0.5 + close * 1.05)
+      mote.sprite.x = wall.x - width * 0.12 + Math.cos(swirl) * rad
+      mote.sprite.y = Phaser.Math.Wrap(mote.lane + Math.sin(swirl * 0.8) * (mote.kind === "cloud" ? 22 : 48), -30, 1110)
+      const base = mote.kind === "cloud" ? 0.42 : mote.kind === "snow" ? 0.7 : 0.9
+      mote.sprite.setAlpha(base * (0.35 + close * 0.8))
+      const scale = mote.kind === "ice" ? 0.75 + close * 0.55 : 0.85 + close * 0.9
+      mote.sprite.setScale(scale)
     }
   }
 
@@ -2148,7 +2220,7 @@ export class StoryScene extends Phaser.Scene {
     this.breaks?.tickStand(this.player, dt)
 
     if (this.galeWall) {
-      this.galeWall.setVelocityX(this.galeSpeed)
+      this.tickGale(dt)
       if (this.player.x <= this.galeWall.x + this.galeWall.displayWidth * 0.42) {
         this.enterDeadState(t("story.dead.gale"))
         return

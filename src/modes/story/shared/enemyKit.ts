@@ -432,7 +432,8 @@ export function updateEnemies(
       arch === "han_boss" ||
       arch === "heron_boss" ||
       arch === "crane_boss" ||
-      arch === "heron_done"
+      arch === "heron_done" ||
+      arch === "gale"
     ) {
       return
     }

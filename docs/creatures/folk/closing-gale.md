@@ -11,9 +11,10 @@ family-tone fail as Fox Hu's cart: retry the station.
 
 ## Encounter
 
-World 4 finale, Closing Gale. A tall wind wall closes from the left. Reach the
-palace gate first. A fall into the cloud, or the wall catching Mei, fails the
-station. There is no Moon Pool restore. No dash-hit HP bar.
+World 4 finale, Closing Gale. A wall of ice, snow, and white cloud creeps in from
+the left. It does not fall. It circles in place and grows denser as it consumes
+the stair. Reach the palace gate first. A fall into the cloud, or the wall catching
+Mei, fails the station. There is no Moon Pool restore. No dash-hit HP bar.
 
 ## Guard
 
@@ -23,5 +24,5 @@ no face. Magpies on the stair are ordinary wildlife
 
 ## Silhouette rule
 
-A wide pale storm sheet, not a cart and not a person. It fills the height of the
+A full-height swirl of white cloud, snow, and ice shards. No face. It fills the
 stair so Mei cannot hop over it.

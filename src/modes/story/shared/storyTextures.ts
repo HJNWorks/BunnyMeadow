@@ -148,15 +148,46 @@ export function ensureStoryTextures(scene: Phaser.Scene): void {
 
   if (!scene.textures.exists("story_gale")) {
     const gale = scene.make.graphics({ x: 0, y: 0 })
-    gale.fillStyle(0xc8dcec, 0.35)
-    gale.fillRect(0, 0, 80, 240)
-    gale.fillStyle(0xe8f4ff, 0.5)
-    gale.fillEllipse(40, 40, 50, 28)
-    gale.fillEllipse(28, 100, 44, 24)
-    gale.fillEllipse(48, 160, 52, 26)
-    gale.fillEllipse(32, 210, 40, 22)
+    gale.fillStyle(0xd7e7f4, 0.28)
+    gale.fillRect(8, 0, 64, 240)
+    gale.fillStyle(0xf4fbff, 0.42)
+    gale.fillEllipse(40, 30, 70, 36)
+    gale.fillEllipse(28, 78, 62, 32)
+    gale.fillEllipse(48, 128, 74, 34)
+    gale.fillEllipse(32, 178, 66, 30)
+    gale.fillEllipse(44, 220, 70, 32)
     gale.generateTexture("story_gale", 80, 240)
     gale.destroy()
+  }
+
+  if (!scene.textures.exists("story_gale_cloud")) {
+    const cloud = scene.make.graphics({ x: 0, y: 0 })
+    cloud.fillStyle(0xf7fbff, 0.9)
+    cloud.fillEllipse(28, 18, 40, 18)
+    cloud.fillEllipse(16, 20, 22, 14)
+    cloud.fillEllipse(40, 20, 24, 14)
+    cloud.generateTexture("story_gale_cloud", 56, 36)
+    cloud.destroy()
+  }
+
+  if (!scene.textures.exists("story_gale_ice")) {
+    const ice = scene.make.graphics({ x: 0, y: 0 })
+    ice.fillStyle(0xd7f2ff, 1)
+    ice.fillTriangle(12, 2, 2, 22, 22, 22)
+    ice.fillStyle(0xffffff, 0.85)
+    ice.fillTriangle(12, 6, 7, 18, 16, 18)
+    ice.generateTexture("story_gale_ice", 24, 24)
+    ice.destroy()
+  }
+
+  if (!scene.textures.exists("story_gale_snow")) {
+    const snow = scene.make.graphics({ x: 0, y: 0 })
+    snow.fillStyle(0xffffff, 0.95)
+    snow.fillCircle(6, 6, 5)
+    snow.fillStyle(0xe7f6ff, 0.8)
+    snow.fillCircle(6, 6, 2)
+    snow.generateTexture("story_gale_snow", 12, 12)
+    snow.destroy()
   }
 
   if (!scene.textures.exists("story_log")) {

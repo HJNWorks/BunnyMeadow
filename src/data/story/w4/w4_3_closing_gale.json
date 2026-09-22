@@ -12,6 +12,6 @@
   "noCheckpoint": true,
   "env": "cloudsea",
   "sky": "#4a6888",
-  "leftChase": { "kind": "gale", "startX": -40, "y": 540, "speed": 72 },
+  "leftChase": { "kind": "gale", "startX": -80, "y": 540, "speed": 42 },
   "boss": { "kind": "gale" }
 }
