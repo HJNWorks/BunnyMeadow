@@ -479,7 +479,7 @@ export class StoryScene extends Phaser.Scene {
       this.scene.start("WorldMap")
       return
     }
-    const def = isEditorEnabled() ? cloneStoryLevel(raw) : raw
+    const def = this.editorMode ? cloneStoryLevel(raw) : raw
     this.level = def
     this.playerState = createPlayerState({
       wallBounce: !!def.wallBounce,
@@ -659,10 +659,10 @@ export class StoryScene extends Phaser.Scene {
     const assembled = assembler.assemble(def.chunks)
     const assembledWidth = assembled.width
     let world = assembled
-    if (isEditorEnabled()) {
+    if (this.editorMode) {
       world = /* storyMapEditor hook */ applyOverlay(def, world)
     }
-    const worldHeight = resolveWorldHeight(def, world.height, isEditorEnabled() ? getOverlay(def.id) : undefined)
+    const worldHeight = resolveWorldHeight(def, world.height, this.editorMode ? getOverlay(def.id) : undefined)
     world = { ...world, height: worldHeight }
     const worldTop = 1080 - worldHeight
     this.stairWorldTop = worldTop
@@ -671,7 +671,7 @@ export class StoryScene extends Phaser.Scene {
     this.worldWidth = world.width
     ensureStoryTextures(this)
 
-    const look = isEditorEnabled() ? getOverlay(def.id)?.look : undefined
+    const look = this.editorMode ? getOverlay(def.id)?.look : undefined
     const env = look?.env ?? def.env ?? storyEnvForLevel(def.world, def.index, def.id)
     getAudio().playMusic(musicIdForEnv(env))
     const palette = { ...getPalette(env) }
@@ -931,7 +931,7 @@ export class StoryScene extends Phaser.Scene {
     }
 
     this.pickups = this.physics.add.staticGroup()
-    const overlay = isEditorEnabled() ? getOverlay(def.id) : undefined
+    const overlay = this.editorMode ? getOverlay(def.id) : undefined
     const shippedPickups = [
       ...(world.items ?? []).map((item) => ({
         id: item.id,

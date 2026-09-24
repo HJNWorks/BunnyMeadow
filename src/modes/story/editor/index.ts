@@ -6,7 +6,7 @@ export { applyOverlay, cloneStoryLevel, clearOverlay, ensureOverlay, getOverlay,
 export { mountBuildHud, type EditorMode, type EditorSession } from "./BuildHud"
 
 export function isEditorEnabled(): boolean {
-  return import.meta.env.DEV && getContentFlags().storyMapEditor === true
+  return getContentFlags().storyMapEditor === true
 }
 
 export function startEditor(scene: Phaser.Scene, levelId?: string, mode: EditorMode = "build"): void {
