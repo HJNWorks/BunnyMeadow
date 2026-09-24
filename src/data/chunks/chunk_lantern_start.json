@@ -43,16 +43,11 @@
       "y": 930
     }
   ],
-  "items": [
-    {
-      "id": "glide",
-      "x": 160,
-      "y": 948
-    }
-  ],
+  "items": [],
   "color": "#3d4560",
   "ceilings": [],
   "movers": [],
   "hazards": [],
-  "decor": []
+  "decor": [],
+  "carrots": []
 }

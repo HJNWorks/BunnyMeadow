@@ -63,5 +63,7 @@
   "color": "#b7ce88",
   "ceilings": [],
   "movers": [],
-  "hazards": []
+  "hazards": [],
+  "items": [],
+  "carrots": []
 }

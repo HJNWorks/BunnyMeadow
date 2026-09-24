@@ -11,6 +11,7 @@ import { cloneMoonPool, poolsOf } from "../levels"
 import type { PaletteHour, WeatherPreset } from "../shared/themeKit"
 
 export const EDITOR_OVERLAY_KEY = "bunnymeadow.editor.overlay.v2"
+const EDITOR_OVERLAY_LEGACY_KEY = "bunnymeadow.editor.overlay.v1"
 
 export type EditorPickup = {
   id: string
@@ -71,17 +72,46 @@ function emptyFile(): OverlayFile {
   return { v: 1, levels: {} }
 }
 
-function readFile(): OverlayFile {
+function parseOverlayRaw(raw: string | null): OverlayFile | null {
+  if (!raw) {
+    return null
+  }
   try {
-    const raw = localStorage.getItem(EDITOR_OVERLAY_KEY)
-    if (!raw) {
-      return emptyFile()
-    }
     const parsed = JSON.parse(raw) as OverlayFile
     if (parsed?.v !== 1 || typeof parsed.levels !== "object" || !parsed.levels) {
-      return emptyFile()
+      return null
     }
     return parsed
+  } catch {
+    return null
+  }
+}
+
+function readFile(): OverlayFile {
+  try {
+    const current = parseOverlayRaw(localStorage.getItem(EDITOR_OVERLAY_KEY))
+    const legacy = parseOverlayRaw(localStorage.getItem(EDITOR_OVERLAY_LEGACY_KEY))
+    if (!current && !legacy) {
+      return emptyFile()
+    }
+    if (!current && legacy) {
+      writeFile(legacy)
+      return legacy
+    }
+    if (current && legacy) {
+      let changed = false
+      for (const [levelId, overlay] of Object.entries(legacy.levels)) {
+        if (!current.levels[levelId]) {
+          current.levels[levelId] = overlay
+          changed = true
+        }
+      }
+      if (changed) {
+        writeFile(current)
+      }
+      return current
+    }
+    return current ?? emptyFile()
   } catch {
     return emptyFile()
   }

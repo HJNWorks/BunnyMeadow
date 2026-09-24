@@ -100,6 +100,26 @@
       "h": 440,
       "rotation": 0,
       "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 320,
+      "y": 580,
+      "w": 40,
+      "h": 400,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 600,
+      "y": 540,
+      "w": 40,
+      "h": 440,
+      "rotation": 0,
+      "asset": "hedge"
     }
-  ]
+  ],
+  "items": [],
+  "carrots": []
 }

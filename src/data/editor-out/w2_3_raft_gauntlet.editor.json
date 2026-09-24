@@ -97,7 +97,9 @@
       ],
       "color": "#5f8794",
       "ceilings": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_raft_b": {
       "id": "chunk_raft_b",
@@ -174,7 +176,8 @@
       ],
       "color": "#4f7684",
       "ceilings": [],
-      "decor": []
+      "decor": [],
+      "carrots": []
     }
   }
 }

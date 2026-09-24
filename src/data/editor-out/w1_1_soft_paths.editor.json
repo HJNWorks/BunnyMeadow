@@ -462,7 +462,9 @@
           "asset": "ground",
           "env": "meadow"
         }
-      ]
+      ],
+      "items": [],
+      "carrots": []
     },
     "chunk_meadow_gap": {
       "id": "chunk_meadow_gap",
@@ -691,7 +693,15 @@
           "asset": "ground",
           "env": "meadow"
         }
-      ]
+      ],
+      "items": [
+        {
+          "id": "osmanthus_seed",
+          "x": 430,
+          "y": 670
+        }
+      ],
+      "carrots": []
     },
     "chunk_meadow_rise": {
       "id": "chunk_meadow_rise",
@@ -748,11 +758,6 @@
           "id": "mooncake",
           "x": 440,
           "y": 728
-        },
-        {
-          "id": "osmanthus_seed",
-          "x": 620,
-          "y": 828
         }
       ],
       "color": "#c5d48a",
@@ -770,7 +775,8 @@
           "asset": "ground",
           "env": "meadow"
         }
-      ]
+      ],
+      "carrots": []
     },
     "chunk_meadow_pool": {
       "id": "chunk_meadow_pool",
@@ -821,7 +827,9 @@
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     }
   }
 }

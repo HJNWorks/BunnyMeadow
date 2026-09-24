@@ -87,14 +87,10 @@
       "id": "mooncake",
       "x": 485,
       "y": 808
-    },
-    {
-      "id": "osmanthus_seed",
-      "x": 80,
-      "y": 948
     }
   ],
   "color": "#5f8794",
   "ceilings": [],
-  "decor": []
+  "decor": [],
+  "carrots": []
 }

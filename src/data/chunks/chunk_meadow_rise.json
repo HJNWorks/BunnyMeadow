@@ -53,11 +53,6 @@
       "id": "mooncake",
       "x": 440,
       "y": 728
-    },
-    {
-      "id": "osmanthus_seed",
-      "x": 620,
-      "y": 828
     }
   ],
   "color": "#c5d48a",
@@ -75,5 +70,6 @@
       "asset": "ground",
       "env": "meadow"
     }
-  ]
+  ],
+  "carrots": []
 }

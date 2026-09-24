@@ -106,5 +106,7 @@
   "color": "#141c30",
   "ceilings": [],
   "movers": [],
-  "hazards": []
+  "hazards": [],
+  "items": [],
+  "carrots": []
 }

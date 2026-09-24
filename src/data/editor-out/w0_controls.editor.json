@@ -177,7 +177,8 @@
       "color": "#c5d48a",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "items": []
     },
     "chunk_paws_bees": {
       "id": "chunk_paws_bees",
@@ -248,7 +249,8 @@
       "color": "#bed593",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "carrots": []
     },
     "chunk_paws_home": {
       "id": "chunk_paws_home",
@@ -315,7 +317,9 @@
       "color": "#b7ce88",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "items": [],
+      "carrots": []
     }
   }
 }

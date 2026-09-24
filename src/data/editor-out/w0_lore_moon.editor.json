@@ -114,7 +114,9 @@
       ],
       "color": "#4a5a38",
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_pool_pond": {
       "id": "chunk_pool_pond",
@@ -158,19 +160,19 @@
       "enemies": [],
       "carrots": [
         {
-          "x": 210,
-          "y": 948
+          "x": 280,
+          "y": 740
         },
         {
-          "x": 250,
-          "y": 948
+          "x": 100,
+          "y": 580
         }
       ],
       "items": [
         {
           "id": "osmanthus_seed",
-          "x": 680,
-          "y": 828
+          "x": 280,
+          "y": 500
         }
       ],
       "decor": [

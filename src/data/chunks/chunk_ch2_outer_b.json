@@ -61,5 +61,13 @@
   "ceilings": [],
   "enemies": [],
   "movers": [],
-  "hazards": []
+  "hazards": [],
+  "items": [
+    {
+      "id": "star_grit",
+      "x": 320,
+      "y": 380
+    }
+  ],
+  "carrots": []
 }

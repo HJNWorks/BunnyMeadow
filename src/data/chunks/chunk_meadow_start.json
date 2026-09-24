@@ -153,5 +153,7 @@
       "asset": "ground",
       "env": "meadow"
     }
-  ]
+  ],
+  "items": [],
+  "carrots": []
 }

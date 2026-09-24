@@ -225,5 +225,13 @@
       "asset": "ground",
       "env": "meadow"
     }
-  ]
+  ],
+  "items": [
+    {
+      "id": "osmanthus_seed",
+      "x": 430,
+      "y": 670
+    }
+  ],
+  "carrots": []
 }

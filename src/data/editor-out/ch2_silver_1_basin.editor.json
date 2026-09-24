@@ -77,7 +77,8 @@
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "carrots": []
     },
     "chunk_ch2_silver_b": {
       "id": "chunk_ch2_silver_b",
@@ -110,7 +111,9 @@
       "enemies": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     }
   }
 }

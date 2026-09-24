@@ -74,7 +74,9 @@
       ],
       "color": "#7aa0a8",
       "ceilings": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_river_logs": {
       "id": "chunk_river_logs",
@@ -140,6 +142,11 @@
           "id": "mooncake",
           "x": 245,
           "y": 848
+        },
+        {
+          "id": "osmanthus_seed",
+          "x": 880,
+          "y": 940
         }
       ],
       "hazards": [
@@ -154,7 +161,8 @@
       ],
       "color": "#6b94a0",
       "ceilings": [],
-      "decor": []
+      "decor": [],
+      "carrots": []
     },
     "chunk_river_reach": {
       "id": "chunk_river_reach",
@@ -245,16 +253,12 @@
           "id": "mooncake",
           "x": 485,
           "y": 808
-        },
-        {
-          "id": "osmanthus_seed",
-          "x": 80,
-          "y": 948
         }
       ],
       "color": "#5f8794",
       "ceilings": [],
-      "decor": []
+      "decor": [],
+      "carrots": []
     },
     "chunk_river_pool": {
       "id": "chunk_river_pool",
@@ -330,7 +334,9 @@
       ],
       "color": "#5f8794",
       "ceilings": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     }
   }
 }

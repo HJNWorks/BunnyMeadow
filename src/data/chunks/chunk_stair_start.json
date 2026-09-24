@@ -37,13 +37,7 @@
       "y": 680
     }
   ],
-  "items": [
-    {
-      "id": "glide",
-      "x": 160,
-      "y": 888
-    }
-  ],
+  "items": [],
   "movers": [
     {
       "x": 620,
@@ -60,5 +54,6 @@
   "color": "#8aa8c8",
   "ceilings": [],
   "hazards": [],
-  "decor": []
+  "decor": [],
+  "carrots": []
 }

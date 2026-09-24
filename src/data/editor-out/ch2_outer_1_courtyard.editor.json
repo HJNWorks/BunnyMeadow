@@ -127,11 +127,6 @@
       ],
       "items": [
         {
-          "id": "star_grit",
-          "x": 680,
-          "y": 768
-        },
-        {
           "id": "mooncake",
           "x": 880,
           "y": 668
@@ -169,7 +164,8 @@
       "color": "#151b2e",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "carrots": []
     },
     "chunk_ch2_outer_b": {
       "id": "chunk_ch2_outer_b",
@@ -234,7 +230,15 @@
       "ceilings": [],
       "enemies": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "items": [
+        {
+          "id": "star_grit",
+          "x": 320,
+          "y": 380
+        }
+      ],
+      "carrots": []
     }
   }
 }

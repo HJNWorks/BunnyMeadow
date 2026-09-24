@@ -29,5 +29,7 @@
   "enemies": [],
   "movers": [],
   "hazards": [],
-  "decor": []
+  "decor": [],
+  "items": [],
+  "carrots": []
 }

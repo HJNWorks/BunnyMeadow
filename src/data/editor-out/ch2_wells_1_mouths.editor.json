@@ -121,7 +121,8 @@
         }
       ],
       "color": "#0c1014",
-      "movers": []
+      "movers": [],
+      "carrots": []
     },
     "chunk_ch2_wells_b": {
       "id": "chunk_ch2_wells_b",
@@ -200,7 +201,9 @@
           "h": 80,
           "kind": "water"
         }
-      ]
+      ],
+      "items": [],
+      "carrots": []
     }
   }
 }

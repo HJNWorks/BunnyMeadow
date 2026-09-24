@@ -68,5 +68,7 @@
   "color": "#7a98b8",
   "ceilings": [],
   "hazards": [],
-  "decor": []
+  "decor": [],
+  "items": [],
+  "carrots": []
 }

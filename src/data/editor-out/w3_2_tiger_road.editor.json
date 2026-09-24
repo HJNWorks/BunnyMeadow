@@ -56,13 +56,7 @@
           "y": 1010
         }
       ],
-      "items": [
-        {
-          "id": "osmanthus_seed",
-          "x": 270,
-          "y": 848
-        }
-      ],
+      "items": [],
       "color": "#4a3f55",
       "ceilings": [],
       "movers": [],
@@ -76,7 +70,8 @@
           "current": 0
         }
       ],
-      "decor": []
+      "decor": [],
+      "carrots": []
     },
     "chunk_osmanthus_ride": {
       "id": "chunk_osmanthus_ride",
@@ -117,9 +112,9 @@
       ],
       "items": [
         {
-          "id": "mooncake",
-          "x": 260,
-          "y": 828
+          "id": "osmanthus_seed",
+          "x": 140,
+          "y": 580
         }
       ],
       "hazards": [
@@ -135,7 +130,8 @@
       "color": "#40364a",
       "ceilings": [],
       "movers": [],
-      "decor": []
+      "decor": [],
+      "carrots": []
     },
     "chunk_osmanthus_pool": {
       "id": "chunk_osmanthus_pool",
@@ -210,7 +206,9 @@
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     }
   }
 }

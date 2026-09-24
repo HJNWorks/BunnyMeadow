@@ -46,11 +46,6 @@
   ],
   "items": [
     {
-      "id": "star_grit",
-      "x": 680,
-      "y": 768
-    },
-    {
       "id": "mooncake",
       "x": 880,
       "y": 668
@@ -88,5 +83,6 @@
   "color": "#151b2e",
   "ceilings": [],
   "movers": [],
-  "hazards": []
+  "hazards": [],
+  "carrots": []
 }

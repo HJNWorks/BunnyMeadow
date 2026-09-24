@@ -66,7 +66,9 @@
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_crane_b": {
       "id": "chunk_crane_b",
@@ -112,7 +114,8 @@
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "carrots": []
     }
   }
 }

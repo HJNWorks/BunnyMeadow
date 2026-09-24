@@ -35,5 +35,7 @@
   "ceilings": [],
   "movers": [],
   "hazards": [],
-  "decor": []
+  "decor": [],
+  "items": [],
+  "carrots": []
 }

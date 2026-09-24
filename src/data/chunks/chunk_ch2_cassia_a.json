@@ -40,13 +40,14 @@
   "items": [
     {
       "id": "elixir_crumb",
-      "x": 140,
-      "y": 888
+      "x": 500,
+      "y": 740
     }
   ],
   "decor": [],
   "color": "#1a1612",
   "ceilings": [],
   "enemies": [],
-  "hazards": []
+  "hazards": [],
+  "carrots": []
 }

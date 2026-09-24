@@ -138,18 +138,13 @@
           "y": 930
         }
       ],
-      "items": [
-        {
-          "id": "glide",
-          "x": 160,
-          "y": 948
-        }
-      ],
+      "items": [],
       "color": "#3d4560",
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "carrots": []
     },
     "chunk_lantern_street": {
       "id": "chunk_lantern_street",
@@ -255,7 +250,8 @@
       "color": "#3d4560",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "carrots": []
     },
     "chunk_lantern_glide": {
       "id": "chunk_lantern_glide",
@@ -312,7 +308,9 @@
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_lantern_rooftop": {
       "id": "chunk_lantern_rooftop",
@@ -413,7 +411,8 @@
       "color": "#323a54",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "carrots": []
     },
     "chunk_lantern_pool": {
       "id": "chunk_lantern_pool",
@@ -452,7 +451,9 @@
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     }
   }
 }

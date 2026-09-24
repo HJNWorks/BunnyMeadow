@@ -92,13 +92,7 @@
           "y": 680
         }
       ],
-      "items": [
-        {
-          "id": "glide",
-          "x": 160,
-          "y": 888
-        }
-      ],
+      "items": [],
       "movers": [
         {
           "x": 620,
@@ -115,7 +109,8 @@
       "color": "#8aa8c8",
       "ceilings": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "carrots": []
     },
     "chunk_stair_lanterns": {
       "id": "chunk_stair_lanterns",
@@ -195,7 +190,8 @@
       "color": "#8aa8c8",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "carrots": []
     },
     "chunk_stair_ascent": {
       "id": "chunk_stair_ascent",
@@ -252,7 +248,9 @@
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_stair_gap": {
       "id": "chunk_stair_gap",
@@ -312,7 +310,8 @@
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "carrots": []
     }
   }
 }

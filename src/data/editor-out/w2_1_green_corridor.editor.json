@@ -39,6 +39,33 @@
     },
     {
       "kind": "hedge",
+      "x": 440,
+      "y": 620,
+      "w": 40,
+      "h": 360,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 1280,
+      "y": 580,
+      "w": 40,
+      "h": 400,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 1560,
+      "y": 540,
+      "w": 40,
+      "h": 440,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
       "x": 1280,
       "y": 580,
       "w": 40,
@@ -75,10 +102,46 @@
     },
     {
       "kind": "hedge",
+      "x": 2220,
+      "y": 480,
+      "w": 44,
+      "h": 500,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 2536,
+      "y": 440,
+      "w": 44,
+      "h": 540,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
       "x": 2960,
       "y": 700,
       "w": 36,
       "h": 280,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 2960,
+      "y": 700,
+      "w": 36,
+      "h": 280,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 3920,
+      "y": 740,
+      "w": 36,
+      "h": 240,
       "rotation": 0,
       "asset": "hedge"
     },
@@ -152,8 +215,19 @@
           "h": 360,
           "rotation": 0,
           "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 440,
+          "y": 620,
+          "w": 40,
+          "h": 360,
+          "rotation": 0,
+          "asset": "hedge"
         }
-      ]
+      ],
+      "items": [],
+      "carrots": []
     },
     "chunk_bamboo_grove": {
       "id": "chunk_bamboo_grove",
@@ -257,8 +331,28 @@
           "h": 440,
           "rotation": 0,
           "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 320,
+          "y": 580,
+          "w": 40,
+          "h": 400,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 600,
+          "y": 540,
+          "w": 40,
+          "h": 440,
+          "rotation": 0,
+          "asset": "hedge"
         }
-      ]
+      ],
+      "items": [],
+      "carrots": []
     },
     "chunk_bamboo_shaft": {
       "id": "chunk_bamboo_shaft",
@@ -364,8 +458,28 @@
           "h": 540,
           "rotation": 0,
           "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 300,
+          "y": 480,
+          "w": 44,
+          "h": 500,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 616,
+          "y": 440,
+          "w": 44,
+          "h": 540,
+          "rotation": 0,
+          "asset": "hedge"
         }
-      ]
+      ],
+      "items": [],
+      "carrots": []
     },
     "chunk_bamboo_edge": {
       "id": "chunk_bamboo_edge",
@@ -441,8 +555,18 @@
           "h": 280,
           "rotation": 0,
           "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 80,
+          "y": 700,
+          "w": 36,
+          "h": 280,
+          "rotation": 0,
+          "asset": "hedge"
         }
-      ]
+      ],
+      "carrots": []
     },
     "chunk_bamboo_pool": {
       "id": "chunk_bamboo_pool",
@@ -509,6 +633,15 @@
           "h": 240,
           "rotation": 0,
           "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 80,
+          "y": 740,
+          "w": 36,
+          "h": 240,
+          "rotation": 0,
+          "asset": "hedge"
         }
       ],
       "items": [
@@ -517,7 +650,8 @@
           "x": 140,
           "y": 950
         }
-      ]
+      ],
+      "carrots": []
     }
   }
 }

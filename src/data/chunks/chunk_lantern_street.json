@@ -102,5 +102,6 @@
   "color": "#3d4560",
   "ceilings": [],
   "movers": [],
-  "hazards": []
+  "hazards": [],
+  "carrots": []
 }

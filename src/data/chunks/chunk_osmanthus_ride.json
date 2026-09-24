@@ -37,9 +37,9 @@
   ],
   "items": [
     {
-      "id": "mooncake",
-      "x": 260,
-      "y": 828
+      "id": "osmanthus_seed",
+      "x": 140,
+      "y": 580
     }
   ],
   "hazards": [
@@ -55,5 +55,6 @@
   "color": "#40364a",
   "ceilings": [],
   "movers": [],
-  "decor": []
+  "decor": [],
+  "carrots": []
 }

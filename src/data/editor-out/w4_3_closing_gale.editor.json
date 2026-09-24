@@ -125,7 +125,8 @@
       "color": "#6a88b0",
       "ceilings": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "carrots": []
     },
     "chunk_stair_gale_b": {
       "id": "chunk_stair_gale_b",
@@ -207,7 +208,8 @@
       "color": "#6a88b0",
       "ceilings": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "carrots": []
     },
     "chunk_stair_gale_c": {
       "id": "chunk_stair_gale_c",
@@ -390,7 +392,9 @@
       "color": "#1c2230",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "items": [],
+      "carrots": []
     }
   }
 }

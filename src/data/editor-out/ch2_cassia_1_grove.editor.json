@@ -75,15 +75,16 @@
       "items": [
         {
           "id": "elixir_crumb",
-          "x": 140,
-          "y": 888
+          "x": 500,
+          "y": 740
         }
       ],
       "decor": [],
       "color": "#1a1612",
       "ceilings": [],
       "enemies": [],
-      "hazards": []
+      "hazards": [],
+      "carrots": []
     },
     "chunk_ch2_cassia_b": {
       "id": "chunk_ch2_cassia_b",
@@ -110,7 +111,9 @@
       "enemies": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     }
   }
 }

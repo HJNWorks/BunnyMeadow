@@ -172,7 +172,9 @@
           "rotation": 0,
           "asset": "hedge"
         }
-      ]
+      ],
+      "items": [],
+      "carrots": []
     },
     "chunk_orchard_fence": {
       "id": "chunk_orchard_fence",
@@ -290,7 +292,8 @@
       "color": "#d2dc9a",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "carrots": []
     },
     "chunk_orchard_b": {
       "id": "chunk_orchard_b",
@@ -351,7 +354,9 @@
           "rotation": 0,
           "asset": "hedge"
         }
-      ]
+      ],
+      "items": [],
+      "carrots": []
     },
     "chunk_hedge_end": {
       "id": "chunk_hedge_end",
@@ -419,7 +424,9 @@
           "rotation": 0,
           "asset": "hedge"
         }
-      ]
+      ],
+      "items": [],
+      "carrots": []
     }
   }
 }

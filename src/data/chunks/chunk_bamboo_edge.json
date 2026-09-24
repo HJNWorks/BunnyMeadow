@@ -72,6 +72,16 @@
       "h": 280,
       "rotation": 0,
       "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 80,
+      "y": 700,
+      "w": 36,
+      "h": 280,
+      "rotation": 0,
+      "asset": "hedge"
     }
-  ]
+  ],
+  "carrots": []
 }

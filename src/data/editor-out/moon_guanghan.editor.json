@@ -386,7 +386,9 @@
       "color": "#1c2238",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_palace_roofs": {
       "id": "chunk_palace_roofs",
@@ -479,7 +481,9 @@
       "color": "#182032",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_palace_yard": {
       "id": "chunk_palace_yard",
@@ -560,7 +564,9 @@
       "color": "#1a2236",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_palace_screens": {
       "id": "chunk_palace_screens",
@@ -673,7 +679,9 @@
       "color": "#161e32",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_palace_hall": {
       "id": "chunk_palace_hall",
@@ -783,7 +791,9 @@
       "color": "#141c30",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_palace_cassia": {
       "id": "chunk_palace_cassia",
@@ -865,7 +875,8 @@
       "color": "#182236",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "carrots": []
     },
     "chunk_palace_still": {
       "id": "chunk_palace_still",
@@ -935,7 +946,8 @@
       "color": "#121a2c",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "carrots": []
     },
     "chunk_moon_a": {
       "id": "chunk_moon_a",
@@ -992,7 +1004,9 @@
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     },
     "chunk_moon_b": {
       "id": "chunk_moon_b",
@@ -1040,7 +1054,9 @@
       "ceilings": [],
       "movers": [],
       "hazards": [],
-      "decor": []
+      "decor": [],
+      "items": [],
+      "carrots": []
     }
   }
 }
