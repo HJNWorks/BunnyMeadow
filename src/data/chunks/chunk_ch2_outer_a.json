@@ -4,21 +4,71 @@
   "height": 1080,
   "groundY": 920,
   "platforms": [
-    { "x": 0, "y": 920, "w": 420, "h": 80, "asset": "ground" },
-    { "x": 620, "y": 800, "w": 160, "h": 24, "asset": "ground" },
-    { "x": 820, "y": 700, "w": 140, "h": 24, "asset": "ground" }
+    {
+      "x": 0,
+      "y": 920,
+      "w": 420,
+      "h": 80
+    },
+    {
+      "x": 620,
+      "y": 800,
+      "w": 160,
+      "h": 24
+    },
+    {
+      "x": 820,
+      "y": 700,
+      "w": 140,
+      "h": 24
+    }
   ],
   "walls": [
-    { "x": 70, "y": 760, "w": 36, "h": 160 },
-    { "x": 210, "y": 800, "w": 36, "h": 120 }
+    {
+      "x": 70,
+      "y": 760,
+      "w": 36,
+      "h": 160
+    },
+    {
+      "x": 210,
+      "y": 800,
+      "w": 36,
+      "h": 120
+    }
   ],
-  "enemies": [{ "id": "dust_mite", "x": 750, "y": 680 }],
+  "enemies": [
+    {
+      "id": "dust_mite",
+      "x": 700,
+      "y": 740
+    }
+  ],
   "items": [
-    { "id": "star_grit", "x": 680, "y": 768 },
-    { "id": "mooncake", "x": 880, "y": 668 }
+    {
+      "id": "star_grit",
+      "x": 680,
+      "y": 768
+    },
+    {
+      "id": "mooncake",
+      "x": 880,
+      "y": 668
+    }
   ],
   "decor": [
-    { "kind": "lantern", "x": 300, "y": 872, "w": 28, "h": 48, "rotation": 0, "asset": "lantern" }
+    {
+      "kind": "lantern",
+      "x": 300,
+      "y": 872,
+      "w": 28,
+      "h": 48,
+      "rotation": 0,
+      "asset": "lantern"
+    }
   ],
-  "color": "#151b2e"
+  "color": "#151b2e",
+  "ceilings": [],
+  "movers": [],
+  "hazards": []
 }

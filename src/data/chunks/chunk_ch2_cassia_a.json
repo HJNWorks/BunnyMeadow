@@ -4,9 +4,24 @@
   "height": 1080,
   "groundY": 920,
   "platforms": [
-    { "x": 0, "y": 920, "w": 240, "h": 80, "asset": "wound" },
-    { "x": 360, "y": 380, "w": 28, "h": 240, "asset": "wound" },
-    { "x": 860, "y": 560, "w": 100, "h": 24, "asset": "wound" }
+    {
+      "x": 0,
+      "y": 920,
+      "w": 240,
+      "h": 80
+    },
+    {
+      "x": 380,
+      "y": 460,
+      "w": 30,
+      "h": 240
+    },
+    {
+      "x": 880,
+      "y": 560,
+      "w": 30,
+      "h": 240
+    }
   ],
   "walls": [],
   "movers": [
@@ -14,7 +29,7 @@
       "x": 430,
       "y": 760,
       "w": 150,
-      "h": 16,
+      "h": 20,
       "axis": "x",
       "amplitude": 110,
       "speed": 0.55,
@@ -22,9 +37,26 @@
       "kind": "bridge"
     }
   ],
-  "items": [{ "id": "elixir_crumb", "x": 140, "y": 888 }],
-  "decor": [
-    { "kind": "wound", "x": 80, "y": 860, "w": 140, "h": 24, "rotation": 0, "asset": "wound" }
+  "items": [
+    {
+      "id": "elixir_crumb",
+      "x": 140,
+      "y": 888
+    }
   ],
-  "color": "#1a1612"
+  "decor": [
+    {
+      "kind": "wound",
+      "x": 80,
+      "y": 860,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "wound"
+    }
+  ],
+  "color": "#1a1612",
+  "ceilings": [],
+  "enemies": [],
+  "hazards": []
 }

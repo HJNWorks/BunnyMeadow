@@ -4,11 +4,23 @@
   "height": 1080,
   "groundY": 980,
   "platforms": [
-    { "x": 0, "y": 980, "w": 1200, "h": 100 }
+    {
+      "x": 0,
+      "y": 980,
+      "w": 1200,
+      "h": 100
+    }
   ],
   "walls": [],
   "enemies": [
-    { "id": "goat", "x": 720, "y": 940 }
+    {
+      "id": "fox",
+      "x": 270,
+      "y": 930
+    }
   ],
-  "color": "#b8c98a"
+  "color": "#b8c98a",
+  "ceilings": [],
+  "movers": [],
+  "hazards": []
 }

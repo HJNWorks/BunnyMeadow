@@ -4,26 +4,96 @@
   "height": 1080,
   "groundY": 980,
   "platforms": [
-    { "x": 0, "y": 980, "w": 140, "h": 100 },
-    { "x": 820, "y": 980, "w": 140, "h": 100 }
+    {
+      "x": 0,
+      "y": 980,
+      "w": 140,
+      "h": 100
+    },
+    {
+      "x": 820,
+      "y": 980,
+      "w": 140,
+      "h": 100
+    }
   ],
   "walls": [],
   "enemies": [
-    { "id": "heron", "x": 860, "y": 928 },
-    { "id": "carp", "x": 480, "y": 960 }
+    {
+      "id": "heron",
+      "x": 480,
+      "y": 480
+    },
+    {
+      "id": "carp",
+      "x": 370,
+      "y": 1000
+    },
+    {
+      "id": "carp",
+      "x": 600,
+      "y": 1000
+    }
   ],
   "movers": [
-    { "x": 180, "y": 880, "w": 130, "h": 28, "axis": "x", "amplitude": 60, "speed": 1.1, "tint": 10066176, "break": { "profile": "wood" } },
-    { "x": 420, "y": 840, "w": 130, "h": 28, "axis": "y", "amplitude": 50, "speed": 1.2, "tint": 10066176, "break": { "profile": "wood" } },
-    { "x": 640, "y": 880, "w": 130, "h": 28, "axis": "x", "amplitude": 55, "speed": 1.05, "tint": 10066176, "break": { "profile": "wood" } }
+    {
+      "x": 180,
+      "y": 880,
+      "w": 130,
+      "h": 28,
+      "axis": "x",
+      "amplitude": 60,
+      "speed": 1.1,
+      "tint": 10066176
+    },
+    {
+      "x": 420,
+      "y": 840,
+      "w": 130,
+      "h": 28,
+      "axis": "y",
+      "amplitude": 50,
+      "speed": 1.2,
+      "tint": 10066176
+    },
+    {
+      "x": 640,
+      "y": 880,
+      "w": 130,
+      "h": 28,
+      "axis": "x",
+      "amplitude": 55,
+      "speed": 1.05,
+      "tint": 10066176
+    }
   ],
   "hazards": [
-    { "x": 140, "y": 920, "w": 680, "h": 160, "kind": "water", "current": 48 }
+    {
+      "x": 140,
+      "y": 980,
+      "w": 680,
+      "h": 100,
+      "kind": "water",
+      "current": 48
+    }
   ],
   "items": [
-    { "id": "mooncake", "x": 245, "y": 848 },
-    { "id": "mooncake", "x": 485, "y": 808 },
-    { "id": "osmanthus_seed", "x": 80, "y": 948 }
+    {
+      "id": "mooncake",
+      "x": 245,
+      "y": 848
+    },
+    {
+      "id": "mooncake",
+      "x": 485,
+      "y": 808
+    },
+    {
+      "id": "osmanthus_seed",
+      "x": 80,
+      "y": 948
+    }
   ],
-  "color": "#5f8794"
+  "color": "#5f8794",
+  "ceilings": []
 }

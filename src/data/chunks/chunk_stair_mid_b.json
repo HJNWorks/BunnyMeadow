@@ -4,16 +4,50 @@
   "height": 1080,
   "groundY": 1080,
   "platforms": [
-    { "x": 0, "y": 500, "w": 100, "h": 24 },
-    { "x": 200, "y": 420, "w": 90, "h": 24 },
-    { "x": 560, "y": 320, "w": 90, "h": 24, "surface": "slick" },
-    { "x": 780, "y": 280, "w": 180, "h": 28, "surface": "slick" }
+    {
+      "x": 0,
+      "y": 500,
+      "w": 100,
+      "h": 24
+    },
+    {
+      "x": 200,
+      "y": 420,
+      "w": 90,
+      "h": 24
+    },
+    {
+      "x": 560,
+      "y": 320,
+      "w": 90,
+      "h": 24,
+      "surface": "slick"
+    },
+    {
+      "x": 780,
+      "y": 280,
+      "w": 180,
+      "h": 28,
+      "surface": "slick"
+    }
   ],
   "walls": [],
   "enemies": [
-    { "id": "gale_magpie", "x": 400, "y": 220 },
-    { "id": "frost_wisp", "x": 600, "y": 280 },
-    { "id": "ice_spit", "x": 800, "y": 248 }
+    {
+      "id": "gale_magpie",
+      "x": 400,
+      "y": 220
+    },
+    {
+      "id": "frost_wisp",
+      "x": 600,
+      "y": 280
+    },
+    {
+      "id": "ice_spit",
+      "x": 800,
+      "y": 248
+    }
   ],
   "movers": [
     {
@@ -28,5 +62,7 @@
       "kind": "bridge"
     }
   ],
-  "color": "#7a98b8"
+  "color": "#7a98b8",
+  "ceilings": [],
+  "hazards": []
 }

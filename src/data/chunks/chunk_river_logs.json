@@ -4,23 +4,76 @@
   "height": 1080,
   "groundY": 980,
   "platforms": [
-    { "x": 0, "y": 980, "w": 120, "h": 100 },
-    { "x": 840, "y": 980, "w": 120, "h": 100 }
+    {
+      "x": 0,
+      "y": 980,
+      "w": 120,
+      "h": 100
+    },
+    {
+      "x": 840,
+      "y": 980,
+      "w": 120,
+      "h": 100
+    }
   ],
   "walls": [],
   "enemies": [
-    { "id": "crow", "x": 480, "y": 620 }
+    {
+      "id": "crow",
+      "x": 480,
+      "y": 620
+    }
   ],
   "movers": [
-    { "x": 180, "y": 880, "w": 130, "h": 28, "axis": "y", "amplitude": 50, "speed": 1.4, "tint": 10066176, "break": { "profile": "wood" } },
-    { "x": 400, "y": 860, "w": 130, "h": 28, "axis": "x", "amplitude": 90, "speed": 1.1, "tint": 10066176, "break": { "profile": "wood" } },
-    { "x": 640, "y": 820, "w": 130, "h": 28, "axis": "y", "amplitude": 60, "speed": 1.3, "tint": 10066176, "break": { "profile": "wood" } }
+    {
+      "x": 180,
+      "y": 880,
+      "w": 130,
+      "h": 28,
+      "axis": "y",
+      "amplitude": 50,
+      "speed": 1.4,
+      "tint": 10066176
+    },
+    {
+      "x": 400,
+      "y": 860,
+      "w": 130,
+      "h": 28,
+      "axis": "x",
+      "amplitude": 90,
+      "speed": 1.1,
+      "tint": 10066176
+    },
+    {
+      "x": 640,
+      "y": 820,
+      "w": 130,
+      "h": 28,
+      "axis": "y",
+      "amplitude": 60,
+      "speed": 1.3,
+      "tint": 10066176
+    }
   ],
   "items": [
-    { "id": "mooncake", "x": 245, "y": 848 }
+    {
+      "id": "mooncake",
+      "x": 245,
+      "y": 848
+    }
   ],
   "hazards": [
-    { "x": 120, "y": 920, "w": 720, "h": 160, "kind": "water", "current": 55 }
+    {
+      "x": 120,
+      "y": 980,
+      "w": 720,
+      "h": 100,
+      "kind": "water",
+      "current": 55
+    }
   ],
-  "color": "#6b94a0"
+  "color": "#6b94a0",
+  "ceilings": []
 }

@@ -4,12 +4,44 @@
   "height": 1080,
   "groundY": 980,
   "platforms": [
-    { "x": 0, "y": 980, "w": 960, "h": 100 },
-    { "x": 80, "y": 840, "w": 160, "h": 24, "break": { "profile": "stone" } },
-    { "x": 330, "y": 760, "w": 200, "h": 28, "break": { "profile": "stone" } },
-    { "x": 620, "y": 840, "w": 340, "h": 24, "break": { "profile": "stone" } }
+    {
+      "x": 0,
+      "y": 980,
+      "w": 960,
+      "h": 100
+    },
+    {
+      "x": 80,
+      "y": 840,
+      "w": 160,
+      "h": 24,
+      "break": {
+        "profile": "stone"
+      }
+    },
+    {
+      "x": 330,
+      "y": 760,
+      "w": 200,
+      "h": 28,
+      "break": {
+        "profile": "stone"
+      }
+    },
+    {
+      "x": 620,
+      "y": 840,
+      "w": 340,
+      "h": 24,
+      "break": {
+        "profile": "stone"
+      }
+    }
   ],
   "walls": [],
   "enemies": [],
-  "color": "#151b2e"
+  "color": "#151b2e",
+  "ceilings": [],
+  "movers": [],
+  "hazards": []
 }

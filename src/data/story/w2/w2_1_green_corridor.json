@@ -3,12 +3,36 @@
   "world": 2,
   "index": 1,
   "name": "Green Corridor",
-  "chunks": ["chunk_bamboo_start", "chunk_bamboo_grove", "chunk_bamboo_shaft", "chunk_bamboo_edge", "chunk_bamboo_pool"],
-  "playerSpawn": { "x": 100, "y": 900 },
-  "moonPool": { "chunk": 4, "x": 200, "y": 920 },
-  "exit": { "chunk": 4, "x": 820, "y": 920 },
+  "chunks": [
+    "chunk_bamboo_start",
+    "chunk_bamboo_grove",
+    "chunk_bamboo_shaft",
+    "chunk_bamboo_edge",
+    "chunk_bamboo_pool"
+  ],
+  "playerSpawn": {
+    "x": 100,
+    "y": 900
+  },
+  "moonPool": {
+    "chunk": 2,
+    "x": 240,
+    "y": 830
+  },
+  "exit": {
+    "chunk": 4,
+    "x": 900,
+    "y": 940
+  },
   "moonLine": "She is safe above the clouds. Climb when the water turns silver.",
   "objective": "Climb the bamboo shafts. Bounce off the green walls.",
   "wallBounce": true,
-  "sky": "#8fad6a"
+  "sky": "#8fad6a",
+  "moonPools": [
+    {
+      "chunk": 2,
+      "x": 240,
+      "y": 830
+    }
+  ]
 }

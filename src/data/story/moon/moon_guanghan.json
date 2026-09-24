@@ -14,9 +14,20 @@
     "chunk_moon_a",
     "chunk_moon_b"
   ],
-  "playerSpawn": { "x": 180, "y": 930 },
-  "moonPool": { "chunk": 0, "x": 40, "y": 920 },
-  "exit": { "chunk": 8, "x": 860, "y": 800 },
+  "playerSpawn": {
+    "x": 180,
+    "y": 930
+  },
+  "moonPool": {
+    "chunk": 0,
+    "x": 40,
+    "y": 920
+  },
+  "exit": {
+    "chunk": 8,
+    "x": 860,
+    "y": 800
+  },
   "moonLine": "The old cold kept guests. I did not.",
   "objective": "Duck the frost. Eat a mooncake, then dash Han.",
   "sky": "#12161c",
@@ -27,5 +38,12 @@
     "hitsNeeded": 5,
     "x": 7380,
     "y": 380
-  }
+  },
+  "moonPools": [
+    {
+      "chunk": 0,
+      "x": 40,
+      "y": 920
+    }
+  ]
 }

@@ -4,16 +4,53 @@
   "height": 1080,
   "groundY": 1080,
   "platforms": [
-    { "x": 0, "y": 500, "w": 120, "h": 24 },
-    { "x": 180, "y": 430, "w": 90, "h": 24, "surface": "slick" },
-    { "x": 360, "y": 360, "w": 90, "h": 24, "surface": "slick" },
-    { "x": 560, "y": 300, "w": 90, "h": 24, "surface": "slick" },
-    { "x": 760, "y": 250, "w": 140, "h": 24, "surface": "slick" }
+    {
+      "x": 0,
+      "y": 500,
+      "w": 120,
+      "h": 24
+    },
+    {
+      "x": 180,
+      "y": 430,
+      "w": 90,
+      "h": 24,
+      "surface": "slick"
+    },
+    {
+      "x": 360,
+      "y": 360,
+      "w": 90,
+      "h": 24,
+      "surface": "slick"
+    },
+    {
+      "x": 560,
+      "y": 300,
+      "w": 90,
+      "h": 24,
+      "surface": "slick"
+    },
+    {
+      "x": 760,
+      "y": 250,
+      "w": 140,
+      "h": 24,
+      "surface": "slick"
+    }
   ],
   "walls": [],
   "enemies": [
-    { "id": "frost_hare", "x": 400, "y": 320 },
-    { "id": "frost_wisp", "x": 600, "y": 240 }
+    {
+      "id": "frost_hare",
+      "x": 400,
+      "y": 320
+    },
+    {
+      "id": "frost_wisp",
+      "x": 600,
+      "y": 240
+    }
   ],
   "movers": [
     {
@@ -28,5 +65,7 @@
       "kind": "bridge"
     }
   ],
-  "color": "#7a98b8"
+  "color": "#7a98b8",
+  "ceilings": [],
+  "hazards": []
 }

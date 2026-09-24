@@ -3,10 +3,25 @@
   "world": 3,
   "index": 2,
   "name": "Tiger Road",
-  "chunks": ["chunk_osmanthus_start", "chunk_osmanthus_ride", "chunk_osmanthus_pool"],
-  "playerSpawn": { "x": 100, "y": 900 },
-  "moonPool": { "chunk": 2, "x": 220, "y": 920 },
-  "exit": { "chunk": 2, "x": 820, "y": 920 },
+  "chunks": [
+    "chunk_osmanthus_start",
+    "chunk_osmanthus_ride",
+    "chunk_osmanthus_pool"
+  ],
+  "playerSpawn": {
+    "x": 100,
+    "y": 900
+  },
+  "moonPool": {
+    "chunk": 2,
+    "x": 220,
+    "y": 920
+  },
+  "exit": {
+    "chunk": 2,
+    "x": 3020,
+    "y": 920
+  },
   "moonLine": "Lord Rabbit's tiger knows the blossom road.",
   "objective": "Wait for the tiger, hop on, and ride across the water.",
   "sky": "#40364a",
@@ -15,13 +30,41 @@
     "h": 44,
     "speed": 130,
     "waypoints": [
-      { "chunk": 0, "x": 860, "y": 940 },
-      { "chunk": 1, "x": 260, "y": 820 },
-      { "chunk": 1, "x": 460, "y": 720 },
-      { "chunk": 1, "x": 660, "y": 820 },
-      { "chunk": 1, "x": 890, "y": 940 },
-      { "chunk": 2, "x": 250, "y": 840 },
-      { "chunk": 2, "x": 760, "y": 840 }
+      {
+        "chunk": 0,
+        "x": 860,
+        "y": 940
+      },
+      {
+        "chunk": 1,
+        "x": 260,
+        "y": 820
+      },
+      {
+        "chunk": 1,
+        "x": 460,
+        "y": 720
+      },
+      {
+        "chunk": 1,
+        "x": 660,
+        "y": 820
+      },
+      {
+        "chunk": 1,
+        "x": 890,
+        "y": 940
+      },
+      {
+        "chunk": 2,
+        "x": 250,
+        "y": 840
+      },
+      {
+        "chunk": 2,
+        "x": 760,
+        "y": 840
+      }
     ]
   }
 }

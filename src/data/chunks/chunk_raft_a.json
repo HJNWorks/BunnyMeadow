@@ -5,18 +5,65 @@
   "groundY": 980,
   "platforms": [],
   "walls": [],
-  "enemies": [],
+  "enemies": [
+    {
+      "id": "heron",
+      "x": 420,
+      "y": 480
+    }
+  ],
   "movers": [
-    { "x": 40, "y": 900, "w": 170, "h": 28, "axis": "x", "amplitude": 0, "speed": 0, "tint": 10066176 },
-    { "x": 280, "y": 870, "w": 150, "h": 28, "axis": "x", "amplitude": 70, "speed": 1.1, "tint": 10066176 },
-    { "x": 520, "y": 820, "w": 150, "h": 28, "axis": "y", "amplitude": 55, "speed": 1.25, "tint": 10066176 },
-    { "x": 760, "y": 880, "w": 150, "h": 28, "axis": "x", "amplitude": 50, "speed": 1.05, "tint": 10066176 }
+    {
+      "x": 40,
+      "y": 900,
+      "w": 170,
+      "h": 28,
+      "axis": "x",
+      "amplitude": 0,
+      "speed": 0,
+      "tint": 10066176
+    },
+    {
+      "x": 280,
+      "y": 870,
+      "w": 150,
+      "h": 28,
+      "axis": "x",
+      "amplitude": 70,
+      "speed": 1.1,
+      "tint": 10066176
+    },
+    {
+      "x": 520,
+      "y": 820,
+      "w": 150,
+      "h": 28,
+      "axis": "y",
+      "amplitude": 55,
+      "speed": 1.25,
+      "tint": 10066176
+    },
+    {
+      "x": 760,
+      "y": 880,
+      "w": 150,
+      "h": 28,
+      "axis": "x",
+      "amplitude": 50,
+      "speed": 1.05,
+      "tint": 10066176
+    }
   ],
   "hazards": [
-    { "x": 0, "y": 960, "w": 960, "h": 120, "kind": "water", "current": 28 }
+    {
+      "x": 0,
+      "y": 960,
+      "w": 960,
+      "h": 120,
+      "kind": "water",
+      "current": 28
+    }
   ],
-  "enemies": [
-    { "id": "heron", "x": 420, "y": 760 }
-  ],
-  "color": "#5f8794"
+  "color": "#5f8794",
+  "ceilings": []
 }

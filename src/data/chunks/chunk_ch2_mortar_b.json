@@ -4,12 +4,42 @@
   "height": 1080,
   "groundY": 940,
   "platforms": [
-    { "x": 80, "y": 820, "w": 160, "h": 28, "asset": "bowl" },
-    { "x": 340, "y": 900, "w": 160, "h": 28, "asset": "bowl" },
-    { "x": 560, "y": 940, "w": 400, "h": 60, "asset": "bowl" }
+    {
+      "x": 80,
+      "y": 820,
+      "w": 160,
+      "h": 28
+    },
+    {
+      "x": 340,
+      "y": 900,
+      "w": 160,
+      "h": 28
+    },
+    {
+      "x": 560,
+      "y": 940,
+      "w": 400,
+      "h": 60
+    }
   ],
   "walls": [],
-  "enemies": [{ "id": "pestle_sentry", "x": 160, "y": 700 }],
-  "items": [{ "id": "mooncake", "x": 400, "y": 868 }],
-  "color": "#121416"
+  "enemies": [
+    {
+      "id": "pestle_sentry",
+      "x": 160,
+      "y": 700
+    }
+  ],
+  "items": [
+    {
+      "id": "mooncake",
+      "x": 400,
+      "y": 868
+    }
+  ],
+  "color": "#121416",
+  "ceilings": [],
+  "movers": [],
+  "hazards": []
 }

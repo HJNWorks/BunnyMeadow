@@ -3,11 +3,34 @@
   "world": 1,
   "index": 2,
   "name": "Hedge Maze",
-  "chunks": ["chunk_orchard_a", "chunk_orchard_fence", "chunk_orchard_b", "chunk_hedge_end"],
-  "playerSpawn": { "x": 100, "y": 900 },
-  "moonPool": { "chunk": 2, "x": 100, "y": 920 },
-  "exit": { "chunk": 3, "x": 820, "y": 920 },
+  "chunks": [
+    "chunk_orchard_a",
+    "chunk_orchard_fence",
+    "chunk_orchard_b",
+    "chunk_hedge_end"
+  ],
+  "playerSpawn": {
+    "x": 100,
+    "y": 900
+  },
+  "moonPool": {
+    "chunk": 2,
+    "x": 100,
+    "y": 920
+  },
+  "exit": {
+    "chunk": 3,
+    "x": 890,
+    "y": 940
+  },
   "moonLine": "Hedges hold secrets. Bounce, little hopper.",
   "objective": "Climb the ledges. Bounce off hedges to keep hopping.",
-  "wallBounce": true
+  "wallBounce": true,
+  "moonPools": [
+    {
+      "chunk": 2,
+      "x": 100,
+      "y": 920
+    }
+  ]
 }

@@ -3,9 +3,21 @@
   "world": 4,
   "index": 2,
   "name": "No Return",
-  "chunks": ["chunk_stair_mid_a", "chunk_stair_ice", "chunk_stair_mid_b", "chunk_stair_drop"],
-  "playerSpawn": { "x": 140, "y": 760 },
-  "exit": { "chunk": 3, "x": 860, "y": 100 },
+  "chunks": [
+    "chunk_stair_mid_a",
+    "chunk_stair_ice",
+    "chunk_stair_mid_b",
+    "chunk_stair_drop"
+  ],
+  "playerSpawn": {
+    "x": 140,
+    "y": 760
+  },
+  "exit": {
+    "chunk": 3,
+    "x": 860,
+    "y": 100
+  },
   "moonLine": "There is no pool on these steps.",
   "objective": "Climb. A fall into the cloud restarts the station.",
   "height": 3240,
