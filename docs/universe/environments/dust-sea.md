@@ -15,7 +15,9 @@ Fauna: [../../LORE.md](../../LORE.md).
 
 ## Feel
 
-Round basins like dry seas. Odd silhouettes, folk names. Not NASA dunes.
+Round basins like dry seas. She stops because the only floor is a crater lip, and the
+gap between lips is the verb. Star grit sits in that gap so 0.42 g can be read. Odd
+silhouettes, folk names. Not NASA dunes.
 
 ## Roster
 

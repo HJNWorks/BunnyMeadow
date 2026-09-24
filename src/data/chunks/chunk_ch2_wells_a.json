@@ -4,13 +4,19 @@
   "height": 1080,
   "groundY": 940,
   "platforms": [
-    { "x": 0, "y": 940, "w": 320, "h": 60 },
-    { "x": 400, "y": 800, "w": 200, "h": 28 },
-    { "x": 700, "y": 680, "w": 180, "h": 24 }
+    { "x": 0, "y": 940, "w": 280, "h": 60, "asset": "cave" },
+    { "x": 400, "y": 820, "w": 160, "h": 24, "asset": "cave" },
+    { "x": 680, "y": 700, "w": 160, "h": 24, "asset": "cave" }
   ],
   "walls": [],
-  "hazards": [{ "kind": "water", "x": 420, "y": 960, "w": 200, "h": 80 }],
-  "enemies": [{ "id": "star_wisp", "x": 900, "y": 560 }],
-  "items": [{ "id": "well_silver", "x": 500, "y": 772 }],
-  "color": "#151b2e"
+  "ceilings": [
+    { "x": 40, "y": 280, "w": 520, "h": 28 }
+  ],
+  "hazards": [{ "kind": "water", "x": 300, "y": 980, "w": 280, "h": 100 }],
+  "enemies": [{ "id": "star_wisp", "x": 760, "y": 560 }],
+  "items": [{ "id": "well_silver", "x": 460, "y": 788 }],
+  "decor": [
+    { "kind": "falseMouth", "x": 120, "y": 820, "w": 90, "h": 70, "rotation": 0, "asset": "cave" }
+  ],
+  "color": "#0c1014"
 }

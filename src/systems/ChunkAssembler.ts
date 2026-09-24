@@ -53,6 +53,7 @@ import chunkStairMidB from "../data/chunks/chunk_stair_mid_b.json"
 import chunkStairDrop from "../data/chunks/chunk_stair_drop.json"
 import chunkStairGaleA from "../data/chunks/chunk_stair_gale_a.json"
 import chunkStairGaleB from "../data/chunks/chunk_stair_gale_b.json"
+import chunkStairGaleC from "../data/chunks/chunk_stair_gale_c.json"
 import chunkCh2OuterA from "../data/chunks/chunk_ch2_outer_a.json"
 import chunkCh2OuterB from "../data/chunks/chunk_ch2_outer_b.json"
 import chunkCh2CassiaA from "../data/chunks/chunk_ch2_cassia_a.json"
@@ -86,6 +87,7 @@ export type ChunkRect = {
   break?: BreakSpec
   env?: string
   surface?: PadSurface
+  asset?: "ground" | "hedge" | "bridge" | "log" | "pool" | "exit" | "rim" | "bowl" | "wound" | "cave" | "ice"
 }
 
 export type PlaceableTrigger = {
@@ -225,9 +227,9 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_osmanthus_start: chunkOsmanthusStart as ChunkDef,
   chunk_osmanthus_ride: chunkOsmanthusRide as ChunkDef,
   chunk_osmanthus_pool: chunkOsmanthusPool as ChunkDef,
-  chunk_paws_move: chunkPawsMove as ChunkDef,
-  chunk_paws_jump: chunkPawsJump as ChunkDef,
-  chunk_paws_burrow: chunkPawsBurrow as ChunkDef,
+  chunk_paws_grass: chunkPawsMove as ChunkDef,
+  chunk_paws_bees: chunkPawsJump as ChunkDef,
+  chunk_paws_home: chunkPawsBurrow as ChunkDef,
   chunk_pool_tunnel: chunkPoolTunnel as ChunkDef,
   chunk_pool_pond: chunkPoolPond as ChunkDef,
   chunk_raft_a: chunkRaftA as ChunkDef,
@@ -253,6 +255,7 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_stair_drop: chunkStairDrop as ChunkDef,
   chunk_stair_gale_a: chunkStairGaleA as ChunkDef,
   chunk_stair_gale_b: chunkStairGaleB as ChunkDef,
+  chunk_stair_gale_c: chunkStairGaleC as ChunkDef,
   chunk_ch2_outer_a: chunkCh2OuterA as ChunkDef,
   chunk_ch2_outer_b: chunkCh2OuterB as ChunkDef,
   chunk_ch2_cassia_a: chunkCh2CassiaA as ChunkDef,
@@ -315,7 +318,7 @@ export class ChunkAssembler {
           w: p.w,
           h: p.h,
           kind: "platform",
-          asset: slick ? "ice" : "ground",
+          asset: p.asset ?? (slick ? "ice" : "ground"),
           surface: slick ? "slick" : p.surface,
           env: p.env,
           break: p.break,

@@ -128,6 +128,184 @@ export function bindCarpToWater(
   sprite.setPosition(sprite.x, best.worldY + 20)
 }
 
+export function bindSquirrelToTrunk(
+  sprite: Phaser.Physics.Arcade.Sprite,
+  platforms: Phaser.Physics.Arcade.StaticGroup,
+  decor: { kind: string; x: number; y: number; w: number; h: number }[],
+): void {
+  type Trunk = { cx: number; top: number; bottom: number; side: number }
+  const trunks: Trunk[] = []
+  for (const obj of platforms.getChildren()) {
+    const go = obj as Phaser.GameObjects.GameObject & {
+      getData?: (key: string) => unknown
+      body?: Phaser.Physics.Arcade.StaticBody | null
+    }
+    if (go.getData?.("rectKind") !== "wall") {
+      continue
+    }
+    const body = go.body
+    if (!body) {
+      continue
+    }
+    const cx = (body.left + body.right) * 0.5
+    const side = sprite.x >= cx ? body.right + 10 : body.left - 10
+    trunks.push({ cx, top: body.top, bottom: body.bottom, side })
+  }
+  for (const piece of decor) {
+    if (piece.kind !== "vine" && piece.kind !== "hedge" && piece.kind !== "column") {
+      continue
+    }
+    const cx = piece.x + piece.w * 0.5
+    const side = sprite.x >= cx ? piece.x + piece.w + 8 : piece.x - 8
+    trunks.push({ cx, top: piece.y, bottom: piece.y + piece.h, side })
+  }
+  if (!trunks.length) {
+    return
+  }
+  let best = trunks[0]
+  let bestDist = Number.POSITIVE_INFINITY
+  for (const trunk of trunks) {
+    const dist = Math.hypot(sprite.x - trunk.cx, sprite.y - (trunk.top + trunk.bottom) * 0.5)
+    if (!best || dist < bestDist) {
+      best = trunk
+      bestDist = dist
+    }
+  }
+  if (!best) {
+    return
+  }
+  const top = best.top + 18
+  const bottom = Math.max(top + 24, best.bottom - 18)
+  const body = sprite.body as Phaser.Physics.Arcade.Body
+  body.setAllowGravity(false)
+  body.setGravity(0, 0)
+  sprite.setData("fly", true)
+  sprite.setData("climbX", best.side)
+  sprite.setData("climbTop", top)
+  sprite.setData("climbBottom", bottom)
+  sprite.setData("climbDir", -1)
+  sprite.setPosition(best.side, Phaser.Math.Clamp(sprite.y, top, bottom))
+  body.updateFromGameObject()
+}
+
+function frogLanding(
+  enemy: Phaser.Physics.Arcade.Sprite,
+  platforms: Phaser.Physics.Arcade.StaticGroup,
+): { x: number; dir: number } | null {
+  const body = enemy.body as Phaser.Physics.Arcade.Body
+  const feet = body.bottom
+  let best: { x: number; dir: number } | null = null
+  let bestDist = Number.POSITIVE_INFINITY
+  for (const obj of platforms.getChildren()) {
+    const plat = obj as Phaser.GameObjects.GameObject & {
+      getData?: (key: string) => unknown
+      body?: Phaser.Physics.Arcade.StaticBody | null
+    }
+    const kind = plat.getData?.("rectKind")
+    if (kind === "wall" || kind === "ceiling") {
+      continue
+    }
+    const pb = plat.body
+    if (!pb) {
+      continue
+    }
+    const cx = (pb.left + pb.right) * 0.5
+    const dx = cx - enemy.x
+    const dist = Math.abs(dx)
+    if (dist < 48 || dist > 150) {
+      continue
+    }
+    if (Math.abs(pb.top - feet) > 64) {
+      continue
+    }
+    if (dist < bestDist) {
+      best = { x: cx, dir: dx < 0 ? -1 : 1 }
+      bestDist = dist
+    }
+  }
+  return best
+}
+
+function tickFrog(
+  scene: Phaser.Scene,
+  enemy: Phaser.Physics.Arcade.Sprite,
+  projectiles: Phaser.Physics.Arcade.Group,
+  platforms: Phaser.Physics.Arcade.StaticGroup,
+  target: { x: number; y: number },
+  dt: number,
+): void {
+  const body = enemy.body as Phaser.Physics.Arcade.Body
+  const onFloor = body.blocked.down || body.touching.down
+  let phase = String(enemy.getData("phase") || "sit")
+  let timer = Number(enemy.getData("timer") || 0) - dt
+  const dx = target.x - enemy.x
+  const dy = target.y - enemy.y
+  const dist = Math.hypot(dx, dy)
+  if (phase === "sit") {
+    enemy.setVelocityX(0)
+    if (onFloor && dist > 42 && dist < 168 && Math.abs(dy) < 90) {
+      phase = "lick"
+      timer = 0.2
+      enemy.setFlipX(dx < 0)
+    } else if (onFloor && timer <= 0) {
+      const land = frogLanding(enemy, platforms)
+      const dir = land?.dir ?? (patrolHasFloorAhead(enemy, Number(enemy.getData("dir") || 1), platforms) ? Number(enemy.getData("dir") || 1) : -Number(enemy.getData("dir") || 1))
+      enemy.setData("dir", dir)
+      if (dir !== 0 && (land || patrolHasFloorAhead(enemy, dir, platforms))) {
+        enemy.setVelocity(dir * 150, -260)
+        enemy.setFlipX(dir < 0)
+        phase = "hop"
+        timer = 0.55
+      } else {
+        timer = 0.4
+      }
+    }
+  } else if (phase === "hop") {
+    if (onFloor && timer < 0.25) {
+      phase = "sit"
+      timer = 0.35 + Math.random() * 0.45
+      enemy.setVelocityX(0)
+    }
+  } else {
+    enemy.setVelocityX(0)
+    if (timer <= 0) {
+      if (dist > 42 && dist < 168) {
+        const ang = Math.atan2(dy * 0.15, dx)
+        fireRadialShot(scene, projectiles, enemy.x, enemy.y - 4, ang, 460, "story_frost", 34, 8, {
+          tint: 0xe85878,
+          lifeMs: 220,
+        })
+      }
+      phase = "sit"
+      timer = 1.15
+    }
+  }
+  enemy.setData("phase", phase)
+  enemy.setData("timer", timer)
+}
+
+function tickSquirrelClimb(enemy: Phaser.Physics.Arcade.Sprite, speed: number): void {
+  const body = enemy.body as Phaser.Physics.Arcade.Body
+  body.setAllowGravity(false)
+  body.setGravity(0, 0)
+  let dir = Number(enemy.getData("climbDir") || -1)
+  const top = Number(enemy.getData("climbTop"))
+  const bottom = Number(enemy.getData("climbBottom"))
+  const x = Number(enemy.getData("climbX"))
+  enemy.setVelocity(0, dir * Math.max(36, speed))
+  enemy.x = x
+  if (enemy.y <= top) {
+    dir = 1
+    enemy.y = top
+  }
+  if (enemy.y >= bottom) {
+    dir = -1
+    enemy.y = bottom
+  }
+  enemy.setData("climbDir", dir)
+  body.updateFromGameObject()
+}
+
 export function bindHeronToWater(
   sprite: Phaser.Physics.Arcade.Sprite,
   hazards: AssembledHazard[],
@@ -333,11 +511,13 @@ export function spawnEnemy(
   sprite.setData("safeFromAbove", enemySafeFromAbove(id))
   sprite.setData("contactDamage", enemyContactDamage(id))
   if (kit.archetype === "fisher") {
-    sprite.setData("phase", "circuit")
-    sprite.setData("ang", Math.random() * Math.PI * 2)
+    sprite.setData("phase", "hover")
+    sprite.setData("hoverX", x)
+    sprite.setData("hoverY", 480)
     sprite.setData("homeX", x)
     sprite.setData("homeY", y)
     sprite.setData("contactDamage", 0)
+    sprite.setPosition(x, 480)
   }
   if (kit.archetype === "patrol") {
     sprite.setData("dir", 1)
@@ -367,6 +547,12 @@ export function spawnEnemy(
     sprite.setData("stun", 0)
     sprite.setData("charging", 0)
   }
+  if (id === "boar") {
+    sprite.setData("phase", "idle")
+    sprite.setData("contactDamage", 0)
+    sprite.setData("homeX", x)
+    sprite.setData("homeY", y)
+  }
   if (kit.archetype === "swarm" || kit.archetype === "diver") {
     sprite.setData("homeX", x)
     sprite.setData("homeY", y)
@@ -381,6 +567,11 @@ export function spawnEnemy(
   }
   if (id === "frost_hare") {
     sprite.setData("hop", 0.2 + Math.random() * 0.3)
+  }
+  if (id === "frog") {
+    sprite.setData("phase", "sit")
+    sprite.setData("timer", 0.3 + Math.random() * 0.4)
+    sprite.setData("dir", 1)
   }
   enemies.add(sprite)
   if (opts?.pin) {
@@ -397,21 +588,52 @@ export function patrolHasFloorAhead(
   platforms: Phaser.Physics.Arcade.StaticGroup,
 ): boolean {
   const body = enemy.body as Phaser.Physics.Arcade.Body
-  const probeX = dir > 0 ? body.right + 6 : body.left - 6
-  const probeY = body.bottom + 6
+  const sign = dir < 0 ? -1 : 1
+  const probeX = sign > 0 ? body.right + 16 : body.left - 16
+  const probeY = body.bottom + 8
   for (const obj of platforms.getChildren()) {
     const plat = obj as Phaser.GameObjects.GameObject & {
+      getData?: (key: string) => unknown
       body?: Phaser.Physics.Arcade.StaticBody
+    }
+    if (plat.getData?.("rectKind") === "wall" || plat.getData?.("rectKind") === "ceiling") {
+      continue
     }
     const pb = plat.body
     if (!pb) {
       continue
     }
-    if (probeX >= pb.left && probeX <= pb.right && probeY >= pb.top && probeY <= pb.bottom + 8) {
+    if (probeX >= pb.left && probeX <= pb.right && probeY >= pb.top && probeY <= pb.bottom + 12) {
       return true
     }
   }
   return false
+}
+
+function keepRoamerOnLedge(
+  enemy: Phaser.Physics.Arcade.Sprite,
+  dir: number,
+  platforms: Phaser.Physics.Arcade.StaticGroup,
+): number {
+  if (enemy.getData("fly") === true || enemy.getData("perch") === true) {
+    return dir
+  }
+  const body = enemy.body as Phaser.Physics.Arcade.Body
+  const onFloor = body.blocked.down || body.touching.down
+  const sign = dir < 0 ? -1 : dir > 0 ? 1 : 0
+  if (onFloor && sign !== 0 && !patrolHasFloorAhead(enemy, sign, platforms)) {
+    enemy.setVelocityX(0)
+    enemy.x -= sign * 4
+    body.updateFromGameObject()
+    return 0
+  }
+  if (!onFloor && body.velocity.y > 60) {
+    enemy.setVelocity(0, 0)
+    enemy.y -= 6
+    body.updateFromGameObject()
+    return 0
+  }
+  return dir
 }
 
 export function updateEnemies(
@@ -443,6 +665,10 @@ export function updateEnemies(
       const body = enemy.body as Phaser.Physics.Arcade.Body
       const onFloor = body.blocked.down || body.touching.down
       const id = String(enemy.getData("id") || "")
+      if (id === "frog") {
+        tickFrog(scene, enemy, projectiles, platforms, target, dt)
+        return
+      }
       if (id === "frost_hare" && Math.hypot(target.x - enemy.x, target.y - enemy.y) < 220) {
         dir = target.x >= enemy.x ? 1 : -1
         enemy.setData("dir", dir)
@@ -451,7 +677,9 @@ export function updateEnemies(
         dir *= -1
         enemy.setData("dir", dir)
       }
-      enemy.setVelocityX(dir * speed)
+      dir = keepRoamerOnLedge(enemy, dir, platforms)
+      enemy.setData("dir", dir || Number(enemy.getData("dir") || 1))
+      enemy.setVelocityX((dir || 0) * speed)
       if (id === "frost_hare") {
         let hop = Number(enemy.getData("hop") || 0) - dt
         if (onFloor && hop <= 0) {
@@ -462,9 +690,12 @@ export function updateEnemies(
       }
     } else if (arch === "chaser" || arch === "foxhu") {
       const dx = target.x - enemy.x
-      enemy.setVelocityX(Math.sign(dx) * speed)
+      let dir = Math.sign(dx) || 1
       if (arch === "foxhu") {
         enemy.setVelocityX(speed)
+      } else {
+        dir = keepRoamerOnLedge(enemy, dir, platforms)
+        enemy.setVelocityX(dir * speed)
       }
     } else if (arch === "ranged_lob") {
       let cd = Number(enemy.getData("cooldown") || 0) - dt
@@ -498,6 +729,10 @@ export function updateEnemies(
         cd = radial ? 1.7 : 1.8
       }
       enemy.setData("cooldown", cd)
+      if (id === "squirrel" && Number.isFinite(Number(enemy.getData("climbTop")))) {
+        tickSquirrelClimb(enemy, speed)
+        return
+      }
       enemy.setVelocityX(0)
       if (enemy.getData("perch") === true) {
         const body = enemy.body as Phaser.Physics.Arcade.Body
@@ -603,6 +838,11 @@ export function updateEnemies(
       enemy.setData("phase", phase)
       enemy.setData("timer", timer)
     } else if (arch === "blocker") {
+      const id = String(enemy.getData("id") || "")
+      if (id === "boar") {
+        tickBoarCharge(enemy, target, platforms, dt)
+        return
+      }
       let stun = Number(enemy.getData("stun") || 0) - dt
       let charging = Number(enemy.getData("charging") || 0)
       const body = enemy.body as Phaser.Physics.Arcade.Body
@@ -611,12 +851,25 @@ export function updateEnemies(
         enemy.setData("stun", stun)
         return
       }
-      if (charging === 0 && Math.abs(target.x - enemy.x) < 220) {
+      if (charging === 0 && Math.abs(target.x - enemy.x) < (id === "goat" ? 560 : 220)) {
         charging = Math.sign(target.x - enemy.x) || 1
         enemy.setData("charging", charging)
       }
       if (charging !== 0) {
-        enemy.setVelocityX(charging * speed)
+        if (id === "goat") {
+          charging = Math.sign(target.x - enemy.x) || charging
+          enemy.setData("charging", charging)
+        }
+        const held = keepRoamerOnLedge(enemy, charging, platforms)
+        if (held === 0) {
+          enemy.setData("charging", 0)
+          enemy.setData("stun", 0.45)
+          enemy.setVelocityX(0)
+          return
+        }
+        const rush = id === "goat" ? speed + 90 : speed
+        enemy.setVelocityX(charging * rush)
+        enemy.setFlipX(charging < 0)
         if (body.blocked.left || body.blocked.right) {
           enemy.setData("charging", 0)
           enemy.setData("stun", 0.7)
@@ -779,58 +1032,183 @@ function emitStarPulse(
   }
 }
 
+function setBoarPose(enemy: Phaser.Physics.Arcade.Sprite, pose: "idle" | "rage" | "run"): void {
+  const step = Math.floor(enemy.scene.time.now / 120) % 2 === 0
+  const key =
+    pose === "rage"
+      ? "story_boar_rage"
+      : pose === "run"
+        ? step
+          ? "story_boar_run"
+          : "story_boar_step"
+        : step
+          ? "story_boar_step"
+          : "story_boar"
+  if (enemy.texture.key !== key && enemy.scene.textures.exists(key)) {
+    enemy.setTexture(key)
+  }
+  if (pose === "rage") {
+    enemy.setDisplaySize(56, 32)
+  } else if (pose === "run") {
+    enemy.setDisplaySize(64, 30)
+  } else {
+    enemy.setDisplaySize(52, 32)
+  }
+}
+
+function tickBoarCharge(
+  enemy: Phaser.Physics.Arcade.Sprite,
+  target: { x: number; y: number },
+  platforms: Phaser.Physics.Arcade.StaticGroup,
+  dt: number,
+): void {
+  let phase = String(enemy.getData("phase") || "idle")
+  const body = enemy.body as Phaser.Physics.Arcade.Body
+  if (phase === "idle") {
+    enemy.setVelocityX(0)
+    enemy.setData("contactDamage", 0)
+    setBoarPose(enemy, "idle")
+    const dx = target.x - enemy.x
+    const dy = Math.abs(target.y - enemy.y)
+    if (Math.abs(dx) < 420) {
+      enemy.setFlipX(dx < 0)
+    }
+    if (Math.abs(dx) < 260 && dy < 96) {
+      phase = "rage"
+      enemy.setData("lockT", 0.45)
+      enemy.setData("charging", Math.sign(dx) || 1)
+      enemy.setVelocityX(0)
+    }
+  } else if (phase === "rage") {
+    let left = Number(enemy.getData("lockT") || 0) - dt
+    const dir = Math.sign(target.x - enemy.x) || Number(enemy.getData("charging")) || 1
+    enemy.setData("charging", dir)
+    enemy.setVelocityX(0)
+    enemy.setFlipX(dir < 0)
+    enemy.setData("contactDamage", 0)
+    setBoarPose(enemy, "rage")
+    if (left <= 0) {
+      phase = "charge"
+      enemy.setData("sweepT", 0.85)
+      enemy.setData("contactDamage", 2)
+    }
+    enemy.setData("lockT", left)
+  } else if (phase === "charge") {
+    let left = Number(enemy.getData("sweepT") || 0) - dt
+    const dir = Number(enemy.getData("charging")) || 1
+    const held = keepRoamerOnLedge(enemy, dir, platforms)
+    if (held === 0 || body.blocked.left || body.blocked.right || left <= 0) {
+      phase = "stun"
+      enemy.setData("stun", 0.7)
+      enemy.setData("contactDamage", 0)
+      enemy.setVelocityX(0)
+      setBoarPose(enemy, "idle")
+    } else {
+      enemy.setVelocityX(dir * 460)
+      enemy.setFlipX(dir < 0)
+      enemy.setData("contactDamage", 2)
+      setBoarPose(enemy, "run")
+    }
+    enemy.setData("sweepT", left)
+  } else {
+    let stun = Number(enemy.getData("stun") || 0) - dt
+    enemy.setVelocityX(0)
+    enemy.setData("contactDamage", 0)
+    setBoarPose(enemy, "idle")
+    enemy.setData("stun", stun)
+    if (stun <= 0) {
+      phase = "idle"
+    }
+  }
+  enemy.setData("phase", phase)
+}
+
+function setHeronPose(enemy: Phaser.Physics.Arcade.Sprite, pose: "hover" | "lock" | "sweep"): void {
+  const flap = Math.floor(enemy.scene.time.now / 180) % 2 === 0 ? "story_heron_up" : "story_heron"
+  const key = pose === "lock" ? "story_heron_lock" : pose === "sweep" ? "story_heron_sweep" : flap
+  if (enemy.texture.key !== key && enemy.scene.textures.exists(key)) {
+    enemy.setTexture(key)
+  }
+  if (pose === "lock") {
+    enemy.setDisplaySize(88, 40)
+  } else if (pose === "sweep") {
+    enemy.setDisplaySize(72, 36)
+  } else {
+    enemy.setDisplaySize(64, 44)
+  }
+}
+
 function tickHeronCircuit(
   enemy: Phaser.Physics.Arcade.Sprite,
   target: { x: number; y: number },
   dt: number,
 ): void {
-  let phase = String(enemy.getData("phase") || "circuit")
-  let ang = Number(enemy.getData("ang") || 0)
-  const loopX = Number(enemy.getData("loopX") ?? enemy.getData("homeX") ?? enemy.x)
-  const loopY = Number(enemy.getData("loopY") ?? enemy.getData("homeY") ?? enemy.y)
-  const rx = Number(enemy.getData("loopRx") || 120)
-  const ry = 26
-  const speed = Number(enemy.getData("speed") || 80)
-  const waterTop = Number(enemy.getData("waterTop"))
-  if (phase === "circuit") {
-    ang += dt * 0.85
-    enemy.setPosition(loopX + Math.cos(ang) * rx, loopY + Math.sin(ang) * ry)
-    enemy.setVelocity(0, 0)
-    enemy.setFlipX(Math.sin(ang) < 0)
+  let phase = String(enemy.getData("phase") || "hover")
+  const hoverX = Number(enemy.getData("hoverX") ?? enemy.getData("homeX") ?? enemy.x)
+  const hoverY = Number(enemy.getData("hoverY") ?? 480)
+  const drift = Math.sin(enemy.scene.time.now / 900) * 70
+  if (phase === "hover") {
+    const aimX = hoverX + drift
+    enemy.setVelocity((aimX - enemy.x) * 1.4, (hoverY - enemy.y) * 2.2)
+    enemy.setRotation(0)
+    enemy.setFlipX(target.x < enemy.x)
     enemy.setData("contactDamage", 0)
+    setHeronPose(enemy, "hover")
     const dx = target.x - enemy.x
     const dy = target.y - enemy.y
-    if (Math.hypot(dx, dy) < 230 && dy > -30) {
-      phase = "stoop"
-      enemy.setData("stoopT", 0.72)
-      enemy.setData("contactDamage", 2)
-      const n = Math.hypot(dx, dy) || 1
-      enemy.setVelocity((dx / n) * 260, Math.max(80, (dy / n) * 340))
+    if (Math.abs(dx) < 300 && dy > 40 && dy < 720) {
+      phase = "lock"
+      enemy.setData("lockT", 0.42)
+      enemy.setVelocity(0, 0)
     }
-  } else if (phase === "stoop") {
-    let left = Number(enemy.getData("stoopT") || 0) - dt
-    enemy.setData("contactDamage", 2)
-    const hitWater = Number.isFinite(waterTop) && enemy.y >= waterTop - 18
-    if (left <= 0 || hitWater) {
-      phase = "climb"
-      left = 0
-      enemy.setData("contactDamage", 0)
-      enemy.setVelocity(0, -180)
-    }
-    enemy.setData("stoopT", left)
-  } else {
-    const aimX = loopX + Math.cos(ang) * rx
-    const aimY = loopY
-    const dx = aimX - enemy.x
-    const dy = aimY - enemy.y
-    const n = Math.hypot(dx, dy) || 1
-    enemy.setVelocity((dx / n) * speed, (dy / n) * speed)
+  } else if (phase === "lock") {
+    let left = Number(enemy.getData("lockT") || 0) - dt
+    enemy.setVelocity(0, 0)
+    enemy.setRotation(0)
+    enemy.setFlipX(target.x < enemy.x)
     enemy.setData("contactDamage", 0)
-    if (n < 24) {
-      phase = "circuit"
+    setHeronPose(enemy, "lock")
+    const dx = target.x - enemy.x
+    const dy = target.y - enemy.y
+    const n = Math.hypot(dx, dy) || 1
+    const speed = 620
+    enemy.setData("sweepVx", (dx / n) * speed)
+    enemy.setData("sweepVy", (dy / n) * speed)
+    if (left <= 0) {
+      phase = "sweep"
+      const travel = n + 120
+      enemy.setData("sweepT", travel / speed)
+      enemy.setVelocity(Number(enemy.getData("sweepVx")), Number(enemy.getData("sweepVy")))
+    }
+    enemy.setData("lockT", left)
+  } else if (phase === "sweep") {
+    let left = Number(enemy.getData("sweepT") || 0) - dt
+    const vx = Number(enemy.getData("sweepVx") || 0)
+    const vy = Number(enemy.getData("sweepVy") || 200)
+    enemy.setVelocity(vx, vy)
+    enemy.setRotation(Math.atan2(vy, vx))
+    enemy.setFlipX(false)
+    enemy.setData("contactDamage", 2)
+    setHeronPose(enemy, "sweep")
+    if (left <= 0 || enemy.y > 980) {
+      phase = "climb"
+      enemy.setData("contactDamage", 0)
+      enemy.setRotation(0)
+    }
+    enemy.setData("sweepT", left)
+  } else {
+    const dx = hoverX - enemy.x
+    const dy = hoverY - enemy.y
+    const n = Math.hypot(dx, dy) || 1
+    enemy.setVelocity((dx / n) * 220, (dy / n) * 220)
+    enemy.setRotation(0)
+    enemy.setFlipX(dx < 0)
+    enemy.setData("contactDamage", 0)
+    setHeronPose(enemy, "hover")
+    if (n < 28) {
+      phase = "hover"
       enemy.setVelocity(0, 0)
     }
   }
   enemy.setData("phase", phase)
-  enemy.setData("ang", ang)
 }

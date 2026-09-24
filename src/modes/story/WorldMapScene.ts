@@ -20,6 +20,7 @@ import {
   type StoryWorldId,
 } from "./path"
 import { mountStoryMapArt } from "./mapArt"
+import { formatStoryTime, storyTimeRows } from "./storyTimes"
 
 const PATH_CSS = `
 .story-path-shell { max-width: 1100px; }
@@ -146,7 +147,18 @@ const PATH_CSS = `
 .story-beat-card h2 { margin: 0 0 10px; font-size: 28px; font-weight: 400; }
 .story-beat-card p { margin: 0 0 10px; line-height: 1.45; }
 .story-beat-card .bm-btn { margin-top: 12px; }
+.story-board { margin: 12px 0 0; }
+.story-board[hidden] { display: none; }
+.story-board h2 { margin: 0 0 8px; font-size: 22px; font-weight: 500; }
+.story-board p { margin: 0 0 8px; }
+.story-board ul { margin: 0 0 12px; padding-left: 18px; }
 .story-path-dev { margin-left: auto; opacity: 0.72; font-size: 12px; }
+.story-path-dev[aria-pressed="true"] {
+  opacity: 1;
+  background: #34583e;
+  color: #fffaf0;
+  border-color: #34583e;
+}
 `
 
 export class WorldMapScene extends Phaser.Scene {
@@ -228,8 +240,14 @@ export class WorldMapScene extends Phaser.Scene {
         <div class="story-path-rail" data-ui="rail"></div>
         <div class="bm-actions bm-start">
           <button type="button" class="bm-btn ghost" data-ui="back">${t("common.modes")}</button>
-          <button type="button" class="bm-btn ghost story-path-dev" data-ui="devReset">${t("story.path.devReset")}</button>
+          <button type="button" class="bm-btn ghost" data-ui="board">${t("story.board.open")}</button>
+          <button type="button" class="bm-btn ghost story-path-dev" data-ui="devReset" aria-pressed="${save.progress.story.devUnlockAll ? "true" : "false"}">${save.progress.story.devUnlockAll ? t("story.path.devReset") : t("story.path.devUnlock")}</button>
         </div>
+        <section class="bm-card story-board" data-ui="boardPanel" hidden>
+          <h2>${t("story.board.title")}</h2>
+          <div data-ui="boardBody"></div>
+          <button type="button" class="bm-btn ghost" data-ui="boardClose">${t("common.back")}</button>
+        </section>
       </div>
       <div class="story-beat" data-ui="beat" hidden>
         <div class="story-beat-card">
@@ -317,10 +335,40 @@ export class WorldMapScene extends Phaser.Scene {
       getAudio().playSfx("cancel")
       this.scene.start("ModeSelect")
     }
+    const board = requireEl<HTMLElement>(root, "[data-ui=boardPanel]")
+    const boardBody = requireEl<HTMLElement>(root, "[data-ui=boardBody]")
+    const paintBoard = (): void => {
+      const rows = storyTimeRows(getSave())
+      const blank = t("story.board.blank")
+      const chapters = rows.chapters
+        .map((chapter) => {
+          const stations = chapter.stations
+            .map((station) => {
+              const tries = station.attempts.map((ms) => formatStoryTime(ms)).join(", ")
+              const best = station.best === null ? blank : formatStoryTime(station.best)
+              return `<li>${station.title}: ${t("story.board.best", { time: best })}${tries ? ` (${tries})` : ""}</li>`
+            })
+            .join("")
+          const sum = chapter.sum === null ? blank : formatStoryTime(chapter.sum)
+          return `<p><strong>${t(`story.chapter.${chapter.id}.title`)}</strong> ${sum}</p><ul>${stations}</ul>`
+        })
+        .join("")
+      const total = rows.total === null ? blank : formatStoryTime(rows.total)
+      boardBody.innerHTML = `${chapters}<p><strong>${t("story.board.total")}</strong> ${total}</p>`
+    }
+    requireEl<HTMLButtonElement>(root, "[data-ui=board]").onclick = () => {
+      getAudio().playSfx("confirm")
+      paintBoard()
+      board.hidden = false
+    }
+    requireEl<HTMLButtonElement>(root, "[data-ui=boardClose]").onclick = () => {
+      getAudio().playSfx("cancel")
+      board.hidden = true
+    }
 
     requireEl<HTMLButtonElement>(root, "[data-ui=devReset]").onclick = () => {
       getAudio().playSfx("confirm")
-      void this.clearStoryProgress()
+      void this.toggleDevUnlock()
     }
 
     requireEl<HTMLButtonElement>(root, "[data-ui=beatContinue]").onclick = () => {
@@ -331,16 +379,23 @@ export class WorldMapScene extends Phaser.Scene {
     syncNodes()
   }
 
-  private async clearStoryProgress(): Promise<void> {
+  private async toggleDevUnlock(): Promise<void> {
     const save = getSave()
-    save.progress.story.cleared = []
-    save.progress.story.checkpoints = {}
-    save.progress.story.controlHints = []
-    save.progress.story.world = 1
-    save.progress.story.level = 1
+    if (save.progress.story.devUnlockAll) {
+      save.progress.story.devUnlockAll = false
+      save.progress.story.cleared = []
+      save.progress.story.checkpoints = {}
+      save.progress.story.controlHints = []
+      save.progress.story.world = 1
+      save.progress.story.level = 1
+      await persistSave()
+      this.expanded = "w0"
+      this.scene.start("WorldMap", { chapter: "ch1" })
+      return
+    }
+    save.progress.story.devUnlockAll = true
     await persistSave()
-    this.expanded = "w0"
-    this.scene.start("WorldMap", { chapter: "ch1" })
+    this.scene.start("WorldMap", { chapter: this.chapter })
   }
 
   private stationButton(station: StoryStation, index: number): string {

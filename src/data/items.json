@@ -9,7 +9,8 @@
     { "id": "lantern", "category": "run-buff", "weightKey": "lantern" },
     { "id": "star_grit", "category": "run-buff", "weightKey": "star_grit" },
     { "id": "elixir_crumb", "category": "run-buff", "weightKey": "elixir_crumb" },
-    { "id": "well_silver", "category": "run-buff", "weightKey": "well_silver" }
+    { "id": "well_silver", "category": "run-buff", "weightKey": "well_silver" },
+    { "id": "glide", "category": "run-buff", "weightKey": "glide" }
   ],
   "biomes": {
     "meadow": { "carrot": 10 },

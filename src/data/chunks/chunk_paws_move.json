@@ -1,16 +1,25 @@
 {
-  "id": "chunk_paws_move",
+  "id": "chunk_paws_grass",
   "width": 960,
   "height": 1080,
   "groundY": 980,
   "platforms": [
-    { "x": 0, "y": 980, "w": 960, "h": 100 },
-    { "x": 780, "y": 720, "w": 80, "h": 20 }
+    { "x": 0, "y": 980, "w": 440, "h": 100, "asset": "ground" },
+    { "x": 560, "y": 880, "w": 260, "h": 28, "asset": "ground" },
+    { "x": 860, "y": 980, "w": 100, "h": 100, "asset": "ground" }
   ],
   "walls": [],
-  "enemies": [],
-  "items": [
-    { "id": "osmanthus_seed", "x": 820, "y": 688 }
+  "enemies": [
+    { "id": "hedgehog", "x": 680, "y": 840 }
   ],
-  "color": "#cfe0a0"
+  "carrots": [
+    { "x": 180, "y": 948 },
+    { "x": 230, "y": 948 }
+  ],
+  "decor": [
+    { "kind": "grass", "x": 70, "y": 964, "w": 100, "h": 16, "rotation": 0, "asset": "ground" },
+    { "kind": "hedge", "x": 390, "y": 900, "w": 36, "h": 80, "rotation": 0, "asset": "hedge" },
+    { "kind": "grass", "x": 600, "y": 864, "w": 90, "h": 16, "rotation": 0, "asset": "ground" }
+  ],
+  "color": "#c5d48a"
 }

@@ -18,7 +18,9 @@ Guanghan roofs recede. Frost courtyards open. Weather: `starDrift`.
 
 ## Feel
 
-The palace is behind Mei. The country of Vast Cold is ahead. Falls still read as
+The palace is behind Mei. The country of Vast Cold is ahead. She stops because the
+outer courts still try to keep a guest. Short roof hops between stone columns. A
+dust mite denies one landing. Star grit is the first readable float. Falls still read as
 drifts.
 
 ## Roster

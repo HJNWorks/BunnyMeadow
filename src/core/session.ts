@@ -1,5 +1,5 @@
 import type { SaveV1 } from "./save"
-import { applyAccessibilityDom } from "./a11y"
+import { applyAccessibilityDom, applyThemeDom } from "./a11y"
 import { loadActiveSave, loadSlot, writeMeta, writeSlot } from "./save"
 
 let active: SaveV1 | null = null
@@ -14,6 +14,7 @@ export function getSave(): SaveV1 {
 export function setSave(save: SaveV1): void {
   active = save
   applyAccessibilityDom(save.settings.accessibility)
+  applyThemeDom(save.settings.theme)
 }
 
 export async function initSession(): Promise<SaveV1> {

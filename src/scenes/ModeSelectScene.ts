@@ -48,18 +48,6 @@ export class ModeSelectScene extends Phaser.Scene {
               <span>${tasksLive ? t("mode.tasks.desc") : t("mode.soon")}</span>
             </span>
           </button>
-          <button type="button" class="bm-card bm-card-icon" data-ui="endless" ${flags.endless ? "" : "disabled"}>
-            <span class="bm-mode-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" width="36" height="36" fill="none">
-                <path d="M14 24c0-5 4-9 9-9 3.2 0 5.4 1.4 7 3.6L24 24l6 5.4c-1.6 2.2-3.8 3.6-7 3.6-5 0-9-4-9-9z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
-                <path d="M34 24c0 5-4 9-9 9-3.2 0-5.4-1.4-7-3.6L24 24l-6-5.4c1.6-2.2 3.8-3.6 7-3.6 5 0 9 4 9 9z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span class="bm-card-copy">
-              <strong>${t("mode.endless")}</strong>
-              <span>${flags.endless ? t("mode.endless.desc") : t("mode.soon")}</span>
-            </span>
-          </button>
         </div>
         <div class="bm-actions bm-start">
           <button type="button" class="bm-btn ghost" data-ui="back">${t("mode.back")}</button>
@@ -78,12 +66,6 @@ export class ModeSelectScene extends Phaser.Scene {
       if (tasksLive) {
         getAudio().playSfx("confirm")
         this.scene.start("TaskSelect")
-      }
-    }
-    requireEl<HTMLButtonElement>(root, "[data-ui=endless]").onclick = () => {
-      if (flags.endless) {
-        getAudio().playSfx("confirm")
-        this.scene.start("Endless")
       }
     }
     requireEl<HTMLButtonElement>(root, "[data-ui=back]").onclick = () => {

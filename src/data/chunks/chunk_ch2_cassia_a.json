@@ -4,14 +4,27 @@
   "height": 1080,
   "groundY": 920,
   "platforms": [
-    { "x": 0, "y": 920, "w": 360, "h": 80 },
-    { "x": 400, "y": 780, "w": 220, "h": 24 },
-    { "x": 720, "y": 640, "w": 200, "h": 24 }
+    { "x": 0, "y": 920, "w": 240, "h": 80, "asset": "wound" },
+    { "x": 360, "y": 380, "w": 28, "h": 240, "asset": "wound" },
+    { "x": 860, "y": 560, "w": 100, "h": 24, "asset": "wound" }
   ],
   "walls": [],
-  "items": [
-    { "id": "mooncake", "x": 820, "y": 628 },
-    { "id": "elixir_crumb", "x": 500, "y": 752 }
+  "movers": [
+    {
+      "x": 430,
+      "y": 760,
+      "w": 150,
+      "h": 16,
+      "axis": "x",
+      "amplitude": 110,
+      "speed": 0.55,
+      "tint": 10066176,
+      "kind": "bridge"
+    }
   ],
-  "color": "#151b2e"
+  "items": [{ "id": "elixir_crumb", "x": 140, "y": 888 }],
+  "decor": [
+    { "kind": "wound", "x": 80, "y": 860, "w": 140, "h": 24, "rotation": 0, "asset": "wound" }
+  ],
+  "color": "#1a1612"
 }

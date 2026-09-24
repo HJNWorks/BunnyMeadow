@@ -16,6 +16,7 @@
     { "id": "frost_wisp", "x": 560, "y": 600 },
     { "id": "ice_spit", "x": 740, "y": 568 }
   ],
+  "items": [{ "id": "glide", "x": 140, "y": 868 }],
   "movers": [
     {
       "x": 540,

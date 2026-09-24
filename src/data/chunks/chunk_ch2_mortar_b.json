@@ -4,10 +4,12 @@
   "height": 1080,
   "groundY": 940,
   "platforms": [
-    { "x": 120, "y": 860, "w": 180, "h": 24 },
-    { "x": 440, "y": 940, "w": 520, "h": 60 }
+    { "x": 80, "y": 820, "w": 160, "h": 28, "asset": "bowl" },
+    { "x": 340, "y": 900, "w": 160, "h": 28, "asset": "bowl" },
+    { "x": 560, "y": 940, "w": 400, "h": 60, "asset": "bowl" }
   ],
   "walls": [],
-  "items": [{ "id": "mooncake", "x": 210, "y": 848 }],
-  "color": "#151b2e"
+  "enemies": [{ "id": "pestle_sentry", "x": 160, "y": 700 }],
+  "items": [{ "id": "mooncake", "x": 400, "y": 868 }],
+  "color": "#121416"
 }

@@ -14,5 +14,6 @@
   "enemies": [
     { "id": "hedgehog", "x": 360, "y": 930 }
   ],
+  "items": [{ "id": "glide", "x": 160, "y": 948 }],
   "color": "#3d4560"
 }

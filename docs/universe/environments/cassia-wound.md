@@ -16,7 +16,9 @@ single tree in a courtyard. Hub: [../README.md](../README.md). Lore:
 
 ## Feel
 
-Every cut closes. Platforms grow back. Family tone: the tree is stubborn, not cruel.
+Every cut closes. She stops because the gap she needs slides shut. Living wood is
+the wall she bounces. Elixir crumb is the slow fall for that gap. Platforms grow back.
+Family tone: the tree is stubborn, not cruel.
 Weather is `none`. Specks are not falling snow.
 
 ## Roster

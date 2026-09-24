@@ -18,7 +18,9 @@ Code: `src/modes/story/shared/themeKit.ts` (Story and Endless).
 
 Each live rung also stores `hour` (`afternoon` | `golden` | `dusk` | `night` | `deepNight` | `eternal`)
 and `weather` (a preset id). Tunnels are omitted until that rung has playable chunks.
-Cloud Sea is live in Story.
+Cloud Sea is live in Story. The three Cloud Stair stations share one sky climb from the
+cloud deck `#9eb6cc` into the moon sky `#12161c`. First Steps stays in the pale band.
+The palace color and the Guanghan far layer are the top of Closing Gale.
 
 ## Live values (I3)
 

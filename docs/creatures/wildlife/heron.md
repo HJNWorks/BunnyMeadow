@@ -14,15 +14,18 @@ Raft Gauntlet uses two of these. They are not a hit-count boss. See
 
 ## Behaviour
 
-Circles above the nearest water. When Mei comes inside the loop it stoops down.
-The stoop costs two hearts. The circle itself does not. It climbs back to the loop
-after the stoop. Live on Floating Logs and as a pair on Raft Gauntlet. The burrow
-on the rafts does not require a kill.
+| Phase | Pose | Trigger | Motion | Hit | Escape |
+| --- | --- | --- | --- | --- | --- |
+| hover | slow wing flap | default | holds above the logs, a small drift | none | walk under it |
+| lock | wings spread flat, red eye | Mei is under it, within about one log of its home | stops and aims at Mei | none | step out from under it before the beat ends |
+| sweep | wings swept back, body along the line | lock ends | flies through Mei and past her | 2 hearts and a shove off the log | dash as the body arrives. An early dash is already over |
+| climb | flap | sweep ends or it reaches the water | returns to the high hold | none | - |
+
+Live on Floating Logs and as a pair on Raft Gauntlet. The burrow on the rafts does not require a kill.
 
 ## Telegraph and counter
 
-Telegraph: the circuit tightens, then the bird drops. Counter: leave the line, or
-dash through the stoop. Do not stand under the loop.
+The spread wings are the tell. The sweep is the hit. Time the dash for the moment the bird reaches Mei.
 
 ## Silhouette rule
 

@@ -16,8 +16,12 @@ Osmanthus Peak and the Moon: a stair of cloud and hanging bridges. Hub:
 
 ## Feel
 
-Own biome. Earth gravity. Pale cloud sea. Hanging bridges. Void fail. Do not use lunar
-ground or 0.42 g. Vast Cold leaks down from Guanghan. That is the biome definition.
+Own biome. The foot is Earth gravity and the pale cloud deck. Gravity falls in a straight
+line as Mei climbs, and the gate of Closing Gale is 42%, the same as Guanghan. The sky
+is one climb across the three stations: cloud, then thinner air, then the palace sky
+`#12161c`. Stars and the Guanghan far layer appear only on the upper part of Closing
+Gale. Hanging bridges. Void fail. Vast Cold leaks down from Guanghan. That is the biome
+definition.
 
 The painting's white stair in the cloud, left of Guanghan. The Crane Envoy sets Mei
 down at the foot. She walks. Platforms are stacked steps and thin hanging bridges.
@@ -25,8 +29,9 @@ Below is empty cloud. One fall fails the station. Soft copy, not gore. This is a
 exception to Moon Pool on every playable level.
 
 4-1 First Steps may keep a pool near spawn. 4-2 No Return and 4-3 Closing Gale set
-`noCheckpoint`. There is no mid-run restore. 4-1 and 4-2 are four chunks. 4-3 stays the
-gale chase into the palace gate, not the throne.
+`noCheckpoint`. There is no mid-run restore. 4-1 and 4-2 are four chunks at height 3240.
+4-3 is three chunks at height 4320: the gale chase, then a switchback into lunar pads,
+columns, and a lantern, and the palace gate. Not the throne.
 
 The stair is guarded by wind, frost wisps, ice spit, gale magpies, and frost hares.
 Ice pads (`surface: slick`) sit on No Return, Closing Gale, and mixed steps on First

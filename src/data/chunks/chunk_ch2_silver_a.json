@@ -4,14 +4,12 @@
   "height": 1080,
   "groundY": 920,
   "platforms": [
-    { "x": 0, "y": 920, "w": 400, "h": 60 },
-    { "x": 520, "y": 800, "w": 140, "h": 24 },
-    { "x": 780, "y": 680, "w": 140, "h": 24 }
+    { "x": 0, "y": 920, "w": 260, "h": 60, "asset": "ground" },
+    { "x": 520, "y": 840, "w": 100, "h": 20, "asset": "ground" },
+    { "x": 820, "y": 760, "w": 100, "h": 20, "asset": "ground" }
   ],
   "walls": [],
-  "items": [
-    { "id": "mooncake", "x": 850, "y": 668 },
-    { "id": "well_silver", "x": 590, "y": 772 }
-  ],
-  "color": "#151b2e"
+  "enemies": [{ "id": "star_wisp", "x": 560, "y": 700 }],
+  "items": [{ "id": "mooncake", "x": 860, "y": 728 }],
+  "color": "#12161c"
 }

@@ -17,7 +17,9 @@ world finale, not this station. Hub: [../README.md](../README.md). Chapter:
 
 ## Feel
 
-A single quiet basin. Map card title stays Far Silver. Do not print "portal".
+A single quiet basin. She stops because the speaking pools are behind her and these
+pads are few. This station's pool still speaks. The One Moon Pool is a later station,
+not this shore. Map card title stays Far Silver. Do not print "portal".
 
 Contact with this pool is the Chapter 2 exit into West of Silver. Ordinary pools
 on earlier stations stay Chang'e's reflection channel.

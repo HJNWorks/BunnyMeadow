@@ -30,7 +30,9 @@ Web playable after M2: **Meadow** and **Moon Tasks** (Night Watch + Hide and See
 
 ## Current phase
 
-Story milestones M0–M5 and web iterations I1–I10 are done. Current phase is
+Story milestones M0–M5 and web iterations I1–I10 are done. Story times are local only:
+station attempts, chapter sums, and a full-story total on the path Leaderboard.
+A global board and a persistence server come later. Current phase is
 desktop and store postponed. Remaining palace walk length toward 18 chunks and
 the Han moon collider are later, not a numbered iteration. Hub:
 [story/chapter1-overhaul.md](story/chapter1-overhaul.md).

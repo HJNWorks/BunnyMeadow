@@ -15,6 +15,7 @@ import {
   setOverlay,
   snap10,
   worldToAnchor,
+  type EditorLevelOverlay,
   type EditorPickup,
 } from "./overlayStore"
 import { defaultDecor, DECOR_LABELS, PLATFORM_ASSETS } from "./placeables"
@@ -59,11 +60,14 @@ export type EditorSession = {
   decor: Phaser.GameObjects.Image[]
   waters: Phaser.GameObjects.Rectangle[]
   cartFlag: Phaser.GameObjects.Image | null
+  rideSprite: Phaser.GameObjects.Image | null
+  assembledWidth: number
   env: string
   mode: EditorMode
+  selMode?: "pick" | "region"
 }
 
-type SelKind = "spawn" | "pool" | "exit" | "flag" | "platform" | "mover" | "enemy" | "pickup" | "decor" | "hazard"
+type SelKind = "spawn" | "pool" | "exit" | "flag" | "platform" | "mover" | "enemy" | "pickup" | "decor" | "hazard" | "ride"
 
 type Selection = { kind: SelKind; index: number }
 
@@ -310,18 +314,6 @@ function boxEdge(wx: number, wy: number, box: WorldBox): BoxEdge | "in" | null {
   if (onB && onR) {
     return "se"
   }
-  if (onT) {
-    return "n"
-  }
-  if (onB) {
-    return "s"
-  }
-  if (onL) {
-    return "w"
-  }
-  if (onR) {
-    return "e"
-  }
   if (wx >= x && wx <= x + w && wy >= y && wy <= y + h) {
     return "in"
   }
@@ -371,7 +363,7 @@ function platformObject(
 }
 
 export function mountBuildHud(session: EditorSession): void {
-  const overlay = ensureOverlay(session.level, session.world)
+  const overlay = ensureOverlay(session.level, session.world, session.assembledWidth)
   const addMenus = additionSelectHtml()
   const { root } = mountDomShell(
     session.scene,
@@ -452,6 +444,7 @@ export function mountBuildHud(session: EditorSession): void {
                 <label class="bm-editor-flag"><input type="checkbox" data-ui="lookGlow" /> ${t("editor.look.glow")}</label>
                 <label class="bm-editor-flag"><input type="checkbox" data-ui="lookLowG" /> ${t("editor.look.lowG")}</label>
                 <label>${t("editor.mapWidth")} <input data-ui="mapWidth" type="number" step="10" min="480" /></label>
+                <label>${t("editor.mapHeight")} <input data-ui="mapHeight" type="number" step="10" min="1080" /></label>
               </div>
             </div>
           </div>
@@ -508,6 +501,7 @@ export function mountBuildHud(session: EditorSession): void {
   const lookFar = requireEl<HTMLInputElement>(root, "[data-ui=lookFar]")
   const lookFog = requireEl<HTMLInputElement>(root, "[data-ui=lookFog]")
   const mapWidthInput = requireEl<HTMLInputElement>(root, "[data-ui=mapWidth]")
+  const mapHeightInput = requireEl<HTMLInputElement>(root, "[data-ui=mapHeight]")
   const statusEl = requireEl<HTMLElement>(root, "[data-ui=status]")
   const chapterIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=chapterId]")
   const worldIdEl = requireEl<HTMLSelectElement>(root, "[data-ui=worldId]")
@@ -517,6 +511,9 @@ export function mountBuildHud(session: EditorSession): void {
   const envPanel = requireEl<HTMLElement>(root, "[data-ui=envPanel]")
   const critterPanel = requireEl<HTMLElement>(root, "[data-ui=critterPanel]")
   const selModeEl = requireEl<HTMLSelectElement>(root, "[data-ui=selMode]")
+  if (session.selMode === "region" || session.selMode === "pick") {
+    selModeEl.value = session.selMode
+  }
   const selPanelBtn = requireEl<HTMLButtonElement>(root, "[data-ui=selPanelBtn]")
   const lookPanelBtn = requireEl<HTMLButtonElement>(root, "[data-ui=lookPanelBtn]")
   const selPanel = requireEl<HTMLElement>(root, "[data-ui=selPanel]")
@@ -563,6 +560,61 @@ export function mountBuildHud(session: EditorSession): void {
 
   const persist = (): void => {
     setOverlay(session.level.id, overlay)
+  }
+
+  const history: EditorLevelOverlay[] = []
+  const cloneOverlay = (): EditorLevelOverlay => JSON.parse(JSON.stringify(overlay)) as EditorLevelOverlay
+  let armed: EditorLevelOverlay | null = null
+  const pushHistory = (): void => {
+    history.push(cloneOverlay())
+    if (history.length > 40) {
+      history.shift()
+    }
+    undoBtn.disabled = false
+  }
+  const armHistory = (): void => {
+    armed = cloneOverlay()
+  }
+  const commitArmed = (): void => {
+    if (!armed) {
+      return
+    }
+    if (JSON.stringify(armed) !== JSON.stringify(overlay)) {
+      history.push(armed)
+      if (history.length > 40) {
+        history.shift()
+      }
+    }
+    armed = null
+    undoBtn.disabled = history.length === 0
+  }
+  const undoWrite = (): void => {
+    const prev = history.pop()
+    if (!prev) {
+      return
+    }
+    const next = JSON.parse(JSON.stringify(prev)) as EditorLevelOverlay
+    overlay.playerSpawn = next.playerSpawn
+    overlay.moonPools = next.moonPools
+    overlay.exit = next.exit
+    overlay.cartFlag = next.cartFlag
+    overlay.worldWidth = next.worldWidth
+    overlay.shippedWidth = next.shippedWidth
+    overlay.worldHeight = next.worldHeight
+    overlay.shippedHeight = next.shippedHeight
+    overlay.shippedChunks = next.shippedChunks
+    overlay.platforms = next.platforms
+    overlay.movers = next.movers
+    overlay.enemies = next.enemies
+    overlay.pickups = next.pickups
+    overlay.decor = next.decor
+    overlay.hazards = next.hazards
+    overlay.look = next.look
+    overlay.ride = next.ride
+    undoBtn.disabled = history.length === 0
+    getAudio().playSfx("cancel")
+    persist()
+    restart("build")
   }
 
   const breakHost = (sel: Selection): { break?: BreakSpec } | null => {
@@ -632,6 +684,10 @@ export function mountBuildHud(session: EditorSession): void {
     if (sel.kind === "flag") {
       return { x: overlay.cartFlag?.x ?? 0, y: overlay.cartFlag?.y ?? 0 }
     }
+    if (sel.kind === "ride") {
+      const point = overlay.ride?.points[sel.index]
+      return { x: point?.x ?? 0, y: point?.y ?? 0 }
+    }
     if (sel.kind === "platform") {
       const rect = overlay.platforms[sel.index]
       return { x: rect?.x ?? 0, y: rect?.y ?? 0 }
@@ -641,6 +697,10 @@ export function mountBuildHud(session: EditorSession): void {
       return { x: mover?.worldX ?? 0, y: mover?.worldY ?? 0 }
     }
     if (sel.kind === "enemy") {
+      const live = liveEnemyPoint(sel.index)
+      if (live) {
+        return live
+      }
       const enemy = overlay.enemies[sel.index]
       return { x: enemy?.worldX ?? 0, y: enemy?.worldY ?? 0 }
     }
@@ -674,6 +734,14 @@ export function mountBuildHud(session: EditorSession): void {
     }
     if (sel.kind === "flag" && overlay.cartFlag) {
       return { x: overlay.cartFlag.x - 24, y: overlay.cartFlag.y - 40, w: 48, h: 84 }
+    }
+    if (sel.kind === "ride") {
+      const point = overlay.ride?.points[sel.index]
+      if (!point) {
+        return null
+      }
+      const r = sel.index === 0 ? 34 : 18
+      return { x: point.x - r, y: point.y - r, w: r * 2, h: r * 2 }
     }
     if (sel.kind === "platform") {
       const rect = overlay.platforms[sel.index]
@@ -720,6 +788,7 @@ export function mountBuildHud(session: EditorSession): void {
     overlay.pickups.forEach((_, index) => out.push({ kind: "pickup", index }))
     ;(overlay.decor ?? []).forEach((_, index) => out.push({ kind: "decor", index }))
     ;(overlay.hazards ?? []).forEach((_, index) => out.push({ kind: "hazard", index }))
+    ;(overlay.ride?.points ?? []).forEach((_, index) => out.push({ kind: "ride", index }))
     return out
   }
 
@@ -763,49 +832,12 @@ export function mountBuildHud(session: EditorSession): void {
       const item = overlay.hazards?.[sel.index]
       return item ? cloneJson(item) : null
     }
+    if (sel.kind === "ride") {
+      const point = overlay.ride?.points[sel.index]
+      return point ? cloneJson(point) : null
+    }
     const enemy = overlay.enemies[sel.index]
     return enemy ? cloneJson(enemy) : null
-  }
-
-  const restoreItem = (sel: Selection, snap: unknown): void => {
-    if (sel.kind === "spawn") {
-      overlay.playerSpawn = cloneJson(snap as { x: number; y: number })
-      return
-    }
-    if (sel.kind === "pool") {
-      overlay.moonPools = overlay.moonPools ?? []
-      overlay.moonPools[sel.index] = cloneMoonPool(snap as MoonPoolDef)
-      return
-    }
-    if (sel.kind === "exit") {
-      overlay.exit = cloneJson(snap as { chunk: number; x: number; y: number })
-      return
-    }
-    if (sel.kind === "flag") {
-      overlay.cartFlag = cloneJson(snap as { x: number; y: number })
-      return
-    }
-    if (sel.kind === "platform") {
-      overlay.platforms[sel.index] = cloneJson(snap as (typeof overlay.platforms)[number])
-      return
-    }
-    if (sel.kind === "mover") {
-      overlay.movers[sel.index] = cloneJson(snap as (typeof overlay.movers)[number])
-      return
-    }
-    if (sel.kind === "pickup") {
-      overlay.pickups[sel.index] = cloneJson(snap as EditorPickup)
-      return
-    }
-    if (sel.kind === "decor" && overlay.decor) {
-      overlay.decor[sel.index] = cloneJson(snap as AssembledDecor)
-      return
-    }
-    if (sel.kind === "hazard" && overlay.hazards) {
-      overlay.hazards[sel.index] = cloneJson(snap as AssembledHazard)
-      return
-    }
-    overlay.enemies[sel.index] = cloneJson(snap as (typeof overlay.enemies)[number])
   }
 
   const appendCopy = (kind: SelKind, snap: unknown): Selection | null => {
@@ -865,24 +897,9 @@ export function mountBuildHud(session: EditorSession): void {
   }
 
   const syncUndo = (): void => {
-    if (group.length > 1) {
-      const same =
-        groupBaseline.length === group.length &&
-        group.every((item, index) => {
-          const row = groupBaseline[index]
-          return row && sameSel(row.sel, item) && JSON.stringify(captureItem(item)) !== undefined
-        })
-      undoBtn.disabled = !same || groupBaseline.every((row, index) => {
-        const item = group[index]
-        return !item || JSON.stringify(captureItem(item)) === JSON.stringify(row.snap)
-      })
-    } else if (!selected || !baseline || !sameSel(baseline.sel, selected)) {
-      undoBtn.disabled = true
-    } else {
-      undoBtn.disabled = JSON.stringify(captureItem(selected)) === JSON.stringify(baseline.snap)
-    }
+    undoBtn.disabled = history.length === 0
     const canEdit = group.some(
-      (item) => item.kind !== "spawn" && item.kind !== "exit",
+      (item) => item.kind !== "spawn" && item.kind !== "exit" && item.kind !== "ride",
     )
     copyBtn.disabled = !canEdit
     deleteBtn.disabled = !canEdit
@@ -894,10 +911,47 @@ export function mountBuildHud(session: EditorSession): void {
     } catch {
       statusEl.textContent = t("editor.note")
     }
+    const cam = session.scene.cameras.main
     session.scene.scene.restart({
       levelId: session.level.id,
-      editor: { mode },
+      editor: {
+        mode,
+        scrollX: cam.scrollX,
+        scrollY: cam.scrollY,
+        selMode: selModeEl.value === "region" ? "region" : "pick",
+      },
     })
+  }
+
+  const liveEnemyPoint = (index: number): { x: number; y: number } | null => {
+    const sprite = session.enemies.getChildren().find((child) => Number(child.getData("editIndex")) === index) as
+      | Phaser.GameObjects.Sprite
+      | undefined
+    if (!sprite?.active) {
+      return null
+    }
+    return { x: sprite.x, y: sprite.y }
+  }
+
+  for (const child of session.enemies.getChildren()) {
+    const index = Number(child.getData("editIndex"))
+    const id = String(child.getData("id") || "")
+    if (!Number.isFinite(index) || (id !== "carp" && id !== "heron" && id !== "lantern_moth")) {
+      continue
+    }
+    const enemy = overlay.enemies[index]
+    const sprite = child as Phaser.GameObjects.Sprite
+    if (!enemy || !sprite.active) {
+      continue
+    }
+    if (Math.hypot(enemy.worldX - sprite.x, enemy.worldY - sprite.y) < 4) {
+      continue
+    }
+    const local = worldToAnchor(session.world, sprite.x, sprite.y)
+    enemy.worldX = sprite.x
+    enemy.worldY = sprite.y
+    enemy.x = local.x
+    enemy.y = sprite.y
   }
 
   const cameraCenter = (): { x: number; y: number } => {
@@ -1010,6 +1064,13 @@ export function mountBuildHud(session: EditorSession): void {
         water.setData("current", data.current ?? 0)
         refreshBody(water)
       }
+    } else if (focus.kind === "ride") {
+      const point = overlay.ride?.points[focus.index]
+      if (point && focus.index === 0 && session.rideSprite) {
+        session.rideSprite.setPosition(point.x, point.y)
+        const body = session.rideSprite.body as Phaser.Physics.Arcade.Body | null
+        body?.updateFromGameObject()
+      }
     }
   }
 
@@ -1036,6 +1097,11 @@ export function mountBuildHud(session: EditorSession): void {
       if (overlay.cartFlag) {
         marks.strokeCircle(overlay.cartFlag.x, overlay.cartFlag.y, 28)
       }
+    } else if (focus.kind === "ride") {
+      const point = overlay.ride?.points[focus.index]
+      if (point) {
+        marks.strokeCircle(point.x, point.y, focus.index === 0 ? 36 : 20)
+      }
     } else if (focus.kind === "platform") {
       const rect = overlay.platforms[focus.index]
       if (rect) {
@@ -1047,9 +1113,11 @@ export function mountBuildHud(session: EditorSession): void {
         marks.strokeRect(mover.worldX, mover.worldY, mover.w, mover.h)
       }
     } else if (focus.kind === "enemy") {
+      const live = liveEnemyPoint(focus.index)
       const enemy = overlay.enemies[focus.index]
-      if (enemy) {
-        marks.strokeCircle(enemy.worldX, enemy.worldY, 26)
+      const at = live ?? (enemy ? { x: enemy.worldX, y: enemy.worldY } : null)
+      if (at) {
+        marks.strokeCircle(at.x, at.y, 26)
       }
     } else if (focus.kind === "pickup") {
       const pickup = overlay.pickups[focus.index]
@@ -1069,8 +1137,27 @@ export function mountBuildHud(session: EditorSession): void {
     }
   }
 
+  const drawRideTrack = (): void => {
+    const points = overlay.ride?.points ?? []
+    if (points.length === 0) {
+      return
+    }
+    marks.lineStyle(2, 0xe2953a, 0.85)
+    for (let i = 0; i < points.length - 1; i += 1) {
+      const a = points[i]
+      const b = points[i + 1]
+      if (a && b) {
+        marks.lineBetween(a.x, a.y, b.x, b.y)
+      }
+    }
+    points.forEach((point, index) => {
+      marks.strokeCircle(point.x, point.y, index === 0 ? 30 : 14)
+    })
+  }
+
   const drawMarks = (): void => {
     marks.clear()
+    drawRideTrack()
     if (marquee) {
       const x = Math.min(marquee.x0, marquee.x1)
       const y = Math.min(marquee.y0, marquee.y1)
@@ -1126,6 +1213,7 @@ export function mountBuildHud(session: EditorSession): void {
 
   const fillInspect = (): void => {
     mapWidthInput.value = String(overlay.worldWidth)
+    mapHeightInput.value = String(overlay.worldHeight ?? 1080)
     fillLook()
     const idLabel = idInput.closest("label")
     const assetLabel = assetInput.closest("label")
@@ -1219,6 +1307,11 @@ export function mountBuildHud(session: EditorSession): void {
       hint.textContent = t("editor.kind.flag")
       xInput.value = String(overlay.cartFlag?.x ?? 0)
       yInput.value = String(overlay.cartFlag?.y ?? 0)
+    } else if (selected.kind === "ride") {
+      const point = overlay.ride?.points[selected.index]
+      hint.textContent = selected.index === 0 ? t("editor.kind.tiger") : t("editor.kind.tigerStop")
+      xInput.value = String(point?.x ?? 0)
+      yInput.value = String(point?.y ?? 0)
     } else if (selected.kind === "platform") {
       const rect = overlay.platforms[selected.index]
       if (!rect) {
@@ -1338,6 +1431,16 @@ export function mountBuildHud(session: EditorSession): void {
     }
     if (overlay.cartFlag && Phaser.Math.Distance.Between(wx, wy, overlay.cartFlag.x, overlay.cartFlag.y) < 36) {
       return { kind: "flag", index: 0 }
+    }
+    const ridePoints = overlay.ride?.points ?? []
+    if (ridePoints[0] && Phaser.Math.Distance.Between(wx, wy, ridePoints[0].x, ridePoints[0].y) < 62) {
+      return { kind: "ride", index: 0 }
+    }
+    for (let i = ridePoints.length - 1; i >= 1; i -= 1) {
+      const point = ridePoints[i]
+      if (point && Phaser.Math.Distance.Between(wx, wy, point.x, point.y) < 22) {
+        return { kind: "ride", index: i }
+      }
     }
     for (let i = overlay.movers.length - 1; i >= 0; i -= 1) {
       const mover = overlay.movers[i]
@@ -1583,6 +1686,12 @@ export function mountBuildHud(session: EditorSession): void {
         item.x = local.x
         item.y = y
       }
+    } else if (sel.kind === "ride") {
+      const point = overlay.ride?.points[sel.index]
+      if (point) {
+        point.x = x
+        point.y = y
+      }
     }
   }
 
@@ -1595,6 +1704,14 @@ export function mountBuildHud(session: EditorSession): void {
 
   const applyInspect = (): void => {
     if (!selected) {
+      return
+    }
+    pushHistory()
+    if (selected.kind === "ride") {
+      placeSel(selected, snap10(Number(xInput.value)), snap10(Number(yInput.value)))
+      syncSelection()
+      persist()
+      fillInspect()
       return
     }
     const x = snap10(Number(xInput.value))
@@ -1943,6 +2060,7 @@ export function mountBuildHud(session: EditorSession): void {
   }
 
   const addToken = (kind: string): void => {
+    pushHistory()
     getAudio().playSfx("confirm")
     closeAddMenus()
     const at = cameraCenter()
@@ -2070,29 +2188,12 @@ export function mountBuildHud(session: EditorSession): void {
   document.addEventListener("pointerdown", onDocPointer)
 
   requireEl<HTMLButtonElement>(root, "[data-ui=undo]").onclick = () => {
-    if (group.length > 1) {
-      for (const row of groupBaseline) {
-        restoreItem(row.sel, row.snap)
-      }
-      getAudio().playSfx("cancel")
-      syncSelection()
-      persist()
-      fillInspect()
-      return
-    }
-    if (!selected || !baseline || !sameSel(baseline.sel, selected)) {
-      return
-    }
-    restoreItem(selected, baseline.snap)
-    getAudio().playSfx("cancel")
-    syncSelection()
-    persist()
-    fillInspect()
+    undoWrite()
   }
 
   const copySources = (): Selection[] =>
     (group.length ? group : selected ? [selected] : []).filter(
-      (item) => item.kind !== "spawn" && item.kind !== "exit",
+      (item) => item.kind !== "spawn" && item.kind !== "exit" && item.kind !== "ride",
     )
 
   const storeClipboard = (): boolean => {
@@ -2117,8 +2218,11 @@ export function mountBuildHud(session: EditorSession): void {
   }
 
   const duplicateSelected = (): void => {
+    pushHistory()
     const sources = copySources()
     if (!sources.length) {
+      history.pop()
+      undoBtn.disabled = history.length === 0
       return
     }
     let made = 0
@@ -2136,6 +2240,8 @@ export function mountBuildHud(session: EditorSession): void {
       made += 1
     }
     if (!made) {
+      history.pop()
+      undoBtn.disabled = history.length === 0
       return
     }
     getAudio().playSfx("confirm")
@@ -2146,6 +2252,7 @@ export function mountBuildHud(session: EditorSession): void {
     if (!editorClip.length) {
       return
     }
+    pushHistory()
     const originX = Math.min(...editorClip.map((row) => row.x))
     const originY = Math.min(...editorClip.map((row) => row.y))
     const at = cameraCenter()
@@ -2159,6 +2266,8 @@ export function mountBuildHud(session: EditorSession): void {
       made += 1
     }
     if (!made) {
+      history.pop()
+      undoBtn.disabled = history.length === 0
       return
     }
     getAudio().playSfx("confirm")
@@ -2171,10 +2280,13 @@ export function mountBuildHud(session: EditorSession): void {
     }
   }
   const deleteSelected = (): void => {
+    pushHistory()
     const doomed = (group.length ? group : selected ? [selected] : []).filter(
-      (item) => item.kind !== "spawn" && item.kind !== "exit" && item.kind !== "flag",
+      (item) => item.kind !== "spawn" && item.kind !== "exit" && item.kind !== "flag" && item.kind !== "ride",
     )
     if (!doomed.length) {
+      history.pop()
+      undoBtn.disabled = history.length === 0
       return
     }
     const byKind: Record<string, number[]> = {}
@@ -2219,6 +2331,7 @@ export function mountBuildHud(session: EditorSession): void {
   breakProfile.onchange = applyInspect
   poolLineEl.onchange = applyInspect
   const applyLook = (): void => {
+    pushHistory()
     overlay.look = {
       env: lookEnv.value,
       sky: lookSky.value || undefined,
@@ -2247,15 +2360,25 @@ export function mountBuildHud(session: EditorSession): void {
   lookGlow.onchange = applyLook
   lookLowG.onchange = applyLook
   mapWidthInput.onchange = () => {
+    pushHistory()
     const width = Math.max(480, snap10(Number(mapWidthInput.value) || overlay.worldWidth))
     overlay.worldWidth = width
     restart("build")
   }
+  mapHeightInput.onchange = () => {
+    pushHistory()
+    const height = Math.max(1080, snap10(Number(mapHeightInput.value) || overlay.worldHeight || 1080))
+    overlay.worldHeight = height
+    restart("build")
+  }
   idInput.onchange = () => {
+    pushHistory()
     const targets = (group.length ? group : selected ? [selected] : []).filter(
       (item) => item.kind === "enemy" || item.kind === "pickup",
     )
     if (!targets.length) {
+      history.pop()
+      undoBtn.disabled = history.length === 0
       return
     }
     let changed = false
@@ -2276,10 +2399,14 @@ export function mountBuildHud(session: EditorSession): void {
     }
     if (changed) {
       restart("build")
+    } else {
+      history.pop()
+      undoBtn.disabled = history.length === 0
     }
   }
 
   const beginDrag = (hit: Selection, worldPoint: { x: number; y: number }): void => {
+    armHistory()
     const items = inGroup(hit) && group.length > 1 ? group : [hit]
     if (items.length > 1) {
       draggingGroup = true
@@ -2314,6 +2441,7 @@ export function mountBuildHud(session: EditorSession): void {
     }
     const boxHit = selModeEl.value === "region" ? null : pickBox(worldPoint.x, worldPoint.y)
     if (boxHit && boxHit.edge !== "in") {
+      armHistory()
       adoptSelection(boxHit.sel)
       const box = boxOf(boxHit.sel)
       if (box) {
@@ -2323,6 +2451,16 @@ export function mountBuildHud(session: EditorSession): void {
       return
     }
     const hit = pickAt(worldPoint.x, worldPoint.y)
+    const dom = pointer.event as MouseEvent | undefined
+    if (hit && dom && (dom.ctrlKey || dom.metaKey)) {
+      selModeEl.value = "region"
+      if (!inGroup(hit)) {
+        group = [...group, hit]
+      }
+      adoptGroup(group.length ? group : [hit])
+      fillInspect()
+      return
+    }
     if (selModeEl.value === "region") {
       if (hit && inGroup(hit)) {
         adoptGroup(group)
@@ -2417,6 +2555,7 @@ export function mountBuildHud(session: EditorSession): void {
       return
     }
     if (dragging || draggingGroup || resizeDrag) {
+      commitArmed()
       persist()
     }
     dragging = null
@@ -2473,6 +2612,11 @@ export function mountBuildHud(session: EditorSession): void {
     if (key === "d") {
       event.preventDefault()
       duplicateSelected()
+      return
+    }
+    if (key === "z" && !event.shiftKey) {
+      event.preventDefault()
+      undoWrite()
     }
   }
   window.addEventListener("keydown", onKey)

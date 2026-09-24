@@ -64,7 +64,8 @@ All notable changes to this project are recorded here. The format follows
 - Editor Play on Guanghan no longer dies in Han teardown. Frost wisp, star wisp,
   and lantern moth read on night sky. Seed pickup shows `{n}/15` and Customize
   unlock lines (blossom at 1, osmanthus fleck at 8, full set at 15).
-- Closing Gale stays a full-height swirl of ice, snow, and cloud. It creeps in from the left and thickens. It no longer falls under gravity.
+- The frog hops between nearby pads. When Mei is close it flicks a tongue for one heart.
+- Heron holds high, spreads its wings, then sweeps the locked line. A dash as it arrives is the escape. Wing frames follow hover, lock, and sweep.
 - Editor boxes resize from the outline. Edge and corner handles keep the opposite side fixed.
 - Cart Chase seats the cart on the floor after a fail. The finish flag is its own marker, past the burrow, and the hole can be entered before the cart arrives.
 - Boar contact costs two hearts. A landing from above does not.

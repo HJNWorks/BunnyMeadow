@@ -7,7 +7,7 @@
   "chunks": ["chunk_ch2_mortar_a", "chunk_ch2_mortar_b"],
   "playerSpawn": { "x": 100, "y": 900 },
   "moonPool": { "chunk": 0, "x": 220, "y": 900, "line": "Pound, do not cook. Cakes keep the time." },
-  "exit": { "chunk": 1, "x": 840, "y": 880 },
+  "exit": { "chunk": 1, "x": 840, "y": 940 },
   "moonLine": "Pound, do not cook. Cakes keep the time.",
   "objective": "Hop the bowl rims. Pound, do not cook.",
   "env": "ch2_mortar",

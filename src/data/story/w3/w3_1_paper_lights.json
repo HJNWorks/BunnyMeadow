@@ -9,7 +9,6 @@
   "exit": { "chunk": 4, "x": 820, "y": 920 },
   "moonLine": "Lanterns lift soft paws. Hold the jump and float.",
   "objective": "Hold jump to glide between lantern platforms.",
-  "glide": true,
   "weather": "fireflies",
   "sky": "#2c3348"
 }

@@ -11,6 +11,7 @@ import {
   getWorkshopTexture,
   setWorkshopTexture,
 } from "./overlayStore"
+import { bindItemDemo, type ItemDemo } from "./itemDemo"
 import { listWorkshopTargets, workshopGroupTitleKey, type WorkshopGroup } from "./targets"
 
 function ellipse(
@@ -100,10 +101,28 @@ export function workshopHtml(group: WorkshopGroup): string {
   const options = listWorkshopTargets(group)
     .map((target) => `<option value="${target.id}">${target.label}</option>`)
     .join("")
+  const itemHead =
+    group === "items"
+      ? `
+    <div class="bm-workshop-item-head">
+      <canvas data-ui="wsCanvas" class="bm-workshop-canvas" width="128" height="144" aria-label="${t("workshop.canvas")}"></canvas>
+      <div class="bm-workshop-item-copy">
+        <p><strong>${t("workshop.itemStory")}</strong> <span data-ui="wsStory"></span></p>
+        <p><strong>${t("workshop.itemEffect")}</strong> <span data-ui="wsEffect"></span></p>
+        <canvas data-ui="wsDemo" class="bm-dash-preview" width="280" height="180" aria-label="${t("common.preview")}"></canvas>
+        <div class="bm-preview-anim">
+          <label class="bm-check">
+            <input type="checkbox" data-ui="animStop" checked />
+            ${t("customize.anim.stop")}
+          </label>
+        </div>
+      </div>
+    </div>`
+      : `<canvas data-ui="wsCanvas" class="bm-workshop-canvas" width="128" height="144" aria-label="${t("workshop.canvas")}"></canvas>`
   return `
     <h2>${t(workshopGroupTitleKey(group))}</h2>
     <p class="bm-tagline">${t("workshop.note")}</p>
-    <canvas data-ui="wsCanvas" class="bm-workshop-canvas" width="128" height="144" aria-label="${t("workshop.canvas")}"></canvas>
+    ${itemHead}
     <div class="bm-field">
       <label>${t("workshop.target")}
         <select data-ui="wsTarget">${options}</select>
@@ -137,11 +156,11 @@ export function workshopHtml(group: WorkshopGroup): string {
   `
 }
 
-export function bindWorkshop(root: ParentNode): void {
+export function bindWorkshop(root: ParentNode): () => void {
   const canvas = requireEl<HTMLCanvasElement>(root, "[data-ui=wsCanvas]")
   const ctx = canvas.getContext("2d")
   if (!ctx) {
-    return
+    return () => undefined
   }
   ctx.imageSmoothingEnabled = false
   const targetEl = requireEl<HTMLSelectElement>(root, "[data-ui=wsTarget]")
@@ -150,7 +169,28 @@ export function bindWorkshop(root: ParentNode): void {
   const sizeEl = requireEl<HTMLInputElement>(root, "[data-ui=wsSize]")
   const swatch = requireEl<HTMLElement>(root, "[data-ui=wsSwatch]")
   const status = requireEl<HTMLElement>(root, "[data-ui=wsStatus]")
+  const storyEl = root.querySelector<HTMLElement>("[data-ui=wsStory]")
+  const effectEl = root.querySelector<HTMLElement>("[data-ui=wsEffect]")
+  const demoCanvas = root.querySelector<HTMLCanvasElement>("[data-ui=wsDemo]")
+  const stopEl = root.querySelector<HTMLInputElement>("[data-ui=animStop]")
   let drawing = false
+  let demo: ItemDemo | null = null
+  const itemId = (): string => {
+    const raw = targetEl.value
+    return raw.startsWith("story_item_") ? raw.slice("story_item_".length) : "carrot"
+  }
+  const syncCopy = (): void => {
+    if (!storyEl || !effectEl) {
+      return
+    }
+    const id = itemId()
+    storyEl.textContent = t(`workshop.item.${id}.story`)
+    effectEl.textContent = t(`workshop.item.${id}.effect`)
+    demo?.repaint()
+  }
+  if (demoCanvas && stopEl) {
+    demo = bindItemDemo(demoCanvas, stopEl, itemId)
+  }
 
   const color = (): string => {
     const pal = getPalette(paletteEl.value)
@@ -179,6 +219,7 @@ export function bindWorkshop(root: ParentNode): void {
     const data = getWorkshopTexture(targetEl.value)
     if (!data) {
       syncSwatch()
+      syncCopy()
       return
     }
     const img = new Image()
@@ -188,6 +229,7 @@ export function bindWorkshop(root: ParentNode): void {
     }
     img.src = data
     syncSwatch()
+    syncCopy()
   }
 
   canvas.onpointerdown = (e) => {
@@ -207,6 +249,7 @@ export function bindWorkshop(root: ParentNode): void {
   paletteEl.onchange = syncSwatch
   tokenEl.onchange = syncSwatch
   load()
+  syncCopy()
 
   requireEl<HTMLButtonElement>(root, "[data-ui=wsSave]").onclick = () => {
     getAudio().playSfx("confirm")
@@ -227,5 +270,9 @@ export function bindWorkshop(root: ParentNode): void {
     clearWorkshopTexture(targetEl.value)
     stampTarget(ctx, targetEl.value)
     status.textContent = t("workshop.cleared")
+  }
+
+  return () => {
+    demo?.stop()
   }
 }

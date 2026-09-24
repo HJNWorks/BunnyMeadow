@@ -19,7 +19,9 @@ mochi-pounding is forbidden. Mooncakes are correct.
 
 ## Feel
 
-A workshop of cold stone and round cakes. Yutu is comic and busy. He is not an HP bar.
+A workshop of cold stone and round cakes. She stops because a pestle beat owns the
+next bowl. She waits, then hops. Yutu is comic and busy. He is not an HP bar and
+not a model.
 
 ## Roster
 

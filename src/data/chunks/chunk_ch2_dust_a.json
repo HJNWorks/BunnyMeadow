@@ -4,12 +4,12 @@
   "height": 1080,
   "groundY": 940,
   "platforms": [
-    { "x": 0, "y": 940, "w": 280, "h": 40 },
-    { "x": 400, "y": 820, "w": 160, "h": 24 },
-    { "x": 680, "y": 940, "w": 140, "h": 24 }
+    { "x": 0, "y": 940, "w": 160, "h": 40, "asset": "rim" },
+    { "x": 520, "y": 800, "w": 110, "h": 20, "asset": "rim" },
+    { "x": 840, "y": 680, "w": 110, "h": 20, "asset": "rim" }
   ],
   "walls": [],
-  "enemies": [{ "id": "dust_mite", "x": 500, "y": 700 }],
-  "items": [{ "id": "star_grit", "x": 750, "y": 920 }],
-  "color": "#151b2e"
+  "enemies": [{ "id": "dust_mite", "x": 80, "y": 880 }],
+  "items": [{ "id": "star_grit", "x": 340, "y": 860 }],
+  "color": "#1a1814"
 }

@@ -13,9 +13,9 @@ No folklore role; plain wildlife.
 
 ## Behaviour
 
-Throws acorns on a parabola like the crow, but from tree cover and at a faster
-cadence with a shorter arc. Rewards reading two lobbers at once in the orchard.
-Live on Hedge Maze and Green Corridor.
+Throws acorns from a vine, hedge, or tree trunk. It does not stand on a platform when
+one of those is nearby. It runs up and down that trunk. Live on Hedge Maze and Green
+Corridor. The Green Corridor stalks are the climb.
 
 ## Telegraph and counter
 

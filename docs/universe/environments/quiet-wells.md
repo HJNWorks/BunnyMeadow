@@ -16,8 +16,9 @@ Status: live (Chapter 2, first station Cave Mouths). Cold caves and still silver
 
 ## Feel
 
-Caves under the dust, not a return to the burrow. The three-legged toad may sit in a
-well. It is never the antagonist.
+Caves under the dust, not a return to the burrow. She stops because the first dark
+mouth is false. Well silver shows the real lip. The three-legged toad may sit in a
+well. It is never the antagonist and not a model.
 
 Ordinary Moon Pools here still speak one Chang'e line. They are not the One Pool.
 

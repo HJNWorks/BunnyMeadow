@@ -13,9 +13,10 @@ No folklore role; plain wildlife. Listed as a Story W2 optional in [../../ENEMIE
 
 ## Behaviour
 
-Holds a line and charges when the player crosses it, then is stunned on a wall hit.
-It converts a corridor into a timing puzzle: bait the charge, then pass. Live on
-Green Corridor.
+Holds a line and charges when Mei comes near, then stops at the edge of the pad
+instead of running off it. A wall hit still stuns it. A hit shoves Mei away from the
+goat. On Cart Chase that shove is the point. Live on Green Corridor and Cart Chase.
+Patrols, chasers, and chargers all turn back at a ledge.
 
 ## Telegraph and counter
 

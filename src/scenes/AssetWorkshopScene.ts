@@ -87,9 +87,18 @@ export class AssetWorkshopScene extends Phaser.Scene {
       this.events.once(Phaser.Scenes.Events.DESTROY, stopDash)
     }
     if (showBrush) {
-      bindWorkshop(requireEl(root, "[data-pane=props]"))
-      bindWorkshop(requireEl(root, "[data-pane=creatures]"))
-      bindWorkshop(requireEl(root, "[data-pane=items]"))
+      const stopBrush = [
+        bindWorkshop(requireEl(root, "[data-pane=props]")),
+        bindWorkshop(requireEl(root, "[data-pane=creatures]")),
+        bindWorkshop(requireEl(root, "[data-pane=items]")),
+      ]
+      const stopAll = (): void => {
+        for (const stop of stopBrush) {
+          stop()
+        }
+      }
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, stopAll)
+      this.events.once(Phaser.Scenes.Events.DESTROY, stopAll)
     }
 
     const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-tab]"))

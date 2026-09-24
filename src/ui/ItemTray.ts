@@ -2,6 +2,7 @@ export type TrayBuff = {
   id: string
   remaining: number
   duration: number
+  label?: string
 }
 
 export const ITEM_TRAY_CSS = `
@@ -62,6 +63,9 @@ export const ITEM_TRAY_CSS = `
 .bm-item-icon.is-sparkler {
   background: radial-gradient(circle at 35% 35%, #ffe08a, #e07040);
 }
+.bm-item-icon.is-glide {
+  background: radial-gradient(circle at 35% 35%, #f4f8ff, #8eb4d4);
+}
 `
 
 export function bindItemTray(root: HTMLElement): HTMLElement {
@@ -87,9 +91,10 @@ export function renderItemTray(tray: HTMLElement, buffs: TrayBuff[]): void {
   tray.innerHTML = live
     .map((buff) => {
       const seconds = Math.max(0.1, buff.remaining).toFixed(1)
+      const label = buff.label ?? `${seconds}s`
       return `<div class="bm-item-chip" data-item="${buff.id}">
         <span class="bm-item-icon is-${buff.id}" aria-hidden="true"></span>
-        <span>${seconds}s</span>
+        <span>${label}</span>
       </div>`
     })
     .join("")

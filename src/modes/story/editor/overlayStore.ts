@@ -34,14 +34,24 @@ export type EditorLook = {
   lowGravity?: boolean
 }
 
+export type EditorRide = {
+  w: number
+  h: number
+  speed: number
+  points: { x: number; y: number }[]
+}
+
 export type EditorLevelOverlay = {
   playerSpawn: { x: number; y: number }
+  ride?: EditorRide
   moonPool?: MoonPoolDef
   moonPools?: MoonPoolDef[]
   exit: { chunk: number; x: number; y: number }
   cartFlag?: { x: number; y: number }
   worldWidth: number
   shippedWidth?: number
+  worldHeight?: number
+  shippedHeight?: number
   shippedChunks?: string[]
   platforms: AssembledRect[]
   movers: AssembledMover[]
@@ -134,23 +144,26 @@ export function overlayMatchesShipped(
   if (overlay.shippedChunks && overlay.shippedChunks.join(",") !== def.chunks.join(",")) {
     return false
   }
-  if (typeof overlay.shippedWidth === "number" && overlay.shippedWidth !== world.width) {
-    return false
-  }
   if (!overlay.shippedChunks && typeof overlay.shippedWidth !== "number") {
     return overlay.worldWidth === world.width
   }
   return true
 }
 
-export function captureOverlay(def: StoryLevelDef, world: AssembledLevel): EditorLevelOverlay {
+export function captureOverlay(
+  def: StoryLevelDef,
+  world: AssembledLevel,
+  assembledWidth = world.width,
+): EditorLevelOverlay {
   return {
     playerSpawn: { ...def.playerSpawn },
     moonPools: poolsOf(def),
     exit: { ...def.exit },
     cartFlag: def.cartFlag ? { ...def.cartFlag } : undefined,
-    worldWidth: world.width,
-    shippedWidth: world.width,
+    worldWidth: Math.max(world.width, assembledWidth),
+    shippedWidth: assembledWidth,
+    worldHeight: def.height ?? world.height,
+    shippedHeight: def.height ?? world.height,
     shippedChunks: [...def.chunks],
     platforms: world.platforms.map((rect) => ({ ...rect })),
     movers: world.movers.map((mover) => ({ ...mover })),
@@ -177,7 +190,22 @@ export function captureOverlay(def: StoryLevelDef, world: AssembledLevel): Edito
       env: def.env,
       sky: def.sky,
     },
+    ride: rideFromLevel(def, world),
   }
+}
+
+export function resolveWorldHeight(
+  def: StoryLevelDef,
+  assembledHeight: number,
+  overlay?: EditorLevelOverlay,
+): number {
+  if (overlay && typeof overlay.worldHeight === "number" && overlay.worldHeight >= 1080) {
+    return overlay.worldHeight
+  }
+  if (typeof def.height === "number" && def.height >= 1080) {
+    return def.height
+  }
+  return assembledHeight > 0 ? assembledHeight : 1080
 }
 
 export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): AssembledLevel {
@@ -196,10 +224,19 @@ export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): Assembl
   if (overlay.cartFlag) {
     def.cartFlag = { ...overlay.cartFlag }
   }
+  if (def.ride && overlay.ride && overlay.ride.points.length > 0) {
+    def.ride = {
+      w: overlay.ride.w,
+      h: overlay.ride.h,
+      speed: overlay.ride.speed,
+      waypoints: overlay.ride.points.map((point) => worldToAnchor(world, point.x, point.y)),
+    }
+  }
   const width =
     typeof overlay.worldWidth === "number" && overlay.worldWidth > 0
       ? overlay.worldWidth
       : world.width
+  const height = resolveWorldHeight(def, world.height, overlay)
   const pickups = overlay.pickups ?? []
   if (overlay.look?.env) {
     def.env = overlay.look.env
@@ -210,6 +247,7 @@ export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): Assembl
   return {
     ...world,
     width,
+    height,
     platforms: overlay.platforms.map((rect) => ({ ...rect })),
     movers: overlay.movers.map((mover) => ({ ...mover })),
     enemies: overlay.enemies.map((enemy) => ({ ...enemy })),
@@ -235,17 +273,35 @@ export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): Assembl
   }
 }
 
-export function ensureOverlay(def: StoryLevelDef, world: AssembledLevel): EditorLevelOverlay {
+export function ensureOverlay(
+  def: StoryLevelDef,
+  world: AssembledLevel,
+  assembledWidth = world.width,
+): EditorLevelOverlay {
   const existing = getOverlay(def.id)
   if (!existing || !overlayMatchesShipped(existing, def, world)) {
     if (existing) {
       clearOverlay(def.id)
     }
-    return captureOverlay(def, world)
+    return captureOverlay(def, world, assembledWidth)
   }
   normalizeOverlay(existing)
+  if (existing.shippedWidth !== assembledWidth) {
+    existing.shippedWidth = assembledWidth
+    setOverlay(def.id, existing)
+  }
   if (typeof existing.worldWidth !== "number" || existing.worldWidth <= 0) {
-    existing.worldWidth = world.width
+    existing.worldWidth = Math.max(world.width, assembledWidth)
+  }
+  const authoredHeight = def.height ?? world.height
+  if (typeof existing.worldHeight !== "number" || existing.worldHeight <= 0) {
+    existing.worldHeight = authoredHeight
+    existing.shippedHeight = authoredHeight
+    setOverlay(def.id, existing)
+  } else if (existing.worldHeight === existing.shippedHeight && existing.shippedHeight !== authoredHeight) {
+    existing.worldHeight = authoredHeight
+    existing.shippedHeight = authoredHeight
+    setOverlay(def.id, existing)
   }
   if (!existing.pickups) {
     existing.pickups = []
@@ -262,7 +318,25 @@ export function ensureOverlay(def: StoryLevelDef, world: AssembledLevel): Editor
   if (!existing.cartFlag && def.cartFlag) {
     existing.cartFlag = { ...def.cartFlag }
   }
+  if (!existing.ride && def.ride) {
+    existing.ride = rideFromLevel(def, world)
+  }
   return existing
+}
+
+function rideFromLevel(def: StoryLevelDef, world: AssembledLevel): EditorRide | undefined {
+  if (!def.ride || def.ride.waypoints.length === 0) {
+    return undefined
+  }
+  return {
+    w: def.ride.w,
+    h: def.ride.h,
+    speed: def.ride.speed,
+    points: def.ride.waypoints.map((point) => ({
+      x: (world.chunkOrigins[point.chunk] ?? 0) + point.x,
+      y: point.y,
+    })),
+  }
 }
 
 export function snap10(n: number): number {

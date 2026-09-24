@@ -42,7 +42,6 @@ export class CustomizeScene extends Phaser.Scene {
             <input type="checkbox" data-ui="animStop" checked />
             ${t("customize.anim.stop")}
           </label>
-          <button type="button" class="bm-btn" data-ui="animPlay">${t("customize.anim.play")}</button>
         </div>
         <div class="bm-field">
           <label for="name">${t("customize.name")}</label>
@@ -120,7 +119,6 @@ export class CustomizeScene extends Phaser.Scene {
     const accessoryEl = requireEl<HTMLSelectElement>(root, "[data-ui=accessory]")
     const dashEl = requireEl<HTMLSelectElement>(root, "[data-ui=dash]")
     const stopEl = requireEl<HTMLInputElement>(root, "[data-ui=animStop]")
-    const playEl = requireEl<HTMLButtonElement>(root, "[data-ui=animPlay]")
     const reducedMotion = save.settings.accessibility.reducedMotion
     let particles: CanvasDashParticle[] = []
     let clip: MeiBoundClip | null = null
@@ -182,7 +180,6 @@ export class CustomizeScene extends Phaser.Scene {
       window.cancelAnimationFrame(raf)
       raf = 0
       stopEl.checked = true
-      playEl.setAttribute("aria-pressed", "false")
       paintIdle()
     }
 
@@ -203,7 +200,6 @@ export class CustomizeScene extends Phaser.Scene {
       clipElapsed = 0
       lastStamp = 0
       particles = []
-      playEl.setAttribute("aria-pressed", "true")
       window.cancelAnimationFrame(raf)
       raf = window.requestAnimationFrame(loop)
     }
@@ -239,10 +235,6 @@ export class CustomizeScene extends Phaser.Scene {
         halt()
         return
       }
-      startPlay()
-    }
-    playEl.onclick = () => {
-      getAudio().playSfx("confirm")
       startPlay()
     }
 

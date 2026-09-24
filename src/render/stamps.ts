@@ -2,7 +2,10 @@ export type StampSize = { w: number; h: number }
 
 export const STAMP_SIZE: Record<string, StampSize> = {
   story_crow: { w: 36, h: 28 },
-  story_heron: { w: 48, h: 64 },
+  story_heron: { w: 64, h: 48 },
+  story_heron_up: { w: 64, h: 48 },
+  story_heron_lock: { w: 88, h: 40 },
+  story_heron_sweep: { w: 72, h: 36 },
   story_magpie: { w: 48, h: 28 },
   story_wisp: { w: 52, h: 36 },
   story_ice: { w: 32, h: 32 },
@@ -14,6 +17,9 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_owl: { w: 36, h: 36 },
   story_goat: { w: 48, h: 40 },
   story_boar: { w: 52, h: 32 },
+  story_boar_step: { w: 52, h: 32 },
+  story_boar_rage: { w: 56, h: 32 },
+  story_boar_run: { w: 64, h: 30 },
   story_tortoise: { w: 44, h: 28 },
   story_bees: { w: 44, h: 32 },
   story_carp: { w: 48, h: 24 },
@@ -42,6 +48,7 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_grit: { w: 24, h: 24 },
   story_elixir: { w: 24, h: 24 },
   story_silver: { w: 24, h: 28 },
+  story_glide: { w: 28, h: 28 },
   dash_speck: { w: 12, h: 12 },
   dash_carrot: { w: 12, h: 18 },
   dash_streak: { w: 22, h: 12 },
@@ -91,16 +98,45 @@ function drawCrow(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
   circle(ctx, cx + 4, cy - 2, 2, "#f2f2f2")
 }
 
+function drawHeronPose(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  pose: "up" | "down" | "lock" | "sweep",
+): void {
+  const wing = pose === "up" ? -16 : pose === "down" ? 14 : pose === "lock" ? 0 : 8
+  const reach = pose === "lock" ? 28 : pose === "sweep" ? 10 : 18
+  const back = pose === "sweep" ? -14 : 0
+  ellipse(ctx, cx - 6 + back, cy + wing, reach, pose === "lock" ? 5 : 7, "#d5dee6")
+  ellipse(ctx, cx + 8 + back * 0.2, cy + wing * 0.35, reach * 0.7, pose === "sweep" ? 4 : 5, "#f4f7f8")
+  ellipse(ctx, cx, cy + 2, 12, 5, "#e7eef3")
+  ellipse(ctx, cx + 8, cy - 1, 3, pose === "sweep" ? 5 : 7, "#f7fafc")
+  ellipse(ctx, cx + 14, cy - (pose === "sweep" ? 2 : 6), 4, 3, "#f7fafc")
+  tri(ctx, cx + 17, cy - (pose === "sweep" ? 2 : 6), cx + 30, cy - (pose === "sweep" ? 1 : 5), cx + 17, cy - (pose === "sweep" ? 0 : 4), "#e8a040")
+  const eyeY = cy - (pose === "sweep" ? 3 : 7)
+  const aggro = pose === "lock" || pose === "sweep"
+  if (aggro) {
+    circle(ctx, cx + 14, eyeY, 2.6, "#ff4a4a")
+    circle(ctx, cx + 14.6, eyeY - 0.6, 0.8, "#fff4f4")
+  } else {
+    circle(ctx, cx + 14, eyeY, 1.2, "#243040")
+  }
+}
+
 function drawHeron(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
-  ellipse(ctx, cx - 5, cy + 16, 1.3, 12, "#c5d0d8")
-  ellipse(ctx, cx + 4, cy + 16, 1.3, 12, "#c5d0d8")
-  ellipse(ctx, cx - 7, cy + 27, 4, 1.3, "#e8a040")
-  ellipse(ctx, cx + 6, cy + 27, 4, 1.3, "#e8a040")
-  ellipse(ctx, cx, cy + 2, 11, 7, "#d5e0e8")
-  ellipse(ctx, cx + 1, cy - 6, 3.2, 8, "#eef3f6")
-  ellipse(ctx, cx + 2, cy - 16, 4.5, 3.4, "#f7fafc")
-  tri(ctx, cx + 5, cy - 16, cx + 22, cy - 14, cx + 5, cy - 12, "#e8a040")
-  circle(ctx, cx + 1, cy - 17, 1.2, "#243040")
+  drawHeronPose(ctx, cx, cy, "down")
+}
+
+function drawHeronFlapUp(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  drawHeronPose(ctx, cx, cy, "up")
+}
+
+function drawHeronLock(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  drawHeronPose(ctx, cx, cy, "lock")
+}
+
+function drawHeronSweep(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  drawHeronPose(ctx, cx, cy, "sweep")
 }
 
 function drawMagpie(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
@@ -208,13 +244,51 @@ function drawGoat(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
   circle(ctx, cx + 16, cy - 6, 1.6, "#2a2010")
 }
 
+function drawBoarPose(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  pose: "idle" | "step" | "rage" | "run",
+): void {
+  const rage = pose === "rage"
+  const run = pose === "run"
+  const body = rage ? "#5c3018" : "#6b4030"
+  const head = rage ? "#7a3824" : "#8a5840"
+  const lean = rage ? 6 : run ? 3 : 0
+  ellipse(ctx, cx - lean, cy + (rage ? 4 : 2), run ? 20 : 17, rage ? 8 : 10, body)
+  if (rage || run) {
+    tri(ctx, cx - 8, cy - 4, cx - 2, cy - 16, cx + 2, cy - 2, "#3e2416")
+    tri(ctx, cx + 2, cy - 4, cx + 8, cy - 18, cx + 12, cy - 2, "#3e2416")
+  }
+  const hx = cx + (rage ? 16 : 13) - lean
+  const hy = cy + (rage ? 5 : 0)
+  circle(ctx, hx, hy, rage ? 9 : 8, head)
+  ellipse(ctx, hx - 3, hy - 8, 3, 4, "#5a3828")
+  ellipse(ctx, hx + 7, hy + 2, 5, 3, "#c4a080")
+  tri(ctx, hx + 3, hy + 3, hx + 12, hy + 10, hx + 1, hy + 7, "#f4e8d0")
+  tri(ctx, hx + 5, hy + 2, hx + 14, hy + 7, hx + 4, hy + 6, "#f4e8d0")
+  circle(ctx, hx - 1, hy - 3, 1.7, rage ? "#c45c4a" : "#2a2010")
+  const lift = pose === "step" ? 3 : 0
+  ellipse(ctx, cx - 10, cy + 11 - lift, 3, 4, "#4a3020")
+  ellipse(ctx, cx - 2, cy + 11, 3, 4, "#4a3020")
+  ellipse(ctx, cx + 8, cy + 11 - (run ? 2 : 0), 3, 4, "#4a3020")
+  ellipse(ctx, cx + 14, cy + 11 + lift, 3, 4, "#4a3020")
+}
+
 function drawBoar(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
-  ellipse(ctx, cx, cy + 2, 18, 11, "#6a4530")
-  circle(ctx, cx + 14, cy, 8, "#7a5540")
-  tri(ctx, cx + 18, cy + 2, cx + 26, cy - 2, cx + 18, cy + 6, "#f4e8d0")
-  tri(ctx, cx + 18, cy + 4, cx + 26, cy + 8, cx + 16, cy + 8, "#f4e8d0")
-  circle(ctx, cx + 16, cy - 4, 1.6, "#2a2010")
-  ellipse(ctx, cx - 10, cy - 6, 4, 6, "#5a3828")
+  drawBoarPose(ctx, cx, cy, "idle")
+}
+
+function drawBoarStep(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  drawBoarPose(ctx, cx, cy, "step")
+}
+
+function drawBoarRage(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  drawBoarPose(ctx, cx, cy, "rage")
+}
+
+function drawBoarRun(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  drawBoarPose(ctx, cx, cy, "run")
 }
 
 function drawTortoise(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
@@ -568,6 +642,12 @@ function drawElixir(ctx: CanvasRenderingContext2D, cx: number, cy: number): void
   circle(ctx, cx - 2, cy - 4, 1.6, "#fff4d0")
 }
 
+function drawGlide(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx - 8, cy + 2, 9, 4, "#d8e8f8")
+  ellipse(ctx, cx + 8, cy + 2, 9, 4, "#d8e8f8")
+  ellipse(ctx, cx, cy - 2, 3, 6, "#f4f8ff")
+}
+
 function drawWellSilver(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
   ellipse(ctx, cx, cy + 2, 6, 9, "#c8d8e8")
   ellipse(ctx, cx, cy - 2, 4, 5, "#e8eef4")
@@ -614,6 +694,9 @@ function drawDashMoon(ctx: CanvasRenderingContext2D, cx: number, cy: number): vo
 const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: number) => void> = {
   story_crow: drawCrow,
   story_heron: drawHeron,
+  story_heron_up: drawHeronFlapUp,
+  story_heron_lock: drawHeronLock,
+  story_heron_sweep: drawHeronSweep,
   story_magpie: drawMagpie,
   story_wisp: drawWisp,
   story_ice: drawIce,
@@ -625,6 +708,9 @@ const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: nu
   story_owl: drawOwl,
   story_goat: drawGoat,
   story_boar: drawBoar,
+  story_boar_step: drawBoarStep,
+  story_boar_rage: drawBoarRage,
+  story_boar_run: drawBoarRun,
   story_tortoise: drawTortoise,
   story_bees: drawBees,
   story_carp: drawCarp,
@@ -653,6 +739,7 @@ const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: nu
   story_grit: drawGrit,
   story_elixir: drawElixir,
   story_silver: drawWellSilver,
+  story_glide: drawGlide,
   dash_speck: drawDashSpeck,
   dash_carrot: drawDashCarrot,
   dash_streak: drawDashStreak,

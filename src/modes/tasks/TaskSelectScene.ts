@@ -31,6 +31,13 @@ const TASK_ICONS: Record<string, string> = {
   `,
 }
 
+const ENDLESS_ICON = `
+  <svg viewBox="0 0 48 48" width="32" height="32" fill="none">
+    <path d="M14 24c0-5 4-9 9-9 3.2 0 5.4 1.4 7 3.6L24 24l6 5.4c-1.6 2.2-3.8 3.6-7 3.6-5 0-9-4-9-9z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M34 24c0 5-4 9-9 9-3.2 0-5.4-1.4-7-3.6L24 24l-6-5.4c1.6-2.2 3.8-3.6 7-3.6 5 0 9 4 9 9z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+  </svg>
+`
+
 const MEADOW_ICON = `
   <svg viewBox="0 0 48 48" width="32" height="32" fill="none">
     <path d="M8 34c6-4 10-12 16-12s10 8 16 12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
@@ -92,6 +99,15 @@ export class TaskSelectScene extends Phaser.Scene {
       })
       .join("")
 
+    const endlessCard = flags.endless
+      ? modeCard({
+          attr: "data-ui=\"endless\"",
+          title: t("mode.endless"),
+          desc: t("mode.endless.desc"),
+          icon: ENDLESS_ICON,
+        })
+      : ""
+
     const { root } = mountDomShell(
       this,
       `
@@ -99,7 +115,7 @@ export class TaskSelectScene extends Phaser.Scene {
         <div class="bm-eyebrow">${t("tasks.select.eyebrow")}</div>
         <h1>${t("tasks.select.title")}</h1>
         <p class="bm-tagline">${t("tasks.select.tagline")}</p>
-        <div class="bm-grid">${meadowCard}${cards}</div>
+        <div class="bm-grid">${meadowCard}${cards}${endlessCard}</div>
         <div class="bm-actions bm-start">
           <button type="button" class="bm-btn ghost" data-ui="back">${t("common.back")}</button>
         </div>
@@ -127,6 +143,14 @@ export class TaskSelectScene extends Phaser.Scene {
           return
         }
         this.scene.start("TaskRun", { taskId: id as TaskId })
+      }
+    }
+
+    const endlessBtn = root.querySelector("[data-ui=endless]") as HTMLButtonElement | null
+    if (endlessBtn) {
+      endlessBtn.onclick = () => {
+        getAudio().playSfx("confirm")
+        this.scene.start("Endless")
       }
     }
 

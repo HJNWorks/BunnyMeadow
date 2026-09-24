@@ -42,12 +42,12 @@ Six worlds, same card count as Chapter 1:
 
 | Map title | What it is |
 | --- | --- |
-| Outer Cold | First region after Han's gate. Palace gardens and frost courtyards. Still the moon. Not Earth. Reuses the `moon` kit |
-| Cassia Wound | Wu Gang's self-healing osmanthus as a region |
-| Mortar Yard | Yutu pounding elixir. Cakes and pestle hazards. Not a kitchen |
-| Dust Sea | Crater plains, low-g dust, invented fauna |
-| Quiet Wells | Cold caves. Toad pools as background, not an HP bar |
-| Far Silver | The One Moon Pool. Portal into Chapter 3. Do not print "portal" on the card |
+| Outer Cold | First region after Han's gate. She stops because the courts still keep a guest. Short roof hops, one dust mite, star grit |
+| Cassia Wound | Wu Gang's self-healing osmanthus as a region. She stops because the cut slides shut |
+| Mortar Yard | Yutu pounding elixir. She stops for a pestle beat, then hops the bowls. Not a kitchen |
+| Dust Sea | Crater plains. She stops because the lips are the only floor. Star grit in the gap |
+| Quiet Wells | Cold caves. She stops because the first mouth is false. Well silver shows the real lip |
+| Far Silver | Quiet Basin is the approach. Pads are few. The One Moon Pool is a later station |
 
 Unlock: `moon_guanghan` cleared. Han's grown moon stays visual. No jump pad this pass.
 

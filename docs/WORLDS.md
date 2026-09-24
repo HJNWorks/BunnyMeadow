@@ -81,9 +81,9 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 
 | Level | Env | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| 4-1 First Steps | cloudsea | stair climb, hanging bridge. Earth gravity. Frost hare, faded lanterns | Moon Pool near spawn | live. 4 chunks |
-| 4-2 No Return | cloudsea | denser frost, bridges, no mid save. Frost hare | Station restart on fall | live. 4 chunks |
-| 4-3 Closing Gale | cloudsea | left storm wall (Fox Hu timing). Seed off the gale | Palace gate, not the throne / world clear | live |
+| 4-1 First Steps | cloudsea | stair climb, hanging bridge. Gravity near 100% at the foot. Frost hare, faded lanterns | Moon Pool near spawn | live. 4 chunks, height 3240 |
+| 4-2 No Return | cloudsea | denser frost, bridges, no mid save. Gravity keeps falling. Frost hare | Station restart on fall | live. 4 chunks, height 3240 |
+| 4-3 Closing Gale | cloudsea | left storm wall. Upper switchback uses lunar pads. Gate matches the palace sky and 42% gravity | Palace gate, not the throne / world clear | live. 3 chunks, height 4320 |
 
 ### Finale
 

@@ -53,10 +53,12 @@ function bunnyMeadowDevWrite(): Plugin {
 }
 
 export default defineConfig({
-  base: "/BunnyMeadow/",
+  base: "/games/bunny-meadow/",
   plugins: [bunnyMeadowDevWrite()],
   server: {
+    host: true,
     port: 8080,
+    strictPort: true,
   },
   build: {
     outDir: "dist",

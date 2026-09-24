@@ -61,6 +61,7 @@ export type StoryLevelDef = {
   lowGravity?: boolean
   epilogue?: boolean
   noCheckpoint?: boolean
+  height?: number
   sky?: string
   env?: string
   hour?: string

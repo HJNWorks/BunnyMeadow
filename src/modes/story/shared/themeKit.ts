@@ -128,12 +128,16 @@ export function applySky(
   scene: Phaser.Scene,
   palette: Palette,
   env?: string,
+  opts?: { skipFar?: boolean },
 ): Phaser.GameObjects.Rectangle {
   scene.cameras.main.setBackgroundColor(palette.sky)
   const fill = scene.add
-    .rectangle(960, 200, 1920, 420, hexToNum(palette.far), 0.55)
+    .rectangle(960, 200, 1920, 420, hexToNum(palette.far), opts?.skipFar ? 0 : 0.55)
     .setScrollFactor(0)
     .setDepth(-3)
+  if (opts?.skipFar) {
+    fill.setVisible(false)
+  }
   if (env && isLunarEnv(env)) {
     if (scene.textures.exists("story_sky_moon")) {
       scene.add
@@ -154,6 +158,102 @@ export function applySky(
     }
   }
   return fill
+}
+
+const STAIR_SLICE: Record<string, [number, number]> = {
+  w4_1_first_steps: [0, 0.34],
+  w4_2_no_return: [0.34, 0.67],
+  w4_3_closing_gale: [0.67, 1],
+}
+
+const STAIR_STOPS = [
+  { t: 0, hex: "#9eb6cc" },
+  { t: 0.34, hex: "#7a98b8" },
+  { t: 0.67, hex: "#3a5078" },
+  { t: 1, hex: "#12161c" },
+]
+
+export function stairSlice(levelId: string): [number, number] | null {
+  return STAIR_SLICE[levelId] ?? null
+}
+
+export function stairAltitude(levelId: string, y: number, worldTop: number, floor = 1080): number | null {
+  const slice = stairSlice(levelId)
+  if (!slice) {
+    return null
+  }
+  const span = Math.max(1, floor - worldTop)
+  const climb = Math.max(0, Math.min(1, (floor - y) / span))
+  return slice[0] + (slice[1] - slice[0]) * climb
+}
+
+export function stairSkyHex(levelId: string, y: number, worldTop: number, floor = 1080): string | null {
+  const t = stairAltitude(levelId, y, worldTop, floor)
+  if (t === null) {
+    return null
+  }
+  return stairColor(t)
+}
+
+export function stairGravityScale(t: number): number {
+  return 1 - t * 0.58
+}
+
+function stairColor(t: number): string {
+  let index = 0
+  while (index < STAIR_STOPS.length - 1 && t > STAIR_STOPS[index + 1]!.t) {
+    index += 1
+  }
+  const from = STAIR_STOPS[index]!
+  const to = STAIR_STOPS[Math.min(index + 1, STAIR_STOPS.length - 1)]!
+  const span = to.t - from.t
+  const u = span <= 0 ? 0 : (t - from.t) / span
+  return lerpHex(from.hex, to.hex, u)
+}
+
+export function paintStairColumn(
+  scene: Phaser.Scene,
+  levelId: string,
+  width: number,
+  worldTop: number,
+  floor = 1080,
+): void {
+  const slice = stairSlice(levelId)
+  if (!slice) {
+    return
+  }
+  const span = Math.max(1, floor - worldTop)
+  const step = 36
+  for (let y = worldTop; y < floor; y += step) {
+    const h = Math.min(step, floor - y)
+    const climb = Math.max(0, Math.min(1, (floor - (y + h * 0.5)) / span))
+    const t = slice[0] + (slice[1] - slice[0]) * climb
+    scene.add
+      .rectangle(width / 2, y + h / 2, Math.max(width, 8), h + 1, hexToNum(stairColor(t)), 1)
+      .setDepth(-4)
+    if (t > 0.72 && Math.floor(y / step) % 4 === 0) {
+      const sx = Math.abs(Math.floor(y * 17)) % Math.max(1, Math.floor(width))
+      scene.add.circle(sx, y + h * 0.5, 1.6, 0xf4f8ff, 0.85).setDepth(-3.6)
+    }
+  }
+  if (levelId !== "w4_3_closing_gale") {
+    return
+  }
+  const band = span * 0.22
+  if (scene.textures.exists("story_sky_moon")) {
+    scene.add
+      .image(width / 2, worldTop + band * 0.45, "story_sky_moon")
+      .setDisplaySize(Math.max(width, 960), band)
+      .setAlpha(0.92)
+      .setDepth(-3.5)
+  }
+  if (scene.textures.exists("story_far_guanghan")) {
+    scene.add
+      .image(width / 2, worldTop + band * 0.9, "story_far_guanghan")
+      .setDisplaySize(Math.max(width, 960), band * 0.75)
+      .setAlpha(0.88)
+      .setDepth(-3.4)
+  }
 }
 
 function ensureSpeckTexture(scene: Phaser.Scene): void {

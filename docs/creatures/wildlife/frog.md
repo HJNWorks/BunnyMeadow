@@ -13,13 +13,14 @@ No folklore role; plain wildlife.
 
 ## Behaviour
 
-Hops a short patrol arc near water and stalks. Its hop covers a gap, so it can appear
-mid-jump where a walking patrol could not. Live on Green Corridor.
+Hops from pad to pad. When Mei is a short way off, it stops and flicks a tongue.
+The lick costs one heart. Standing on it still costs a heart. It is safe to cross
+from above. Live on Green Corridor.
 
 ## Telegraph and counter
 
-Telegraph: crouch and puff before each hop. Counter: cross while it is grounded
-between hops; it is safe from above.
+Telegraph: it sits, then the tongue flicks out. Counter: stay out of lick range, or
+dash as the tongue arrives. Cross from above between hops.
 
 ## Silhouette rule
 

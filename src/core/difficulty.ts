@@ -21,6 +21,10 @@ export type DifficultyParams = {
 
 const presets = difficultyData.presets as Record<DifficultyId, DifficultyParams>
 
+export function baselineDifficulty(): DifficultyParams {
+  return { ...presets.hopper, enemyIds: [...presets.hopper.enemyIds] }
+}
+
 export function getDifficulty(save: SaveV1): DifficultyParams {
   const base = presets[save.settings.difficulty] ?? presets.hopper
   const overrides = save.settings.difficultyOverrides

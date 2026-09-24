@@ -16,3 +16,12 @@
     - meadow
     - night watch
     - hide and seek
+
+- alternate path optimization problem
+    - offer more difficult alternate paths that allow a faster play-style
+
+in general: playstyle variability optimization problem
+
+evil Mei as hidden boss on first map
+
+lantern mobs?

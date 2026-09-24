@@ -2,7 +2,7 @@ import { getContentFlags } from "../../../core/ModeContext"
 import type { EditorMode } from "./BuildHud"
 import { getLastEditorStation, setLastEditorStation } from "./worldIndex"
 
-export { applyOverlay, cloneStoryLevel, clearOverlay, ensureOverlay, getOverlay } from "./overlayStore"
+export { applyOverlay, cloneStoryLevel, clearOverlay, ensureOverlay, getOverlay, resolveWorldHeight } from "./overlayStore"
 export { mountBuildHud, type EditorMode, type EditorSession } from "./BuildHud"
 
 export function isEditorEnabled(): boolean {

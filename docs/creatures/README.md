@@ -21,6 +21,24 @@ Creatures tree. Invented folk only fill an empty job. See
 Player verbs and how items change them are on [abilities.md](abilities.md).
 Spoken lines and voice files: [voices.md](voices.md) and `src/data/voices.json`.
 
+## Behavior cards
+
+A wildlife page keeps lore and silhouette in prose. The behaviour itself is one card.
+New or changed creatures use this table. Older pages still describe the same fields in
+sentences until they are next edited.
+
+| Column | What it records |
+| --- | --- |
+| Phase | Named state. One row per state |
+| Pose | Which stamp or wing frame is on screen |
+| Trigger | What starts the state |
+| Motion | How the body moves |
+| Hit | Hearts on contact, or none |
+| Escape | What Mei can do. If the answer is a dash, say when the dash has to land |
+
+Archetype code stays shared. The card is the creature's use of that code. Hub for the
+shared names: [../ENEMIES.md](../ENEMIES.md).
+
 ## Wildlife archetypes
 
 Behaviours are shared code. A new archetype is the only reason to add enemy code; a
@@ -40,6 +58,7 @@ wisp, gale magpie, dust mite, star wisp, lantern moth) skip the seat.
 | ranged_lob | crow and squirrel throw on a parabola. Ice spit and pestle fire a no-gravity ray |
 | reach | slow or stationary, long poke in one direction, crouch telegraph |
 | diver | circles then dives along a shown line |
+| fisher | holds high, locks, then a straight sweep. Dash on arrival escapes |
 | swarm | slow cloud, area denial, dash passes through |
 | blocker | charges across its line, stunned on a wall hit |
 | boss | scripted phases composed from the above |
@@ -61,7 +80,7 @@ and the minimum tier at which the creature appears.
 | cat | reach | lantern, osmanthus | 3 | live (Story Paper Lights) |
 | owl | diver | lantern, osmanthus | 3 | live (Story Paper Lights) |
 | goat | blocker | bamboo, osmanthus | 3 | live (Story Green Corridor) |
-| boar | blocker | orchard, bamboo | 3 | live (Story Green Corridor) |
+| boar | blocker | orchard, bamboo | 3 | live (Story Green Corridor). Ground charge, 2 hearts |
 | tortoise | patrol | meadow, riverbank | 1 | live (Story Soft Paths) |
 | magpie | diver | cloudsea | 4 | live (Story) |
 | frost wisp | swarm | cloudsea, moon (palace halls) | 4 | live (Story). Frost spear fan. Palace corridors |

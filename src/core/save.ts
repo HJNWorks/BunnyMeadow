@@ -57,6 +57,7 @@ export type SaveV1 = {
     accessibility: AccessibilitySettings
     audio: { master: number; music: number; sfx: number; muted: boolean }
     language: LanguageId
+    theme: "light" | "dark"
     bindings: Bindings
   }
   progress: {
@@ -70,6 +71,11 @@ export type SaveV1 = {
       checkpoints: Record<string, string>
       controlHints: string[]
       keepsakes: string[]
+      devUnlockAll: boolean
+      times: {
+        best: Record<string, number>
+        attempts: Record<string, number[]>
+      }
     }
     tasksCompleted: string[]
     bunnyJumpBest: number
@@ -129,6 +135,7 @@ export function createDefaultSave(slot = 0): SaveV1 {
       },
       audio: { master: 1, music: 0.8, sfx: 1, muted: false },
       language: "en",
+      theme: "light",
       bindings: { ...DEFAULT_BINDINGS, moveUp: [...DEFAULT_BINDINGS.moveUp], moveDown: [...DEFAULT_BINDINGS.moveDown], moveLeft: [...DEFAULT_BINDINGS.moveLeft], moveRight: [...DEFAULT_BINDINGS.moveRight], dash: [...DEFAULT_BINDINGS.dash], jump: [...DEFAULT_BINDINGS.jump], pause: [...DEFAULT_BINDINGS.pause], confirm: [...DEFAULT_BINDINGS.confirm], cancel: [...DEFAULT_BINDINGS.cancel] },
     },
     progress: {
@@ -142,6 +149,8 @@ export function createDefaultSave(slot = 0): SaveV1 {
         checkpoints: {},
         controlHints: [],
         keepsakes: [],
+        devUnlockAll: false,
+        times: { best: {}, attempts: {} },
       },
       tasksCompleted: [],
       bunnyJumpBest: 0,
@@ -160,6 +169,33 @@ export function createDefaultSave(slot = 0): SaveV1 {
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value)
+}
+
+function migrateStoryTimes(raw: unknown): SaveV1["progress"]["story"]["times"] {
+  const best: Record<string, number> = {}
+  const attempts: Record<string, number[]> = {}
+  if (!isObject(raw)) {
+    return { best, attempts }
+  }
+  if (isObject(raw.best)) {
+    for (const [id, value] of Object.entries(raw.best)) {
+      if (typeof value === "number" && value >= 0) {
+        best[id] = value
+      }
+    }
+  }
+  if (isObject(raw.attempts)) {
+    for (const [id, value] of Object.entries(raw.attempts)) {
+      if (!Array.isArray(value)) {
+        continue
+      }
+      const row = value.filter((item) => typeof item === "number" && item >= 0)
+      if (row.length) {
+        attempts[id] = row
+      }
+    }
+  }
+  return { best, attempts }
 }
 
 export function migrateSave(raw: unknown, slot = 0): SaveV1 {
@@ -196,6 +232,8 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
           ...base.settings.bindings,
           ...(isObject(raw.settings) && isObject(raw.settings.bindings) ? raw.settings.bindings : {}),
         },
+        theme:
+          isObject(raw.settings) && raw.settings.theme === "dark" ? "dark" : "light",
         difficultyOverrides:
           isObject(raw.settings) && isObject(raw.settings.difficultyOverrides)
             ? (raw.settings.difficultyOverrides as Record<string, number>)
@@ -214,6 +252,13 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
             Array.isArray(raw.progress.story.controlHints)
               ? (raw.progress.story.controlHints as string[]).filter((value) => typeof value === "string")
               : [],
+          devUnlockAll:
+            isObject(raw.progress) &&
+            isObject(raw.progress.story) &&
+            raw.progress.story.devUnlockAll === true,
+          times: migrateStoryTimes(
+            isObject(raw.progress) && isObject(raw.progress.story) ? raw.progress.story.times : undefined,
+          ),
         },
       },
     } as SaveV1

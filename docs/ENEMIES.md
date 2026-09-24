@@ -13,10 +13,12 @@ Player verbs and how items change them are in [creatures/abilities.md](creatures
 | patrol | hedgehog, tortoise | Walks a path. Contact damage. Safe from above in Story |
 | chaser | fox, Fox Hu (scripted) | Seeks player inside sense radius. Leaves safe zones alone |
 | ranged_lob | squirrel, crow | Throws projectile on a parabola. Visible wind-up |
-| reach | heron, cat | Slow or stationary. Long poke in one direction. Crouch telegraph |
+| reach | cat | Slow or stationary. Long poke in one direction. Crouch telegraph |
 | diver | owl, magpie, Crane Envoy (boss) | Circles, then dives along a shown line |
+| fisher | heron | Holds high, locks, then a straight downward sweep. Dash on arrival escapes |
 | swarm | bees | Slow cloud. Area denial. Dash passes through |
-| blocker | goat, boar | Charges when the player crosses its line. Stunned on wall hit |
+| blocker | goat | Charges when the player crosses its line. Stunned on wall hit |
+| blocker | boar | On the ground in Green Corridor. Close range winds it up, then it charges for 2 hearts. Stops at a ledge or a wall |
 | water_patrol | carp | Hovers in a water band. Periodic breach |
 | boss | Fox Hu, Heron Fisher, Crane Envoy, Closing Gale, Han | Scripted phases composed from the above |
 

@@ -13,6 +13,7 @@
   "enemies": [
     { "id": "frost_wisp", "x": 540, "y": 680 }
   ],
+  "items": [{ "id": "glide", "x": 160, "y": 888 }],
   "movers": [
     {
       "x": 620,

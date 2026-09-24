@@ -7,10 +7,11 @@
   "chunks": ["chunk_ch2_cassia_a", "chunk_ch2_cassia_b"],
   "playerSpawn": { "x": 80, "y": 880 },
   "moonPool": { "chunk": 0, "x": 200, "y": 880, "line": "The tree closes every cut. Hop the wound." },
-  "exit": { "chunk": 1, "x": 800, "y": 700 },
+  "exit": { "chunk": 1, "x": 800, "y": 760 },
   "moonLine": "The tree closes every cut. Hop the wound.",
   "objective": "Hop the living wood.",
   "env": "ch2_cassia",
   "sky": "#14161a",
-  "lowGravity": true
+  "lowGravity": true,
+  "wallBounce": true
 }

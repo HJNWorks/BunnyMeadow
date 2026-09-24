@@ -1,11 +1,10 @@
 import Phaser from "phaser"
-import { listDifficultyIds } from "../core/difficulty"
 import { t, setLanguage } from "../core/i18n"
 import { getAudio } from "../core/audio"
 import { getPlatform } from "../core/platform"
-import type { DifficultyId, LanguageId } from "../core/save"
+import type { LanguageId } from "../core/save"
 import { getSave, persistSave } from "../core/session"
-import { applyAccessibilityDom } from "../core/a11y"
+import { applyAccessibilityDom, applyThemeDom } from "../core/a11y"
 import { getInput } from "../core/input"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 import { isEditorEnabled, startEditor } from "../modes/story/editor"
@@ -30,41 +29,54 @@ export class SettingsScene extends Phaser.Scene {
   create(): void {
     getAudio().playMusic("menu")
     const save = getSave()
-    const diffs = listDifficultyIds()
     const showMap = isEditorEnabled()
     const showWorkshop = showMap || getContentFlags().assetWorkshop === true
     const { root } = mountDomShell(
       this,
       `
-      <div class="bm-shell${showMap || showWorkshop ? " bm-wide" : ""}">
-        <h1>${t("settings.title")}</h1>
-        <div class="bm-field">
-          <label for="difficulty">${t("settings.difficulty")}</label>
-          <select id="difficulty" data-ui="difficulty">
-            ${diffs.map((id) => `<option value="${id}" ${save.settings.difficulty === id ? "selected" : ""}>${t(`diff.${id}`)}</option>`).join("")}
-          </select>
+      <div class="bm-shell bm-settings">
+        <div class="bm-settings-head">
+          <h1>${t("settings.title")}</h1>
+          <div class="bm-settings-tools">
+            <div class="bm-field bm-theme-field">
+              <label for="theme">${t("settings.theme")}</label>
+              <button type="button" id="theme" class="bm-theme" data-ui="theme" aria-pressed="${save.settings.theme === "dark" ? "true" : "false"}" aria-label="${t(save.settings.theme === "dark" ? "settings.theme.light" : "settings.theme.dark")}">
+                <svg class="bm-theme-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path d="M15 3.2A8.2 8.2 0 1 0 20.8 14 7 7 0 0 1 15 3.2z" fill="currentColor"/>
+                </svg>
+                <svg class="bm-theme-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                  <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.8 4.8l1.6 1.6M17.6 17.6l1.6 1.6M19.2 4.8l-1.6 1.6M6.4 17.6l-1.6 1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+            <div class="bm-field">
+              <label for="language">${t("settings.language")}</label>
+              <select id="language" data-ui="language">
+                <option value="en" ${save.settings.language === "en" ? "selected" : ""}>English</option>
+                <option value="de" ${save.settings.language === "de" ? "selected" : ""}>Deutsch</option>
+                <option value="zh" ${save.settings.language === "zh" ? "selected" : ""}>中文</option>
+              </select>
+            </div>
+          </div>
         </div>
-        <div class="bm-field">
-          <label for="language">${t("settings.language")}</label>
-          <select id="language" data-ui="language">
-            <option value="en" ${save.settings.language === "en" ? "selected" : ""}>English</option>
-            <option value="de" ${save.settings.language === "de" ? "selected" : ""}>Deutsch</option>
-            <option value="zh" ${save.settings.language === "zh" ? "selected" : ""}>中文</option>
-          </select>
-        </div>
-        <div class="bm-field">
-          <label>${t("settings.audio.master")} <span data-ui="masterVal">${Math.round(save.settings.audio.master * 100)}</span>%</label>
-          <input data-ui="master" type="range" min="0" max="100" value="${Math.round(save.settings.audio.master * 100)}" />
-        </div>
-        <div class="bm-field">
-          <label>${t("settings.audio.music")} <span data-ui="musicVal">${Math.round(save.settings.audio.music * 100)}</span>%</label>
-          <input data-ui="music" type="range" min="0" max="100" value="${Math.round(save.settings.audio.music * 100)}" />
-        </div>
-        <div class="bm-field">
-          <label>${t("settings.audio.sfx")} <span data-ui="sfxVal">${Math.round(save.settings.audio.sfx * 100)}</span>%</label>
-          <input data-ui="sfx" type="range" min="0" max="100" value="${Math.round(save.settings.audio.sfx * 100)}" />
+        <h2>${t("settings.section.audio")}</h2>
+        <div class="bm-settings-audio">
+          <div class="bm-field">
+            <label>${t("settings.audio.master")} <span data-ui="masterVal">${Math.round(save.settings.audio.master * 100)}</span>%</label>
+            <input data-ui="master" type="range" min="0" max="100" value="${Math.round(save.settings.audio.master * 100)}" />
+          </div>
+          <div class="bm-field">
+            <label>${t("settings.audio.music")} <span data-ui="musicVal">${Math.round(save.settings.audio.music * 100)}</span>%</label>
+            <input data-ui="music" type="range" min="0" max="100" value="${Math.round(save.settings.audio.music * 100)}" />
+          </div>
+          <div class="bm-field">
+            <label>${t("settings.audio.sfx")} <span data-ui="sfxVal">${Math.round(save.settings.audio.sfx * 100)}</span>%</label>
+            <input data-ui="sfx" type="range" min="0" max="100" value="${Math.round(save.settings.audio.sfx * 100)}" />
+          </div>
         </div>
         <h2>${t("settings.a11y")}</h2>
+        <div class="bm-settings-checks">
         ${(["invincible", "slowTime", "autoDash", "highContrast", "reducedMotion", "largerText", "oneButtonTouch"] as const)
           .map(
             (key) => `
@@ -74,6 +86,7 @@ export class SettingsScene extends Phaser.Scene {
           </label>`,
           )
           .join("")}
+        </div>
         ${showMap || showWorkshop
           ? `
         <div class="bm-tool-row">
@@ -102,17 +115,20 @@ export class SettingsScene extends Phaser.Scene {
         </div>
           `
           : ""}
-        <div class="bm-field">
-          <label>${t("settings.dashKey")}</label>
-          <input data-ui="dashKey" value="${save.settings.bindings.dash[0] ?? "KeyR"}" />
-        </div>
-        <div class="bm-field">
-          <label>${t("settings.jumpKey")}</label>
-          <input data-ui="jumpKey" value="${save.settings.bindings.jump[0] ?? "Space"}" />
-        </div>
-        <div class="bm-field">
-          <label>${t("settings.pauseKey")}</label>
-          <input data-ui="pauseKey" value="${save.settings.bindings.pause[0] ?? "KeyP"}" />
+        <h2>${t("settings.section.keys")}</h2>
+        <div class="bm-settings-keys">
+          <div class="bm-field">
+            <label>${t("settings.dashKey")}</label>
+            <input data-ui="dashKey" value="${save.settings.bindings.dash[0] ?? "KeyR"}" />
+          </div>
+          <div class="bm-field">
+            <label>${t("settings.jumpKey")}</label>
+            <input data-ui="jumpKey" value="${save.settings.bindings.jump[0] ?? "Space"}" />
+          </div>
+          <div class="bm-field">
+            <label>${t("settings.pauseKey")}</label>
+            <input data-ui="pauseKey" value="${save.settings.bindings.pause[0] ?? "KeyP"}" />
+          </div>
         </div>
         <div class="bm-actions bm-start">
           <button type="button" class="bm-btn" data-ui="fullscreen">${t("settings.fullscreen")}</button>
@@ -133,6 +149,18 @@ export class SettingsScene extends Phaser.Scene {
       }
     }
 
+    const themeBtn = requireEl<HTMLButtonElement>(root, "[data-ui=theme]")
+    themeBtn.onclick = () => {
+      getAudio().playSfx("confirm")
+      const next = getSave()
+      next.settings.theme = next.settings.theme === "dark" ? "light" : "dark"
+      applyThemeDom(next.settings.theme)
+      const dark = next.settings.theme === "dark"
+      themeBtn.setAttribute("aria-pressed", dark ? "true" : "false")
+      themeBtn.setAttribute("aria-label", t(dark ? "settings.theme.light" : "settings.theme.dark"))
+      void persistSave()
+    }
+
     bindRange("master", "masterVal", (n) => getAudio().setMaster(n))
     bindRange("music", "musicVal", (n) => getAudio().setMusic(n))
     bindRange("sfx", "sfxVal", (n) => getAudio().setSfx(n))
@@ -144,8 +172,6 @@ export class SettingsScene extends Phaser.Scene {
     requireEl<HTMLButtonElement>(root, "[data-ui=save]").onclick = async () => {
       getAudio().playSfx("confirm")
       const next = getSave()
-      next.settings.difficulty = requireEl<HTMLSelectElement>(root, "[data-ui=difficulty]")
-        .value as DifficultyId
       next.settings.language = requireEl<HTMLSelectElement>(root, "[data-ui=language]")
         .value as LanguageId
       next.settings.audio.master =

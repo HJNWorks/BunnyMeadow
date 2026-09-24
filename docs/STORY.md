@@ -103,14 +103,17 @@ Moon Pool sample:
 
 ### 5. World 4 — Cloud Stair (deep night)
 
-Own biome. Earth gravity. Pale cloud sea. Not lunar ground. Not 0.42 g. Vast Cold
-leaks down from Guanghan. Wind, void, frost wisps, ice spit, gale magpies, frost hares.
+Own biome. The foot is Earth gravity on the cloud deck. Gravity and the sky share one
+climb across the three stations, and the Closing Gale gate matches Guanghan: sky
+`#12161c` and gravity 42%. Wind, void, frost wisps, ice spit, gale magpies, frost hares.
 Hanging bridges sway. One fall fails the station. Soft copy ("the cloud took you").
-Optional faded festival lanterns as Earth remnant, not palace jade.
+Faded festival lanterns stay an Earth remnant on the lower stair. Closing Gale adds
+lunar pads, columns, and a lantern on the upper switchback.
 
-Live stations: First Steps (stair, faded lanterns, frost hare, a pool near spawn), No Return
-(no Moon Pool, slick ice pads, frost hares), Closing Gale (left storm wall like Fox Hu's
-cart. Reach the palace gate, not the throne). 4-1 and 4-2 are four chunks each.
+Live stations: First Steps (stair, faded lanterns, frost hare, a pool near spawn, height 3240),
+No Return (no Moon Pool, slick ice pads, frost hares, height 3240), Closing Gale (left storm
+wall like Fox Hu's cart, three chunks, height 4320. Reach the palace gate, not the throne).
+4-1 and 4-2 are four chunks each.
 
 Boss: the Closing Gale, a weather event, not a named immortal
 ([creatures/folk/closing-gale.md](creatures/folk/closing-gale.md)).
@@ -198,6 +201,10 @@ Painting prompt: [story/chapter3-map-prompt.md](story/chapter3-map-prompt.md). W
 | 3 | Crane Envoy | Dodge dives, then accept the ride when it bows | Soft resolution |
 | 4 | Closing Gale | Reach the palace gate before the storm wall | Timed chase |
 | Moon | Han | Eat a mooncake, dash while warmth lasts, five spirit hearts, then the gift beat and Han's moon | Quiet gauntlet |
+
+## Story times
+
+A clear outside the editor records that attempt. Pause does not count. A death starts the attempt again. The save keeps every attempt and the best time for each station. A chapter time is the sum of those bests. The full story time is the sum of the chapter times, the shortest story those bests allow. A chapter or the total stays blank until every live station in it has a best. The story path Leaderboard button shows this locally. A global board and a persistence server come later.
 
 ## Per-level beats
 

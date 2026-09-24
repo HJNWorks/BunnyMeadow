@@ -18,6 +18,7 @@ export type PlayerState = {
   jumpBoost: number
   slowFall: number
   dewSlow: number
+  dashBase?: number
 }
 
 export function createPlayerState(overrides: Partial<PlayerState> = {}): PlayerState {
@@ -138,15 +139,16 @@ export function updatePlayerMovement(
 
   if (input.dashPressed && state.dashCooldown <= 0) {
     state.dashTime = 0.16
-    state.dashCooldown = getDifficulty(getSave()).dashCooldown * 0.7
+    const dashBase = state.dashBase ?? getDifficulty(getSave()).dashCooldown
+    state.dashCooldown = dashBase * 0.7
     getAudio().playSfx("dash")
   }
 
   if (state.dashTime > 0) {
     player.setVelocityX(state.facing * 520)
   } else if (onFloor && player.getData("slick") === true) {
-    const want = input.moveX * 260
-    body.velocity.x += (want - body.velocity.x) * 0.1
+    const steer = input.moveX * 180
+    body.velocity.x = body.velocity.x * 0.988 + steer * 0.015
   } else {
     player.setVelocityX(vx)
   }

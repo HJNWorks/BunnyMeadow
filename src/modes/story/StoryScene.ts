@@ -7,10 +7,12 @@ import { applyOverlay,
   getOverlay,
   isEditorEnabled,
   mountBuildHud,
+  resolveWorldHeight,
   type EditorMode,
 } from "./editor"
 import { spawnDecorItem } from "./editor/spawnDecor"
-import { getDifficulty } from "../../core/difficulty"
+import { recordStoryAttempt } from "./storyTimes"
+import { baselineDifficulty } from "../../core/difficulty"
 import { getInput } from "../../core/input"
 import { getSave, persistSave } from "../../core/session"
 import { addPantryCarrots } from "../../core/unlocks"
@@ -49,6 +51,7 @@ import {
   bindCarpToWater,
   bindHeronToWater,
   bindMothToLantern,
+  bindSquirrelToTrunk,
 } from "./shared/enemyKit"
 import { HAN_WARMTH, HanFight } from "./shared/hanBoss"
 import { BreakField, padBreakSpec } from "./shared/breakables"
@@ -68,6 +71,10 @@ import {
   hexToNum,
   isLunarEnv,
   lookNightAlpha,
+  paintStairColumn,
+  stairAltitude,
+  stairGravityScale,
+  stairSkyHex,
   storyEnvForLevel,
   type PaletteHour,
   type WeatherHandle,
@@ -76,6 +83,7 @@ import {
 
 type Hud = {
   hearts: HTMLElement
+  gravStat: HTMLElement
   objective: HTMLElement
   levelName: HTMLElement
   worldLabel: HTMLElement
@@ -104,6 +112,9 @@ type RideState = {
   speed: number
   carrying: boolean
   destIndex: number
+  leg: number
+  mounted: boolean
+  recalling: boolean
 }
 
 function shellHtml(): string {
@@ -125,6 +136,7 @@ function shellHtml(): string {
   <div class="bm-playfield-hud" data-ui="playHud">
     <div class="bm-play-hearts" aria-label="${t("hud.hearts")}">
       <strong data-ui="hearts">♥ ♥ ♥</strong>
+      <span data-ui="gravStat"></span>
     </div>
     <div class="bm-play-center">
       <div class="bm-story-ticker" data-ui="ticker" hidden role="status" aria-live="polite">
@@ -232,6 +244,10 @@ ${STORY_TICKER_CSS}
   position: absolute;
   top: 28px;
   left: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
   padding: 6px 12px;
   border-radius: 12px;
   background: #fffaf0ee;
@@ -240,6 +256,11 @@ ${STORY_TICKER_CSS}
   font: 800 26px Georgia, "Times New Roman", serif;
   letter-spacing: 0.08em;
   color: #c45c5c;
+}
+.bm-play-hearts [data-ui=gravStat] {
+  font: 700 13px system-ui, sans-serif;
+  letter-spacing: 0;
+  color: #2a3d48;
 }
 .bm-play-center {
   position: absolute;
@@ -369,8 +390,10 @@ export class StoryScene extends Phaser.Scene {
   private exitZone!: Phaser.GameObjects.Image
   private foxHu: Phaser.Physics.Arcade.Sprite | null = null
   private galeWall: Phaser.Physics.Arcade.Sprite | null = null
+  private galeStartX = 0
   private galeSpeed = 0
   private galeClock = 0
+  private galeInside = 0
   private galeMotes: {
     sprite: Phaser.GameObjects.Image
     lane: number
@@ -385,7 +408,11 @@ export class StoryScene extends Phaser.Scene {
   private bossNeeded = 0
   private bossCooldown = 0
   private heronFlyY = 700
+  private earthGravity = 1200
+  private stairWorldTop = 0
   private worldWidth = 1920
+  private galeColumnTop = 0
+  private galeColumnHeight = 1200
   private cranePhase: "dive" | "bow" | "done" = "dive"
   private craneDives = 0
   private han: HanFight | null = null
@@ -417,6 +444,9 @@ export class StoryScene extends Phaser.Scene {
   private exitHintAt = 0
   private waterGrace = 0
   private editorMode: EditorMode | null = null
+  private editorCam: { x: number; y: number } | null = null
+  private editorSelMode: "pick" | "region" | null = null
+  private gravityScale = 1
   private pickups!: Phaser.Physics.Arcade.StaticGroup
   private glowTimer = 0
   private dashFx: PhaserDashFx | null = null
@@ -427,14 +457,20 @@ export class StoryScene extends Phaser.Scene {
   private cartFinishX: number | null = null
   private cartFlagSprite: Phaser.GameObjects.Image | null = null
   private foxResetOnRespawn = false
+  private runMs = 0
 
   constructor() {
     super("Story")
   }
 
-  init(data?: { levelId?: string; editor?: { mode: EditorMode } }): void {
+  init(data?: { levelId?: string; editor?: { mode: EditorMode; scrollX?: number; scrollY?: number; selMode?: "pick" | "region" } }): void {
     this.levelId = data?.levelId ?? "w1_1_soft_paths"
     this.editorMode = /* storyMapEditor hook */ data?.editor && isEditorEnabled() ? data.editor.mode : null
+    const scrollX = data?.editor?.scrollX
+    const scrollY = data?.editor?.scrollY
+    this.editorCam =
+      typeof scrollX === "number" && typeof scrollY === "number" ? { x: scrollX, y: scrollY } : null
+    this.editorSelMode = data?.editor?.selMode === "region" || data?.editor?.selMode === "pick" ? data.editor.selMode : null
   }
 
   create(): void {
@@ -448,6 +484,7 @@ export class StoryScene extends Phaser.Scene {
     this.playerState = createPlayerState({
       wallBounce: !!def.wallBounce,
       glide: !!def.glide,
+      dashBase: baselineDifficulty().dashCooldown,
     })
     this.won = false
     this.lost = false
@@ -456,8 +493,10 @@ export class StoryScene extends Phaser.Scene {
     this.inDialogue = false
     this.foxHu = null
     this.galeWall = null
+    this.galeStartX = 0
     this.galeSpeed = 0
     this.galeClock = 0
+    this.galeInside = 0
     this.galeMotes = []
     this.moonPools = []
     this.bossSprite = null
@@ -483,6 +522,7 @@ export class StoryScene extends Phaser.Scene {
     this.cartFinishX = null
     this.cartFlagSprite = null
     this.foxResetOnRespawn = false
+    this.runMs = 0
     this.physics.world.isPaused = false
 
     this.style = document.createElement("style")
@@ -492,6 +532,7 @@ export class StoryScene extends Phaser.Scene {
     const shell = mountDomShell(this, shellHtml(), { keepCanvas: true, rootClass: "bm-story-hud" })
     this.hud = {
       hearts: requireEl(shell.root, "[data-ui=hearts]"),
+      gravStat: requireEl(shell.root, "[data-ui=gravStat]"),
       objective: requireEl(shell.root, "[data-ui=objective]"),
       levelName: requireEl(shell.root, "[data-ui=levelName]"),
       worldLabel: requireEl(shell.root, "[data-ui=worldLabel]"),
@@ -582,7 +623,7 @@ export class StoryScene extends Phaser.Scene {
 
     const save = getSave()
     this.reducedMotion = save.settings.accessibility.reducedMotion
-    const diff = getDifficulty(save)
+    const diff = baselineDifficulty()
     this.maxHearts = diff.hearts
     this.health = this.maxHearts
     this.invincible = save.settings.accessibility.invincible || this.editorMode !== null
@@ -615,10 +656,18 @@ export class StoryScene extends Phaser.Scene {
     )
 
     const assembler = new ChunkAssembler()
-    let world = assembler.assemble(def.chunks)
+    const assembled = assembler.assemble(def.chunks)
+    const assembledWidth = assembled.width
+    let world = assembled
     if (isEditorEnabled()) {
       world = /* storyMapEditor hook */ applyOverlay(def, world)
     }
+    const worldHeight = resolveWorldHeight(def, world.height, isEditorEnabled() ? getOverlay(def.id) : undefined)
+    world = { ...world, height: worldHeight }
+    const worldTop = 1080 - worldHeight
+    this.stairWorldTop = worldTop
+    this.galeColumnTop = worldTop
+    this.galeColumnHeight = worldHeight
     this.worldWidth = world.width
     ensureStoryTextures(this)
 
@@ -641,14 +690,21 @@ export class StoryScene extends Phaser.Scene {
     if (look?.weather ?? def.weather) {
       palette.weather = (look?.weather ?? def.weather) as WeatherPreset
     }
-    this.cameras.main.setBounds(0, 0, world.width, 1080)
-    applySky(this, palette, env)
-    this.physics.world.setBounds(0, -200, world.width, 1400, true, true, true, false)
-    this.playerState.baseGravity = this.physics.world.gravity.y || 1200
+    this.cameras.main.setBounds(0, worldTop, world.width, worldHeight)
+    const column = stairAltitude(this.level.id, 1080, worldTop) !== null
+    applySky(this, palette, env, column ? { skipFar: true } : undefined)
+    if (column) {
+      paintStairColumn(this, this.level.id, world.width, worldTop, 1080)
+    }
+    this.physics.world.setBounds(0, worldTop, world.width, worldHeight + 320, true, true, true, false)
+    this.earthGravity = this.physics.world.gravity.y || 1200
+    this.playerState.baseGravity = this.earthGravity
+    this.gravityScale = (look?.lowGravity ?? def.lowGravity) ? 0.42 : 1
     if (look?.lowGravity ?? def.lowGravity) {
       this.physics.world.gravity.y = this.playerState.baseGravity * 0.42
       this.playerState.baseGravity = this.physics.world.gravity.y
     }
+    this.syncRunStats()
 
     const reducedMotion = save.settings.accessibility.reducedMotion
     this.weather = createWeather(this, palette.weather, world.width, reducedMotion)
@@ -820,6 +876,7 @@ export class StoryScene extends Phaser.Scene {
       sprite.setDisplaySize(def.ride.w, def.ride.h)
       sprite.setDepth(4)
       sprite.setImmovable(true)
+      sprite.setData("editKind", "ride")
       const rideBody = sprite.body as Phaser.Physics.Arcade.Body
       rideBody.setAllowGravity(false)
       rideBody.setGravity(0, 0)
@@ -831,7 +888,10 @@ export class StoryScene extends Phaser.Scene {
         points,
         speed: def.ride.speed,
         carrying: false,
-        destIndex: points.length - 1,
+        destIndex: 0,
+        leg: 0,
+        mounted: false,
+        recalling: false,
       }
     }
 
@@ -856,6 +916,14 @@ export class StoryScene extends Phaser.Scene {
       }
       if (e.id === "lantern_moth") {
         bindMothToLantern(sprite, world.decor)
+      }
+      if (e.id === "squirrel") {
+        bindSquirrelToTrunk(sprite, this.platforms, world.decor ?? [])
+      }
+      if (this.editorMode === "build" && (e.id === "carp" || e.id === "heron" || e.id === "lantern_moth")) {
+        e.worldX = sprite.x
+        e.worldY = sprite.y
+        e.y = sprite.y
       }
       if (this.editorMode === "build") {
         freezeEnemyForEditor(sprite)
@@ -966,7 +1034,6 @@ export class StoryScene extends Phaser.Scene {
         return
       }
       if (arch === "gale") {
-        this.enterDeadState(t("story.dead.gale"))
         return
       }
       if (arch === "swarm" || body.getData("dashThrough") === true) {
@@ -985,6 +1052,29 @@ export class StoryScene extends Phaser.Scene {
         pBody.bottom <= eBody.center.y + 10
       ) {
         this.player.setVelocityY(-260)
+        return
+      }
+      if (String(body.getData("id") || "") === "goat") {
+        const push = this.player.x >= body.x ? 1 : -1
+        this.player.setVelocity(push * 480, -240)
+        this.hurt()
+        return
+      }
+      if (String(body.getData("id") || "") === "boar" && Number(body.getData("contactDamage")) >= 2) {
+        const push = this.player.x >= body.x ? 1 : -1
+        this.player.setVelocity(push * 360, -160)
+        this.hurt({ amount: 2 })
+        return
+      }
+      if (String(body.getData("id") || "") === "heron" && Number(body.getData("contactDamage")) > 0) {
+        if (this.playerState.dashTime > 0) {
+          return
+        }
+        const vx = Number(body.getData("sweepVx")) || 0
+        const vy = Number(body.getData("sweepVy")) || 400
+        const n = Math.hypot(vx, vy) || 1
+        this.player.setVelocity((vx / n) * 420, Math.max(220, (vy / n) * 360))
+        this.hurt({ amount: 2 })
         return
       }
       const raw = Number(body.getData("contactDamage"))
@@ -1069,7 +1159,8 @@ export class StoryScene extends Phaser.Scene {
 
     if (def.boss?.kind === "han") {
       this.bossNeeded = def.boss.hitsNeeded ?? 5
-      this.hanCourtLeft = Math.max(0, this.worldWidth - 1920)
+      const bossX = Math.min(Math.max(80, def.boss.x ?? this.worldWidth - 480), this.worldWidth - 80)
+      this.hanCourtLeft = Math.max(0, bossX - 960)
       this.hanCourtRight = this.worldWidth
       this.hud.bossHits.hidden = true
       this.hud.hanHearts.hidden = true
@@ -1085,7 +1176,12 @@ export class StoryScene extends Phaser.Scene {
       if (this.editorMode === "build") {
         this.cameras.main.stopFollow()
         this.cameras.main.setZoom(1)
-        this.cameras.main.centerOn(spawnX, spawnY)
+        if (this.editorCam) {
+          this.cameras.main.scrollX = this.editorCam.x
+          this.cameras.main.scrollY = this.editorCam.y
+        } else {
+          this.cameras.main.centerOn(spawnX, spawnY)
+        }
         const body = this.player.body as Phaser.Physics.Arcade.Body
         body.setAllowGravity(false)
         this.player.setImmovable(true)
@@ -1105,8 +1201,11 @@ export class StoryScene extends Phaser.Scene {
         decor: this.decorSprites,
         waters: this.waterRects,
         cartFlag: this.cartFlagSprite,
+        rideSprite: this.ride?.sprite ?? null,
+        assembledWidth,
         env,
         mode: this.editorMode,
+        selMode: this.editorSelMode ?? undefined,
       })
     }
     attachPlayfieldFrame(
@@ -1238,6 +1337,10 @@ export class StoryScene extends Phaser.Scene {
       this.lanternGlow?.setVisible(true)
       return
     }
+    if (id === "glide") {
+      this.playerState.glide = true
+      return
+    }
     if (id === "osmanthus_seed") {
       this.playSeedPing(atX, atY)
       if (this.editorMode) {
@@ -1354,33 +1457,6 @@ export class StoryScene extends Phaser.Scene {
     this.style = null
   }
 
-  private nearestRidePathPoint(x: number, y: number): { x: number; y: number } {
-    if (!this.ride || this.ride.points.length === 0) {
-      return { x, y }
-    }
-    if (this.ride.points.length === 1) {
-      return { ...this.ride.points[0] }
-    }
-    let best = { x: this.ride.points[0].x, y: this.ride.points[0].y }
-    let bestDist = Number.POSITIVE_INFINITY
-    for (let i = 0; i < this.ride.points.length - 1; i += 1) {
-      const a = this.ride.points[i]
-      const b = this.ride.points[i + 1]
-      const abx = b.x - a.x
-      const aby = b.y - a.y
-      const len2 = abx * abx + aby * aby || 1
-      const t = Math.max(0, Math.min(1, ((x - a.x) * abx + (y - a.y) * aby) / len2))
-      const px = a.x + abx * t
-      const py = a.y + aby * t
-      const dist = Math.hypot(px - x, py - y)
-      if (dist < bestDist) {
-        bestDist = dist
-        best = { x: px, y: py }
-      }
-    }
-    return best
-  }
-
   private playerOnTiger(): boolean {
     if (!this.ride) {
       return false
@@ -1396,46 +1472,94 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private updateTigerRide(dt: number): void {
-    if (!this.ride) {
+    const ride = this.ride
+    if (!ride || ride.points.length === 0) {
       return
     }
     const onRide = this.playerOnTiger()
-    if (onRide && !this.ride.carrying) {
-      this.ride.carrying = true
-      const first = this.ride.points[0]
-      const last = this.ride.points[this.ride.points.length - 1]
-      const midX = (first.x + last.x) / 2
-      this.ride.destIndex = this.player.x < midX ? this.ride.points.length - 1 : 0
+    const dock = ride.points[ride.leg] ?? ride.points[0]
+    const docked = dock ? Math.hypot(ride.sprite.x - dock.x, ride.sprite.y - dock.y) < 10 : false
+    if (onRide && !ride.mounted && docked && ride.leg < ride.points.length - 1) {
+      ride.carrying = true
+      ride.recalling = false
+      ride.destIndex = ride.leg + 1
     }
-    if (!onRide) {
-      this.ride.carrying = false
+    ride.mounted = onRide
+    if (!onRide && !ride.recalling) {
+      ride.carrying = false
+      ride.destIndex = ride.leg
     }
-
-    const target = this.ride.carrying
-      ? this.ride.points[this.ride.destIndex]
-      : this.nearestRidePathPoint(this.player.x, this.player.y - 40)
-    const dx = target.x - this.ride.sprite.x
-    const dy = target.y - this.ride.sprite.y
+    const target = ride.points[ride.destIndex] ?? ride.points[ride.leg]
+    if (!target) {
+      return
+    }
+    const dx = target.x - ride.sprite.x
+    const dy = target.y - ride.sprite.y
     const dist = Math.hypot(dx, dy) || 1
-    const speed = this.ride.carrying ? this.ride.speed : this.ride.speed * 1.25
-    const step = Math.min(speed * dt, dist)
-    const mx = (dx / dist) * step
-    const my = (dy / dist) * step
-    if (dist > 3) {
-      this.ride.sprite.x += mx
-      this.ride.sprite.y += my
-      this.ride.sprite.setFlipX(mx < 0)
+    if (dist > 4) {
+      const speed = ride.carrying ? ride.speed : ride.speed * 1.4
+      const step = Math.min(speed * dt, dist)
+      const mx = (dx / dist) * step
+      const my = (dy / dist) * step
+      ride.sprite.x += mx
+      ride.sprite.y += my
+      if (Math.abs(mx) > 0.4) {
+        ride.sprite.setFlipX(mx < 0)
+      }
+      if (onRide) {
+        this.player.x += mx
+        this.player.y += my
+      }
+    } else {
+      ride.sprite.setPosition(target.x, target.y)
+      ride.leg = ride.destIndex
+      ride.carrying = false
+      if (ride.leg === 0) {
+        ride.recalling = false
+      }
     }
-    ;(this.ride.sprite.body as Phaser.Physics.Arcade.Body).updateFromGameObject()
-    if (onRide && dist > 3) {
-      this.player.x += mx
-      this.player.y += my
+    ;(ride.sprite.body as Phaser.Physics.Arcade.Body).updateFromGameObject()
+  }
+
+  private recallTiger(at: { x: number; y: number }): void {
+    const ride = this.ride
+    if (!ride) {
+      return
     }
+    const home = this.level.playerSpawn
+    if (Math.hypot(at.x - home.x, at.y - home.y) > 180) {
+      return
+    }
+    ride.carrying = false
+    ride.mounted = false
+    ride.recalling = true
+    ride.destIndex = 0
   }
 
   private syncHearts(): void {
     const empty = Math.max(0, this.maxHearts - this.health)
     this.hud.hearts.textContent = `${"♥ ".repeat(this.health)}${"♡ ".repeat(empty)}`.trim()
+  }
+
+  private syncRunStats(): void {
+    const pct = Math.round(this.gravityScale * 100)
+    this.hud.gravStat.textContent = t("hud.gravity", { n: pct })
+  }
+
+  private applyStairGravity(): void {
+    const t = stairAltitude(this.level.id, this.player.y, this.stairWorldTop)
+    if (t === null) {
+      return
+    }
+    const scale = stairGravityScale(t)
+    this.gravityScale = scale
+    const g = this.earthGravity * scale
+    this.physics.world.gravity.y = g
+    this.playerState.baseGravity = g
+    const sky = stairSkyHex(this.level.id, this.player.y, this.stairWorldTop)
+    if (sky) {
+      this.cameras.main.setBackgroundColor(hexToNum(sky))
+    }
   }
 
   private setPaused(value: boolean): void {
@@ -1526,10 +1650,18 @@ export class StoryScene extends Phaser.Scene {
     const point = this.checkpoint ?? this.level.playerSpawn
     this.player.setPosition(point.x, point.y)
     this.player.setVelocity(0, 0)
+    this.recallTiger(point)
     this.health = this.maxHearts
     this.invuln = 1.2
     this.syncHearts()
     this.player.clearTint()
+    this.runMs = 0
+    if (this.galeWall) {
+      this.galeWall.x = this.galeStartX
+      this.galeClock = 0
+      this.galeInside = 0
+      this.tickGale(0)
+    }
     if (this.foxResetOnRespawn && this.foxHu && this.level.foxHu) {
       this.foxHu.setX(this.level.foxHu.startX)
       this.foxHu.setVelocity(0, 0)
@@ -1540,21 +1672,23 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private spawnGaleWall(x: number, speed: number): void {
+    this.galeStartX = x
     this.galeSpeed = speed
     this.galeClock = 0
     this.galeMotes = []
-    const wall = this.physics.add.sprite(x, 540, "story_gale")
-    wall.setDisplaySize(220, 1200)
+    const wall = this.physics.add.sprite(x, this.galeColumnTop + this.galeColumnHeight * 0.5, "story_gale")
+    wall.setDisplaySize(220, this.galeColumnHeight)
     wall.setData("archetype", "gale")
     wall.setImmovable(true)
     wall.setDepth(7)
-    wall.setAlpha(0.34)
+    wall.setAlpha(0.55)
     wall.setCollideWorldBounds(false)
     this.enemies.add(wall)
     const body = wall.body as Phaser.Physics.Arcade.Body
     body.setAllowGravity(false)
     body.setGravity(0, 0)
     body.setVelocity(0, 0)
+    body.moves = false
     body.setSize(wall.width, wall.height)
     body.updateFromGameObject()
     this.galeWall = wall
@@ -1571,7 +1705,7 @@ export class StoryScene extends Phaser.Scene {
       sprite.setDepth(8)
       this.galeMotes.push({
         sprite,
-        lane: (i / count) * 1080,
+        lane: this.galeColumnTop + (i / count) * this.galeColumnHeight,
         phase: Math.random() * Math.PI * 2,
         spin: kind === "ice" ? 1.6 : 0.55 + Math.random() * 0.7,
         reach: kind === "cloud" ? 50 + Math.random() * 40 : 18 + Math.random() * 36,
@@ -1589,26 +1723,61 @@ export class StoryScene extends Phaser.Scene {
     const body = wall.body as Phaser.Physics.Arcade.Body
     body.setAllowGravity(false)
     body.setGravity(0, 0)
-    wall.y = 540
-    wall.setVelocity(this.galeSpeed, 0)
+    body.setVelocity(0, 0)
+    body.moves = false
+    if (dt > 0) {
+      wall.x += this.galeSpeed * dt
+    }
+    wall.y = this.galeColumnTop + this.galeColumnHeight * 0.5
     this.galeClock += dt
-    const traveled = Math.max(0, wall.x + 120)
-    const close = Phaser.Math.Clamp(traveled / Math.max(640, this.worldWidth * 0.7), 0, 1)
-    const width = 210 + close * 180
-    wall.setDisplaySize(width, 1200)
-    wall.setAlpha(0.22 + close * 0.5)
+    const traveled = Math.max(0, wall.x - this.galeStartX)
+    const close = Phaser.Math.Clamp(traveled / Math.max(640, this.worldWidth * 0.55), 0, 1)
+    const width = 280 + close * 220
+    wall.setDisplaySize(width, this.galeColumnHeight)
+    wall.setAlpha(0.55 + close * 0.4)
     body.setSize(wall.width, wall.height)
     body.updateFromGameObject()
-    body.setVelocity(this.galeSpeed, 0)
     for (const mote of this.galeMotes) {
       const swirl = this.galeClock * mote.spin + mote.phase
       const rad = mote.reach * (0.5 + close * 1.05)
       mote.sprite.x = wall.x - width * 0.12 + Math.cos(swirl) * rad
-      mote.sprite.y = Phaser.Math.Wrap(mote.lane + Math.sin(swirl * 0.8) * (mote.kind === "cloud" ? 22 : 48), -30, 1110)
-      const base = mote.kind === "cloud" ? 0.42 : mote.kind === "snow" ? 0.7 : 0.9
-      mote.sprite.setAlpha(base * (0.35 + close * 0.8))
-      const scale = mote.kind === "ice" ? 0.75 + close * 0.55 : 0.85 + close * 0.9
+      mote.sprite.y = Phaser.Math.Wrap(
+        mote.lane + Math.sin(swirl * 0.8) * (mote.kind === "cloud" ? 22 : 48),
+        this.galeColumnTop,
+        1080,
+      )
+      const base = mote.kind === "cloud" ? 0.85 : mote.kind === "snow" ? 0.95 : 1
+      mote.sprite.setAlpha(base * (0.65 + close * 0.35))
+      const scale = mote.kind === "ice" ? 1.4 + close * 0.8 : mote.kind === "cloud" ? 1.8 + close * 1.4 : 1.2 + close * 0.6
       mote.sprite.setScale(scale)
+    }
+  }
+
+  private applyGale(dt: number): void {
+    const wall = this.galeWall
+    if (!wall || dt <= 0) {
+      return
+    }
+    const radius = Math.max(140, wall.displayWidth * 0.78)
+    const dx = this.player.x - wall.x
+    const abs = Math.abs(dx)
+    if (abs > radius) {
+      this.galeInside = Math.max(0, this.galeInside - dt)
+      return
+    }
+    const closeness = 1 - abs / radius
+    const body = this.player.body as Phaser.Physics.Arcade.Body
+    const spin = this.galeClock * (1.7 + closeness * 3.6)
+    const orbit = Math.cos(spin) * radius * (0.22 + (1 - closeness) * 0.42)
+    const wantX = wall.x + orbit
+    body.velocity.x += (wantX - this.player.x) * (2.2 + closeness * 9) * dt
+    const lift = -(140 + closeness * 860)
+    const rise = Math.min(1, dt * (3.5 + closeness * 11))
+    body.velocity.y += (lift - body.velocity.y) * rise
+    this.galeInside += dt * (0.4 + closeness * 1.15)
+    if (this.galeInside >= 1.65) {
+      this.galeInside = 0
+      this.hurt()
     }
   }
 
@@ -1663,12 +1832,30 @@ export class StoryScene extends Phaser.Scene {
         this.foxHu.x = Math.min(this.foxHu.x, this.cartFinishX - 44)
       }
     }
-    if (this.editorMode === "play") {
-      return
-    }
     this.checkpoint = { x: this.level.playerSpawn.x, y: this.level.playerSpawn.y }
     this.foxResetOnRespawn = true
+    if (this.editorMode === "play") {
+      this.lost = true
+      this.player.setVelocity(0, 0)
+      this.hud.title.textContent = t("story.dead.title")
+      this.hud.message.textContent = t("story.dead.fox")
+      this.hud.play.textContent = t("story.dead.retry")
+      this.hud.overlay.hidden = false
+      return
+    }
     this.enterDeadState(t("story.dead.fox"))
+  }
+
+  private cartReachedBasket(): boolean {
+    if (!this.foxHu || this.cartFinishX === null) {
+      return false
+    }
+    const front = this.foxHu.x + this.foxHu.displayWidth * 0.5
+    if (front >= this.cartFinishX - 16) {
+      return true
+    }
+    const body = this.foxHu.body as Phaser.Physics.Arcade.Body
+    return body.blocked.right && this.cartFinishX - front < 64
   }
 
   private onMoonPool(pool: Phaser.GameObjects.Image): void {
@@ -1787,7 +1974,7 @@ export class StoryScene extends Phaser.Scene {
     }
     if (this.level.boss.kind === "han") {
       this.hud.bossHits.hidden = true
-      if (!this.han) {
+      if (!this.han || !this.inHanCourt()) {
         this.hud.hanHearts.hidden = true
         return
       }
@@ -1885,14 +2072,32 @@ export class StoryScene extends Phaser.Scene {
     if (this.glowTimer > 0 && (this.glowKind === "well_silver" || this.glowKind === "lantern" || this.glowKind === "sparkler")) {
       buffs.push({ id: this.glowKind, remaining: this.glowTimer, duration: 1.6 })
     }
+    if (this.playerState.glideCharges > 0) {
+      buffs.push({
+        id: "osmanthus_blossom",
+        remaining: this.playerState.glideCharges,
+        duration: this.playerState.glideCharges,
+        label: this.playerState.glideCharges > 1 ? String(this.playerState.glideCharges) : t("hud.glide.on"),
+      })
+    }
+    if (this.playerState.glide) {
+      buffs.push({ id: "glide", remaining: 1, duration: 1, label: t("hud.glide.on") })
+    }
     renderItemTray(this.hud.itemTray, buffs)
+  }
+
+  private inHanCourt(): boolean {
+    const x = this.editorMode === "build"
+      ? this.cameras.main.scrollX + this.cameras.main.width * 0.5
+      : this.player.x
+    return x >= this.hanCourtLeft && x <= this.hanCourtRight
   }
 
   private tickHanCourt(): void {
     if (this.level.boss?.kind !== "han" || this.editorMode === "build") {
       return
     }
-    const inCourt = this.player.x >= this.hanCourtLeft && this.player.x <= this.hanCourtRight
+    const inCourt = this.inHanCourt()
     if (inCourt && !this.han) {
       this.startHanFight()
       return
@@ -1932,7 +2137,6 @@ export class StoryScene extends Phaser.Scene {
     )
     this.enemies.add(this.han.sprite)
     this.hud.bossHits.hidden = true
-    this.hud.hanHearts.hidden = false
     this.syncBossHits()
     if (this.editorMode !== "build") {
       getAudio().playMusic("boss")
@@ -2156,6 +2360,7 @@ export class StoryScene extends Phaser.Scene {
       if (this.level.id === "moon_guanghan") {
         await unlock("MOON_RETURN")
       }
+      recordStoryAttempt(save, this.level.id, this.runMs)
       await persistSave()
     } catch {
       // Keep the win overlay available even if save fails.
@@ -2199,6 +2404,11 @@ export class StoryScene extends Phaser.Scene {
       this.dewVeil.setVisible(this.playerState.dewSlow > 0)
     }
     this.playerState.dewSlow = Math.max(0, this.playerState.dewSlow - rawDt)
+    this.applyStairGravity()
+    this.syncRunStats()
+    if (!this.editorMode) {
+      this.runMs += rawDt * 1000
+    }
     if (this.editorMode === "build") {
       this.player.setVelocity(0, 0)
       for (const obj of this.enemies.getChildren()) {
@@ -2206,6 +2416,7 @@ export class StoryScene extends Phaser.Scene {
       }
       this.weather?.update(dt, this.cameras.main.scrollX)
       this.sparklerAsh?.update(dt, this.cameras.main.scrollX)
+      this.syncBossHits()
       return
     }
     this.invuln = Math.max(0, this.invuln - dt)
@@ -2221,10 +2432,6 @@ export class StoryScene extends Phaser.Scene {
 
     if (this.galeWall) {
       this.tickGale(dt)
-      if (this.player.x <= this.galeWall.x + this.galeWall.displayWidth * 0.42) {
-        this.enterDeadState(t("story.dead.gale"))
-        return
-      }
     }
 
     if (this.ride) {
@@ -2253,18 +2460,18 @@ export class StoryScene extends Phaser.Scene {
       ),
     )
     updatePlayerMovement(this.player, input, this.playerState)
+    this.applyGale(dt)
     this.dashFx?.tick(this.player, this.playerState.dashTime, this.playerState.facing, dt)
 
     updateEnemies(this, this.enemies, this.projectiles, this.platforms, this.player, dt)
     if (this.foxHu && !this.lost && !this.won) {
-      this.seatCart(this.foxHu)
+      const drive = Number(this.foxHu.getData("speed") || 0)
+      if (drive > 0) {
+        this.foxHu.setVelocityX(drive)
+      }
     }
 
-    if (
-      this.foxHu &&
-      this.cartFinishX !== null &&
-      this.foxHu.x + 44 >= this.cartFinishX
-    ) {
+    if (this.cartReachedBasket()) {
       this.onCartFinished()
       return
     }

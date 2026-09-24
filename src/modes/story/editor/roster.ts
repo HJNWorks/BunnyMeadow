@@ -35,6 +35,7 @@ export const ITEM_LABELS: Record<string, string> = {
   star_grit: "Star grit",
   elixir_crumb: "Elixir crumb",
   well_silver: "Well silver",
+  glide: "Glide",
 }
 
 const CRITTERS_BY_BIOME: Record<string, string[]> = {
@@ -53,9 +54,9 @@ const ITEMS_BY_BIOME: Record<string, string[]> = {
   orchard: ["carrot", "mooncake", "dew"],
   bamboo: ["carrot", "lantern"],
   riverbank: ["carrot", "mooncake"],
-  lantern: ["carrot", "lantern", "mooncake", "sparkler"],
-  osmanthus: ["carrot", "osmanthus_blossom", "mooncake"],
-  cloudsea: ["carrot", "osmanthus_blossom"],
+  lantern: ["carrot", "lantern", "mooncake", "sparkler", "glide"],
+  osmanthus: ["carrot", "osmanthus_blossom", "mooncake", "glide"],
+  cloudsea: ["carrot", "osmanthus_blossom", "glide"],
   moon: ["mooncake", "star_grit", "elixir_crumb", "well_silver"],
 }
 

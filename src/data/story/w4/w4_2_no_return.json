@@ -8,7 +8,7 @@
   "exit": { "chunk": 3, "x": 860, "y": 100 },
   "moonLine": "There is no pool on these steps.",
   "objective": "Climb. A fall into the cloud restarts the station.",
-  "glide": true,
+  "height": 3240,
   "noCheckpoint": true,
   "env": "cloudsea",
   "sky": "#5a78a8"
