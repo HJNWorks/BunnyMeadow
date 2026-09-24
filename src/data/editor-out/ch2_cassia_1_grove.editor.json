@@ -1,0 +1,125 @@
+{
+  "levelId": "ch2_cassia_1_grove",
+  "level": {
+    "playerSpawn": {
+      "x": 80,
+      "y": 880
+    },
+    "moonPools": [
+      {
+        "chunk": 0,
+        "x": 890,
+        "y": 530,
+        "line": "The tree closes every cut. Hop the wound."
+      }
+    ],
+    "moonPool": {
+      "chunk": 0,
+      "x": 890,
+      "y": 530,
+      "line": "The tree closes every cut. Hop the wound."
+    },
+    "exit": {
+      "chunk": 1,
+      "x": 860,
+      "y": 840
+    },
+    "env": "ch2_cassia",
+    "sky": "#14161a"
+  },
+  "look": {
+    "env": "ch2_cassia",
+    "sky": "#14161a"
+  },
+  "decor": [],
+  "chunks": {
+    "chunk_ch2_cassia_a": {
+      "id": "chunk_ch2_cassia_a",
+      "width": 960,
+      "height": 1080,
+      "groundY": 920,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 920,
+          "w": 240,
+          "h": 80
+        },
+        {
+          "x": 380,
+          "y": 460,
+          "w": 30,
+          "h": 240
+        },
+        {
+          "x": 880,
+          "y": 560,
+          "w": 30,
+          "h": 240
+        }
+      ],
+      "walls": [],
+      "movers": [
+        {
+          "x": 430,
+          "y": 760,
+          "w": 150,
+          "h": 20,
+          "axis": "x",
+          "amplitude": 110,
+          "speed": 0.55,
+          "tint": 10066176,
+          "kind": "bridge"
+        }
+      ],
+      "items": [
+        {
+          "id": "elixir_crumb",
+          "x": 140,
+          "y": 888
+        }
+      ],
+      "decor": [
+        {
+          "kind": "wound",
+          "x": 80,
+          "y": 860,
+          "w": 140,
+          "h": 24,
+          "rotation": 0,
+          "asset": "wound"
+        }
+      ],
+      "color": "#1a1612",
+      "ceilings": [],
+      "enemies": [],
+      "hazards": []
+    },
+    "chunk_ch2_cassia_b": {
+      "id": "chunk_ch2_cassia_b",
+      "width": 960,
+      "height": 1080,
+      "groundY": 760,
+      "platforms": [
+        {
+          "x": 850,
+          "y": 880,
+          "w": 30,
+          "h": 100
+        },
+        {
+          "x": 430,
+          "y": 450,
+          "w": 30,
+          "h": 240
+        }
+      ],
+      "walls": [],
+      "color": "#1a1612",
+      "ceilings": [],
+      "enemies": [],
+      "movers": [],
+      "hazards": []
+    }
+  }
+}

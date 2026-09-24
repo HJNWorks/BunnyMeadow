@@ -1,0 +1,540 @@
+{
+  "levelId": "w1_1_soft_paths",
+  "level": {
+    "playerSpawn": {
+      "x": 120,
+      "y": 900
+    },
+    "moonPools": [
+      {
+        "chunk": 2,
+        "x": 210,
+        "y": 940
+      }
+    ],
+    "moonPool": {
+      "chunk": 2,
+      "x": 210,
+      "y": 940
+    },
+    "exit": {
+      "chunk": 3,
+      "x": 820,
+      "y": 920
+    }
+  },
+  "look": {},
+  "decor": [
+    {
+      "kind": "grass",
+      "x": 200,
+      "y": 956,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 300,
+      "y": 970,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 70,
+      "y": 970,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 420,
+      "y": 950,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 540,
+      "y": 960,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 670,
+      "y": 960,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1070,
+      "y": 660,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1170,
+      "y": 670,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1290,
+      "y": 650,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1410,
+      "y": 660,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1540,
+      "y": 660,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 530,
+      "y": 880,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 650,
+      "y": 870,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1270,
+      "y": 960,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1370,
+      "y": 970,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1490,
+      "y": 950,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1470,
+      "y": 970,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1590,
+      "y": 950,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1620,
+      "y": 970,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1720,
+      "y": 980,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1840,
+      "y": 960,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1820,
+      "y": 980,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1940,
+      "y": 960,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 820,
+      "y": 960,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 920,
+      "y": 970,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1040,
+      "y": 950,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1020,
+      "y": 970,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 1140,
+      "y": 950,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    }
+  ],
+  "chunks": {
+    "chunk_meadow_start": {
+      "id": "chunk_meadow_start",
+      "width": 960,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 980,
+          "w": 960,
+          "h": 100
+        },
+        {
+          "x": 870,
+          "y": 680,
+          "w": 960,
+          "h": 100
+        },
+        {
+          "x": 580,
+          "y": 860,
+          "w": 120,
+          "h": 30
+        },
+        {
+          "x": 680,
+          "y": 780,
+          "w": 120,
+          "h": 30
+        },
+        {
+          "x": 800,
+          "y": 680,
+          "w": 120,
+          "h": 30
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "hedgehog",
+          "x": 180,
+          "y": 970
+        },
+        {
+          "id": "hedgehog",
+          "x": 640,
+          "y": 970
+        }
+      ],
+      "color": "#c5d48a",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    },
+    "chunk_meadow_gap": {
+      "id": "chunk_meadow_gap",
+      "width": 960,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [
+        {
+          "x": 680,
+          "y": 980,
+          "w": 280,
+          "h": 100
+        },
+        {
+          "x": 0,
+          "y": 980,
+          "w": 680,
+          "h": 100
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "bees",
+          "x": 280,
+          "y": 630
+        },
+        {
+          "id": "hedgehog",
+          "x": 90,
+          "y": 670
+        },
+        {
+          "id": "hedgehog",
+          "x": 550,
+          "y": 670
+        },
+        {
+          "id": "hedgehog",
+          "x": 290,
+          "y": 970
+        },
+        {
+          "id": "bees",
+          "x": 390,
+          "y": 590
+        },
+        {
+          "id": "bees",
+          "x": 490,
+          "y": 600
+        }
+      ],
+      "color": "#bed593",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    },
+    "chunk_meadow_rise": {
+      "id": "chunk_meadow_rise",
+      "width": 960,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 980,
+          "w": 280,
+          "h": 100
+        },
+        {
+          "x": 160,
+          "y": 860,
+          "w": 140,
+          "h": 24
+        },
+        {
+          "x": 360,
+          "y": 760,
+          "w": 160,
+          "h": 24
+        },
+        {
+          "x": 580,
+          "y": 860,
+          "w": 140,
+          "h": 24
+        },
+        {
+          "x": 720,
+          "y": 980,
+          "w": 240,
+          "h": 100
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "fox",
+          "x": 930,
+          "y": 960
+        }
+      ],
+      "items": [
+        {
+          "id": "dew",
+          "x": 230,
+          "y": 828
+        },
+        {
+          "id": "mooncake",
+          "x": 440,
+          "y": 728
+        },
+        {
+          "id": "osmanthus_seed",
+          "x": 620,
+          "y": 828
+        }
+      ],
+      "color": "#c5d48a",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    },
+    "chunk_meadow_pool": {
+      "id": "chunk_meadow_pool",
+      "width": 960,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 980,
+          "w": 960,
+          "h": 100
+        },
+        {
+          "x": 130,
+          "y": 900,
+          "w": 130,
+          "h": 30
+        },
+        {
+          "x": 400,
+          "y": 900,
+          "w": 150,
+          "h": 28
+        },
+        {
+          "x": 250,
+          "y": 840,
+          "w": 130,
+          "h": 30
+        },
+        {
+          "x": 380,
+          "y": 840,
+          "w": 130,
+          "h": 30
+        },
+        {
+          "x": 260,
+          "y": 900,
+          "w": 130,
+          "h": 30
+        }
+      ],
+      "walls": [],
+      "enemies": [],
+      "color": "#b7ce88",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    }
+  }
+}

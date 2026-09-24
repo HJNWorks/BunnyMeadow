@@ -1,0 +1,204 @@
+{
+  "levelId": "w0_lore_moon",
+  "level": {
+    "playerSpawn": {
+      "x": 120,
+      "y": 900
+    },
+    "moonPools": [
+      {
+        "chunk": 1,
+        "x": 220,
+        "y": 940
+      }
+    ],
+    "moonPool": {
+      "chunk": 1,
+      "x": 220,
+      "y": 940
+    },
+    "exit": {
+      "chunk": 1,
+      "x": 860,
+      "y": 920
+    },
+    "env": "meadow",
+    "sky": "#8aa07a"
+  },
+  "look": {
+    "env": "meadow",
+    "sky": "#8aa07a"
+  },
+  "decor": [
+    {
+      "kind": "hedge",
+      "x": 1220,
+      "y": 760,
+      "w": 48,
+      "h": 120,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 1040,
+      "y": 860,
+      "w": 48,
+      "h": 120,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 1040,
+      "y": 610,
+      "w": 48,
+      "h": 120,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 1220,
+      "y": 520,
+      "w": 48,
+      "h": 120,
+      "rotation": 0,
+      "asset": "hedge"
+    }
+  ],
+  "chunks": {
+    "chunk_pool_tunnel": {
+      "id": "chunk_pool_tunnel",
+      "width": 960,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 980,
+          "w": 300,
+          "h": 100
+        },
+        {
+          "x": 720,
+          "y": 980,
+          "w": 240,
+          "h": 100
+        }
+      ],
+      "walls": [],
+      "ceilings": [],
+      "enemies": [],
+      "movers": [
+        {
+          "x": 330,
+          "y": 900,
+          "w": 140,
+          "h": 28,
+          "axis": "y",
+          "amplitude": 90,
+          "speed": 1.15,
+          "tint": 6978880
+        },
+        {
+          "x": 540,
+          "y": 860,
+          "w": 140,
+          "h": 28,
+          "axis": "y",
+          "amplitude": 70,
+          "speed": 1.05,
+          "tint": 6978880
+        }
+      ],
+      "color": "#4a5a38",
+      "hazards": []
+    },
+    "chunk_pool_pond": {
+      "id": "chunk_pool_pond",
+      "width": 960,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 980,
+          "w": 960,
+          "h": 100
+        }
+      ],
+      "walls": [
+        {
+          "x": 260,
+          "y": 770,
+          "w": 48,
+          "h": 110
+        },
+        {
+          "x": 80,
+          "y": 870,
+          "w": 48,
+          "h": 110
+        },
+        {
+          "x": 80,
+          "y": 620,
+          "w": 48,
+          "h": 110
+        },
+        {
+          "x": 260,
+          "y": 530,
+          "w": 48,
+          "h": 110
+        }
+      ],
+      "enemies": [],
+      "carrots": [
+        {
+          "x": 210,
+          "y": 948
+        },
+        {
+          "x": 250,
+          "y": 948
+        }
+      ],
+      "items": [
+        {
+          "id": "osmanthus_seed",
+          "x": 680,
+          "y": 828
+        }
+      ],
+      "decor": [
+        {
+          "kind": "kit",
+          "x": 40,
+          "y": 932,
+          "w": 40,
+          "h": 48
+        },
+        {
+          "kind": "kit",
+          "x": 92,
+          "y": 932,
+          "w": 40,
+          "h": 48
+        },
+        {
+          "kind": "kit",
+          "x": 148,
+          "y": 936,
+          "w": 36,
+          "h": 44
+        }
+      ],
+      "color": "#9bb56e",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    }
+  }
+}

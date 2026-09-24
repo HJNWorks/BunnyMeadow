@@ -8,6 +8,7 @@ import { applyAccessibilityDom, applyThemeDom } from "../core/a11y"
 import { getInput } from "../core/input"
 import { mountDomShell, requireEl } from "../ui/DomShell"
 import { isEditorEnabled, startEditor } from "../modes/story/editor"
+import { writeAllStoryOverlays } from "../modes/story/editor/applyAllMaps"
 import { getContentFlags } from "../core/ModeContext"
 
 export class SettingsScene extends Phaser.Scene {
@@ -97,7 +98,9 @@ export class SettingsScene extends Phaser.Scene {
             <p class="bm-tagline">${t("editor.note")}</p>
             <div class="bm-actions bm-start">
               <button type="button" class="bm-btn" data-ui="editorOpen">${t("editor.open")}</button>
+              <button type="button" class="bm-btn" data-ui="applyMaps">${t("editor.applyMaps")}</button>
             </div>
+            <p class="bm-tagline" data-ui="applyMapsStatus"></p>
           </section>
             `
             : ""}
@@ -219,6 +222,14 @@ export class SettingsScene extends Phaser.Scene {
       requireEl<HTMLButtonElement>(root, "[data-ui=editorOpen]").onclick = () => {
         getAudio().playSfx("confirm")
         startEditor(this)
+      }
+      const applyStatus = requireEl<HTMLElement>(root, "[data-ui=applyMapsStatus]")
+      requireEl<HTMLButtonElement>(root, "[data-ui=applyMaps]").onclick = () => {
+        getAudio().playSfx("confirm")
+        applyStatus.textContent = t("editor.applyMapsWorking")
+        void writeAllStoryOverlays().then((wrote) => {
+          applyStatus.textContent = wrote > 0 ? t("editor.applyMapsDone", { n: wrote }) : t("editor.applyMapsNone")
+        })
       }
     }
     if (showWorkshop) {

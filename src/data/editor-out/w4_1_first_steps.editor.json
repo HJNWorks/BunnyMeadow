@@ -1,0 +1,315 @@
+{
+  "levelId": "w4_1_first_steps",
+  "level": {
+    "playerSpawn": {
+      "x": 80,
+      "y": 890
+    },
+    "moonPools": [
+      {
+        "chunk": 1,
+        "x": 110,
+        "y": 790
+      }
+    ],
+    "moonPool": {
+      "chunk": 1,
+      "x": 110,
+      "y": 790
+    },
+    "exit": {
+      "chunk": 3,
+      "x": 860,
+      "y": 180
+    },
+    "env": "cloudsea",
+    "sky": "#6a88b8"
+  },
+  "look": {
+    "env": "cloudsea",
+    "sky": "#6a88b8"
+  },
+  "decor": [
+    {
+      "kind": "lantern",
+      "x": 1000,
+      "y": 772,
+      "w": 24,
+      "h": 40
+    },
+    {
+      "kind": "lantern",
+      "x": 1420,
+      "y": 612,
+      "w": 24,
+      "h": 40
+    },
+    {
+      "kind": "lantern",
+      "x": 1820,
+      "y": 572,
+      "w": 24,
+      "h": 40
+    }
+  ],
+  "chunks": {
+    "chunk_stair_start": {
+      "id": "chunk_stair_start",
+      "width": 960,
+      "height": 1080,
+      "groundY": 1080,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 920,
+          "w": 280,
+          "h": 28
+        },
+        {
+          "x": 340,
+          "y": 820,
+          "w": 110,
+          "h": 24
+        },
+        {
+          "x": 500,
+          "y": 730,
+          "w": 100,
+          "h": 24
+        },
+        {
+          "x": 820,
+          "y": 620,
+          "w": 140,
+          "h": 24
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "frost_wisp",
+          "x": 540,
+          "y": 680
+        }
+      ],
+      "items": [
+        {
+          "id": "glide",
+          "x": 160,
+          "y": 888
+        }
+      ],
+      "movers": [
+        {
+          "x": 620,
+          "y": 680,
+          "w": 160,
+          "h": 16,
+          "axis": "x",
+          "amplitude": 28,
+          "speed": 1.1,
+          "tint": 13158624,
+          "kind": "bridge"
+        }
+      ],
+      "color": "#8aa8c8",
+      "ceilings": [],
+      "hazards": []
+    },
+    "chunk_stair_lanterns": {
+      "id": "chunk_stair_lanterns",
+      "width": 960,
+      "height": 1080,
+      "groundY": 1080,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 820,
+          "w": 160,
+          "h": 24
+        },
+        {
+          "x": 220,
+          "y": 740,
+          "w": 120,
+          "h": 24
+        },
+        {
+          "x": 420,
+          "y": 660,
+          "w": 130,
+          "h": 24
+        },
+        {
+          "x": 640,
+          "y": 600,
+          "w": 120,
+          "h": 24
+        },
+        {
+          "x": 820,
+          "y": 620,
+          "w": 140,
+          "h": 24
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "frost_hare",
+          "x": 480,
+          "y": 620
+        }
+      ],
+      "items": [
+        {
+          "id": "osmanthus_seed",
+          "x": 280,
+          "y": 708
+        }
+      ],
+      "decor": [
+        {
+          "kind": "lantern",
+          "x": 40,
+          "y": 772,
+          "w": 24,
+          "h": 40
+        },
+        {
+          "kind": "lantern",
+          "x": 460,
+          "y": 612,
+          "w": 24,
+          "h": 40
+        },
+        {
+          "kind": "lantern",
+          "x": 860,
+          "y": 572,
+          "w": 24,
+          "h": 40
+        }
+      ],
+      "color": "#8aa8c8",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    },
+    "chunk_stair_ascent": {
+      "id": "chunk_stair_ascent",
+      "width": 960,
+      "height": 1080,
+      "groundY": 1080,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 620,
+          "w": 120,
+          "h": 24
+        },
+        {
+          "x": 200,
+          "y": 530,
+          "w": 110,
+          "h": 24
+        },
+        {
+          "x": 400,
+          "y": 460,
+          "w": 110,
+          "h": 24,
+          "surface": "slick"
+        },
+        {
+          "x": 620,
+          "y": 400,
+          "w": 120,
+          "h": 24
+        },
+        {
+          "x": 800,
+          "y": 400,
+          "w": 160,
+          "h": 28
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "gale_magpie",
+          "x": 480,
+          "y": 300
+        },
+        {
+          "id": "frost_wisp",
+          "x": 700,
+          "y": 340
+        }
+      ],
+      "color": "#8aa8c8",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    },
+    "chunk_stair_gap": {
+      "id": "chunk_stair_gap",
+      "width": 960,
+      "height": 1080,
+      "groundY": 1080,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 400,
+          "w": 140,
+          "h": 24
+        },
+        {
+          "x": 220,
+          "y": 340,
+          "w": 110,
+          "h": 24,
+          "surface": "slick"
+        },
+        {
+          "x": 420,
+          "y": 280,
+          "w": 110,
+          "h": 24
+        },
+        {
+          "x": 640,
+          "y": 240,
+          "w": 120,
+          "h": 24,
+          "surface": "slick"
+        },
+        {
+          "x": 820,
+          "y": 220,
+          "w": 140,
+          "h": 28
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "gale_magpie",
+          "x": 500,
+          "y": 160
+        }
+      ],
+      "items": [
+        {
+          "id": "osmanthus_blossom",
+          "x": 260,
+          "y": 308
+        }
+      ],
+      "color": "#8aa8c8",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    }
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "levelId": "w3_2_tiger_road",
+  "level": {
+    "playerSpawn": {
+      "x": 100,
+      "y": 900
+    },
+    "moonPools": [],
+    "exit": {
+      "chunk": 2,
+      "x": 3020,
+      "y": 920
+    },
+    "sky": "#40364a"
+  },
+  "look": {
+    "sky": "#40364a"
+  },
+  "decor": [],
+  "chunks": {
+    "chunk_osmanthus_start": {
+      "id": "chunk_osmanthus_start",
+      "width": 960,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 980,
+          "w": 210,
+          "h": 100
+        },
+        {
+          "x": 640,
+          "y": 750,
+          "w": 340,
+          "h": 100
+        },
+        {
+          "x": 640,
+          "y": 980,
+          "w": 340,
+          "h": 100
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "carp",
+          "x": 290,
+          "y": 1010
+        },
+        {
+          "id": "carp",
+          "x": 470,
+          "y": 1010
+        }
+      ],
+      "items": [
+        {
+          "id": "osmanthus_seed",
+          "x": 270,
+          "y": 848
+        }
+      ],
+      "color": "#4a3f55",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [
+        {
+          "x": 210,
+          "y": 990,
+          "w": 430,
+          "h": 90,
+          "kind": "water",
+          "current": 0
+        }
+      ]
+    },
+    "chunk_osmanthus_ride": {
+      "id": "chunk_osmanthus_ride",
+      "width": 960,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [
+        {
+          "x": 400,
+          "y": 750,
+          "w": 120,
+          "h": 34
+        },
+        {
+          "x": 40,
+          "y": 610,
+          "w": 210,
+          "h": 90
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "crow",
+          "x": 450,
+          "y": 490
+        },
+        {
+          "id": "carp",
+          "x": 330,
+          "y": 1010
+        },
+        {
+          "id": "carp",
+          "x": 700,
+          "y": 1020
+        }
+      ],
+      "items": [
+        {
+          "id": "mooncake",
+          "x": 260,
+          "y": 828
+        }
+      ],
+      "hazards": [
+        {
+          "x": 20,
+          "y": 1000,
+          "w": 3820,
+          "h": 80,
+          "kind": "water",
+          "current": 0
+        }
+      ],
+      "color": "#40364a",
+      "ceilings": [],
+      "movers": []
+    },
+    "chunk_osmanthus_pool": {
+      "id": "chunk_osmanthus_pool",
+      "width": 3080,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [
+        {
+          "x": 60,
+          "y": 760,
+          "w": 140,
+          "h": 26
+        },
+        {
+          "x": 640,
+          "y": 570,
+          "w": 170,
+          "h": 100
+        },
+        {
+          "x": 2880,
+          "y": 980,
+          "w": 200,
+          "h": 100
+        },
+        {
+          "x": 1040,
+          "y": 540,
+          "w": 170,
+          "h": 100
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "heron",
+          "x": 1700,
+          "y": 480
+        },
+        {
+          "id": "heron",
+          "x": 2180,
+          "y": 480
+        },
+        {
+          "id": "heron",
+          "x": 2690,
+          "y": 480
+        },
+        {
+          "id": "carp",
+          "x": 120,
+          "y": 1020
+        },
+        {
+          "id": "carp",
+          "x": 2030,
+          "y": 1020
+        },
+        {
+          "id": "carp",
+          "x": 2510,
+          "y": 1020
+        },
+        {
+          "id": "crow",
+          "x": 120,
+          "y": 460
+        }
+      ],
+      "color": "#372e42",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    }
+  }
+}

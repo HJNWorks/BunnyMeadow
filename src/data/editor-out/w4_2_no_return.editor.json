@@ -1,0 +1,291 @@
+{
+  "levelId": "w4_2_no_return",
+  "level": {
+    "playerSpawn": {
+      "x": 140,
+      "y": 760
+    },
+    "moonPools": [],
+    "exit": {
+      "chunk": 3,
+      "x": 860,
+      "y": 100
+    },
+    "env": "cloudsea",
+    "sky": "#5a78a8"
+  },
+  "look": {
+    "env": "cloudsea",
+    "sky": "#5a78a8"
+  },
+  "decor": [],
+  "chunks": {
+    "chunk_stair_mid_a": {
+      "id": "chunk_stair_mid_a",
+      "width": 960,
+      "height": 1080,
+      "groundY": 1080,
+      "platforms": [
+        {
+          "x": 90,
+          "y": 800,
+          "w": 130,
+          "h": 24
+        },
+        {
+          "x": 280,
+          "y": 700,
+          "w": 90,
+          "h": 24
+        },
+        {
+          "x": 640,
+          "y": 580,
+          "w": 90,
+          "h": 24,
+          "surface": "slick"
+        },
+        {
+          "x": 840,
+          "y": 500,
+          "w": 120,
+          "h": 24
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "frost_wisp",
+          "x": 500,
+          "y": 580
+        },
+        {
+          "id": "ice_spit",
+          "x": 680,
+          "y": 548
+        }
+      ],
+      "items": [
+        {
+          "id": "glide",
+          "x": 150,
+          "y": 768
+        }
+      ],
+      "movers": [
+        {
+          "x": 420,
+          "y": 640,
+          "w": 180,
+          "h": 16,
+          "axis": "x",
+          "amplitude": 40,
+          "speed": 1.2,
+          "tint": 13158624,
+          "kind": "bridge"
+        }
+      ],
+      "color": "#7a98b8",
+      "ceilings": [],
+      "hazards": []
+    },
+    "chunk_stair_ice": {
+      "id": "chunk_stair_ice",
+      "width": 960,
+      "height": 1080,
+      "groundY": 1080,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 500,
+          "w": 120,
+          "h": 24
+        },
+        {
+          "x": 180,
+          "y": 430,
+          "w": 90,
+          "h": 24,
+          "surface": "slick"
+        },
+        {
+          "x": 360,
+          "y": 360,
+          "w": 90,
+          "h": 24,
+          "surface": "slick"
+        },
+        {
+          "x": 560,
+          "y": 300,
+          "w": 90,
+          "h": 24,
+          "surface": "slick"
+        },
+        {
+          "x": 760,
+          "y": 250,
+          "w": 140,
+          "h": 24,
+          "surface": "slick"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "frost_hare",
+          "x": 400,
+          "y": 320
+        },
+        {
+          "id": "frost_wisp",
+          "x": 600,
+          "y": 240
+        }
+      ],
+      "movers": [
+        {
+          "x": 460,
+          "y": 340,
+          "w": 140,
+          "h": 16,
+          "axis": "x",
+          "amplitude": 36,
+          "speed": 1.3,
+          "tint": 13158624,
+          "kind": "bridge"
+        }
+      ],
+      "color": "#7a98b8",
+      "ceilings": [],
+      "hazards": []
+    },
+    "chunk_stair_mid_b": {
+      "id": "chunk_stair_mid_b",
+      "width": 960,
+      "height": 1080,
+      "groundY": 1080,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 500,
+          "w": 100,
+          "h": 24
+        },
+        {
+          "x": 200,
+          "y": 420,
+          "w": 90,
+          "h": 24
+        },
+        {
+          "x": 560,
+          "y": 320,
+          "w": 90,
+          "h": 24,
+          "surface": "slick"
+        },
+        {
+          "x": 780,
+          "y": 280,
+          "w": 180,
+          "h": 28,
+          "surface": "slick"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "gale_magpie",
+          "x": 400,
+          "y": 220
+        },
+        {
+          "id": "frost_wisp",
+          "x": 600,
+          "y": 280
+        },
+        {
+          "id": "ice_spit",
+          "x": 800,
+          "y": 248
+        }
+      ],
+      "movers": [
+        {
+          "x": 330,
+          "y": 380,
+          "w": 180,
+          "h": 16,
+          "axis": "y",
+          "amplitude": 44,
+          "speed": 1.4,
+          "tint": 13158624,
+          "kind": "bridge"
+        }
+      ],
+      "color": "#7a98b8",
+      "ceilings": [],
+      "hazards": []
+    },
+    "chunk_stair_drop": {
+      "id": "chunk_stair_drop",
+      "width": 960,
+      "height": 1080,
+      "groundY": 1080,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 280,
+          "w": 120,
+          "h": 24
+        },
+        {
+          "x": 200,
+          "y": 220,
+          "w": 90,
+          "h": 24
+        },
+        {
+          "x": 400,
+          "y": 180,
+          "w": 90,
+          "h": 24,
+          "surface": "slick"
+        },
+        {
+          "x": 620,
+          "y": 160,
+          "w": 90,
+          "h": 24,
+          "surface": "slick"
+        },
+        {
+          "x": 800,
+          "y": 140,
+          "w": 160,
+          "h": 28
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "frost_hare",
+          "x": 240,
+          "y": 180
+        }
+      ],
+      "items": [
+        {
+          "id": "osmanthus_seed",
+          "x": 440,
+          "y": 148
+        }
+      ],
+      "color": "#7a98b8",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    }
+  }
+}

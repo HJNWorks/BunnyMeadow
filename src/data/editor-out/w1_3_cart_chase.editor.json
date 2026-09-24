@@ -1,0 +1,90 @@
+{
+  "levelId": "w1_3_cart_chase",
+  "level": {
+    "playerSpawn": {
+      "x": 100,
+      "y": 900
+    },
+    "moonPools": [],
+    "exit": {
+      "chunk": 1,
+      "x": 760,
+      "y": 760
+    }
+  },
+  "look": {},
+  "decor": [],
+  "chunks": {
+    "chunk_chase_a": {
+      "id": "chunk_chase_a",
+      "width": 1200,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 980,
+          "w": 1200,
+          "h": 100
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "fox",
+          "x": 270,
+          "y": 930
+        }
+      ],
+      "color": "#b8c98a",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    },
+    "chunk_chase_b": {
+      "id": "chunk_chase_b",
+      "width": 1200,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 980,
+          "w": 1200,
+          "h": 100
+        },
+        {
+          "x": 270,
+          "y": 860,
+          "w": 210,
+          "h": 36
+        },
+        {
+          "x": 700,
+          "y": 800,
+          "w": 140,
+          "h": 36
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "goat",
+          "x": 440,
+          "y": 830
+        }
+      ],
+      "items": [
+        {
+          "id": "osmanthus_seed",
+          "x": 770,
+          "y": 768
+        }
+      ],
+      "color": "#a8c88a",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    }
+  }
+}

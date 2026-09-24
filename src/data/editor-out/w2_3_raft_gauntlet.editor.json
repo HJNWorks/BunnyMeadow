@@ -1,0 +1,178 @@
+{
+  "levelId": "w2_3_raft_gauntlet",
+  "level": {
+    "playerSpawn": {
+      "x": 120,
+      "y": 860
+    },
+    "moonPools": [
+      {
+        "chunk": 0,
+        "x": 120,
+        "y": 870
+      }
+    ],
+    "moonPool": {
+      "chunk": 0,
+      "x": 120,
+      "y": 870
+    },
+    "exit": {
+      "chunk": 1,
+      "x": 860,
+      "y": 870
+    },
+    "sky": "#4f7684"
+  },
+  "look": {
+    "sky": "#4f7684"
+  },
+  "decor": [],
+  "chunks": {
+    "chunk_raft_a": {
+      "id": "chunk_raft_a",
+      "width": 960,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "heron",
+          "x": 420,
+          "y": 480
+        }
+      ],
+      "movers": [
+        {
+          "x": 40,
+          "y": 900,
+          "w": 170,
+          "h": 28,
+          "axis": "x",
+          "amplitude": 0,
+          "speed": 0,
+          "tint": 10066176
+        },
+        {
+          "x": 280,
+          "y": 870,
+          "w": 150,
+          "h": 28,
+          "axis": "x",
+          "amplitude": 70,
+          "speed": 1.1,
+          "tint": 10066176
+        },
+        {
+          "x": 520,
+          "y": 820,
+          "w": 150,
+          "h": 28,
+          "axis": "y",
+          "amplitude": 55,
+          "speed": 1.25,
+          "tint": 10066176
+        },
+        {
+          "x": 760,
+          "y": 880,
+          "w": 150,
+          "h": 28,
+          "axis": "x",
+          "amplitude": 50,
+          "speed": 1.05,
+          "tint": 10066176
+        }
+      ],
+      "hazards": [
+        {
+          "x": 0,
+          "y": 960,
+          "w": 960,
+          "h": 120,
+          "kind": "water",
+          "current": 28
+        }
+      ],
+      "color": "#5f8794",
+      "ceilings": []
+    },
+    "chunk_raft_b": {
+      "id": "chunk_raft_b",
+      "width": 960,
+      "height": 1080,
+      "groundY": 980,
+      "platforms": [],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "heron",
+          "x": 480,
+          "y": 480
+        }
+      ],
+      "movers": [
+        {
+          "x": 60,
+          "y": 850,
+          "w": 150,
+          "h": 28,
+          "axis": "x",
+          "amplitude": 75,
+          "speed": 1.15,
+          "tint": 10066176
+        },
+        {
+          "x": 320,
+          "y": 800,
+          "w": 150,
+          "h": 28,
+          "axis": "y",
+          "amplitude": 60,
+          "speed": 1.3,
+          "tint": 10066176
+        },
+        {
+          "x": 560,
+          "y": 860,
+          "w": 150,
+          "h": 28,
+          "axis": "x",
+          "amplitude": 55,
+          "speed": 1.1,
+          "tint": 10066176
+        },
+        {
+          "x": 780,
+          "y": 900,
+          "w": 170,
+          "h": 28,
+          "axis": "x",
+          "amplitude": 0,
+          "speed": 0,
+          "tint": 10066176
+        }
+      ],
+      "hazards": [
+        {
+          "x": 0,
+          "y": 960,
+          "w": 960,
+          "h": 120,
+          "kind": "water",
+          "current": 32
+        }
+      ],
+      "items": [
+        {
+          "id": "osmanthus_seed",
+          "x": 70,
+          "y": 818
+        }
+      ],
+      "color": "#4f7684",
+      "ceilings": []
+    }
+  }
+}

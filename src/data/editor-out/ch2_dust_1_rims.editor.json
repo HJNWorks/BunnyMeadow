@@ -1,0 +1,120 @@
+{
+  "levelId": "ch2_dust_1_rims",
+  "level": {
+    "playerSpawn": {
+      "x": 80,
+      "y": 900
+    },
+    "moonPools": [
+      {
+        "chunk": 0,
+        "x": 200,
+        "y": 900,
+        "line": "Dust remembers every paw. Keep to the rims."
+      }
+    ],
+    "moonPool": {
+      "chunk": 0,
+      "x": 200,
+      "y": 900,
+      "line": "Dust remembers every paw. Keep to the rims."
+    },
+    "exit": {
+      "chunk": 1,
+      "x": 870,
+      "y": 850
+    },
+    "env": "ch2_dust",
+    "sky": "#161410"
+  },
+  "look": {
+    "env": "ch2_dust",
+    "sky": "#161410"
+  },
+  "decor": [],
+  "chunks": {
+    "chunk_ch2_dust_a": {
+      "id": "chunk_ch2_dust_a",
+      "width": 960,
+      "height": 1080,
+      "groundY": 940,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 940,
+          "w": 160,
+          "h": 40
+        },
+        {
+          "x": 520,
+          "y": 800,
+          "w": 110,
+          "h": 20
+        },
+        {
+          "x": 840,
+          "y": 680,
+          "w": 110,
+          "h": 20
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "dust_mite",
+          "x": 80,
+          "y": 880
+        }
+      ],
+      "items": [
+        {
+          "id": "star_grit",
+          "x": 340,
+          "y": 860
+        }
+      ],
+      "color": "#1a1814",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    },
+    "chunk_ch2_dust_b": {
+      "id": "chunk_ch2_dust_b",
+      "width": 960,
+      "height": 1080,
+      "groundY": 820,
+      "platforms": [
+        {
+          "x": 280,
+          "y": 600,
+          "w": 100,
+          "h": 20
+        },
+        {
+          "x": 560,
+          "y": 740,
+          "w": 100,
+          "h": 20
+        },
+        {
+          "x": 800,
+          "y": 880,
+          "w": 160,
+          "h": 28
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "star_wisp",
+          "x": 860,
+          "y": 800
+        }
+      ],
+      "color": "#1a1814",
+      "ceilings": [],
+      "movers": [],
+      "hazards": []
+    }
+  }
+}
