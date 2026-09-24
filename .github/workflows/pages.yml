@@ -27,6 +27,8 @@ jobs:
           node-version: "20"
           cache: "npm"
       - name: Install and build
+        env:
+          VITE_BASE: /BunnyMeadow/
         run: |
           npm ci
           npm run build

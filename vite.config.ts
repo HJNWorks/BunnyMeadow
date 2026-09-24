@@ -53,7 +53,7 @@ function bunnyMeadowDevWrite(): Plugin {
 }
 
 export default defineConfig({
-  base: "/games/bunny-meadow/",
+  base: process.env.VITE_BASE ?? "/games/bunny-meadow/",
   plugins: [bunnyMeadowDevWrite()],
   server: {
     host: true,
