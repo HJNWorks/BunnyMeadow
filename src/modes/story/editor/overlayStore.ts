@@ -9,9 +9,11 @@ import type {
 import type { MoonPoolDef, StoryLevelDef } from "../levels"
 import { cloneMoonPool, poolsOf } from "../levels"
 import type { PaletteHour, WeatherPreset } from "../shared/themeKit"
+import shippedStampFile from "../../../data/editor-shipped-stamp.json"
 
 export const EDITOR_OVERLAY_KEY = "bunnymeadow.editor.overlay.v2"
 const EDITOR_OVERLAY_LEGACY_KEY = "bunnymeadow.editor.overlay.v1"
+export const EDITOR_SHIPPED_STAMP = String(shippedStampFile.stamp ?? "")
 
 export type EditorPickup = {
   id: string
@@ -54,6 +56,7 @@ export type EditorLevelOverlay = {
   worldHeight?: number
   shippedHeight?: number
   shippedChunks?: string[]
+  shippedStamp?: string
   platforms: AssembledRect[]
   movers: AssembledMover[]
   enemies: AssembledEnemy[]
@@ -171,6 +174,9 @@ export function overlayMatchesShipped(
   def: StoryLevelDef,
   world: AssembledLevel,
 ): boolean {
+  if (!EDITOR_SHIPPED_STAMP || overlay.shippedStamp !== EDITOR_SHIPPED_STAMP) {
+    return false
+  }
   if (overlay.shippedChunks && overlay.shippedChunks.join(",") !== def.chunks.join(",")) {
     return false
   }
@@ -195,6 +201,7 @@ export function captureOverlay(
     worldHeight: def.height ?? world.height,
     shippedHeight: def.height ?? world.height,
     shippedChunks: [...def.chunks],
+    shippedStamp: EDITOR_SHIPPED_STAMP,
     platforms: world.platforms.map((rect) => ({ ...rect })),
     movers: world.movers.map((mover) => ({ ...mover })),
     enemies: world.enemies.map((enemy) => ({ ...enemy })),

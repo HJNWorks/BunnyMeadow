@@ -1,5 +1,6 @@
 import fs from "node:fs"
 import path from "node:path"
+import crypto from "node:crypto"
 
 const root = path.resolve(import.meta.dirname, "..")
 
@@ -76,8 +77,12 @@ const dumps = fs.readdirSync(dumpDir).filter((name) => name.endsWith(".editor.js
 let chunkCount = 0
 let levelCount = 0
 let decorCount = 0
-for (const file of dumps) {
-  const bundle = JSON.parse(fs.readFileSync(path.join(dumpDir, file), "utf8"))
+const hash = crypto.createHash("sha256")
+for (const file of dumps.sort()) {
+  const raw = fs.readFileSync(path.join(dumpDir, file), "utf8")
+  hash.update(file)
+  hash.update(raw)
+  const bundle = JSON.parse(raw)
   const meta = byId.get(bundle.levelId)
   if (meta) {
     redistributeDecor(bundle, meta.chunks)
@@ -116,4 +121,10 @@ for (const file of dumps) {
   levelCount += 1
 }
 
-console.log(`baked ${levelCount} stations, ${chunkCount} chunks, ${decorCount} decor pieces`)
+const stamp = hash.digest("hex").slice(0, 16)
+fs.writeFileSync(
+  path.join(root, "src/data/editor-shipped-stamp.json"),
+  `${JSON.stringify({ stamp }, null, 2)}\n`,
+)
+
+console.log(`baked ${levelCount} stations, ${chunkCount} chunks, ${decorCount} decor pieces, stamp ${stamp}`)

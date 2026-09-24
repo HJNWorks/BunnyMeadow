@@ -1,6 +1,7 @@
 import {
   ChunkAssembler,
   type AssembledLevel,
+  type AssembledRect,
   type ChunkDef,
 } from "../../../systems/ChunkAssembler"
 import type { StoryLevelDef, MoonPoolDef } from "../levels"
@@ -52,7 +53,13 @@ export function buildExportBundle(
     y: number,
     w: number,
     h: number,
-    extra?: { surface?: string; break?: ChunkDef["platforms"][number]["break"] },
+    extra?: {
+      surface?: string
+      break?: ChunkDef["platforms"][number]["break"]
+      asset?: AssembledRect["asset"]
+      rotation?: number
+      env?: string
+    },
   ): void => {
     const anchor = worldToAnchor(world, x, y)
     const id = world.chunks[anchor.chunk]
@@ -66,6 +73,9 @@ export function buildExportBundle(
       h,
       ...(extra?.surface === "slick" ? { surface: "slick" as const } : {}),
       ...(extra?.break ? { break: extra.break } : {}),
+      ...(extra?.asset ? { asset: extra.asset } : {}),
+      ...(typeof extra?.rotation === "number" ? { rotation: extra.rotation } : {}),
+      ...(extra?.env ? { env: extra.env } : {}),
     }
     if (kind === "wall") {
       chunks[id].walls.push(rect)
@@ -81,6 +91,9 @@ export function buildExportBundle(
     pushRect(rect.kind, rect.x, rect.y, rect.w, rect.h, {
       surface: rect.surface,
       break: rect.break,
+      asset: rect.asset,
+      rotation: rect.rotation,
+      env: rect.env,
     })
   }
 
