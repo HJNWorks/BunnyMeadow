@@ -76,7 +76,8 @@
       "color": "#12161c",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     },
     "chunk_ch2_silver_b": {
       "id": "chunk_ch2_silver_b",
@@ -108,7 +109,8 @@
       "ceilings": [],
       "enemies": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     }
   }
 }

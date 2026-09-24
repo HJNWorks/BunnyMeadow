@@ -16,12 +16,58 @@ function walk(dir) {
   return out
 }
 
+function chunkIndexForX(origins, widths, worldX) {
+  let idx = 0
+  for (let i = 0; i < origins.length; i += 1) {
+    const origin = origins[i]
+    const width = widths[i] ?? 960
+    if (worldX < origin + width || i === origins.length - 1) {
+      idx = i
+      break
+    }
+    idx = i
+  }
+  return Math.max(0, Math.min(idx, origins.length - 1))
+}
+
+function redistributeDecor(bundle, levelChunks) {
+  const top = Array.isArray(bundle.decor) ? bundle.decor : []
+  const chunkIds = levelChunks.filter((id) => bundle.chunks?.[id])
+  if (!chunkIds.length) {
+    return
+  }
+  for (const id of chunkIds) {
+    bundle.chunks[id].decor = []
+  }
+  if (!top.length) {
+    return
+  }
+  const widths = chunkIds.map((id) => Number(bundle.chunks[id].width) || 960)
+  const origins = []
+  let x = 0
+  for (const width of widths) {
+    origins.push(x)
+    x += width
+  }
+  for (const piece of top) {
+    const worldX = Number(piece.x) || 0
+    const idx = chunkIndexForX(origins, widths, worldX)
+    const id = chunkIds[idx]
+    const origin = origins[idx] ?? 0
+    bundle.chunks[id].decor.push({
+      ...piece,
+      x: worldX - origin,
+      y: piece.y,
+    })
+  }
+}
+
 const levelFiles = walk(path.join(root, "src/data/story"))
 const byId = new Map()
 for (const file of levelFiles) {
   const json = JSON.parse(fs.readFileSync(file, "utf8"))
   if (json.id) {
-    byId.set(json.id, file)
+    byId.set(json.id, { file, chunks: json.chunks ?? [] })
   }
 }
 
@@ -29,18 +75,24 @@ const dumpDir = path.join(root, "src/data/editor-out")
 const dumps = fs.readdirSync(dumpDir).filter((name) => name.endsWith(".editor.json"))
 let chunkCount = 0
 let levelCount = 0
+let decorCount = 0
 for (const file of dumps) {
   const bundle = JSON.parse(fs.readFileSync(path.join(dumpDir, file), "utf8"))
+  const meta = byId.get(bundle.levelId)
+  if (meta) {
+    redistributeDecor(bundle, meta.chunks)
+    decorCount += Array.isArray(bundle.decor) ? bundle.decor.length : 0
+    fs.writeFileSync(path.join(dumpDir, file), `${JSON.stringify(bundle, null, 2)}\n`)
+  }
   for (const chunk of Object.values(bundle.chunks || {})) {
     const dest = path.join(root, "src/data/chunks", `${chunk.id}.json`)
     fs.writeFileSync(dest, `${JSON.stringify(chunk, null, 2)}\n`)
     chunkCount += 1
   }
-  const levelPath = byId.get(bundle.levelId)
-  if (!levelPath) {
+  if (!meta) {
     continue
   }
-  const level = JSON.parse(fs.readFileSync(levelPath, "utf8"))
+  const level = JSON.parse(fs.readFileSync(meta.file, "utf8"))
   const next = bundle.level || {}
   if (next.playerSpawn) {
     level.playerSpawn = next.playerSpawn
@@ -60,8 +112,8 @@ for (const file of dumps) {
   if (next.sky) {
     level.sky = next.sky
   }
-  fs.writeFileSync(levelPath, `${JSON.stringify(level, null, 2)}\n`)
+  fs.writeFileSync(meta.file, `${JSON.stringify(level, null, 2)}\n`)
   levelCount += 1
 }
 
-console.log(`baked ${levelCount} stations, ${chunkCount} chunks`)
+console.log(`baked ${levelCount} stations, ${chunkCount} chunks, ${decorCount} decor pieces`)

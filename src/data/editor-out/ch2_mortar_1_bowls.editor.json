@@ -147,7 +147,8 @@
       "color": "#121416",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     }
   }
 }

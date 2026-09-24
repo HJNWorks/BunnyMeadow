@@ -63,5 +63,17 @@
   "color": "#c5d48a",
   "ceilings": [],
   "movers": [],
-  "hazards": []
+  "hazards": [],
+  "decor": [
+    {
+      "kind": "grass",
+      "x": 20,
+      "y": 960,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    }
+  ]
 }

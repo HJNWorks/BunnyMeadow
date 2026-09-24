@@ -65,7 +65,8 @@
       "color": "#3a3148",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     },
     "chunk_crane_b": {
       "id": "chunk_crane_b",
@@ -110,7 +111,8 @@
       "color": "#322940",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     }
   }
 }

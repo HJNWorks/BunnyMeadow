@@ -40,6 +40,9 @@ export function buildExportBundle(
     copy.enemies = []
     copy.movers = []
     copy.hazards = []
+    copy.decor = []
+    copy.items = []
+    copy.carrots = []
     chunks[id] = copy
   }
 
@@ -127,6 +130,37 @@ export function buildExportBundle(
       current: hazard.current,
       trigger: hazard.trigger,
     })
+  }
+
+  for (const piece of overlay.decor ?? []) {
+    const anchor = worldToAnchor(world, piece.x, piece.y)
+    const id = world.chunks[anchor.chunk]
+    if (!id || !chunks[id]) {
+      continue
+    }
+    chunks[id].decor = chunks[id].decor ?? []
+    chunks[id].decor.push({
+      ...piece,
+      x: anchor.x,
+      y: piece.y,
+    })
+  }
+
+  for (const pickup of overlay.pickups ?? []) {
+    const worldX = typeof pickup.worldX === "number" ? pickup.worldX : pickup.x
+    const worldY = typeof pickup.worldY === "number" ? pickup.worldY : pickup.y
+    const anchor = worldToAnchor(world, worldX, worldY)
+    const id = world.chunks[anchor.chunk]
+    if (!id || !chunks[id]) {
+      continue
+    }
+    if (pickup.id === "carrot") {
+      chunks[id].carrots = chunks[id].carrots ?? []
+      chunks[id].carrots.push({ x: anchor.x, y: worldY })
+      continue
+    }
+    chunks[id].items = chunks[id].items ?? []
+    chunks[id].items.push({ id: pickup.id, x: anchor.x, y: worldY })
   }
 
   const lastId = world.chunks[world.chunks.length - 1]

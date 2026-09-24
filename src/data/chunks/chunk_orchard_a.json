@@ -59,5 +59,16 @@
   "color": "#c5d48a",
   "ceilings": [],
   "movers": [],
-  "hazards": []
+  "hazards": [],
+  "decor": [
+    {
+      "kind": "hedge",
+      "x": 420,
+      "y": 850,
+      "w": 36,
+      "h": 130,
+      "rotation": 0,
+      "asset": "hedge"
+    }
+  ]
 }

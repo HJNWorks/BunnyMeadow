@@ -360,7 +360,109 @@
       "color": "#c5d48a",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": [
+        {
+          "kind": "grass",
+          "x": 200,
+          "y": 956,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 300,
+          "y": 970,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 70,
+          "y": 970,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 420,
+          "y": 950,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 540,
+          "y": 960,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 670,
+          "y": 960,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 530,
+          "y": 880,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 650,
+          "y": 870,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 820,
+          "y": 960,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 920,
+          "y": 970,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        }
+      ]
     },
     "chunk_meadow_gap": {
       "id": "chunk_meadow_gap",
@@ -417,7 +519,179 @@
       "color": "#bed593",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": [
+        {
+          "kind": "grass",
+          "x": 110,
+          "y": 660,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 210,
+          "y": 670,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 330,
+          "y": 650,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 450,
+          "y": 660,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 580,
+          "y": 660,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 310,
+          "y": 960,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 410,
+          "y": 970,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 530,
+          "y": 950,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 510,
+          "y": 970,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 630,
+          "y": 950,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 660,
+          "y": 970,
+          "w": 80,
+          "h": 20,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 760,
+          "y": 980,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 880,
+          "y": 960,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 860,
+          "y": 980,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 80,
+          "y": 950,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 60,
+          "y": 970,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        },
+        {
+          "kind": "grass",
+          "x": 180,
+          "y": 950,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        }
+      ]
     },
     "chunk_meadow_rise": {
       "id": "chunk_meadow_rise",
@@ -484,7 +758,19 @@
       "color": "#c5d48a",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": [
+        {
+          "kind": "grass",
+          "x": 20,
+          "y": 960,
+          "w": 80,
+          "h": 16,
+          "rotation": 0,
+          "asset": "ground",
+          "env": "meadow"
+        }
+      ]
     },
     "chunk_meadow_pool": {
       "id": "chunk_meadow_pool",
@@ -534,7 +820,8 @@
       "color": "#b7ce88",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     }
   }
 }

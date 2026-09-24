@@ -96,7 +96,8 @@
         }
       ],
       "color": "#5f8794",
-      "ceilings": []
+      "ceilings": [],
+      "decor": []
     },
     "chunk_raft_b": {
       "id": "chunk_raft_b",
@@ -172,7 +173,8 @@
         }
       ],
       "color": "#4f7684",
-      "ceilings": []
+      "ceilings": [],
+      "decor": []
     }
   }
 }

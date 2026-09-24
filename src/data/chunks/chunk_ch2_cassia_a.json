@@ -44,17 +44,7 @@
       "y": 888
     }
   ],
-  "decor": [
-    {
-      "kind": "wound",
-      "x": 80,
-      "y": 860,
-      "w": 140,
-      "h": 24,
-      "rotation": 0,
-      "asset": "wound"
-    }
-  ],
+  "decor": [],
   "color": "#1a1612",
   "ceilings": [],
   "enemies": [],

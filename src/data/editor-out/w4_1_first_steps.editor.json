@@ -114,7 +114,8 @@
       ],
       "color": "#8aa8c8",
       "ceilings": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     },
     "chunk_stair_lanterns": {
       "id": "chunk_stair_lanterns",
@@ -250,7 +251,8 @@
       "color": "#8aa8c8",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     },
     "chunk_stair_gap": {
       "id": "chunk_stair_gap",
@@ -309,7 +311,8 @@
       "color": "#8aa8c8",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     }
   }
 }

@@ -59,6 +59,33 @@
   "decor": [
     {
       "kind": "hedge",
+      "x": 180,
+      "y": 760,
+      "w": 88,
+      "h": 220,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 436,
+      "y": 720,
+      "w": 88,
+      "h": 260,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 692,
+      "y": 760,
+      "w": 88,
+      "h": 220,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
       "x": 40,
       "y": 860,
       "w": 80,

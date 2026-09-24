@@ -139,6 +139,24 @@
       ],
       "decor": [
         {
+          "kind": "hedge",
+          "x": 70,
+          "y": 760,
+          "w": 36,
+          "h": 160,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 210,
+          "y": 800,
+          "w": 36,
+          "h": 120,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
           "kind": "lantern",
           "x": 300,
           "y": 872,
@@ -193,6 +211,15 @@
         }
       ],
       "decor": [
+        {
+          "kind": "hedge",
+          "x": 300,
+          "y": 400,
+          "w": 36,
+          "h": 160,
+          "rotation": 0,
+          "asset": "hedge"
+        },
         {
           "kind": "column",
           "x": 300,

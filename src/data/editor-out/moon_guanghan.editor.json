@@ -623,6 +623,33 @@
       "decor": [
         {
           "kind": "hedge",
+          "x": 180,
+          "y": 760,
+          "w": 88,
+          "h": 220,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 436,
+          "y": 720,
+          "w": 88,
+          "h": 260,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 692,
+          "y": 760,
+          "w": 88,
+          "h": 220,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
           "x": 40,
           "y": 860,
           "w": 80,
@@ -706,6 +733,24 @@
         }
       ],
       "decor": [
+        {
+          "kind": "hedge",
+          "x": 0,
+          "y": 620,
+          "w": 28,
+          "h": 360,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 932,
+          "y": 620,
+          "w": 28,
+          "h": 360,
+          "rotation": 0,
+          "asset": "hedge"
+        },
         {
           "kind": "column",
           "x": 40,
@@ -946,7 +991,8 @@
       "color": "#1c2238",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     },
     "chunk_moon_b": {
       "id": "chunk_moon_b",
@@ -993,7 +1039,8 @@
       "color": "#151b2e",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     }
   }
 }

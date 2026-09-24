@@ -148,7 +148,8 @@
       "color": "#3d4560",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     },
     "chunk_lantern_street": {
       "id": "chunk_lantern_street",
@@ -310,7 +311,8 @@
       "color": "#323a54",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     },
     "chunk_lantern_rooftop": {
       "id": "chunk_lantern_rooftop",
@@ -449,7 +451,8 @@
       "color": "#2c3348",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     }
   }
 }

@@ -28,5 +28,6 @@
   "ceilings": [],
   "enemies": [],
   "movers": [],
-  "hazards": []
+  "hazards": [],
+  "decor": []
 }

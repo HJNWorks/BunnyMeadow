@@ -60,13 +60,18 @@
       "current": 36
     }
   ],
-  "items": [
-    {
-      "id": "osmanthus_seed",
-      "x": 820,
-      "y": 848
-    }
-  ],
+  "items": [],
   "color": "#6b9458",
-  "ceilings": []
+  "ceilings": [],
+  "decor": [
+    {
+      "kind": "hedge",
+      "x": 80,
+      "y": 700,
+      "w": 36,
+      "h": 280,
+      "rotation": 0,
+      "asset": "hedge"
+    }
+  ]
 }

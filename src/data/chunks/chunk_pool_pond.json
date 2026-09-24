@@ -57,25 +57,40 @@
   ],
   "decor": [
     {
-      "kind": "kit",
-      "x": 40,
-      "y": 932,
-      "w": 40,
-      "h": 48
+      "kind": "hedge",
+      "x": 260,
+      "y": 760,
+      "w": 48,
+      "h": 120,
+      "rotation": 0,
+      "asset": "hedge"
     },
     {
-      "kind": "kit",
-      "x": 92,
-      "y": 932,
-      "w": 40,
-      "h": 48
+      "kind": "hedge",
+      "x": 80,
+      "y": 860,
+      "w": 48,
+      "h": 120,
+      "rotation": 0,
+      "asset": "hedge"
     },
     {
-      "kind": "kit",
-      "x": 148,
-      "y": 936,
-      "w": 36,
-      "h": 44
+      "kind": "hedge",
+      "x": 80,
+      "y": 610,
+      "w": 48,
+      "h": 120,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 260,
+      "y": 520,
+      "w": 48,
+      "h": 120,
+      "rotation": 0,
+      "asset": "hedge"
     }
   ],
   "color": "#9bb56e",

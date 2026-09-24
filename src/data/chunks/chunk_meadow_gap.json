@@ -53,5 +53,177 @@
   "color": "#bed593",
   "ceilings": [],
   "movers": [],
-  "hazards": []
+  "hazards": [],
+  "decor": [
+    {
+      "kind": "grass",
+      "x": 110,
+      "y": 660,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 210,
+      "y": 670,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 330,
+      "y": 650,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 450,
+      "y": 660,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 580,
+      "y": 660,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 310,
+      "y": 960,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 410,
+      "y": 970,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 530,
+      "y": 950,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 510,
+      "y": 970,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 630,
+      "y": 950,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 660,
+      "y": 970,
+      "w": 80,
+      "h": 20,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 760,
+      "y": 980,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 880,
+      "y": 960,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 860,
+      "y": 980,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 80,
+      "y": 950,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 60,
+      "y": 970,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    },
+    {
+      "kind": "grass",
+      "x": 180,
+      "y": 950,
+      "w": 80,
+      "h": 16,
+      "rotation": 0,
+      "asset": "ground",
+      "env": "meadow"
+    }
+  ]
 }

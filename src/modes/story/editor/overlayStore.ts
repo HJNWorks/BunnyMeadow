@@ -10,7 +10,7 @@ import type { MoonPoolDef, StoryLevelDef } from "../levels"
 import { cloneMoonPool, poolsOf } from "../levels"
 import type { PaletteHour, WeatherPreset } from "../shared/themeKit"
 
-export const EDITOR_OVERLAY_KEY = "bunnymeadow.editor.overlay.v1"
+export const EDITOR_OVERLAY_KEY = "bunnymeadow.editor.overlay.v2"
 
 export type EditorPickup = {
   id: string

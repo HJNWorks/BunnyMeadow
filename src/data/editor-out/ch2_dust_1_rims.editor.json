@@ -76,7 +76,8 @@
       "color": "#1a1814",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     },
     "chunk_ch2_dust_b": {
       "id": "chunk_ch2_dust_b",
@@ -114,7 +115,8 @@
       "color": "#1a1814",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     }
   }
 }

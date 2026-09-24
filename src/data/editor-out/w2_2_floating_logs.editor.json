@@ -73,7 +73,8 @@
         }
       ],
       "color": "#7aa0a8",
-      "ceilings": []
+      "ceilings": [],
+      "decor": []
     },
     "chunk_river_logs": {
       "id": "chunk_river_logs",
@@ -152,7 +153,8 @@
         }
       ],
       "color": "#6b94a0",
-      "ceilings": []
+      "ceilings": [],
+      "decor": []
     },
     "chunk_river_reach": {
       "id": "chunk_river_reach",
@@ -251,7 +253,8 @@
         }
       ],
       "color": "#5f8794",
-      "ceilings": []
+      "ceilings": [],
+      "decor": []
     },
     "chunk_river_pool": {
       "id": "chunk_river_pool",
@@ -326,7 +329,8 @@
         }
       ],
       "color": "#5f8794",
-      "ceilings": []
+      "ceilings": [],
+      "decor": []
     }
   }
 }

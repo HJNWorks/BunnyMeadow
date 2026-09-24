@@ -53,5 +53,23 @@
   "color": "#6f9250",
   "ceilings": [],
   "movers": [],
-  "hazards": []
+  "hazards": [],
+  "decor": [
+    {
+      "kind": "hedge",
+      "x": 80,
+      "y": 740,
+      "w": 36,
+      "h": 240,
+      "rotation": 0,
+      "asset": "hedge"
+    }
+  ],
+  "items": [
+    {
+      "id": "osmanthus_seed",
+      "x": 140,
+      "y": 950
+    }
+  ]
 }

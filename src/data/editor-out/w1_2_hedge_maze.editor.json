@@ -161,7 +161,18 @@
       "color": "#c5d48a",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": [
+        {
+          "kind": "hedge",
+          "x": 420,
+          "y": 850,
+          "w": 36,
+          "h": 130,
+          "rotation": 0,
+          "asset": "hedge"
+        }
+      ]
     },
     "chunk_orchard_fence": {
       "id": "chunk_orchard_fence",
@@ -229,6 +240,24 @@
         }
       ],
       "decor": [
+        {
+          "kind": "hedge",
+          "x": 400,
+          "y": 820,
+          "w": 28,
+          "h": 160,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 620,
+          "y": 860,
+          "w": 28,
+          "h": 120,
+          "rotation": 0,
+          "asset": "hedge"
+        },
         {
           "kind": "hedge",
           "x": 400,
@@ -311,7 +340,18 @@
       "color": "#d4e0a0",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": [
+        {
+          "kind": "hedge",
+          "x": 640,
+          "y": 860,
+          "w": 36,
+          "h": 120,
+          "rotation": 0,
+          "asset": "hedge"
+        }
+      ]
     },
     "chunk_hedge_end": {
       "id": "chunk_hedge_end",
@@ -368,7 +408,18 @@
       "color": "#c5d48a",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": [
+        {
+          "kind": "hedge",
+          "x": 440,
+          "y": 860,
+          "w": 36,
+          "h": 120,
+          "rotation": 0,
+          "asset": "hedge"
+        }
+      ]
     }
   }
 }

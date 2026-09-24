@@ -87,7 +87,8 @@
       ],
       "color": "#7a98b8",
       "ceilings": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     },
     "chunk_stair_ice": {
       "id": "chunk_stair_ice",
@@ -158,7 +159,8 @@
       ],
       "color": "#7a98b8",
       "ceilings": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     },
     "chunk_stair_mid_b": {
       "id": "chunk_stair_mid_b",
@@ -226,7 +228,8 @@
       ],
       "color": "#7a98b8",
       "ceilings": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     },
     "chunk_stair_drop": {
       "id": "chunk_stair_drop",
@@ -285,7 +288,8 @@
       "color": "#7a98b8",
       "ceilings": [],
       "movers": [],
-      "hazards": []
+      "hazards": [],
+      "decor": []
     }
   }
 }
