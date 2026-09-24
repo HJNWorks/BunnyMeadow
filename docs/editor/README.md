@@ -10,7 +10,7 @@ Family tone: fail is retry. Off-limits as HP bars: Chang'e, Yue, Yutu, Wu Gang, 
 
 | What | Key |
 | --- | --- |
-| Maps | `bunnymeadow.editor.overlay.v1` |
+| Maps | `bunnymeadow.editor.overlay.v2` |
 | Dash looks | `bunnymeadow.dash.overlay.v1` |
 | Workshop textures | `bunnymeadow.workshop.overlay.v1` |
 
