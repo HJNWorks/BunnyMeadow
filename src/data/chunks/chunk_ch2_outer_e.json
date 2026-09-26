@@ -93,8 +93,8 @@
       "axis": "y",
       "amplitude": 190,
       "speed": 1.6,
-      "phase": 0.0,
-      "kind": "screen"
+      "kind": "screen",
+      "phase": 0
     },
     {
       "x": 616,
@@ -104,8 +104,8 @@
       "axis": "y",
       "amplitude": 190,
       "speed": 1.6,
-      "phase": 0.5,
-      "kind": "screen"
+      "kind": "screen",
+      "phase": 0.5
     }
   ],
   "hazards": [],

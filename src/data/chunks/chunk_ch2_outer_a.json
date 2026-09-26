@@ -16,8 +16,8 @@
       "y": 900,
       "w": 260,
       "h": 24,
-      "asset": "ice",
-      "surface": "slick"
+      "surface": "slick",
+      "asset": "ice"
     },
     {
       "x": 840,

@@ -8,14 +8,14 @@
     "moonPools": [
       {
         "chunk": 2,
-        "x": 110,
+        "x": 170,
         "y": 840,
         "line": "Cakes keep the time. Pound, do not cook."
       }
     ],
     "moonPool": {
       "chunk": 2,
-      "x": 110,
+      "x": 170,
       "y": 840,
       "line": "Cakes keep the time. Pound, do not cook."
     },

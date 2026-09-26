@@ -101,11 +101,11 @@
   "movers": [],
   "hazards": [
     {
-      "kind": "water",
       "x": 300,
       "y": 960,
       "w": 660,
       "h": 140,
+      "kind": "water",
       "current": 0
     }
   ],

@@ -97,8 +97,8 @@
       "axis": "y",
       "amplitude": 200,
       "speed": 1.85,
-      "phase": 0.0,
-      "kind": "pestle"
+      "kind": "pestle",
+      "phase": 0
     }
   ],
   "hazards": [],

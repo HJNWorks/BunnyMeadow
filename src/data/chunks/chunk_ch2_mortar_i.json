@@ -51,15 +51,6 @@
   "decor": [
     {
       "kind": "mortar",
-      "x": -12,
-      "y": 812,
-      "w": 144,
-      "h": 150,
-      "rotation": 0,
-      "asset": "mortar"
-    },
-    {
-      "kind": "mortar",
       "x": 168,
       "y": 892,
       "w": 184,
@@ -115,8 +106,8 @@
       "axis": "y",
       "amplitude": 180,
       "speed": 2.1,
-      "phase": 0.0,
-      "kind": "pestle"
+      "kind": "pestle",
+      "phase": 0
     },
     {
       "x": 456,
@@ -126,8 +117,8 @@
       "axis": "y",
       "amplitude": 180,
       "speed": 2.1,
-      "phase": 0.5,
-      "kind": "pestle"
+      "kind": "pestle",
+      "phase": 0.5
     }
   ],
   "hazards": [],

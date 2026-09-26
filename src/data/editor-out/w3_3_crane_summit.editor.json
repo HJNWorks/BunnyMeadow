@@ -24,6 +24,7 @@
     },
     "boss": {
       "kind": "crane",
+      "divesNeeded": 3,
       "x": 1400,
       "y": 400
     },

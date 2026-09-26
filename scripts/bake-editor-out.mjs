@@ -117,6 +117,14 @@ for (const file of dumps.sort()) {
   if (next.sky) {
     level.sky = next.sky
   }
+  if (next.ride && Array.isArray(next.ride.waypoints) && next.ride.waypoints.length > 0) {
+    level.ride = {
+      w: next.ride.w,
+      h: next.ride.h,
+      speed: next.ride.speed,
+      waypoints: next.ride.waypoints,
+    }
+  }
   fs.writeFileSync(meta.file, `${JSON.stringify(level, null, 2)}\n`)
   levelCount += 1
 }

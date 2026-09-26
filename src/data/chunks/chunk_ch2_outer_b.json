@@ -16,8 +16,8 @@
       "y": 840,
       "w": 240,
       "h": 24,
-      "asset": "ice",
-      "surface": "slick"
+      "surface": "slick",
+      "asset": "ice"
     }
   ],
   "walls": [
@@ -69,8 +69,8 @@
       "axis": "y",
       "amplitude": 190,
       "speed": 1.6,
-      "phase": 0.0,
-      "kind": "screen"
+      "kind": "screen",
+      "phase": 0
     }
   ],
   "hazards": [],

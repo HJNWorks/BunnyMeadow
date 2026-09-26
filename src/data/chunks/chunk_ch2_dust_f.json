@@ -55,6 +55,15 @@
       "h": 260,
       "rotation": 0,
       "asset": "mast"
+    },
+    {
+      "kind": "mast",
+      "x": 930,
+      "y": 560,
+      "w": 104,
+      "h": 220,
+      "rotation": 0,
+      "asset": "mast"
     }
   ],
   "color": "#1a1814",
@@ -68,25 +77,25 @@
       "axis": "x",
       "amplitude": 70,
       "speed": 0.8,
-      "phase": 0.25,
-      "kind": "raft"
+      "kind": "raft",
+      "phase": 0.25
     }
   ],
   "hazards": [
     {
-      "kind": "dust",
       "x": 0,
       "y": 920,
       "w": 300,
       "h": 120,
+      "kind": "dust",
       "current": 0
     },
     {
-      "kind": "dust",
       "x": 520,
       "y": 920,
       "w": 440,
       "h": 120,
+      "kind": "dust",
       "current": 0
     }
   ],

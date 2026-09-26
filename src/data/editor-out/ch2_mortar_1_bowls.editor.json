@@ -246,8 +246,8 @@
           "axis": "y",
           "amplitude": 170,
           "speed": 2.1,
-          "phase": 0.0,
-          "kind": "pestle"
+          "kind": "pestle",
+          "phase": 0
         }
       ],
       "hazards": [],
@@ -440,8 +440,8 @@
           "axis": "y",
           "amplitude": 170,
           "speed": 2.1,
-          "phase": 0.0,
-          "kind": "pestle"
+          "kind": "pestle",
+          "phase": 0
         },
         {
           "x": 671,
@@ -451,8 +451,8 @@
           "axis": "y",
           "amplitude": 170,
           "speed": 2.1,
-          "phase": 0.5,
-          "kind": "pestle"
+          "kind": "pestle",
+          "phase": 0.5
         }
       ],
       "hazards": [],

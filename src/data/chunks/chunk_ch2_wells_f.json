@@ -121,19 +121,19 @@
   "movers": [],
   "hazards": [
     {
-      "kind": "water",
       "x": 0,
       "y": 960,
       "w": 520,
       "h": 140,
+      "kind": "water",
       "current": 0
     },
     {
-      "kind": "water",
       "x": 760,
       "y": 960,
       "w": 200,
       "h": 140,
+      "kind": "water",
       "current": 0
     }
   ],

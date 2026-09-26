@@ -282,8 +282,8 @@
           "axis": "y",
           "amplitude": 190,
           "speed": 1.6,
-          "phase": 0.0,
-          "kind": "screen"
+          "kind": "screen",
+          "phase": 0
         },
         {
           "x": 616,
@@ -293,8 +293,8 @@
           "axis": "y",
           "amplitude": 190,
           "speed": 1.6,
-          "phase": 0.5,
-          "kind": "screen"
+          "kind": "screen",
+          "phase": 0.5
         }
       ],
       "hazards": [],
@@ -311,8 +311,8 @@
           "y": 920,
           "w": 420,
           "h": 80,
-          "asset": "ice",
-          "surface": "slick"
+          "surface": "slick",
+          "asset": "ice"
         },
         {
           "x": 500,
@@ -403,8 +403,8 @@
           "axis": "y",
           "amplitude": 190,
           "speed": 1.6,
-          "phase": 0.25,
-          "kind": "screen"
+          "kind": "screen",
+          "phase": 0.25
         }
       ],
       "hazards": [],
@@ -428,7 +428,6 @@
           "y": 620,
           "w": 100,
           "h": 24,
-          "asset": "ice",
           "surface": "slick",
           "break": {
             "profile": "ice",
@@ -436,14 +435,14 @@
             "sources": [
               "stand"
             ]
-          }
+          },
+          "asset": "ice"
         },
         {
           "x": 560,
           "y": 640,
           "w": 100,
           "h": 24,
-          "asset": "ice",
           "surface": "slick",
           "break": {
             "profile": "ice",
@@ -451,14 +450,14 @@
             "sources": [
               "stand"
             ]
-          }
+          },
+          "asset": "ice"
         },
         {
           "x": 720,
           "y": 620,
           "w": 100,
           "h": 24,
-          "asset": "ice",
           "surface": "slick",
           "break": {
             "profile": "ice",
@@ -466,7 +465,8 @@
             "sources": [
               "stand"
             ]
-          }
+          },
+          "asset": "ice"
         },
         {
           "x": 880,
@@ -543,8 +543,8 @@
           "axis": "y",
           "amplitude": 190,
           "speed": 1.6,
-          "phase": 0.0,
-          "kind": "screen"
+          "kind": "screen",
+          "phase": 0
         }
       ],
       "hazards": [],
@@ -656,8 +656,8 @@
           "axis": "y",
           "amplitude": 190,
           "speed": 1.6,
-          "phase": 0.0,
-          "kind": "screen"
+          "kind": "screen",
+          "phase": 0
         },
         {
           "x": 436,
@@ -667,8 +667,8 @@
           "axis": "y",
           "amplitude": 190,
           "speed": 1.6,
-          "phase": 0.33,
-          "kind": "screen"
+          "kind": "screen",
+          "phase": 0.33
         },
         {
           "x": 656,
@@ -678,8 +678,8 @@
           "axis": "y",
           "amplitude": 190,
           "speed": 1.6,
-          "phase": 0.66,
-          "kind": "screen"
+          "kind": "screen",
+          "phase": 0.66
         }
       ],
       "hazards": [],

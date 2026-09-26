@@ -56,29 +56,29 @@
       "axis": "x",
       "amplitude": 90,
       "speed": 0.8,
-      "phase": 0.25,
-      "kind": "raft"
+      "kind": "raft",
+      "phase": 0.25
     }
   ],
   "hazards": [
     {
-      "kind": "dust",
       "x": 0,
       "y": 880,
       "w": 440,
       "h": 120,
+      "kind": "dust",
       "current": 0
     },
     {
-      "kind": "tide",
       "x": 420,
       "y": 380,
       "w": 110,
       "h": 620,
+      "kind": "tide",
       "current": 0,
       "lift": 380,
       "period": 2.8,
-      "phase": 0.0
+      "phase": 0
     }
   ],
   "carrots": []

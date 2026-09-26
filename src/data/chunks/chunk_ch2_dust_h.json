@@ -51,33 +51,33 @@
   "movers": [],
   "hazards": [
     {
-      "kind": "tide",
       "x": 320,
       "y": 340,
       "w": 110,
       "h": 660,
+      "kind": "tide",
       "current": 0,
       "lift": 380,
-      "period": 3.0,
-      "phase": 0.0
+      "period": 3,
+      "phase": 0
     },
     {
-      "kind": "tide",
       "x": 580,
       "y": 180,
       "w": 110,
       "h": 820,
+      "kind": "tide",
       "current": 0,
       "lift": 380,
-      "period": 3.0,
+      "period": 3,
       "phase": 0.5
     },
     {
-      "kind": "dust",
       "x": 300,
       "y": 940,
       "w": 420,
       "h": 120,
+      "kind": "dust",
       "current": 0
     }
   ],

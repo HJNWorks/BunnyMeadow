@@ -5,141 +5,52 @@
   "groundY": 920,
   "platforms": [
     {
-      "x": 560,
+      "x": 0,
       "y": 920,
-      "w": 800,
+      "w": 200,
       "h": 80,
       "asset": "wound"
     },
     {
-      "x": 520,
-      "y": -200,
-      "w": 40,
-      "h": 1200,
+      "x": 360,
+      "y": 500,
+      "w": 30,
+      "h": 280,
       "asset": "wound"
     },
     {
-      "x": 640,
-      "y": 760,
-      "w": 160,
-      "h": 28,
-      "asset": "wound",
-      "break": {
-        "profile": "wood",
-        "hp": 0.9,
-        "sources": [
-          "stand"
-        ],
-        "regrow": 3
-      }
-    },
-    {
-      "x": 900,
-      "y": 600,
-      "w": 160,
-      "h": 28,
+      "x": 280,
+      "y": -580,
+      "w": 30,
+      "h": 120,
       "asset": "wound"
     },
     {
-      "x": 640,
-      "y": 440,
-      "w": 160,
-      "h": 28,
-      "asset": "wound",
-      "break": {
-        "profile": "wood",
-        "hp": 0.9,
-        "sources": [
-          "stand"
-        ],
-        "regrow": 3
-      }
+      "x": 860,
+      "y": 520,
+      "w": 30,
+      "h": 260,
+      "asset": "wound"
     },
     {
-      "x": 900,
-      "y": 280,
-      "w": 160,
-      "h": 28,
+      "x": 870,
+      "y": -100,
+      "w": 30,
+      "h": 260,
       "asset": "wound"
     },
     {
       "x": 660,
-      "y": 120,
-      "w": 160,
-      "h": 28,
-      "asset": "wound",
-      "break": {
-        "profile": "wood",
-        "hp": 0.9,
-        "sources": [
-          "stand"
-        ],
-        "regrow": 3
-      }
-    },
-    {
-      "x": 900,
-      "y": -40,
-      "w": 140,
-      "h": 28,
+      "y": -520,
+      "w": 30,
+      "h": 260,
       "asset": "wound"
     },
     {
-      "x": 160,
-      "y": -1100,
-      "w": 40,
-      "h": 930,
-      "asset": "wound"
-    },
-    {
-      "x": 160,
-      "y": -1140,
-      "w": 1600,
-      "h": 40,
-      "asset": "wound"
-    },
-    {
-      "x": 200,
-      "y": -200,
-      "w": 660,
-      "h": 40,
-      "asset": "wound"
-    },
-    {
-      "x": 300,
-      "y": -390,
-      "w": 180,
-      "h": 28,
-      "asset": "wound",
-      "break": {
-        "profile": "wood",
-        "hp": 0.9,
-        "sources": [
-          "stand"
-        ],
-        "regrow": 3
-      }
-    },
-    {
-      "x": 620,
-      "y": -580,
-      "w": 160,
-      "h": 28,
-      "asset": "wound",
-      "break": {
-        "profile": "wood",
-        "hp": 0.9,
-        "sources": [
-          "stand"
-        ],
-        "regrow": 3
-      }
-    },
-    {
-      "x": 860,
-      "y": -770,
-      "w": 200,
-      "h": 28,
+      "x": 500,
+      "y": 200,
+      "w": 30,
+      "h": 220,
       "asset": "wound"
     }
   ],
@@ -148,34 +59,29 @@
   "items": [
     {
       "id": "elixir_crumb",
-      "x": 700,
-      "y": 410
-    }
-  ],
-  "decor": [
+      "x": 480,
+      "y": 720
+    },
     {
-      "kind": "heartwood",
-      "x": 200,
-      "y": -1100,
-      "w": 1520,
-      "h": 900,
-      "rotation": 0,
-      "asset": "heartwood"
+      "id": "elixir_crumb",
+      "x": 520,
+      "y": 160
     }
   ],
+  "decor": [],
   "color": "#161410",
   "ceilings": [],
   "movers": [
     {
-      "x": 860,
-      "y": -200,
-      "w": 100,
-      "h": 28,
+      "x": 410,
+      "y": 740,
+      "w": 150,
+      "h": 20,
       "axis": "x",
-      "amplitude": -100,
-      "speed": 1.4,
-      "phase": 0.0,
-      "kind": "bark"
+      "amplitude": 100,
+      "speed": 0.5,
+      "tint": 13942200,
+      "kind": "bridge"
     }
   ],
   "hazards": [],

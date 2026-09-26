@@ -5,18 +5,7 @@
       "x": 120,
       "y": 860
     },
-    "moonPools": [
-      {
-        "chunk": 0,
-        "x": 120,
-        "y": 870
-      }
-    ],
-    "moonPool": {
-      "chunk": 0,
-      "x": 120,
-      "y": 870
-    },
+    "moonPools": [],
     "exit": {
       "chunk": 1,
       "x": 860,

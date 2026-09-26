@@ -127,11 +127,11 @@
       "movers": [],
       "hazards": [
         {
-          "kind": "tide",
           "x": 260,
           "y": 620,
           "w": 420,
           "h": 300,
+          "kind": "tide",
           "current": 110
         }
       ],
@@ -205,19 +205,19 @@
       "movers": [],
       "hazards": [
         {
-          "kind": "tide",
           "x": 160,
           "y": 600,
           "w": 260,
           "h": 280,
+          "kind": "tide",
           "current": -90
         },
         {
-          "kind": "dust",
           "x": 540,
           "y": 900,
           "w": 240,
           "h": 120,
+          "kind": "dust",
           "current": 0
         }
       ],
@@ -276,33 +276,33 @@
       "movers": [],
       "hazards": [
         {
-          "kind": "tide",
           "x": 320,
           "y": 340,
           "w": 110,
           "h": 660,
+          "kind": "tide",
           "current": 0,
           "lift": 380,
-          "period": 3.0,
-          "phase": 0.0
+          "period": 3,
+          "phase": 0
         },
         {
-          "kind": "tide",
           "x": 580,
           "y": 180,
           "w": 110,
           "h": 820,
+          "kind": "tide",
           "current": 0,
           "lift": 380,
-          "period": 3.0,
+          "period": 3,
           "phase": 0.5
         },
         {
-          "kind": "dust",
           "x": 300,
           "y": 940,
           "w": 420,
           "h": 120,
+          "kind": "dust",
           "current": 0
         }
       ],
@@ -369,19 +369,19 @@
       "movers": [],
       "hazards": [
         {
-          "kind": "tide",
           "x": 160,
           "y": 220,
           "w": 100,
           "h": 220,
+          "kind": "tide",
           "current": 90
         },
         {
-          "kind": "tide",
           "x": 380,
           "y": 400,
           "w": 120,
           "h": 240,
+          "kind": "tide",
           "current": -80
         }
       ],

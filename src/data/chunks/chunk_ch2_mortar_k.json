@@ -89,8 +89,8 @@
       "axis": "x",
       "amplitude": 120,
       "speed": 1.3,
-      "phase": 0.5,
-      "kind": "roller"
+      "kind": "roller",
+      "phase": 0.5
     },
     {
       "x": 738,
@@ -100,8 +100,8 @@
       "axis": "y",
       "amplitude": 200,
       "speed": 2.4,
-      "phase": 0.0,
-      "kind": "pestle"
+      "kind": "pestle",
+      "phase": 0
     }
   ],
   "hazards": [],

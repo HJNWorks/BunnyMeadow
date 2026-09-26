@@ -23,7 +23,6 @@
       "y": 600,
       "w": 110,
       "h": 24,
-      "asset": "ice",
       "surface": "slick",
       "break": {
         "profile": "ice",
@@ -31,14 +30,14 @@
         "sources": [
           "stand"
         ]
-      }
+      },
+      "asset": "ice"
     },
     {
       "x": 690,
       "y": 620,
       "w": 110,
       "h": 24,
-      "asset": "ice",
       "surface": "slick",
       "break": {
         "profile": "ice",
@@ -46,7 +45,8 @@
         "sources": [
           "stand"
         ]
-      }
+      },
+      "asset": "ice"
     },
     {
       "x": 840,

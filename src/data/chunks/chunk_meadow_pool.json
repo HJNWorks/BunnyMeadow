@@ -48,7 +48,18 @@
     }
   ],
   "walls": [],
-  "enemies": [],
+  "enemies": [
+    {
+      "id": "fox",
+      "x": 340,
+      "y": 960
+    },
+    {
+      "id": "cat",
+      "x": 350,
+      "y": 820
+    }
+  ],
   "color": "#b7ce88",
   "ceilings": [],
   "movers": [],

@@ -9,8 +9,8 @@
       "y": 920,
       "w": 420,
       "h": 80,
-      "asset": "ice",
-      "surface": "slick"
+      "surface": "slick",
+      "asset": "ice"
     },
     {
       "x": 500,
@@ -101,8 +101,8 @@
       "axis": "y",
       "amplitude": 190,
       "speed": 1.6,
-      "phase": 0.25,
-      "kind": "screen"
+      "kind": "screen",
+      "phase": 0.25
     }
   ],
   "hazards": [],

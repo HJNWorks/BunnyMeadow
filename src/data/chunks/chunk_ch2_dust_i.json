@@ -59,19 +59,19 @@
   "movers": [],
   "hazards": [
     {
-      "kind": "tide",
       "x": 160,
       "y": 220,
       "w": 100,
       "h": 220,
+      "kind": "tide",
       "current": 90
     },
     {
-      "kind": "tide",
       "x": 380,
       "y": 400,
       "w": 120,
       "h": 240,
+      "kind": "tide",
       "current": -80
     }
   ],

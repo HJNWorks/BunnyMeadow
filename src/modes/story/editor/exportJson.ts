@@ -17,6 +17,12 @@ export type EditorExportBundle = {
     boss?: { kind?: string; hitsNeeded?: number; x: number; y: number }
     env?: string
     sky?: string
+    ride?: {
+      w: number
+      h: number
+      speed: number
+      waypoints: { chunk: number; x: number; y: number }[]
+    }
   }
   look?: EditorLevelOverlay["look"]
   decor?: EditorLevelOverlay["decor"]
@@ -216,6 +222,16 @@ export function buildExportBundle(
     overlay.exit.y,
   )
 
+  const ride =
+    overlay.ride && overlay.ride.points.length > 0
+      ? {
+          w: overlay.ride.w,
+          h: overlay.ride.h,
+          speed: overlay.ride.speed,
+          waypoints: overlay.ride.points.map((point) => worldToAnchor(world, point.x, point.y)),
+        }
+      : undefined
+
   return {
     levelId: def.id,
     level: {
@@ -234,6 +250,7 @@ export function buildExportBundle(
           : undefined,
       env: overlay.look?.env,
       sky: overlay.look?.sky,
+      ride,
     },
     look: overlay.look,
     decor: overlay.decor,

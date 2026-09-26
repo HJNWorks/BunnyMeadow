@@ -23,7 +23,6 @@
       "y": 790,
       "w": 120,
       "h": 16,
-      "asset": "skin",
       "break": {
         "profile": "silver",
         "hp": 0.8,
@@ -31,14 +30,14 @@
           "still"
         ],
         "regrow": 1.6
-      }
+      },
+      "asset": "skin"
     },
     {
       "x": 720,
       "y": 730,
       "w": 120,
       "h": 16,
-      "asset": "skin",
       "break": {
         "profile": "silver",
         "hp": 0.8,
@@ -46,7 +45,8 @@
           "still"
         ],
         "regrow": 1.6
-      }
+      },
+      "asset": "skin"
     },
     {
       "x": 900,
@@ -71,11 +71,11 @@
   "movers": [],
   "hazards": [
     {
-      "kind": "water",
       "x": 300,
       "y": 920,
       "w": 660,
       "h": 160,
+      "kind": "water",
       "current": 0
     }
   ],

@@ -16,7 +16,7 @@
   },
   "moonPool": {
     "chunk": 2,
-    "x": 250,
+    "x": 280,
     "y": 800,
     "line": "Wait the pestle. Then hop the rim."
   },
@@ -33,7 +33,7 @@
   "moonPools": [
     {
       "chunk": 2,
-      "x": 250,
+      "x": 280,
       "y": 800,
       "line": "Wait the pestle. Then hop the rim."
     }

@@ -39,8 +39,8 @@
       "axis": "x",
       "amplitude": 90,
       "speed": 0.8,
-      "phase": 0.0,
-      "kind": "raft"
+      "kind": "raft",
+      "phase": 0
     },
     {
       "x": 660,
@@ -50,17 +50,17 @@
       "axis": "x",
       "amplitude": 110,
       "speed": 0.8,
-      "phase": 0.5,
-      "kind": "raft"
+      "kind": "raft",
+      "phase": 0.5
     }
   ],
   "hazards": [
     {
-      "kind": "dust",
       "x": 260,
       "y": 920,
       "w": 700,
       "h": 120,
+      "kind": "dust",
       "current": 0
     }
   ],

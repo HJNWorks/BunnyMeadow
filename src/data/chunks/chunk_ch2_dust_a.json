@@ -44,11 +44,11 @@
   "movers": [],
   "hazards": [
     {
-      "kind": "dust",
       "x": 360,
       "y": 960,
       "w": 240,
       "h": 120,
+      "kind": "dust",
       "current": 0
     }
   ],

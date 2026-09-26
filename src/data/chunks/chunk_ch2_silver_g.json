@@ -16,7 +16,6 @@
       "y": 900,
       "w": 260,
       "h": 16,
-      "asset": "skin",
       "break": {
         "profile": "silver",
         "hp": 0.8,
@@ -24,7 +23,8 @@
           "still"
         ],
         "regrow": 1.6
-      }
+      },
+      "asset": "skin"
     },
     {
       "x": 680,
@@ -39,12 +39,12 @@
     {
       "id": "silver_carp",
       "x": 40,
-      "y": 950
+      "y": 924
     },
     {
       "id": "silver_carp",
       "x": 520,
-      "y": 950
+      "y": 924
     }
   ],
   "items": [],
@@ -54,11 +54,11 @@
   "movers": [],
   "hazards": [
     {
-      "kind": "water",
       "x": 0,
       "y": 904,
       "w": 680,
       "h": 160,
+      "kind": "water",
       "current": 0
     }
   ],

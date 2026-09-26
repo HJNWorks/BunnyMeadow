@@ -41,13 +41,7 @@
     }
   ],
   "walls": [],
-  "enemies": [
-    {
-      "id": "fox",
-      "x": 930,
-      "y": 960
-    }
-  ],
+  "enemies": [],
   "items": [
     {
       "id": "dew",

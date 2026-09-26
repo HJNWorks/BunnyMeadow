@@ -9,19 +9,19 @@
     "chunk_ch2_cassia_f"
   ],
   "playerSpawn": {
-    "x": 700,
+    "x": 80,
     "y": 880
   },
   "moonPool": {
     "chunk": 0,
-    "x": 960,
-    "y": -80,
+    "x": 890,
+    "y": 490,
     "line": "Gold in the wound. Slow fall through the cut."
   },
   "exit": {
-    "chunk": 1,
-    "x": 680,
-    "y": -200
+    "chunk": 0,
+    "x": 310,
+    "y": -640
   },
   "moonLine": "Gold in the wound. Slow fall through the cut.",
   "objective": "Climb to the heartwood. Close every gold cut.",
@@ -32,8 +32,8 @@
   "moonPools": [
     {
       "chunk": 0,
-      "x": 960,
-      "y": -80,
+      "x": 890,
+      "y": 490,
       "line": "Gold in the wound. Slow fall through the cut."
     }
   ],

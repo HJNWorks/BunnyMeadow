@@ -9,7 +9,6 @@
       "y": 720,
       "w": 140,
       "h": 16,
-      "asset": "skin",
       "break": {
         "profile": "silver",
         "hp": 0.8,
@@ -17,14 +16,14 @@
           "still"
         ],
         "regrow": 1.6
-      }
+      },
+      "asset": "skin"
     },
     {
       "x": 300,
       "y": 780,
       "w": 140,
       "h": 16,
-      "asset": "skin",
       "break": {
         "profile": "silver",
         "hp": 0.8,
@@ -32,7 +31,8 @@
           "still"
         ],
         "regrow": 1.6
-      }
+      },
+      "asset": "skin"
     },
     {
       "x": 500,
@@ -46,7 +46,6 @@
       "y": 800,
       "w": 140,
       "h": 16,
-      "asset": "skin",
       "break": {
         "profile": "silver",
         "hp": 0.8,
@@ -54,7 +53,8 @@
           "still"
         ],
         "regrow": 1.6
-      }
+      },
+      "asset": "skin"
     },
     {
       "x": 900,
@@ -69,7 +69,7 @@
     {
       "id": "silver_carp",
       "x": 200,
-      "y": 960
+      "y": 940
     }
   ],
   "items": [
@@ -85,11 +85,11 @@
   "movers": [],
   "hazards": [
     {
-      "kind": "water",
       "x": 0,
       "y": 920,
       "w": 900,
       "h": 160,
+      "kind": "water",
       "current": 0
     }
   ],

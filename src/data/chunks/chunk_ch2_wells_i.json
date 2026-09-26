@@ -80,11 +80,11 @@
   "movers": [],
   "hazards": [
     {
-      "kind": "water",
       "x": 0,
       "y": 960,
       "w": 420,
       "h": 140,
+      "kind": "water",
       "current": 0
     }
   ],

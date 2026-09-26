@@ -16,14 +16,14 @@
   },
   "moonPool": {
     "chunk": 2,
-    "x": 110,
+    "x": 170,
     "y": 840,
     "line": "Cakes keep the time. Pound, do not cook."
   },
   "exit": {
     "chunk": 3,
     "x": 920,
-    "y": 820
+    "y": 780
   },
   "moonLine": "Cakes keep the time. Pound, do not cook.",
   "objective": "Hop cake rounds across the yard.",
@@ -33,7 +33,7 @@
   "moonPools": [
     {
       "chunk": 2,
-      "x": 110,
+      "x": 170,
       "y": 840,
       "line": "Cakes keep the time. Pound, do not cook."
     }

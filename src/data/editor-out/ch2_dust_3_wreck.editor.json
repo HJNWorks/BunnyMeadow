@@ -102,8 +102,8 @@
           "axis": "x",
           "amplitude": 90,
           "speed": 0.8,
-          "phase": 0.0,
-          "kind": "raft"
+          "kind": "raft",
+          "phase": 0
         },
         {
           "x": 660,
@@ -113,17 +113,17 @@
           "axis": "x",
           "amplitude": 110,
           "speed": 0.8,
-          "phase": 0.5,
-          "kind": "raft"
+          "kind": "raft",
+          "phase": 0.5
         }
       ],
       "hazards": [
         {
-          "kind": "dust",
           "x": 260,
           "y": 920,
           "w": 700,
           "h": 120,
+          "kind": "dust",
           "current": 0
         }
       ],
@@ -186,6 +186,15 @@
           "h": 260,
           "rotation": 0,
           "asset": "mast"
+        },
+        {
+          "kind": "mast",
+          "x": 930,
+          "y": 560,
+          "w": 104,
+          "h": 220,
+          "rotation": 0,
+          "asset": "mast"
         }
       ],
       "color": "#1a1814",
@@ -199,25 +208,25 @@
           "axis": "x",
           "amplitude": 70,
           "speed": 0.8,
-          "phase": 0.25,
-          "kind": "raft"
+          "kind": "raft",
+          "phase": 0.25
         }
       ],
       "hazards": [
         {
-          "kind": "dust",
           "x": 0,
           "y": 920,
           "w": 300,
           "h": 120,
+          "kind": "dust",
           "current": 0
         },
         {
-          "kind": "dust",
           "x": 520,
           "y": 920,
           "w": 440,
           "h": 120,
+          "kind": "dust",
           "current": 0
         }
       ],
@@ -246,17 +255,7 @@
         }
       ],
       "items": [],
-      "decor": [
-        {
-          "kind": "mast",
-          "x": -30,
-          "y": 560,
-          "w": 104,
-          "h": 220,
-          "rotation": 0,
-          "asset": "mast"
-        }
-      ],
+      "decor": [],
       "color": "#1a1814",
       "ceilings": [],
       "movers": [
@@ -267,9 +266,9 @@
           "h": 24,
           "axis": "x",
           "amplitude": 90,
-          "speed": 1.0,
-          "phase": 0.0,
-          "kind": "raft"
+          "speed": 1,
+          "kind": "raft",
+          "phase": 0
         },
         {
           "x": 640,
@@ -278,26 +277,26 @@
           "h": 24,
           "axis": "x",
           "amplitude": 90,
-          "speed": 1.0,
-          "phase": 0.5,
-          "kind": "raft"
+          "speed": 1,
+          "kind": "raft",
+          "phase": 0.5
         }
       ],
       "hazards": [
         {
-          "kind": "dust",
           "x": 200,
           "y": 880,
           "w": 760,
           "h": 120,
+          "kind": "dust",
           "current": 0
         },
         {
-          "kind": "tide",
           "x": 250,
           "y": 560,
           "w": 650,
           "h": 320,
+          "kind": "tide",
           "current": 80
         }
       ],
@@ -361,29 +360,29 @@
           "axis": "x",
           "amplitude": 90,
           "speed": 0.8,
-          "phase": 0.25,
-          "kind": "raft"
+          "kind": "raft",
+          "phase": 0.25
         }
       ],
       "hazards": [
         {
-          "kind": "dust",
           "x": 0,
           "y": 880,
           "w": 440,
           "h": 120,
+          "kind": "dust",
           "current": 0
         },
         {
-          "kind": "tide",
           "x": 420,
           "y": 380,
           "w": 110,
           "h": 620,
+          "kind": "tide",
           "current": 0,
           "lift": 380,
           "period": 2.8,
-          "phase": 0.0
+          "phase": 0
         }
       ],
       "carrots": []

@@ -16,7 +16,7 @@
   },
   "moonPool": {
     "chunk": 2,
-    "x": 180,
+    "x": 310,
     "y": 720,
     "line": "The first mouth is false. Well silver shows the real lip."
   },
@@ -33,7 +33,7 @@
   "moonPools": [
     {
       "chunk": 2,
-      "x": 180,
+      "x": 310,
       "y": 720,
       "line": "The first mouth is false. Well silver shows the real lip."
     }

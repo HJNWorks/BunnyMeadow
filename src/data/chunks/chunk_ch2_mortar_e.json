@@ -72,8 +72,8 @@
       "axis": "x",
       "amplitude": 186,
       "speed": 0.9,
-      "phase": 0.25,
-      "kind": "roller"
+      "kind": "roller",
+      "phase": 0.25
     }
   ],
   "hazards": [],
