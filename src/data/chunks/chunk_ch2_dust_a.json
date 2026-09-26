@@ -2,49 +2,55 @@
   "id": "chunk_ch2_dust_a",
   "width": 960,
   "height": 1080,
-  "groundY": 940,
+  "groundY": 920,
   "platforms": [
     {
       "x": 0,
-      "y": 940,
-      "w": 160,
-      "h": 40,
+      "y": 920,
+      "w": 360,
+      "h": 60,
       "asset": "ground"
     },
     {
-      "x": 520,
-      "y": 800,
-      "w": 110,
-      "h": 20,
-      "asset": "ground"
-    },
-    {
-      "x": 840,
-      "y": 680,
-      "w": 110,
-      "h": 20,
+      "x": 600,
+      "y": 900,
+      "w": 200,
+      "h": 60,
       "asset": "ground"
     }
   ],
   "walls": [],
   "enemies": [
     {
-      "id": "dust_mite",
-      "x": 80,
-      "y": 880
+      "id": "crater_crab",
+      "x": 700,
+      "y": 870
     }
   ],
-  "items": [
+  "items": [],
+  "decor": [
     {
-      "id": "star_grit",
-      "x": 340,
-      "y": 860
+      "kind": "crater",
+      "x": 330,
+      "y": 890,
+      "w": 300,
+      "h": 150,
+      "rotation": 0,
+      "asset": "crater"
     }
   ],
   "color": "#1a1814",
   "ceilings": [],
   "movers": [],
-  "hazards": [],
-  "decor": [],
+  "hazards": [
+    {
+      "kind": "dust",
+      "x": 360,
+      "y": 960,
+      "w": 240,
+      "h": 120,
+      "current": 0
+    }
+  ],
   "carrots": []
 }

@@ -69,3 +69,62 @@ are unchanged.
 | night lighting | static overlay, no flicker on lanterns |
 | mist wall | single band, no tendril animation, no shake |
 | screen shake | disabled (see [animation.md](animation.md)) |
+
+## Pestle beat
+
+Mortar Yard only. Lives with the mover in `src/modes/story/shared/moversHazards.ts`.
+
+| Beat part | Effect |
+| --- | --- |
+| hold | A shadow ellipse on the bowl darkens toward the slam |
+| last 12% of the hold | The head trembles about 2 px |
+| slam lands | Seven pale dust puffs (jade and bone) spread and fade |
+
+Reduced motion keeps the shadow, drops the tremble, and throws two puffs. No
+camera shake and no sound yet.
+
+## Outer Cold
+
+| Piece | Effect |
+| --- | --- |
+| guest screen | Same beat telegraph as the pestle (floor shadow, tremble before closing). Five frost puffs when it shuts |
+| chime stone | A pale ring expands off the stone and the stone dips 6 px. Reduced motion keeps a small ring and no dip |
+
+## Dust Sea
+
+| Piece | Effect |
+| --- | --- |
+| dust tide | Faint band. Pale streaks drift with the current |
+| vent | Column brightens while it breathes. Streaks rise fast when on and crawl when off. A four-puff warning at the mouth just before it breathes |
+| sinking dust | Rippled pale crust over a body that darkens with depth. Drawn over Mei so she sinks into it |
+| crater crab | Three dust puffs and a fade when it digs in or pops up |
+
+Reduced motion keeps every tide visible with fewer, slower streaks and skips the
+vent warning puffs.
+
+## Cassia Wound
+
+| Piece | Effect |
+| --- | --- |
+| bark cut | Slabs tremble before they close. Gold motes where they meet |
+| healing bark | Wood crack stages, then it fades back in over 0.36 s when it regrows |
+| Penghou | Gold flicker during the volley windup. Gold spark ring when a cut closes. A slow gold glow once it settles |
+| gold cut | Soft pulsing glow until closed. Reduced motion keeps a steady glow |
+
+## Quiet Wells
+
+| Piece | Effect |
+| --- | --- |
+| dim lip | 5% until lit. Fades up over 0.42 s with five silver motes |
+| reflection lip | Lit: fades to 30%, silver tint, a slow horizontal ripple |
+| still water (all lunar stations) | Dark blue-black fill with a 3 px silver skin instead of river blue |
+
+Reduced motion lights instantly, with no motes and no ripple.
+
+## Far Silver
+
+| Piece | Effect |
+| --- | --- |
+| silver skin | Radial lines spread while Mei stands still, then it drops away. It fades back in when it regrows |
+| silver carp | Leaps high out of the dark moon water |
+

@@ -29,6 +29,7 @@ import {
   additionSelectHtml,
   inspectEnemySelectHtml,
   inspectItemSelectHtml,
+  envTokenLabel,
   parseKitToken,
   stationsForWorld,
   type EditorWorldId,
@@ -952,7 +953,7 @@ export function mountBuildHud(session: EditorSession): void {
   for (const child of session.enemies.getChildren()) {
     const index = Number(child.getData("editIndex"))
     const id = String(child.getData("id") || "")
-    if (!Number.isFinite(index) || (id !== "carp" && id !== "heron" && id !== "lantern_moth")) {
+    if (!Number.isFinite(index) || (id !== "carp" && id !== "silver_carp" && id !== "heron" && id !== "lantern_moth")) {
       continue
     }
     const enemy = overlay.enemies[index]
@@ -1368,7 +1369,10 @@ export function mountBuildHud(session: EditorSession): void {
         syncUndo()
         return
       }
-      hint.textContent = t("editor.kind.mover")
+      hint.textContent =
+        mover.kind === "pestle" || mover.kind === "roller" || mover.kind === "screen" || mover.kind === "raft" || mover.kind === "bark"
+          ? envTokenLabel(mover.kind)
+          : t("editor.kind.mover")
       xInput.value = String(mover.worldX)
       yInput.value = String(mover.worldY)
       wInput.value = String(mover.w)
@@ -2195,6 +2199,129 @@ export function mountBuildHud(session: EditorSession): void {
         kind: "bridge",
         worldX: at.x - 80,
         worldY: at.y,
+        env: stamp,
+      })
+      restart("build")
+      return
+    }
+    if (token === "tide" || token === "dust") {
+      const tide = token === "tide"
+      const w = tide ? 240 : 200
+      const h = tide ? 200 : 80
+      const local = worldToAnchor(session.world, at.x - w / 2, at.y)
+      overlay.hazards = overlay.hazards ?? []
+      overlay.hazards.push({
+        kind: token,
+        x: local.x,
+        y: at.y,
+        w,
+        h,
+        current: tide ? 60 : 0,
+        worldX: at.x - w / 2,
+        worldY: at.y,
+        env: stamp,
+      })
+      restart("build")
+      return
+    }
+    if (token === "skin") {
+      overlay.platforms.push({
+        kind: "platform",
+        x: at.x - 80,
+        y: at.y,
+        w: 160,
+        h: 16,
+        env: stamp,
+        asset: "skin",
+        break: { profile: "silver", hp: 0.8, sources: ["still"], regrow: 1.6 },
+      })
+      restart("build")
+      return
+    }
+    if (token === "dim") {
+      overlay.platforms.push({ kind: "platform", x: at.x - 70, y: at.y, w: 140, h: 24, env: stamp, dim: true })
+      restart("build")
+      return
+    }
+    if (token === "bark") {
+      const local = worldToAnchor(session.world, at.x - 90, at.y)
+      overlay.movers.push({
+        x: local.x,
+        y: at.y,
+        w: 90,
+        h: 24,
+        axis: "x",
+        amplitude: -90,
+        speed: 1.4,
+        phase: 0,
+        kind: "bark",
+        worldX: at.x - 90,
+        worldY: at.y,
+        env: stamp,
+      })
+      restart("build")
+      return
+    }
+    if (token === "raft") {
+      const local = worldToAnchor(session.world, at.x - 80, at.y)
+      overlay.movers.push({
+        x: local.x,
+        y: at.y,
+        w: 160,
+        h: 24,
+        axis: "x",
+        amplitude: 120,
+        speed: 0.8,
+        phase: 0,
+        kind: "raft",
+        worldX: at.x - 80,
+        worldY: at.y,
+        env: stamp,
+      })
+      restart("build")
+      return
+    }
+    if (token === "chime") {
+      overlay.platforms.push({ kind: "platform", x: at.x - 45, y: at.y, w: 90, h: 26, env: stamp, asset: "chime" })
+      restart("build")
+      return
+    }
+    if (token === "screen") {
+      const local = worldToAnchor(session.world, at.x - 24, at.y - 180)
+      overlay.movers.push({
+        x: local.x,
+        y: at.y - 180,
+        w: 48,
+        h: 180,
+        axis: "y",
+        amplitude: 190,
+        speed: 1.6,
+        phase: 0,
+        kind: "screen",
+        worldX: at.x - 24,
+        worldY: at.y - 180,
+        env: stamp,
+      })
+      restart("build")
+      return
+    }
+    if (token === "pestle" || token === "roller") {
+      const pestle = token === "pestle"
+      const w = pestle ? 48 : 96
+      const h = pestle ? 200 : 96
+      const local = worldToAnchor(session.world, at.x - w / 2, at.y - h)
+      overlay.movers.push({
+        x: local.x,
+        y: at.y - h,
+        w,
+        h,
+        axis: pestle ? "y" : "x",
+        amplitude: pestle ? 170 : 120,
+        speed: pestle ? 2.1 : 0.9,
+        phase: 0,
+        kind: token,
+        worldX: at.x - w / 2,
+        worldY: at.y - h,
         env: stamp,
       })
       restart("build")

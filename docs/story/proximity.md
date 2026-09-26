@@ -37,6 +37,10 @@ reset Han hearts. Mooncakes and spirit HUD spawn only while the fight is live.
 Leave after settled does not un-settle. See [han.md](../creatures/folk/han.md) and
 [guanghan-palace.md](../universe/environments/guanghan-palace.md).
 
+Second use: Penghou's heartwood room on Cassia Gold Core (`boss.court` in the level
+JSON, a box in chunk space). Enter to wake the spirit and seal the floor cut behind
+Mei. Leave or fall before it settles and the fight resets and the cut opens again.
+
 Editor overlay JSON (decor and hazards) may carry:
 
 ```json

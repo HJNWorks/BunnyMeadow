@@ -6,33 +6,35 @@
   "name": "Guest Gate",
   "chunks": [
     "chunk_ch2_outer_e",
-    "chunk_ch2_outer_f"
+    "chunk_ch2_outer_f",
+    "chunk_ch2_outer_j",
+    "chunk_ch2_outer_k"
   ],
   "playerSpawn": {
-    "x": 140,
+    "x": 60,
     "y": 880
   },
   "moonPool": {
-    "chunk": 1,
-    "x": 120,
-    "y": 580,
+    "chunk": 2,
+    "x": 130,
+    "y": 560,
     "line": "The court still keeps a guest. The wound waits beyond."
   },
   "exit": {
-    "chunk": 1,
-    "x": 900,
-    "y": 820
+    "chunk": 3,
+    "x": 880,
+    "y": 640
   },
   "moonLine": "The court still keeps a guest. The wound waits beyond.",
-  "objective": "Leave the last courtyard toward the cassia.",
+  "objective": "Wait for each screen. Leave toward the cassia.",
   "env": "ch2_outer",
   "sky": "#10141a",
   "lowGravity": true,
   "moonPools": [
     {
-      "chunk": 1,
-      "x": 120,
-      "y": 580,
+      "chunk": 2,
+      "x": 130,
+      "y": 560,
       "line": "The court still keeps a guest. The wound waits beyond."
     }
   ]

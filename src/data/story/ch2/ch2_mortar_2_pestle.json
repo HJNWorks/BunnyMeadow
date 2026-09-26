@@ -6,33 +6,35 @@
   "name": "Pestle Beat",
   "chunks": [
     "chunk_ch2_mortar_c",
-    "chunk_ch2_mortar_d"
+    "chunk_ch2_mortar_d",
+    "chunk_ch2_mortar_h",
+    "chunk_ch2_mortar_i"
   ],
   "playerSpawn": {
     "x": 100,
     "y": 900
   },
   "moonPool": {
-    "chunk": 0,
-    "x": 220,
-    "y": 900,
+    "chunk": 2,
+    "x": 250,
+    "y": 800,
     "line": "Wait the pestle. Then hop the rim."
   },
   "exit": {
-    "chunk": 1,
-    "x": 840,
-    "y": 940
+    "chunk": 3,
+    "x": 880,
+    "y": 420
   },
   "moonLine": "Wait the pestle. Then hop the rim.",
-  "objective": "Wait the pestle beat. Hop the bowls.",
+  "objective": "Wait the beat. Ride a pestle up.",
   "env": "ch2_mortar",
   "sky": "#101214",
   "lowGravity": true,
   "moonPools": [
     {
-      "chunk": 0,
-      "x": 220,
-      "y": 900,
+      "chunk": 2,
+      "x": 250,
+      "y": 800,
       "line": "Wait the pestle. Then hop the rim."
     }
   ]

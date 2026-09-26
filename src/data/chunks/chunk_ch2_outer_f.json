@@ -5,89 +5,106 @@
   "groundY": 920,
   "platforms": [
     {
-      "x": 60,
-      "y": 600,
-      "w": 130,
-      "h": 24,
-      "asset": "ground"
-    },
-    {
-      "x": 300,
-      "y": 520,
-      "w": 130,
-      "h": 24,
-      "asset": "ground"
-    },
-    {
-      "x": 540,
-      "y": 640,
-      "w": 140,
-      "h": 24,
-      "asset": "ground"
-    },
-    {
-      "x": 720,
-      "y": 860,
-      "w": 240,
+      "x": 0,
+      "y": 920,
+      "w": 420,
       "h": 80,
+      "asset": "ice",
+      "surface": "slick"
+    },
+    {
+      "x": 500,
+      "y": 900,
+      "w": 90,
+      "h": 26,
+      "asset": "chime"
+    },
+    {
+      "x": 640,
+      "y": 600,
+      "w": 120,
+      "h": 24,
+      "asset": "ground"
+    },
+    {
+      "x": 840,
+      "y": 560,
+      "w": 120,
+      "h": 24,
       "asset": "ground"
     }
   ],
   "walls": [
     {
-      "x": 320,
-      "y": 360,
-      "w": 36,
-      "h": 160,
-      "asset": "hedge"
+      "x": 300,
+      "y": 0,
+      "w": 60,
+      "h": 740,
+      "asset": "hedge",
+      "hidden": true
     }
   ],
+  "enemies": [
+    {
+      "id": "frost_wisp",
+      "x": 760,
+      "y": 440
+    }
+  ],
+  "items": [],
   "decor": [
     {
-      "kind": "hedge",
-      "x": 320,
-      "y": 360,
-      "w": 36,
-      "h": 160,
+      "kind": "moonDoor",
+      "x": 165,
+      "y": 605,
+      "w": 330,
+      "h": 330,
+      "rotation": 0,
+      "asset": "moondoor"
+    },
+    {
+      "kind": "chimeFrame",
+      "x": 470,
+      "y": 690,
+      "w": 150,
+      "h": 214,
+      "rotation": 0,
+      "asset": "chimeframe"
+    },
+    {
+      "kind": "column",
+      "x": 680,
+      "y": 618,
+      "w": 40,
+      "h": 462,
       "rotation": 0,
       "asset": "hedge"
     },
     {
       "kind": "column",
-      "x": 320,
-      "y": 360,
-      "w": 36,
-      "h": 160,
+      "x": 880,
+      "y": 578,
+      "w": 40,
+      "h": 502,
       "rotation": 0,
       "asset": "hedge"
-    },
-    {
-      "kind": "lantern",
-      "x": 800,
-      "y": 812,
-      "w": 28,
-      "h": 48,
-      "rotation": 0,
-      "asset": "lantern"
     }
   ],
   "color": "#151b2e",
   "ceilings": [],
-  "enemies": [
+  "movers": [
     {
-      "id": "dust_mite",
-      "x": 600,
-      "y": 580
+      "x": 306,
+      "y": 740,
+      "w": 48,
+      "h": 180,
+      "axis": "y",
+      "amplitude": 190,
+      "speed": 1.6,
+      "phase": 0.25,
+      "kind": "screen"
     }
   ],
-  "movers": [],
   "hazards": [],
-  "items": [
-    {
-      "id": "mooncake",
-      "x": 760,
-      "y": 828
-    }
-  ],
   "carrots": []
 }

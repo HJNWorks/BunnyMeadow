@@ -147,7 +147,20 @@ export function applySky(
         .setAlpha(0.88)
         .setDepth(-3.2)
     }
-    const farKey = env === "moon" ? "story_far_guanghan" : "story_far_moon"
+    const farKey =
+      env === "moon" ? "story_far_guanghan" : env === "ch2_mortar"
+          ? "story_far_mortar"
+          : env === "ch2_outer"
+            ? "story_far_outer"
+            : env === "ch2_dust"
+              ? "story_far_dust"
+              : env === "ch2_cassia"
+                ? "story_far_cassia"
+                : env === "ch2_wells"
+                  ? "story_far_wells"
+                  : env === "ch2_silver"
+                    ? "story_far_silver"
+                    : "story_far_moon"
     if (scene.textures.exists(farKey)) {
       scene.add
         .image(960, 280, farKey)

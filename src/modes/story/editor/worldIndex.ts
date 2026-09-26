@@ -223,6 +223,36 @@ export function envTokenLabel(token: string): string {
   if (token === "pool") {
     return "Moon Pool"
   }
+  if (token === "pestle") {
+    return "Yard pestle"
+  }
+  if (token === "roller") {
+    return "Cake round"
+  }
+  if (token === "screen") {
+    return "Guest screen"
+  }
+  if (token === "chime") {
+    return "Chime stone"
+  }
+  if (token === "tide") {
+    return "Dust tide"
+  }
+  if (token === "dust") {
+    return "Sinking dust"
+  }
+  if (token === "raft") {
+    return "Raft plank"
+  }
+  if (token === "bark") {
+    return "Bark cut"
+  }
+  if (token === "dim") {
+    return "Dim lip"
+  }
+  if (token === "skin") {
+    return "Silver skin"
+  }
   if (token in DECOR_LABELS) {
     return DECOR_LABELS[token as keyof typeof DECOR_LABELS]
   }

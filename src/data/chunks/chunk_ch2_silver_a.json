@@ -7,44 +7,55 @@
     {
       "x": 0,
       "y": 920,
-      "w": 260,
+      "w": 360,
       "h": 60,
       "asset": "ground"
     },
     {
-      "x": 520,
+      "x": 440,
       "y": 840,
-      "w": 100,
+      "w": 120,
       "h": 20,
       "asset": "ground"
     },
     {
-      "x": 820,
-      "y": 760,
-      "w": 100,
-      "h": 20,
-      "asset": "ground"
+      "x": 600,
+      "y": 900,
+      "w": 360,
+      "h": 16,
+      "asset": "skin",
+      "break": {
+        "profile": "silver",
+        "hp": 0.8,
+        "sources": [
+          "still"
+        ],
+        "regrow": 1.6
+      }
     }
   ],
   "walls": [],
   "enemies": [
     {
-      "id": "star_wisp",
-      "x": 560,
-      "y": 700
+      "id": "silver_carp",
+      "x": 780,
+      "y": 950
     }
   ],
-  "items": [
-    {
-      "id": "mooncake",
-      "x": 860,
-      "y": 728
-    }
-  ],
+  "items": [],
+  "decor": [],
   "color": "#12161c",
   "ceilings": [],
   "movers": [],
-  "hazards": [],
-  "decor": [],
+  "hazards": [
+    {
+      "kind": "water",
+      "x": 360,
+      "y": 904,
+      "w": 600,
+      "h": 160,
+      "current": 0
+    }
+  ],
   "carrots": []
 }

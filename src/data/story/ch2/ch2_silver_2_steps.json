@@ -6,33 +6,35 @@
   "name": "Silver Steps",
   "chunks": [
     "chunk_ch2_silver_c",
-    "chunk_ch2_silver_d"
+    "chunk_ch2_silver_d",
+    "chunk_ch2_silver_h",
+    "chunk_ch2_silver_i"
   ],
   "playerSpawn": {
-    "x": 80,
+    "x": 100,
     "y": 880
   },
   "moonPool": {
-    "chunk": 1,
-    "x": 560,
-    "y": 830,
+    "chunk": 2,
+    "x": 80,
+    "y": 820,
     "line": "Quieter now. The shore does not hurry."
   },
   "exit": {
-    "chunk": 1,
-    "x": 860,
+    "chunk": 3,
+    "x": 910,
     "y": 860
   },
   "moonLine": "Quieter now. The shore does not hurry.",
-  "objective": "Hop the silver steps. Star wisps keep the gaps.",
+  "objective": "Do not stop on a silver step. Stone steps let you rest.",
   "env": "ch2_silver",
   "sky": "#12161c",
   "lowGravity": true,
   "moonPools": [
     {
-      "chunk": 1,
-      "x": 560,
-      "y": 830,
+      "chunk": 2,
+      "x": 80,
+      "y": 820,
       "line": "Quieter now. The shore does not hurry."
     }
   ]

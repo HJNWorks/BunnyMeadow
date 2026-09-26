@@ -6,8 +6,8 @@ assembled platforms, walls, movers, and decor as an optional `break` field. Pad 
 Profiles live in `src/data/breakables.json` so later sources (dash hits, projectiles, timers,
 `land` bounces) can share the same cracks without a new engine.
 
-Family tone: the object splits and is gone. No gore. A restart or station reload
-puts it back.
+Family tone: the object splits and is gone. No gore. A restart, station reload, or
+Story respawn (fall or hearts) puts it back, so a needed pad is never lost.
 
 ## Object field
 
@@ -24,6 +24,7 @@ puts it back.
 | `profile` | Key into `breakables.json`. Required. |
 | `hp` | For `beam` and `stand`: seconds of matching damage before the object is gone. For `land`: bounce count (one landing subtracts 1). Omit to use the profile default. |
 | `sources` | Which damage kinds count. Omit to use the profile list. |
+| `regrow` | Optional seconds. A broken object grows back by itself after this long (Cassia healing bark). |
 
 No `break` field means the object is solid forever. The story map editor Selection
 panel can toggle Destructible and pick a profile on platforms, walls, bridges, logs,
@@ -34,8 +35,9 @@ and decor. Copy keeps the field.
 | Profile | Default hp | Sources | Crack look | Shipped on |
 | --- | --- | --- | --- | --- |
 | stone | 5 s | beam | jagged surface splits | Guanghan green ledges |
-| wood | 5 s / 1 bounce | stand, beam, land | grain splits along the slab | Soft River logs. Bunny Jump crumble pads |
-| ice | 3 s / 1 bounce | beam, stand, land | radial frost lines | none yet. Bunny Jump one-bounce pads |
+| wood | 5 s / 1 bounce | stand, beam, land | grain splits along the slab | Soft River logs. Cassia healing bark (`hp` 0.9, `regrow` 3). Bunny Jump crumble pads |
+| silver | 0.8 s | still | radial lines (ice sheet) | Far Silver skin (`regrow` 1.6) |
+| ice | 3 s / 1 bounce | beam, stand, land | radial frost lines | Outer Cold frost tiles (`hp` 1.2, `stand`). Bunny Jump one-bounce pads |
 
 Add a profile by appending to `src/data/breakables.json` and drawing a matching
 crack sheet (`stone` / `wood` / `ice` stages 1-3). Do not invent a fourth crack
@@ -47,6 +49,7 @@ kind until the sheet exists.
 | --- | --- |
 | beam | Han's last-heart lunar beam, while the hot slab stays on that object. Last-heart beam lasts 5.5 s so one lock can finish a 5 s stone ledge. Damage is applied along the slab, not only to the first clip sprite. |
 | stand | Mei standing on the object (logs over water). Time adds only while her feet stay on it. |
+| still | Mei standing on the object and not moving (sideways speed under 30). Far Silver skin. |
 
 Damage keeps its cracks if the source leaves. A second lock or a later stand
 finishes the remaining hp.

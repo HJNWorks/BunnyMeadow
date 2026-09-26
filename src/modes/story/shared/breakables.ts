@@ -36,6 +36,7 @@ type BreakEntry = {
   cracks: string
   crack: Phaser.GameObjects.Image | null
   broken: boolean
+  regrow: number
 }
 
 export function listBreakProfiles(): string[] {
@@ -192,6 +193,7 @@ export class BreakField {
       cracks: resolved.cracks,
       crack: null,
       broken: false,
+      regrow: spec.regrow ?? 0,
     })
   }
 
@@ -248,12 +250,18 @@ export class BreakField {
       this.follow()
       return
     }
+    // "still" only counts while Mei stands still (Far Silver skin holds a moving traveller).
+    const still = Math.abs(body.velocity.x) < 30
     for (const entry of this.entries) {
-      if (entry.broken || !entry.sources.includes("stand")) {
+      if (entry.broken) {
+        continue
+      }
+      const source = entry.sources.includes("stand") ? "stand" : still && entry.sources.includes("still") ? "still" : null
+      if (!source) {
         continue
       }
       if (this.standingOn(player, entry.sprite)) {
-        this.hurt(entry.sprite, dt, "stand")
+        this.hurt(entry.sprite, dt, source)
       }
     }
     this.follow()
@@ -266,6 +274,39 @@ export class BreakField {
       }
       entry.crack.setPosition(entry.sprite.x, entry.sprite.y)
       entry.crack.setDisplaySize(entry.sprite.displayWidth, entry.sprite.displayHeight)
+    }
+  }
+
+  /** Put every cracked or fallen object back, so a respawn can never lose a needed pad. */
+  restore(): void {
+    for (const entry of this.entries) {
+      this.restoreEntry(entry)
+    }
+  }
+
+  private restoreEntry(entry: BreakEntry): void {
+    entry.hp = entry.maxHp
+    entry.crack?.destroy()
+    entry.crack = null
+    entry.sprite.setTint?.(0xffffff)
+    if (!entry.broken) {
+      return
+    }
+    entry.broken = false
+    entry.sprite.setData("broken", false)
+    entry.sprite.setVisible(true)
+    const cap = entry.sprite.getData("cap") as Phaser.GameObjects.GameObject | undefined
+    if (cap && "setVisible" in cap) {
+      ;(cap as Phaser.GameObjects.Image).setVisible(true)
+    }
+    const body = entry.sprite.body as { enable?: boolean } | null | undefined
+    if (body) {
+      body.enable = true
+    }
+    if (!this.reducedMotion && "setAlpha" in entry.sprite) {
+      const grow = entry.sprite as unknown as Phaser.GameObjects.Components.Alpha
+      grow.setAlpha(0.2)
+      this.scene.tweens.add({ targets: entry.sprite, alpha: 1, duration: 360 })
     }
   }
 
@@ -365,6 +406,13 @@ export class BreakField {
   }
 
   private shatter(entry: BreakEntry): void {
+    if (entry.regrow > 0) {
+      this.scene.time.delayedCall(entry.regrow * 1000, () => {
+        if (entry.broken) {
+          this.restoreEntry(entry)
+        }
+      })
+    }
     entry.broken = true
     entry.sprite.setData("broken", true)
     entry.sprite.setVisible(false)

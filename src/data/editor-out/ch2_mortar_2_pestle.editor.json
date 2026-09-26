@@ -7,22 +7,22 @@
     },
     "moonPools": [
       {
-        "chunk": 0,
-        "x": 220,
-        "y": 900,
+        "chunk": 2,
+        "x": 250,
+        "y": 800,
         "line": "Wait the pestle. Then hop the rim."
       }
     ],
     "moonPool": {
-      "chunk": 0,
-      "x": 220,
-      "y": 900,
+      "chunk": 2,
+      "x": 250,
+      "y": 800,
       "line": "Wait the pestle. Then hop the rim."
     },
     "exit": {
-      "chunk": 1,
-      "x": 840,
-      "y": 940
+      "chunk": 3,
+      "x": 880,
+      "y": 420
     },
     "env": "ch2_mortar",
     "sky": "#101214"
@@ -33,13 +33,157 @@
   },
   "decor": [
     {
-      "kind": "bowl",
-      "x": 80,
-      "y": 900,
-      "w": 140,
-      "h": 28,
+      "kind": "mortar",
+      "x": 368,
+      "y": 892,
+      "w": 524,
+      "h": 150,
       "rotation": 0,
-      "asset": "bowl"
+      "asset": "mortar"
+    },
+    {
+      "kind": "rack",
+      "x": 40,
+      "y": 844,
+      "w": 64,
+      "h": 96,
+      "rotation": 0,
+      "asset": "rack"
+    },
+    {
+      "kind": "rack",
+      "x": 200,
+      "y": 844,
+      "w": 64,
+      "h": 96,
+      "rotation": 0,
+      "asset": "rack"
+    },
+    {
+      "kind": "mortar",
+      "x": 988,
+      "y": 852,
+      "w": 184,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 1208,
+      "y": 892,
+      "w": 204,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "column",
+      "x": 1512,
+      "y": 560,
+      "w": 36,
+      "h": 520,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 1762,
+      "y": 620,
+      "w": 36,
+      "h": 460,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "mortar",
+      "x": 2368,
+      "y": 852,
+      "w": 134,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 2558,
+      "y": 852,
+      "w": 134,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 2748,
+      "y": 812,
+      "w": 144,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "rack",
+      "x": 2090,
+      "y": 744,
+      "w": 64,
+      "h": 96,
+      "rotation": 0,
+      "asset": "rack"
+    },
+    {
+      "kind": "mortar",
+      "x": 2868,
+      "y": 812,
+      "w": 144,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 3048,
+      "y": 892,
+      "w": 184,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 3268,
+      "y": 752,
+      "w": 184,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "column",
+      "x": 3560,
+      "y": 440,
+      "w": 36,
+      "h": 640,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 3760,
+      "y": 440,
+      "w": 36,
+      "h": 640,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "rack",
+      "x": 3516,
+      "y": 324,
+      "w": 64,
+      "h": 96,
+      "rotation": 0,
+      "asset": "rack"
     }
   ],
   "chunks": {
@@ -52,59 +196,93 @@
         {
           "x": 0,
           "y": 940,
-          "w": 360,
+          "w": 300,
           "h": 60,
           "asset": "ground"
         },
         {
-          "x": 480,
-          "y": 860,
-          "w": 180,
+          "x": 380,
+          "y": 900,
+          "w": 500,
           "h": 28,
-          "asset": "ground"
-        },
-        {
-          "x": 740,
-          "y": 760,
-          "w": 180,
-          "h": 28,
-          "asset": "ground"
+          "asset": "bowl"
         }
       ],
       "walls": [],
-      "enemies": [
-        {
-          "id": "pestle_sentry",
-          "x": 820,
-          "y": 640
-        },
-        {
-          "id": "pestle_sentry",
-          "x": 560,
-          "y": 740
-        }
-      ],
+      "enemies": [],
       "items": [
         {
-          "id": "elixir_crumb",
-          "x": 800,
-          "y": 728
+          "id": "mooncake",
+          "x": 630,
+          "y": 486
         }
       ],
       "decor": [
         {
-          "kind": "bowl",
-          "x": 80,
-          "y": 900,
-          "w": 140,
-          "h": 28,
+          "kind": "mortar",
+          "x": 368,
+          "y": 892,
+          "w": 524,
+          "h": 150,
           "rotation": 0,
-          "asset": "bowl"
+          "asset": "mortar"
+        },
+        {
+          "kind": "rack",
+          "x": 40,
+          "y": 844,
+          "w": 64,
+          "h": 96,
+          "rotation": 0,
+          "asset": "rack"
+        },
+        {
+          "kind": "rack",
+          "x": 200,
+          "y": 844,
+          "w": 64,
+          "h": 96,
+          "rotation": 0,
+          "asset": "rack"
         }
       ],
       "color": "#121416",
       "ceilings": [],
-      "movers": [],
+      "movers": [
+        {
+          "x": 456,
+          "y": 700,
+          "w": 48,
+          "h": 200,
+          "axis": "y",
+          "amplitude": 170,
+          "speed": 2.1,
+          "phase": 0.4,
+          "kind": "pestle"
+        },
+        {
+          "x": 606,
+          "y": 700,
+          "w": 48,
+          "h": 200,
+          "axis": "y",
+          "amplitude": 170,
+          "speed": 2.1,
+          "phase": 0.2,
+          "kind": "pestle"
+        },
+        {
+          "x": 756,
+          "y": 700,
+          "w": 48,
+          "h": 200,
+          "axis": "y",
+          "amplitude": 170,
+          "speed": 2.1,
+          "phase": 0.0,
+          "kind": "pestle"
+        }
+      ],
       "hazards": [],
       "carrots": []
     },
@@ -115,24 +293,31 @@
       "groundY": 940,
       "platforms": [
         {
-          "x": 60,
-          "y": 800,
-          "w": 150,
+          "x": 40,
+          "y": 860,
+          "w": 160,
           "h": 28,
+          "asset": "bowl"
+        },
+        {
+          "x": 260,
+          "y": 900,
+          "w": 180,
+          "h": 28,
+          "asset": "bowl"
+        },
+        {
+          "x": 470,
+          "y": 540,
+          "w": 200,
+          "h": 24,
           "asset": "ground"
         },
         {
-          "x": 320,
-          "y": 880,
-          "w": 150,
-          "h": 28,
-          "asset": "ground"
-        },
-        {
-          "x": 540,
-          "y": 940,
-          "w": 420,
-          "h": 60,
+          "x": 740,
+          "y": 600,
+          "w": 160,
+          "h": 24,
           "asset": "ground"
         }
       ],
@@ -140,27 +325,317 @@
       "enemies": [
         {
           "id": "pestle_sentry",
-          "x": 160,
-          "y": 700
+          "x": 860,
+          "y": 560
+        }
+      ],
+      "items": [
+        {
+          "id": "elixir_crumb",
+          "x": 560,
+          "y": 510
+        }
+      ],
+      "decor": [
+        {
+          "kind": "mortar",
+          "x": 28,
+          "y": 852,
+          "w": 184,
+          "h": 150,
+          "rotation": 0,
+          "asset": "mortar"
         },
         {
-          "id": "pestle_sentry",
+          "kind": "mortar",
+          "x": 248,
+          "y": 892,
+          "w": 204,
+          "h": 150,
+          "rotation": 0,
+          "asset": "mortar"
+        },
+        {
+          "kind": "column",
+          "x": 552,
+          "y": 560,
+          "w": 36,
+          "h": 520,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "column",
+          "x": 802,
+          "y": 620,
+          "w": 36,
+          "h": 460,
+          "rotation": 0,
+          "asset": "hedge"
+        }
+      ],
+      "color": "#121416",
+      "ceilings": [],
+      "movers": [
+        {
+          "x": 326,
+          "y": 700,
+          "w": 48,
+          "h": 200,
+          "axis": "y",
+          "amplitude": 200,
+          "speed": 1.85,
+          "phase": 0.0,
+          "kind": "pestle"
+        }
+      ],
+      "hazards": [],
+      "carrots": []
+    },
+    "chunk_ch2_mortar_h": {
+      "id": "chunk_ch2_mortar_h",
+      "width": 960,
+      "height": 1080,
+      "groundY": 940,
+      "platforms": [
+        {
+          "x": 160,
+          "y": 840,
+          "w": 220,
+          "h": 60,
+          "asset": "ground"
+        },
+        {
+          "x": 460,
+          "y": 860,
+          "w": 110,
+          "h": 28,
+          "asset": "bowl"
+        },
+        {
+          "x": 650,
+          "y": 860,
+          "w": 110,
+          "h": 28,
+          "asset": "bowl"
+        },
+        {
+          "x": 840,
+          "y": 820,
+          "w": 120,
+          "h": 28,
+          "asset": "bowl"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "cassia_grub",
+          "x": 900,
+          "y": 790
+        }
+      ],
+      "items": [],
+      "decor": [
+        {
+          "kind": "mortar",
+          "x": 448,
+          "y": 852,
+          "w": 134,
+          "h": 150,
+          "rotation": 0,
+          "asset": "mortar"
+        },
+        {
+          "kind": "mortar",
+          "x": 638,
+          "y": 852,
+          "w": 134,
+          "h": 150,
+          "rotation": 0,
+          "asset": "mortar"
+        },
+        {
+          "kind": "mortar",
+          "x": 828,
+          "y": 812,
+          "w": 144,
+          "h": 150,
+          "rotation": 0,
+          "asset": "mortar"
+        },
+        {
+          "kind": "rack",
+          "x": 170,
+          "y": 744,
+          "w": 64,
+          "h": 96,
+          "rotation": 0,
+          "asset": "rack"
+        }
+      ],
+      "color": "#121416",
+      "ceilings": [],
+      "movers": [
+        {
+          "x": 491,
+          "y": 660,
+          "w": 48,
+          "h": 200,
+          "axis": "y",
+          "amplitude": 170,
+          "speed": 2.1,
+          "phase": 0.0,
+          "kind": "pestle"
+        },
+        {
+          "x": 681,
+          "y": 660,
+          "w": 48,
+          "h": 200,
+          "axis": "y",
+          "amplitude": 170,
+          "speed": 2.1,
+          "phase": 0.5,
+          "kind": "pestle"
+        }
+      ],
+      "hazards": [],
+      "carrots": []
+    },
+    "chunk_ch2_mortar_i": {
+      "id": "chunk_ch2_mortar_i",
+      "width": 960,
+      "height": 1080,
+      "groundY": 940,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 820,
+          "w": 120,
+          "h": 28,
+          "asset": "bowl"
+        },
+        {
+          "x": 180,
+          "y": 900,
+          "w": 160,
+          "h": 28,
+          "asset": "bowl"
+        },
+        {
           "x": 400,
-          "y": 780
+          "y": 760,
+          "w": 160,
+          "h": 28,
+          "asset": "bowl"
+        },
+        {
+          "x": 620,
+          "y": 420,
+          "w": 340,
+          "h": 24,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "pestle_sentry",
+          "x": 800,
+          "y": 380
         }
       ],
       "items": [
         {
           "id": "mooncake",
-          "x": 380,
-          "y": 848
+          "x": 440,
+          "y": 728
+        }
+      ],
+      "decor": [
+        {
+          "kind": "mortar",
+          "x": -12,
+          "y": 812,
+          "w": 144,
+          "h": 150,
+          "rotation": 0,
+          "asset": "mortar"
+        },
+        {
+          "kind": "mortar",
+          "x": 168,
+          "y": 892,
+          "w": 184,
+          "h": 150,
+          "rotation": 0,
+          "asset": "mortar"
+        },
+        {
+          "kind": "mortar",
+          "x": 388,
+          "y": 752,
+          "w": 184,
+          "h": 150,
+          "rotation": 0,
+          "asset": "mortar"
+        },
+        {
+          "kind": "column",
+          "x": 680,
+          "y": 440,
+          "w": 36,
+          "h": 640,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "column",
+          "x": 880,
+          "y": 440,
+          "w": 36,
+          "h": 640,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "rack",
+          "x": 636,
+          "y": 324,
+          "w": 64,
+          "h": 96,
+          "rotation": 0,
+          "asset": "rack"
         }
       ],
       "color": "#121416",
       "ceilings": [],
-      "movers": [],
+      "movers": [
+        {
+          "x": 236,
+          "y": 700,
+          "w": 48,
+          "h": 200,
+          "axis": "y",
+          "amplitude": 180,
+          "speed": 2.1,
+          "phase": 0.0,
+          "kind": "pestle"
+        },
+        {
+          "x": 456,
+          "y": 560,
+          "w": 48,
+          "h": 200,
+          "axis": "y",
+          "amplitude": 180,
+          "speed": 2.1,
+          "phase": 0.5,
+          "kind": "pestle"
+        }
+      ],
       "hazards": [],
-      "decor": [],
       "carrots": []
     }
   }

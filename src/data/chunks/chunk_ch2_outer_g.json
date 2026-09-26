@@ -1,0 +1,102 @@
+{
+  "id": "chunk_ch2_outer_g",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 60,
+      "y": 880,
+      "w": 100,
+      "h": 26,
+      "asset": "chime"
+    },
+    {
+      "x": 240,
+      "y": 560,
+      "w": 180,
+      "h": 24,
+      "asset": "ground"
+    },
+    {
+      "x": 500,
+      "y": 600,
+      "w": 110,
+      "h": 24,
+      "asset": "ice",
+      "surface": "slick",
+      "break": {
+        "profile": "ice",
+        "hp": 1.2,
+        "sources": [
+          "stand"
+        ]
+      }
+    },
+    {
+      "x": 690,
+      "y": 620,
+      "w": 110,
+      "h": 24,
+      "asset": "ice",
+      "surface": "slick",
+      "break": {
+        "profile": "ice",
+        "hp": 1.2,
+        "sources": [
+          "stand"
+        ]
+      }
+    },
+    {
+      "x": 840,
+      "y": 640,
+      "w": 120,
+      "h": 40,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [],
+  "items": [
+    {
+      "id": "mooncake",
+      "x": 330,
+      "y": 530
+    }
+  ],
+  "decor": [
+    {
+      "kind": "chimeFrame",
+      "x": 35,
+      "y": 670,
+      "w": 150,
+      "h": 214,
+      "rotation": 0,
+      "asset": "chimeframe"
+    },
+    {
+      "kind": "column",
+      "x": 310,
+      "y": 578,
+      "w": 40,
+      "h": 502,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 880,
+      "y": 670,
+      "w": 40,
+      "h": 410,
+      "rotation": 0,
+      "asset": "hedge"
+    }
+  ],
+  "color": "#151b2e",
+  "ceilings": [],
+  "movers": [],
+  "hazards": [],
+  "carrots": []
+}

@@ -1,0 +1,129 @@
+{
+  "id": "chunk_ch2_wells_j",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 90,
+      "y": 620,
+      "w": 140,
+      "h": 24,
+      "asset": "ground",
+      "dim": true
+    },
+    {
+      "x": 310,
+      "y": 540,
+      "w": 140,
+      "h": 24,
+      "asset": "ground",
+      "dim": true
+    },
+    {
+      "x": 540,
+      "y": 600,
+      "w": 140,
+      "h": 24,
+      "asset": "ground",
+      "dim": true
+    },
+    {
+      "x": 770,
+      "y": 680,
+      "w": 140,
+      "h": 24,
+      "asset": "ground",
+      "dim": true
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "silver_bat",
+      "x": 200,
+      "y": 500
+    },
+    {
+      "id": "silver_bat",
+      "x": 660,
+      "y": 500
+    }
+  ],
+  "items": [
+    {
+      "id": "well_silver",
+      "x": 380,
+      "y": 510
+    }
+  ],
+  "decor": [
+    {
+      "kind": "reflection",
+      "x": 90,
+      "y": 720,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "reflection"
+    },
+    {
+      "kind": "reflection",
+      "x": 310,
+      "y": 640,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "reflection"
+    },
+    {
+      "kind": "reflection",
+      "x": 540,
+      "y": 700,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "reflection"
+    },
+    {
+      "kind": "reflection",
+      "x": 770,
+      "y": 780,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "reflection"
+    },
+    {
+      "kind": "stalactite",
+      "x": 440,
+      "y": 250,
+      "w": 50,
+      "h": 120,
+      "rotation": 0,
+      "asset": "stalactite"
+    }
+  ],
+  "color": "#0c1014",
+  "ceilings": [
+    {
+      "x": 0,
+      "y": 170,
+      "w": 960,
+      "h": 90,
+      "asset": "cave"
+    }
+  ],
+  "movers": [],
+  "hazards": [
+    {
+      "kind": "water",
+      "x": 0,
+      "y": 960,
+      "w": 960,
+      "h": 140,
+      "current": 0
+    }
+  ],
+  "carrots": []
+}

@@ -1,0 +1,135 @@
+{
+  "id": "chunk_ch2_mortar_i",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 820,
+      "w": 120,
+      "h": 28,
+      "asset": "bowl"
+    },
+    {
+      "x": 180,
+      "y": 900,
+      "w": 160,
+      "h": 28,
+      "asset": "bowl"
+    },
+    {
+      "x": 400,
+      "y": 760,
+      "w": 160,
+      "h": 28,
+      "asset": "bowl"
+    },
+    {
+      "x": 620,
+      "y": 420,
+      "w": 340,
+      "h": 24,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "pestle_sentry",
+      "x": 800,
+      "y": 380
+    }
+  ],
+  "items": [
+    {
+      "id": "mooncake",
+      "x": 440,
+      "y": 728
+    }
+  ],
+  "decor": [
+    {
+      "kind": "mortar",
+      "x": -12,
+      "y": 812,
+      "w": 144,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 168,
+      "y": 892,
+      "w": 184,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 388,
+      "y": 752,
+      "w": 184,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "column",
+      "x": 680,
+      "y": 440,
+      "w": 36,
+      "h": 640,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 880,
+      "y": 440,
+      "w": 36,
+      "h": 640,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "rack",
+      "x": 636,
+      "y": 324,
+      "w": 64,
+      "h": 96,
+      "rotation": 0,
+      "asset": "rack"
+    }
+  ],
+  "color": "#121416",
+  "ceilings": [],
+  "movers": [
+    {
+      "x": 236,
+      "y": 700,
+      "w": 48,
+      "h": 200,
+      "axis": "y",
+      "amplitude": 180,
+      "speed": 2.1,
+      "phase": 0.0,
+      "kind": "pestle"
+    },
+    {
+      "x": 456,
+      "y": 560,
+      "w": 48,
+      "h": 200,
+      "axis": "y",
+      "amplitude": 180,
+      "speed": 2.1,
+      "phase": 0.5,
+      "kind": "pestle"
+    }
+  ],
+  "hazards": [],
+  "carrots": []
+}

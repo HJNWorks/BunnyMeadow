@@ -2,37 +2,110 @@
   "id": "chunk_ch2_silver_b",
   "width": 960,
   "height": 1080,
-  "groundY": 900,
+  "groundY": 920,
   "platforms": [
     {
-      "x": 160,
-      "y": 800,
+      "x": 40,
+      "y": 840,
+      "w": 160,
+      "h": 20,
+      "asset": "ground"
+    },
+    {
+      "x": 240,
+      "y": 900,
+      "w": 200,
+      "h": 16,
+      "asset": "skin",
+      "break": {
+        "profile": "silver",
+        "hp": 0.8,
+        "sources": [
+          "still"
+        ],
+        "regrow": 1.6
+      }
+    },
+    {
+      "x": 460,
+      "y": 760,
       "w": 90,
       "h": 20,
       "asset": "ground"
     },
     {
-      "x": 480,
-      "y": 880,
-      "w": 90,
+      "x": 574,
+      "y": 606,
+      "w": 92,
+      "h": 12,
+      "asset": "ground"
+    },
+    {
+      "x": 740,
+      "y": 780,
+      "w": 100,
       "h": 20,
       "asset": "ground"
     },
     {
-      "x": 720,
+      "x": 900,
       "y": 900,
       "w": 240,
-      "h": 48,
-      "asset": "ground"
+      "h": 16,
+      "asset": "skin",
+      "break": {
+        "profile": "silver",
+        "hp": 0.8,
+        "sources": [
+          "still"
+        ],
+        "regrow": 1.6
+      }
     }
   ],
   "walls": [],
+  "enemies": [
+    {
+      "id": "star_wisp",
+      "x": 340,
+      "y": 640
+    }
+  ],
+  "items": [
+    {
+      "id": "mooncake",
+      "x": 620,
+      "y": 570
+    },
+    {
+      "id": "well_silver",
+      "x": 510,
+      "y": 730
+    }
+  ],
+  "decor": [
+    {
+      "kind": "dewPlate",
+      "x": 560,
+      "y": 600,
+      "w": 120,
+      "h": 300,
+      "rotation": 0,
+      "asset": "dewplate"
+    }
+  ],
   "color": "#12161c",
   "ceilings": [],
-  "enemies": [],
   "movers": [],
-  "hazards": [],
-  "decor": [],
-  "items": [],
+  "hazards": [
+    {
+      "kind": "water",
+      "x": 0,
+      "y": 904,
+      "w": 960,
+      "h": 160,
+      "current": 0
+    }
+  ],
   "carrots": []
 }

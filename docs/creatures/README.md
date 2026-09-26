@@ -91,6 +91,10 @@ and the minimum tier at which the creature appears.
 | dust mite | swarm | moon (outer, dust) | 5 | live (Story). Chapter 2 only. Do not debut on Earth |
 | star wisp | swarm | moon (wells, silver, palace) | 5 | live (Story). Radial pulse. Chapter 2 and one Guanghan hall. Not the Stair |
 | pestle sentry | ranged_lob | moon (mortar) | 5 | live (Story). Chapter 2 only. Do not debut on Earth |
+| silver carp | water_patrol | moon (silver) | 5 | live (Story Far Silver). Leaps about 250 px. Adapted 鯉魚跳龍門. Chapter 2 only |
+| silver bat | diver | moon (wells) | 5 | live (Story Quiet Wells). 1.0 s swoop from the cave roof. Lucky (福), not an omen. Chapter 2 only |
+| crater crab | patrol | moon (dust) | 5 | live (Story Dust Sea). Digs in for 1.3 s: harmless and unstompable while dug. Chapter 2 only |
+| cassia grub | patrol | moon (mortar) | 5 | live (Story Mortar Yard). Adapted 桂蠹. Stomp from above. Chapter 2 only |
 | azure bird | diver | Peach Rows | n/a | idea |
 | jade mite | swarm | Grotto Heaven | n/a | idea |
 | copper sentry | ranged_lob | Hanging Ridges | n/a | idea |
@@ -119,6 +123,9 @@ Other jump roles wait.
 | dust mite | drift | live |
 | star wisp | drift | live |
 | pestle sentry | drop_shot | live |
+| cassia grub | perch | planned |
+| crater crab | perch | planned |
+| silver bat | stoop | planned |
 | bees | drift | live Story. Jump later |
 | tortoise | perch | live Story. Jump later |
 | boar | ledge_charge | live Story. Jump later |

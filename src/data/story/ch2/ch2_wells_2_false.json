@@ -6,33 +6,35 @@
   "name": "False Lip",
   "chunks": [
     "chunk_ch2_wells_c",
-    "chunk_ch2_wells_d"
+    "chunk_ch2_wells_d",
+    "chunk_ch2_wells_h",
+    "chunk_ch2_wells_i"
   ],
   "playerSpawn": {
-    "x": 80,
-    "y": 900
+    "x": 100,
+    "y": 880
   },
   "moonPool": {
-    "chunk": 0,
-    "x": 200,
-    "y": 900,
+    "chunk": 2,
+    "x": 180,
+    "y": 720,
     "line": "The first mouth is false. Well silver shows the real lip."
   },
   "exit": {
-    "chunk": 1,
-    "x": 820,
-    "y": 740
+    "chunk": 3,
+    "x": 900,
+    "y": 700
   },
   "moonLine": "The first mouth is false. Well silver shows the real lip.",
-  "objective": "Ignore false mouths. Follow well silver.",
+  "objective": "Silver rests on real stone. Jump for it in the dark.",
   "env": "ch2_wells",
   "sky": "#080a0e",
   "lowGravity": true,
   "moonPools": [
     {
-      "chunk": 0,
-      "x": 200,
-      "y": 900,
+      "chunk": 2,
+      "x": 180,
+      "y": 720,
       "line": "The first mouth is false. Well silver shows the real lip."
     }
   ]

@@ -12,91 +12,47 @@
       "asset": "ground"
     },
     {
-      "x": 620,
-      "y": 800,
-      "w": 160,
+      "x": 500,
+      "y": 900,
+      "w": 260,
       "h": 24,
-      "asset": "ground"
+      "asset": "ice",
+      "surface": "slick"
     },
     {
-      "x": 820,
-      "y": 700,
-      "w": 140,
-      "h": 24,
+      "x": 840,
+      "y": 880,
+      "w": 120,
+      "h": 40,
       "asset": "ground"
     }
   ],
-  "walls": [
-    {
-      "x": 70,
-      "y": 760,
-      "w": 36,
-      "h": 160,
-      "asset": "hedge"
-    },
-    {
-      "x": 210,
-      "y": 800,
-      "w": 36,
-      "h": 120,
-      "asset": "hedge"
-    }
-  ],
-  "enemies": [
-    {
-      "id": "dust_mite",
-      "x": 700,
-      "y": 740
-    }
-  ],
-  "items": [
-    {
-      "id": "mooncake",
-      "x": 880,
-      "y": 668
-    }
-  ],
+  "walls": [],
+  "enemies": [],
+  "items": [],
   "decor": [
     {
-      "kind": "hedge",
-      "x": 70,
-      "y": 760,
-      "w": 36,
-      "h": 160,
+      "kind": "moonDoor",
+      "x": -10,
+      "y": 653,
+      "w": 280,
+      "h": 280,
       "rotation": 0,
-      "asset": "hedge"
-    },
-    {
-      "kind": "hedge",
-      "x": 210,
-      "y": 800,
-      "w": 36,
-      "h": 120,
-      "rotation": 0,
-      "asset": "hedge"
-    },
-    {
-      "kind": "hedge",
-      "x": 70,
-      "y": 760,
-      "w": 36,
-      "h": 160,
-      "rotation": 0,
-      "asset": "hedge"
-    },
-    {
-      "kind": "hedge",
-      "x": 210,
-      "y": 800,
-      "w": 36,
-      "h": 120,
-      "rotation": 0,
-      "asset": "hedge"
+      "asset": "moondoor"
     },
     {
       "kind": "lantern",
       "x": 300,
       "y": 872,
+      "w": 28,
+      "h": 48,
+      "rotation": 0,
+      "asset": "lantern"
+    },
+    {
+      "kind": "lantern",
+      "x": 870,
+      "y": 832,
       "w": 28,
       "h": 48,
       "rotation": 0,

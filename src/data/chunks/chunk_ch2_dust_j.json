@@ -1,0 +1,80 @@
+{
+  "id": "chunk_ch2_dust_j",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 780,
+      "w": 200,
+      "h": 28,
+      "asset": "raft"
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "dust_mite",
+      "x": 520,
+      "y": 700
+    }
+  ],
+  "items": [],
+  "decor": [
+    {
+      "kind": "mast",
+      "x": -30,
+      "y": 560,
+      "w": 104,
+      "h": 220,
+      "rotation": 0,
+      "asset": "mast"
+    }
+  ],
+  "color": "#1a1814",
+  "ceilings": [],
+  "movers": [
+    {
+      "x": 320,
+      "y": 850,
+      "w": 150,
+      "h": 24,
+      "axis": "x",
+      "amplitude": 90,
+      "speed": 1.0,
+      "phase": 0.0,
+      "kind": "raft"
+    },
+    {
+      "x": 640,
+      "y": 830,
+      "w": 150,
+      "h": 24,
+      "axis": "x",
+      "amplitude": 90,
+      "speed": 1.0,
+      "phase": 0.5,
+      "kind": "raft"
+    }
+  ],
+  "hazards": [
+    {
+      "kind": "dust",
+      "x": 200,
+      "y": 880,
+      "w": 760,
+      "h": 120,
+      "current": 0
+    },
+    {
+      "kind": "tide",
+      "x": 250,
+      "y": 560,
+      "w": 650,
+      "h": 320,
+      "current": 80
+    }
+  ],
+  "carrots": []
+}

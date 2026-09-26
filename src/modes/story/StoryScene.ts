@@ -41,6 +41,7 @@ import {
   tickPlayerTimers,
   updatePlayerMovement,
   feetOnSlick,
+  feetOnSurface,
   type PlayerState,
 } from "./shared/playerController"
 import {
@@ -55,12 +56,15 @@ import {
 } from "./shared/enemyKit"
 import { HAN_WARMTH, HanFight } from "./shared/hanBoss"
 import { STILL_HEARTS, STILL_WARMTH, StillFight } from "./shared/stillBoss"
+import { PenghouFight, type PenghouCourt } from "./shared/penghouBoss"
 import { BreakField, padBreakSpec } from "./shared/breakables"
+import { createDustHazards, tickDust, type DustState } from "./shared/dustTides"
 import {
   applyWaterPhysics,
   createMovers,
   createWaterHazards,
   updateMovers,
+  type MoverHit,
   type MoverState,
 } from "./shared/moversHazards"
 import {
@@ -363,6 +367,15 @@ function storyPadTexture(rect: AssembledRect, stationEnv: string): string {
   if (rect.asset === "bowl") {
     return "story_bowl"
   }
+  if (rect.asset === "chime") {
+    return "story_chime"
+  }
+  if (rect.asset === "raft") {
+    return "story_raft"
+  }
+  if (rect.asset === "skin") {
+    return "story_skin"
+  }
   if (rect.asset === "wound") {
     return "story_wound"
   }
@@ -424,6 +437,8 @@ export class StoryScene extends Phaser.Scene {
   private hanCourtLeft = 0
   private hanCourtRight = 0
   private stillFight: StillFight | null = null
+  private penghou: PenghouFight | null = null
+  private penghouSeal: Phaser.GameObjects.Rectangle | null = null
   private chunkOrigins: number[] = []
   private epilogueStep = 0
   private epilogueLines: string[] = []
@@ -455,11 +470,12 @@ export class StoryScene extends Phaser.Scene {
   private editorSelMode: "pick" | "region" | null = null
   private gravityScale = 1
   private pickups!: Phaser.Physics.Arcade.StaticGroup
-  private heartCakeRespawns: { x: number; y: number; at: number }[] = []
+  private heartCakeRespawns: { id: string; x: number; y: number; at: number }[] = []
   private glowTimer = 0
   private dashFx: PhaserDashFx | null = null
   private decorSprites: Phaser.GameObjects.Image[] = []
   private waterRects: Phaser.GameObjects.Rectangle[] = []
+  private dust: DustState[] = []
   private reducedMotion = false
   private poolRipple: Phaser.GameObjects.Ellipse | null = null
   private cartFinishX: number | null = null
@@ -519,6 +535,8 @@ export class StoryScene extends Phaser.Scene {
     this.han = null
     this.stillFight?.destroy()
     this.stillFight = null
+    this.penghou?.destroy()
+    this.penghou = null
     this.epilogueStep = 0
     this.leaving = false
     this.movers = []
@@ -806,6 +824,17 @@ export class StoryScene extends Phaser.Scene {
           storyPadTexture(rect, env),
         )
         block.setDepth(1)
+        if (rect.dim && this.editorMode !== "build") {
+          block.setAlpha(0.05)
+          block.setData("dim", true)
+        }
+        const chime = rect.asset === "chime"
+        if (chime) {
+          // One stretched stone, not a row of small ones.
+          block.setTileScale(rect.w / 64, rect.h / 28)
+        } else if (rect.asset === "raft") {
+          block.setTileScale(1, rect.h / 24)
+        }
         this.physics.add.existing(block, true)
         this.platforms.add(block)
         ;(block.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject()
@@ -813,12 +842,12 @@ export class StoryScene extends Phaser.Scene {
         block.setData("editIndex", i)
         block.setData("rectKind", rect.kind)
         const slick = rect.surface === "slick" || rect.asset === "ice"
-        block.setData("surface", slick ? "slick" : "default")
+        block.setData("surface", slick ? "slick" : chime ? "chime" : "default")
         const padBreak = padBreakSpec(rect.break, { env, kind: rect.kind, h: rect.h })
         if (padBreak) {
           this.breaks?.register(block, padBreak)
         }
-        if (this.editorMode !== "build") {
+        if (this.editorMode !== "build" && !chime && rect.asset !== "raft" && rect.asset !== "skin") {
           const cap = this.add
             .rectangle(
               rect.x + rect.w / 2,
@@ -829,6 +858,9 @@ export class StoryScene extends Phaser.Scene {
             )
             .setDepth(1.5)
           block.setData("cap", cap)
+          if (rect.dim) {
+            cap.setAlpha(0.05)
+          }
         }
       }
     }
@@ -875,7 +907,19 @@ export class StoryScene extends Phaser.Scene {
     this.waterRects = createWaterHazards(this, world.hazards, this.player, (water) => {
       this.onWater(water)
     })
+    this.dust = createDustHazards(this, world.hazards, this.reducedMotion)
+    const lunarWater = isLunarEnv(env)
     this.waterRects.forEach((water, index) => {
+      if (this.editorMode === "build" && water.getData("kind") !== "water") {
+        water.setVisible(true)
+      }
+      if (lunarWater && water.getData("kind") === "water") {
+        // Still moon water: dark with a silver skin, not river blue.
+        water.setFillStyle(0x1e3044, 0.78)
+        this.add
+          .rectangle(water.x, water.y - water.height / 2 + 1.5, water.width, 3, 0xb8cce0, 0.55)
+          .setDepth(0.55)
+      }
       water.setData("editKind", "hazard")
       water.setData("editIndex", index)
     })
@@ -919,7 +963,7 @@ export class StoryScene extends Phaser.Scene {
       })
       sprite.setData("editKind", "enemy")
       sprite.setData("editIndex", i)
-      if (e.id === "carp") {
+      if (e.id === "carp" || e.id === "silver_carp") {
         bindCarpToWater(sprite, world.hazards)
       }
       if (e.id === "heron") {
@@ -931,7 +975,7 @@ export class StoryScene extends Phaser.Scene {
       if (e.id === "squirrel") {
         bindSquirrelToTrunk(sprite, this.platforms, world.decor ?? [])
       }
-      if (this.editorMode === "build" && (e.id === "carp" || e.id === "heron" || e.id === "lantern_moth")) {
+      if (this.editorMode === "build" && (e.id === "carp" || e.id === "silver_carp" || e.id === "heron" || e.id === "lantern_moth")) {
         e.worldX = sprite.x
         e.worldY = sprite.y
         e.y = sprite.y
@@ -1035,6 +1079,9 @@ export class StoryScene extends Phaser.Scene {
         return
       }
       const body = enemy as Phaser.Physics.Arcade.Sprite
+      if (body.getData("dug") === true) {
+        return
+      }
       const arch = body.getData("archetype") as string
       if (arch === "heron_boss") {
         this.tryHitHeron()
@@ -1293,6 +1340,8 @@ export class StoryScene extends Phaser.Scene {
       this.han = null
       this.stillFight?.destroy()
       this.stillFight = null
+      this.penghou?.destroy()
+      this.penghou = null
       this.poolRipple?.destroy()
       this.poolRipple = null
       this.style?.remove()
@@ -1343,7 +1392,7 @@ export class StoryScene extends Phaser.Scene {
       this.health = Math.min(this.maxHearts, this.health + 1)
       this.syncHearts()
       if (id === "heart_cake") {
-        this.heartCakeRespawns.push({ x: atX, y: atY, at: this.time.now + 9000 })
+        this.heartCakeRespawns.push({ id, x: atX, y: atY, at: this.time.now + 9000 })
       }
       return
     }
@@ -1362,18 +1411,23 @@ export class StoryScene extends Phaser.Scene {
       this.lanternGlow?.setVisible(true)
       return
     }
+    // Buff pickups come back so a fall never strands a gap that needs one.
     if (id === "star_grit") {
       this.playerState.jumpBoost = 2.5
+      this.heartCakeRespawns.push({ id, x: atX, y: atY, at: this.time.now + 5000 })
       return
     }
     if (id === "elixir_crumb") {
       this.playerState.slowFall = 2.5
+      this.heartCakeRespawns.push({ id, x: atX, y: atY, at: this.time.now + 5000 })
       return
     }
     if (id === "well_silver") {
       this.glowTimer = 1.6
       this.glowKind = "well_silver"
       this.lanternGlow?.setVisible(true)
+      this.revealWellLight(atX, atY, 460)
+      this.heartCakeRespawns.push({ id, x: atX, y: atY, at: this.time.now + 5000 })
       return
     }
     if (id === "glide") {
@@ -1443,22 +1497,22 @@ export class StoryScene extends Phaser.Scene {
       return
     }
     const now = this.time.now
-    const due: { x: number; y: number }[] = []
-    const pending: { x: number; y: number; at: number }[] = []
+    const due: { id: string; x: number; y: number }[] = []
+    const pending: { id: string; x: number; y: number; at: number }[] = []
     for (const row of this.heartCakeRespawns) {
       if (row.at <= now) {
-        due.push({ x: row.x, y: row.y })
+        due.push({ id: row.id, x: row.x, y: row.y })
       } else {
         pending.push(row)
       }
     }
     this.heartCakeRespawns = pending
     for (const spot of due) {
-      const look = getItemLook("heart_cake")
+      const look = getItemLook(spot.id)
       const sprite = this.add.image(spot.x, spot.y, look.texture).setDepth(2)
       this.physics.add.existing(sprite, true)
       this.pickups.add(sprite)
-      sprite.setData("itemId", "heart_cake")
+      sprite.setData("itemId", spot.id)
     }
   }
 
@@ -1658,6 +1712,120 @@ export class StoryScene extends Phaser.Scene {
     }
   }
 
+  /**
+   * A pestle slam or a rolling wheel bumps Mei clear of its column, then costs a heart.
+   * A guest screen only keeps her on her side of the door. No heart.
+   */
+  private onMoverHit(hit: MoverHit): void {
+    const away = this.player.x >= hit.fromX ? 1 : -1
+    const body = this.player.body as Phaser.Physics.Arcade.Body
+    const clearX = hit.fromX + away * (hit.halfWidth + body.width * 0.5 + 6)
+    if (hit.kind === "screen") {
+      this.player.x = clearX
+      if (body.velocity.y < -40) {
+        body.velocity.y = -40
+      }
+      return
+    }
+    if (this.invuln > 0 || this.invincible || this.won || this.lost) {
+      return
+    }
+    this.player.x = clearX
+    this.player.setVelocityY(hit.kind === "pestle" ? -340 : -260)
+    this.hurt({ ignoreDash: true })
+  }
+
+  /**
+   * Well silver light. Dim ledges it touches come up for good. Reflection ledges it
+   * touches show what they are: ripples on still water, not stone.
+   */
+  private revealWellLight(x: number, y: number, radius: number): void {
+    const near = (bx: number, by: number, w: number, h: number): boolean => {
+      const nx = Math.max(bx - w / 2, Math.min(x, bx + w / 2))
+      const ny = Math.max(by - h / 2, Math.min(y, by + h / 2))
+      return Math.hypot(nx - x, ny - y) <= radius
+    }
+    for (const obj of this.platforms.getChildren()) {
+      const pad = obj as Phaser.GameObjects.TileSprite
+      if (pad.getData("dim") !== true || pad.getData("lit") === true) {
+        continue
+      }
+      if (!near(pad.x, pad.y, pad.displayWidth, pad.displayHeight)) {
+        continue
+      }
+      pad.setData("lit", true)
+      const cap = pad.getData("cap") as Phaser.GameObjects.Rectangle | undefined
+      const targets = cap ? [pad, cap] : [pad]
+      if (this.reducedMotion) {
+        for (const target of targets) {
+          target.setAlpha(1)
+        }
+      } else {
+        this.tweens.add({ targets, alpha: 1, duration: 420, ease: "Sine.easeOut" })
+        this.silverGlint(pad.x, pad.y - pad.displayHeight / 2)
+      }
+    }
+    for (const sprite of this.decorSprites) {
+      if (sprite.getData("reflection") !== true || sprite.getData("lit") === true) {
+        continue
+      }
+      if (!near(sprite.x, sprite.y, sprite.displayWidth, sprite.displayHeight)) {
+        continue
+      }
+      sprite.setData("lit", true)
+      sprite.setTint(0xb8d0e8)
+      if (this.reducedMotion) {
+        sprite.setAlpha(0.3)
+      } else {
+        this.tweens.add({ targets: sprite, alpha: 0.3, duration: 420 })
+        this.tweens.add({ targets: sprite, scaleX: sprite.scaleX * 1.04, duration: 900, yoyo: true, repeat: -1, ease: "Sine.easeInOut" })
+      }
+    }
+  }
+
+  private silverGlint(x: number, y: number): void {
+    for (let i = 0; i < 5; i += 1) {
+      const mote = this.add.circle(x + (i - 2) * 16, y, 2.4, 0xe8f2fc, 0.9).setDepth(2.6)
+      this.tweens.add({
+        targets: mote,
+        y: y - 18 - (i % 2) * 8,
+        alpha: 0,
+        duration: 520,
+        onComplete: () => mote.destroy(),
+      })
+    }
+  }
+
+  /**
+   * Chime stones throw Mei up (about 330 px at 0.42 g) and hand back her air jump.
+   * Max fall speed caps any stronger launch, so jumping on one gives the same ring.
+   */
+  private tickChime(): void {
+    const stone = feetOnSurface(this.player, this.platforms, "chime") as Phaser.GameObjects.TileSprite | null
+    if (!stone) {
+      return
+    }
+    this.player.setVelocityY(-880)
+    this.playerState.airJumps = this.playerState.maxAirJumps
+    getAudio().playSfx("jump")
+    const ring = this.add
+      .ellipse(stone.x, stone.y - stone.displayHeight * 0.5, stone.displayWidth * 0.8, 14)
+      .setStrokeStyle(2, 0xd8ecf8, 0.9)
+      .setDepth(2.6)
+    this.tweens.add({
+      targets: ring,
+      scaleX: this.reducedMotion ? 1.1 : 1.8,
+      scaleY: this.reducedMotion ? 1.1 : 2.4,
+      alpha: 0,
+      duration: 460,
+      ease: "Cubic.easeOut",
+      onComplete: () => ring.destroy(),
+    })
+    if (!this.reducedMotion) {
+      this.tweens.add({ targets: stone, y: stone.y + 6, duration: 70, yoyo: true, ease: "Sine.easeOut" })
+    }
+  }
+
   private restartCopy(kind: "hearts" | "fall" | "water"): string {
     if (this.level.noCheckpoint) {
       return t("story.dead.cloud")
@@ -1718,9 +1886,19 @@ export class StoryScene extends Phaser.Scene {
     this.invuln = 1.2
     this.syncHearts()
     this.player.clearTint()
+    this.breaks?.restore()
     this.runMs = 0
     if (this.level.boss?.kind === "still") {
       this.resetStillFight()
+    }
+    if (this.level.boss?.kind === "penghou" && this.penghou && !this.penghou.settled) {
+      this.penghou.destroy()
+      this.penghou = null
+      const court = this.penghouCourt()
+      if (court) {
+        this.sealPenghouCourt(court, false)
+      }
+      this.syncBossHits()
     }
     if (this.level.boss?.kind === "han" && this.han && !this.han.settled) {
       this.resetHanFight()
@@ -2055,6 +2233,18 @@ export class StoryScene extends Phaser.Scene {
         hearts: this.han.hearts,
         need: this.han.needed,
       }))
+      return
+    }
+    if (this.level.boss.kind === "penghou") {
+      this.hud.bossHits.hidden = true
+      if (!this.penghou || this.penghou.settled) {
+        this.hud.hanHearts.hidden = true
+        return
+      }
+      this.hud.hanHearts.hidden = false
+      const open = this.penghou.hearts
+      this.hud.hanHearts.textContent = `${"♥".repeat(open)}${"♡".repeat(Math.max(0, this.penghou.needed - open))}`
+      this.hud.hanHearts.setAttribute("aria-label", t("story.boss.penghou", { hearts: open, need: this.penghou.needed }))
       return
     }
     if (this.level.boss.kind === "still") {
@@ -2428,6 +2618,97 @@ export class StoryScene extends Phaser.Scene {
     getAudio().playMusic("moon")
   }
 
+  /** Heartwood room rect in world space, from the level's boss court. */
+  private penghouCourt(): PenghouCourt | null {
+    const court = this.level.boss?.court
+    if (!court) {
+      return null
+    }
+    const origin = this.chunkOrigins[court.chunk] ?? court.chunk * 960
+    return { left: origin + court.x, right: origin + court.x + court.w, top: court.y, bottom: court.y + court.h }
+  }
+
+  /**
+   * Bark cuts in the room floor stay shut while the spirit is awake. An unseen strip
+   * over the shut cut keeps the spirit (which only meets platforms) on the floor too.
+   */
+  private sealPenghouCourt(court: PenghouCourt, held: boolean): void {
+    let left = Number.POSITIVE_INFINITY
+    let right = Number.NEGATIVE_INFINITY
+    let top = 0
+    for (const mover of this.movers) {
+      if (mover.kind !== "bark") {
+        continue
+      }
+      if (mover.baseX >= court.left && mover.baseX <= court.right && Math.abs(mover.baseY - court.bottom) < 80) {
+        mover.held = held
+        const half = mover.sprite.displayWidth * 0.5
+        left = Math.min(left, mover.baseX - half)
+        right = Math.max(right, mover.baseX + half)
+        top = mover.baseY - mover.sprite.displayHeight * 0.5
+      }
+    }
+    if (!held) {
+      if (this.penghouSeal) {
+        this.platforms.remove(this.penghouSeal, true, true)
+        this.penghouSeal = null
+      }
+      return
+    }
+    if (this.penghouSeal || !Number.isFinite(left)) {
+      return
+    }
+    const seal = this.add.rectangle((left + right) / 2, top + 12, right - left, 24, 0x000000, 0)
+    this.physics.add.existing(seal, true)
+    this.platforms.add(seal)
+    this.penghouSeal = seal
+  }
+
+  private tickPenghou(dt: number): void {
+    const boss = this.level.boss
+    const court = this.penghouCourt()
+    if (!boss || !court || this.editorMode === "build") {
+      return
+    }
+    const inCourt =
+      this.player.x >= court.left && this.player.x <= court.right && this.player.y >= court.top && this.player.y <= court.bottom
+    if (!this.penghou && inCourt) {
+      const cuts = (boss.cuts ?? []).map((cut) => ({
+        x: (this.chunkOrigins[cut.chunk] ?? cut.chunk * 960) + cut.x,
+        y: cut.y,
+      }))
+      const origin = this.chunkOrigins[0] ?? 0
+      this.sealPenghouCourt(court, true)
+      this.penghou = new PenghouFight(this, origin + (boss.x ?? 960), boss.y ?? court.bottom - 60, this.player, {
+        reducedMotion: this.reducedMotion,
+        platforms: this.platforms,
+        court,
+        cuts,
+        speak: (line) => this.hud.ticker.show(t(`story.penghou.line.${line}`), `penghou.${line}`),
+      })
+      this.syncBossHits()
+      return
+    }
+    if (!this.penghou) {
+      return
+    }
+    if (!inCourt && !this.penghou.settled) {
+      this.penghou.destroy()
+      this.penghou = null
+      this.sealPenghouCourt(court, false)
+      this.syncBossHits()
+      return
+    }
+    this.penghou.update(dt)
+    if (this.penghou.settled) {
+      this.sealPenghouCourt(court, false)
+    }
+    if (this.penghou.takeHurt(this.playerState.dashTime)) {
+      this.hurt()
+    }
+    this.syncBossHits()
+  }
+
   private resetStillFight(): void {
     if (!this.stillFight || this.stillFight.portalReady) {
       return
@@ -2442,6 +2723,10 @@ export class StoryScene extends Phaser.Scene {
 
   private updateBoss(dt: number): void {
     this.bossCooldown = Math.max(0, this.bossCooldown - dt)
+    if (this.level.boss?.kind === "penghou") {
+      this.tickPenghou(dt)
+      return
+    }
     if (this.stillFight && this.level.boss?.kind === "still") {
       this.stillFight.update(dt)
       if (this.playerState.dashTime > 0) {
@@ -2601,6 +2886,9 @@ export class StoryScene extends Phaser.Scene {
     if (this.level.boss?.kind === "still" && this.stillFight && !this.stillFight.portalReady) {
       return t("story.exit.still")
     }
+    if (this.level.boss?.kind === "penghou" && !this.penghou?.settled) {
+      return t("story.exit.penghou")
+    }
     return null
   }
 
@@ -2736,7 +3024,9 @@ export class StoryScene extends Phaser.Scene {
     this.han?.tryEatCake()
     this.stillFight?.tryEatCake()
 
-    updateMovers(this.movers, this.player, dt)
+    for (const hit of updateMovers(this.movers, this.player, dt)) {
+      this.onMoverHit(hit)
+    }
     this.breaks?.tickStand(this.player, dt)
 
     if (this.galeWall) {
@@ -2769,6 +3059,11 @@ export class StoryScene extends Phaser.Scene {
       ),
     )
     updatePlayerMovement(this.player, input, this.playerState)
+    this.tickChime()
+    if (tickDust(this.dust, this.player, this.playerState, dt, this.reducedMotion)) {
+      this.enterDeadState(this.restartCopy("fall"))
+      return
+    }
     this.applyGale(dt)
     this.dashFx?.tick(this.player, this.playerState.dashTime, this.playerState.facing, dt)
 
@@ -2787,6 +3082,9 @@ export class StoryScene extends Phaser.Scene {
 
     this.weather?.update(dt, this.cameras.main.scrollX)
     this.sparklerAsh?.update(dt, this.cameras.main.scrollX)
+    if (this.glowTimer > 0 && this.glowKind === "well_silver") {
+      this.revealWellLight(this.player.x, this.player.y, 300)
+    }
     if (this.glowTimer > 0) {
       this.glowTimer = Math.max(0, this.glowTimer - dt)
       if (this.glowTimer <= 0 && this.lanternGlow && !this.lanternGlowAlways) {

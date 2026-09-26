@@ -17,6 +17,12 @@
       "sources": ["beam", "stand", "land"],
       "cracks": "ice",
       "debris": "shard"
+    },
+    "silver": {
+      "hp": 0.8,
+      "sources": ["still"],
+      "cracks": "ice",
+      "debris": "shard"
     }
   }
 }

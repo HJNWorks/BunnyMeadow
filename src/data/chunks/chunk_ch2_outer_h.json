@@ -1,0 +1,81 @@
+{
+  "id": "chunk_ch2_outer_h",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 60,
+      "y": 780,
+      "w": 640,
+      "h": 80,
+      "asset": "ground"
+    },
+    {
+      "x": 760,
+      "y": 760,
+      "w": 200,
+      "h": 24,
+      "asset": "ice",
+      "surface": "slick"
+    }
+  ],
+  "walls": [
+    {
+      "x": 510,
+      "y": 0,
+      "w": 60,
+      "h": 600,
+      "asset": "hedge",
+      "hidden": true
+    }
+  ],
+  "enemies": [],
+  "items": [],
+  "decor": [
+    {
+      "kind": "moonDoor",
+      "x": 375,
+      "y": 465,
+      "w": 330,
+      "h": 330,
+      "rotation": 0,
+      "asset": "moondoor"
+    },
+    {
+      "kind": "lantern",
+      "x": 90,
+      "y": 732,
+      "w": 28,
+      "h": 48,
+      "rotation": 0,
+      "asset": "lantern"
+    },
+    {
+      "kind": "lantern",
+      "x": 700,
+      "y": 732,
+      "w": 28,
+      "h": 48,
+      "rotation": 0,
+      "asset": "lantern"
+    }
+  ],
+  "color": "#151b2e",
+  "ceilings": [],
+  "movers": [
+    {
+      "x": 516,
+      "y": 600,
+      "w": 48,
+      "h": 180,
+      "axis": "y",
+      "amplitude": 190,
+      "speed": 1.6,
+      "phase": 0.3,
+      "kind": "screen"
+    }
+  ],
+  "hazards": [],
+  "carrots": []
+}

@@ -6,22 +6,24 @@
   "name": "Cake Rounds",
   "chunks": [
     "chunk_ch2_mortar_e",
-    "chunk_ch2_mortar_f"
+    "chunk_ch2_mortar_f",
+    "chunk_ch2_mortar_j",
+    "chunk_ch2_mortar_k"
   ],
   "playerSpawn": {
     "x": 100,
-    "y": 900
+    "y": 860
   },
   "moonPool": {
-    "chunk": 0,
-    "x": 200,
-    "y": 900,
+    "chunk": 2,
+    "x": 110,
+    "y": 840,
     "line": "Cakes keep the time. Pound, do not cook."
   },
   "exit": {
-    "chunk": 1,
-    "x": 860,
-    "y": 940
+    "chunk": 3,
+    "x": 920,
+    "y": 820
   },
   "moonLine": "Cakes keep the time. Pound, do not cook.",
   "objective": "Hop cake rounds across the yard.",
@@ -30,9 +32,9 @@
   "lowGravity": true,
   "moonPools": [
     {
-      "chunk": 0,
-      "x": 200,
-      "y": 900,
+      "chunk": 2,
+      "x": 110,
+      "y": 840,
       "line": "Cakes keep the time. Pound, do not cook."
     }
   ]

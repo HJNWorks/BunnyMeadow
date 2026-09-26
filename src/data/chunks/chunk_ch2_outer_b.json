@@ -6,82 +6,73 @@
   "platforms": [
     {
       "x": 40,
-      "y": 640,
-      "w": 140,
-      "h": 24,
-      "asset": "ground"
-    },
-    {
-      "x": 280,
-      "y": 560,
-      "w": 140,
-      "h": 24,
-      "asset": "ground"
-    },
-    {
-      "x": 520,
-      "y": 680,
-      "w": 150,
-      "h": 24,
-      "asset": "ground"
-    },
-    {
-      "x": 700,
-      "y": 860,
-      "w": 260,
+      "y": 880,
+      "w": 560,
       "h": 80,
       "asset": "ground"
+    },
+    {
+      "x": 680,
+      "y": 840,
+      "w": 240,
+      "h": 24,
+      "asset": "ice",
+      "surface": "slick"
     }
   ],
   "walls": [
     {
-      "x": 300,
-      "y": 400,
-      "w": 36,
-      "h": 160,
-      "asset": "hedge"
+      "x": 370,
+      "y": 0,
+      "w": 60,
+      "h": 700,
+      "asset": "hedge",
+      "hidden": true
     }
   ],
+  "enemies": [
+    {
+      "id": "dust_mite",
+      "x": 800,
+      "y": 760
+    }
+  ],
+  "items": [],
   "decor": [
     {
-      "kind": "hedge",
-      "x": 300,
-      "y": 400,
-      "w": 36,
-      "h": 160,
+      "kind": "moonDoor",
+      "x": 235,
+      "y": 565,
+      "w": 330,
+      "h": 330,
       "rotation": 0,
-      "asset": "hedge"
+      "asset": "moondoor"
     },
     {
-      "kind": "hedge",
-      "x": 300,
-      "y": 400,
-      "w": 36,
-      "h": 160,
+      "kind": "lantern",
+      "x": 560,
+      "y": 832,
+      "w": 28,
+      "h": 48,
       "rotation": 0,
-      "asset": "hedge"
-    },
-    {
-      "kind": "column",
-      "x": 300,
-      "y": 400,
-      "w": 36,
-      "h": 160,
-      "rotation": 0,
-      "asset": "hedge"
+      "asset": "lantern"
     }
   ],
   "color": "#151b2e",
   "ceilings": [],
-  "enemies": [],
-  "movers": [],
-  "hazards": [],
-  "items": [
+  "movers": [
     {
-      "id": "star_grit",
-      "x": 320,
-      "y": 380
+      "x": 376,
+      "y": 700,
+      "w": 48,
+      "h": 180,
+      "axis": "y",
+      "amplitude": 190,
+      "speed": 1.6,
+      "phase": 0.0,
+      "kind": "screen"
     }
   ],
+  "hazards": [],
   "carrots": []
 }

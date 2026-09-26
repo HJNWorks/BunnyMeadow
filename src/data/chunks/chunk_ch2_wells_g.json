@@ -1,0 +1,99 @@
+{
+  "id": "chunk_ch2_wells_g",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 30,
+      "y": 640,
+      "w": 140,
+      "h": 24,
+      "asset": "ground",
+      "dim": true
+    },
+    {
+      "x": 260,
+      "y": 700,
+      "w": 160,
+      "h": 24,
+      "asset": "ground"
+    },
+    {
+      "x": 480,
+      "y": 760,
+      "w": 480,
+      "h": 60,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "silver_bat",
+      "x": 160,
+      "y": 500
+    }
+  ],
+  "items": [],
+  "decor": [
+    {
+      "kind": "reflection",
+      "x": 30,
+      "y": 740,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "reflection"
+    },
+    {
+      "kind": "falseMouth",
+      "x": 640,
+      "y": 640,
+      "w": 100,
+      "h": 80,
+      "rotation": 0,
+      "asset": "cave"
+    },
+    {
+      "kind": "stalactite",
+      "x": 380,
+      "y": 250,
+      "w": 50,
+      "h": 140,
+      "rotation": 0,
+      "asset": "stalactite"
+    },
+    {
+      "kind": "wellhead",
+      "x": 520,
+      "y": 672,
+      "w": 180,
+      "h": 90,
+      "rotation": 0,
+      "asset": "wellhead"
+    }
+  ],
+  "color": "#0c1014",
+  "ceilings": [
+    {
+      "x": 0,
+      "y": 170,
+      "w": 960,
+      "h": 90,
+      "asset": "cave"
+    }
+  ],
+  "movers": [],
+  "hazards": [
+    {
+      "kind": "water",
+      "x": 0,
+      "y": 960,
+      "w": 480,
+      "h": 140,
+      "current": 0
+    }
+  ],
+  "carrots": []
+}

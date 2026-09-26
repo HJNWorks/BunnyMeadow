@@ -5,91 +5,175 @@
   "groundY": 920,
   "platforms": [
     {
-      "x": 0,
+      "x": 560,
       "y": 920,
-      "w": 240,
+      "w": 800,
       "h": 80,
       "asset": "wound"
     },
     {
-      "x": 380,
-      "y": 460,
-      "w": 30,
-      "h": 240,
+      "x": 520,
+      "y": -1000,
+      "w": 40,
+      "h": 2000,
       "asset": "wound"
     },
     {
-      "x": 300,
-      "y": -620,
-      "w": 30,
-      "h": 100,
-      "asset": "wound"
+      "x": 620,
+      "y": 770,
+      "w": 160,
+      "h": 28,
+      "asset": "wound",
+      "break": {
+        "profile": "wood",
+        "hp": 0.9,
+        "sources": [
+          "stand"
+        ],
+        "regrow": 3
+      }
+    },
+    {
+      "x": 760,
+      "y": 630,
+      "w": 140,
+      "h": 28,
+      "asset": "wound",
+      "break": {
+        "profile": "wood",
+        "hp": 0.9,
+        "sources": [
+          "stand"
+        ],
+        "regrow": 3
+      }
     },
     {
       "x": 880,
-      "y": 560,
-      "w": 30,
-      "h": 240,
+      "y": 470,
+      "w": 160,
+      "h": 28,
       "asset": "wound"
     },
     {
-      "x": 890,
-      "y": -130,
-      "w": 30,
-      "h": 240,
-      "asset": "wound"
-    },
-    {
-      "x": 690,
-      "y": -550,
-      "w": 30,
-      "h": 240,
-      "asset": "wound"
-    },
-    {
-      "x": 520,
+      "x": 560,
       "y": 300,
-      "w": 30,
-      "h": 200,
+      "w": 300,
+      "h": 28,
+      "asset": "wound"
+    },
+    {
+      "x": 900,
+      "y": -170,
+      "w": 120,
+      "h": 28,
+      "asset": "wound"
+    },
+    {
+      "x": 560,
+      "y": -320,
+      "w": 340,
+      "h": 28,
+      "asset": "wound"
+    },
+    {
+      "x": 620,
+      "y": -470,
+      "w": 140,
+      "h": 28,
+      "asset": "wound",
+      "break": {
+        "profile": "wood",
+        "hp": 0.9,
+        "sources": [
+          "stand"
+        ],
+        "regrow": 3
+      }
+    },
+    {
+      "x": 740,
+      "y": -620,
+      "w": 140,
+      "h": 28,
+      "asset": "wound",
+      "break": {
+        "profile": "wood",
+        "hp": 0.9,
+        "sources": [
+          "stand"
+        ],
+        "regrow": 3
+      }
+    },
+    {
+      "x": 880,
+      "y": -790,
+      "w": 120,
+      "h": 28,
+      "asset": "wound"
+    },
+    {
+      "x": 560,
+      "y": -960,
+      "w": 300,
+      "h": 28,
       "asset": "wound"
     }
   ],
   "walls": [],
-  "movers": [
+  "enemies": [
     {
-      "x": 400,
-      "y": 780,
-      "w": 140,
-      "h": 20,
-      "axis": "x",
-      "amplitude": 140,
-      "speed": 0.7,
-      "tint": 10066176,
-      "kind": "bridge"
-    },
-    {
-      "x": 620,
-      "y": 520,
-      "w": 120,
-      "h": 20,
-      "axis": "y",
-      "amplitude": 80,
-      "speed": 0.5,
-      "tint": 10066176,
-      "kind": "bridge"
+      "id": "cassia_grub",
+      "x": 700,
+      "y": 270
     }
   ],
   "items": [
     {
-      "id": "elixir_crumb",
-      "x": 470,
-      "y": 740
+      "id": "mooncake",
+      "x": 830,
+      "y": 600
     }
   ],
   "decor": [],
-  "color": "#1a1612",
+  "color": "#161410",
   "ceilings": [],
-  "enemies": [],
+  "movers": [
+    {
+      "x": 860,
+      "y": 300,
+      "w": 100,
+      "h": 28,
+      "axis": "x",
+      "amplitude": -100,
+      "speed": 1.4,
+      "phase": 0.0,
+      "kind": "bark"
+    },
+    {
+      "x": 900,
+      "y": -320,
+      "w": 100,
+      "h": 28,
+      "axis": "x",
+      "amplitude": -100,
+      "speed": 1.4,
+      "phase": 0.5,
+      "kind": "bark"
+    },
+    {
+      "x": 860,
+      "y": -960,
+      "w": 100,
+      "h": 28,
+      "axis": "x",
+      "amplitude": -100,
+      "speed": 1.4,
+      "phase": 0.25,
+      "kind": "bark"
+    }
+  ],
   "hazards": [],
   "carrots": []
 }

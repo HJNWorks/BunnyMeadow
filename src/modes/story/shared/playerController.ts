@@ -60,17 +60,27 @@ export function feetOnSlick(
   platforms: Phaser.Physics.Arcade.StaticGroup,
   extras: Phaser.GameObjects.GameObject[] = [],
 ): boolean {
+  return feetOnSurface(player, platforms, "slick", extras) !== null
+}
+
+/** The pad under Mei's feet whose `surface` data matches, or null. */
+export function feetOnSurface(
+  player: Phaser.Physics.Arcade.Sprite,
+  platforms: Phaser.Physics.Arcade.StaticGroup,
+  surface: string,
+  extras: Phaser.GameObjects.GameObject[] = [],
+): Phaser.GameObjects.GameObject | null {
   const body = player.body as Phaser.Physics.Arcade.Body | null
   if (!body) {
-    return false
+    return null
   }
   if (!body.blocked.down && !body.touching.down) {
-    return false
+    return null
   }
   const hits = [...platforms.getChildren(), ...extras]
   for (const obj of hits) {
     const go = obj as Phaser.GameObjects.GameObject
-    if (go.getData("surface") !== "slick" || go.getData("broken") === true) {
+    if (go.getData("surface") !== surface || go.getData("broken") === true) {
       continue
     }
     const pb = padBody(go)
@@ -80,10 +90,10 @@ export function feetOnSlick(
     const overlapX = body.right > pb.left + 2 && body.left < pb.right - 2
     const onTop = Math.abs(body.bottom - pb.top) <= 10
     if (overlapX && onTop) {
-      return true
+      return go
     }
   }
-  return false
+  return null
 }
 
 export function updatePlayerMovement(

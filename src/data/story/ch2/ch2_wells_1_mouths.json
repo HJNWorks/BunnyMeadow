@@ -6,33 +6,34 @@
   "name": "Cave Mouths",
   "chunks": [
     "chunk_ch2_wells_a",
-    "chunk_ch2_wells_b"
+    "chunk_ch2_wells_b",
+    "chunk_ch2_wells_g"
   ],
   "playerSpawn": {
-    "x": 80,
-    "y": 900
+    "x": 100,
+    "y": 880
   },
   "moonPool": {
-    "chunk": 0,
-    "x": 200,
-    "y": 900,
+    "chunk": 1,
+    "x": 60,
+    "y": 780,
     "line": "Still water. Not the far one."
   },
   "exit": {
-    "chunk": 1,
-    "x": 820,
+    "chunk": 2,
+    "x": 860,
     "y": 760
   },
   "moonLine": "Still water. Not the far one.",
-  "objective": "Hop the cave lips. One well waits below.",
+  "objective": "Well silver lights the real lips. Still water only reflects.",
   "env": "ch2_wells",
   "sky": "#080a0e",
   "lowGravity": true,
   "moonPools": [
     {
-      "chunk": 0,
-      "x": 200,
-      "y": 900,
+      "chunk": 1,
+      "x": 60,
+      "y": 780,
       "line": "Still water. Not the far one."
     }
   ]

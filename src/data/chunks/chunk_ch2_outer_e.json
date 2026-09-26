@@ -7,107 +7,74 @@
     {
       "x": 0,
       "y": 920,
-      "w": 360,
+      "w": 960,
       "h": 80,
-      "asset": "ground"
-    },
-    {
-      "x": 480,
-      "y": 820,
-      "w": 140,
-      "h": 24,
-      "asset": "ground"
-    },
-    {
-      "x": 720,
-      "y": 720,
-      "w": 140,
-      "h": 24,
-      "asset": "ground"
-    },
-    {
-      "x": 860,
-      "y": 620,
-      "w": 100,
-      "h": 24,
       "asset": "ground"
     }
   ],
   "walls": [
     {
-      "x": 120,
-      "y": 740,
-      "w": 36,
-      "h": 180,
-      "asset": "hedge"
+      "x": 300,
+      "y": 0,
+      "w": 60,
+      "h": 740,
+      "asset": "hedge",
+      "hidden": true
     },
     {
-      "x": 300,
-      "y": 780,
-      "w": 36,
-      "h": 140,
-      "asset": "hedge"
+      "x": 610,
+      "y": 0,
+      "w": 60,
+      "h": 740,
+      "asset": "hedge",
+      "hidden": true
     }
   ],
   "enemies": [
     {
       "id": "dust_mite",
-      "x": 540,
-      "y": 760
+      "x": 490,
+      "y": 820
     }
   ],
   "items": [
     {
       "id": "mooncake",
-      "x": 780,
-      "y": 688
-    },
-    {
-      "id": "star_grit",
-      "x": 900,
-      "y": 588
+      "x": 490,
+      "y": 700
     }
   ],
   "decor": [
     {
-      "kind": "hedge",
-      "x": 120,
-      "y": 740,
-      "w": 36,
-      "h": 180,
+      "kind": "moonDoor",
+      "x": 165,
+      "y": 605,
+      "w": 330,
+      "h": 330,
       "rotation": 0,
-      "asset": "hedge"
+      "asset": "moondoor"
     },
     {
-      "kind": "hedge",
-      "x": 300,
-      "y": 780,
-      "w": 36,
-      "h": 140,
+      "kind": "moonDoor",
+      "x": 475,
+      "y": 605,
+      "w": 330,
+      "h": 330,
       "rotation": 0,
-      "asset": "hedge"
-    },
-    {
-      "kind": "column",
-      "x": 120,
-      "y": 740,
-      "w": 36,
-      "h": 180,
-      "rotation": 0,
-      "asset": "hedge"
-    },
-    {
-      "kind": "column",
-      "x": 300,
-      "y": 780,
-      "w": 36,
-      "h": 140,
-      "rotation": 0,
-      "asset": "hedge"
+      "asset": "moondoor"
     },
     {
       "kind": "lantern",
-      "x": 200,
+      "x": 120,
+      "y": 872,
+      "w": 28,
+      "h": 48,
+      "rotation": 0,
+      "asset": "lantern"
+    },
+    {
+      "kind": "lantern",
+      "x": 860,
       "y": 872,
       "w": 28,
       "h": 48,
@@ -117,7 +84,30 @@
   ],
   "color": "#151b2e",
   "ceilings": [],
-  "movers": [],
+  "movers": [
+    {
+      "x": 306,
+      "y": 740,
+      "w": 48,
+      "h": 180,
+      "axis": "y",
+      "amplitude": 190,
+      "speed": 1.6,
+      "phase": 0.0,
+      "kind": "screen"
+    },
+    {
+      "x": 616,
+      "y": 740,
+      "w": 48,
+      "h": 180,
+      "axis": "y",
+      "amplitude": 190,
+      "speed": 1.6,
+      "phase": 0.5,
+      "kind": "screen"
+    }
+  ],
   "hazards": [],
   "carrots": []
 }

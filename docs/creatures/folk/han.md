@@ -11,6 +11,10 @@ HP bar. After he settles, a moon grows at his last place. That moon is the inner
 gate into Chapter 2. Yue and the kits go home. Mei jumps on it. The gift beat
 still plays first.
 
+After Han settles the habit lingers in the outer courts as the guest screens of
+Outer Cold. They hold Mei back on a beat and never hurt her
+([../../universe/environments/outer-cold.md](../../universe/environments/outer-cold.md#lore)).
+
 ## Boss encounter
 
 Guanghan, moon finale after the Cloud Stair. Palace walk first, then this court as

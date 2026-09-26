@@ -9,22 +9,22 @@
     "chunk_ch2_cassia_f"
   ],
   "playerSpawn": {
-    "x": 80,
+    "x": 700,
     "y": 880
   },
   "moonPool": {
     "chunk": 0,
-    "x": 890,
-    "y": 490,
+    "x": 960,
+    "y": -80,
     "line": "Gold in the wound. Slow fall through the cut."
   },
   "exit": {
-    "chunk": 0,
-    "x": 310,
-    "y": -640
+    "chunk": 1,
+    "x": 680,
+    "y": -200
   },
   "moonLine": "Gold in the wound. Slow fall through the cut.",
-  "objective": "Climb the gold core. Use elixir crumb.",
+  "objective": "Climb to the heartwood. Close every gold cut.",
   "env": "ch2_cassia",
   "sky": "#14161a",
   "lowGravity": true,
@@ -32,9 +32,44 @@
   "moonPools": [
     {
       "chunk": 0,
-      "x": 890,
-      "y": 490,
+      "x": 960,
+      "y": -80,
       "line": "Gold in the wound. Slow fall through the cut."
     }
-  ]
+  ],
+  "height": 2400,
+  "boss": {
+    "kind": "penghou",
+    "x": 1300,
+    "y": -260,
+    "court": {
+      "chunk": 0,
+      "x": 200,
+      "y": -1100,
+      "w": 1520,
+      "h": 920
+    },
+    "cuts": [
+      {
+        "chunk": 0,
+        "x": 215,
+        "y": -330
+      },
+      {
+        "chunk": 1,
+        "x": 745,
+        "y": -560
+      },
+      {
+        "chunk": 0,
+        "x": 215,
+        "y": -700
+      },
+      {
+        "chunk": 0,
+        "x": 960,
+        "y": -960
+      }
+    ]
+  }
 }

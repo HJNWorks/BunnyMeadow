@@ -1,0 +1,95 @@
+{
+  "id": "chunk_ch2_mortar_j",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 880,
+      "w": 300,
+      "h": 60,
+      "asset": "ground"
+    },
+    {
+      "x": 300,
+      "y": 940,
+      "w": 460,
+      "h": 40,
+      "asset": "ground"
+    },
+    {
+      "x": 760,
+      "y": 880,
+      "w": 200,
+      "h": 28,
+      "asset": "bowl"
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "cassia_grub",
+      "x": 420,
+      "y": 910
+    }
+  ],
+  "items": [],
+  "decor": [
+    {
+      "kind": "mortar",
+      "x": 748,
+      "y": 872,
+      "w": 224,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "rack",
+      "x": 40,
+      "y": 784,
+      "w": 64,
+      "h": 96,
+      "rotation": 0,
+      "asset": "rack"
+    },
+    {
+      "kind": "trough",
+      "x": 300,
+      "y": 914,
+      "w": 460,
+      "h": 44,
+      "rotation": 0,
+      "asset": "trough"
+    }
+  ],
+  "color": "#121416",
+  "ceilings": [],
+  "movers": [
+    {
+      "x": 482,
+      "y": 844,
+      "w": 96,
+      "h": 96,
+      "axis": "x",
+      "amplitude": 170,
+      "speed": 0.95,
+      "phase": 0.25,
+      "kind": "roller"
+    },
+    {
+      "x": 836,
+      "y": 680,
+      "w": 48,
+      "h": 200,
+      "axis": "y",
+      "amplitude": 170,
+      "speed": 2.1,
+      "phase": 0.0,
+      "kind": "pestle"
+    }
+  ],
+  "hazards": [],
+  "carrots": []
+}

@@ -23,6 +23,15 @@ Quiet Wells keep still water under the pads. One true exit. Mass above. False mo
 off the hop line. Water in the basin. You place the geometry. These types only name
 the pieces.
 
+## Dim lips and reflections
+
+Quiet Wells adds two pieces that play on light. A dim lip is a real platform with
+`"dim": true`: solid, drawn dark until well silver lights it. A reflection lip is decor
+`kind: "reflection"`: it looks like a lip, has no collider, and shows itself as a
+ripple once lit. Put reflections where a lip would be tempting, usually just below or
+beside the real dim lip. Keep every hop on the true path a single jump, lit or not.
+Details: [../universe/environments/quiet-wells.md](../universe/environments/quiet-wells.md#mechanics).
+
 ## Do not
 
 Do not treat a false mouth as an exit overlap. Do not ship one-way pads here.

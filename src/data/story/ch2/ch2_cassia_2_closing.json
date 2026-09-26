@@ -9,22 +9,22 @@
     "chunk_ch2_cassia_d"
   ],
   "playerSpawn": {
-    "x": 80,
+    "x": 700,
     "y": 880
   },
   "moonPool": {
     "chunk": 0,
-    "x": 890,
-    "y": 500,
+    "x": 640,
+    "y": 260,
     "line": "The cut slides shut. Wait, then hop."
   },
   "exit": {
-    "chunk": 0,
-    "x": 310,
-    "y": -660
+    "chunk": 1,
+    "x": 290,
+    "y": -960
   },
   "moonLine": "The cut slides shut. Wait, then hop.",
-  "objective": "Hop living wood before the gap closes.",
+  "objective": "Healing bark cracks. Hop up through the cut while it is open.",
   "env": "ch2_cassia",
   "sky": "#14161a",
   "lowGravity": true,
@@ -32,9 +32,10 @@
   "moonPools": [
     {
       "chunk": 0,
-      "x": 890,
-      "y": 500,
+      "x": 640,
+      "y": 260,
       "line": "The cut slides shut. Wait, then hop."
     }
-  ]
+  ],
+  "height": 2200
 }

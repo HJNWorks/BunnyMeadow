@@ -2,104 +2,121 @@
   "id": "chunk_ch2_wells_d",
   "width": 960,
   "height": 1080,
-  "groundY": 760,
+  "groundY": 920,
   "platforms": [
     {
-      "x": 80,
-      "y": 760,
-      "w": 140,
+      "x": 100,
+      "y": 780,
+      "w": 200,
       "h": 24,
       "asset": "ground"
     },
     {
-      "x": 360,
-      "y": 680,
+      "x": 380,
+      "y": 700,
       "w": 140,
       "h": 24,
-      "asset": "ground"
+      "asset": "ground",
+      "dim": true
     },
     {
-      "x": 640,
-      "y": 760,
-      "w": 280,
-      "h": 28,
-      "asset": "ground"
+      "x": 610,
+      "y": 640,
+      "w": 140,
+      "h": 24,
+      "asset": "ground",
+      "dim": true
+    },
+    {
+      "x": 840,
+      "y": 700,
+      "w": 140,
+      "h": 24,
+      "asset": "ground",
+      "dim": true
     }
   ],
   "walls": [],
-  "ceilings": [
-    {
-      "x": 40,
-      "y": 240,
-      "w": 560,
-      "h": 28,
-      "asset": "cave"
-    }
-  ],
-  "decor": [
-    {
-      "kind": "falseMouth",
-      "x": 200,
-      "y": 700,
-      "w": 90,
-      "h": 70,
-      "rotation": 0,
-      "asset": "cave"
-    },
-    {
-      "kind": "falseMouth",
-      "x": 720,
-      "y": 620,
-      "w": 100,
-      "h": 80,
-      "rotation": 0,
-      "asset": "cave"
-    }
-  ],
-  "color": "#0c1014",
   "enemies": [
     {
       "id": "star_wisp",
-      "x": 400,
-      "y": 560
-    }
-  ],
-  "movers": [],
-  "hazards": [
-    {
-      "x": 70,
-      "y": 270,
-      "w": 50,
-      "h": 300,
-      "kind": "water"
-    },
-    {
-      "x": 190,
-      "y": 270,
-      "w": 120,
-      "h": 390,
-      "kind": "water"
-    },
-    {
-      "x": 540,
-      "y": 270,
-      "w": 40,
-      "h": 180,
-      "kind": "water"
-    },
-    {
-      "x": 370,
-      "y": 270,
-      "w": 40,
-      "h": 80,
-      "kind": "water"
+      "x": 740,
+      "y": 500
     }
   ],
   "items": [
     {
       "id": "well_silver",
-      "x": 420,
-      "y": 648
+      "x": 680,
+      "y": 610
+    }
+  ],
+  "decor": [
+    {
+      "kind": "reflection",
+      "x": 380,
+      "y": 800,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "reflection"
+    },
+    {
+      "kind": "reflection",
+      "x": 610,
+      "y": 740,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "reflection"
+    },
+    {
+      "kind": "reflection",
+      "x": 840,
+      "y": 800,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "reflection"
+    },
+    {
+      "kind": "falseMouth",
+      "x": 160,
+      "y": 680,
+      "w": 100,
+      "h": 80,
+      "rotation": 0,
+      "asset": "cave"
+    },
+    {
+      "kind": "stalactite",
+      "x": 490,
+      "y": 250,
+      "w": 50,
+      "h": 150,
+      "rotation": 0,
+      "asset": "stalactite"
+    }
+  ],
+  "color": "#0c1014",
+  "ceilings": [
+    {
+      "x": 0,
+      "y": 170,
+      "w": 960,
+      "h": 90,
+      "asset": "cave"
+    }
+  ],
+  "movers": [],
+  "hazards": [
+    {
+      "kind": "water",
+      "x": 0,
+      "y": 960,
+      "w": 960,
+      "h": 140,
+      "current": 0
     }
   ],
   "carrots": []

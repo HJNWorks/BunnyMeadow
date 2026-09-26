@@ -5,80 +5,106 @@
   "groundY": 920,
   "platforms": [
     {
-      "x": 40,
-      "y": 560,
-      "w": 120,
+      "x": 120,
+      "y": 500,
+      "w": 100,
       "h": 24,
       "asset": "ground"
     },
     {
-      "x": 260,
-      "y": 480,
-      "w": 120,
-      "h": 24,
-      "asset": "ground"
+      "x": 330,
+      "y": 760,
+      "w": 90,
+      "h": 26,
+      "asset": "chime"
     },
     {
       "x": 480,
-      "y": 600,
-      "w": 130,
+      "y": 440,
+      "w": 100,
       "h": 24,
       "asset": "ground"
     },
     {
       "x": 700,
-      "y": 860,
-      "w": 260,
-      "h": 80,
+      "y": 380,
+      "w": 100,
+      "h": 24,
       "asset": "ground"
+    },
+    {
+      "x": 880,
+      "y": 700,
+      "w": 80,
+      "h": 26,
+      "asset": "chime"
     }
   ],
-  "walls": [
+  "walls": [],
+  "enemies": [
     {
-      "x": 280,
-      "y": 320,
-      "w": 36,
-      "h": 160,
-      "asset": "hedge"
+      "id": "dust_mite",
+      "x": 610,
+      "y": 350
+    }
+  ],
+  "items": [
+    {
+      "id": "mooncake",
+      "x": 750,
+      "y": 350
     }
   ],
   "decor": [
     {
-      "kind": "hedge",
-      "x": 280,
-      "y": 320,
-      "w": 36,
-      "h": 160,
+      "kind": "chimeFrame",
+      "x": 300,
+      "y": 550,
+      "w": 150,
+      "h": 214,
+      "rotation": 0,
+      "asset": "chimeframe"
+    },
+    {
+      "kind": "chimeFrame",
+      "x": 845,
+      "y": 490,
+      "w": 150,
+      "h": 214,
+      "rotation": 0,
+      "asset": "chimeframe"
+    },
+    {
+      "kind": "column",
+      "x": 150,
+      "y": 518,
+      "w": 40,
+      "h": 562,
       "rotation": 0,
       "asset": "hedge"
     },
     {
       "kind": "column",
-      "x": 280,
-      "y": 320,
-      "w": 36,
-      "h": 160,
+      "x": 510,
+      "y": 458,
+      "w": 40,
+      "h": 622,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 730,
+      "y": 398,
+      "w": 40,
+      "h": 682,
       "rotation": 0,
       "asset": "hedge"
     }
   ],
   "color": "#151b2e",
   "ceilings": [],
-  "enemies": [
-    {
-      "id": "dust_mite",
-      "x": 540,
-      "y": 540
-    }
-  ],
   "movers": [],
   "hazards": [],
-  "items": [
-    {
-      "id": "star_grit",
-      "x": 300,
-      "y": 300
-    }
-  ],
   "carrots": []
 }

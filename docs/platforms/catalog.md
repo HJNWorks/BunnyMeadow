@@ -12,7 +12,15 @@ Existing tiles only.
 | ground | Story / Endless platforms | Default solid and Bunny Jump still pad. Meadow uses `story_ground` |
 | ground_moon | Journey on Moon platforms | Grey regolith. Used when env is `moon` or `ch2_*` |
 | rim | lunar crater lip | Thin crater edge |
-| bowl | Mortar Yard | Basalt bowl rim |
+| bowl | Mortar Yard | Basalt bowl rim. Covered by the `mortar` decor vessel |
+| pestle_big | Mortar Yard movers | Jade yard pestle. Beat motion |
+| roller | Mortar Yard movers | Cake round wheel. Spins as it slides |
+| chime | Outer Cold | Stone chime (磬). Drawn as one stretched stone, not tiled |
+| raft | Dust Sea decks and movers | Star raft planks with rope bindings and star studs. Plank movers are one-way rides |
+| skin | Far Silver pads | Pale silver water skin. Pairs with the `silver` break profile |
+| reflection | Quiet Wells decor | Mimics a lunar pad top. No collider |
+| bark | Cassia Wound movers | Bark slab with a gold healing edge. Pairs meet to close a cut |
+| screen | Outer Cold movers | Lattice guest screen. Slides up behind its moon gate |
 | wound | Cassia Wound | Grey wood with a gold cut |
 | cave | Quiet Wells | Dark rock. Also ceiling slabs |
 | log | river movers | Wood grain. Crumble and slide |
@@ -25,8 +33,8 @@ Existing tiles only.
 | Kind | Status | Behaviour |
 | --- | --- | --- |
 | solid | live | Block from every side. Story and Endless default |
-| one_way | live | Land from above. Pass through from below and the sides. Bunny Jump default. Story stairs may opt in later |
-| wall | live | Tall block. Beam clip. Not a bounce pad |
+| one_way | live | Land from above. Pass through from below and the sides. Bunny Jump default. Story yard pestles and cake rounds (their sides hit instead of blocking). Story stairs may opt in later |
+| wall | live | Tall block. Beam clip. Not a bounce pad. `"hidden": true` drops the hedge or column art (Outer Cold gate lintels behind a moon gate) |
 | ceiling | live | Same solid as wall. Lunar cave roof above the hop band. See [caves.md](caves.md) |
 
 ## Motion
@@ -36,7 +44,10 @@ The pad's own movement. Independent of surface.
 | Kind | Status | Modes | Behaviour |
 | --- | --- | --- | --- |
 | still | live | Story, Endless, Bunny Jump | No path |
-| slide | live (as `movers[]`) | Story (logs, Cloud Stair bridges), Endless river, Bunny Jump | Sine on `axis` x or y. `amplitude` in px. `speed` in cycles. Feet carry with the pad |
+| slide | live (as `movers[]`) | Story (logs, Cloud Stair bridges, Mortar Yard cake rounds), Endless river, Bunny Jump | Sine on `axis` x or y. `amplitude` in px. `speed` in cycles. Feet carry with the pad. Optional `phase` 0–1 fixes the start |
+| cut beat | live (`movers[]` with `kind: "bark"`, `axis: "x"`) | Story Cassia Wound | Two slabs with opposite `amplitude` open over 12% of the cycle, hold open to 50%, slide shut by 64%, rest shut. Solid top, bonks from below, never pushes sideways |
+| gate beat | live (`movers[]` with `kind: "screen"`) | Story Outer Cold | Open fast (15% of the cycle), hold open, tremble, close over 12%, rest shut. Closed, it pushes Mei to her nearer side. No heart. The rect is the shut position |
+| beat | live (`movers[]` with `kind: "pestle"`) | Story Mortar Yard | Lift over 45% of the cycle, hold, tremble, slam in 6%, rest. `amplitude` is the lift. `phase` 0–1 offsets the beat. The rect is the strike position |
 | vanish | planned | Bunny Jump first. Story optional | Cycles visible / gone on a timer. Reduced motion keeps it visible and uses a mark instead of flicker |
 | drop | planned | overlap with break `land` | After a landing the pad falls. Prefer `break` + `land` over a second engine |
 
@@ -55,6 +66,7 @@ What a landing does to Mei. Independent of whether the pad slides.
 | bounce | live | Bunny Jump | Auto-bounce. Jump unused. The climb verb |
 | boost | live | Bunny Jump lantern pads | Extra bounce velocity. No break |
 | slick | live | Bunny Jump ice. Story Cloud Stair | Low friction. Dash still a nudge. Stacks with ice `break` |
+| chime | live | Story Outer Cold (`asset: "chime"`) | Landing throws Mei up about 330 px and refreshes the air jump. Jumping on it gives the same throw (fall speed caps anything stronger). Ring effect |
 
 ## Break
 

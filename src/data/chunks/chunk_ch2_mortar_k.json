@@ -1,0 +1,109 @@
+{
+  "id": "chunk_ch2_mortar_k",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 880,
+      "w": 180,
+      "h": 40,
+      "asset": "ground"
+    },
+    {
+      "x": 180,
+      "y": 940,
+      "w": 360,
+      "h": 40,
+      "asset": "ground"
+    },
+    {
+      "x": 540,
+      "y": 860,
+      "w": 90,
+      "h": 28,
+      "asset": "bowl"
+    },
+    {
+      "x": 670,
+      "y": 820,
+      "w": 200,
+      "h": 28,
+      "asset": "bowl"
+    },
+    {
+      "x": 890,
+      "y": 820,
+      "w": 70,
+      "h": 40,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [],
+  "items": [
+    {
+      "id": "mooncake",
+      "x": 585,
+      "y": 830
+    }
+  ],
+  "decor": [
+    {
+      "kind": "mortar",
+      "x": 528,
+      "y": 852,
+      "w": 114,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 658,
+      "y": 812,
+      "w": 224,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "trough",
+      "x": 180,
+      "y": 914,
+      "w": 360,
+      "h": 44,
+      "rotation": 0,
+      "asset": "trough"
+    }
+  ],
+  "color": "#121416",
+  "ceilings": [],
+  "movers": [
+    {
+      "x": 312,
+      "y": 844,
+      "w": 96,
+      "h": 96,
+      "axis": "x",
+      "amplitude": 120,
+      "speed": 1.3,
+      "phase": 0.5,
+      "kind": "roller"
+    },
+    {
+      "x": 738,
+      "y": 580,
+      "w": 64,
+      "h": 240,
+      "axis": "y",
+      "amplitude": 200,
+      "speed": 2.4,
+      "phase": 0.0,
+      "kind": "pestle"
+    }
+  ],
+  "hazards": [],
+  "carrots": []
+}

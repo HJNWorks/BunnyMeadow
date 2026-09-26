@@ -2,27 +2,27 @@
   "levelId": "ch2_dust_2_lips",
   "level": {
     "playerSpawn": {
-      "x": 80,
-      "y": 900
+      "x": 100,
+      "y": 880
     },
     "moonPools": [
       {
-        "chunk": 0,
-        "x": 180,
-        "y": 900,
+        "chunk": 2,
+        "x": 150,
+        "y": 760,
         "line": "Star grit in the gap. The lip is the floor."
       }
     ],
     "moonPool": {
-      "chunk": 0,
-      "x": 180,
-      "y": 900,
+      "chunk": 2,
+      "x": 150,
+      "y": 760,
       "line": "Star grit in the gap. The lip is the floor."
     },
     "exit": {
-      "chunk": 1,
-      "x": 870,
-      "y": 840
+      "chunk": 3,
+      "x": 880,
+      "y": 700
     },
     "env": "ch2_dust",
     "sky": "#161410"
@@ -31,98 +31,135 @@
     "env": "ch2_dust",
     "sky": "#161410"
   },
-  "decor": [],
+  "decor": [
+    {
+      "kind": "crater",
+      "x": 250,
+      "y": 880,
+      "w": 440,
+      "h": 150,
+      "rotation": 0,
+      "asset": "crater"
+    },
+    {
+      "kind": "crater",
+      "x": 1110,
+      "y": 860,
+      "w": 280,
+      "h": 150,
+      "rotation": 0,
+      "asset": "crater"
+    },
+    {
+      "kind": "crater",
+      "x": 1490,
+      "y": 850,
+      "w": 260,
+      "h": 150,
+      "rotation": 0,
+      "asset": "crater"
+    },
+    {
+      "kind": "crater",
+      "x": 2210,
+      "y": 890,
+      "w": 440,
+      "h": 150,
+      "rotation": 0,
+      "asset": "crater"
+    }
+  ],
   "chunks": {
     "chunk_ch2_dust_c": {
       "id": "chunk_ch2_dust_c",
       "width": 960,
       "height": 1080,
-      "groundY": 940,
+      "groundY": 920,
       "platforms": [
         {
           "x": 0,
-          "y": 940,
-          "w": 120,
-          "h": 40,
+          "y": 920,
+          "w": 260,
+          "h": 60,
           "asset": "ground"
         },
         {
-          "x": 400,
-          "y": 780,
-          "w": 90,
-          "h": 20,
-          "asset": "ground"
-        },
-        {
-          "x": 700,
-          "y": 640,
-          "w": 90,
-          "h": 20,
-          "asset": "ground"
-        },
-        {
-          "x": 900,
-          "y": 520,
-          "w": 60,
-          "h": 20,
+          "x": 680,
+          "y": 860,
+          "w": 140,
+          "h": 28,
           "asset": "ground"
         }
       ],
       "walls": [],
       "enemies": [
         {
-          "id": "dust_mite",
-          "x": 60,
-          "y": 880
+          "id": "crater_crab",
+          "x": 740,
+          "y": 830
         },
         {
           "id": "dust_mite",
-          "x": 740,
-          "y": 580
+          "x": 880,
+          "y": 760
         }
       ],
       "items": [
         {
           "id": "star_grit",
-          "x": 280,
-          "y": 860
-        },
+          "x": 220,
+          "y": 880
+        }
+      ],
+      "decor": [
         {
-          "id": "star_grit",
-          "x": 560,
-          "y": 720
+          "kind": "crater",
+          "x": 250,
+          "y": 880,
+          "w": 440,
+          "h": 150,
+          "rotation": 0,
+          "asset": "crater"
         }
       ],
       "color": "#1a1814",
       "ceilings": [],
       "movers": [],
-      "hazards": [],
-      "decor": [],
+      "hazards": [
+        {
+          "kind": "tide",
+          "x": 260,
+          "y": 620,
+          "w": 420,
+          "h": 300,
+          "current": 110
+        }
+      ],
       "carrots": []
     },
     "chunk_ch2_dust_d": {
       "id": "chunk_ch2_dust_d",
       "width": 960,
       "height": 1080,
-      "groundY": 820,
+      "groundY": 920,
       "platforms": [
         {
-          "x": 200,
-          "y": 560,
-          "w": 90,
-          "h": 20,
+          "x": 40,
+          "y": 840,
+          "w": 120,
+          "h": 28,
           "asset": "ground"
         },
         {
-          "x": 480,
-          "y": 700,
-          "w": 90,
-          "h": 20,
+          "x": 420,
+          "y": 820,
+          "w": 120,
+          "h": 28,
           "asset": "ground"
         },
         {
-          "x": 760,
-          "y": 860,
+          "x": 780,
+          "y": 800,
           "w": 180,
           "h": 28,
           "asset": "ground"
@@ -131,21 +168,221 @@
       "walls": [],
       "enemies": [
         {
-          "id": "star_wisp",
-          "x": 820,
-          "y": 780
+          "id": "crater_crab",
+          "x": 470,
+          "y": 790
+        }
+      ],
+      "items": [
+        {
+          "id": "star_grit",
+          "x": 100,
+          "y": 800
+        }
+      ],
+      "decor": [
+        {
+          "kind": "crater",
+          "x": 150,
+          "y": 860,
+          "w": 280,
+          "h": 150,
+          "rotation": 0,
+          "asset": "crater"
+        },
+        {
+          "kind": "crater",
+          "x": 530,
+          "y": 850,
+          "w": 260,
+          "h": 150,
+          "rotation": 0,
+          "asset": "crater"
         }
       ],
       "color": "#1a1814",
       "ceilings": [],
       "movers": [],
-      "hazards": [],
-      "decor": [],
+      "hazards": [
+        {
+          "kind": "tide",
+          "x": 160,
+          "y": 600,
+          "w": 260,
+          "h": 280,
+          "current": -90
+        },
+        {
+          "kind": "dust",
+          "x": 540,
+          "y": 900,
+          "w": 240,
+          "h": 120,
+          "current": 0
+        }
+      ],
+      "carrots": []
+    },
+    "chunk_ch2_dust_h": {
+      "id": "chunk_ch2_dust_h",
+      "width": 960,
+      "height": 1080,
+      "groundY": 920,
+      "platforms": [
+        {
+          "x": 40,
+          "y": 800,
+          "w": 260,
+          "h": 60,
+          "asset": "ground"
+        },
+        {
+          "x": 440,
+          "y": 400,
+          "w": 120,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 695,
+          "y": 230,
+          "w": 145,
+          "h": 28,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "star_wisp",
+          "x": 500,
+          "y": 240
+        }
+      ],
+      "items": [],
+      "decor": [
+        {
+          "kind": "crater",
+          "x": 290,
+          "y": 890,
+          "w": 440,
+          "h": 150,
+          "rotation": 0,
+          "asset": "crater"
+        }
+      ],
+      "color": "#1a1814",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [
+        {
+          "kind": "tide",
+          "x": 320,
+          "y": 340,
+          "w": 110,
+          "h": 660,
+          "current": 0,
+          "lift": 380,
+          "period": 3.0,
+          "phase": 0.0
+        },
+        {
+          "kind": "tide",
+          "x": 580,
+          "y": 180,
+          "w": 110,
+          "h": 820,
+          "current": 0,
+          "lift": 380,
+          "period": 3.0,
+          "phase": 0.5
+        },
+        {
+          "kind": "dust",
+          "x": 300,
+          "y": 940,
+          "w": 420,
+          "h": 120,
+          "current": 0
+        }
+      ],
+      "carrots": []
+    },
+    "chunk_ch2_dust_i": {
+      "id": "chunk_ch2_dust_i",
+      "width": 960,
+      "height": 1080,
+      "groundY": 920,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 160,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 260,
+          "y": 400,
+          "w": 120,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 500,
+          "y": 560,
+          "w": 120,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 740,
+          "y": 700,
+          "w": 220,
+          "h": 60,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "dust_mite",
+          "x": 440,
+          "y": 480
+        },
+        {
+          "id": "crater_crab",
+          "x": 560,
+          "y": 530
+        }
+      ],
       "items": [
         {
-          "id": "star_grit",
-          "x": 340,
-          "y": 620
+          "id": "mooncake",
+          "x": 320,
+          "y": 370
+        }
+      ],
+      "decor": [],
+      "color": "#1a1814",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [
+        {
+          "kind": "tide",
+          "x": 160,
+          "y": 220,
+          "w": 100,
+          "h": 220,
+          "current": 90
+        },
+        {
+          "kind": "tide",
+          "x": 380,
+          "y": 400,
+          "w": 120,
+          "h": 240,
+          "current": -80
         }
       ],
       "carrots": []

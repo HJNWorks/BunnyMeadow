@@ -20,3 +20,7 @@ Mooncakes are correct; mochi is not ([../../LORE.md](../../LORE.md#jade-rabbit--
 Non-hostile palace NPC on the Moon rung
 ([../../universe/environments/moon.md](../../universe/environments/moon.md)). Does not
 spawn from rosters.
+
+In Mortar Yard he is only the far silhouette pounding on the great mortar
+(`story_far_mortar`). The yard pestles keep his beat. They are not him
+([../../universe/environments/mortar-yard.md](../../universe/environments/mortar-yard.md#lore)).

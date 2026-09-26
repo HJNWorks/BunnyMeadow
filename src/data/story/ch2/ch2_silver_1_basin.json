@@ -6,33 +6,34 @@
   "name": "Quiet Basin",
   "chunks": [
     "chunk_ch2_silver_a",
-    "chunk_ch2_silver_b"
+    "chunk_ch2_silver_b",
+    "chunk_ch2_silver_g"
   ],
   "playerSpawn": {
-    "x": 80,
+    "x": 100,
     "y": 880
   },
   "moonPool": {
     "chunk": 1,
-    "x": 200,
-    "y": 770,
+    "x": 100,
+    "y": 800,
     "line": "This water still speaks. Farther is quieter."
   },
   "exit": {
-    "chunk": 1,
-    "x": 850,
-    "y": 860
+    "chunk": 2,
+    "x": 880,
+    "y": 880
   },
   "moonLine": "This water still speaks. Farther is quieter.",
-  "objective": "Hop the sparse pads to a still shore.",
+  "objective": "Keep moving on the silver skin. Carp leap from the still water.",
   "env": "ch2_silver",
   "sky": "#12161c",
   "lowGravity": true,
   "moonPools": [
     {
       "chunk": 1,
-      "x": 200,
-      "y": 770,
+      "x": 100,
+      "y": 800,
       "line": "This water still speaks. Farther is quieter."
     }
   ]

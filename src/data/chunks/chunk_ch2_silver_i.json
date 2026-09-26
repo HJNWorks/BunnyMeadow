@@ -1,0 +1,92 @@
+{
+  "id": "chunk_ch2_silver_i",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 120,
+      "y": 700,
+      "w": 120,
+      "h": 16,
+      "asset": "skin",
+      "break": {
+        "profile": "silver",
+        "hp": 0.8,
+        "sources": [
+          "still"
+        ],
+        "regrow": 1.6
+      }
+    },
+    {
+      "x": 300,
+      "y": 640,
+      "w": 100,
+      "h": 20,
+      "asset": "ground"
+    },
+    {
+      "x": 460,
+      "y": 700,
+      "w": 140,
+      "h": 16,
+      "asset": "skin",
+      "break": {
+        "profile": "silver",
+        "hp": 0.8,
+        "sources": [
+          "still"
+        ],
+        "regrow": 1.6
+      }
+    },
+    {
+      "x": 680,
+      "y": 860,
+      "w": 280,
+      "h": 60,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "star_wisp",
+      "x": 240,
+      "y": 520
+    }
+  ],
+  "items": [
+    {
+      "id": "osmanthus_seed",
+      "x": 820,
+      "y": 828
+    }
+  ],
+  "decor": [
+    {
+      "kind": "dewPlate",
+      "x": 740,
+      "y": 620,
+      "w": 96,
+      "h": 240,
+      "rotation": 0,
+      "asset": "dewplate"
+    }
+  ],
+  "color": "#12161c",
+  "ceilings": [],
+  "movers": [],
+  "hazards": [
+    {
+      "kind": "water",
+      "x": 0,
+      "y": 920,
+      "w": 680,
+      "h": 160,
+      "current": 0
+    }
+  ],
+  "carrots": []
+}

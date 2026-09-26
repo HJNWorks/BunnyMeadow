@@ -5,82 +5,86 @@
   "groundY": 940,
   "platforms": [
     {
-      "x": 40,
-      "y": 780,
-      "w": 150,
-      "h": 28,
+      "x": 0,
+      "y": 900,
+      "w": 180,
+      "h": 40,
       "asset": "ground"
     },
     {
       "x": 280,
-      "y": 860,
-      "w": 150,
-      "h": 28,
-      "asset": "ground"
-    },
-    {
-      "x": 500,
       "y": 780,
-      "w": 150,
-      "h": 28,
+      "w": 420,
+      "h": 30,
       "asset": "ground"
     },
     {
-      "x": 700,
-      "y": 940,
-      "w": 260,
-      "h": 60,
+      "x": 780,
+      "y": 700,
+      "w": 120,
+      "h": 24,
       "asset": "ground"
     }
   ],
   "walls": [],
   "enemies": [
     {
-      "id": "pestle_sentry",
-      "x": 120,
-      "y": 660
-    },
-    {
-      "id": "pestle_sentry",
-      "x": 560,
-      "y": 660
+      "id": "cassia_grub",
+      "x": 840,
+      "y": 670
     }
   ],
   "items": [
     {
       "id": "mooncake",
-      "x": 340,
-      "y": 828
+      "x": 490,
+      "y": 590
+    }
+  ],
+  "decor": [
+    {
+      "kind": "trough",
+      "x": 280,
+      "y": 754,
+      "w": 420,
+      "h": 44,
+      "rotation": 0,
+      "asset": "trough"
     },
     {
-      "id": "elixir_crumb",
-      "x": 560,
-      "y": 748
+      "kind": "column",
+      "x": 470,
+      "y": 806,
+      "w": 40,
+      "h": 274,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 822,
+      "y": 720,
+      "w": 36,
+      "h": 360,
+      "rotation": 0,
+      "asset": "hedge"
     }
   ],
   "color": "#121416",
   "ceilings": [],
-  "movers": [],
-  "hazards": [],
-  "decor": [
+  "movers": [
     {
-      "kind": "bowl",
-      "x": 60,
-      "y": 752,
-      "w": 110,
-      "h": 24,
-      "rotation": 0,
-      "asset": "bowl"
-    },
-    {
-      "kind": "bowl",
-      "x": 520,
-      "y": 752,
-      "w": 110,
-      "h": 24,
-      "rotation": 0,
-      "asset": "bowl"
+      "x": 442,
+      "y": 684,
+      "w": 96,
+      "h": 96,
+      "axis": "x",
+      "amplitude": 150,
+      "speed": 1.0,
+      "phase": 0.25,
+      "kind": "roller"
     }
   ],
+  "hazards": [],
   "carrots": []
 }

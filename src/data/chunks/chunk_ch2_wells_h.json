@@ -1,0 +1,136 @@
+{
+  "id": "chunk_ch2_wells_h",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 100,
+      "y": 760,
+      "w": 300,
+      "h": 60,
+      "asset": "ground"
+    },
+    {
+      "x": 480,
+      "y": 700,
+      "w": 140,
+      "h": 24,
+      "asset": "ground",
+      "dim": true
+    },
+    {
+      "x": 700,
+      "y": 620,
+      "w": 140,
+      "h": 24,
+      "asset": "ground",
+      "dim": true
+    },
+    {
+      "x": 930,
+      "y": 560,
+      "w": 140,
+      "h": 24,
+      "asset": "ground",
+      "dim": true
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "silver_bat",
+      "x": 780,
+      "y": 500
+    }
+  ],
+  "items": [
+    {
+      "id": "well_silver",
+      "x": 770,
+      "y": 590
+    },
+    {
+      "id": "mooncake",
+      "x": 180,
+      "y": 720
+    }
+  ],
+  "decor": [
+    {
+      "kind": "reflection",
+      "x": 480,
+      "y": 800,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "reflection"
+    },
+    {
+      "kind": "reflection",
+      "x": 700,
+      "y": 720,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "reflection"
+    },
+    {
+      "kind": "reflection",
+      "x": 930,
+      "y": 680,
+      "w": 140,
+      "h": 24,
+      "rotation": 0,
+      "asset": "reflection"
+    },
+    {
+      "kind": "falseMouth",
+      "x": 160,
+      "y": 660,
+      "w": 100,
+      "h": 80,
+      "rotation": 0,
+      "asset": "cave"
+    },
+    {
+      "kind": "stalactite",
+      "x": 580,
+      "y": 250,
+      "w": 50,
+      "h": 120,
+      "rotation": 0,
+      "asset": "stalactite"
+    }
+  ],
+  "color": "#0c1014",
+  "ceilings": [
+    {
+      "x": 0,
+      "y": 170,
+      "w": 960,
+      "h": 90,
+      "asset": "cave"
+    }
+  ],
+  "movers": [],
+  "hazards": [
+    {
+      "kind": "water",
+      "x": 0,
+      "y": 960,
+      "w": 100,
+      "h": 140,
+      "current": 0
+    },
+    {
+      "kind": "water",
+      "x": 400,
+      "y": 960,
+      "w": 560,
+      "h": 140,
+      "current": 0
+    }
+  ],
+  "carrots": []
+}

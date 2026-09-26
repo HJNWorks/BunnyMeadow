@@ -409,6 +409,94 @@
       "notes": "Stone pestle beat. Copy of ice_spit"
     },
     {
+      "id": "silver_carp",
+      "archetype": "water_patrol",
+      "displayName": "Silver Carp",
+      "homeBiomes": ["moon"],
+      "minTier": 5,
+      "senseRange": 0,
+      "attackRange": 28,
+      "telegraphTime": 0.2,
+      "cooldown": 1.1,
+      "speed": 55,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "silver_carp_idle",
+        "move": "silver_carp_swim",
+        "attack": "silver_carp_leap",
+        "hurt": "silver_carp_idle"
+      },
+      "notes": "Adapted 鯉魚跳龍門. Leaps high out of Far Silver pools. Not a dragon yet"
+    },
+    {
+      "id": "silver_bat",
+      "archetype": "diver",
+      "displayName": "Silver Bat",
+      "homeBiomes": ["moon"],
+      "minTier": 5,
+      "senseRange": 420,
+      "attackRange": 30,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 320,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "bat_hang",
+        "move": "bat_flap",
+        "attack": "bat_swoop",
+        "hurt": "bat_hang"
+      },
+      "notes": "Invented lunar fauna. Hangs under the cave roof, swoops when Mei passes, returns. Bats are 福 (fortune) in Chinese symbolism"
+    },
+    {
+      "id": "crater_crab",
+      "archetype": "patrol",
+      "displayName": "Crater Crab",
+      "homeBiomes": ["moon"],
+      "minTier": 5,
+      "senseRange": 0,
+      "attackRange": 22,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 42,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "crab_idle",
+        "move": "crab_side",
+        "attack": "crab_idle",
+        "hurt": "crab_dig"
+      },
+      "notes": "Invented lunar fauna. Walks a crater lip sideways, digs in for 1.3 s. Dug in: harmless, cannot be stomped"
+    },
+    {
+      "id": "cassia_grub",
+      "archetype": "patrol",
+      "displayName": "Cassia Grub",
+      "homeBiomes": ["moon"],
+      "minTier": 5,
+      "senseRange": 0,
+      "attackRange": 20,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 30,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "grub_idle",
+        "move": "grub_crawl",
+        "attack": "grub_idle",
+        "hurt": "grub_idle"
+      },
+      "notes": "桂蠹. Rides in on Wu Gang's bark chips. Slow rim crawler. Stomp from above"
+    },
+    {
       "id": "ice_spit",
       "archetype": "ranged_lob",
       "displayName": "Ice Spit",

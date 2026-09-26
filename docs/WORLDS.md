@@ -97,23 +97,23 @@ Display title stays vague. Unlock: `moon_guanghan` cleared. Painting: `public/St
 
 | World | Station | Env page | Teach | Exit | Status |
 | --- | --- | --- | --- | --- | --- |
-| Outer Cold | Frost Courtyard | [outer-cold.md](universe/environments/outer-cold.md) | leave the palace gardens | next station | live |
-| Outer Cold | Column Walk | [outer-cold.md](universe/environments/outer-cold.md) | denser roof gaps, star grit | next station | live |
-| Outer Cold | Guest Gate | [outer-cold.md](universe/environments/outer-cold.md) | last courtyard | next world | live |
+| Outer Cold | Frost Courtyard | [outer-cold.md](universe/environments/outer-cold.md) | palace moon gate, frost flagstones, first guest screen, first chime, frost tiles | next station | live |
+| Outer Cold | Column Walk | [outer-cold.md](universe/environments/outer-cold.md) | chime stones up column caps, star grit, dust mites, pool court gate | next station | live |
+| Outer Cold | Guest Gate | [outer-cold.md](universe/environments/outer-cold.md) | guest screens in rhythm, screen on ice, frost tile bridge, the last three gates | next world | live |
 | Cassia Wound | Grove Cut | [cassia-wound.md](universe/environments/cassia-wound.md) | living wood | next station | live |
-| Cassia Wound | Closing Gap | [cassia-wound.md](universe/environments/cassia-wound.md) | cut slides shut | next station | live |
-| Cassia Wound | Gold Core | [cassia-wound.md](universe/environments/cassia-wound.md) | elixir crumb climb | next world | live |
-| Mortar Yard | Stone Bowls | [mortar-yard.md](universe/environments/mortar-yard.md) | bowl rims, pestle_sentry | next station | live |
-| Mortar Yard | Pestle Beat | [mortar-yard.md](universe/environments/mortar-yard.md) | wait the pestle | next station | live |
-| Mortar Yard | Cake Rounds | [mortar-yard.md](universe/environments/mortar-yard.md) | cake hops | next world | live |
-| Dust Sea | Rim Walk | [dust-sea.md](universe/environments/dust-sea.md) | crater drifts, dust_mite | next station | live |
-| Dust Sea | Lip Gap | [dust-sea.md](universe/environments/dust-sea.md) | wider rims, star grit | next station | live |
-| Dust Sea | Raft Wreck | [dust-sea.md](universe/environments/dust-sea.md) | star raft scenery | next world | live |
-| Quiet Wells | Cave Mouths | [quiet-wells.md](universe/environments/quiet-wells.md) | cold caves, one water well | next station | live |
-| Quiet Wells | False Lip | [quiet-wells.md](universe/environments/quiet-wells.md) | false mouths, well silver | next station | live |
-| Quiet Wells | Well Silver | [quiet-wells.md](universe/environments/quiet-wells.md) | true cave, well silver | next world | live |
-| Far Silver | Quiet Basin | [far-silver.md](universe/environments/far-silver.md) | sparse pads to a still shore | next station | live |
-| Far Silver | Silver Steps | [far-silver.md](universe/environments/far-silver.md) | quieter pads, star wisps | next station | live |
+| Cassia Wound | Closing Gap | [cassia-wound.md](universe/environments/cassia-wound.md) | inside the trunk: healing bark, bark cuts, cassia grubs | next station | live |
+| Cassia Wound | Gold Core | [cassia-wound.md](universe/environments/cassia-wound.md) | climb to the heartwood room, Penghou boss | next world | live |
+| Mortar Yard | Stone Bowls | [mortar-yard.md](universe/environments/mortar-yard.md) | mortar rims, first pestle, pestle lift, cassia grub, pestle_sentry | next station | live |
+| Mortar Yard | Pestle Beat | [mortar-yard.md](universe/environments/mortar-yard.md) | pestle wave, lift to the drying tables, chain lift | next station | live |
+| Mortar Yard | Cake Rounds | [mortar-yard.md](universe/environments/mortar-yard.md) | cake rounds in troughs, great pestle | next world | live |
+| Dust Sea | Rim Walk | [dust-sea.md](universe/environments/dust-sea.md) | crater lips, shallow sinking dust, first tides, first vent, crater_crab | next station | live |
+| Dust Sea | Lip Gap | [dust-sea.md](universe/environments/dust-sea.md) | wide gaps under tail- and headwinds, star grit, paired vents | next station | live |
+| Dust Sea | Raft Wreck | [dust-sea.md](universe/environments/dust-sea.md) | raft planks over a dust sea, the star raft wreck, vent out | next world | live |
+| Quiet Wells | Cave Mouths | [quiet-wells.md](universe/environments/quiet-wells.md) | still water, first reflection and dim lips, silver bats | next station | live |
+| Quiet Wells | False Lip | [quiet-wells.md](universe/environments/quiet-wells.md) | silver floats over unseen lips, many reflections | next station | live |
+| Quiet Wells | Well Silver | [quiet-wells.md](universe/environments/quiet-wells.md) | long dark chains, moon toad at the last well | next world | live |
+| Far Silver | Quiet Basin | [far-silver.md](universe/environments/far-silver.md) | silver skin over still water, silver carp, the bronze dew-plate immortal | next station | live |
+| Far Silver | Silver Steps | [far-silver.md](universe/environments/far-silver.md) | stone and silver steps, carp, star wisps, seed keepsake | next station | live |
 | Far Silver | One Moon Pool | [far-silver.md](universe/environments/far-silver.md) | Still Silver, first true pool | Chapter 3 | live |
 
 Far Silver's three stations are live. Still Silver is the 13-heart slime-split fight

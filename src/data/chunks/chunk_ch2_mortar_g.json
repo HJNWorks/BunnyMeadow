@@ -1,0 +1,112 @@
+{
+  "id": "chunk_ch2_mortar_g",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    {
+      "x": 40,
+      "y": 820,
+      "w": 120,
+      "h": 28,
+      "asset": "bowl"
+    },
+    {
+      "x": 230,
+      "y": 880,
+      "w": 190,
+      "h": 28,
+      "asset": "bowl"
+    },
+    {
+      "x": 480,
+      "y": 830,
+      "w": 70,
+      "h": 28,
+      "asset": "bowl"
+    },
+    {
+      "x": 610,
+      "y": 880,
+      "w": 170,
+      "h": 28,
+      "asset": "bowl"
+    },
+    {
+      "x": 820,
+      "y": 900,
+      "w": 140,
+      "h": 40,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [],
+  "items": [],
+  "decor": [
+    {
+      "kind": "mortar",
+      "x": 28,
+      "y": 812,
+      "w": 144,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 218,
+      "y": 872,
+      "w": 214,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 468,
+      "y": 822,
+      "w": 94,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 598,
+      "y": 872,
+      "w": 194,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    }
+  ],
+  "color": "#121416",
+  "ceilings": [],
+  "movers": [
+    {
+      "x": 301,
+      "y": 680,
+      "w": 48,
+      "h": 200,
+      "axis": "y",
+      "amplitude": 170,
+      "speed": 2.1,
+      "phase": 0.0,
+      "kind": "pestle"
+    },
+    {
+      "x": 671,
+      "y": 680,
+      "w": 48,
+      "h": 200,
+      "axis": "y",
+      "amplitude": 170,
+      "speed": 2.1,
+      "phase": 0.5,
+      "kind": "pestle"
+    }
+  ],
+  "hazards": [],
+  "carrots": []
+}

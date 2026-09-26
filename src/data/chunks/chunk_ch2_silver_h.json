@@ -1,0 +1,74 @@
+{
+  "id": "chunk_ch2_silver_h",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 380,
+      "y": 900,
+      "w": 320,
+      "h": 16,
+      "asset": "skin",
+      "break": {
+        "profile": "silver",
+        "hp": 0.8,
+        "sources": [
+          "still"
+        ],
+        "regrow": 1.6
+      }
+    },
+    {
+      "x": 760,
+      "y": 820,
+      "w": 100,
+      "h": 20,
+      "asset": "ground"
+    },
+    {
+      "x": 920,
+      "y": 760,
+      "w": 120,
+      "h": 16,
+      "asset": "skin",
+      "break": {
+        "profile": "silver",
+        "hp": 0.8,
+        "sources": [
+          "still"
+        ],
+        "regrow": 1.6
+      }
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "silver_carp",
+      "x": 460,
+      "y": 960
+    },
+    {
+      "id": "silver_carp",
+      "x": 640,
+      "y": 960
+    }
+  ],
+  "items": [],
+  "decor": [],
+  "color": "#12161c",
+  "ceilings": [],
+  "movers": [],
+  "hazards": [
+    {
+      "kind": "water",
+      "x": 300,
+      "y": 920,
+      "w": 660,
+      "h": 160,
+      "current": 0
+    }
+  ],
+  "carrots": []
+}

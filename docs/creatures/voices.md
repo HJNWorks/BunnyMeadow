@@ -29,6 +29,7 @@ a pool exists (`silentI18n` in the JSON).
 | Speaker | Mode | Channel | Live cues |
 | --- | --- | --- | --- |
 | Han | Story / Guanghan | ticker | 4 |
+| Penghou | Story / Cassia Gold Core | ticker | 4 (`penghou.wake`, `penghou.mid`, `penghou.last`, `penghou.settled`) |
 | Chang'e | Story | beat + ticker + epilogue | 1 beat, 12 pools, 1 epilogue |
 | Crane Envoy | Story | dialogue + epilogue | 2 bow, 1 epilogue |
 | Mei | Story epilogue | epilogue | 1 (narrated card) |

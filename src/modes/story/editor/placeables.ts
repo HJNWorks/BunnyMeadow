@@ -22,6 +22,29 @@ export type EditorEnvToken =
   | "cave"
   | "column"
   | "ice"
+  | "pestle"
+  | "roller"
+  | "trough"
+  | "rack"
+  | "mortar"
+  | "screen"
+  | "chime"
+  | "moonDoor"
+  | "chimeFrame"
+  | "tide"
+  | "dust"
+  | "raft"
+  | "crater"
+  | "mast"
+  | "bark"
+  | "heartwood"
+  | "dim"
+  | "reflection"
+  | "stalactite"
+  | "wellhead"
+  | "toad"
+  | "skin"
+  | "dewPlate"
 
 export type EditorKitId =
   | "meadow"
@@ -62,12 +85,32 @@ export const EDITOR_ENV_KITS: EditorEnvKit[] = [
     labelKey: "editor.envKit.moon",
     kinds: [...KIT_CORE, "lantern", "cave", "column", "falseMouth", "rim", "bowl", "wound"],
   },
-  { id: "ch2_outer", chapter: "ch2", labelKey: "editor.envKit.ch2_outer", kinds: [...KIT_CORE, "lantern", "column"] },
-  { id: "ch2_cassia", chapter: "ch2", labelKey: "editor.envKit.ch2_cassia", kinds: [...KIT_CORE, "wound"] },
-  { id: "ch2_mortar", chapter: "ch2", labelKey: "editor.envKit.ch2_mortar", kinds: [...KIT_CORE, "bowl", "rim"] },
-  { id: "ch2_dust", chapter: "ch2", labelKey: "editor.envKit.ch2_dust", kinds: [...KIT_CORE, "rim"] },
-  { id: "ch2_wells", chapter: "ch2", labelKey: "editor.envKit.ch2_wells", kinds: [...KIT_CORE, "cave", "falseMouth"] },
-  { id: "ch2_silver", chapter: "ch2", labelKey: "editor.envKit.ch2_silver", kinds: [...KIT_CORE, "bowl", "lantern"] },
+  {
+    id: "ch2_outer",
+    chapter: "ch2",
+    labelKey: "editor.envKit.ch2_outer",
+    kinds: [...KIT_CORE, "ice", "lantern", "column", "moonDoor", "chime", "chimeFrame", "screen"],
+  },
+  { id: "ch2_cassia", chapter: "ch2", labelKey: "editor.envKit.ch2_cassia", kinds: [...KIT_CORE, "wound", "bark", "heartwood"] },
+  { id: "ch2_mortar", chapter: "ch2", labelKey: "editor.envKit.ch2_mortar", kinds: [...KIT_CORE, "bowl", "rim", "mortar", "pestle", "roller", "trough", "rack"] },
+  {
+    id: "ch2_dust",
+    chapter: "ch2",
+    labelKey: "editor.envKit.ch2_dust",
+    kinds: [...KIT_CORE, "rim", "crater", "tide", "dust", "raft", "mast"],
+  },
+  {
+    id: "ch2_wells",
+    chapter: "ch2",
+    labelKey: "editor.envKit.ch2_wells",
+    kinds: [...KIT_CORE, "cave", "falseMouth", "dim", "reflection", "stalactite", "wellhead", "toad"],
+  },
+  {
+    id: "ch2_silver",
+    chapter: "ch2",
+    labelKey: "editor.envKit.ch2_silver",
+    kinds: [...KIT_CORE, "bowl", "lantern", "skin", "dewPlate"],
+  },
 ]
 
 export const DECOR_LABELS: Record<AssembledDecor["kind"], string> = {
@@ -84,6 +127,19 @@ export const DECOR_LABELS: Record<AssembledDecor["kind"], string> = {
   wound: "Wound",
   cave: "Cave lip",
   column: "Column",
+  trough: "Roller trough",
+  rack: "Drying rack",
+  mortar: "Mortar",
+  moonDoor: "Moon door",
+  chimeFrame: "Chime frame",
+  crater: "Crater",
+  mast: "Raft mast",
+  heartwood: "Heartwood",
+  reflection: "Reflection lip",
+  stalactite: "Stalactite",
+  wellhead: "Well head",
+  toad: "Moon toad",
+  dewPlate: "Dew-plate immortal",
 }
 
 export const PLATFORM_ASSETS = [
@@ -98,6 +154,9 @@ export const PLATFORM_ASSETS = [
   "wound",
   "cave",
   "ice",
+  "chime",
+  "raft",
+  "skin",
 ] as const
 
 const PLACEABLES_BY_BIOME: Record<string, AssembledDecor["kind"][]> = {
@@ -109,10 +168,16 @@ const PLACEABLES_BY_BIOME: Record<string, AssembledDecor["kind"][]> = {
   osmanthus: ["lantern", "hedge"],
   cloudsea: ["hedge"],
   moon: ["lantern", "cave", "column", "falseMouth", "rim", "bowl", "wound"],
+  ch2_mortar: ["rim", "bowl", "mortar", "trough", "rack"],
+  ch2_outer: ["lantern", "column", "moonDoor", "chimeFrame"],
+  ch2_dust: ["rim", "crater", "mast"],
+  ch2_cassia: ["wound", "heartwood"],
+  ch2_silver: ["bowl", "lantern", "dewPlate"],
+  ch2_wells: ["cave", "falseMouth", "reflection", "stalactite", "wellhead", "toad"],
 }
 
 export function placeablesForEnv(env: string): AssembledDecor["kind"][] {
-  const key = isLunarEnv(env) ? "moon" : env
+  const key = PLACEABLES_BY_BIOME[env] ? env : isLunarEnv(env) ? "moon" : env
   return PLACEABLES_BY_BIOME[key] ?? PLACEABLES_BY_BIOME.meadow ?? ["hedge"]
 }
 
@@ -157,6 +222,45 @@ export function defaultDecor(
   }
   if (kind === "column") {
     return { kind, x, y, w: 36, h: 120, rotation: 0, asset: "hedge", env }
+  }
+  if (kind === "trough") {
+    return { kind, x, y, w: 320, h: 40, rotation: 0, asset: "trough", env }
+  }
+  if (kind === "dewPlate") {
+    return { kind, x, y, w: 120, h: 300, rotation: 0, asset: "dewplate", env }
+  }
+  if (kind === "reflection") {
+    return { kind, x, y, w: 140, h: 24, rotation: 0, asset: "ground", env }
+  }
+  if (kind === "stalactite") {
+    return { kind, x, y, w: 60, h: 120, rotation: 0, asset: "stalactite", env }
+  }
+  if (kind === "wellhead") {
+    return { kind, x, y, w: 180, h: 90, rotation: 0, asset: "wellhead", env }
+  }
+  if (kind === "toad") {
+    return { kind, x, y, w: 90, h: 64, rotation: 0, asset: "toad", env }
+  }
+  if (kind === "heartwood") {
+    return { kind, x, y, w: 640, h: 640, rotation: 0, asset: "heartwood", env }
+  }
+  if (kind === "crater") {
+    return { kind, x, y, w: 360, h: 140, rotation: 0, asset: "crater", env }
+  }
+  if (kind === "mast") {
+    return { kind, x, y, w: 96, h: 240, rotation: 0, asset: "mast", env }
+  }
+  if (kind === "moonDoor") {
+    return { kind, x, y, w: 260, h: 260, rotation: 0, asset: "moondoor", env }
+  }
+  if (kind === "chimeFrame") {
+    return { kind, x, y, w: 150, h: 160, rotation: 0, asset: "chimeframe", env }
+  }
+  if (kind === "mortar") {
+    return { kind, x, y, w: 200, h: 180, rotation: 0, asset: "mortar", env }
+  }
+  if (kind === "rack") {
+    return { kind, x, y, w: 64, h: 96, rotation: 0, asset: "rack", env }
   }
   return { kind: "hedge", x, y, w: 36, h: 120, rotation: 0, asset: "hedge", env }
 }

@@ -5,24 +5,31 @@
   "groundY": 940,
   "platforms": [
     {
-      "x": 60,
-      "y": 800,
-      "w": 150,
+      "x": 40,
+      "y": 860,
+      "w": 160,
       "h": 28,
+      "asset": "bowl"
+    },
+    {
+      "x": 260,
+      "y": 900,
+      "w": 180,
+      "h": 28,
+      "asset": "bowl"
+    },
+    {
+      "x": 470,
+      "y": 540,
+      "w": 200,
+      "h": 24,
       "asset": "ground"
     },
     {
-      "x": 320,
-      "y": 880,
-      "w": 150,
-      "h": 28,
-      "asset": "ground"
-    },
-    {
-      "x": 540,
-      "y": 940,
-      "w": 420,
-      "h": 60,
+      "x": 740,
+      "y": 600,
+      "w": 160,
+      "h": 24,
       "asset": "ground"
     }
   ],
@@ -30,26 +37,70 @@
   "enemies": [
     {
       "id": "pestle_sentry",
-      "x": 160,
-      "y": 700
-    },
-    {
-      "id": "pestle_sentry",
-      "x": 400,
-      "y": 780
+      "x": 860,
+      "y": 560
     }
   ],
   "items": [
     {
-      "id": "mooncake",
-      "x": 380,
-      "y": 848
+      "id": "elixir_crumb",
+      "x": 560,
+      "y": 510
+    }
+  ],
+  "decor": [
+    {
+      "kind": "mortar",
+      "x": 28,
+      "y": 852,
+      "w": 184,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "mortar",
+      "x": 248,
+      "y": 892,
+      "w": 204,
+      "h": 150,
+      "rotation": 0,
+      "asset": "mortar"
+    },
+    {
+      "kind": "column",
+      "x": 552,
+      "y": 560,
+      "w": 36,
+      "h": 520,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 802,
+      "y": 620,
+      "w": 36,
+      "h": 460,
+      "rotation": 0,
+      "asset": "hedge"
     }
   ],
   "color": "#121416",
   "ceilings": [],
-  "movers": [],
+  "movers": [
+    {
+      "x": 326,
+      "y": 700,
+      "w": 48,
+      "h": 200,
+      "axis": "y",
+      "amplitude": 200,
+      "speed": 1.85,
+      "phase": 0.0,
+      "kind": "pestle"
+    }
+  ],
   "hazards": [],
-  "decor": [],
   "carrots": []
 }

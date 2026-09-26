@@ -20,7 +20,11 @@ Player verbs and how items change them are in [creatures/abilities.md](creatures
 | blocker | goat | Charges when the player crosses its line. Stunned on wall hit |
 | blocker | boar | On the ground in Green Corridor. Close range winds it up, then it charges for 2 hearts. Stops at a ledge or a wall |
 | water_patrol | carp | Hovers in a water band. Periodic breach |
-| boss | Fox Hu, Heron Fisher, Crane Envoy, Closing Gale, Still Silver, Han | Scripted phases composed from the above |
+| boss | Fox Hu, Heron Fisher, Crane Envoy, Closing Gale, Penghou, Still Silver, Han | Scripted phases composed from the above |
+
+Penghou (`penghouBoss.ts`): Cassia Wound Gold Core. Mei closes four gold cuts on
+the heartwood walls. Each one calms the spirit. Prowl, leap, bark-shard volley.
+Folk page: [creatures/folk/penghou.md](creatures/folk/penghou.md).
 
 Still Silver (`stillBoss.ts`): 13 hearts (1 Full → 4 Quarters → 8 Eighths), mooncake
 damaging dash, stream / tsunami, eight aspects gather into a Chapter 3 portal. Folk
@@ -124,3 +128,7 @@ Used on web today via Spawner. `reach` and later archetypes remain M3+.
 | dust_mite | swarm | Story Chapter 2. Not Earth |
 | star_wisp | swarm | Story Chapter 2. One Guanghan palace hall |
 | pestle_sentry | ranged_lob | Story Chapter 2. Not Earth |
+| cassia_grub | patrol | Story Mortar Yard. Not Earth |
+| crater_crab | patrol | Story Dust Sea. Digs in. Not Earth |
+| silver_carp | water_patrol | Story Far Silver. High leap. Not Earth |
+| silver_bat | diver | Story Quiet Wells. Long swoop from the roof. Not Earth |

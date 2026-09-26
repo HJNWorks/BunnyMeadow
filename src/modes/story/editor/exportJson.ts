@@ -60,6 +60,8 @@ export function buildExportBundle(
       asset?: AssembledRect["asset"]
       rotation?: number
       env?: string
+      hidden?: boolean
+      dim?: boolean
     },
   ): void => {
     const anchor = worldToAnchor(world, x, y)
@@ -77,6 +79,8 @@ export function buildExportBundle(
       ...(extra?.asset ? { asset: extra.asset } : {}),
       ...(typeof extra?.rotation === "number" ? { rotation: extra.rotation } : {}),
       ...(extra?.env ? { env: extra.env } : {}),
+      ...(kind === "wall" && extra?.hidden ? { hidden: true } : {}),
+      ...(extra?.dim ? { dim: true } : {}),
     }
     if (kind === "wall") {
       chunks[id].walls.push(rect)
@@ -95,6 +99,8 @@ export function buildExportBundle(
       asset: rect.asset,
       rotation: rect.rotation,
       env: rect.env,
+      hidden: rect.hidden,
+      dim: rect.dim,
     })
   }
 
@@ -128,6 +134,7 @@ export function buildExportBundle(
       speed: mover.speed,
       tint: mover.tint,
       kind: mover.kind,
+      ...(typeof mover.phase === "number" ? { phase: mover.phase } : {}),
     })
   }
 
@@ -143,8 +150,11 @@ export function buildExportBundle(
       y: hazard.worldY,
       w: hazard.w,
       h: hazard.h,
-      kind: "water",
+      kind: hazard.kind,
       current: hazard.current,
+      ...(typeof hazard.lift === "number" ? { lift: hazard.lift } : {}),
+      ...(typeof hazard.period === "number" ? { period: hazard.period } : {}),
+      ...(typeof hazard.phase === "number" ? { phase: hazard.phase } : {}),
       trigger: hazard.trigger,
     })
   }

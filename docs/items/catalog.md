@@ -80,7 +80,8 @@ rule in [placement.md](placement.md).
 | Rarity | uncommon |
 | Render cue | pale grit sparkle |
 
-Run-scoped. No pantry. No permanent power.
+Run-scoped. No pantry. No permanent power. In Story the grit comes back 5 s after
+pickup, so a fall never strands a gap that wants it.
 
 ## elixir crumb
 
@@ -94,7 +95,8 @@ Run-scoped. No pantry. No permanent power.
 | Rarity | uncommon |
 | Render cue | gold crumb |
 
-Run-scoped. Not Yutu as an HP bar. The crumb is the pickup.
+Run-scoped. Not Yutu as an HP bar. The crumb is the pickup. In Story it comes back
+5 s after pickup, like star grit.
 
 ## well silver
 
@@ -102,7 +104,7 @@ Run-scoped. Not Yutu as an HP bar. The crumb is the pickup.
 | --- | --- |
 | Category | run-buff |
 | Status | live |
-| Effect | 1.6 s additive glow on the player. Same lantern hook. No mist wall |
+| Effect | 1.6 s additive glow on the player. Same lantern hook. No mist wall. In Story it lights dim lips and shows reflection lips within 460 px of the pickup, and within 300 px of Mei while the glow lasts. What it lights stays lit. Comes back 5 s after pickup |
 | Duration | timed |
 | Home biomes | Quiet Wells, Far Silver |
 | Rarity | uncommon |

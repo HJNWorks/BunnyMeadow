@@ -22,6 +22,10 @@ export const CRITTER_LABELS: Record<string, string> = {
   dust_mite: "Dust mite",
   star_wisp: "Star wisp",
   pestle_sentry: "Pestle sentry",
+  cassia_grub: "Cassia grub",
+  crater_crab: "Crater crab",
+  silver_bat: "Silver bat",
+  silver_carp: "Silver carp",
   still: "Still Silver",
 }
 
@@ -49,7 +53,11 @@ const CRITTERS_BY_BIOME: Record<string, string[]> = {
   osmanthus: ["cat", "owl", "goat", "lantern_moth"],
   cloudsea: ["frost_wisp", "ice_spit", "gale_magpie", "frost_hare"],
   moon: ["frost_wisp", "lantern_moth", "star_wisp", "dust_mite", "pestle_sentry"],
-  ch2_silver: ["still", "star_wisp", "frost_wisp"],
+  ch2_cassia: ["cassia_grub"],
+  ch2_mortar: ["cassia_grub", "pestle_sentry", "dust_mite"],
+  ch2_dust: ["crater_crab", "dust_mite", "star_wisp"],
+  ch2_wells: ["silver_bat", "star_wisp"],
+  ch2_silver: ["still", "silver_carp", "star_wisp", "frost_wisp"],
 }
 
 const ITEMS_BY_BIOME: Record<string, string[]> = {
@@ -101,9 +109,29 @@ export const CRITTER_CHAPTERS: CritterChapter[] = [
     labelKey: "story.chapter.ch2.title",
     groups: [
       {
+        id: "cassia",
+        labelKey: "editor.critterGroup.cassia",
+        ids: ["cassia_grub"],
+      },
+      {
+        id: "yard",
+        labelKey: "editor.critterGroup.yard",
+        ids: ["pestle_sentry"],
+      },
+      {
+        id: "dust",
+        labelKey: "editor.critterGroup.dust",
+        ids: ["crater_crab"],
+      },
+      {
+        id: "wells",
+        labelKey: "editor.critterGroup.wells",
+        ids: ["silver_bat"],
+      },
+      {
         id: "silver",
         labelKey: "editor.critterGroup.silver",
-        ids: ["still"],
+        ids: ["still", "silver_carp"],
       },
     ],
   },

@@ -6,22 +6,23 @@
   "name": "Stone Bowls",
   "chunks": [
     "chunk_ch2_mortar_a",
-    "chunk_ch2_mortar_b"
+    "chunk_ch2_mortar_b",
+    "chunk_ch2_mortar_g"
   ],
   "playerSpawn": {
     "x": 100,
     "y": 900
   },
   "moonPool": {
-    "chunk": 0,
-    "x": 220,
-    "y": 900,
+    "chunk": 1,
+    "x": 170,
+    "y": 850,
     "line": "Pound, do not cook. Cakes keep the time."
   },
   "exit": {
-    "chunk": 1,
-    "x": 840,
-    "y": 940
+    "chunk": 2,
+    "x": 890,
+    "y": 900
   },
   "moonLine": "Pound, do not cook. Cakes keep the time.",
   "objective": "Hop the bowl rims. Pound, do not cook.",
@@ -30,9 +31,9 @@
   "lowGravity": true,
   "moonPools": [
     {
-      "chunk": 0,
-      "x": 220,
-      "y": 900,
+      "chunk": 1,
+      "x": 170,
+      "y": 850,
       "line": "Pound, do not cook. Cakes keep the time."
     }
   ]

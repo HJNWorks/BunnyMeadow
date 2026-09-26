@@ -8,6 +8,48 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Far Silver approach rework: Quiet Basin (three chunks) and Silver Steps (four).
+  The One Moon Pool station is unchanged. Silver skin pads (`asset: "skin"`, break
+  source `still`, profile `silver`) hold Mei only while she moves. Silver carp
+  (water_patrol, high leap). Bronze dew-plate immortal landmark (`dewPlate`). Far
+  layer `story_far_silver`. Lore: Han Wudi's dew-plate immortal and Li He's poem,
+  the carp and the Dragon Gate.
+  [docs/universe/environments/far-silver.md](docs/universe/environments/far-silver.md).
+- Quiet Wells rework. Cave Mouths (three chunks), False Lip and Well Silver (four
+  each). Dim lips (`dim: true`) and reflection lips (decor `reflection`) lit by well
+  silver, which now respawns. Silver bat wildlife (diver with a longer swoop).
+  Stalactite, well head, and moon toad decor. Far layer `story_far_wells`. Lunar water
+  is dark with a silver skin. Lore: the monkeys and the moon in the well, Zhuangzi's
+  frog in the well, bats as 福.
+  [docs/universe/environments/quiet-wells.md](docs/universe/environments/quiet-wells.md).
+- Cassia Wound rework. Grove Cut keeps its layout and gains `height` 1900 (its top
+  and exit were above the world before). Closing Gap rebuilt inside the trunk: healing
+  bark (`break.regrow`) and bark cut movers (`kind: "bark"`). Gold Core ends in the
+  heartwood room with a new boss, Penghou (彭侯, `penghouBoss.ts`): close four gold
+  cuts to calm the tree's spirit. Stamps `story_penghou`, `story_cut`, `story_bark`,
+  `story_barkchip`, `story_heartwood`, far layer `story_far_cassia` with Wu Gang.
+  Lore: [docs/creatures/folk/penghou.md](docs/creatures/folk/penghou.md).
+- Dust Sea rework. Rim Walk (three chunks), Lip Gap and Raft Wreck (four each).
+  Hazards `tide` (sideways dust current, or a vent with `lift`, `period`, `phase`)
+  and `dust` (sinking pool with a hop-out window). Raft plank mover
+  (`kind: "raft"`), raft deck pads (`asset: "raft"`), crater and mast decor, far
+  layer `story_far_dust` with the Silver River. Wildlife crater crab (digs in).
+  The star raft wreck from the Bowuzhi tale. Copy JSON keeps hazard kinds.
+  Lore: [docs/universe/environments/dust-sea.md](docs/universe/environments/dust-sea.md).
+- Outer Cold rework. Frost Courtyard (three chunks), Column Walk and Guest Gate (four
+  each). Guest screen mover (`kind: "screen"`) that holds Mei back on a beat
+  without costing a heart. Chime stone pads (`asset: "chime"`) that bounce Mei and
+  refresh the air jump. Moon door and chime frame decor, far layer
+  `story_far_outer`, hidden wall lintels. Frost tiles on the `ice` break profile.
+  Breakables restore on respawn. Star grit and elixir crumb come back 5 s after
+  pickup. Lore: [docs/universe/environments/outer-cold.md](docs/universe/environments/outer-cold.md).
+- Mortar Yard rework. Stone Bowls (three chunks), Pestle Beat and Cake Rounds (four
+  each). New movers: yard pestle (`kind: "pestle"`, lift/hold/slam beat with a
+  shadow telegraph and thump dust) and cake round (`kind: "roller"`). Both are
+  one-way rides whose slam or rolling side costs a heart. Optional mover `phase`.
+  Decor `mortar`, `trough`, `rack`. Far layer `story_far_mortar` with Yutu
+  pounding on the great mortar. Wildlife cassia grub (桂蠹). Lore:
+  [docs/universe/environments/mortar-yard.md](docs/universe/environments/mortar-yard.md).
 - Guanghan palace walk (I10). Seven walk chunks in front of the two-chunk Han court.
   Court AABB starts the fight. Leave resets unless settled. Frost wisps, lantern
   moths, one star wisp. Stamp `story_far_guanghan`. Fifteenth seed. `KEEPSAKE_SET`.

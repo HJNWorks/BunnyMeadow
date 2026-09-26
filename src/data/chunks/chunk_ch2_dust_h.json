@@ -1,0 +1,85 @@
+{
+  "id": "chunk_ch2_dust_h",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 40,
+      "y": 800,
+      "w": 260,
+      "h": 60,
+      "asset": "ground"
+    },
+    {
+      "x": 440,
+      "y": 400,
+      "w": 120,
+      "h": 28,
+      "asset": "ground"
+    },
+    {
+      "x": 695,
+      "y": 230,
+      "w": 145,
+      "h": 28,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "star_wisp",
+      "x": 500,
+      "y": 240
+    }
+  ],
+  "items": [],
+  "decor": [
+    {
+      "kind": "crater",
+      "x": 290,
+      "y": 890,
+      "w": 440,
+      "h": 150,
+      "rotation": 0,
+      "asset": "crater"
+    }
+  ],
+  "color": "#1a1814",
+  "ceilings": [],
+  "movers": [],
+  "hazards": [
+    {
+      "kind": "tide",
+      "x": 320,
+      "y": 340,
+      "w": 110,
+      "h": 660,
+      "current": 0,
+      "lift": 380,
+      "period": 3.0,
+      "phase": 0.0
+    },
+    {
+      "kind": "tide",
+      "x": 580,
+      "y": 180,
+      "w": 110,
+      "h": 820,
+      "current": 0,
+      "lift": 380,
+      "period": 3.0,
+      "phase": 0.5
+    },
+    {
+      "kind": "dust",
+      "x": 300,
+      "y": 940,
+      "w": 420,
+      "h": 120,
+      "current": 0
+    }
+  ],
+  "carrots": []
+}

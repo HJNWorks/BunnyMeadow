@@ -70,10 +70,46 @@ const KITS: Record<string, EnemyKit> = {
   dust_mite: { texture: "story_critter_dust_mite", source: "story_dust", w: 52, h: 36, archetype: "swarm", speed: 28, fly: true },
   star_wisp: { texture: "story_critter_star_wisp", source: "story_starwisp", w: 64, h: 44, archetype: "swarm", speed: 18, fly: true },
   pestle_sentry: { texture: "story_critter_pestle_sentry", source: "story_pestle", w: 32, h: 36, archetype: "ranged_lob", speed: 0 },
+  silver_carp: { texture: "story_critter_silver_carp", source: "story_silvercarp", w: 52, h: 26, archetype: "water_patrol", speed: 55, fly: true },
+  silver_bat: { texture: "story_critter_silver_bat", source: "story_bat", w: 48, h: 28, archetype: "diver", speed: 320, fly: true },
+  crater_crab: { texture: "story_critter_crater_crab", source: "story_crab", w: 44, h: 30, archetype: "patrol", speed: 42 },
+  cassia_grub: { texture: "story_critter_cassia_grub", source: "story_grub", w: 40, h: 24, archetype: "patrol", speed: 30 },
   gale_magpie: { texture: "story_critter_gale_magpie", source: "story_magpie", w: 40, h: 28, archetype: "diver", speed: 160, fly: true },
   carp: { texture: "story_critter_carp", source: "story_carp", w: 48, h: 24, archetype: "water_patrol", speed: 40, fly: true },
   frost_hare: { texture: "story_critter_frost_hare", source: "story_frost_hare", w: 40, h: 32, archetype: "patrol", speed: 70 },
   lantern_moth: { texture: "story_critter_lantern_moth", source: "story_moth", w: 48, h: 32, archetype: "diver", speed: 90, fly: true },
+}
+
+/**
+ * Crater crabs walk a lip, then dig into the dust for a moment. Dug in, they are
+ * harmless and cannot be stomped. Returns true while dug in.
+ */
+function tickCrabDig(scene: Phaser.Scene, enemy: Phaser.Physics.Arcade.Sprite, dt: number): boolean {
+  let timer = Number(enemy.getData("digT") ?? 2 + Math.random())
+  let dug = enemy.getData("dug") === true
+  timer -= dt
+  if (timer <= 0) {
+    dug = !dug
+    timer = dug ? 1.3 : 2.4 + Math.random() * 0.8
+    enemy.setData("dug", dug)
+    scene.tweens.add({ targets: enemy, alpha: dug ? 0.22 : 1, duration: 220 })
+    for (let i = 0; i < 3; i += 1) {
+      const puff = scene.add.circle(enemy.x + (i - 1) * 10, enemy.y + 10, 5, 0xd8d0c0, 0.7).setDepth(4.5)
+      scene.tweens.add({
+        targets: puff,
+        y: puff.y - 16,
+        alpha: 0,
+        scale: 1.6,
+        duration: 360,
+        onComplete: () => puff.destroy(),
+      })
+    }
+  }
+  enemy.setData("digT", timer)
+  if (dug) {
+    enemy.setVelocityX(0)
+  }
+  return dug
 }
 
 export function critterTextureKey(id: string): string {
@@ -669,6 +705,9 @@ export function updateEnemies(
         tickFrog(scene, enemy, projectiles, platforms, target, dt)
         return
       }
+      if (id === "crater_crab" && tickCrabDig(scene, enemy, dt)) {
+        return
+      }
       if (id === "frost_hare" && Math.hypot(target.x - enemy.x, target.y - enemy.y) < 220) {
         dir = target.x >= enemy.x ? 1 : -1
         enemy.setData("dir", dir)
@@ -812,8 +851,10 @@ export function updateEnemies(
         enemy.setVelocityY((homeY - enemy.y) * 4)
         if (timer <= 0) {
           phase = "breach"
-          timer = 0.42
-          enemy.setVelocityY(-220)
+          // Silver carp leap high out of still silver (鯉魚跳龍門), river carp barely break the surface.
+          const leaper = String(enemy.getData("id") || "") === "silver_carp"
+          timer = leaper ? 0.6 : 0.42
+          enemy.setVelocityY(leaper ? -420 : -220)
         }
       } else if (phase === "breach") {
         if (timer <= 0) {
@@ -909,7 +950,9 @@ export function updateEnemies(
         enemy.setVelocity(Math.sin(hoverT) * 50, Math.cos(hoverT) * 28)
         if (timer <= 0 && Math.abs(target.x - enemy.x) < 420) {
           phase = "dive"
-          timer = String(enemy.getData("id") || "") === "lantern_moth" ? 0.55 : 0.7
+          const diverId = String(enemy.getData("id") || "")
+          // Silver bats drop from the cave roof, so their swoop runs longer.
+          timer = diverId === "lantern_moth" ? 0.55 : diverId === "silver_bat" ? 1.0 : 0.7
           const lightX = Number(enemy.getData("lightX"))
           const lightY = Number(enemy.getData("lightY"))
           const aimX = Number.isFinite(lightX) ? lightX : target.x

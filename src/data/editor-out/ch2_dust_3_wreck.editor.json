@@ -2,27 +2,27 @@
   "levelId": "ch2_dust_3_wreck",
   "level": {
     "playerSpawn": {
-      "x": 80,
-      "y": 900
+      "x": 100,
+      "y": 860
     },
     "moonPools": [
       {
-        "chunk": 0,
-        "x": 180,
-        "y": 900,
+        "chunk": 2,
+        "x": 100,
+        "y": 740,
         "line": "An old star raft. Not a ship. Keep to the rims."
       }
     ],
     "moonPool": {
-      "chunk": 0,
-      "x": 180,
-      "y": 900,
+      "chunk": 2,
+      "x": 100,
+      "y": 740,
       "line": "An old star raft. Not a ship. Keep to the rims."
     },
     "exit": {
-      "chunk": 1,
+      "chunk": 3,
       "x": 880,
-      "y": 850
+      "y": 500
     },
     "env": "ch2_dust",
     "sky": "#161410"
@@ -33,31 +33,31 @@
   },
   "decor": [
     {
-      "kind": "log",
-      "x": 200,
-      "y": 900,
-      "w": 180,
-      "h": 28,
-      "rotation": -8,
-      "asset": "log"
+      "kind": "mast",
+      "x": 1300,
+      "y": 600,
+      "w": 104,
+      "h": 260,
+      "rotation": 0,
+      "asset": "mast"
     },
     {
-      "kind": "log",
-      "x": 1060,
-      "y": 700,
-      "w": 200,
-      "h": 32,
-      "rotation": 12,
-      "asset": "log"
+      "kind": "mast",
+      "x": 1890,
+      "y": 560,
+      "w": 104,
+      "h": 220,
+      "rotation": 0,
+      "asset": "mast"
     },
     {
-      "kind": "log",
-      "x": 1320,
-      "y": 840,
-      "w": 140,
-      "h": 24,
-      "rotation": -6,
-      "asset": "log"
+      "kind": "crater",
+      "x": 3580,
+      "y": 540,
+      "w": 300,
+      "h": 140,
+      "rotation": 0,
+      "asset": "crater"
     }
   ],
   "chunks": {
@@ -65,27 +65,13 @@
       "id": "chunk_ch2_dust_e",
       "width": 960,
       "height": 1080,
-      "groundY": 940,
+      "groundY": 920,
       "platforms": [
         {
           "x": 0,
-          "y": 940,
-          "w": 140,
-          "h": 40,
-          "asset": "ground"
-        },
-        {
-          "x": 480,
-          "y": 820,
-          "w": 100,
-          "h": 20,
-          "asset": "ground"
-        },
-        {
-          "x": 780,
-          "y": 700,
-          "w": 100,
-          "h": 20,
+          "y": 900,
+          "w": 260,
+          "h": 60,
           "asset": "ground"
         }
       ],
@@ -93,30 +79,52 @@
       "enemies": [
         {
           "id": "dust_mite",
-          "x": 70,
-          "y": 880
+          "x": 560,
+          "y": 760
         }
       ],
       "items": [
         {
-          "id": "star_grit",
-          "x": 320,
-          "y": 860
+          "id": "mooncake",
+          "x": 440,
+          "y": 820
         }
       ],
+      "decor": [],
       "color": "#1a1814",
       "ceilings": [],
-      "movers": [],
-      "hazards": [],
-      "decor": [
+      "movers": [
         {
-          "kind": "log",
-          "x": 200,
-          "y": 900,
-          "w": 180,
-          "h": 28,
-          "rotation": -8,
-          "asset": "log"
+          "x": 360,
+          "y": 896,
+          "w": 160,
+          "h": 24,
+          "axis": "x",
+          "amplitude": 90,
+          "speed": 0.8,
+          "phase": 0.0,
+          "kind": "raft"
+        },
+        {
+          "x": 660,
+          "y": 896,
+          "w": 160,
+          "h": 24,
+          "axis": "x",
+          "amplitude": 110,
+          "speed": 0.8,
+          "phase": 0.5,
+          "kind": "raft"
+        }
+      ],
+      "hazards": [
+        {
+          "kind": "dust",
+          "x": 260,
+          "y": 920,
+          "w": 700,
+          "h": 120,
+          "current": 0
         }
       ],
       "carrots": []
@@ -125,72 +133,257 @@
       "id": "chunk_ch2_dust_f",
       "width": 960,
       "height": 1080,
-      "groundY": 820,
+      "groundY": 920,
       "platforms": [
         {
-          "x": 240,
-          "y": 620,
-          "w": 100,
-          "h": 20,
-          "asset": "ground"
-        },
-        {
-          "x": 520,
-          "y": 760,
-          "w": 100,
-          "h": 20,
-          "asset": "ground"
-        },
-        {
-          "x": 780,
-          "y": 880,
-          "w": 180,
+          "x": 300,
+          "y": 860,
+          "w": 220,
           "h": 28,
-          "asset": "ground"
+          "asset": "raft"
+        },
+        {
+          "x": 620,
+          "y": 800,
+          "w": 200,
+          "h": 28,
+          "asset": "raft"
+        },
+        {
+          "x": 860,
+          "y": 780,
+          "w": 100,
+          "h": 28,
+          "asset": "raft"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "crater_crab",
+          "x": 700,
+          "y": 770
+        }
+      ],
+      "items": [
+        {
+          "id": "star_grit",
+          "x": 880,
+          "y": 750
+        },
+        {
+          "id": "star_grit",
+          "x": 380,
+          "y": 830
+        }
+      ],
+      "decor": [
+        {
+          "kind": "mast",
+          "x": 340,
+          "y": 600,
+          "w": 104,
+          "h": 260,
+          "rotation": 0,
+          "asset": "mast"
+        }
+      ],
+      "color": "#1a1814",
+      "ceilings": [],
+      "movers": [
+        {
+          "x": 100,
+          "y": 896,
+          "w": 150,
+          "h": 24,
+          "axis": "x",
+          "amplitude": 70,
+          "speed": 0.8,
+          "phase": 0.25,
+          "kind": "raft"
+        }
+      ],
+      "hazards": [
+        {
+          "kind": "dust",
+          "x": 0,
+          "y": 920,
+          "w": 300,
+          "h": 120,
+          "current": 0
+        },
+        {
+          "kind": "dust",
+          "x": 520,
+          "y": 920,
+          "w": 440,
+          "h": 120,
+          "current": 0
+        }
+      ],
+      "carrots": []
+    },
+    "chunk_ch2_dust_j": {
+      "id": "chunk_ch2_dust_j",
+      "width": 960,
+      "height": 1080,
+      "groundY": 920,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 780,
+          "w": 200,
+          "h": 28,
+          "asset": "raft"
         }
       ],
       "walls": [],
       "enemies": [
         {
           "id": "dust_mite",
-          "x": 280,
-          "y": 560
-        },
+          "x": 520,
+          "y": 700
+        }
+      ],
+      "items": [],
+      "decor": [
         {
-          "id": "star_wisp",
-          "x": 840,
-          "y": 800
+          "kind": "mast",
+          "x": -30,
+          "y": 560,
+          "w": 104,
+          "h": 220,
+          "rotation": 0,
+          "asset": "mast"
         }
       ],
       "color": "#1a1814",
       "ceilings": [],
-      "movers": [],
-      "hazards": [],
-      "decor": [
+      "movers": [
         {
-          "kind": "log",
-          "x": 100,
-          "y": 700,
-          "w": 200,
-          "h": 32,
-          "rotation": 12,
-          "asset": "log"
+          "x": 320,
+          "y": 850,
+          "w": 150,
+          "h": 24,
+          "axis": "x",
+          "amplitude": 90,
+          "speed": 1.0,
+          "phase": 0.0,
+          "kind": "raft"
         },
         {
-          "kind": "log",
-          "x": 360,
-          "y": 840,
-          "w": 140,
+          "x": 640,
+          "y": 830,
+          "w": 150,
           "h": 24,
-          "rotation": -6,
-          "asset": "log"
+          "axis": "x",
+          "amplitude": 90,
+          "speed": 1.0,
+          "phase": 0.5,
+          "kind": "raft"
+        }
+      ],
+      "hazards": [
+        {
+          "kind": "dust",
+          "x": 200,
+          "y": 880,
+          "w": 760,
+          "h": 120,
+          "current": 0
+        },
+        {
+          "kind": "tide",
+          "x": 250,
+          "y": 560,
+          "w": 650,
+          "h": 320,
+          "current": 80
+        }
+      ],
+      "carrots": []
+    },
+    "chunk_ch2_dust_k": {
+      "id": "chunk_ch2_dust_k",
+      "width": 960,
+      "height": 1080,
+      "groundY": 920,
+      "platforms": [
+        {
+          "x": 540,
+          "y": 460,
+          "w": 140,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 760,
+          "y": 500,
+          "w": 200,
+          "h": 60,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "star_wisp",
+          "x": 640,
+          "y": 330
         }
       ],
       "items": [
         {
-          "id": "star_grit",
-          "x": 600,
-          "y": 720
+          "id": "mooncake",
+          "x": 610,
+          "y": 430
+        }
+      ],
+      "decor": [
+        {
+          "kind": "crater",
+          "x": 700,
+          "y": 540,
+          "w": 300,
+          "h": 140,
+          "rotation": 0,
+          "asset": "crater"
+        }
+      ],
+      "color": "#1a1814",
+      "ceilings": [],
+      "movers": [
+        {
+          "x": 140,
+          "y": 850,
+          "w": 150,
+          "h": 24,
+          "axis": "x",
+          "amplitude": 90,
+          "speed": 0.8,
+          "phase": 0.25,
+          "kind": "raft"
+        }
+      ],
+      "hazards": [
+        {
+          "kind": "dust",
+          "x": 0,
+          "y": 880,
+          "w": 440,
+          "h": 120,
+          "current": 0
+        },
+        {
+          "kind": "tide",
+          "x": 420,
+          "y": 380,
+          "w": 110,
+          "h": 620,
+          "current": 0,
+          "lift": 380,
+          "period": 2.8,
+          "phase": 0.0
         }
       ],
       "carrots": []

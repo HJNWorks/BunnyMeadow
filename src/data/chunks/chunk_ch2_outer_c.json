@@ -7,112 +7,92 @@
     {
       "x": 0,
       "y": 920,
-      "w": 280,
+      "w": 300,
       "h": 80,
       "asset": "ground"
     },
     {
-      "x": 420,
+      "x": 380,
       "y": 780,
-      "w": 120,
+      "w": 100,
       "h": 24,
       "asset": "ground"
     },
     {
-      "x": 620,
-      "y": 680,
-      "w": 120,
-      "h": 24,
-      "asset": "ground"
+      "x": 540,
+      "y": 860,
+      "w": 90,
+      "h": 26,
+      "asset": "chime"
     },
     {
-      "x": 820,
-      "y": 580,
-      "w": 140,
+      "x": 700,
+      "y": 520,
+      "w": 100,
       "h": 24,
       "asset": "ground"
     }
   ],
-  "walls": [
-    {
-      "x": 90,
-      "y": 720,
-      "w": 36,
-      "h": 200,
-      "asset": "hedge"
-    },
-    {
-      "x": 250,
-      "y": 760,
-      "w": 36,
-      "h": 160,
-      "asset": "hedge"
-    }
-  ],
+  "walls": [],
   "enemies": [
     {
       "id": "dust_mite",
-      "x": 480,
-      "y": 720
-    },
-    {
-      "id": "dust_mite",
-      "x": 680,
-      "y": 620
+      "x": 860,
+      "y": 450
     }
   ],
   "items": [
     {
       "id": "star_grit",
-      "x": 880,
-      "y": 548
+      "x": 750,
+      "y": 490
     }
   ],
   "decor": [
     {
-      "kind": "hedge",
-      "x": 90,
-      "y": 720,
-      "w": 36,
-      "h": 200,
-      "rotation": 0,
-      "asset": "hedge"
-    },
-    {
-      "kind": "hedge",
-      "x": 250,
-      "y": 760,
-      "w": 36,
-      "h": 160,
-      "rotation": 0,
-      "asset": "hedge"
-    },
-    {
-      "kind": "column",
-      "x": 90,
-      "y": 720,
-      "w": 36,
-      "h": 200,
-      "rotation": 0,
-      "asset": "hedge"
-    },
-    {
-      "kind": "column",
-      "x": 250,
-      "y": 760,
-      "w": 36,
-      "h": 160,
-      "rotation": 0,
-      "asset": "hedge"
-    },
-    {
       "kind": "lantern",
-      "x": 160,
+      "x": 60,
       "y": 872,
       "w": 28,
       "h": 48,
       "rotation": 0,
       "asset": "lantern"
+    },
+    {
+      "kind": "lantern",
+      "x": 220,
+      "y": 872,
+      "w": 28,
+      "h": 48,
+      "rotation": 0,
+      "asset": "lantern"
+    },
+    {
+      "kind": "chimeFrame",
+      "x": 510,
+      "y": 650,
+      "w": 150,
+      "h": 214,
+      "rotation": 0,
+      "asset": "chimeframe"
+    },
+    {
+      "kind": "column",
+      "x": 410,
+      "y": 798,
+      "w": 40,
+      "h": 282,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 730,
+      "y": 538,
+      "w": 40,
+      "h": 542,
+      "rotation": 0,
+      "asset": "hedge"
     }
   ],
   "color": "#151b2e",

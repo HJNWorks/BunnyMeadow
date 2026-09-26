@@ -2,7 +2,8 @@
 
 Status: live (Chapter 2 Mortar Yard). Class: Wildlife. Archetype: ranged_lob.
 Hub: [../README.md](../README.md). Invented stone pestle. Not Yutu. Yutu stays off
-the HP bar.
+the HP bar. Not the tall jade yard pestle either. That one is a mover, not wildlife
+([../../universe/environments/mortar-yard.md](../../universe/environments/mortar-yard.md#mechanics)).
 
 | Field | Value |
 | --- | --- |

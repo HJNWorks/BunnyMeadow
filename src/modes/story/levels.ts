@@ -33,11 +33,15 @@ import levelCh2Silver2 from "../../data/story/ch2/ch2_silver_2_steps.json"
 import levelCh2Silver3 from "../../data/story/ch2/ch2_silver_3_one_pool.json"
 
 export type StoryBossDef = {
-  kind: "fox_cart" | "heron" | "crane" | "gale" | "han" | "still"
+  kind: "fox_cart" | "heron" | "crane" | "gale" | "han" | "still" | "penghou"
   hitsNeeded?: number
   divesNeeded?: number
   x?: number
   y?: number
+  /** Penghou: the heartwood room. Entering starts the fight, leaving before it settles resets it. */
+  court?: { chunk: number; x: number; y: number; w: number; h: number }
+  /** Penghou: open gold cuts Mei closes by touch. */
+  cuts?: { chunk: number; x: number; y: number }[]
 }
 
 export type StoryLeftChase = {

@@ -6,33 +6,35 @@
   "name": "Column Walk",
   "chunks": [
     "chunk_ch2_outer_c",
-    "chunk_ch2_outer_d"
+    "chunk_ch2_outer_d",
+    "chunk_ch2_outer_h",
+    "chunk_ch2_outer_i"
   ],
   "playerSpawn": {
     "x": 140,
     "y": 880
   },
   "moonPool": {
-    "chunk": 1,
-    "x": 110,
-    "y": 560,
+    "chunk": 2,
+    "x": 170,
+    "y": 740,
     "line": "Columns hold the cold. Gaps keep the guest."
   },
   "exit": {
-    "chunk": 1,
-    "x": 900,
-    "y": 820
+    "chunk": 3,
+    "x": 880,
+    "y": 280
   },
   "moonLine": "Columns hold the cold. Gaps keep the guest.",
-  "objective": "Hop the denser roof gaps. Float on star grit.",
+  "objective": "Bounce the chime stones up the columns.",
   "env": "ch2_outer",
   "sky": "#10141a",
   "lowGravity": true,
   "moonPools": [
     {
-      "chunk": 1,
-      "x": 110,
-      "y": 560,
+      "chunk": 2,
+      "x": 170,
+      "y": 740,
       "line": "Columns hold the cold. Gaps keep the guest."
     }
   ]

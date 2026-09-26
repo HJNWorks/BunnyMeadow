@@ -42,11 +42,11 @@ Six worlds, same card count as Chapter 1:
 
 | Map title | What it is |
 | --- | --- |
-| Outer Cold | First region after Han's gate. She stops because the courts still keep a guest. Short roof hops, one dust mite, star grit |
-| Cassia Wound | Wu Gang's self-healing osmanthus as a region. She stops because the cut slides shut |
+| Outer Cold | First region after Han's gate. She stops because the courts still keep a guest: guest screens close in the moon gates. Frost flagstones, chime stones between columns, dust mites, star grit |
+| Cassia Wound | Wu Gang's self-healing osmanthus as a region. She stops because the cut slides shut. In the gold heartwood she calms the tree's spirit, Penghou |
 | Mortar Yard | Yutu pounding elixir. She stops for a pestle beat, then hops the bowls. Not a kitchen |
-| Dust Sea | Crater plains. She stops because the lips are the only floor. Star grit in the gap |
-| Quiet Wells | Cold caves. She stops because the first mouth is false. Well silver shows the real lip |
+| Dust Sea | Crater plains. She stops because the lips are the only floor. Dust tides push, vents breathe, crater dust sinks. The star raft ran aground here |
+| Quiet Wells | Cold caves. She stops because the first mouth is false. Still water shows lips that are only reflections. Well silver shows the real lip. The moon toad keeps the last well |
 | Far Silver | Quiet Basin is the approach. Silver Steps goes quieter. The One Moon Pool is the world finale (Still Silver) |
 
 Unlock: `moon_guanghan` cleared. Han's grown moon stays visual. No jump pad this pass.

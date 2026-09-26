@@ -6,33 +6,34 @@
   "name": "Rim Walk",
   "chunks": [
     "chunk_ch2_dust_a",
-    "chunk_ch2_dust_b"
+    "chunk_ch2_dust_b",
+    "chunk_ch2_dust_g"
   ],
   "playerSpawn": {
-    "x": 80,
-    "y": 900
+    "x": 120,
+    "y": 880
   },
   "moonPool": {
-    "chunk": 0,
-    "x": 200,
-    "y": 900,
+    "chunk": 1,
+    "x": 140,
+    "y": 860,
     "line": "Dust remembers every paw. Keep to the rims."
   },
   "exit": {
-    "chunk": 1,
-    "x": 870,
-    "y": 850
+    "chunk": 2,
+    "x": 880,
+    "y": 640
   },
   "moonLine": "Dust remembers every paw. Keep to the rims.",
-  "objective": "Keep to the crater rims.",
+  "objective": "Keep to the rims. The dust tide carries you.",
   "env": "ch2_dust",
   "sky": "#161410",
   "lowGravity": true,
   "moonPools": [
     {
-      "chunk": 0,
-      "x": 200,
-      "y": 900,
+      "chunk": 1,
+      "x": 140,
+      "y": 860,
       "line": "Dust remembers every paw. Keep to the rims."
     }
   ]
