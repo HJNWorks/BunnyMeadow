@@ -11,6 +11,11 @@
       "x": 120,
       "y": -3050
     },
+    "boss": {
+      "kind": "gale",
+      "x": 0,
+      "y": 0
+    },
     "env": "cloudsea",
     "sky": "#4a6888"
   },
@@ -55,33 +60,38 @@
           "x": 0,
           "y": 900,
           "w": 200,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 260,
           "y": 800,
           "w": 90,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 440,
           "y": 700,
           "w": 90,
           "h": 24,
-          "surface": "slick"
+          "surface": "slick",
+          "asset": "ice"
         },
         {
           "x": 700,
           "y": 600,
           "w": 90,
           "h": 24,
-          "surface": "slick"
+          "surface": "slick",
+          "asset": "ice"
         },
         {
           "x": 860,
           "y": 520,
           "w": 100,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         }
       ],
       "walls": [],
@@ -138,33 +148,38 @@
           "x": 0,
           "y": 520,
           "w": 90,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 200,
           "y": 430,
           "w": 80,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 400,
           "y": 340,
           "w": 80,
           "h": 24,
-          "surface": "slick"
+          "surface": "slick",
+          "asset": "ice"
         },
         {
           "x": 640,
           "y": 280,
           "w": 90,
           "h": 24,
-          "surface": "slick"
+          "surface": "slick",
+          "asset": "ice"
         },
         {
           "x": 820,
           "y": 240,
           "w": 140,
-          "h": 28
+          "h": 28,
+          "asset": "ground"
         }
       ],
       "walls": [],
@@ -221,133 +236,164 @@
           "x": 24,
           "y": 80,
           "w": 240,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 620,
           "y": -75,
           "w": 220,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 24,
           "y": -230,
           "w": 240,
           "h": 24,
-          "surface": "slick"
+          "surface": "slick",
+          "asset": "ice"
         },
         {
           "x": 620,
           "y": -385,
           "w": 220,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 24,
           "y": -540,
           "w": 240,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 620,
           "y": -695,
           "w": 220,
           "h": 24,
-          "surface": "slick"
+          "surface": "slick",
+          "asset": "ice"
         },
         {
           "x": 24,
           "y": -850,
           "w": 240,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 620,
           "y": -1005,
           "w": 220,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 24,
           "y": -1160,
           "w": 240,
           "h": 24,
-          "surface": "slick"
+          "surface": "slick",
+          "asset": "ice"
         },
         {
           "x": 620,
           "y": -1315,
           "w": 220,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 24,
           "y": -1470,
           "w": 240,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 620,
           "y": -1625,
           "w": 220,
           "h": 24,
-          "surface": "slick"
+          "surface": "slick",
+          "asset": "ice",
+          "env": "moon"
         },
         {
           "x": 24,
           "y": -1780,
           "w": 240,
-          "h": 24
+          "h": 24,
+          "asset": "ground",
+          "env": "moon"
         },
         {
           "x": 620,
           "y": -1935,
           "w": 220,
-          "h": 24
+          "h": 24,
+          "asset": "ground",
+          "env": "moon"
         },
         {
           "x": 24,
           "y": -2090,
           "w": 240,
           "h": 24,
-          "surface": "slick"
+          "surface": "slick",
+          "asset": "ice",
+          "env": "moon"
         },
         {
           "x": 620,
           "y": -2245,
           "w": 220,
-          "h": 24
+          "h": 24,
+          "asset": "ground",
+          "env": "moon"
         },
         {
           "x": 24,
           "y": -2400,
           "w": 240,
-          "h": 24
+          "h": 24,
+          "asset": "ground",
+          "env": "moon"
         },
         {
           "x": 620,
           "y": -2555,
           "w": 220,
           "h": 24,
-          "surface": "slick"
+          "surface": "slick",
+          "asset": "ice",
+          "env": "moon"
         },
         {
           "x": 24,
           "y": -2710,
           "w": 240,
-          "h": 24
+          "h": 24,
+          "asset": "ground",
+          "env": "moon"
         },
         {
           "x": 620,
           "y": -2865,
           "w": 220,
-          "h": 24
+          "h": 24,
+          "asset": "ground",
+          "env": "moon"
         },
         {
           "x": 24,
           "y": -3020,
           "w": 280,
-          "h": 28
+          "h": 28,
+          "asset": "ground",
+          "env": "moon"
         }
       ],
       "walls": [],

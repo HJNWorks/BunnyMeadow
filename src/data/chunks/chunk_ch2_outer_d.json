@@ -1,0 +1,84 @@
+{
+  "id": "chunk_ch2_outer_d",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 40,
+      "y": 560,
+      "w": 120,
+      "h": 24,
+      "asset": "ground"
+    },
+    {
+      "x": 260,
+      "y": 480,
+      "w": 120,
+      "h": 24,
+      "asset": "ground"
+    },
+    {
+      "x": 480,
+      "y": 600,
+      "w": 130,
+      "h": 24,
+      "asset": "ground"
+    },
+    {
+      "x": 700,
+      "y": 860,
+      "w": 260,
+      "h": 80,
+      "asset": "ground"
+    }
+  ],
+  "walls": [
+    {
+      "x": 280,
+      "y": 320,
+      "w": 36,
+      "h": 160,
+      "asset": "hedge"
+    }
+  ],
+  "decor": [
+    {
+      "kind": "hedge",
+      "x": 280,
+      "y": 320,
+      "w": 36,
+      "h": 160,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 280,
+      "y": 320,
+      "w": 36,
+      "h": 160,
+      "rotation": 0,
+      "asset": "hedge"
+    }
+  ],
+  "color": "#151b2e",
+  "ceilings": [],
+  "enemies": [
+    {
+      "id": "dust_mite",
+      "x": 540,
+      "y": 540
+    }
+  ],
+  "movers": [],
+  "hazards": [],
+  "items": [
+    {
+      "id": "star_grit",
+      "x": 300,
+      "y": 300
+    }
+  ],
+  "carrots": []
+}

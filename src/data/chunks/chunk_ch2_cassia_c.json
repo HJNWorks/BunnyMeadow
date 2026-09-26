@@ -1,0 +1,95 @@
+{
+  "id": "chunk_ch2_cassia_c",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 920,
+      "w": 240,
+      "h": 80,
+      "asset": "wound"
+    },
+    {
+      "x": 380,
+      "y": 460,
+      "w": 30,
+      "h": 240,
+      "asset": "wound"
+    },
+    {
+      "x": 300,
+      "y": -620,
+      "w": 30,
+      "h": 100,
+      "asset": "wound"
+    },
+    {
+      "x": 880,
+      "y": 560,
+      "w": 30,
+      "h": 240,
+      "asset": "wound"
+    },
+    {
+      "x": 890,
+      "y": -130,
+      "w": 30,
+      "h": 240,
+      "asset": "wound"
+    },
+    {
+      "x": 690,
+      "y": -550,
+      "w": 30,
+      "h": 240,
+      "asset": "wound"
+    },
+    {
+      "x": 520,
+      "y": 300,
+      "w": 30,
+      "h": 200,
+      "asset": "wound"
+    }
+  ],
+  "walls": [],
+  "movers": [
+    {
+      "x": 400,
+      "y": 780,
+      "w": 140,
+      "h": 20,
+      "axis": "x",
+      "amplitude": 140,
+      "speed": 0.7,
+      "tint": 10066176,
+      "kind": "bridge"
+    },
+    {
+      "x": 620,
+      "y": 520,
+      "w": 120,
+      "h": 20,
+      "axis": "y",
+      "amplitude": 80,
+      "speed": 0.5,
+      "tint": 10066176,
+      "kind": "bridge"
+    }
+  ],
+  "items": [
+    {
+      "id": "elixir_crumb",
+      "x": 470,
+      "y": 740
+    }
+  ],
+  "decor": [],
+  "color": "#1a1612",
+  "ceilings": [],
+  "enemies": [],
+  "hazards": [],
+  "carrots": []
+}

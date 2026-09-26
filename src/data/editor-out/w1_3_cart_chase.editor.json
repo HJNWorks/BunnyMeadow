@@ -5,11 +5,29 @@
       "x": 100,
       "y": 900
     },
-    "moonPools": [],
+    "moonPools": [
+      {
+        "chunk": 0,
+        "x": 940,
+        "y": 940,
+        "line": "Fox Hu runs. The basket waits at home."
+      }
+    ],
+    "moonPool": {
+      "chunk": 0,
+      "x": 940,
+      "y": 940,
+      "line": "Fox Hu runs. The basket waits at home."
+    },
     "exit": {
       "chunk": 1,
       "x": 760,
       "y": 760
+    },
+    "boss": {
+      "kind": "fox_cart",
+      "x": 0,
+      "y": 0
     }
   },
   "look": {},
@@ -25,7 +43,8 @@
           "x": 0,
           "y": 980,
           "w": 1200,
-          "h": 100
+          "h": 100,
+          "asset": "ground"
         }
       ],
       "walls": [],
@@ -54,19 +73,22 @@
           "x": 0,
           "y": 980,
           "w": 1200,
-          "h": 100
+          "h": 100,
+          "asset": "ground"
         },
         {
           "x": 270,
           "y": 860,
           "w": 210,
-          "h": 36
+          "h": 36,
+          "asset": "ground"
         },
         {
           "x": 700,
           "y": 800,
           "w": 140,
-          "h": 36
+          "h": 36,
+          "asset": "ground"
         }
       ],
       "walls": [],

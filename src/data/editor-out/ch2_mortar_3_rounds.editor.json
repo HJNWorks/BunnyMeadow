@@ -1,0 +1,241 @@
+{
+  "levelId": "ch2_mortar_3_rounds",
+  "level": {
+    "playerSpawn": {
+      "x": 100,
+      "y": 900
+    },
+    "moonPools": [
+      {
+        "chunk": 0,
+        "x": 200,
+        "y": 900,
+        "line": "Cakes keep the time. Pound, do not cook."
+      }
+    ],
+    "moonPool": {
+      "chunk": 0,
+      "x": 200,
+      "y": 900,
+      "line": "Cakes keep the time. Pound, do not cook."
+    },
+    "exit": {
+      "chunk": 1,
+      "x": 860,
+      "y": 940
+    },
+    "env": "ch2_mortar",
+    "sky": "#101214"
+  },
+  "look": {
+    "env": "ch2_mortar",
+    "sky": "#101214"
+  },
+  "decor": [
+    {
+      "kind": "bowl",
+      "x": 60,
+      "y": 900,
+      "w": 140,
+      "h": 28,
+      "rotation": 0,
+      "asset": "bowl"
+    },
+    {
+      "kind": "bowl",
+      "x": 440,
+      "y": 812,
+      "w": 120,
+      "h": 24,
+      "rotation": 0,
+      "asset": "bowl"
+    },
+    {
+      "kind": "bowl",
+      "x": 1020,
+      "y": 752,
+      "w": 110,
+      "h": 24,
+      "rotation": 0,
+      "asset": "bowl"
+    },
+    {
+      "kind": "bowl",
+      "x": 1480,
+      "y": 752,
+      "w": 110,
+      "h": 24,
+      "rotation": 0,
+      "asset": "bowl"
+    }
+  ],
+  "chunks": {
+    "chunk_ch2_mortar_e": {
+      "id": "chunk_ch2_mortar_e",
+      "width": 960,
+      "height": 1080,
+      "groundY": 940,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 940,
+          "w": 300,
+          "h": 60,
+          "asset": "ground"
+        },
+        {
+          "x": 420,
+          "y": 840,
+          "w": 160,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 680,
+          "y": 740,
+          "w": 160,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 860,
+          "y": 640,
+          "w": 100,
+          "h": 28,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "pestle_sentry",
+          "x": 740,
+          "y": 620
+        }
+      ],
+      "items": [
+        {
+          "id": "mooncake",
+          "x": 500,
+          "y": 808
+        },
+        {
+          "id": "elixir_crumb",
+          "x": 900,
+          "y": 608
+        }
+      ],
+      "decor": [
+        {
+          "kind": "bowl",
+          "x": 60,
+          "y": 900,
+          "w": 140,
+          "h": 28,
+          "rotation": 0,
+          "asset": "bowl"
+        },
+        {
+          "kind": "bowl",
+          "x": 440,
+          "y": 812,
+          "w": 120,
+          "h": 24,
+          "rotation": 0,
+          "asset": "bowl"
+        }
+      ],
+      "color": "#121416",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [],
+      "carrots": []
+    },
+    "chunk_ch2_mortar_f": {
+      "id": "chunk_ch2_mortar_f",
+      "width": 960,
+      "height": 1080,
+      "groundY": 940,
+      "platforms": [
+        {
+          "x": 40,
+          "y": 780,
+          "w": 150,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 280,
+          "y": 860,
+          "w": 150,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 500,
+          "y": 780,
+          "w": 150,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 700,
+          "y": 940,
+          "w": 260,
+          "h": 60,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "pestle_sentry",
+          "x": 120,
+          "y": 660
+        },
+        {
+          "id": "pestle_sentry",
+          "x": 560,
+          "y": 660
+        }
+      ],
+      "items": [
+        {
+          "id": "mooncake",
+          "x": 340,
+          "y": 828
+        },
+        {
+          "id": "elixir_crumb",
+          "x": 560,
+          "y": 748
+        }
+      ],
+      "color": "#121416",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [],
+      "decor": [
+        {
+          "kind": "bowl",
+          "x": 60,
+          "y": 752,
+          "w": 110,
+          "h": 24,
+          "rotation": 0,
+          "asset": "bowl"
+        },
+        {
+          "kind": "bowl",
+          "x": 520,
+          "y": 752,
+          "w": 110,
+          "h": 24,
+          "rotation": 0,
+          "asset": "bowl"
+        }
+      ],
+      "carrots": []
+    }
+  }
+}

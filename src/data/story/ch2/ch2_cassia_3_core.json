@@ -1,0 +1,40 @@
+{
+  "id": "ch2_cassia_3_core",
+  "chapter": "ch2",
+  "world": 2,
+  "index": 3,
+  "name": "Gold Core",
+  "chunks": [
+    "chunk_ch2_cassia_e",
+    "chunk_ch2_cassia_f"
+  ],
+  "playerSpawn": {
+    "x": 80,
+    "y": 880
+  },
+  "moonPool": {
+    "chunk": 0,
+    "x": 890,
+    "y": 490,
+    "line": "Gold in the wound. Slow fall through the cut."
+  },
+  "exit": {
+    "chunk": 0,
+    "x": 310,
+    "y": -640
+  },
+  "moonLine": "Gold in the wound. Slow fall through the cut.",
+  "objective": "Climb the gold core. Use elixir crumb.",
+  "env": "ch2_cassia",
+  "sky": "#14161a",
+  "lowGravity": true,
+  "wallBounce": true,
+  "moonPools": [
+    {
+      "chunk": 0,
+      "x": 890,
+      "y": 490,
+      "line": "Gold in the wound. Slow fall through the cut."
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "chunk_ch2_cassia_f",
+  "width": 960,
+  "height": 1080,
+  "groundY": 760,
+  "platforms": [
+    {
+      "x": 420,
+      "y": 420,
+      "w": 30,
+      "h": 260,
+      "asset": "wound"
+    },
+    {
+      "x": 600,
+      "y": 160,
+      "w": 30,
+      "h": 260,
+      "asset": "wound"
+    },
+    {
+      "x": 300,
+      "y": 0,
+      "w": 30,
+      "h": 260,
+      "asset": "wound"
+    },
+    {
+      "x": 200,
+      "y": -460,
+      "w": 30,
+      "h": 260,
+      "asset": "wound"
+    },
+    {
+      "x": 750,
+      "y": -280,
+      "w": 30,
+      "h": 220,
+      "asset": "wound"
+    }
+  ],
+  "walls": [],
+  "color": "#1a1612",
+  "ceilings": [],
+  "enemies": [],
+  "movers": [],
+  "hazards": [],
+  "decor": [],
+  "items": [
+    {
+      "id": "elixir_crumb",
+      "x": 620,
+      "y": 120
+    }
+  ],
+  "carrots": []
+}

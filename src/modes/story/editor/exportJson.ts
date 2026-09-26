@@ -14,6 +14,7 @@ export type EditorExportBundle = {
     moonPool?: MoonPoolDef
     moonPools?: MoonPoolDef[]
     exit: { chunk: number; x: number; y: number }
+    boss?: { kind?: string; hitsNeeded?: number; x: number; y: number }
     env?: string
     sky?: string
   }
@@ -98,6 +99,9 @@ export function buildExportBundle(
   }
 
   for (const enemy of overlay.enemies) {
+    if (enemy.id === "still") {
+      continue
+    }
     const anchor = worldToAnchor(world, enemy.worldX, enemy.worldY)
     const id = world.chunks[anchor.chunk]
     if (!id || !chunks[id]) {
@@ -209,6 +213,15 @@ export function buildExportBundle(
       moonPools,
       moonPool: moonPools[0],
       exit,
+      boss: overlay.boss
+        ? {
+            ...(def.boss ?? { kind: "still", hitsNeeded: 13 }),
+            x: overlay.boss.x,
+            y: overlay.boss.y,
+          }
+        : def.boss
+          ? { kind: def.boss.kind, hitsNeeded: def.boss.hitsNeeded, x: def.boss.x ?? 0, y: def.boss.y ?? 0 }
+          : undefined,
       env: overlay.look?.env,
       sky: overlay.look?.sky,
     },

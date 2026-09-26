@@ -1,0 +1,184 @@
+{
+  "levelId": "ch2_cassia_3_core",
+  "level": {
+    "playerSpawn": {
+      "x": 80,
+      "y": 880
+    },
+    "moonPools": [
+      {
+        "chunk": 0,
+        "x": 890,
+        "y": 490,
+        "line": "Gold in the wound. Slow fall through the cut."
+      }
+    ],
+    "moonPool": {
+      "chunk": 0,
+      "x": 890,
+      "y": 490,
+      "line": "Gold in the wound. Slow fall through the cut."
+    },
+    "exit": {
+      "chunk": 0,
+      "x": 310,
+      "y": -640
+    },
+    "env": "ch2_cassia",
+    "sky": "#14161a"
+  },
+  "look": {
+    "env": "ch2_cassia",
+    "sky": "#14161a"
+  },
+  "decor": [],
+  "chunks": {
+    "chunk_ch2_cassia_e": {
+      "id": "chunk_ch2_cassia_e",
+      "width": 960,
+      "height": 1080,
+      "groundY": 920,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 920,
+          "w": 200,
+          "h": 80,
+          "asset": "wound"
+        },
+        {
+          "x": 360,
+          "y": 500,
+          "w": 30,
+          "h": 280,
+          "asset": "wound"
+        },
+        {
+          "x": 280,
+          "y": -580,
+          "w": 30,
+          "h": 120,
+          "asset": "wound"
+        },
+        {
+          "x": 860,
+          "y": 520,
+          "w": 30,
+          "h": 260,
+          "asset": "wound"
+        },
+        {
+          "x": 870,
+          "y": -100,
+          "w": 30,
+          "h": 260,
+          "asset": "wound"
+        },
+        {
+          "x": 660,
+          "y": -520,
+          "w": 30,
+          "h": 260,
+          "asset": "wound"
+        },
+        {
+          "x": 500,
+          "y": 200,
+          "w": 30,
+          "h": 220,
+          "asset": "wound"
+        }
+      ],
+      "walls": [],
+      "movers": [
+        {
+          "x": 410,
+          "y": 740,
+          "w": 150,
+          "h": 20,
+          "axis": "x",
+          "amplitude": 100,
+          "speed": 0.5,
+          "tint": 13942200,
+          "kind": "bridge"
+        }
+      ],
+      "items": [
+        {
+          "id": "elixir_crumb",
+          "x": 480,
+          "y": 720
+        },
+        {
+          "id": "elixir_crumb",
+          "x": 520,
+          "y": 160
+        }
+      ],
+      "decor": [],
+      "color": "#1a1612",
+      "ceilings": [],
+      "enemies": [],
+      "hazards": [],
+      "carrots": []
+    },
+    "chunk_ch2_cassia_f": {
+      "id": "chunk_ch2_cassia_f",
+      "width": 960,
+      "height": 1080,
+      "groundY": 760,
+      "platforms": [
+        {
+          "x": 420,
+          "y": 420,
+          "w": 30,
+          "h": 260,
+          "asset": "wound"
+        },
+        {
+          "x": 600,
+          "y": 160,
+          "w": 30,
+          "h": 260,
+          "asset": "wound"
+        },
+        {
+          "x": 300,
+          "y": 0,
+          "w": 30,
+          "h": 260,
+          "asset": "wound"
+        },
+        {
+          "x": 200,
+          "y": -460,
+          "w": 30,
+          "h": 260,
+          "asset": "wound"
+        },
+        {
+          "x": 750,
+          "y": -280,
+          "w": 30,
+          "h": 220,
+          "asset": "wound"
+        }
+      ],
+      "walls": [],
+      "color": "#1a1612",
+      "ceilings": [],
+      "enemies": [],
+      "movers": [],
+      "hazards": [],
+      "decor": [],
+      "items": [
+        {
+          "id": "elixir_crumb",
+          "x": 620,
+          "y": 120
+        }
+      ],
+      "carrots": []
+    }
+  }
+}

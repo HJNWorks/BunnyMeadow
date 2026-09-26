@@ -232,6 +232,22 @@ const STATIONS: Record<string, StoryStation> = {
     lines: [],
     levelId: "ch2_outer_1_courtyard",
   },
+  ch2_outer_2_columns: {
+    id: "ch2_outer_2_columns",
+    kind: "level",
+    title: "Column Walk",
+    blurb: "Denser roof gaps. Star grit in the cold.",
+    lines: [],
+    levelId: "ch2_outer_2_columns",
+  },
+  ch2_outer_3_gate: {
+    id: "ch2_outer_3_gate",
+    kind: "level",
+    title: "Guest Gate",
+    blurb: "Leave the last courtyard toward the cassia.",
+    lines: [],
+    levelId: "ch2_outer_3_gate",
+  },
   ch2_cassia_1_grove: {
     id: "ch2_cassia_1_grove",
     kind: "level",
@@ -239,6 +255,22 @@ const STATIONS: Record<string, StoryStation> = {
     blurb: "Hop the living wood.",
     lines: [],
     levelId: "ch2_cassia_1_grove",
+  },
+  ch2_cassia_2_closing: {
+    id: "ch2_cassia_2_closing",
+    kind: "level",
+    title: "Closing Gap",
+    blurb: "Hop before the cut slides shut.",
+    lines: [],
+    levelId: "ch2_cassia_2_closing",
+  },
+  ch2_cassia_3_core: {
+    id: "ch2_cassia_3_core",
+    kind: "level",
+    title: "Gold Core",
+    blurb: "Elixir crumb through the gold wound.",
+    lines: [],
+    levelId: "ch2_cassia_3_core",
   },
   ch2_mortar_1_bowls: {
     id: "ch2_mortar_1_bowls",
@@ -248,6 +280,22 @@ const STATIONS: Record<string, StoryStation> = {
     lines: [],
     levelId: "ch2_mortar_1_bowls",
   },
+  ch2_mortar_2_pestle: {
+    id: "ch2_mortar_2_pestle",
+    kind: "level",
+    title: "Pestle Beat",
+    blurb: "Wait the pestle. Then hop.",
+    lines: [],
+    levelId: "ch2_mortar_2_pestle",
+  },
+  ch2_mortar_3_rounds: {
+    id: "ch2_mortar_3_rounds",
+    kind: "level",
+    title: "Cake Rounds",
+    blurb: "Hop cake rounds across the yard.",
+    lines: [],
+    levelId: "ch2_mortar_3_rounds",
+  },
   ch2_dust_1_rims: {
     id: "ch2_dust_1_rims",
     kind: "level",
@@ -255,6 +303,22 @@ const STATIONS: Record<string, StoryStation> = {
     blurb: "Keep to the crater rims.",
     lines: [],
     levelId: "ch2_dust_1_rims",
+  },
+  ch2_dust_2_lips: {
+    id: "ch2_dust_2_lips",
+    kind: "level",
+    title: "Lip Gap",
+    blurb: "Wider rims. Star grit in the gap.",
+    lines: [],
+    levelId: "ch2_dust_2_lips",
+  },
+  ch2_dust_3_wreck: {
+    id: "ch2_dust_3_wreck",
+    kind: "level",
+    title: "Raft Wreck",
+    blurb: "Pass the star raft. Take the grit.",
+    lines: [],
+    levelId: "ch2_dust_3_wreck",
   },
   ch2_wells_1_mouths: {
     id: "ch2_wells_1_mouths",
@@ -264,6 +328,22 @@ const STATIONS: Record<string, StoryStation> = {
     lines: [],
     levelId: "ch2_wells_1_mouths",
   },
+  ch2_wells_2_false: {
+    id: "ch2_wells_2_false",
+    kind: "level",
+    title: "False Lip",
+    blurb: "Ignore false mouths. Follow well silver.",
+    lines: [],
+    levelId: "ch2_wells_2_false",
+  },
+  ch2_wells_3_silver: {
+    id: "ch2_wells_3_silver",
+    kind: "level",
+    title: "Well Silver",
+    blurb: "True cave. Well silver and still water.",
+    lines: [],
+    levelId: "ch2_wells_3_silver",
+  },
   ch2_silver_1_basin: {
     id: "ch2_silver_1_basin",
     kind: "level",
@@ -271,6 +351,22 @@ const STATIONS: Record<string, StoryStation> = {
     blurb: "Sparse pads to a still shore.",
     lines: [],
     levelId: "ch2_silver_1_basin",
+  },
+  ch2_silver_2_steps: {
+    id: "ch2_silver_2_steps",
+    kind: "level",
+    title: "Silver Steps",
+    blurb: "Quieter pads. Star wisps in the gaps.",
+    lines: [],
+    levelId: "ch2_silver_2_steps",
+  },
+  ch2_silver_3_one_pool: {
+    id: "ch2_silver_3_one_pool",
+    kind: "level",
+    title: "One Moon Pool",
+    blurb: "Still Silver keeps the first true pool.",
+    lines: [],
+    levelId: "ch2_silver_3_one_pool",
   },
 }
 
@@ -336,7 +432,7 @@ const WORLD_DEFS: WorldDef[] = [
     title: "Outer Cold",
     tagline: "Palace gardens. The cold still holds.",
     status: "live",
-    stationIds: ["ch2_outer_1_courtyard"],
+    stationIds: ["ch2_outer_1_courtyard", "ch2_outer_2_columns", "ch2_outer_3_gate"],
   },
   {
     id: "ch2_cassia",
@@ -345,7 +441,7 @@ const WORLD_DEFS: WorldDef[] = [
     title: "Cassia Wound",
     tagline: "The tree will not stay cut.",
     status: "live",
-    stationIds: ["ch2_cassia_1_grove"],
+    stationIds: ["ch2_cassia_1_grove", "ch2_cassia_2_closing", "ch2_cassia_3_core"],
   },
   {
     id: "ch2_mortar",
@@ -354,7 +450,7 @@ const WORLD_DEFS: WorldDef[] = [
     title: "Mortar Yard",
     tagline: "Pestle and cakes. Not a kitchen.",
     status: "live",
-    stationIds: ["ch2_mortar_1_bowls"],
+    stationIds: ["ch2_mortar_1_bowls", "ch2_mortar_2_pestle", "ch2_mortar_3_rounds"],
   },
   {
     id: "ch2_dust",
@@ -363,7 +459,7 @@ const WORLD_DEFS: WorldDef[] = [
     title: "Dust Sea",
     tagline: "Crater rims and pale dust.",
     status: "live",
-    stationIds: ["ch2_dust_1_rims"],
+    stationIds: ["ch2_dust_1_rims", "ch2_dust_2_lips", "ch2_dust_3_wreck"],
   },
   {
     id: "ch2_wells",
@@ -372,7 +468,7 @@ const WORLD_DEFS: WorldDef[] = [
     title: "Quiet Wells",
     tagline: "Cave mouths and still water.",
     status: "live",
-    stationIds: ["ch2_wells_1_mouths"],
+    stationIds: ["ch2_wells_1_mouths", "ch2_wells_2_false", "ch2_wells_3_silver"],
   },
   {
     id: "ch2_silver",
@@ -381,7 +477,7 @@ const WORLD_DEFS: WorldDef[] = [
     title: "Far Silver",
     tagline: "A quiet basin under the moon.",
     status: "live",
-    stationIds: ["ch2_silver_1_basin"],
+    stationIds: ["ch2_silver_1_basin", "ch2_silver_2_steps", "ch2_silver_3_one_pool"],
   },
   {
     id: "ch3_shore",
@@ -473,12 +569,12 @@ const W2_CHAIN = ["w2_1_green_corridor", "w2_2_floating_logs", "w2_3_raft_gauntl
 const W3_CHAIN = ["w3_1_paper_lights", "w3_2_tiger_road", "w3_3_crane_summit"] as const
 const W4_CHAIN = ["w4_1_first_steps", "w4_2_no_return", "w4_3_closing_gale"] as const
 const MOON_CHAIN = ["moon_guanghan"] as const
-const CH2_OUTER = ["ch2_outer_1_courtyard"] as const
-const CH2_CASSIA = ["ch2_cassia_1_grove"] as const
-const CH2_MORTAR = ["ch2_mortar_1_bowls"] as const
-const CH2_DUST = ["ch2_dust_1_rims"] as const
-const CH2_WELLS = ["ch2_wells_1_mouths"] as const
-const CH2_SILVER = ["ch2_silver_1_basin"] as const
+const CH2_OUTER = ["ch2_outer_1_courtyard", "ch2_outer_2_columns", "ch2_outer_3_gate"] as const
+const CH2_CASSIA = ["ch2_cassia_1_grove", "ch2_cassia_2_closing", "ch2_cassia_3_core"] as const
+const CH2_MORTAR = ["ch2_mortar_1_bowls", "ch2_mortar_2_pestle", "ch2_mortar_3_rounds"] as const
+const CH2_DUST = ["ch2_dust_1_rims", "ch2_dust_2_lips", "ch2_dust_3_wreck"] as const
+const CH2_WELLS = ["ch2_wells_1_mouths", "ch2_wells_2_false", "ch2_wells_3_silver"] as const
+const CH2_SILVER = ["ch2_silver_1_basin", "ch2_silver_2_steps", "ch2_silver_3_one_pool"] as const
 
 function worldPlayableCleared(save: SaveV1, ids: readonly string[]): boolean {
   const cleared = new Set(save.progress.story.cleared)
@@ -563,8 +659,11 @@ export function isChapterUnlocked(save: SaveV1, chapter: StoryChapterId): boolea
   if (devOpen(save) && (chapter === "ch2" || chapter === "ch3")) {
     return true
   }
-  if (chapter === "ch2" || chapter === "ch3") {
+  if (chapter === "ch2") {
     return worldPlayableCleared(save, MOON_CHAIN)
+  }
+  if (chapter === "ch3") {
+    return save.progress.story.cleared.includes("ch2_silver_3_one_pool")
   }
   return false
 }

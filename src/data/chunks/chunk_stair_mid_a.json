@@ -8,26 +8,30 @@
       "x": 90,
       "y": 800,
       "w": 130,
-      "h": 24
+      "h": 24,
+      "asset": "ground"
     },
     {
       "x": 280,
       "y": 700,
       "w": 90,
-      "h": 24
+      "h": 24,
+      "asset": "ground"
     },
     {
       "x": 640,
       "y": 580,
       "w": 90,
       "h": 24,
-      "surface": "slick"
+      "surface": "slick",
+      "asset": "ice"
     },
     {
       "x": 840,
       "y": 500,
       "w": 120,
-      "h": 24
+      "h": 24,
+      "asset": "ground"
     }
   ],
   "walls": [],

@@ -14,14 +14,26 @@ import level42 from "../../data/story/w4/w4_2_no_return.json"
 import level43 from "../../data/story/w4/w4_3_closing_gale.json"
 import levelMoon from "../../data/story/moon/moon_guanghan.json"
 import levelCh2Outer from "../../data/story/ch2/ch2_outer_1_courtyard.json"
+import levelCh2Outer2 from "../../data/story/ch2/ch2_outer_2_columns.json"
+import levelCh2Outer3 from "../../data/story/ch2/ch2_outer_3_gate.json"
 import levelCh2Cassia from "../../data/story/ch2/ch2_cassia_1_grove.json"
+import levelCh2Cassia2 from "../../data/story/ch2/ch2_cassia_2_closing.json"
+import levelCh2Cassia3 from "../../data/story/ch2/ch2_cassia_3_core.json"
 import levelCh2Mortar from "../../data/story/ch2/ch2_mortar_1_bowls.json"
+import levelCh2Mortar2 from "../../data/story/ch2/ch2_mortar_2_pestle.json"
+import levelCh2Mortar3 from "../../data/story/ch2/ch2_mortar_3_rounds.json"
 import levelCh2Dust from "../../data/story/ch2/ch2_dust_1_rims.json"
+import levelCh2Dust2 from "../../data/story/ch2/ch2_dust_2_lips.json"
+import levelCh2Dust3 from "../../data/story/ch2/ch2_dust_3_wreck.json"
 import levelCh2Wells from "../../data/story/ch2/ch2_wells_1_mouths.json"
+import levelCh2Wells2 from "../../data/story/ch2/ch2_wells_2_false.json"
+import levelCh2Wells3 from "../../data/story/ch2/ch2_wells_3_silver.json"
 import levelCh2Silver from "../../data/story/ch2/ch2_silver_1_basin.json"
+import levelCh2Silver2 from "../../data/story/ch2/ch2_silver_2_steps.json"
+import levelCh2Silver3 from "../../data/story/ch2/ch2_silver_3_one_pool.json"
 
 export type StoryBossDef = {
-  kind: "fox_cart" | "heron" | "crane" | "gale" | "han"
+  kind: "fox_cart" | "heron" | "crane" | "gale" | "han" | "still"
   hitsNeeded?: number
   divesNeeded?: number
   x?: number
@@ -95,11 +107,23 @@ const LEVELS: StoryLevelDef[] = [
   level43 as StoryLevelDef,
   levelMoon as StoryLevelDef,
   levelCh2Outer as StoryLevelDef,
+  levelCh2Outer2 as StoryLevelDef,
+  levelCh2Outer3 as StoryLevelDef,
   levelCh2Cassia as StoryLevelDef,
+  levelCh2Cassia2 as StoryLevelDef,
+  levelCh2Cassia3 as StoryLevelDef,
   levelCh2Mortar as StoryLevelDef,
+  levelCh2Mortar2 as StoryLevelDef,
+  levelCh2Mortar3 as StoryLevelDef,
   levelCh2Dust as StoryLevelDef,
+  levelCh2Dust2 as StoryLevelDef,
+  levelCh2Dust3 as StoryLevelDef,
   levelCh2Wells as StoryLevelDef,
+  levelCh2Wells2 as StoryLevelDef,
+  levelCh2Wells3 as StoryLevelDef,
   levelCh2Silver as StoryLevelDef,
+  levelCh2Silver2 as StoryLevelDef,
+  levelCh2Silver3 as StoryLevelDef,
 ]
 
 export function listStoryLevels(): StoryLevelDef[] {

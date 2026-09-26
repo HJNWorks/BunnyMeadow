@@ -170,7 +170,7 @@ Status values:
 | Mei | Eldest kit of the burrow. Player avatar. Talks to the Moon through water | Chang'e's loneliness and authority |
 | Yue | Youngest kit. Glows faintly. Mistaken for a fallen moon blossom | No predator kidnapping. Misunderstanding only |
 | Moon Pools | Checkpoint puddles that awaken on contact and speak with Chang'e's voice in the HUD ticker | Reflections as the only channel on ordinary pools. Short line, no freeze card |
-| One Moon Pool | Invented. First true pool. Chapter 2 Far Silver exit into West of Silver | Must not replace Chang'e's reflection rule on ordinary pools. Map title stays Far Silver. Do not print portal |
+| One Moon Pool | Invented. First true pool. Chapter 2 Far Silver exit into West of Silver via Still Silver's gather portal | Must not replace Chang'e's reflection rule on ordinary pools. Map title stays Far Silver. Do not print portal |
 | Other Shore | Invented. Far side of the One Moon Pool | Not Earth. Not Guanghan roofs |
 | Grotto Heaven path | Invented geography using 洞天 as jade caves on the Kunlun climb | Not Quiet Wells dust. Not a burrow village |
 | Peach refusal | Invented beat. Mei refuses the peach of immortality | Xiwangmu still holds the peaches. Chang'e's loneliness stays. Mei stays mortal |
@@ -181,6 +181,7 @@ Status values:
 | Guanghan palace walk | Invented geography. Long low-g walk through roofs and courtyards before Han's court | Must not replace Chang'e's authority or the gift beat. Wu Gang stays background until after Han |
 | Sparkler / festival ash | Background bursts and a lantern-class timed light on Lantern Peak | Traditional Mid-Autumn is lanterns first. Not a firework weapon. Not Han's kit |
 | Heron Fisher | World 2 boss. Invented animal antagonist | Fine. Herons are ordinary wildlife, not folklore deities |
+| Still Silver | Far Silver finale. Invented body of the One Moon Pool. 13 hearts, slime split, mooncake dash, eight aspects → gather portal | Not a Western elemental. Not a Dragon King or Hebo. Ordinary pools stay Chang'e's channel. Do not print portal on the map card |
 | Han | Moon boss. Old invented ghost of Vast Cold. The palace's habit of keeping guests. His grown moon is the inner gate Mei jumps to enter Chapter 2 | Must not be Chang'e, Yue, Yutu, Wu Gang, or the moon toad. No fire or water kit. Not an Earth-to-moon portal. Guanghan is already the palace |
 | Cloud Stair (云梯) | Invented geography between Osmanthus Peak and Guanghan. Crane drop-off, then a walk | Must not replace the palace or Chang'e's authority. Fengbo is not dramatized |
 | Frost wisps (霜魄) | Invented ice spirits on the Cloud Stair | Not canon snow gods |

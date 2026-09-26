@@ -7,6 +7,7 @@ export type ItemLook = {
 const LOOKS: ItemLook[] = [
   { id: "carrot", texture: "story_item_carrot", source: "story_carrot" },
   { id: "mooncake", texture: "story_item_mooncake", source: "story_mooncake" },
+  { id: "heart_cake", texture: "story_item_heart_cake", source: "story_heartcake" },
   { id: "osmanthus_blossom", texture: "story_item_osmanthus_blossom", source: "story_blossom" },
   { id: "osmanthus_seed", texture: "story_item_osmanthus_seed", source: "story_seed" },
   { id: "dew", texture: "story_item_dew", source: "story_dew" },

@@ -1,0 +1,199 @@
+{
+  "levelId": "ch2_dust_3_wreck",
+  "level": {
+    "playerSpawn": {
+      "x": 80,
+      "y": 900
+    },
+    "moonPools": [
+      {
+        "chunk": 0,
+        "x": 180,
+        "y": 900,
+        "line": "An old star raft. Not a ship. Keep to the rims."
+      }
+    ],
+    "moonPool": {
+      "chunk": 0,
+      "x": 180,
+      "y": 900,
+      "line": "An old star raft. Not a ship. Keep to the rims."
+    },
+    "exit": {
+      "chunk": 1,
+      "x": 880,
+      "y": 850
+    },
+    "env": "ch2_dust",
+    "sky": "#161410"
+  },
+  "look": {
+    "env": "ch2_dust",
+    "sky": "#161410"
+  },
+  "decor": [
+    {
+      "kind": "log",
+      "x": 200,
+      "y": 900,
+      "w": 180,
+      "h": 28,
+      "rotation": -8,
+      "asset": "log"
+    },
+    {
+      "kind": "log",
+      "x": 1060,
+      "y": 700,
+      "w": 200,
+      "h": 32,
+      "rotation": 12,
+      "asset": "log"
+    },
+    {
+      "kind": "log",
+      "x": 1320,
+      "y": 840,
+      "w": 140,
+      "h": 24,
+      "rotation": -6,
+      "asset": "log"
+    }
+  ],
+  "chunks": {
+    "chunk_ch2_dust_e": {
+      "id": "chunk_ch2_dust_e",
+      "width": 960,
+      "height": 1080,
+      "groundY": 940,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 940,
+          "w": 140,
+          "h": 40,
+          "asset": "ground"
+        },
+        {
+          "x": 480,
+          "y": 820,
+          "w": 100,
+          "h": 20,
+          "asset": "ground"
+        },
+        {
+          "x": 780,
+          "y": 700,
+          "w": 100,
+          "h": 20,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "dust_mite",
+          "x": 70,
+          "y": 880
+        }
+      ],
+      "items": [
+        {
+          "id": "star_grit",
+          "x": 320,
+          "y": 860
+        }
+      ],
+      "color": "#1a1814",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [],
+      "decor": [
+        {
+          "kind": "log",
+          "x": 200,
+          "y": 900,
+          "w": 180,
+          "h": 28,
+          "rotation": -8,
+          "asset": "log"
+        }
+      ],
+      "carrots": []
+    },
+    "chunk_ch2_dust_f": {
+      "id": "chunk_ch2_dust_f",
+      "width": 960,
+      "height": 1080,
+      "groundY": 820,
+      "platforms": [
+        {
+          "x": 240,
+          "y": 620,
+          "w": 100,
+          "h": 20,
+          "asset": "ground"
+        },
+        {
+          "x": 520,
+          "y": 760,
+          "w": 100,
+          "h": 20,
+          "asset": "ground"
+        },
+        {
+          "x": 780,
+          "y": 880,
+          "w": 180,
+          "h": 28,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "dust_mite",
+          "x": 280,
+          "y": 560
+        },
+        {
+          "id": "star_wisp",
+          "x": 840,
+          "y": 800
+        }
+      ],
+      "color": "#1a1814",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [],
+      "decor": [
+        {
+          "kind": "log",
+          "x": 100,
+          "y": 700,
+          "w": 200,
+          "h": 32,
+          "rotation": 12,
+          "asset": "log"
+        },
+        {
+          "kind": "log",
+          "x": 360,
+          "y": 840,
+          "w": 140,
+          "h": 24,
+          "rotation": -6,
+          "asset": "log"
+        }
+      ],
+      "items": [
+        {
+          "id": "star_grit",
+          "x": 600,
+          "y": 720
+        }
+      ],
+      "carrots": []
+    }
+  }
+}

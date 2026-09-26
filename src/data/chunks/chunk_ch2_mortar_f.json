@@ -1,0 +1,86 @@
+{
+  "id": "chunk_ch2_mortar_f",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    {
+      "x": 40,
+      "y": 780,
+      "w": 150,
+      "h": 28,
+      "asset": "ground"
+    },
+    {
+      "x": 280,
+      "y": 860,
+      "w": 150,
+      "h": 28,
+      "asset": "ground"
+    },
+    {
+      "x": 500,
+      "y": 780,
+      "w": 150,
+      "h": 28,
+      "asset": "ground"
+    },
+    {
+      "x": 700,
+      "y": 940,
+      "w": 260,
+      "h": 60,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "pestle_sentry",
+      "x": 120,
+      "y": 660
+    },
+    {
+      "id": "pestle_sentry",
+      "x": 560,
+      "y": 660
+    }
+  ],
+  "items": [
+    {
+      "id": "mooncake",
+      "x": 340,
+      "y": 828
+    },
+    {
+      "id": "elixir_crumb",
+      "x": 560,
+      "y": 748
+    }
+  ],
+  "color": "#121416",
+  "ceilings": [],
+  "movers": [],
+  "hazards": [],
+  "decor": [
+    {
+      "kind": "bowl",
+      "x": 60,
+      "y": 752,
+      "w": 110,
+      "h": 24,
+      "rotation": 0,
+      "asset": "bowl"
+    },
+    {
+      "kind": "bowl",
+      "x": 520,
+      "y": 752,
+      "w": 110,
+      "h": 24,
+      "rotation": 0,
+      "asset": "bowl"
+    }
+  ],
+  "carrots": []
+}

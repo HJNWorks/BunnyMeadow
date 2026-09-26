@@ -27,6 +27,7 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_moth: { w: 36, h: 24 },
   story_carrot: { w: 24, h: 32 },
   story_mooncake: { w: 28, h: 28 },
+  story_heartcake: { w: 28, h: 28 },
   story_dew: { w: 18, h: 24 },
   story_blossom: { w: 28, h: 28 },
   story_seed: { w: 20, h: 24 },
@@ -38,6 +39,11 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_rim: { w: 64, h: 24 },
   story_bowl: { w: 64, h: 28 },
   story_wound: { w: 64, h: 24 },
+  story_still: { w: 96, h: 72 },
+  story_still_q: { w: 64, h: 48 },
+  story_still_e: { w: 40, h: 30 },
+  story_still_aspect: { w: 28, h: 28 },
+  story_still_portal: { w: 96, h: 72 },
   story_cave: { w: 64, h: 64 },
   story_sky_moon: { w: 256, h: 128 },
   story_far_moon: { w: 256, h: 96 },
@@ -371,6 +377,17 @@ function drawMooncake(ctx: CanvasRenderingContext2D, cx: number, cy: number): vo
   circle(ctx, cx, cy, 3, "#b8860b")
 }
 
+function drawHeartCake(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  circle(ctx, cx, cy, 12, "#c45c5c")
+  circle(ctx, cx, cy, 8, "#f0a8a8")
+  ctx.fillStyle = "#fff0f0"
+  ctx.beginPath()
+  ctx.moveTo(cx, cy + 4)
+  ctx.bezierCurveTo(cx - 8, cy - 2, cx - 5, cy - 8, cx, cy - 4)
+  ctx.bezierCurveTo(cx + 5, cy - 8, cx + 8, cy - 2, cx, cy + 4)
+  ctx.fill()
+}
+
 function drawBlossom(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
   for (let i = 0; i < 5; i += 1) {
     const a = (i / 5) * Math.PI * 2 - Math.PI / 2
@@ -488,6 +505,105 @@ function drawWound(ctx: CanvasRenderingContext2D, cx: number, cy: number): void 
   ctx.quadraticCurveTo(cx, cy + 6, cx + 20, cy - 4)
   ctx.quadraticCurveTo(cx, cy + 2, cx - 18, cy - 2)
   ctx.fill()
+}
+
+function drawStill(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#3a4a58"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy + 10, 40, 16, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#6a8aa0"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy, 34, 22, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#8ab0c4"
+  ctx.beginPath()
+  ctx.ellipse(cx - 10, cy - 14, 18, 10, -0.35, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#b8d0e0"
+  ctx.beginPath()
+  ctx.ellipse(cx - 6, cy - 8, 14, 8, -0.3, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#d8ecf4"
+  ctx.beginPath()
+  ctx.ellipse(cx + 10, cy + 4, 8, 5, 0.2, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#e8f2f8"
+  ctx.beginPath()
+  ctx.ellipse(cx + 4, cy - 2, 5, 5, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#9ec0d4"
+  ctx.beginPath()
+  ctx.ellipse(cx - 18, cy + 12, 4, 6, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.beginPath()
+  ctx.ellipse(cx + 16, cy + 14, 3, 5, 0, 0, Math.PI * 2)
+  ctx.fill()
+}
+
+function drawStillQuarter(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#3a4a58"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy + 8, 28, 12, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#6a8aa0"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy, 24, 16, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#b8d0e0"
+  ctx.beginPath()
+  ctx.ellipse(cx - 4, cy - 6, 10, 6, -0.25, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#e8f2f8"
+  ctx.beginPath()
+  ctx.ellipse(cx + 3, cy - 1, 4, 4, 0, 0, Math.PI * 2)
+  ctx.fill()
+}
+
+function drawStillEighth(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#4a6070"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy + 4, 16, 8, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#7aa0b4"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy, 14, 10, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#e0f0f8"
+  ctx.beginPath()
+  ctx.ellipse(cx + 2, cy - 2, 3, 3, 0, 0, Math.PI * 2)
+  ctx.fill()
+}
+
+function drawStillAspect(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#c8e0f0"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy + 2, 10, 12, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#f0f8fc"
+  ctx.beginPath()
+  ctx.ellipse(cx - 2, cy - 2, 4, 5, -0.2, 0, Math.PI * 2)
+  ctx.fill()
+}
+
+function drawStillPortal(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ctx.fillStyle = "#2a3848"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy + 8, 42, 16, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#6a98b8"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy, 34, 22, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#d0ecf8"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy - 4, 18, 12, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.strokeStyle = "#f0f8fc"
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.ellipse(cx, cy, 28, 18, 0, 0, Math.PI * 2)
+  ctx.stroke()
 }
 
 function drawCave(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
@@ -718,6 +834,7 @@ const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: nu
   story_moth: drawMoth,
   story_carrot: drawCarrot,
   story_mooncake: drawMooncake,
+  story_heartcake: drawHeartCake,
   story_dew: drawDew,
   story_blossom: drawBlossom,
   story_seed: drawSeed,
@@ -729,6 +846,11 @@ const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: nu
   story_rim: drawRim,
   story_bowl: drawBowl,
   story_wound: drawWound,
+  story_still: drawStill,
+  story_still_q: drawStillQuarter,
+  story_still_e: drawStillEighth,
+  story_still_aspect: drawStillAspect,
+  story_still_portal: drawStillPortal,
   story_cave: drawCave,
   story_sky_moon: drawSkyMoon,
   story_far_moon: drawFarMoon,

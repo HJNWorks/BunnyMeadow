@@ -1,0 +1,65 @@
+{
+  "id": "chunk_ch2_mortar_c",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 940,
+      "w": 360,
+      "h": 60,
+      "asset": "ground"
+    },
+    {
+      "x": 480,
+      "y": 860,
+      "w": 180,
+      "h": 28,
+      "asset": "ground"
+    },
+    {
+      "x": 740,
+      "y": 760,
+      "w": 180,
+      "h": 28,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "pestle_sentry",
+      "x": 820,
+      "y": 640
+    },
+    {
+      "id": "pestle_sentry",
+      "x": 560,
+      "y": 740
+    }
+  ],
+  "items": [
+    {
+      "id": "elixir_crumb",
+      "x": 800,
+      "y": 728
+    }
+  ],
+  "decor": [
+    {
+      "kind": "bowl",
+      "x": 80,
+      "y": 900,
+      "w": 140,
+      "h": 28,
+      "rotation": 0,
+      "asset": "bowl"
+    }
+  ],
+  "color": "#121416",
+  "ceilings": [],
+  "movers": [],
+  "hazards": [],
+  "carrots": []
+}

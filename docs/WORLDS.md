@@ -1,7 +1,7 @@
 # Bunny Meadow — Worlds and Environments
 
-Chapter 1 (live): 4 worlds x 3 levels plus moon finale. Chapter 2 first stations are
-live. Chapter 3 West of Silver is on the map with Soon worlds.
+Chapter 1 (live): 4 worlds x 3 levels plus moon finale. Chapter 2 has three stations
+per world live. Chapter 3 West of Silver is on the map with Soon worlds.
 Hub of chapters: [story/chapters.md](story/chapters.md). Hub of the climb is the burrow
 until Mei stays on the moon.
 
@@ -24,11 +24,11 @@ Shared by Meadow, Story, Tasks, Endless. Each kit: tileset, palette, parallax la
 | osmanthus | Osmanthus Peak | night | Wind, blossom fall, tiger path |
 | cloudsea | Cloud Sea | deep night | Cloud Stair, hanging bridges, frost, void |
 | moon | Moon Garden | eternal night | Low gravity kit. Palace walk and Han court split in [universe/environments/guanghan-palace.md](universe/environments/guanghan-palace.md). Outer Cold reuses this kit |
-| cassia | Cassia Wound | eternal night | planned. Self-healing osmanthus region |
-| mortar | Mortar Yard | eternal night | planned. Elixir pestle yard, not a kitchen |
-| dustsea | Dust Sea | eternal night | planned. Crater plains, invented fauna |
-| wells | Quiet Wells | eternal night | planned. Cold caves, toad as background |
-| farsilver | Far Silver | eternal night | planned. One Moon Pool. Do not title the card Portal |
+| cassia | Cassia Wound | eternal night | live. Self-healing osmanthus region |
+| mortar | Mortar Yard | eternal night | live. Elixir pestle yard, not a kitchen |
+| dustsea | Dust Sea | eternal night | live. Crater plains, invented fauna |
+| wells | Quiet Wells | eternal night | live. Cold caves, toad as background |
+| farsilver | Far Silver | eternal night | live. One Moon Pool. Do not title the card Portal |
 
 ## Story path map
 
@@ -91,26 +91,39 @@ Unlocks Soft Paths when Soft Paws is cleared. Station ids are stored in `progres
 | --- | --- | --- | --- | --- |
 | M-1 Guanghan | moon | low gravity. Palace walk then Han court. Court AABB starts the fight | Gift beat. Yue and kits go home. Mei jumps Han's moon (today: epilogue cards). `MOON_RETURN` | live. 7 walk + 2 court |
 
-### Chapter 2 — Journey on Moon (first stations live)
+### Chapter 2 — Journey on Moon (three stations per world)
 
 Display title stays vague. Unlock: `moon_guanghan` cleared. Painting: `public/Story-Background-ch2.png`.
 
 | World | Station | Env page | Teach | Exit | Status |
 | --- | --- | --- | --- | --- | --- |
-| Outer Cold | Frost Courtyard | [outer-cold.md](universe/environments/outer-cold.md) | leave the palace gardens | next world | live |
-| Cassia Wound | Grove Cut | [cassia-wound.md](universe/environments/cassia-wound.md) | living wood | next world | live |
-| Mortar Yard | Stone Bowls | [mortar-yard.md](universe/environments/mortar-yard.md) | bowl rims, pestle_sentry | next world | live |
-| Dust Sea | Rim Walk | [dust-sea.md](universe/environments/dust-sea.md) | crater drifts, dust_mite | next world | live |
-| Quiet Wells | Cave Mouths | [quiet-wells.md](universe/environments/quiet-wells.md) | cold caves, one water well | next world | live |
-| Far Silver | Quiet Basin | [far-silver.md](universe/environments/far-silver.md) | sparse pads to a still shore. Not the One Pool | next world | live |
+| Outer Cold | Frost Courtyard | [outer-cold.md](universe/environments/outer-cold.md) | leave the palace gardens | next station | live |
+| Outer Cold | Column Walk | [outer-cold.md](universe/environments/outer-cold.md) | denser roof gaps, star grit | next station | live |
+| Outer Cold | Guest Gate | [outer-cold.md](universe/environments/outer-cold.md) | last courtyard | next world | live |
+| Cassia Wound | Grove Cut | [cassia-wound.md](universe/environments/cassia-wound.md) | living wood | next station | live |
+| Cassia Wound | Closing Gap | [cassia-wound.md](universe/environments/cassia-wound.md) | cut slides shut | next station | live |
+| Cassia Wound | Gold Core | [cassia-wound.md](universe/environments/cassia-wound.md) | elixir crumb climb | next world | live |
+| Mortar Yard | Stone Bowls | [mortar-yard.md](universe/environments/mortar-yard.md) | bowl rims, pestle_sentry | next station | live |
+| Mortar Yard | Pestle Beat | [mortar-yard.md](universe/environments/mortar-yard.md) | wait the pestle | next station | live |
+| Mortar Yard | Cake Rounds | [mortar-yard.md](universe/environments/mortar-yard.md) | cake hops | next world | live |
+| Dust Sea | Rim Walk | [dust-sea.md](universe/environments/dust-sea.md) | crater drifts, dust_mite | next station | live |
+| Dust Sea | Lip Gap | [dust-sea.md](universe/environments/dust-sea.md) | wider rims, star grit | next station | live |
+| Dust Sea | Raft Wreck | [dust-sea.md](universe/environments/dust-sea.md) | star raft scenery | next world | live |
+| Quiet Wells | Cave Mouths | [quiet-wells.md](universe/environments/quiet-wells.md) | cold caves, one water well | next station | live |
+| Quiet Wells | False Lip | [quiet-wells.md](universe/environments/quiet-wells.md) | false mouths, well silver | next station | live |
+| Quiet Wells | Well Silver | [quiet-wells.md](universe/environments/quiet-wells.md) | true cave, well silver | next world | live |
+| Far Silver | Quiet Basin | [far-silver.md](universe/environments/far-silver.md) | sparse pads to a still shore | next station | live |
+| Far Silver | Silver Steps | [far-silver.md](universe/environments/far-silver.md) | quieter pads, star wisps | next station | live |
+| Far Silver | One Moon Pool | [far-silver.md](universe/environments/far-silver.md) | Still Silver, first true pool | Chapter 3 | live |
 
-Stations 2 and 3 of each world stay unbuilt. Far Silver's One Moon Pool is still the planned world finale, not this first station.
+Far Silver's three stations are live. Still Silver is the 13-heart slime-split fight
+with mooncake dash, aspects, and a gather portal (no burrow).
 
 ### Chapter 3 — West of Silver (map live, worlds soon)
 
 Display title stays vague. Does not print Kunlun, Yaochi, portal, or 西王母.
 Chip unlock: `moon_guanghan` cleared. Painting: `public/Story-Background-ch3.png`.
-Playable unlock stays the One Moon Pool, still unbuilt. Hops return toward Earth weight.
+Playable unlock is clearing Far Silver's One Moon Pool (Still Silver portal contact). Hops return toward Earth weight.
 
 | World | Env page | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |

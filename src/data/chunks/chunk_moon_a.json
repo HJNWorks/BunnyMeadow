@@ -8,7 +8,8 @@
       "x": 0,
       "y": 980,
       "w": 960,
-      "h": 100
+      "h": 100,
+      "asset": "ground"
     },
     {
       "x": 20,
@@ -17,7 +18,8 @@
       "h": 28,
       "break": {
         "profile": "stone"
-      }
+      },
+      "asset": "ground"
     },
     {
       "x": 310,
@@ -26,7 +28,8 @@
       "h": 24,
       "break": {
         "profile": "stone"
-      }
+      },
+      "asset": "ground"
     },
     {
       "x": 550,
@@ -35,7 +38,8 @@
       "h": 28,
       "break": {
         "profile": "stone"
-      }
+      },
+      "asset": "ground"
     },
     {
       "x": 840,
@@ -44,7 +48,8 @@
       "h": 24,
       "break": {
         "profile": "stone"
-      }
+      },
+      "asset": "ground"
     }
   ],
   "walls": [],

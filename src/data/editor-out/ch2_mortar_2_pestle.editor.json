@@ -1,0 +1,167 @@
+{
+  "levelId": "ch2_mortar_2_pestle",
+  "level": {
+    "playerSpawn": {
+      "x": 100,
+      "y": 900
+    },
+    "moonPools": [
+      {
+        "chunk": 0,
+        "x": 220,
+        "y": 900,
+        "line": "Wait the pestle. Then hop the rim."
+      }
+    ],
+    "moonPool": {
+      "chunk": 0,
+      "x": 220,
+      "y": 900,
+      "line": "Wait the pestle. Then hop the rim."
+    },
+    "exit": {
+      "chunk": 1,
+      "x": 840,
+      "y": 940
+    },
+    "env": "ch2_mortar",
+    "sky": "#101214"
+  },
+  "look": {
+    "env": "ch2_mortar",
+    "sky": "#101214"
+  },
+  "decor": [
+    {
+      "kind": "bowl",
+      "x": 80,
+      "y": 900,
+      "w": 140,
+      "h": 28,
+      "rotation": 0,
+      "asset": "bowl"
+    }
+  ],
+  "chunks": {
+    "chunk_ch2_mortar_c": {
+      "id": "chunk_ch2_mortar_c",
+      "width": 960,
+      "height": 1080,
+      "groundY": 940,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 940,
+          "w": 360,
+          "h": 60,
+          "asset": "ground"
+        },
+        {
+          "x": 480,
+          "y": 860,
+          "w": 180,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 740,
+          "y": 760,
+          "w": 180,
+          "h": 28,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "pestle_sentry",
+          "x": 820,
+          "y": 640
+        },
+        {
+          "id": "pestle_sentry",
+          "x": 560,
+          "y": 740
+        }
+      ],
+      "items": [
+        {
+          "id": "elixir_crumb",
+          "x": 800,
+          "y": 728
+        }
+      ],
+      "decor": [
+        {
+          "kind": "bowl",
+          "x": 80,
+          "y": 900,
+          "w": 140,
+          "h": 28,
+          "rotation": 0,
+          "asset": "bowl"
+        }
+      ],
+      "color": "#121416",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [],
+      "carrots": []
+    },
+    "chunk_ch2_mortar_d": {
+      "id": "chunk_ch2_mortar_d",
+      "width": 960,
+      "height": 1080,
+      "groundY": 940,
+      "platforms": [
+        {
+          "x": 60,
+          "y": 800,
+          "w": 150,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 320,
+          "y": 880,
+          "w": 150,
+          "h": 28,
+          "asset": "ground"
+        },
+        {
+          "x": 540,
+          "y": 940,
+          "w": 420,
+          "h": 60,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "pestle_sentry",
+          "x": 160,
+          "y": 700
+        },
+        {
+          "id": "pestle_sentry",
+          "x": 400,
+          "y": 780
+        }
+      ],
+      "items": [
+        {
+          "id": "mooncake",
+          "x": 380,
+          "y": 848
+        }
+      ],
+      "color": "#121416",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [],
+      "decor": [],
+      "carrots": []
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Environment — Dust Sea
 
-Status: live (Chapter 2, first station Rim Walk). Crater plains. Hub: [../README.md](../README.md).
+Status: live (Chapter 2, three stations: Rim Walk, Lip Gap, Raft Wreck). Crater plains. Hub: [../README.md](../README.md).
 Fauna: [../../LORE.md](../../LORE.md).
 
 ## Five axes

@@ -22,11 +22,13 @@ export const CRITTER_LABELS: Record<string, string> = {
   dust_mite: "Dust mite",
   star_wisp: "Star wisp",
   pestle_sentry: "Pestle sentry",
+  still: "Still Silver",
 }
 
 export const ITEM_LABELS: Record<string, string> = {
   carrot: "Carrot",
   mooncake: "Mooncake",
+  heart_cake: "Heart cake",
   osmanthus_blossom: "Blossom",
   osmanthus_seed: "Osmanthus seed",
   dew: "Dew",
@@ -47,6 +49,7 @@ const CRITTERS_BY_BIOME: Record<string, string[]> = {
   osmanthus: ["cat", "owl", "goat", "lantern_moth"],
   cloudsea: ["frost_wisp", "ice_spit", "gale_magpie", "frost_hare"],
   moon: ["frost_wisp", "lantern_moth", "star_wisp", "dust_mite", "pestle_sentry"],
+  ch2_silver: ["still", "star_wisp", "frost_wisp"],
 }
 
 const ITEMS_BY_BIOME: Record<string, string[]> = {
@@ -57,7 +60,8 @@ const ITEMS_BY_BIOME: Record<string, string[]> = {
   lantern: ["carrot", "lantern", "mooncake", "sparkler", "glide"],
   osmanthus: ["carrot", "osmanthus_blossom", "mooncake", "glide"],
   cloudsea: ["carrot", "osmanthus_blossom", "glide"],
-  moon: ["mooncake", "star_grit", "elixir_crumb", "well_silver"],
+  moon: ["mooncake", "heart_cake", "star_grit", "elixir_crumb", "well_silver"],
+  ch2_silver: ["mooncake", "heart_cake"],
 }
 
 export const ALL_CRITTERS = Object.keys(CRITTER_LABELS)
@@ -95,7 +99,13 @@ export const CRITTER_CHAPTERS: CritterChapter[] = [
   {
     id: "ch2",
     labelKey: "story.chapter.ch2.title",
-    groups: [],
+    groups: [
+      {
+        id: "silver",
+        labelKey: "editor.critterGroup.silver",
+        ids: ["still"],
+      },
+    ],
   },
   {
     id: "ch3",
@@ -115,7 +125,7 @@ function splitList(all: string[], native: string[]): { native: string[]; other: 
 }
 
 export function crittersForEnv(env: string): { native: string[]; other: string[] } {
-  const key = isLunarEnv(env) ? "moon" : env
+  const key = CRITTERS_BY_BIOME[env] ? env : isLunarEnv(env) ? "moon" : env
   return splitList(ALL_CRITTERS, CRITTERS_BY_BIOME[key] ?? CRITTERS_BY_BIOME.meadow ?? [])
 }
 

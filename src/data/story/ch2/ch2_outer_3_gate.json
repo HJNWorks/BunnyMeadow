@@ -1,0 +1,39 @@
+{
+  "id": "ch2_outer_3_gate",
+  "chapter": "ch2",
+  "world": 1,
+  "index": 3,
+  "name": "Guest Gate",
+  "chunks": [
+    "chunk_ch2_outer_e",
+    "chunk_ch2_outer_f"
+  ],
+  "playerSpawn": {
+    "x": 140,
+    "y": 880
+  },
+  "moonPool": {
+    "chunk": 1,
+    "x": 120,
+    "y": 580,
+    "line": "The court still keeps a guest. The wound waits beyond."
+  },
+  "exit": {
+    "chunk": 1,
+    "x": 900,
+    "y": 820
+  },
+  "moonLine": "The court still keeps a guest. The wound waits beyond.",
+  "objective": "Leave the last courtyard toward the cassia.",
+  "env": "ch2_outer",
+  "sky": "#10141a",
+  "lowGravity": true,
+  "moonPools": [
+    {
+      "chunk": 1,
+      "x": 120,
+      "y": 580,
+      "line": "The court still keeps a guest. The wound waits beyond."
+    }
+  ]
+}

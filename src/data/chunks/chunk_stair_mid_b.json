@@ -8,27 +8,31 @@
       "x": 0,
       "y": 500,
       "w": 100,
-      "h": 24
+      "h": 24,
+      "asset": "ground"
     },
     {
       "x": 200,
       "y": 420,
       "w": 90,
-      "h": 24
+      "h": 24,
+      "asset": "ground"
     },
     {
       "x": 560,
       "y": 320,
       "w": 90,
       "h": 24,
-      "surface": "slick"
+      "surface": "slick",
+      "asset": "ice"
     },
     {
       "x": 780,
       "y": 280,
       "w": 180,
       "h": 28,
-      "surface": "slick"
+      "surface": "slick",
+      "asset": "ice"
     }
   ],
   "walls": [],

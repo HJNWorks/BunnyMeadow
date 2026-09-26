@@ -1,6 +1,6 @@
 # Environment — Outer Cold
 
-Status: live (Chapter 2, first station Frost Courtyard). First region after Guanghan.
+Status: live (Chapter 2, three stations: Frost Courtyard, Column Walk, Guest Gate). First region after Guanghan.
 Still the moon. Not Earth. Hub: [../README.md](../README.md). Chapter: [../../story/chapters.md](../../story/chapters.md).
 
 Reuses the grey lunar family and low gravity. Palette `ch2_outer`: cold stone.

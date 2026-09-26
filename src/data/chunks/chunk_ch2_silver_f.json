@@ -1,0 +1,47 @@
+{
+  "id": "chunk_ch2_silver_f",
+  "width": 960,
+  "height": 1080,
+  "groundY": 1040,
+  "platforms": [
+    {
+      "x": 720,
+      "y": 640,
+      "w": 120,
+      "h": 18,
+      "asset": "ground"
+    },
+    {
+      "x": 200,
+      "y": 720,
+      "w": 90,
+      "h": 18,
+      "asset": "ground"
+    },
+    {
+      "x": 420,
+      "y": 720,
+      "w": 90,
+      "h": 18,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [],
+  "items": [],
+  "color": "#10141a",
+  "ceilings": [],
+  "movers": [],
+  "hazards": [
+    {
+      "x": 0,
+      "y": 920,
+      "w": 700,
+      "h": 140,
+      "kind": "water",
+      "current": 0
+    }
+  ],
+  "decor": [],
+  "carrots": []
+}

@@ -3,7 +3,7 @@ import { getAudio } from "../../../core/audio"
 import { fireRadialShot } from "./enemyKit"
 
 const HEARTS = 5
-export const HAN_WARMTH = 3.0
+export const HAN_WARMTH = 5.0
 const FROST_GAPS = [0.4, 0.4, 3.6, 0.3, 0.3, 4.2]
 const STAR_GAPS = [0.4, 0.4, 3.9]
 const BEAM_LEN = 1800

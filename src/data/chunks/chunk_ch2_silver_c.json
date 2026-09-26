@@ -1,0 +1,62 @@
+{
+  "id": "chunk_ch2_silver_c",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 920,
+      "w": 220,
+      "h": 60,
+      "asset": "ground"
+    },
+    {
+      "x": 360,
+      "y": 860,
+      "w": 90,
+      "h": 20,
+      "asset": "ground"
+    },
+    {
+      "x": 560,
+      "y": 780,
+      "w": 90,
+      "h": 20,
+      "asset": "ground"
+    },
+    {
+      "x": 780,
+      "y": 700,
+      "w": 110,
+      "h": 20,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "star_wisp",
+      "x": 400,
+      "y": 720
+    },
+    {
+      "id": "star_wisp",
+      "x": 820,
+      "y": 560
+    }
+  ],
+  "items": [
+    {
+      "id": "well_silver",
+      "x": 820,
+      "y": 668
+    }
+  ],
+  "color": "#12161c",
+  "ceilings": [],
+  "movers": [],
+  "hazards": [],
+  "decor": [],
+  "carrots": []
+}

@@ -54,6 +54,7 @@ import {
   bindSquirrelToTrunk,
 } from "./shared/enemyKit"
 import { HAN_WARMTH, HanFight } from "./shared/hanBoss"
+import { STILL_HEARTS, STILL_WARMTH, StillFight } from "./shared/stillBoss"
 import { BreakField, padBreakSpec } from "./shared/breakables"
 import {
   applyWaterPhysics,
@@ -322,6 +323,10 @@ ${STORY_TICKER_CSS}
   font: 800 26px Georgia, "Times New Roman", serif;
   letter-spacing: 0.18em;
   color: #c45c5c;
+  max-width: min(420px, 72vw);
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.25;
 }
 .story-han-hearts[hidden] { display: none; }
 `
@@ -418,6 +423,8 @@ export class StoryScene extends Phaser.Scene {
   private han: HanFight | null = null
   private hanCourtLeft = 0
   private hanCourtRight = 0
+  private stillFight: StillFight | null = null
+  private chunkOrigins: number[] = []
   private epilogueStep = 0
   private epilogueLines: string[] = []
   private health = 3
@@ -448,6 +455,7 @@ export class StoryScene extends Phaser.Scene {
   private editorSelMode: "pick" | "region" | null = null
   private gravityScale = 1
   private pickups!: Phaser.Physics.Arcade.StaticGroup
+  private heartCakeRespawns: { x: number; y: number; at: number }[] = []
   private glowTimer = 0
   private dashFx: PhaserDashFx | null = null
   private decorSprites: Phaser.GameObjects.Image[] = []
@@ -509,6 +517,8 @@ export class StoryScene extends Phaser.Scene {
     this.cranePhase = "dive"
     this.craneDives = 0
     this.han = null
+    this.stillFight?.destroy()
+    this.stillFight = null
     this.epilogueStep = 0
     this.leaving = false
     this.movers = []
@@ -669,6 +679,7 @@ export class StoryScene extends Phaser.Scene {
     this.galeColumnTop = worldTop
     this.galeColumnHeight = worldHeight
     this.worldWidth = world.width
+    this.chunkOrigins = [...world.chunkOrigins]
     ensureStoryTextures(this)
 
     const look = this.editorMode ? getOverlay(def.id)?.look : undefined
@@ -900,7 +911,7 @@ export class StoryScene extends Phaser.Scene {
 
     for (let i = 0; i < world.enemies.length; i += 1) {
       const e = world.enemies[i]
-      if (!e) {
+      if (!e || e.id === "still") {
         continue
       }
       const sprite = spawnEnemy(this, e.id, e.worldX, e.worldY, this.platforms, this.enemies, {
@@ -998,9 +1009,20 @@ export class StoryScene extends Phaser.Scene {
     this.exitZone.setData("editKind", "exit")
     this.physics.add.existing(this.exitZone, true)
     applyContactBody(this.exitZone, EXIT_CONTACT)
+    if (def.boss?.kind === "still" && this.editorMode !== "build") {
+      this.exitZone.setVisible(false)
+      this.exitZone.setActive(false)
+      const exitBody = this.exitZone.body as Phaser.Physics.Arcade.StaticBody | null
+      if (exitBody) {
+        exitBody.enable = false
+      }
+    }
 
     this.physics.add.overlap(this.player, this.exitZone, () => {
       if (this.editorMode === "build") {
+        return
+      }
+      if (this.level.boss?.kind === "still") {
         return
       }
       if (!playerInExitHole(this.player, this.exitZone)) {
@@ -1018,11 +1040,15 @@ export class StoryScene extends Phaser.Scene {
         this.tryHitHeron()
         return
       }
+      if (arch === "still_boss") {
+        this.tryHitStill()
+        return
+      }
       if (arch === "han_boss") {
         this.tryHitHan()
         return
       }
-      if (arch === "crane_boss" || arch === "heron_done") {
+      if (arch === "crane_boss" || arch === "heron_done" || arch === "still_done") {
         return
       }
       if (arch === "foxhu") {
@@ -1143,6 +1169,13 @@ export class StoryScene extends Phaser.Scene {
       this.syncBossHits()
     }
 
+    if (def.boss?.kind === "still") {
+      this.bossNeeded = def.boss.hitsNeeded ?? STILL_HEARTS
+      this.hud.bossHits.hidden = true
+      this.hud.hanHearts.hidden = true
+      this.startStillFight()
+    }
+
     if (def.boss?.kind === "crane") {
       this.bossNeeded = def.boss.divesNeeded ?? 3
       this.bossSprite = this.physics.add.sprite(def.boss.x ?? 1400, def.boss.y ?? 400, "story_crane")
@@ -1202,6 +1235,7 @@ export class StoryScene extends Phaser.Scene {
         waters: this.waterRects,
         cartFlag: this.cartFlagSprite,
         rideSprite: this.ride?.sprite ?? null,
+        bossSprite: this.bossSprite,
         assembledWidth,
         env,
         mode: this.editorMode,
@@ -1257,6 +1291,8 @@ export class StoryScene extends Phaser.Scene {
       this.dashFx = null
       this.han?.destroy()
       this.han = null
+      this.stillFight?.destroy()
+      this.stillFight = null
       this.poolRipple?.destroy()
       this.poolRipple = null
       this.style?.remove()
@@ -1303,9 +1339,12 @@ export class StoryScene extends Phaser.Scene {
     const atY = sprite.y
     sprite.destroy()
     getAudio().playSfx("pickup")
-    if (id === "mooncake") {
+    if (id === "mooncake" || id === "heart_cake") {
       this.health = Math.min(this.maxHearts, this.health + 1)
       this.syncHearts()
+      if (id === "heart_cake") {
+        this.heartCakeRespawns.push({ x: atX, y: atY, at: this.time.now + 9000 })
+      }
       return
     }
     if (id === "dew") {
@@ -1397,6 +1436,30 @@ export class StoryScene extends Phaser.Scene {
     const save = getSave()
     addPantryCarrots(save, 1)
     void persistSave()
+  }
+
+  private tickHeartCakeRespawns(): void {
+    if (this.heartCakeRespawns.length === 0 || this.editorMode === "build") {
+      return
+    }
+    const now = this.time.now
+    const due: { x: number; y: number }[] = []
+    const pending: { x: number; y: number; at: number }[] = []
+    for (const row of this.heartCakeRespawns) {
+      if (row.at <= now) {
+        due.push({ x: row.x, y: row.y })
+      } else {
+        pending.push(row)
+      }
+    }
+    this.heartCakeRespawns = pending
+    for (const spot of due) {
+      const look = getItemLook("heart_cake")
+      const sprite = this.add.image(spot.x, spot.y, look.texture).setDepth(2)
+      this.physics.add.existing(sprite, true)
+      this.pickups.add(sprite)
+      sprite.setData("itemId", "heart_cake")
+    }
   }
 
   private leavePlay(): void {
@@ -1632,15 +1695,15 @@ export class StoryScene extends Phaser.Scene {
   }
 
   private retryStation(): void {
-    if (this.editorMode === "play") {
-      this.respawn()
-      return
-    }
-    if (this.level.boss?.kind === "han") {
+    if (this.level.boss?.kind === "han" || this.level.boss?.kind === "still") {
       this.scene.restart({
         levelId: this.levelId,
         editor: this.editorMode ? { mode: this.editorMode } : undefined,
       })
+      return
+    }
+    if (this.editorMode === "play") {
+      this.respawn()
       return
     }
     this.respawn()
@@ -1656,6 +1719,12 @@ export class StoryScene extends Phaser.Scene {
     this.syncHearts()
     this.player.clearTint()
     this.runMs = 0
+    if (this.level.boss?.kind === "still") {
+      this.resetStillFight()
+    }
+    if (this.level.boss?.kind === "han" && this.han && !this.han.settled) {
+      this.resetHanFight()
+    }
     if (this.galeWall) {
       this.galeWall.x = this.galeStartX
       this.galeClock = 0
@@ -1988,6 +2057,22 @@ export class StoryScene extends Phaser.Scene {
       }))
       return
     }
+    if (this.level.boss.kind === "still") {
+      this.hud.bossHits.hidden = true
+      if (!this.stillFight) {
+        this.hud.hanHearts.hidden = true
+        return
+      }
+      this.hud.hanHearts.hidden = false
+      const full = this.stillFight.hearts
+      const empty = Math.max(0, this.stillFight.needed - this.stillFight.hearts)
+      this.hud.hanHearts.textContent = `${"♥".repeat(full)}${"♡".repeat(empty)}`
+      this.hud.hanHearts.setAttribute("aria-label", t("story.boss.still", {
+        hearts: this.stillFight.hearts,
+        need: this.stillFight.needed,
+      }))
+      return
+    }
     if (this.level.boss.kind === "gale") {
       this.hud.bossHits.hidden = true
       this.hud.hanHearts.hidden = true
@@ -2041,6 +2126,20 @@ export class StoryScene extends Phaser.Scene {
     }
   }
 
+  private tryHitStill(): void {
+    if (!this.stillFight || this.won) {
+      return
+    }
+    const result = this.stillFight.tryDashHit(this.playerState.dashTime)
+    if (result === "hurt") {
+      this.hurt({ ignoreDash: true })
+      return
+    }
+    if (result === "hit") {
+      this.syncBossHits()
+    }
+  }
+
   private tryHitHan(): void {
     if (!this.han || this.won) {
       return
@@ -2059,6 +2158,9 @@ export class StoryScene extends Phaser.Scene {
     const buffs: TrayBuff[] = []
     if (this.han && this.han.warmth > 0) {
       buffs.push({ id: "mooncake", remaining: this.han.warmth, duration: HAN_WARMTH })
+    }
+    if (this.stillFight && this.stillFight.warmth > 0) {
+      buffs.push({ id: "mooncake", remaining: this.stillFight.warmth, duration: STILL_WARMTH })
     }
     if (this.playerState.jumpBoost > 0) {
       buffs.push({ id: "star_grit", remaining: this.playerState.jumpBoost, duration: 2.5 })
@@ -2105,6 +2207,178 @@ export class StoryScene extends Phaser.Scene {
     if (!inCourt && this.han && !this.han.settled) {
       this.resetHanFight()
     }
+  }
+
+  private startStillFight(): void {
+    const boss = this.level.boss
+    if (!boss || boss.kind !== "still" || this.stillFight) {
+      return
+    }
+    const overlay = this.editorMode ? getOverlay(this.level.id) : undefined
+    if (overlay?.boss) {
+      boss.x = overlay.boss.x
+      boss.y = overlay.boss.y
+    }
+    const sx = typeof boss.x === "number" ? boss.x : 980
+    const sy = typeof boss.y === "number" ? boss.y : 780
+    const pool = this.stillPoolCenter()
+    const cakeSpots = this.stillCakeSpots()
+    const shoreRail = this.stillShoreRail(sx, sy)
+    this.stillFight = new StillFight(this, sx, sy, this.player, this.worldWidth, {
+      reducedMotion: this.reducedMotion,
+      speak: this.editorMode === "build"
+        ? undefined
+        : (line) => {
+          this.hud.ticker.show(t(`story.still.line.${line}`), `still.${line}`)
+        },
+      platforms: this.platforms,
+      clipExtras: this.movers.map((row) => row.sprite),
+      poolCenterX: pool.x,
+      poolCenterY: pool.y,
+      shoreRail,
+      cakeSpots,
+      frozen: this.editorMode === "build",
+      onStreamHurt: () => {
+        this.hurt()
+      },
+      onTsunamiPush: (dir) => {
+        this.player.setVelocity(dir * 520, -80)
+        if (this.bossCooldown <= 0) {
+          this.bossCooldown = 0.4
+          this.hurt()
+        }
+      },
+      onPortalReady: () => {
+        this.hud.objective.textContent = t("story.exit.portal")
+        this.syncBossHits()
+        getAudio().playMusic("moon")
+      },
+    })
+    const primary = this.stillFight.primarySprite
+    if (primary) {
+      this.enemies.add(primary)
+      this.bossSprite = primary
+    }
+    this.hud.bossHits.hidden = true
+    this.syncBossHits()
+    if (this.editorMode !== "build") {
+      getAudio().playMusic("boss")
+    }
+  }
+
+  private stillShoreRail(hintX: number, hintY: number): { left: number; right: number; standY: number } {
+    type Seg = { left: number; right: number; top: number; w: number }
+    const segs: Seg[] = []
+    for (const child of this.platforms.getChildren()) {
+      const body = (child as Phaser.GameObjects.GameObject).body as Phaser.Physics.Arcade.StaticBody | undefined
+      if (!body || body.width < 200) {
+        continue
+      }
+      segs.push({
+        left: body.x,
+        right: body.x + body.width,
+        top: body.y,
+        w: body.width,
+      })
+    }
+    if (segs.length === 0) {
+      return {
+        left: Math.max(80, hintX - 420),
+        right: Math.min(this.worldWidth - 80, hintX + 420),
+        standY: hintY,
+      }
+    }
+    segs.sort((a, b) => a.top - b.top || b.w - a.w)
+    const bandTop = segs[0].top
+    const band = segs.filter((seg) => Math.abs(seg.top - bandTop) <= 28)
+    band.sort((a, b) => a.left - b.left)
+    let left = band[0].left
+    let right = band[0].right
+    for (const seg of band.slice(1)) {
+      if (seg.left <= right + 48) {
+        left = Math.min(left, seg.left)
+        right = Math.max(right, seg.right)
+      }
+    }
+    return {
+      left,
+      right,
+      standY: bandTop - 60,
+    }
+  }
+
+  private stillCakeSpots(): { x: number; y: number }[] {
+    const pads: { x: number; y: number; w: number; top: number }[] = []
+    let groundTop = 0
+    for (const child of this.platforms.getChildren()) {
+      const body = (child as Phaser.GameObjects.GameObject).body as Phaser.Physics.Arcade.StaticBody | undefined
+      if (!body) {
+        continue
+      }
+      if (body.width >= 280) {
+        groundTop = Math.max(groundTop, body.y)
+      }
+    }
+    for (const child of this.platforms.getChildren()) {
+      const body = (child as Phaser.GameObjects.GameObject).body as Phaser.Physics.Arcade.StaticBody | undefined
+      if (!body) {
+        continue
+      }
+      if (body.width < 48 || body.width > 220 || body.height > 36) {
+        continue
+      }
+      if (groundTop > 0 && body.y > groundTop - 160) {
+        continue
+      }
+      pads.push({
+        x: body.x + body.width * 0.5,
+        y: body.y - 18,
+        w: body.width,
+        top: body.y,
+      })
+    }
+    pads.sort((a, b) => a.top - b.top || a.x - b.x)
+    if (pads.length === 0) {
+      return [
+        { x: 200, y: 622 },
+        { x: 1680, y: 622 },
+      ]
+    }
+    const highTop = pads[0].top
+    const high = pads.filter((pad) => pad.top <= highTop + 48).sort((a, b) => a.x - b.x)
+    if (high.length >= 2) {
+      return [
+        { x: high[0].x, y: high[0].y },
+        { x: high[high.length - 1].x, y: high[high.length - 1].y },
+      ]
+    }
+    if (pads.length >= 2) {
+      const byX = [...pads].sort((a, b) => a.x - b.x)
+      return [
+        { x: byX[0].x, y: byX[0].y },
+        { x: byX[byX.length - 1].x, y: byX[byX.length - 1].y },
+      ]
+    }
+    return [
+      { x: 200, y: 622 },
+      { x: 1680, y: 622 },
+    ]
+  }
+
+  private stillPoolCenter(): { x: number; y: number } {
+    const poolDef = poolsOf(this.level)[0]
+    if (poolDef) {
+      const origin = this.chunkOrigins[poolDef.chunk] ?? poolDef.chunk * 960
+      return { x: origin + poolDef.x, y: poolDef.y }
+    }
+    if (this.moonPools[0]) {
+      return { x: this.moonPools[0].x, y: this.moonPools[0].y }
+    }
+    const water = this.waterRects[0]
+    if (water) {
+      return { x: water.x, y: water.y }
+    }
+    return { x: this.worldWidth * 0.45, y: 900 }
   }
 
   private startHanFight(): void {
@@ -2154,8 +2428,35 @@ export class StoryScene extends Phaser.Scene {
     getAudio().playMusic("moon")
   }
 
+  private resetStillFight(): void {
+    if (!this.stillFight || this.stillFight.portalReady) {
+      return
+    }
+    this.stillFight.destroy()
+    this.stillFight = null
+    this.bossSprite = null
+    this.hud.hanHearts.hidden = true
+    this.startStillFight()
+    this.syncBossHits()
+  }
+
   private updateBoss(dt: number): void {
     this.bossCooldown = Math.max(0, this.bossCooldown - dt)
+    if (this.stillFight && this.level.boss?.kind === "still") {
+      this.stillFight.update(dt)
+      if (this.playerState.dashTime > 0) {
+        this.tryHitStill()
+      }
+      if (this.stillFight.takeContactHurt(this.playerState.dashTime)) {
+        this.hurt({ ignoreDash: true })
+      }
+      if (this.stillFight.tryTouchPortal()) {
+        void this.onExit()
+        return
+      }
+      this.syncBossHits()
+      return
+    }
     if (this.han && this.level.boss?.kind === "han") {
       const wasSettled = this.han.settled
       this.han.update(dt)
@@ -2205,6 +2506,9 @@ export class StoryScene extends Phaser.Scene {
       ) {
         this.tryHitHeron()
       }
+      return
+    }
+    if (this.level.boss.kind === "still") {
       return
     }
     if (this.level.boss.kind !== "crane") {
@@ -2293,6 +2597,9 @@ export class StoryScene extends Phaser.Scene {
     }
     if (this.level.boss?.kind === "han" && this.han && !this.han.settled) {
       return t("story.exit.han")
+    }
+    if (this.level.boss?.kind === "still" && this.stillFight && !this.stillFight.portalReady) {
+      return t("story.exit.still")
     }
     return null
   }
@@ -2424,8 +2731,10 @@ export class StoryScene extends Phaser.Scene {
     this.waterGrace = Math.max(0, this.waterGrace - dt * 0.5)
     this.tickHanCourt()
     this.updateBoss(dt)
+    this.tickHeartCakeRespawns()
     this.syncItemTray()
     this.han?.tryEatCake()
+    this.stillFight?.tryEatCake()
 
     updateMovers(this.movers, this.player, dt)
     this.breaks?.tickStand(this.player, dt)

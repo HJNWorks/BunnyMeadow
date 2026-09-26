@@ -1,0 +1,39 @@
+{
+  "id": "ch2_dust_3_wreck",
+  "chapter": "ch2",
+  "world": 4,
+  "index": 3,
+  "name": "Raft Wreck",
+  "chunks": [
+    "chunk_ch2_dust_e",
+    "chunk_ch2_dust_f"
+  ],
+  "playerSpawn": {
+    "x": 80,
+    "y": 900
+  },
+  "moonPool": {
+    "chunk": 0,
+    "x": 180,
+    "y": 900,
+    "line": "An old star raft. Not a ship. Keep to the rims."
+  },
+  "exit": {
+    "chunk": 1,
+    "x": 880,
+    "y": 850
+  },
+  "moonLine": "An old star raft. Not a ship. Keep to the rims.",
+  "objective": "Pass the raft wreck. Take the grit cache.",
+  "env": "ch2_dust",
+  "sky": "#161410",
+  "lowGravity": true,
+  "moonPools": [
+    {
+      "chunk": 0,
+      "x": 180,
+      "y": 900,
+      "line": "An old star raft. Not a ship. Keep to the rims."
+    }
+  ]
+}

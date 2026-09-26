@@ -1,0 +1,39 @@
+{
+  "id": "ch2_dust_2_lips",
+  "chapter": "ch2",
+  "world": 4,
+  "index": 2,
+  "name": "Lip Gap",
+  "chunks": [
+    "chunk_ch2_dust_c",
+    "chunk_ch2_dust_d"
+  ],
+  "playerSpawn": {
+    "x": 80,
+    "y": 900
+  },
+  "moonPool": {
+    "chunk": 0,
+    "x": 180,
+    "y": 900,
+    "line": "Star grit in the gap. The lip is the floor."
+  },
+  "exit": {
+    "chunk": 1,
+    "x": 870,
+    "y": 840
+  },
+  "moonLine": "Star grit in the gap. The lip is the floor.",
+  "objective": "Drift the wider rim gaps on star grit.",
+  "env": "ch2_dust",
+  "sky": "#161410",
+  "lowGravity": true,
+  "moonPools": [
+    {
+      "chunk": 0,
+      "x": 180,
+      "y": 900,
+      "line": "Star grit in the gap. The lip is the floor."
+    }
+  ]
+}

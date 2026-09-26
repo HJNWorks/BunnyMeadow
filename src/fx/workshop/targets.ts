@@ -29,7 +29,8 @@ export function listWorkshopTargets(group: WorkshopGroup = "props"): WorkshopTar
   if (group === "creatures") {
     return [
       { id: "story_han", label: "Han" },
-      ...ALL_CRITTERS.map((id) => ({
+      { id: "story_still", label: "Still Silver" },
+      ...ALL_CRITTERS.filter((id) => id !== "still").map((id) => ({
         id: critterTextureKey(id),
         label: CRITTER_LABELS[id] ?? id,
       })),

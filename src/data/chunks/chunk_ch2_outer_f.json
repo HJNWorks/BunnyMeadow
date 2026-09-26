@@ -1,0 +1,93 @@
+{
+  "id": "chunk_ch2_outer_f",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    {
+      "x": 60,
+      "y": 600,
+      "w": 130,
+      "h": 24,
+      "asset": "ground"
+    },
+    {
+      "x": 300,
+      "y": 520,
+      "w": 130,
+      "h": 24,
+      "asset": "ground"
+    },
+    {
+      "x": 540,
+      "y": 640,
+      "w": 140,
+      "h": 24,
+      "asset": "ground"
+    },
+    {
+      "x": 720,
+      "y": 860,
+      "w": 240,
+      "h": 80,
+      "asset": "ground"
+    }
+  ],
+  "walls": [
+    {
+      "x": 320,
+      "y": 360,
+      "w": 36,
+      "h": 160,
+      "asset": "hedge"
+    }
+  ],
+  "decor": [
+    {
+      "kind": "hedge",
+      "x": 320,
+      "y": 360,
+      "w": 36,
+      "h": 160,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 320,
+      "y": 360,
+      "w": 36,
+      "h": 160,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "lantern",
+      "x": 800,
+      "y": 812,
+      "w": 28,
+      "h": 48,
+      "rotation": 0,
+      "asset": "lantern"
+    }
+  ],
+  "color": "#151b2e",
+  "ceilings": [],
+  "enemies": [
+    {
+      "id": "dust_mite",
+      "x": 600,
+      "y": 580
+    }
+  ],
+  "movers": [],
+  "hazards": [],
+  "items": [
+    {
+      "id": "mooncake",
+      "x": 760,
+      "y": 828
+    }
+  ],
+  "carrots": []
+}

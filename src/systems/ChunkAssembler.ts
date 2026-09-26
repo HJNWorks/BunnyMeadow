@@ -56,16 +56,40 @@ import chunkStairGaleB from "../data/chunks/chunk_stair_gale_b.json"
 import chunkStairGaleC from "../data/chunks/chunk_stair_gale_c.json"
 import chunkCh2OuterA from "../data/chunks/chunk_ch2_outer_a.json"
 import chunkCh2OuterB from "../data/chunks/chunk_ch2_outer_b.json"
+import chunkCh2OuterC from "../data/chunks/chunk_ch2_outer_c.json"
+import chunkCh2OuterD from "../data/chunks/chunk_ch2_outer_d.json"
+import chunkCh2OuterE from "../data/chunks/chunk_ch2_outer_e.json"
+import chunkCh2OuterF from "../data/chunks/chunk_ch2_outer_f.json"
 import chunkCh2CassiaA from "../data/chunks/chunk_ch2_cassia_a.json"
 import chunkCh2CassiaB from "../data/chunks/chunk_ch2_cassia_b.json"
+import chunkCh2CassiaC from "../data/chunks/chunk_ch2_cassia_c.json"
+import chunkCh2CassiaD from "../data/chunks/chunk_ch2_cassia_d.json"
+import chunkCh2CassiaE from "../data/chunks/chunk_ch2_cassia_e.json"
+import chunkCh2CassiaF from "../data/chunks/chunk_ch2_cassia_f.json"
 import chunkCh2MortarA from "../data/chunks/chunk_ch2_mortar_a.json"
 import chunkCh2MortarB from "../data/chunks/chunk_ch2_mortar_b.json"
+import chunkCh2MortarC from "../data/chunks/chunk_ch2_mortar_c.json"
+import chunkCh2MortarD from "../data/chunks/chunk_ch2_mortar_d.json"
+import chunkCh2MortarE from "../data/chunks/chunk_ch2_mortar_e.json"
+import chunkCh2MortarF from "../data/chunks/chunk_ch2_mortar_f.json"
 import chunkCh2DustA from "../data/chunks/chunk_ch2_dust_a.json"
 import chunkCh2DustB from "../data/chunks/chunk_ch2_dust_b.json"
+import chunkCh2DustC from "../data/chunks/chunk_ch2_dust_c.json"
+import chunkCh2DustD from "../data/chunks/chunk_ch2_dust_d.json"
+import chunkCh2DustE from "../data/chunks/chunk_ch2_dust_e.json"
+import chunkCh2DustF from "../data/chunks/chunk_ch2_dust_f.json"
 import chunkCh2WellsA from "../data/chunks/chunk_ch2_wells_a.json"
 import chunkCh2WellsB from "../data/chunks/chunk_ch2_wells_b.json"
+import chunkCh2WellsC from "../data/chunks/chunk_ch2_wells_c.json"
+import chunkCh2WellsD from "../data/chunks/chunk_ch2_wells_d.json"
+import chunkCh2WellsE from "../data/chunks/chunk_ch2_wells_e.json"
+import chunkCh2WellsF from "../data/chunks/chunk_ch2_wells_f.json"
 import chunkCh2SilverA from "../data/chunks/chunk_ch2_silver_a.json"
 import chunkCh2SilverB from "../data/chunks/chunk_ch2_silver_b.json"
+import chunkCh2SilverC from "../data/chunks/chunk_ch2_silver_c.json"
+import chunkCh2SilverD from "../data/chunks/chunk_ch2_silver_d.json"
+import chunkCh2SilverE from "../data/chunks/chunk_ch2_silver_e.json"
+import chunkCh2SilverF from "../data/chunks/chunk_ch2_silver_f.json"
 
 export type ChunkId = string
 
@@ -258,16 +282,40 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_stair_gale_c: chunkStairGaleC as ChunkDef,
   chunk_ch2_outer_a: chunkCh2OuterA as ChunkDef,
   chunk_ch2_outer_b: chunkCh2OuterB as ChunkDef,
+  chunk_ch2_outer_c: chunkCh2OuterC as ChunkDef,
+  chunk_ch2_outer_d: chunkCh2OuterD as ChunkDef,
+  chunk_ch2_outer_e: chunkCh2OuterE as ChunkDef,
+  chunk_ch2_outer_f: chunkCh2OuterF as ChunkDef,
   chunk_ch2_cassia_a: chunkCh2CassiaA as ChunkDef,
   chunk_ch2_cassia_b: chunkCh2CassiaB as ChunkDef,
+  chunk_ch2_cassia_c: chunkCh2CassiaC as ChunkDef,
+  chunk_ch2_cassia_d: chunkCh2CassiaD as ChunkDef,
+  chunk_ch2_cassia_e: chunkCh2CassiaE as ChunkDef,
+  chunk_ch2_cassia_f: chunkCh2CassiaF as ChunkDef,
   chunk_ch2_mortar_a: chunkCh2MortarA as ChunkDef,
   chunk_ch2_mortar_b: chunkCh2MortarB as ChunkDef,
+  chunk_ch2_mortar_c: chunkCh2MortarC as ChunkDef,
+  chunk_ch2_mortar_d: chunkCh2MortarD as ChunkDef,
+  chunk_ch2_mortar_e: chunkCh2MortarE as ChunkDef,
+  chunk_ch2_mortar_f: chunkCh2MortarF as ChunkDef,
   chunk_ch2_dust_a: chunkCh2DustA as ChunkDef,
   chunk_ch2_dust_b: chunkCh2DustB as ChunkDef,
+  chunk_ch2_dust_c: chunkCh2DustC as ChunkDef,
+  chunk_ch2_dust_d: chunkCh2DustD as ChunkDef,
+  chunk_ch2_dust_e: chunkCh2DustE as ChunkDef,
+  chunk_ch2_dust_f: chunkCh2DustF as ChunkDef,
   chunk_ch2_wells_a: chunkCh2WellsA as ChunkDef,
   chunk_ch2_wells_b: chunkCh2WellsB as ChunkDef,
+  chunk_ch2_wells_c: chunkCh2WellsC as ChunkDef,
+  chunk_ch2_wells_d: chunkCh2WellsD as ChunkDef,
+  chunk_ch2_wells_e: chunkCh2WellsE as ChunkDef,
+  chunk_ch2_wells_f: chunkCh2WellsF as ChunkDef,
   chunk_ch2_silver_a: chunkCh2SilverA as ChunkDef,
   chunk_ch2_silver_b: chunkCh2SilverB as ChunkDef,
+  chunk_ch2_silver_c: chunkCh2SilverC as ChunkDef,
+  chunk_ch2_silver_d: chunkCh2SilverD as ChunkDef,
+  chunk_ch2_silver_e: chunkCh2SilverE as ChunkDef,
+  chunk_ch2_silver_f: chunkCh2SilverF as ChunkDef,
 }
 
 const endlessModules = import.meta.glob<{ default: ChunkDef }>(

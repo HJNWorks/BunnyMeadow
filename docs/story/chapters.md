@@ -10,7 +10,7 @@ to have the codebase open.
 | Id | Display title | Status |
 | --- | --- | --- |
 | `ch1` | Burrow to Moon | live |
-| `ch2` | Journey on Moon | live (first stations) |
+| `ch2` | Journey on Moon | live (three stations per world) |
 | `ch3` | West of Silver | live (map, worlds soon) |
 
 Off-limits as HP bars in every chapter: Chang'e, Yue, Yutu, Wu Gang, moon toad,
@@ -36,7 +36,7 @@ beat. No burrow-exit as Mei's Chapter 1 finisher.
 
 Lunar country beyond the palace walls. Tagline stays vague. Map title does not name
 the One Moon Pool. Painting: `public/Story-Background-ch2.png`. Prompt:
-[chapter2-map-prompt.md](chapter2-map-prompt.md). First station of each world is live.
+[chapter2-map-prompt.md](chapter2-map-prompt.md). Three stations per world are live.
 
 Six worlds, same card count as Chapter 1:
 
@@ -47,7 +47,7 @@ Six worlds, same card count as Chapter 1:
 | Mortar Yard | Yutu pounding elixir. She stops for a pestle beat, then hops the bowls. Not a kitchen |
 | Dust Sea | Crater plains. She stops because the lips are the only floor. Star grit in the gap |
 | Quiet Wells | Cold caves. She stops because the first mouth is false. Well silver shows the real lip |
-| Far Silver | Quiet Basin is the approach. Pads are few. The One Moon Pool is a later station |
+| Far Silver | Quiet Basin is the approach. Silver Steps goes quieter. The One Moon Pool is the world finale (Still Silver) |
 
 Unlock: `moon_guanghan` cleared. Han's grown moon stays visual. No jump pad this pass.
 
@@ -75,16 +75,16 @@ Six worlds, same card count as Chapter 2. Map cards are Soon. No stations yet.
 | Grotto Heaven | 洞天. Jade caves, mass above, false mouths off the hop line |
 | West Pool | Yaochi court. One still jade pool. Do not print her name |
 
-Chip unlock: `moon_guanghan` cleared (same as Chapter 2), so the painting is visible.
-Playable unlock stays Far Silver's One Moon Pool, still unbuilt. Ordinary Moon Pools
-never do this. Editor Chapter 3 stays empty until stations exist.
+Chip unlock and playable gate: `ch2_silver_3_one_pool` cleared (Still Silver portal
+contact). Chapter 2 chip still opens after `moon_guanghan`. Ordinary Moon Pools never
+do this. Editor Chapter 3 stays empty until stations exist.
 
 ## Two gates
 
 | Gate | From | To | Object |
 | --- | --- | --- | --- |
 | Inner gate | Chapter 1 Guanghan | Chapter 2 Outer Cold | Han's grown moon (jump) |
-| One Moon Pool | Chapter 2 Far Silver | Chapter 3 | The first true pool (contact) |
+| One Moon Pool | Chapter 2 Far Silver | Chapter 3 | Still Silver aspects gather into a portal (contact) |
 
 Ordinary Moon Pools stay Chang'e's reflection channel. One line. No freeze card. The
 One Pool is the exception.
@@ -92,8 +92,8 @@ One Pool is the exception.
 ## Editor
 
 Build bar: **Chapter** dropdown left of World, then Station
-(`src/modes/story/editor/BuildHud.ts`). Chapter 1 lists live worlds. Chapter 2 lists the
-six first stations. Chapter 3 stays empty.
+(`src/modes/story/editor/BuildHud.ts`). Chapter 1 lists live worlds. Chapter 2 lists all
+eighteen stations. Chapter 3 stays empty.
 
 TODO: Han moon collider (not this pass). Live epilogue copy in `en.json` / `voices.json`
 still says the crane carries them all home.

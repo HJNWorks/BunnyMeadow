@@ -1,0 +1,81 @@
+{
+  "id": "chunk_ch2_silver_e",
+  "width": 960,
+  "height": 1080,
+  "groundY": 1040,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 860,
+      "w": 200,
+      "h": 48,
+      "asset": "ground"
+    },
+    {
+      "x": 180,
+      "y": 860,
+      "w": 800,
+      "h": 48,
+      "asset": "ground"
+    },
+    {
+      "x": 140,
+      "y": 640,
+      "w": 120,
+      "h": 18,
+      "asset": "ground"
+    },
+    {
+      "x": 40,
+      "y": 760,
+      "w": 100,
+      "h": 18,
+      "asset": "ground"
+    },
+    {
+      "x": 420,
+      "y": 720,
+      "w": 90,
+      "h": 18,
+      "asset": "ground"
+    },
+    {
+      "x": 680,
+      "y": 720,
+      "w": 90,
+      "h": 18,
+      "asset": "ground"
+    },
+    {
+      "x": 920,
+      "y": 860,
+      "w": 880,
+      "h": 48,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [],
+  "items": [
+    {
+      "id": "heart_cake",
+      "x": 90,
+      "y": 728
+    }
+  ],
+  "color": "#10141a",
+  "ceilings": [],
+  "movers": [],
+  "hazards": [
+    {
+      "x": 200,
+      "y": 920,
+      "w": 760,
+      "h": 140,
+      "kind": "water",
+      "current": 0
+    }
+  ],
+  "decor": [],
+  "carrots": []
+}

@@ -20,7 +20,11 @@ Player verbs and how items change them are in [creatures/abilities.md](creatures
 | blocker | goat | Charges when the player crosses its line. Stunned on wall hit |
 | blocker | boar | On the ground in Green Corridor. Close range winds it up, then it charges for 2 hearts. Stops at a ledge or a wall |
 | water_patrol | carp | Hovers in a water band. Periodic breach |
-| boss | Fox Hu, Heron Fisher, Crane Envoy, Closing Gale, Han | Scripted phases composed from the above |
+| boss | Fox Hu, Heron Fisher, Crane Envoy, Closing Gale, Still Silver, Han | Scripted phases composed from the above |
+
+Still Silver (`stillBoss.ts`): 13 hearts (1 Full → 4 Quarters → 8 Eighths), mooncake
+damaging dash, stream / tsunami, eight aspects gather into a Chapter 3 portal. Folk
+page: [creatures/folk/still-silver.md](creatures/folk/still-silver.md).
 
 Owls use `diver` as ordinary night enemies only. They are never Moon servants. See [LORE.md](LORE.md).
 

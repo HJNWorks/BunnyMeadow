@@ -8,33 +8,38 @@
       "x": 0,
       "y": 400,
       "w": 140,
-      "h": 24
+      "h": 24,
+      "asset": "ground"
     },
     {
       "x": 220,
       "y": 340,
       "w": 110,
       "h": 24,
-      "surface": "slick"
+      "surface": "slick",
+      "asset": "ice"
     },
     {
       "x": 420,
       "y": 280,
       "w": 110,
-      "h": 24
+      "h": 24,
+      "asset": "ground"
     },
     {
       "x": 640,
       "y": 240,
       "w": 120,
       "h": 24,
-      "surface": "slick"
+      "surface": "slick",
+      "asset": "ice"
     },
     {
       "x": 820,
       "y": 220,
       "w": 140,
-      "h": 28
+      "h": 28,
+      "asset": "ground"
     }
   ],
   "walls": [],

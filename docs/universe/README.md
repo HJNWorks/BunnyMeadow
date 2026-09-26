@@ -31,16 +31,16 @@ One night, one ascent to Guanghan, then lunar country. Chapter 1 rungs, low to h
 | 7 | Cloud Sea | sky | deep night | live (Story) |
 | 8 | Moon Garden | moon | eternal night | live (kit). Palace walk vs court: [environments/guanghan-palace.md](environments/guanghan-palace.md) |
 
-Chapter 2 (first stations live, still altitude moon, eternal night). Does not re-enter Earth rungs:
+Chapter 2 (three stations per world, still altitude moon, eternal night). Does not re-enter Earth rungs:
 
 | After 8 | Environment | Status |
 | --- | --- | --- |
-| Outer Cold | palace gardens beyond Guanghan. Reuses `moon` | live (Frost Courtyard) |
-| Cassia Wound | Wu Gang's tree as a region | live (Grove Cut) |
-| Mortar Yard | Yutu's elixir yard | live (Stone Bowls) |
-| Dust Sea | crater plains | live (Rim Walk) |
-| Quiet Wells | cold caves | live (Cave Mouths) |
-| Far Silver | quiet basin. One Moon Pool still planned as the world finale | live (Quiet Basin) |
+| Outer Cold | palace gardens beyond Guanghan. Reuses `moon` | live (three stations) |
+| Cassia Wound | Wu Gang's tree as a region | live (three stations) |
+| Mortar Yard | Yutu's elixir yard | live (three stations) |
+| Dust Sea | crater plains | live (three stations) |
+| Quiet Wells | cold caves | live (three stations) |
+| Far Silver | quiet basin to One Moon Pool | live (three stations) |
 
 Chapter 3 West of Silver (map live, worlds soon). Off the moon. Hops return toward Earth weight.
 0.42 g was vacuum. Display titles stay vague. Do not print Kunlun, Yaochi, portal,

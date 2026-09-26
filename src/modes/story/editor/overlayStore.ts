@@ -51,6 +51,7 @@ export type EditorLevelOverlay = {
   moonPools?: MoonPoolDef[]
   exit: { chunk: number; x: number; y: number }
   cartFlag?: { x: number; y: number }
+  boss?: { x: number; y: number }
   worldWidth: number
   shippedWidth?: number
   worldHeight?: number
@@ -196,6 +197,7 @@ export function captureOverlay(
     moonPools: poolsOf(def),
     exit: { ...def.exit },
     cartFlag: def.cartFlag ? { ...def.cartFlag } : undefined,
+    boss: def.boss ? { x: def.boss.x ?? 0, y: def.boss.y ?? 0 } : undefined,
     worldWidth: Math.max(world.width, assembledWidth),
     shippedWidth: assembledWidth,
     worldHeight: def.height ?? world.height,
@@ -260,6 +262,9 @@ export function applyOverlay(def: StoryLevelDef, world: AssembledLevel): Assembl
   def.exit = { ...overlay.exit }
   if (overlay.cartFlag) {
     def.cartFlag = { ...overlay.cartFlag }
+  }
+  if (overlay.boss && def.boss) {
+    def.boss = { ...def.boss, x: overlay.boss.x, y: overlay.boss.y }
   }
   if (def.ride && overlay.ride && overlay.ride.points.length > 0) {
     def.ride = {
@@ -354,6 +359,9 @@ export function ensureOverlay(
   }
   if (!existing.cartFlag && def.cartFlag) {
     existing.cartFlag = { ...def.cartFlag }
+  }
+  if (!existing.boss && def.boss) {
+    existing.boss = { x: def.boss.x ?? 0, y: def.boss.y ?? 0 }
   }
   if (!existing.ride && def.ride) {
     existing.ride = rideFromLevel(def, world)

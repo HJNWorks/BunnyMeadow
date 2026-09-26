@@ -1,0 +1,85 @@
+{
+  "id": "chunk_ch2_wells_c",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 940,
+      "w": 280,
+      "h": 60,
+      "asset": "ground"
+    },
+    {
+      "x": 400,
+      "y": 820,
+      "w": 160,
+      "h": 24,
+      "asset": "ground"
+    },
+    {
+      "x": 680,
+      "y": 700,
+      "w": 160,
+      "h": 24,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "ceilings": [
+    {
+      "x": 40,
+      "y": 280,
+      "w": 520,
+      "h": 28,
+      "asset": "cave"
+    }
+  ],
+  "hazards": [
+    {
+      "x": 170,
+      "y": 310,
+      "w": 280,
+      "h": 430,
+      "kind": "water"
+    }
+  ],
+  "enemies": [
+    {
+      "id": "star_wisp",
+      "x": 780,
+      "y": 560
+    }
+  ],
+  "items": [
+    {
+      "id": "well_silver",
+      "x": 720,
+      "y": 668
+    }
+  ],
+  "decor": [
+    {
+      "kind": "falseMouth",
+      "x": 100,
+      "y": 800,
+      "w": 100,
+      "h": 80,
+      "rotation": 0,
+      "asset": "cave"
+    },
+    {
+      "kind": "falseMouth",
+      "x": 300,
+      "y": 700,
+      "w": 90,
+      "h": 70,
+      "rotation": 0,
+      "asset": "cave"
+    }
+  ],
+  "color": "#0c1014",
+  "movers": [],
+  "carrots": []
+}

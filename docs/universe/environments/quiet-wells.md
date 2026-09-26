@@ -1,6 +1,6 @@
 # Environment — Quiet Wells
 
-Status: live (Chapter 2, first station Cave Mouths). Cold caves and still silver pools. Hub:
+Status: live (Chapter 2, three stations: Cave Mouths, False Lip, Well Silver). Cold caves and still silver pools. Hub:
 [../README.md](../README.md). Toad:
 [../../LORE.md](../../LORE.md#moon-toad--chanchu-蟾蜍).
 

@@ -1,0 +1,44 @@
+{
+  "id": "ch2_silver_3_one_pool",
+  "chapter": "ch2",
+  "world": 6,
+  "index": 3,
+  "name": "One Moon Pool",
+  "chunks": [
+    "chunk_ch2_silver_e",
+    "chunk_ch2_silver_f"
+  ],
+  "playerSpawn": {
+    "x": 80,
+    "y": 800
+  },
+  "moonPool": {
+    "chunk": 0,
+    "x": 700,
+    "y": 900
+  },
+  "exit": {
+    "chunk": 0,
+    "x": 700,
+    "y": 900
+  },
+  "moonLine": "",
+  "objective": "Eat a golden mooncake for dash warmth, dash Still Silver apart, gather eight aspects, step the portal west.",
+  "env": "ch2_silver",
+  "sky": "#0e1218",
+  "lowGravity": true,
+  "noCheckpoint": true,
+  "boss": {
+    "kind": "still",
+    "hitsNeeded": 13,
+    "x": 980,
+    "y": 780
+  },
+  "moonPools": [
+    {
+      "chunk": 0,
+      "x": 700,
+      "y": 900
+    }
+  ]
+}

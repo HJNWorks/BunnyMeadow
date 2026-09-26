@@ -51,6 +51,24 @@
       "asset": "hedge"
     },
     {
+      "kind": "hedge",
+      "x": 70,
+      "y": 760,
+      "w": 36,
+      "h": 160,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 210,
+      "y": 800,
+      "w": 36,
+      "h": 120,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
       "kind": "lantern",
       "x": 300,
       "y": 872,
@@ -58,6 +76,15 @@
       "h": 48,
       "rotation": 0,
       "asset": "lantern"
+    },
+    {
+      "kind": "hedge",
+      "x": 1260,
+      "y": 400,
+      "w": 36,
+      "h": 160,
+      "rotation": 0,
+      "asset": "hedge"
     },
     {
       "kind": "hedge",
@@ -89,19 +116,22 @@
           "x": 0,
           "y": 920,
           "w": 420,
-          "h": 80
+          "h": 80,
+          "asset": "ground"
         },
         {
           "x": 620,
           "y": 800,
           "w": 160,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 820,
           "y": 700,
           "w": 140,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         }
       ],
       "walls": [
@@ -109,13 +139,15 @@
           "x": 70,
           "y": 760,
           "w": 36,
-          "h": 160
+          "h": 160,
+          "asset": "hedge"
         },
         {
           "x": 210,
           "y": 800,
           "w": 36,
-          "h": 120
+          "h": 120,
+          "asset": "hedge"
         }
       ],
       "enemies": [
@@ -133,6 +165,24 @@
         }
       ],
       "decor": [
+        {
+          "kind": "hedge",
+          "x": 70,
+          "y": 760,
+          "w": 36,
+          "h": 160,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 210,
+          "y": 800,
+          "w": 36,
+          "h": 120,
+          "rotation": 0,
+          "asset": "hedge"
+        },
         {
           "kind": "hedge",
           "x": 70,
@@ -177,25 +227,29 @@
           "x": 40,
           "y": 640,
           "w": 140,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 280,
           "y": 560,
           "w": 140,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 520,
           "y": 680,
           "w": 150,
-          "h": 24
+          "h": 24,
+          "asset": "ground"
         },
         {
           "x": 700,
           "y": 860,
           "w": 260,
-          "h": 80
+          "h": 80,
+          "asset": "ground"
         }
       ],
       "walls": [
@@ -203,10 +257,20 @@
           "x": 300,
           "y": 400,
           "w": 36,
-          "h": 160
+          "h": 160,
+          "asset": "hedge"
         }
       ],
       "decor": [
+        {
+          "kind": "hedge",
+          "x": 300,
+          "y": 400,
+          "w": 36,
+          "h": 160,
+          "rotation": 0,
+          "asset": "hedge"
+        },
         {
           "kind": "hedge",
           "x": 300,

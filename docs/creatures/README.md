@@ -137,6 +137,7 @@ Named characters. Bosses are one folk per world; palace NPCs are non-hostile.
 | Heron Fisher | World 2 boss | riverbank | invented |
 | Crane Envoy | World 3 boss, then ally | osmanthus / cloudsea | adapted |
 | Closing Gale | World 4 chase event | cloudsea | invented |
+| Still Silver | Far Silver finale, One Moon Pool | far silver | invented |
 | Han | Moon boss, old Vast Cold ghost | moon | invented |
 | Tu'er Ye (Lord Rabbit) | ally, lends the tiger | lantern | canon |
 | Chang'e | mentor, finale | moon | canon |

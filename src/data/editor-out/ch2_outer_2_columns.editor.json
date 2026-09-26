@@ -1,0 +1,308 @@
+{
+  "levelId": "ch2_outer_2_columns",
+  "level": {
+    "playerSpawn": {
+      "x": 140,
+      "y": 880
+    },
+    "moonPools": [
+      {
+        "chunk": 1,
+        "x": 110,
+        "y": 560,
+        "line": "Columns hold the cold. Gaps keep the guest."
+      }
+    ],
+    "moonPool": {
+      "chunk": 1,
+      "x": 110,
+      "y": 560,
+      "line": "Columns hold the cold. Gaps keep the guest."
+    },
+    "exit": {
+      "chunk": 1,
+      "x": 900,
+      "y": 820
+    },
+    "env": "ch2_outer",
+    "sky": "#10141a"
+  },
+  "look": {
+    "env": "ch2_outer",
+    "sky": "#10141a"
+  },
+  "decor": [
+    {
+      "kind": "hedge",
+      "x": 90,
+      "y": 720,
+      "w": 36,
+      "h": 200,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "hedge",
+      "x": 250,
+      "y": 760,
+      "w": 36,
+      "h": 160,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 90,
+      "y": 720,
+      "w": 36,
+      "h": 200,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 250,
+      "y": 760,
+      "w": 36,
+      "h": 160,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "lantern",
+      "x": 160,
+      "y": 872,
+      "w": 28,
+      "h": 48,
+      "rotation": 0,
+      "asset": "lantern"
+    },
+    {
+      "kind": "hedge",
+      "x": 1240,
+      "y": 320,
+      "w": 36,
+      "h": 160,
+      "rotation": 0,
+      "asset": "hedge"
+    },
+    {
+      "kind": "column",
+      "x": 1240,
+      "y": 320,
+      "w": 36,
+      "h": 160,
+      "rotation": 0,
+      "asset": "hedge"
+    }
+  ],
+  "chunks": {
+    "chunk_ch2_outer_c": {
+      "id": "chunk_ch2_outer_c",
+      "width": 960,
+      "height": 1080,
+      "groundY": 920,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 920,
+          "w": 280,
+          "h": 80,
+          "asset": "ground"
+        },
+        {
+          "x": 420,
+          "y": 780,
+          "w": 120,
+          "h": 24,
+          "asset": "ground"
+        },
+        {
+          "x": 620,
+          "y": 680,
+          "w": 120,
+          "h": 24,
+          "asset": "ground"
+        },
+        {
+          "x": 820,
+          "y": 580,
+          "w": 140,
+          "h": 24,
+          "asset": "ground"
+        }
+      ],
+      "walls": [
+        {
+          "x": 90,
+          "y": 720,
+          "w": 36,
+          "h": 200,
+          "asset": "hedge"
+        },
+        {
+          "x": 250,
+          "y": 760,
+          "w": 36,
+          "h": 160,
+          "asset": "hedge"
+        }
+      ],
+      "enemies": [
+        {
+          "id": "dust_mite",
+          "x": 480,
+          "y": 720
+        },
+        {
+          "id": "dust_mite",
+          "x": 680,
+          "y": 620
+        }
+      ],
+      "items": [
+        {
+          "id": "star_grit",
+          "x": 880,
+          "y": 548
+        }
+      ],
+      "decor": [
+        {
+          "kind": "hedge",
+          "x": 90,
+          "y": 720,
+          "w": 36,
+          "h": 200,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "hedge",
+          "x": 250,
+          "y": 760,
+          "w": 36,
+          "h": 160,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "column",
+          "x": 90,
+          "y": 720,
+          "w": 36,
+          "h": 200,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "column",
+          "x": 250,
+          "y": 760,
+          "w": 36,
+          "h": 160,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "lantern",
+          "x": 160,
+          "y": 872,
+          "w": 28,
+          "h": 48,
+          "rotation": 0,
+          "asset": "lantern"
+        }
+      ],
+      "color": "#151b2e",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [],
+      "carrots": []
+    },
+    "chunk_ch2_outer_d": {
+      "id": "chunk_ch2_outer_d",
+      "width": 960,
+      "height": 1080,
+      "groundY": 920,
+      "platforms": [
+        {
+          "x": 40,
+          "y": 560,
+          "w": 120,
+          "h": 24,
+          "asset": "ground"
+        },
+        {
+          "x": 260,
+          "y": 480,
+          "w": 120,
+          "h": 24,
+          "asset": "ground"
+        },
+        {
+          "x": 480,
+          "y": 600,
+          "w": 130,
+          "h": 24,
+          "asset": "ground"
+        },
+        {
+          "x": 700,
+          "y": 860,
+          "w": 260,
+          "h": 80,
+          "asset": "ground"
+        }
+      ],
+      "walls": [
+        {
+          "x": 280,
+          "y": 320,
+          "w": 36,
+          "h": 160,
+          "asset": "hedge"
+        }
+      ],
+      "decor": [
+        {
+          "kind": "hedge",
+          "x": 280,
+          "y": 320,
+          "w": 36,
+          "h": 160,
+          "rotation": 0,
+          "asset": "hedge"
+        },
+        {
+          "kind": "column",
+          "x": 280,
+          "y": 320,
+          "w": 36,
+          "h": 160,
+          "rotation": 0,
+          "asset": "hedge"
+        }
+      ],
+      "color": "#151b2e",
+      "ceilings": [],
+      "enemies": [
+        {
+          "id": "dust_mite",
+          "x": 540,
+          "y": 540
+        }
+      ],
+      "movers": [],
+      "hazards": [],
+      "items": [
+        {
+          "id": "star_grit",
+          "x": 300,
+          "y": 300
+        }
+      ],
+      "carrots": []
+    }
+  }
+}

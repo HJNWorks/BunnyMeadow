@@ -13,8 +13,9 @@
   },
   "moonPool": {
     "chunk": 0,
-    "x": 900,
-    "y": 920
+    "x": 940,
+    "y": 940,
+    "line": "Fox Hu runs. The basket waits at home."
   },
   "exit": {
     "chunk": 1,
@@ -34,5 +35,13 @@
   },
   "boss": {
     "kind": "fox_cart"
-  }
+  },
+  "moonPools": [
+    {
+      "chunk": 0,
+      "x": 940,
+      "y": 940,
+      "line": "Fox Hu runs. The basket waits at home."
+    }
+  ]
 }

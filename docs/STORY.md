@@ -163,9 +163,9 @@ Why rabbits sit and watch the moon. The burrow reunion is Yue's. Mei remains in 
 
 ### Chapter 2 — Journey on Moon (first stations live)
 
-Mei walks the lunar surface beyond Guanghan: Outer Cold, Cassia Wound, Mortar Yard, Dust Sea, Quiet Wells, Far Silver. First station of each world is live. Stations 2 and 3 stay unbuilt. Yutu pounds elixir in a mortar yard. He does not cook a meal. Invented fauna with folk names. Optional star raft wreck. Caves and craters. NASA colonies and spaceships stay out.
+Mei walks the lunar surface beyond Guanghan: Outer Cold, Cassia Wound, Mortar Yard, Dust Sea, Quiet Wells, Far Silver. Three stations per world are live. Yutu pounds elixir in a mortar yard. He does not cook a meal. Invented fauna with folk names. Optional star raft wreck. Caves and craters. NASA colonies and spaceships stay out.
 
-Far Silver's first station is Quiet Basin, an ordinary still shore. The [One Moon Pool](LORE.md#invented-elements-ours) stays the planned world finale. Ordinary pools still speak one ticker line. Map cards do not print portal.
+Far Silver's first station is Quiet Basin, an ordinary still shore. Silver Steps goes quieter. The [One Moon Pool](LORE.md#invented-elements-ours) is the world finale. [Still Silver](creatures/folk/still-silver.md) rises from it (dash-count stub). Ordinary pools still speak one ticker line. The One Pool does not. Map cards do not print portal.
 
 ### Chapter 3 — West of Silver (map live, worlds soon)
 

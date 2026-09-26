@@ -1,0 +1,40 @@
+{
+  "id": "ch2_cassia_2_closing",
+  "chapter": "ch2",
+  "world": 2,
+  "index": 2,
+  "name": "Closing Gap",
+  "chunks": [
+    "chunk_ch2_cassia_c",
+    "chunk_ch2_cassia_d"
+  ],
+  "playerSpawn": {
+    "x": 80,
+    "y": 880
+  },
+  "moonPool": {
+    "chunk": 0,
+    "x": 890,
+    "y": 500,
+    "line": "The cut slides shut. Wait, then hop."
+  },
+  "exit": {
+    "chunk": 0,
+    "x": 310,
+    "y": -660
+  },
+  "moonLine": "The cut slides shut. Wait, then hop.",
+  "objective": "Hop living wood before the gap closes.",
+  "env": "ch2_cassia",
+  "sky": "#14161a",
+  "lowGravity": true,
+  "wallBounce": true,
+  "moonPools": [
+    {
+      "chunk": 0,
+      "x": 890,
+      "y": 500,
+      "line": "The cut slides shut. Wait, then hop."
+    }
+  ]
+}

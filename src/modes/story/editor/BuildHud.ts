@@ -61,13 +61,14 @@ export type EditorSession = {
   waters: Phaser.GameObjects.Rectangle[]
   cartFlag: Phaser.GameObjects.Image | null
   rideSprite: Phaser.GameObjects.Image | null
+  bossSprite?: Phaser.Physics.Arcade.Sprite | null
   assembledWidth: number
   env: string
   mode: EditorMode
   selMode?: "pick" | "region"
 }
 
-type SelKind = "spawn" | "pool" | "exit" | "flag" | "platform" | "mover" | "enemy" | "pickup" | "decor" | "hazard" | "ride"
+type SelKind = "spawn" | "pool" | "exit" | "flag" | "boss" | "platform" | "mover" | "enemy" | "pickup" | "decor" | "hazard" | "ride"
 
 type Selection = { kind: SelKind; index: number }
 
@@ -598,6 +599,7 @@ export function mountBuildHud(session: EditorSession): void {
     overlay.moonPools = next.moonPools
     overlay.exit = next.exit
     overlay.cartFlag = next.cartFlag
+    overlay.boss = next.boss
     overlay.worldWidth = next.worldWidth
     overlay.shippedWidth = next.shippedWidth
     overlay.worldHeight = next.worldHeight
@@ -684,6 +686,9 @@ export function mountBuildHud(session: EditorSession): void {
     if (sel.kind === "flag") {
       return { x: overlay.cartFlag?.x ?? 0, y: overlay.cartFlag?.y ?? 0 }
     }
+    if (sel.kind === "boss") {
+      return { x: overlay.boss?.x ?? session.level.boss?.x ?? 0, y: overlay.boss?.y ?? session.level.boss?.y ?? 0 }
+    }
     if (sel.kind === "ride") {
       const point = overlay.ride?.points[sel.index]
       return { x: point?.x ?? 0, y: point?.y ?? 0 }
@@ -735,6 +740,11 @@ export function mountBuildHud(session: EditorSession): void {
     if (sel.kind === "flag" && overlay.cartFlag) {
       return { x: overlay.cartFlag.x - 24, y: overlay.cartFlag.y - 40, w: 48, h: 84 }
     }
+    if (sel.kind === "boss" && (overlay.boss || session.level.boss)) {
+      const bx = overlay.boss?.x ?? session.level.boss?.x ?? 0
+      const by = overlay.boss?.y ?? session.level.boss?.y ?? 0
+      return { x: bx - 72, y: by - 54, w: 144, h: 108 }
+    }
     if (sel.kind === "ride") {
       const point = overlay.ride?.points[sel.index]
       if (!point) {
@@ -781,6 +791,9 @@ export function mountBuildHud(session: EditorSession): void {
     if (overlay.cartFlag) {
       out.push({ kind: "flag", index: 0 })
     }
+    if (overlay.boss || session.level.boss) {
+      out.push({ kind: "boss", index: 0 })
+    }
     ;(overlay.moonPools ?? []).forEach((_, index) => out.push({ kind: "pool", index }))
     overlay.platforms.forEach((_, index) => out.push({ kind: "platform", index }))
     overlay.movers.forEach((_, index) => out.push({ kind: "mover", index }))
@@ -811,6 +824,9 @@ export function mountBuildHud(session: EditorSession): void {
     }
     if (sel.kind === "flag") {
       return overlay.cartFlag ? cloneJson(overlay.cartFlag) : null
+    }
+    if (sel.kind === "boss") {
+      return overlay.boss ? cloneJson(overlay.boss) : null
     }
     if (sel.kind === "platform") {
       const rect = overlay.platforms[sel.index]
@@ -1027,6 +1043,11 @@ export function mountBuildHud(session: EditorSession): void {
       if (overlay.cartFlag && session.cartFlag) {
         session.cartFlag.setPosition(overlay.cartFlag.x, overlay.cartFlag.y)
       }
+    } else if (focus.kind === "boss") {
+      if (overlay.boss && session.bossSprite) {
+        session.bossSprite.setPosition(overlay.boss.x, overlay.boss.y)
+        refreshBody(session.bossSprite)
+      }
     } else if (focus.kind === "platform") {
       syncPlatform(focus.index)
     } else if (focus.kind === "mover") {
@@ -1097,6 +1118,10 @@ export function mountBuildHud(session: EditorSession): void {
       if (overlay.cartFlag) {
         marks.strokeCircle(overlay.cartFlag.x, overlay.cartFlag.y, 28)
       }
+    } else if (focus.kind === "boss") {
+      const bx = overlay.boss?.x ?? session.level.boss?.x ?? 0
+      const by = overlay.boss?.y ?? session.level.boss?.y ?? 0
+      marks.strokeCircle(bx, by, 64)
     } else if (focus.kind === "ride") {
       const point = overlay.ride?.points[focus.index]
       if (point) {
@@ -1307,6 +1332,10 @@ export function mountBuildHud(session: EditorSession): void {
       hint.textContent = t("editor.kind.flag")
       xInput.value = String(overlay.cartFlag?.x ?? 0)
       yInput.value = String(overlay.cartFlag?.y ?? 0)
+    } else if (selected.kind === "boss") {
+      hint.textContent = t("editor.kind.boss")
+      xInput.value = String(overlay.boss?.x ?? session.level.boss?.x ?? 0)
+      yInput.value = String(overlay.boss?.y ?? session.level.boss?.y ?? 0)
     } else if (selected.kind === "ride") {
       const point = overlay.ride?.points[selected.index]
       hint.textContent = selected.index === 0 ? t("editor.kind.tiger") : t("editor.kind.tigerStop")
@@ -1431,6 +1460,17 @@ export function mountBuildHud(session: EditorSession): void {
     }
     if (overlay.cartFlag && Phaser.Math.Distance.Between(wx, wy, overlay.cartFlag.x, overlay.cartFlag.y) < 36) {
       return { kind: "flag", index: 0 }
+    }
+    {
+      const bx = overlay.boss?.x ?? session.level.boss?.x
+      const by = overlay.boss?.y ?? session.level.boss?.y
+      if (
+        typeof bx === "number" &&
+        typeof by === "number" &&
+        Phaser.Math.Distance.Between(wx, wy, bx, by) < 72
+      ) {
+        return { kind: "boss", index: 0 }
+      }
     }
     const ridePoints = overlay.ride?.points ?? []
     if (ridePoints[0] && Phaser.Math.Distance.Between(wx, wy, ridePoints[0].x, ridePoints[0].y) < 62) {
@@ -1638,6 +1678,12 @@ export function mountBuildHud(session: EditorSession): void {
       overlay.exit = worldToAnchor(session.world, x, y)
     } else if (sel.kind === "flag") {
       overlay.cartFlag = { x, y }
+    } else if (sel.kind === "boss") {
+      overlay.boss = { x, y }
+      if (session.level.boss) {
+        session.level.boss.x = x
+        session.level.boss.y = y
+      }
     } else if (sel.kind === "platform") {
       const rect = overlay.platforms[sel.index]
       if (rect) {
@@ -2066,6 +2112,19 @@ export function mountBuildHud(session: EditorSession): void {
     const at = cameraCenter()
     if (kind.startsWith("critter:")) {
       const id = kind.slice("critter:".length)
+      if (id === "still") {
+        overlay.boss = { x: at.x, y: at.y }
+        if (session.level.boss) {
+          session.level.boss.x = at.x
+          session.level.boss.y = at.y
+          session.level.boss.kind = "still"
+          session.level.boss.hitsNeeded = session.level.boss.hitsNeeded ?? 13
+        } else {
+          session.level.boss = { kind: "still", hitsNeeded: 13, x: at.x, y: at.y }
+        }
+        restart("build")
+        return
+      }
       const local = worldToAnchor(session.world, at.x, at.y)
       overlay.enemies.push({
         id,

@@ -1,0 +1,156 @@
+{
+  "levelId": "ch2_silver_2_steps",
+  "level": {
+    "playerSpawn": {
+      "x": 80,
+      "y": 880
+    },
+    "moonPools": [
+      {
+        "chunk": 1,
+        "x": 560,
+        "y": 830,
+        "line": "Quieter now. The shore does not hurry."
+      }
+    ],
+    "moonPool": {
+      "chunk": 1,
+      "x": 560,
+      "y": 830,
+      "line": "Quieter now. The shore does not hurry."
+    },
+    "exit": {
+      "chunk": 1,
+      "x": 860,
+      "y": 860
+    },
+    "env": "ch2_silver",
+    "sky": "#12161c"
+  },
+  "look": {
+    "env": "ch2_silver",
+    "sky": "#12161c"
+  },
+  "decor": [],
+  "chunks": {
+    "chunk_ch2_silver_c": {
+      "id": "chunk_ch2_silver_c",
+      "width": 960,
+      "height": 1080,
+      "groundY": 920,
+      "platforms": [
+        {
+          "x": 0,
+          "y": 920,
+          "w": 220,
+          "h": 60,
+          "asset": "ground"
+        },
+        {
+          "x": 360,
+          "y": 860,
+          "w": 90,
+          "h": 20,
+          "asset": "ground"
+        },
+        {
+          "x": 560,
+          "y": 780,
+          "w": 90,
+          "h": 20,
+          "asset": "ground"
+        },
+        {
+          "x": 780,
+          "y": 700,
+          "w": 110,
+          "h": 20,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "star_wisp",
+          "x": 400,
+          "y": 720
+        },
+        {
+          "id": "star_wisp",
+          "x": 820,
+          "y": 560
+        }
+      ],
+      "items": [
+        {
+          "id": "well_silver",
+          "x": 820,
+          "y": 668
+        }
+      ],
+      "color": "#12161c",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [],
+      "decor": [],
+      "carrots": []
+    },
+    "chunk_ch2_silver_d": {
+      "id": "chunk_ch2_silver_d",
+      "width": 960,
+      "height": 1080,
+      "groundY": 900,
+      "platforms": [
+        {
+          "x": 40,
+          "y": 720,
+          "w": 100,
+          "h": 20,
+          "asset": "ground"
+        },
+        {
+          "x": 280,
+          "y": 800,
+          "w": 100,
+          "h": 20,
+          "asset": "ground"
+        },
+        {
+          "x": 520,
+          "y": 860,
+          "w": 120,
+          "h": 20,
+          "asset": "ground"
+        },
+        {
+          "x": 720,
+          "y": 900,
+          "w": 240,
+          "h": 48,
+          "asset": "ground"
+        }
+      ],
+      "walls": [],
+      "enemies": [
+        {
+          "id": "star_wisp",
+          "x": 320,
+          "y": 660
+        }
+      ],
+      "items": [
+        {
+          "id": "osmanthus_seed",
+          "x": 780,
+          "y": 868
+        }
+      ],
+      "color": "#12161c",
+      "ceilings": [],
+      "movers": [],
+      "hazards": [],
+      "decor": [],
+      "carrots": []
+    }
+  }
+}

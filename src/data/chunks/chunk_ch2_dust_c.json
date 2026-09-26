@@ -1,0 +1,67 @@
+{
+  "id": "chunk_ch2_dust_c",
+  "width": 960,
+  "height": 1080,
+  "groundY": 940,
+  "platforms": [
+    {
+      "x": 0,
+      "y": 940,
+      "w": 120,
+      "h": 40,
+      "asset": "ground"
+    },
+    {
+      "x": 400,
+      "y": 780,
+      "w": 90,
+      "h": 20,
+      "asset": "ground"
+    },
+    {
+      "x": 700,
+      "y": 640,
+      "w": 90,
+      "h": 20,
+      "asset": "ground"
+    },
+    {
+      "x": 900,
+      "y": 520,
+      "w": 60,
+      "h": 20,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "enemies": [
+    {
+      "id": "dust_mite",
+      "x": 60,
+      "y": 880
+    },
+    {
+      "id": "dust_mite",
+      "x": 740,
+      "y": 580
+    }
+  ],
+  "items": [
+    {
+      "id": "star_grit",
+      "x": 280,
+      "y": 860
+    },
+    {
+      "id": "star_grit",
+      "x": 560,
+      "y": 720
+    }
+  ],
+  "color": "#1a1814",
+  "ceilings": [],
+  "movers": [],
+  "hazards": [],
+  "decor": [],
+  "carrots": []
+}
