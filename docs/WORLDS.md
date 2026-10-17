@@ -127,12 +127,12 @@ Playable unlock is clearing Far Silver's One Moon Pool (Still Silver portal cont
 
 | World | Env page | Teach | Exit | Status |
 | --- | --- | --- | --- | --- |
-| Other Shore | [other-shore.md](universe/environments/other-shore.md) | this is another country | next world | soon |
-| Weak Water | [weak-water.md](universe/environments/weak-water.md) | stone fords. Do not ride the water | next world | soon |
-| Hanging Ridges | [hanging-ridges.md](universe/environments/hanging-ridges.md) | ascent, Earth-weight wall hops | next world | soon |
-| Peach Rows | [peach-rows.md](universe/environments/peach-rows.md) | west orchard, not Wu Gang, not a kitchen | next world | soon |
-| Grotto Heaven | [grotto-heaven.md](universe/environments/grotto-heaven.md) | jade cave roof, false mouths | next world | soon |
-| West Pool | [west-pool.md](universe/environments/west-pool.md) | refuse the peach | chapter clear | soon |
+| Other Shore | [other-shore.md](universe/environments/other-shore.md) | this is another country | next world | live |
+| Weak Water | [weak-water.md](universe/environments/weak-water.md) | stone fords. Do not ride the water | next world | live |
+| Hanging Ridges | [hanging-ridges.md](universe/environments/hanging-ridges.md) | ascent, Earth-weight wall hops | next world | live |
+| Peach Rows | [peach-rows.md](universe/environments/peach-rows.md) | west orchard, not Wu Gang, not a kitchen | next world | live |
+| Grotto Heaven | [grotto-heaven.md](universe/environments/grotto-heaven.md) | jade cave roof, false mouths | next world | live |
+| West Pool | [west-pool.md](universe/environments/west-pool.md) | stand still on the rim, then refuse the peach. One station | chapter clear | live |
 
 ## Meadow maps (arcade)
 

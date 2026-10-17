@@ -1,0 +1,26 @@
+{
+  "id": "chunk_ch3_shore_f",
+  "width": 960,
+  "height": 1080,
+  "groundY": 760,
+  "platforms": [
+    { "x": 120, "y": 680, "w": 100, "h": 36, "asset": "ground" },
+    { "x": 360, "y": 760, "w": 100, "h": 36, "asset": "ground" },
+    { "x": 580, "y": 700, "w": 100, "h": 36, "asset": "ground" },
+    { "x": 800, "y": 760, "w": 160, "h": 64, "asset": "ground" }
+  ],
+  "walls": [],
+  "ceilings": [],
+  "enemies": [
+    { "id": "mirror_mote", "x": 530, "y": 640 }
+  ],
+  "items": [],
+  "decor": [
+    { "kind": "reflection", "x": 60, "y": 760, "w": 100, "h": 36, "asset": "reflection", "env": "ch3_shore" },
+    { "kind": "reflection", "x": 340, "y": 680, "w": 100, "h": 36, "asset": "reflection", "env": "ch3_shore" }
+  ],
+  "hazards": [
+    { "kind": "water", "x": 0, "y": 900, "w": 800, "h": 180 }
+  ],
+  "color": "#efe4cf"
+}

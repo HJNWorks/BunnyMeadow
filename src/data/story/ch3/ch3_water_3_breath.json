@@ -1,0 +1,20 @@
+{
+  "id": "ch3_water_3_breath",
+  "chapter": "ch3",
+  "world": 2,
+  "index": 3,
+  "name": "Breathing Stones",
+  "chunks": ["chunk_ch3_water_g", "chunk_ch3_water_h", "chunk_ch3_water_i"],
+  "playerSpawn": { "x": 140, "y": 800 },
+  "moonPool": { "chunk": 1, "x": 860, "y": 780, "line": "Ride the rise. Leave before the sink." },
+  "moonPools": [
+    { "chunk": 1, "x": 860, "y": 780, "line": "Ride the rise. Leave before the sink." }
+  ],
+  "exit": { "chunk": 2, "x": 900, "y": 760 },
+  "moonLine": "",
+  "objective": "The stones breathe. Cross on the rise, leave before they sink.",
+  "env": "ch3_water",
+  "sky": "#efe5d0",
+  "hour": "golden",
+  "weather": "none"
+}

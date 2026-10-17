@@ -1,0 +1,22 @@
+{
+  "id": "chunk_ch3_ridges_h",
+  "width": 960,
+  "height": 1080,
+  "groundY": 640,
+  "platforms": [
+    { "x": 0, "y": 640, "w": 120, "h": 64, "asset": "ground" },
+    { "x": 760, "y": 580, "w": 200, "h": 64, "asset": "ground" },
+    { "x": 900, "y": 260, "w": 40, "h": 320, "asset": "cliff" }
+  ],
+  "walls": [],
+  "ceilings": [],
+  "movers": [
+    { "x": 220, "y": 620, "w": 140, "h": 28, "axis": "x", "amplitude": 90, "speed": 0.9, "phase": 0.1, "kind": "cloud" },
+    { "x": 500, "y": 600, "w": 140, "h": 28, "axis": "x", "amplitude": 110, "speed": 0.9, "phase": 0.6, "kind": "cloud" }
+  ],
+  "enemies": [],
+  "items": [],
+  "decor": [],
+  "hazards": [],
+  "color": "#efe5d0"
+}

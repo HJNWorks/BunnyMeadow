@@ -1,10 +1,10 @@
 # Wildlife — Jade Mite
 
-Status: idea (Chapter 3 Grotto Heaven). Class: Wildlife. Archetype: swarm.
+Status: live (Chapter 3 Grotto Heaven, `ch3_grotto_1_mouths`). Class: Wildlife. Archetype: swarm.
 Hub: [../README.md](../README.md). Invented west-cave fauna. Not Quiet Wells
 dust. Not a NASA colony. Not a named immortal.
 
-Do not add to native editor pickers until this page is live in `enemies.json`.
+Live in `enemies.json` and in the Chapter 3 editor picker.
 
 | Field | Value |
 | --- | --- |

@@ -10,7 +10,7 @@ export type MoverState = {
   amplitude: number
   speed: number
   phase: number
-  kind?: "log" | "bridge" | "pestle" | "roller" | "screen" | "raft" | "bark"
+  kind?: "log" | "bridge" | "pestle" | "roller" | "screen" | "raft" | "bark" | "ford" | "cloud"
   shadow?: Phaser.GameObjects.Ellipse
   struck?: boolean
   rider?: boolean
@@ -67,6 +67,12 @@ function moverTexture(kind: MoverState["kind"]): string {
   if (kind === "bark") {
     return "story_bark"
   }
+  if (kind === "ford") {
+    return "story_ground_west"
+  }
+  if (kind === "cloud") {
+    return "story_cloud_west"
+  }
   return "story_log"
 }
 
@@ -101,12 +107,15 @@ export function createMovers(
     )
     sprite.setDisplaySize(mover.w, mover.h)
     const stone = isStone(kind)
-    if (!stone || mover.tint !== undefined) {
+    // West ford stones and clouds keep their own colours.
+    const plain = kind === "ford" || kind === "cloud"
+    if ((!stone && !plain) || mover.tint !== undefined) {
       sprite.setTint(mover.tint ?? 0x8b5a2b)
     }
     // Guest screens slide up behind the gate pier, so they sit under the pads.
     // Bark slabs withdraw into the shelf wood, so they sit under the pads too.
-    sprite.setDepth(kind === "screen" || kind === "bark" ? 0.9 : stone ? 2.5 : 3)
+    // Ford stones sit under the water layer so a dip reads as sinking.
+    sprite.setDepth(kind === "ford" ? 0.45 : kind === "screen" || kind === "bark" ? 0.9 : stone ? 2.5 : 3)
     sprite.setImmovable(true)
     const body = sprite.body as Phaser.Physics.Arcade.Body
     body.setAllowGravity(false)

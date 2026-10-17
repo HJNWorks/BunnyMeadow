@@ -95,9 +95,11 @@ and the minimum tier at which the creature appears.
 | silver bat | diver | moon (wells) | 5 | live (Story Quiet Wells). 1.0 s swoop from the cave roof. Lucky (福), not an omen. Chapter 2 only |
 | crater crab | patrol | moon (dust) | 5 | live (Story Dust Sea). Digs in for 1.3 s: harmless and unstompable while dug. Chapter 2 only |
 | cassia grub | patrol | moon (mortar) | 5 | live (Story Mortar Yard). Adapted 桂蠹. Stomp from above. Chapter 2 only |
-| azure bird | diver | Peach Rows | n/a | idea |
-| jade mite | swarm | Grotto Heaven | n/a | idea |
-| copper sentry | ranged_lob | Hanging Ridges | n/a | idea |
+| [azure bird](wildlife/azure-bird.md) | diver | Peach Rows | n/a | live (Story Blossom Rows). Gale magpie diver kit |
+| [jade mite](wildlife/jade-mite.md) | swarm | Grotto Heaven | n/a | live (Story Jade Mouths). Dust mite swarm kit. Dash passes |
+| [copper sentry](wildlife/copper-sentry.md) | ranged_lob | Hanging Ridges | n/a | live (Story Pin Ladder). Parabolic pebble lob |
+| [mirror mote](wildlife/mirror-mote.md) | swarm | Other Shore | n/a | live (Story Mirror Sky). No shot. Dash passes |
+| [ford crab](wildlife/ford-crab.md) | patrol | Weak Water | n/a | live (Story Stone Ford). Walks wide ford stones. No dig |
 | bees | swarm | meadow, orchard | 2 | live (Story Soft Paws). Chapter 1 Path |
 | dew | item (slow-time). Not a wildlife HP bar | meadow, orchard | 1 | live (Story Soft Paths). See [items/catalog.md](../items/catalog.md) |
 
@@ -151,7 +153,8 @@ Named characters. Bosses are one folk per world; palace NPCs are non-hostile.
 | Jade Rabbit (Yutu) | palace NPC | moon | canon |
 | Wu Gang | finale NPC | moon | canon |
 | moon toad | optional background | moon | canon (optional) |
-| Xiwangmu | Chapter 3 court NPC. Offers a peach. Accepts the refusal | West Pool | canon |
+| Old face | West Pool spirit. The pool seal's inner face. Settles, then the peach | West Pool | invented |
+| Xiwangmu | Chapter 3 court presence. Offers a peach after the seal surfaces. Accepts the refusal | West Pool | canon |
 
 ## Kits
 

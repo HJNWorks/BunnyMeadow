@@ -226,7 +226,7 @@ Status values:
 | Status | canon (Chapter 3 court NPC. Not dramatized in code yet) |
 | Primary tradition | Chinese. Immortal court on Kunlun. Source of Chang'e's elixir in common tellings |
 | What the source says | Queen Mother of the West. Holds peaches of immortality. Hou Yi obtained elixir from her. Cranes and other immortal travel belong to her court. Yaochi (Jade Pool) is her banquet water |
-| Game use | Chapter 3 West of Silver. Map cards do not print Kunlun, Yaochi, portal, or 西王母. She offers a peach. Mei refuses. She is never an HP bar |
+| Game use | Chapter 3 West of Silver. Map cards do not print Kunlun, Yaochi, portal, or 西王母. She offers a peach after the pool seal surfaces. Mei refuses. She is never an HP bar. The old face is not her |
 | URLs | [Queen Mother of the West (Wikipedia)](https://en.wikipedia.org/wiki/Queen_Mother_of_the_West), [Kunlun (mythology)](https://en.wikipedia.org/wiki/Kunlun_(mythology)) |
 
 ### Weak Water (弱水)
@@ -246,7 +246,7 @@ Status values:
 | Status | canon (Chapter 3 geography) |
 | Primary tradition | Chinese. Xiwangmu's court pool on Kunlun |
 | What the source says | Banquet water of the west. Linked to peaches of immortality |
-| Game use | Map title stays West Pool. Do not print Yaochi. Ordinary Moon Pools stay Chang'e's channel. This pool is the court, not a checkpoint line from Chang'e |
+| Game use | Map title stays West Pool. Do not print Yaochi. Ordinary Moon Pools stay Chang'e's channel. This pool is the court, not a checkpoint line from Chang'e. An invented seal is held under it until the old face settles |
 | URLs | [Queen Mother of the West (Wikipedia)](https://en.wikipedia.org/wiki/Queen_Mother_of_the_West) |
 
 ### Azure birds (青鸟)
@@ -328,7 +328,7 @@ Status values:
 | Cake rounds | Yutu's medicine-roller wheels, stamped with a mooncake-mould edge | Mooncakes, not mochi. Not food. Not a bakery |
 | "Cakes keep the time" | Yutu tallies finished rounds of pounding with one mooncake each. Mooncakes in the yard are his tally, left out for travellers | Mooncake pickups stay +1 heart. Guanghan warmth cakes stay separate |
 | Elixir crumb | Unfinished dust knocked out of a bowl. It only lightens a fall | Not the elixir of immortality. Mei stays mortal (Chapter 3 peach refusal) |
-| Peach refusal | Invented beat. Mei refuses the peach of immortality | Xiwangmu still holds the peaches. Chang'e's loneliness stays. Mei stays mortal |
+| Peach refusal | Invented beat. Mei refuses the peach of immortality. The pool seal does not take it either | Xiwangmu still holds the peaches. Chang'e's loneliness stays. Mei stays mortal. The seal stays mortal |
 | Lunar fauna | Invented moon wildlife with odd silhouettes and folk names (dust mites, crater crabs, star wisps). Star wisps may leak into the Guanghan palace walk | Not NASA colonies. Not named immortals. Chang'e, Yue, Yutu, Wu Gang, moon toad stay off HP bars. Do not debut on Earth or the Cloud Stair |
 | Osmanthus blossom fall | A glowing blossom from Wu Gang's tree drifts to earth and starts the plot | Wu Gang's tree is canon. The fall event is invented |
 | Frost hare (霜兔) | Ordinary mountain hares bleached and agitated by Vast Cold on the Cloud Stair. Patrol or chaser | Not Yutu. Not Mei or Yue as kits. Not a moon immortal |
@@ -337,6 +337,9 @@ Status values:
 | Sparkler / festival ash | Background bursts and a lantern-class timed light on Lantern Peak | Traditional Mid-Autumn is lanterns first. Not a firework weapon. Not Han's kit |
 | Heron Fisher | World 2 boss. Invented animal antagonist | Fine. Herons are ordinary wildlife, not folklore deities |
 | Still Silver | Far Silver finale. Invented body of the One Moon Pool. 13 hearts, slime split, mooncake dash, eight aspects → gather portal | Not a Western elemental. Not a Dragon King or Hebo. Ordinary pools stay Chang'e's channel. Do not print portal on the map card |
+| Pool seal | Invented beast in the West Pool. Held under the jade water by a false stamp. Surfaces when the old face settles. Does not speak and does not take the peach | Not a *Shanhaijing* beast. Do not call it 海狗 in player text. Not a wildlife roster row |
+| False stamp (印) | The mark that holds the pool seal under the water. Daoist seals bind spirits. This one is backwards and binds a living creature. The mark can read as 留 | Not the Heirloom Seal of the Realm. Mei does not take a mandate |
+| Old face (心魔) | The pool seal's inner demon. Same silhouette, darker, on the water only. Spirit wisps are the mask. Mei settles it by standing still on four rim lips. Not killed | Not Xiwangmu. Not a canon god. Not a human figure. Not a second Han. Not a steward of the court |
 | Han | Moon boss. Old invented ghost of Vast Cold. The palace's habit of keeping guests. His grown moon is the inner gate Mei jumps to enter Chapter 2 | Must not be Chang'e, Yue, Yutu, Wu Gang, or the moon toad. No fire or water kit. Not an Earth-to-moon portal. Guanghan is already the palace |
 | Cloud Stair (云梯) | Invented geography between Osmanthus Peak and Guanghan. Crane drop-off, then a walk | Must not replace the palace or Chang'e's authority. Fengbo is not dramatized |
 | Frost wisps (霜魄) | Invented ice spirits on the Cloud Stair | Not canon snow gods |
@@ -370,7 +373,7 @@ Status values:
 | Jade pestle and mortar (Pei Hang tale) | canon (background) |
 | Cassia grub (桂蠹) | adapted (Mortar Yard wildlife) |
 | Medicine roller (藥碾) | canon (object) |
-| Mei, Yue, Moon Pools, One Moon Pool, Other Shore, Grotto Heaven path, peach refusal, lunar fauna, Heron Fisher, Han, Cloud Stair, frost wisps, Closing Gale, frost hare, osmanthus seeds, palace walk, sparkler, silver skin, Quiet Wells, dim lips, reflection lips, silver bat, heartwood room, healing bark, bark cuts, Dust Sea, dust tides, sinking dust, crater crab, Outer Cold, guest screens, frost tiles, Mortar Yard, yard pestles, cake rounds, cake tally, elixir crumb | invented |
+| Mei, Yue, Moon Pools, One Moon Pool, Other Shore, Grotto Heaven path, peach refusal, pool seal, false stamp, old face, lunar fauna, Heron Fisher, Han, Cloud Stair, frost wisps, Closing Gale, frost hare, osmanthus seeds, palace walk, sparkler, silver skin, Quiet Wells, dim lips, reflection lips, silver bat, heartwood room, healing bark, bark cuts, Dust Sea, dust tides, sinking dust, crater crab, Outer Cold, guest screens, frost tiles, Mortar Yard, yard pestles, cake rounds, cake tally, elixir crumb | invented |
 | Giant panda as folk or moon neighbor | forbidden (default skip) |
 | Yeti | forbidden |
 | Star raft (星槎) | adapted (Dust Sea wreck and planks) |

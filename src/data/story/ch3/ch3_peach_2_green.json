@@ -1,0 +1,20 @@
+{
+  "id": "ch3_peach_2_green",
+  "chapter": "ch3",
+  "world": 4,
+  "index": 2,
+  "name": "Green Fruit",
+  "chunks": ["chunk_ch3_peach_d", "chunk_ch3_peach_e", "chunk_ch3_peach_f"],
+  "playerSpawn": { "x": 80, "y": 860 },
+  "moonPool": { "chunk": 1, "x": 880, "y": 900, "line": "Green fruit is hard. Stay above it." },
+  "moonPools": [
+    { "chunk": 1, "x": 880, "y": 900, "line": "Green fruit is hard. Stay above it." }
+  ],
+  "exit": { "chunk": 2, "x": 920, "y": 880 },
+  "moonLine": "",
+  "objective": "Unripe fruit drops on whoever walks under it. Keep to the crowns.",
+  "env": "ch3_peach",
+  "sky": "#f6e8de",
+  "hour": "golden",
+  "weather": "blossom"
+}

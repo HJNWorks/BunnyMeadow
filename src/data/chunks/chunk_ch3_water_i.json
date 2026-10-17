@@ -1,0 +1,23 @@
+{
+  "id": "chunk_ch3_water_i",
+  "width": 960,
+  "height": 1080,
+  "groundY": 800,
+  "platforms": [
+    { "x": 0, "y": 800, "w": 100, "h": 64, "asset": "ground" },
+    { "x": 500, "y": 820, "w": 100, "h": 40, "asset": "ground" },
+    { "x": 840, "y": 800, "w": 120, "h": 64, "asset": "ground" }
+  ],
+  "walls": [],
+  "ceilings": [],
+  "movers": [
+    { "x": 200, "y": 830, "w": 110, "h": 36, "axis": "y", "amplitude": 80, "speed": 1.6, "phase": 0.2, "kind": "ford" },
+    { "x": 340, "y": 830, "w": 100, "h": 36, "axis": "y", "amplitude": 80, "speed": 1.6, "phase": 0.6, "kind": "ford" },
+    { "x": 680, "y": 830, "w": 100, "h": 36, "axis": "y", "amplitude": 80, "speed": 1.6, "phase": 0.4, "kind": "ford" }
+  ],
+  "enemies": [{ "id": "ford_crab", "x": 550, "y": 796 }],
+  "items": [],
+  "decor": [],
+  "hazards": [{ "kind": "water", "x": 100, "y": 900, "w": 740, "h": 180 }],
+  "color": "#ece2cc"
+}

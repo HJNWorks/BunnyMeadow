@@ -31,9 +31,22 @@ import levelCh2Wells3 from "../../data/story/ch2/ch2_wells_3_silver.json"
 import levelCh2Silver from "../../data/story/ch2/ch2_silver_1_basin.json"
 import levelCh2Silver2 from "../../data/story/ch2/ch2_silver_2_steps.json"
 import levelCh2Silver3 from "../../data/story/ch2/ch2_silver_3_one_pool.json"
+import levelCh3Shore from "../../data/story/ch3/ch3_shore_1_bank.json"
+import levelCh3Water from "../../data/story/ch3/ch3_water_1_ford.json"
+import levelCh3Ridges from "../../data/story/ch3/ch3_ridges_1_pins.json"
+import levelCh3Peach from "../../data/story/ch3/ch3_peach_1_blossom.json"
+import levelCh3Grotto from "../../data/story/ch3/ch3_grotto_1_mouths.json"
+import levelCh3Shore2 from "../../data/story/ch3/ch3_shore_2_mirror.json"
+import levelCh3Water2 from "../../data/story/ch3/ch3_water_2_feather.json"
+import levelCh3Ridges2 from "../../data/story/ch3/ch3_ridges_2_sentries.json"
+import levelCh3Water3 from "../../data/story/ch3/ch3_water_3_breath.json"
+import levelCh3Ridges3 from "../../data/story/ch3/ch3_ridges_3_cloud.json"
+import levelCh3Peach2 from "../../data/story/ch3/ch3_peach_2_green.json"
+import levelCh3Grotto2 from "../../data/story/ch3/ch3_grotto_2_mass.json"
+import levelCh3Pool from "../../data/story/ch3/ch3_pool_1_court.json"
 
 export type StoryBossDef = {
-  kind: "fox_cart" | "heron" | "crane" | "gale" | "han" | "still" | "penghou"
+  kind: "fox_cart" | "heron" | "crane" | "gale" | "han" | "still" | "penghou" | "old_face"
   hitsNeeded?: number
   divesNeeded?: number
   x?: number
@@ -128,6 +141,19 @@ const LEVELS: StoryLevelDef[] = [
   levelCh2Silver as StoryLevelDef,
   levelCh2Silver2 as StoryLevelDef,
   levelCh2Silver3 as StoryLevelDef,
+  levelCh3Shore as StoryLevelDef,
+  levelCh3Shore2 as StoryLevelDef,
+  levelCh3Water as StoryLevelDef,
+  levelCh3Water2 as StoryLevelDef,
+  levelCh3Water3 as StoryLevelDef,
+  levelCh3Ridges as StoryLevelDef,
+  levelCh3Ridges2 as StoryLevelDef,
+  levelCh3Ridges3 as StoryLevelDef,
+  levelCh3Peach as StoryLevelDef,
+  levelCh3Peach2 as StoryLevelDef,
+  levelCh3Grotto as StoryLevelDef,
+  levelCh3Grotto2 as StoryLevelDef,
+  levelCh3Pool as StoryLevelDef,
 ]
 
 export function listStoryLevels(): StoryLevelDef[] {

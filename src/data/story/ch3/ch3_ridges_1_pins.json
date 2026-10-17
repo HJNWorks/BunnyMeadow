@@ -1,0 +1,22 @@
+{
+  "id": "ch3_ridges_1_pins",
+  "chapter": "ch3",
+  "world": 3,
+  "index": 1,
+  "name": "Pin Ladder",
+  "chunks": ["chunk_ch3_ridges_a", "chunk_ch3_ridges_b"],
+  "playerSpawn": { "x": 80, "y": 860 },
+  "moonPool": { "chunk": 0, "x": 890, "y": 180, "line": "Pins hold one paw. Hop on." },
+  "moonPools": [
+    { "chunk": 0, "x": 890, "y": 180, "line": "Pins hold one paw. Hop on." }
+  ],
+  "exit": { "chunk": 1, "x": 830, "y": -160 },
+  "moonLine": "",
+  "objective": "Climb the copper pins. Push off the cliff face.",
+  "env": "ch3_ridges",
+  "sky": "#efe5d0",
+  "hour": "golden",
+  "weather": "none",
+  "wallBounce": true,
+  "height": 1500
+}

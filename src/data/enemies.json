@@ -365,6 +365,28 @@
       "notes": "Pale dust cloud. Dash passes through"
     },
     {
+      "id": "jade_mite",
+      "archetype": "swarm",
+      "displayName": "Jade Mite",
+      "homeBiomes": ["ch3_grotto"],
+      "minTier": 5,
+      "senseRange": 0,
+      "attackRange": 36,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 26,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "mite_idle",
+        "move": "mite_drift",
+        "attack": "mite_idle",
+        "hurt": "mite_idle"
+      },
+      "notes": "Invented west-cave fauna. A jade haze that denies a cave mouth. Dash passes safely, or wait for it to drift"
+    },
+    {
       "id": "star_wisp",
       "archetype": "swarm",
       "displayName": "Star Wisp",
@@ -387,6 +409,28 @@
       "notes": "Brighter slower swarm. Close radial energy pulse. Dash passes through"
     },
     {
+      "id": "mirror_mote",
+      "archetype": "swarm",
+      "displayName": "Mirror Mote",
+      "homeBiomes": ["ch3_shore"],
+      "minTier": 5,
+      "senseRange": 0,
+      "attackRange": 36,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 18,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "starwisp_idle",
+        "move": "starwisp_drift",
+        "attack": "starwisp_idle",
+        "hurt": "starwisp_idle"
+      },
+      "notes": "Invented west fauna. A drifting fleck of the inverted sky between the real stones. No shot. Dash passes"
+    },
+    {
       "id": "pestle_sentry",
       "archetype": "ranged_lob",
       "displayName": "Pestle Sentry",
@@ -407,6 +451,28 @@
         "hurt": "pestle_hurt"
       },
       "notes": "Stone pestle beat. Copy of ice_spit"
+    },
+    {
+      "id": "copper_sentry",
+      "archetype": "ranged_lob",
+      "displayName": "Copper Sentry",
+      "homeBiomes": ["ch3_ridges"],
+      "minTier": 5,
+      "senseRange": 280,
+      "attackRange": 240,
+      "telegraphTime": 0.4,
+      "cooldown": 1.7,
+      "speed": 0,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "pestle_idle",
+        "move": "pestle_idle",
+        "attack": "pestle_lob",
+        "hurt": "pestle_hurt"
+      },
+      "notes": "Invented copper pin. Lobs a pebble on a parabola at Mei. Guards a pin ladder. Hop the lob"
     },
     {
       "id": "silver_carp",
@@ -475,6 +541,28 @@
       "notes": "Invented lunar fauna. Walks a crater lip sideways, digs in for 1.3 s. Dug in: harmless, cannot be stomped"
     },
     {
+      "id": "ford_crab",
+      "archetype": "patrol",
+      "displayName": "Ford Crab",
+      "homeBiomes": ["ch3_water"],
+      "minTier": 5,
+      "senseRange": 0,
+      "attackRange": 22,
+      "telegraphTime": 0,
+      "cooldown": 0,
+      "speed": 38,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": true,
+      "animations": {
+        "idle": "crab_idle",
+        "move": "crab_side",
+        "attack": "crab_idle",
+        "hurt": "crab_idle"
+      },
+      "notes": "Invented west fauna. Walks the wide ford stones sideways. Never enters Weak Water. Stomp from above"
+    },
+    {
       "id": "cassia_grub",
       "archetype": "patrol",
       "displayName": "Cassia Grub",
@@ -528,6 +616,27 @@
       "telegraphTime": 0.35,
       "cooldown": 1.6,
       "speed": 160,
+      "hearts": 1,
+      "contactDamage": 1,
+      "safeFromAbove": false,
+      "animations": {
+        "idle": "magpie_idle",
+        "move": "magpie_fly",
+        "attack": "magpie_dive",
+        "hurt": "magpie_hurt"
+      }
+    },
+    {
+      "id": "azure_bird",
+      "archetype": "diver",
+      "displayName": "Azure Bird",
+      "homeBiomes": ["ch3_peach"],
+      "minTier": 4,
+      "senseRange": 320,
+      "attackRange": 280,
+      "telegraphTime": 0.35,
+      "cooldown": 1.6,
+      "speed": 150,
       "hearts": 1,
       "contactDamage": 1,
       "safeFromAbove": false,

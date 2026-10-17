@@ -1,0 +1,22 @@
+{
+  "id": "ch3_ridges_2_sentries",
+  "chapter": "ch3",
+  "world": 3,
+  "index": 2,
+  "name": "Sentry Ledges",
+  "chunks": ["chunk_ch3_ridges_c", "chunk_ch3_ridges_d", "chunk_ch3_ridges_e"],
+  "playerSpawn": { "x": 100, "y": 800 },
+  "moonPool": { "chunk": 1, "x": 80, "y": 680, "line": "Copper watches. Keep moving." },
+  "moonPools": [
+    { "chunk": 1, "x": 80, "y": 680, "line": "Copper watches. Keep moving." }
+  ],
+  "exit": { "chunk": 2, "x": 900, "y": 360 },
+  "moonLine": "",
+  "objective": "Hop the empty ledges. Hop the lobs. Do not idle under a pin.",
+  "env": "ch3_ridges",
+  "sky": "#efe5d0",
+  "hour": "golden",
+  "weather": "none",
+  "wallBounce": true,
+  "height": 1300
+}

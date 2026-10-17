@@ -1,10 +1,10 @@
 # Wildlife — Copper Sentry
 
-Status: idea (Chapter 3 Hanging Ridges). Class: Wildlife. Archetype: ranged_lob.
+Status: live (Chapter 3 Hanging Ridges, `ch3_ridges_1_pins`). Class: Wildlife. Archetype: ranged_lob.
 Hub: [../README.md](../README.md). Invented copper pin. Not Xiwangmu. Not a
 NASA turret.
 
-Do not add to native editor pickers until this page is live in `enemies.json`.
+Live in `enemies.json` and in the Chapter 3 editor picker.
 
 | Field | Value |
 | --- | --- |

@@ -26,15 +26,7 @@
       "asset": "ground"
     }
   ],
-  "walls": [
-    {
-      "x": 400,
-      "y": 920,
-      "w": 20,
-      "h": 60,
-      "env": "meadow"
-    }
-  ],
+  "walls": [],
   "enemies": [
     {
       "id": "hedgehog",

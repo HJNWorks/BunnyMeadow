@@ -1,0 +1,19 @@
+{
+  "id": "chunk_ch3_grotto_e",
+  "width": 960,
+  "height": 1080,
+  "groundY": 760,
+  "platforms": [
+    { "x": 0, "y": 760, "w": 200, "h": 28, "asset": "ground" },
+    { "x": 300, "y": 740, "w": 200, "h": 28, "asset": "ground" },
+    { "x": 580, "y": 780, "w": 180, "h": 40, "asset": "ground" },
+    { "x": 840, "y": 720, "w": 120, "h": 28, "asset": "ground" }
+  ],
+  "walls": [],
+  "ceilings": [{ "x": 0, "y": 170, "w": 960, "h": 90, "asset": "cave" }],
+  "enemies": [{ "id": "jade_mite", "x": 540, "y": 680 }],
+  "items": [],
+  "decor": [{ "kind": "falseMouth", "x": 600, "y": 480, "w": 100, "h": 80, "asset": "cave", "env": "ch3_grotto" }],
+  "hazards": [{ "kind": "drop", "drop": "stalactite", "x": 100, "y": 262, "w": 40, "h": 498 }, { "kind": "drop", "drop": "stalactite", "x": 380, "y": 262, "w": 40, "h": 478 }, { "kind": "drop", "drop": "stalactite", "x": 880, "y": 262, "w": 40, "h": 458 }],
+  "color": "#16241f"
+}

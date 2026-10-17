@@ -113,6 +113,43 @@ import chunkCh2SilverF from "../data/chunks/chunk_ch2_silver_f.json"
 import chunkCh2SilverG from "../data/chunks/chunk_ch2_silver_g.json"
 import chunkCh2SilverH from "../data/chunks/chunk_ch2_silver_h.json"
 import chunkCh2SilverI from "../data/chunks/chunk_ch2_silver_i.json"
+import chunkCh3ShoreA from "../data/chunks/chunk_ch3_shore_a.json"
+import chunkCh3ShoreB from "../data/chunks/chunk_ch3_shore_b.json"
+import chunkCh3ShoreC from "../data/chunks/chunk_ch3_shore_c.json"
+import chunkCh3WaterA from "../data/chunks/chunk_ch3_water_a.json"
+import chunkCh3WaterB from "../data/chunks/chunk_ch3_water_b.json"
+import chunkCh3WaterC from "../data/chunks/chunk_ch3_water_c.json"
+import chunkCh3RidgesA from "../data/chunks/chunk_ch3_ridges_a.json"
+import chunkCh3RidgesB from "../data/chunks/chunk_ch3_ridges_b.json"
+import chunkCh3PeachA from "../data/chunks/chunk_ch3_peach_a.json"
+import chunkCh3PeachB from "../data/chunks/chunk_ch3_peach_b.json"
+import chunkCh3PeachC from "../data/chunks/chunk_ch3_peach_c.json"
+import chunkCh3GrottoA from "../data/chunks/chunk_ch3_grotto_a.json"
+import chunkCh3GrottoB from "../data/chunks/chunk_ch3_grotto_b.json"
+import chunkCh3GrottoC from "../data/chunks/chunk_ch3_grotto_c.json"
+import chunkCh3ShoreD from "../data/chunks/chunk_ch3_shore_d.json"
+import chunkCh3ShoreE from "../data/chunks/chunk_ch3_shore_e.json"
+import chunkCh3ShoreF from "../data/chunks/chunk_ch3_shore_f.json"
+import chunkCh3WaterD from "../data/chunks/chunk_ch3_water_d.json"
+import chunkCh3WaterE from "../data/chunks/chunk_ch3_water_e.json"
+import chunkCh3WaterF from "../data/chunks/chunk_ch3_water_f.json"
+import chunkCh3RidgesC from "../data/chunks/chunk_ch3_ridges_c.json"
+import chunkCh3RidgesD from "../data/chunks/chunk_ch3_ridges_d.json"
+import chunkCh3RidgesE from "../data/chunks/chunk_ch3_ridges_e.json"
+import chunkCh3WaterG from "../data/chunks/chunk_ch3_water_g.json"
+import chunkCh3WaterH from "../data/chunks/chunk_ch3_water_h.json"
+import chunkCh3WaterI from "../data/chunks/chunk_ch3_water_i.json"
+import chunkCh3RidgesF from "../data/chunks/chunk_ch3_ridges_f.json"
+import chunkCh3RidgesG from "../data/chunks/chunk_ch3_ridges_g.json"
+import chunkCh3RidgesH from "../data/chunks/chunk_ch3_ridges_h.json"
+import chunkCh3PeachD from "../data/chunks/chunk_ch3_peach_d.json"
+import chunkCh3PeachE from "../data/chunks/chunk_ch3_peach_e.json"
+import chunkCh3PeachF from "../data/chunks/chunk_ch3_peach_f.json"
+import chunkCh3GrottoD from "../data/chunks/chunk_ch3_grotto_d.json"
+import chunkCh3GrottoE from "../data/chunks/chunk_ch3_grotto_e.json"
+import chunkCh3GrottoF from "../data/chunks/chunk_ch3_grotto_f.json"
+import chunkCh3PoolA from "../data/chunks/chunk_ch3_pool_a.json"
+import chunkCh3PoolB from "../data/chunks/chunk_ch3_pool_b.json"
 
 export type ChunkId = string
 
@@ -140,7 +177,7 @@ export type ChunkRect = {
   hidden?: boolean
   /** Quiet Wells: a real ledge left in the dark until well silver lights it. Solid either way. */
   dim?: boolean
-  asset?: "ground" | "hedge" | "bridge" | "log" | "pool" | "exit" | "rim" | "bowl" | "wound" | "cave" | "ice" | "chime" | "raft" | "skin"
+  asset?: "ground" | "hedge" | "bridge" | "log" | "pool" | "exit" | "rim" | "bowl" | "wound" | "cave" | "ice" | "chime" | "raft" | "skin" | "reed" | "pin" | "cliff" | "blossom" | "branch" | "trunk"
 }
 
 export type PlaceableTrigger = {
@@ -159,12 +196,14 @@ export type ChunkMover = ChunkRect & {
   amplitude: number
   speed: number
   tint?: number
-  kind?: "log" | "bridge" | "pestle" | "roller" | "screen" | "raft" | "bark"
+  kind?: "log" | "bridge" | "pestle" | "roller" | "screen" | "raft" | "bark" | "ford" | "cloud"
   phase?: number
 }
 
 export type ChunkHazard = ChunkRect & {
-  kind: "water" | "tide" | "dust"
+  kind: "water" | "tide" | "dust" | "drop"
+  /** Drop hazard: what hangs at the top of the rect and falls its height. */
+  drop?: "fruit" | "stalactite"
   current?: number
   /** Dust Sea tide: upward push in px/s. */
   lift?: number
@@ -217,7 +256,7 @@ export type ChunkDef = {
 
 export type AssembledRect = ChunkRect & {
   kind: "platform" | "wall" | "ceiling"
-  asset?: "ground" | "hedge" | "bridge" | "log" | "pool" | "exit" | "rim" | "bowl" | "wound" | "cave" | "ice" | "chime" | "raft" | "skin"
+  asset?: "ground" | "hedge" | "bridge" | "log" | "pool" | "exit" | "rim" | "bowl" | "wound" | "cave" | "ice" | "chime" | "raft" | "skin" | "reed" | "pin" | "cliff" | "blossom" | "branch" | "trunk"
   rotation?: number
 }
 
@@ -401,6 +440,43 @@ const REGISTRY: Record<string, ChunkDef> = {
   chunk_ch2_silver_g: chunkCh2SilverG as ChunkDef,
   chunk_ch2_silver_h: chunkCh2SilverH as ChunkDef,
   chunk_ch2_silver_i: chunkCh2SilverI as ChunkDef,
+  chunk_ch3_shore_a: chunkCh3ShoreA as ChunkDef,
+  chunk_ch3_shore_b: chunkCh3ShoreB as ChunkDef,
+  chunk_ch3_shore_c: chunkCh3ShoreC as ChunkDef,
+  chunk_ch3_water_a: chunkCh3WaterA as ChunkDef,
+  chunk_ch3_water_b: chunkCh3WaterB as ChunkDef,
+  chunk_ch3_water_c: chunkCh3WaterC as ChunkDef,
+  chunk_ch3_ridges_a: chunkCh3RidgesA as ChunkDef,
+  chunk_ch3_ridges_b: chunkCh3RidgesB as ChunkDef,
+  chunk_ch3_peach_a: chunkCh3PeachA as ChunkDef,
+  chunk_ch3_peach_b: chunkCh3PeachB as ChunkDef,
+  chunk_ch3_peach_c: chunkCh3PeachC as ChunkDef,
+  chunk_ch3_grotto_a: chunkCh3GrottoA as ChunkDef,
+  chunk_ch3_grotto_b: chunkCh3GrottoB as ChunkDef,
+  chunk_ch3_grotto_c: chunkCh3GrottoC as ChunkDef,
+  chunk_ch3_shore_d: chunkCh3ShoreD as ChunkDef,
+  chunk_ch3_shore_e: chunkCh3ShoreE as ChunkDef,
+  chunk_ch3_shore_f: chunkCh3ShoreF as ChunkDef,
+  chunk_ch3_water_d: chunkCh3WaterD as ChunkDef,
+  chunk_ch3_water_e: chunkCh3WaterE as ChunkDef,
+  chunk_ch3_water_f: chunkCh3WaterF as ChunkDef,
+  chunk_ch3_ridges_c: chunkCh3RidgesC as ChunkDef,
+  chunk_ch3_ridges_d: chunkCh3RidgesD as ChunkDef,
+  chunk_ch3_ridges_e: chunkCh3RidgesE as ChunkDef,
+  chunk_ch3_water_g: chunkCh3WaterG as ChunkDef,
+  chunk_ch3_water_h: chunkCh3WaterH as ChunkDef,
+  chunk_ch3_water_i: chunkCh3WaterI as ChunkDef,
+  chunk_ch3_ridges_f: chunkCh3RidgesF as ChunkDef,
+  chunk_ch3_ridges_g: chunkCh3RidgesG as ChunkDef,
+  chunk_ch3_ridges_h: chunkCh3RidgesH as ChunkDef,
+  chunk_ch3_peach_d: chunkCh3PeachD as ChunkDef,
+  chunk_ch3_peach_e: chunkCh3PeachE as ChunkDef,
+  chunk_ch3_peach_f: chunkCh3PeachF as ChunkDef,
+  chunk_ch3_grotto_d: chunkCh3GrottoD as ChunkDef,
+  chunk_ch3_grotto_e: chunkCh3GrottoE as ChunkDef,
+  chunk_ch3_grotto_f: chunkCh3GrottoF as ChunkDef,
+  chunk_ch3_pool_a: chunkCh3PoolA as ChunkDef,
+  chunk_ch3_pool_b: chunkCh3PoolB as ChunkDef,
 }
 
 const endlessModules = import.meta.glob<{ default: ChunkDef }>(

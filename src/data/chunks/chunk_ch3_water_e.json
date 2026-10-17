@@ -1,0 +1,19 @@
+{
+  "id": "chunk_ch3_water_e",
+  "width": 960,
+  "height": 1080,
+  "groundY": 820,
+  "platforms": [
+    { "x": 60, "y": 820, "w": 300, "h": 40, "asset": "ground" },
+    { "x": 420, "y": 872, "w": 80, "h": 16, "asset": "reed", "break": { "profile": "reed", "hp": 0.15, "sources": ["stand"], "regrow": 2 } },
+    { "x": 640, "y": 780, "w": 100, "h": 40, "asset": "ground" },
+    { "x": 860, "y": 800, "w": 100, "h": 64, "asset": "ground" }
+  ],
+  "walls": [],
+  "ceilings": [],
+  "enemies": [{ "id": "ford_crab", "x": 220, "y": 796 }],
+  "items": [],
+  "decor": [],
+  "hazards": [{ "kind": "water", "x": 0, "y": 900, "w": 960, "h": 180 }],
+  "color": "#ece2cc"
+}

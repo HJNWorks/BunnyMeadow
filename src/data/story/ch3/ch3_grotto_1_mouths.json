@@ -1,0 +1,20 @@
+{
+  "id": "ch3_grotto_1_mouths",
+  "chapter": "ch3",
+  "world": 5,
+  "index": 1,
+  "name": "Jade Mouths",
+  "chunks": ["chunk_ch3_grotto_a", "chunk_ch3_grotto_b", "chunk_ch3_grotto_c"],
+  "playerSpawn": { "x": 100, "y": 860 },
+  "moonPool": { "chunk": 1, "x": 660, "y": 780, "line": "Not every mouth goes through." },
+  "moonPools": [
+    { "chunk": 1, "x": 660, "y": 780, "line": "Not every mouth goes through." }
+  ],
+  "exit": { "chunk": 2, "x": 900, "y": 780 },
+  "moonLine": "",
+  "objective": "Follow the lit ledges. Dash through the jade haze.",
+  "env": "ch3_grotto",
+  "sky": "#16241f",
+  "hour": "dusk",
+  "weather": "none"
+}

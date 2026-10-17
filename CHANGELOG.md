@@ -8,6 +8,12 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Chapter 3 West of Silver: Other Shore, Weak Water, Hanging Ridges, Grotto Heaven,
+  Peach Rows, and West Pool (Court). Old Face (`oldFaceBoss.ts`) holds the pool seal.
+  Stamp marks, wisps, a pool lunge, then the seal emerge, jump-on-seal close, spiral,
+  and a story ledger. Xiwangmu is speech only. New wildlife, pads, and far layers for
+  the chapter. Lore: [docs/universe/environments/west-pool.md](docs/universe/environments/west-pool.md),
+  [docs/creatures/folk/old-face.md](docs/creatures/folk/old-face.md).
 - Far Silver approach rework: Quiet Basin (three chunks) and Silver Steps (four).
   The One Moon Pool station is unchanged. Silver skin pads (`asset: "skin"`, break
   source `still`, profile `silver`) hold Mei only while she moves. Silver carp
@@ -97,6 +103,10 @@ All notable changes to this project are recorded here. The format follows
   and Bunny Jump.
 - Creature voice catalog at [docs/creatures/voices.md](docs/creatures/voices.md) and
   `src/data/voices.json`. Cue ids match later wavs under `public/voices/{lang}/`.
+
+### Removed
+
+- World Map no longer shows a "Dev: clear story DONEs" control.
 
 ### Changed
 

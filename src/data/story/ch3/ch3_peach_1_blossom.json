@@ -1,0 +1,20 @@
+{
+  "id": "ch3_peach_1_blossom",
+  "chapter": "ch3",
+  "world": 4,
+  "index": 1,
+  "name": "Blossom Rows",
+  "chunks": ["chunk_ch3_peach_a", "chunk_ch3_peach_b", "chunk_ch3_peach_c"],
+  "playerSpawn": { "x": 100, "y": 860 },
+  "moonPool": { "chunk": 1, "x": 860, "y": 900, "line": "Blossom, not osmanthus. Keep going." },
+  "moonPools": [
+    { "chunk": 1, "x": 860, "y": 900, "line": "Blossom, not osmanthus. Keep going." }
+  ],
+  "exit": { "chunk": 2, "x": 920, "y": 880 },
+  "moonLine": "",
+  "objective": "Hop the blossom crowns. Step off the azure bird's line.",
+  "env": "ch3_peach",
+  "sky": "#f6e8de",
+  "hour": "golden",
+  "weather": "blossom"
+}

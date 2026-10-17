@@ -1,0 +1,20 @@
+{
+  "id": "ch3_water_2_feather",
+  "chapter": "ch3",
+  "world": 2,
+  "index": 2,
+  "name": "Feather Line",
+  "chunks": ["chunk_ch3_water_d", "chunk_ch3_water_e", "chunk_ch3_water_f"],
+  "playerSpawn": { "x": 140, "y": 800 },
+  "moonPool": { "chunk": 1, "x": 910, "y": 780, "line": "A feather would sink here too." },
+  "moonPools": [
+    { "chunk": 1, "x": 910, "y": 780, "line": "A feather would sink here too." }
+  ],
+  "exit": { "chunk": 2, "x": 910, "y": 760 },
+  "moonLine": "",
+  "objective": "Long fords. The reeds are lies. Mind the crabs on the wide stones.",
+  "env": "ch3_water",
+  "sky": "#efe5d0",
+  "hour": "golden",
+  "weather": "none"
+}

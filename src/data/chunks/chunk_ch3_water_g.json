@@ -1,0 +1,21 @@
+{
+  "id": "chunk_ch3_water_g",
+  "width": 960,
+  "height": 1080,
+  "groundY": 860,
+  "platforms": [
+    { "x": 0, "y": 860, "w": 300, "h": 64, "asset": "ground" },
+    { "x": 820, "y": 820, "w": 140, "h": 40, "asset": "ground" }
+  ],
+  "walls": [],
+  "ceilings": [],
+  "movers": [
+    { "x": 400, "y": 830, "w": 110, "h": 36, "axis": "y", "amplitude": 80, "speed": 1.6, "phase": 0, "kind": "ford" },
+    { "x": 620, "y": 830, "w": 110, "h": 36, "axis": "y", "amplitude": 80, "speed": 1.6, "phase": 0.25, "kind": "ford" }
+  ],
+  "enemies": [],
+  "items": [],
+  "decor": [],
+  "hazards": [{ "kind": "water", "x": 300, "y": 900, "w": 660, "h": 180 }],
+  "color": "#ece2cc"
+}

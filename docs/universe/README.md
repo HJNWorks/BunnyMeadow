@@ -48,12 +48,12 @@ or 西王母:
 
 | After Far Silver | Environment | Status |
 | --- | --- | --- |
-| Other Shore | far side of the One Moon Pool. Inverted silver sky | soon |
-| Weak Water | 弱水. Stone fords. Nothing floats | soon |
-| Hanging Ridges | Kunlun cliffs, copper pins, wall hops | soon |
-| Peach Rows | 蟠桃园. Blossom and unripe fruit. Not a kitchen | soon |
-| Grotto Heaven | 洞天. Jade caves, mass above, false mouths | soon |
-| West Pool | Yaochi court. Refuse the peach | soon |
+| Other Shore | far side of the One Moon Pool. Inverted silver sky | live |
+| Weak Water | 弱水. Stone fords. Nothing floats | live |
+| Hanging Ridges | Kunlun cliffs, copper pins, wall hops | live |
+| Peach Rows | 蟠桃园. Blossom and unripe fruit. Not a kitchen | live |
+| Grotto Heaven | 洞天. Jade caves, mass above, false mouths | live |
+| West Pool | Yaochi court. One station. Settle the old face, then refuse the peach | live |
 
 Riverbank sits at a valley floor between hills and foothills: the climb dips to
 cross water before rising to the festival town. That dip is deliberate and lets the
@@ -91,7 +91,7 @@ Derivation rules:
 
 | Mode | Route through the Ladder |
 | --- | --- |
-| Story | Fixed. Chapter 1: World 0 = rung 0/1 stations, World 1 = rungs 1-2, World 2 = rungs 3-4, World 3 = rungs 5-6, World 4 = rung 7, finale = rung 8. Chapter 2 walks Outer Cold through Far Silver. Chapter 3 map walks Other Shore through West Pool (worlds Soon) ([../story/chapters.md](../story/chapters.md)). See [../WORLDS.md](../WORLDS.md). |
+| Story | Fixed. Chapter 1: World 0 = rung 0/1 stations, World 1 = rungs 1-2, World 2 = rungs 3-4, World 3 = rungs 5-6, World 4 = rung 7, finale = rung 8. Chapter 2 walks Outer Cold through Far Silver. Chapter 3 map walks Other Shore through West Pool (all six worlds, thirteen stations live) ([../story/chapters.md](../story/chapters.md)). See [../WORLDS.md](../WORLDS.md). |
 | Endless | Seeded. A route walker steps between adjacent rungs; band lengths and altitude weighting come from difficulty. See [../modes/endless/design.md](../modes/endless/design.md). |
 | Meadow (arcade) | Single rung as a top-down backdrop, chosen by map. |
 | Moon Tasks | Night Watch and Hide and Seek: one Meadow rung. Bunny Jump walks the clock by height ([timeline.md](timeline.md)). |
@@ -104,7 +104,7 @@ Derivation rules:
   Endless band sits in time, so hour transitions stay coherent.
 - [environments/](environments/) - one page per environment with its five axes
   filled in, roster, item table, and render notes. Chapter 1 rungs, Chapter 2
-  (Outer Cold through Far Silver), Chapter 3 planned (Other Shore through West
+  (Outer Cold through Far Silver), Chapter 3 live, first stations (Other Shore through West
   Pool). Guanghan palace walk vs Han court:
   [environments/guanghan-palace.md](environments/guanghan-palace.md).
   Chapter 1 overhaul: [../story/chapter1-overhaul.md](../story/chapter1-overhaul.md).

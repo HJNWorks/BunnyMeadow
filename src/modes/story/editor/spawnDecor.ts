@@ -5,8 +5,9 @@ import { applyPlaceableTrigger } from "./placeables"
 
 function textureForDecor(kind: AssembledDecor["kind"], asset?: string, env = ""): string {
   const lunar = isLunarEnv(env)
+  const grotto = env.startsWith("ch3_grotto")
   if (kind === "falseMouth" || kind === "cave" || asset === "cave") {
-    return "story_cave"
+    return grotto ? "story_cave_jade" : "story_cave"
   }
   if (kind === "rim" || asset === "rim") {
     return "story_rim"
@@ -21,10 +22,10 @@ function textureForDecor(kind: AssembledDecor["kind"], asset?: string, env = "")
     return "story_trough"
   }
   if (kind === "reflection") {
-    return "story_reflection"
+    return env.startsWith("ch3_shore") ? "story_reflection_west" : "story_reflection"
   }
   if (kind === "stalactite" || asset === "stalactite") {
-    return "story_stalactite"
+    return grotto ? "story_stalactite_jade" : "story_stalactite"
   }
   if (kind === "wellhead" || asset === "wellhead") {
     return "story_wellhead"

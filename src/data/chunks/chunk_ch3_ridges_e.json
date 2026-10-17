@@ -1,0 +1,20 @@
+{
+  "id": "chunk_ch3_ridges_e",
+  "width": 960,
+  "height": 1080,
+  "groundY": 460,
+  "platforms": [
+    { "x": 0, "y": 460, "w": 160, "h": 64, "asset": "ground" },
+    { "x": 260, "y": 520, "w": 140, "h": 36, "asset": "ground" },
+    { "x": 456, "y": 340, "w": 48, "h": 14, "asset": "pin" },
+    { "x": 500, "y": 460, "w": 140, "h": 36, "asset": "ground" },
+    { "x": 760, "y": 400, "w": 200, "h": 64, "asset": "ground" }
+  ],
+  "walls": [],
+  "ceilings": [],
+  "enemies": [{ "id": "copper_sentry", "x": 480, "y": 320 }],
+  "items": [],
+  "decor": [],
+  "hazards": [],
+  "color": "#efe5d0"
+}

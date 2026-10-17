@@ -66,6 +66,25 @@ export const STAMP_SIZE: Record<string, StampSize> = {
   story_mast: { w: 64, h: 160 },
   story_far_dust: { w: 256, h: 96 },
   story_penghou: { w: 80, h: 56 },
+  story_seal: { w: 168, h: 80 },
+  story_ground_west: { w: 64, h: 64 },
+  story_reed: { w: 64, h: 16 },
+  story_pin: { w: 48, h: 14 },
+  story_greenfruit: { w: 24, h: 30 },
+  story_cloud_west: { w: 64, h: 28 },
+  story_reflection_west: { w: 64, h: 36 },
+  story_mirrormote: { w: 44, h: 36 },
+  story_cave_jade: { w: 64, h: 64 },
+  story_stalactite_jade: { w: 32, h: 64 },
+  story_jademite: { w: 52, h: 36 },
+  story_peach_crown: { w: 64, h: 28 },
+  story_branch: { w: 64, h: 16 },
+  story_trunk: { w: 64, h: 64 },
+  story_azure: { w: 40, h: 28 },
+  story_cliff: { w: 64, h: 64 },
+  story_copper: { w: 32, h: 36 },
+  story_fordcrab: { w: 44, h: 30 },
+  story_far_west: { w: 256, h: 96 },
   story_cut: { w: 20, h: 56 },
   story_barkchip: { w: 18, h: 10 },
   story_bark: { w: 64, h: 24 },
@@ -1243,6 +1262,340 @@ function drawFarDust(ctx: CanvasRenderingContext2D, cx: number, cy: number): voi
   circle(ctx, x0 + 210, y0 + 48, 1.3, "#d8c880")
 }
 
+function drawSeal(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  ellipse(ctx, cx - 6, cy + 8, 62, 24, "#c5d5dc")
+  ellipse(ctx, cx - 4, cy + 14, 48, 14, "#eef4f2")
+  ellipse(ctx, cx - 58, cy + 10, 14, 8, "#b7c9d0")
+  ellipse(ctx, cx + 18, cy + 16, 16, 7, "#d5e2e6")
+  ellipse(ctx, cx - 28, cy + 18, 14, 6, "#d5e2e6")
+  ellipse(ctx, cx + 46, cy - 2, 20, 16, "#d7e4ea")
+  ellipse(ctx, cx + 62, cy + 2, 10, 7, "#e7f0ee")
+  circle(ctx, cx + 54, cy - 6, 2.2, "#243038")
+  circle(ctx, cx + 54.6, cy - 6.4, 0.7, "#f7fbff")
+  ctx.strokeStyle = "#8aa0a8"
+  ctx.lineWidth = 1
+  for (const dy of [-2, 2, 6]) {
+    ctx.beginPath()
+    ctx.moveTo(cx + 68, cy + dy)
+    ctx.lineTo(cx + 80, cy + dy - 1)
+    ctx.stroke()
+  }
+  ellipse(ctx, cx + 28, cy - 14, 5, 3, "#eef6f4")
+}
+
+function drawGroundWest(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // West stone: pale warm rock under a thin jade lip. Not meadow turf, not moon dust.
+  const x0 = cx - 32
+  const y0 = cy - 32
+  ctx.fillStyle = "#a89a82"
+  ctx.fillRect(x0, y0, 64, 64)
+  ctx.fillStyle = "#968870"
+  ctx.fillRect(x0, y0 + 30, 64, 2)
+  ctx.fillRect(x0 + 22, y0 + 12, 2, 18)
+  ctx.fillRect(x0 + 50, y0 + 32, 2, 32)
+  ctx.fillStyle = "#bcae94"
+  ctx.fillRect(x0 + 4, y0 + 16, 14, 2)
+  ctx.fillRect(x0 + 30, y0 + 40, 16, 2)
+  ctx.fillStyle = "#5f8f7a"
+  ctx.fillRect(x0, y0, 64, 9)
+  ctx.fillStyle = "#86b5a0"
+  ctx.fillRect(x0, y0, 64, 3)
+  ellipse(ctx, x0 + 12, y0 + 10, 5, 2, "#5f8f7a")
+  ellipse(ctx, x0 + 44, y0 + 10, 7, 2, "#5f8f7a")
+}
+
+function drawReed(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // A loose reed mat on Weak Water. Looks like a step. Bears nothing.
+  const x0 = cx - 32
+  const y0 = cy - 8
+  ctx.fillStyle = "#b9a46a"
+  ctx.fillRect(x0, y0 + 3, 64, 10)
+  ctx.fillStyle = "#d4c084"
+  for (let i = 0; i < 8; i += 1) {
+    ctx.fillRect(x0 + 2 + i * 8, y0 + 2, 5, 11)
+  }
+  ctx.fillStyle = "#8f7d4c"
+  ctx.fillRect(x0, y0 + 7, 64, 1.5)
+  ctx.fillStyle = "rgba(244, 248, 242, 0.5)"
+  ctx.fillRect(x0, y0 + 13, 64, 2)
+}
+
+function drawFordCrab(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // River-grey crab with a mossy shell. Walks the wide ford stones sideways.
+  ctx.strokeStyle = "#4e5a54"
+  ctx.lineWidth = 2
+  for (const side of [-1, 1]) {
+    for (let i = 0; i < 3; i += 1) {
+      ctx.beginPath()
+      ctx.moveTo(cx + side * 8, cy + 3 + i * 2)
+      ctx.lineTo(cx + side * (15 + i * 2), cy + 5 + i * 2)
+      ctx.lineTo(cx + side * (18 + i * 2), cy + 13)
+      ctx.stroke()
+    }
+  }
+  ellipse(ctx, cx - 17, cy - 3, 6, 4.5, "#66766e")
+  ellipse(ctx, cx + 17, cy - 3, 6, 4.5, "#66766e")
+  ellipse(ctx, cx, cy + 2, 14, 9, "#5a6a62")
+  ellipse(ctx, cx, cy, 13, 7, "#7a8c84")
+  ellipse(ctx, cx - 3, cy - 2, 6, 2.6, "#7fa38a")
+  ellipse(ctx, cx + 5, cy - 1, 3.5, 1.8, "#7fa38a")
+  ctx.fillStyle = "#4e5a54"
+  ctx.fillRect(cx - 5, cy - 11, 1.6, 6)
+  ctx.fillRect(cx + 3.4, cy - 11, 1.6, 6)
+  circle(ctx, cx - 4.2, cy - 11, 2, "#1e1c18")
+  circle(ctx, cx + 4.2, cy - 11, 2, "#1e1c18")
+  circle(ctx, cx - 3.6, cy - 11.6, 0.7, "#f0ece0")
+  circle(ctx, cx + 4.8, cy - 11.6, 0.7, "#f0ece0")
+}
+
+function drawPin(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // A copper pin driven into the ridge. Room for one paw-pair. Not a NASA bolt.
+  const x0 = cx - 24
+  const y0 = cy - 7
+  ctx.fillStyle = "#7a4a2a"
+  ctx.fillRect(x0 + 2, y0 + 3, 44, 9)
+  ctx.fillStyle = "#b8743e"
+  ctx.fillRect(x0 + 2, y0 + 2, 44, 5)
+  ctx.fillStyle = "#e0a066"
+  ctx.fillRect(x0 + 4, y0 + 2, 40, 1.5)
+  circle(ctx, x0 + 40, cy, 5, "#a0623a")
+  circle(ctx, x0 + 40, cy - 1, 3, "#d08a50")
+  ctx.fillStyle = "#4a8a74"
+  ctx.fillRect(x0 + 10, y0 + 9, 6, 2)
+  ctx.fillRect(x0 + 26, y0 + 10, 4, 2)
+}
+
+function drawCliff(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // Ridge face: vertical ink strokes on warm grey. Reads as cliff, not a wall of bricks.
+  const x0 = cx - 32
+  const y0 = cy - 32
+  ctx.fillStyle = "#8a8272"
+  ctx.fillRect(x0, y0, 64, 64)
+  ctx.fillStyle = "#746d5f"
+  ctx.fillRect(x0 + 10, y0, 3, 64)
+  ctx.fillRect(x0 + 38, y0 + 8, 2, 50)
+  ctx.fillStyle = "#a39a88"
+  ctx.fillRect(x0 + 22, y0 + 4, 2, 40)
+  ctx.fillRect(x0 + 50, y0 + 20, 2, 44)
+  ctx.fillStyle = "#5f8f7a"
+  ctx.fillRect(x0 + 13, y0 + 30, 5, 3)
+  ctx.fillRect(x0 + 40, y0 + 56, 4, 3)
+}
+
+function drawCopperSentry(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // Small copper pin-creature, coiled. Mineral brown. Not a palace lady, not a turret.
+  ellipse(ctx, cx, cy + 12, 12, 5, "#5a3a22")
+  ellipse(ctx, cx, cy + 4, 10, 10, "#9a5e34")
+  ellipse(ctx, cx, cy - 6, 8, 8, "#b8743e")
+  ellipse(ctx, cx - 2, cy - 9, 3, 2, "#e0a066")
+  ctx.fillStyle = "#7a4a2a"
+  ctx.fillRect(cx - 1.5, cy - 18, 3, 6)
+  circle(ctx, cx, cy - 18, 2.5, "#d08a50")
+  circle(ctx, cx - 3, cy - 5, 1.6, "#1e1c18")
+  circle(ctx, cx + 3, cy - 5, 1.6, "#1e1c18")
+  ctx.fillStyle = "#4a8a74"
+  ctx.fillRect(cx - 6, cy + 6, 4, 2)
+}
+
+function drawPeachCrown(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // Peach crown in blossom: pink clouds over green. Not osmanthus gold.
+  const x0 = cx - 32
+  const y0 = cy - 14
+  ctx.fillStyle = "#7e9a62"
+  ctx.fillRect(x0, y0 + 14, 64, 14)
+  ellipse(ctx, x0 + 10, y0 + 12, 14, 10, "#e8b4c8")
+  ellipse(ctx, x0 + 32, y0 + 10, 16, 11, "#f2c8d8")
+  ellipse(ctx, x0 + 54, y0 + 12, 14, 10, "#e8b4c8")
+  circle(ctx, x0 + 20, y0 + 7, 2, "#fbe8f0")
+  circle(ctx, x0 + 42, y0 + 6, 2, "#fbe8f0")
+  circle(ctx, x0 + 58, y0 + 9, 1.6, "#fbe8f0")
+  circle(ctx, x0 + 14, y0 + 22, 3, "#a8c47a")
+  circle(ctx, x0 + 46, y0 + 23, 3, "#a8c47a")
+}
+
+function drawBranch(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  const x0 = cx - 32
+  const y0 = cy - 8
+  ctx.fillStyle = "#5a4232"
+  ctx.fillRect(x0, y0 + 5, 64, 7)
+  ctx.fillStyle = "#7a5a44"
+  ctx.fillRect(x0, y0 + 5, 64, 2)
+  ellipse(ctx, x0 + 18, y0 + 4, 5, 3, "#8fae68")
+  ellipse(ctx, x0 + 46, y0 + 4, 5, 3, "#8fae68")
+  circle(ctx, x0 + 32, y0 + 3, 2.5, "#f2c8d8")
+}
+
+function drawTrunk(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  const x0 = cx - 32
+  const y0 = cy - 32
+  ctx.fillStyle = "#5a4232"
+  ctx.fillRect(x0, y0, 64, 64)
+  ctx.fillStyle = "#4a3426"
+  ctx.fillRect(x0 + 6, y0, 3, 64)
+  ctx.fillRect(x0 + 30, y0 + 10, 2, 44)
+  ctx.fillStyle = "#7a5a44"
+  ctx.fillRect(x0 + 16, y0 + 4, 2, 52)
+  ctx.fillRect(x0 + 46, y0 + 18, 2, 40)
+}
+
+function drawAzureBird(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // Small blue-green orchard bird. Wildlife, not a court messenger.
+  ellipse(ctx, cx - 2, cy + 2, 11, 7, "#2f8a8a")
+  ellipse(ctx, cx + 9, cy - 3, 6, 5, "#3aa0a0")
+  ellipse(ctx, cx - 4, cy - 2, 9, 4, "#5ec0b8")
+  ctx.fillStyle = "#1f6a70"
+  ctx.beginPath()
+  ctx.moveTo(cx - 12, cy + 1)
+  ctx.lineTo(cx - 20, cy - 4)
+  ctx.lineTo(cx - 19, cy + 5)
+  ctx.closePath()
+  ctx.fill()
+  ctx.fillStyle = "#d8a040"
+  ctx.beginPath()
+  ctx.moveTo(cx + 14, cy - 3)
+  ctx.lineTo(cx + 19, cy - 2)
+  ctx.lineTo(cx + 14, cy - 1)
+  ctx.closePath()
+  ctx.fill()
+  circle(ctx, cx + 10, cy - 4, 1.4, "#1e1c18")
+}
+
+function drawCaveJade(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // Grotto rock: deep jade, not Quiet Wells grey. Same cave kit, west stamp.
+  ctx.fillStyle = "#1f3a34"
+  ctx.fillRect(cx - 32, cy - 32, 64, 64)
+  ellipse(ctx, cx - 8, cy, 18, 22, "#2c5048")
+  ellipse(ctx, cx + 12, cy + 8, 14, 16, "#26463f")
+  ctx.fillStyle = "#0e1c1a"
+  ctx.beginPath()
+  ctx.ellipse(cx, cy + 6, 16, 20, 0, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.fillStyle = "#4f8a78"
+  ctx.fillRect(cx - 32, cy - 32, 64, 8)
+  ctx.fillStyle = "#86c4a8"
+  ctx.fillRect(cx - 24, cy - 32, 10, 2)
+  ctx.fillRect(cx + 8, cy - 32, 14, 2)
+}
+
+function drawStalactiteJade(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  const top = cy - 32
+  ctx.fillStyle = "#2c5048"
+  ctx.beginPath()
+  ctx.moveTo(cx - 16, top)
+  ctx.lineTo(cx + 16, top)
+  ctx.lineTo(cx + 4, top + 44)
+  ctx.lineTo(cx, top + 64)
+  ctx.lineTo(cx - 5, top + 40)
+  ctx.closePath()
+  ctx.fill()
+  ctx.fillStyle = "#4f8a78"
+  ctx.beginPath()
+  ctx.moveTo(cx - 14, top)
+  ctx.lineTo(cx - 4, top)
+  ctx.lineTo(cx - 3, top + 38)
+  ctx.closePath()
+  ctx.fill()
+  circle(ctx, cx, top + 62, 1.8, "#c8f0dc")
+}
+
+function drawJadeMite(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // Loose jade grit in a haze. Not lunar dust, not a person.
+  ellipse(ctx, cx + 2, cy, 24, 14, "rgba(120, 196, 160, 0.55)")
+  ellipse(ctx, cx - 4, cy - 2, 12, 8, "rgba(180, 232, 204, 0.7)")
+  circle(ctx, cx - 10, cy + 3, 2, "#4f8a78")
+  circle(ctx, cx + 6, cy - 4, 1.6, "#4f8a78")
+  circle(ctx, cx + 14, cy + 5, 1.8, "#3a6e60")
+  circle(ctx, cx - 2, cy + 6, 1.4, "#86c4a8")
+}
+
+function drawReflectionWest(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // Other Shore sky-stone: a west pad seen in the inverted sky. Silver lip, not jade. No collider.
+  const x0 = cx - 32
+  const y0 = cy - 18
+  ctx.fillStyle = "#b4b0a4"
+  ctx.fillRect(x0, y0, 64, 36)
+  ctx.fillStyle = "#a6a294"
+  ctx.fillRect(x0, y0 + 18, 64, 2)
+  ctx.fillRect(x0 + 22, y0 + 8, 2, 10)
+  ctx.fillStyle = "#dfe8ec"
+  ctx.fillRect(x0, y0, 64, 9)
+  ctx.fillStyle = "#f6fbff"
+  ctx.fillRect(x0, y0, 64, 3)
+  ctx.fillStyle = "rgba(246, 251, 255, 0.55)"
+  ctx.fillRect(x0 + 6, y0 + 26, 20, 1)
+  ctx.fillRect(x0 + 36, y0 + 30, 22, 1)
+}
+
+function drawMirrorMote(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // A drifting fleck of the inverted sky. Not a star wisp.
+  ellipse(ctx, cx, cy, 16, 12, "rgba(220, 232, 240, 0.45)")
+  tri(ctx, cx, cy - 12, cx - 6, cy, cx + 6, cy, "#eef4f8")
+  tri(ctx, cx, cy + 12, cx - 6, cy, cx + 6, cy, "#c8d4dc")
+  circle(ctx, cx, cy, 3, "#ffffff")
+  circle(ctx, cx + 11, cy - 7, 1.4, "#eef4f8")
+  circle(ctx, cx - 12, cy + 6, 1.2, "#eef4f8")
+}
+
+function drawCloudWest(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // A dawn cloud that bears a kit between two summits. Warm white, not frost.
+  const x0 = cx - 32
+  const y0 = cy - 14
+  ctx.fillStyle = "#e8e0d0"
+  ctx.fillRect(x0, y0 + 12, 64, 12)
+  ellipse(ctx, x0 + 12, y0 + 12, 14, 10, "#fbf6ec")
+  ellipse(ctx, x0 + 34, y0 + 9, 17, 11, "#ffffff")
+  ellipse(ctx, x0 + 54, y0 + 13, 12, 9, "#fbf6ec")
+  ctx.fillStyle = "rgba(216, 196, 168, 0.6)"
+  ctx.fillRect(x0, y0 + 22, 64, 3)
+}
+
+function drawGreenFruit(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // An unripe peach: hard, green, not a pickup and never a heal.
+  ctx.fillStyle = "#5a4232"
+  ctx.fillRect(cx - 1, cy - 15, 2, 7)
+  ellipse(ctx, cx + 5, cy - 11, 5, 2.5, "#7e9a62")
+  ellipse(ctx, cx, cy + 3, 10, 11, "#8fb06a")
+  ellipse(ctx, cx - 3, cy, 4, 5, "#b4cc8a")
+  ctx.strokeStyle = "#6e8a50"
+  ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.moveTo(cx + 1, cy - 7)
+  ctx.quadraticCurveTo(cx + 4, cy + 3, cx + 1, cy + 13)
+  ctx.stroke()
+}
+
+function drawFarWest(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
+  // West dawn: ink-wash cliffs in mist, a low pale sun. No roofs, no names.
+  const w = 256
+  const h = 96
+  const x0 = cx - w * 0.5
+  const y0 = cy - h * 0.5
+  ctx.fillStyle = "#f1e6cf"
+  ctx.fillRect(x0, y0, w, h)
+  circle(ctx, x0 + 206, y0 + 22, 11, "#fbf3e0")
+  const ridge = (color: string, base: number, peaks: [number, number][]): void => {
+    ctx.fillStyle = color
+    ctx.beginPath()
+    ctx.moveTo(x0, y0 + h)
+    ctx.lineTo(x0, y0 + base)
+    for (const [px, py] of peaks) {
+      ctx.lineTo(x0 + px, y0 + py)
+    }
+    ctx.lineTo(x0 + w, y0 + base)
+    ctx.lineTo(x0 + w, y0 + h)
+    ctx.closePath()
+    ctx.fill()
+  }
+  ridge("#cfc4ae", 56, [[18, 40], [34, 50], [58, 30], [80, 46], [118, 36], [150, 52], [184, 34], [214, 48], [240, 38]])
+  ridge("#9fb3a4", 70, [[10, 62], [30, 44], [44, 26], [56, 46], [96, 64], [132, 40], [146, 22], [160, 44], [200, 60], [228, 42], [246, 58]])
+  ridge("#6f8a7c", 84, [[24, 78], [52, 60], [64, 68], [104, 80], [176, 74], [196, 58], [210, 70], [236, 82]])
+  ctx.fillStyle = "rgba(246, 240, 228, 0.7)"
+  ctx.fillRect(x0, y0 + 74, w, 6)
+  ctx.fillRect(x0, y0 + 86, w, 10)
+  ellipse(ctx, x0 + 90, y0 + 58, 36, 5, "rgba(246, 240, 228, 0.6)")
+  ellipse(ctx, x0 + 180, y0 + 50, 28, 4, "rgba(246, 240, 228, 0.55)")
+}
+
 function drawPenghou(ctx: CanvasRenderingContext2D, cx: number, cy: number): void {
   // Tailless dog of dark bark with a pale carved face (Soushen ji: 人面狗身, 無尾).
   ctx.fillStyle = "#2e2620"
@@ -1911,6 +2264,25 @@ const DRAWERS: Record<string, (ctx: CanvasRenderingContext2D, cx: number, cy: nu
   story_mast: drawMast,
   story_far_dust: drawFarDust,
   story_penghou: drawPenghou,
+  story_seal: drawSeal,
+  story_ground_west: drawGroundWest,
+  story_reed: drawReed,
+  story_pin: drawPin,
+  story_greenfruit: drawGreenFruit,
+  story_cloud_west: drawCloudWest,
+  story_reflection_west: drawReflectionWest,
+  story_mirrormote: drawMirrorMote,
+  story_cave_jade: drawCaveJade,
+  story_stalactite_jade: drawStalactiteJade,
+  story_jademite: drawJadeMite,
+  story_peach_crown: drawPeachCrown,
+  story_branch: drawBranch,
+  story_trunk: drawTrunk,
+  story_azure: drawAzureBird,
+  story_cliff: drawCliff,
+  story_copper: drawCopperSentry,
+  story_fordcrab: drawFordCrab,
+  story_far_west: drawFarWest,
   story_cut: drawCut,
   story_barkchip: drawBarkChip,
   story_bark: drawBark,

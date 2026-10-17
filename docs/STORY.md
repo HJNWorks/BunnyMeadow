@@ -20,7 +20,8 @@ Dialogue rule: two lines max per exchange. Skippable. Moon Pool lines are one li
 | Lord Rabbit (Tu'er Ye) | World 3 ally on his tiger | [canon](LORE.md#tuer-ye--lord-rabbit-兔兒爺) |
 | Wu Gang | Finale NPC. Chops the self-healing osmanthus tree | [canon](LORE.md#wu-gang-吳剛) |
 | Moon toad | Optional background in the palace | [canon](LORE.md#moon-toad--chanchu-蟾蜍) |
-| Xiwangmu | Chapter 3 court NPC. Offers a peach. Accepts the refusal | [canon](LORE.md#xiwangmu--queen-mother-of-the-west-西王母) |
+| Old face | West Pool. The pool seal's inner face. Settles, then the seal surfaces | invented |
+| Xiwangmu | Chapter 3 court presence. Offers a peach after the seal surfaces. Accepts the refusal | [canon](LORE.md#xiwangmu--queen-mother-of-the-west-西王母) |
 
 ## Story spine
 
@@ -173,10 +174,13 @@ Mei steps through the One Moon Pool. The other side is Kunlun. Map title stays
 West of Silver. She walks Other Shore, Weak Water, Hanging Ridges, Peach Rows,
 Grotto Heaven, West Pool. Hops return toward Earth weight.
 
-[Xiwangmu](LORE.md#xiwangmu--queen-mother-of-the-west-西王母) offers a peach of
-immortality. Mei refuses. She stays a kit who waves at the moon. No fight. No
-second Han. No kitchen. Yutu already pounds elixir in Mortar Yard. Rescue is
-closed. Yue is already home. NASA colonies and spaceships stay out.
+West Pool is one station. An invented seal lies under the jade water, held by its
+[old face](creatures/folk/old-face.md). Mei settles that face by standing still on
+the rim. The seal surfaces. [Xiwangmu](LORE.md#xiwangmu--queen-mother-of-the-west-西王母)
+then offers a peach of immortality. Mei refuses. The seal does not take it either.
+She stays a kit who waves at the moon. Xiwangmu is never an HP bar. Not a second
+Han. No kitchen. Yutu already pounds elixir in Mortar Yard. Rescue is closed. Yue
+is already home. NASA colonies and spaceships stay out.
 
 Painting prompt: [story/chapter3-map-prompt.md](story/chapter3-map-prompt.md). Worlds:
 [WORLDS.md](WORLDS.md).

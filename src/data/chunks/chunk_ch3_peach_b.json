@@ -1,0 +1,24 @@
+{
+  "id": "chunk_ch3_peach_b",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    { "x": 0, "y": 920, "w": 400, "h": 64, "asset": "ground" },
+    { "x": 330, "y": 760, "w": 24, "h": 160, "asset": "trunk" },
+    { "x": 250, "y": 830, "w": 80, "h": 16, "asset": "branch" },
+    { "x": 260, "y": 732, "w": 200, "h": 28, "asset": "blossom" },
+    { "x": 580, "y": 920, "w": 380, "h": 64, "asset": "ground" },
+    { "x": 640, "y": 760, "w": 24, "h": 160, "asset": "trunk" },
+    { "x": 540, "y": 732, "w": 200, "h": 28, "asset": "blossom" }
+  ],
+  "walls": [],
+  "ceilings": [],
+  "enemies": [
+    { "id": "azure_bird", "x": 500, "y": 560 }
+  ],
+  "items": [],
+  "decor": [],
+  "hazards": [],
+  "color": "#f3e6dc"
+}

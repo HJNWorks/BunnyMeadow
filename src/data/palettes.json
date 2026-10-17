@@ -129,6 +129,66 @@
     "hour": "eternal",
     "weather": "starDrift"
   },
+  "ch3_shore": {
+    "sky": "#f1e6cf",
+    "far": "#d9cdb4",
+    "mid": "#a9c2bc",
+    "ground": "#6f9c88",
+    "accent": "#5f8f7a",
+    "fog": "#f3ece0",
+    "hour": "golden",
+    "weather": "none"
+  },
+  "ch3_water": {
+    "sky": "#efe5d0",
+    "far": "#d6cdb8",
+    "mid": "#a6c8c2",
+    "ground": "#6f9c88",
+    "accent": "#4f7d6c",
+    "fog": "#f1ebdf",
+    "hour": "golden",
+    "weather": "none"
+  },
+  "ch3_ridges": {
+    "sky": "#efe5d0",
+    "far": "#d3c8b2",
+    "mid": "#9fb3a4",
+    "ground": "#6f9c88",
+    "accent": "#b8743e",
+    "fog": "#f2ece0",
+    "hour": "golden",
+    "weather": "none"
+  },
+  "ch3_peach": {
+    "sky": "#f6e8de",
+    "far": "#e2d0c8",
+    "mid": "#b8c89a",
+    "ground": "#7e9a62",
+    "accent": "#e8b4c8",
+    "fog": "#f8eee8",
+    "hour": "golden",
+    "weather": "blossom"
+  },
+  "ch3_grotto": {
+    "sky": "#16241f",
+    "far": "#1f3a34",
+    "mid": "#2c5048",
+    "ground": "#4f8a78",
+    "accent": "#86c4a8",
+    "fog": "#1a2a26",
+    "hour": "dusk",
+    "weather": "none"
+  },
+  "ch3_pool": {
+    "sky": "#f3ead8",
+    "far": "#d7cbb0",
+    "mid": "#8fbfb0",
+    "ground": "#6f9c88",
+    "accent": "#2f6b55",
+    "fog": "#efe4d0",
+    "hour": "golden",
+    "weather": "none"
+  },
   "cloudsea": {
     "sky": "#6a88b8",
     "far": "#8aa8c8",

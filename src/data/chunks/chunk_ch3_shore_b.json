@@ -1,0 +1,46 @@
+{
+  "id": "chunk_ch3_shore_b",
+  "width": 960,
+  "height": 1080,
+  "groundY": 820,
+  "platforms": [
+    {
+      "x": 100,
+      "y": 800,
+      "w": 140,
+      "h": 36,
+      "asset": "ground"
+    },
+    {
+      "x": 380,
+      "y": 760,
+      "w": 120,
+      "h": 36,
+      "asset": "ground"
+    },
+    {
+      "x": 660,
+      "y": 820,
+      "w": 300,
+      "h": 64,
+      "asset": "ground"
+    }
+  ],
+  "walls": [],
+  "ceilings": [],
+  "enemies": [],
+  "items": [],
+  "decor": [],
+  "hazards": [
+    {
+      "x": 0,
+      "y": 900,
+      "w": 960,
+      "h": 180,
+      "kind": "water"
+    }
+  ],
+  "color": "#efe4cf",
+  "movers": [],
+  "carrots": []
+}

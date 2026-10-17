@@ -1,0 +1,41 @@
+{
+  "id": "ch3_shore_1_bank",
+  "chapter": "ch3",
+  "world": 1,
+  "index": 1,
+  "name": "Far Bank",
+  "chunks": [
+    "chunk_ch3_shore_a",
+    "chunk_ch3_shore_b",
+    "chunk_ch3_shore_c"
+  ],
+  "playerSpawn": {
+    "x": 140,
+    "y": 800
+  },
+  "moonPool": {
+    "chunk": 1,
+    "x": 800,
+    "y": 800,
+    "line": "Still water. Nobody answers here."
+  },
+  "moonPools": [
+    {
+      "chunk": 1,
+      "x": 800,
+      "y": 800,
+      "line": "Still water. Nobody answers here."
+    }
+  ],
+  "exit": {
+    "chunk": 2,
+    "x": 900,
+    "y": 780
+  },
+  "moonLine": "",
+  "objective": "Weight is back. Hop the stones to the far bank.",
+  "env": "ch3_shore",
+  "sky": "#f1e6cf",
+  "hour": "golden",
+  "weather": "none"
+}

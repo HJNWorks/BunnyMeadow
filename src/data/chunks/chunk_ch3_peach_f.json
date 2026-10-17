@@ -1,0 +1,23 @@
+{
+  "id": "chunk_ch3_peach_f",
+  "width": 960,
+  "height": 1080,
+  "groundY": 920,
+  "platforms": [
+    { "x": 0, "y": 920, "w": 960, "h": 64, "asset": "ground" },
+    { "x": 200, "y": 780, "w": 24, "h": 140, "asset": "trunk" },
+    { "x": 120, "y": 752, "w": 184, "h": 28, "asset": "blossom" },
+    { "x": 480, "y": 720, "w": 24, "h": 200, "asset": "trunk" },
+    { "x": 424, "y": 800, "w": 56, "h": 16, "asset": "branch" },
+    { "x": 400, "y": 692, "w": 184, "h": 28, "asset": "blossom" },
+    { "x": 760, "y": 780, "w": 24, "h": 140, "asset": "trunk" },
+    { "x": 680, "y": 752, "w": 184, "h": 28, "asset": "blossom" }
+  ],
+  "walls": [],
+  "ceilings": [],
+  "enemies": [{ "id": "azure_bird", "x": 620, "y": 540 }],
+  "items": [],
+  "decor": [],
+  "hazards": [{ "kind": "drop", "drop": "fruit", "x": 130, "y": 782, "w": 40, "h": 138 }, { "kind": "drop", "drop": "fruit", "x": 520, "y": 722, "w": 40, "h": 198 }, { "kind": "drop", "drop": "fruit", "x": 800, "y": 782, "w": 40, "h": 138 }],
+  "color": "#f3e6dc"
+}

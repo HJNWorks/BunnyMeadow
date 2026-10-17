@@ -1,0 +1,20 @@
+{
+  "id": "chunk_ch3_pool_a",
+  "width": 960,
+  "height": 1080,
+  "groundY": 860,
+  "platforms": [
+    { "x": 40, "y": 860, "w": 360, "h": 64, "asset": "ground" },
+    { "x": 450, "y": 800, "w": 120, "h": 28, "asset": "ground" },
+    { "x": 760, "y": 620, "w": 110, "h": 28, "asset": "ground" }
+  ],
+  "walls": [],
+  "ceilings": [],
+  "enemies": [],
+  "items": [],
+  "decor": [],
+  "hazards": [
+    { "kind": "water", "x": 420, "y": 940, "w": 540, "h": 140 }
+  ],
+  "color": "#efe6d4"
+}

@@ -11,7 +11,7 @@ to have the codebase open.
 | --- | --- | --- |
 | `ch1` | Burrow to Moon | live |
 | `ch2` | Journey on Moon | live (three stations per world) |
-| `ch3` | West of Silver | live (map, worlds soon) |
+| `ch3` | West of Silver | live (all six worlds, thirteen stations) |
 
 Off-limits as HP bars in every chapter: Chang'e, Yue, Yutu, Wu Gang, moon toad,
 Crane Envoy, Fox Hu, Xiwangmu.
@@ -58,13 +58,18 @@ not print Kunlun, Yaochi, portal, or 西王母. Painting:
 `public/Story-Background-ch3.png`. Prompt: [chapter3-map-prompt.md](chapter3-map-prompt.md).
 Node percents: `CH3_ART_POS` in `src/modes/story/path.ts`.
 
-Finale: she is offered a peach of immortality (the same elixir source Chang'e drank)
-and refuses. She stays a kit who waves at the moon. Yue is already home. Rescue is
+Finale, West Pool only: an invented seal is held under the jade water by its old
+face. Mei settles that face. The seal surfaces. Then she is offered a peach of
+immortality (the same elixir source Chang'e drank) and refuses. The seal does not
+take it either. She stays a kit who waves at the moon. Yue is already home. Rescue is
 closed. Japanese mochi-kitchen is out. Yutu already pounds elixir in Mortar Yard.
+Xiwangmu is never an HP bar.
 
 Hops return toward Earth weight. 0.42 g was vacuum.
 
-Six worlds, same card count as Chapter 2. Map cards are Soon. No stations yet.
+Six worlds, same card count as Chapter 2. Thirteen stations, all live: Other Shore 2,
+Weak Water 3, Hanging Ridges 3, Peach Rows 2, Grotto Heaven 2, West Pool 1.
+Station plan: [chapter3-stations.md](chapter3-stations.md). See [west-pool.md](../universe/environments/west-pool.md).
 
 | Map title | What it is |
 | --- | --- |
@@ -73,11 +78,14 @@ Six worlds, same card count as Chapter 2. Map cards are Soon. No stations yet.
 | Hanging Ridges | Kunlun cliffs, copper pins, wall hops |
 | Peach Rows | 蟠桃园. Blossom and unripe fruit. Not osmanthus, not a kitchen |
 | Grotto Heaven | 洞天. Jade caves, mass above, false mouths off the hop line |
-| West Pool | Yaochi court. One still jade pool. Do not print her name |
+| West Pool | Yaochi court. One still jade pool. One station, `ch3_pool_1_court`. Live. Settle the old face, then refuse the peach. Do not print her name, the seal, or 心魔 |
 
 Chip unlock and playable gate: `ch2_silver_3_one_pool` cleared (Still Silver portal
 contact). Chapter 2 chip still opens after `moon_guanghan`. Ordinary Moon Pools never
-do this. Editor Chapter 3 stays empty until stations exist.
+do this. Inside Chapter 3, each live world opens once the previous live world (map
+order Other Shore, Weak Water, Hanging Ridges, Peach Rows, Grotto Heaven, West Pool)
+is cleared. Soon stations do not count toward that clear. Today each world opens after
+every station of the previous world.
 
 ## Two gates
 
@@ -93,7 +101,7 @@ One Pool is the exception.
 
 Build bar: **Chapter** dropdown left of World, then Station
 (`src/modes/story/editor/BuildHud.ts`). Chapter 1 lists live worlds. Chapter 2 lists all
-eighteen stations. Chapter 3 stays empty.
+eighteen stations. Chapter 3 lists all thirteen stations.
 
 TODO: Han moon collider (not this pass). Live epilogue copy in `en.json` / `voices.json`
 still says the crane carries them all home.

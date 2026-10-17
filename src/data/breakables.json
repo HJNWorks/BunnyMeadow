@@ -23,6 +23,12 @@
       "sources": ["still"],
       "cracks": "ice",
       "debris": "shard"
+    },
+    "reed": {
+      "hp": 0.15,
+      "sources": ["stand"],
+      "cracks": "wood",
+      "debris": "splinter"
     }
   }
 }

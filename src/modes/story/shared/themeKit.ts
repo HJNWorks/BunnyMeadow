@@ -61,6 +61,10 @@ export function isLunarEnv(env: string): boolean {
   return env === "moon" || env.startsWith("ch2_")
 }
 
+export function isWestEnv(env: string): boolean {
+  return env.startsWith("ch3_")
+}
+
 export const PALETTE_HOURS: PaletteHour[] = [
   "afternoon",
   "golden",
@@ -169,6 +173,14 @@ export function applySky(
         .setAlpha(0.72)
         .setDepth(-2.6)
     }
+  }
+  if (env && isWestEnv(env) && env !== "ch3_grotto" && scene.textures.exists("story_far_west")) {
+    scene.add
+      .image(960, 300, "story_far_west")
+      .setDisplaySize(1920, 720)
+      .setScrollFactor(0.1)
+      .setAlpha(0.9)
+      .setDepth(-2.6)
   }
   return fill
 }
@@ -408,6 +420,24 @@ export function createLanternGlow(scene: Phaser.Scene): Phaser.GameObjects.Image
 }
 
 export function storyEnvForLevel(world: number, index: number, id: string): string {
+  if (id.startsWith("ch3_shore")) {
+    return "ch3_shore"
+  }
+  if (id.startsWith("ch3_water")) {
+    return "ch3_water"
+  }
+  if (id.startsWith("ch3_ridges")) {
+    return "ch3_ridges"
+  }
+  if (id.startsWith("ch3_peach")) {
+    return "ch3_peach"
+  }
+  if (id.startsWith("ch3_grotto")) {
+    return "ch3_grotto"
+  }
+  if (id.startsWith("ch3_pool")) {
+    return "ch3_pool"
+  }
   if (id.startsWith("ch2_outer")) {
     return "ch2_outer"
   }

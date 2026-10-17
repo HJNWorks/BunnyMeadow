@@ -1,0 +1,28 @@
+{
+  "id": "ch3_pool_1_court",
+  "chapter": "ch3",
+  "world": 6,
+  "index": 1,
+  "name": "Court",
+  "chunks": ["chunk_ch3_pool_a", "chunk_ch3_pool_b"],
+  "playerSpawn": { "x": 180, "y": 800 },
+  "exit": { "chunk": 1, "x": 760, "y": 800 },
+  "moonLine": "",
+  "objective": "Stand still on each rim lip. Then refuse the peach.",
+  "env": "ch3_pool",
+  "sky": "#f3ead8",
+  "hour": "golden",
+  "weather": "none",
+  "boss": {
+    "kind": "old_face",
+    "x": 990,
+    "y": 820,
+    "court": { "chunk": 0, "x": 460, "y": 500, "w": 1080, "h": 580 },
+    "cuts": [
+      { "chunk": 0, "x": 510, "y": 814 },
+      { "chunk": 0, "x": 815, "y": 634 },
+      { "chunk": 1, "x": 175, "y": 634 },
+      { "chunk": 1, "x": 415, "y": 774 }
+    ]
+  }
+}

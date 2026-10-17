@@ -2238,6 +2238,45 @@ export function mountBuildHud(session: EditorSession): void {
       restart("build")
       return
     }
+    if (token === "reed") {
+      overlay.platforms.push({
+        kind: "platform",
+        x: at.x - 60,
+        y: at.y,
+        w: 120,
+        h: 16,
+        env: stamp,
+        asset: "reed",
+        break: { profile: "reed", hp: 0.15, sources: ["stand"], regrow: 2 },
+      })
+      restart("build")
+      return
+    }
+    if (token === "pin") {
+      overlay.platforms.push({ kind: "platform", x: at.x - 24, y: at.y, w: 48, h: 14, env: stamp, asset: "pin" })
+      restart("build")
+      return
+    }
+    if (token === "cliff") {
+      overlay.platforms.push({ kind: "platform", x: at.x - 20, y: at.y - 160, w: 40, h: 320, env: stamp, asset: "cliff" })
+      restart("build")
+      return
+    }
+    if (token === "blossom") {
+      overlay.platforms.push({ kind: "platform", x: at.x - 90, y: at.y, w: 180, h: 28, env: stamp, asset: "blossom" })
+      restart("build")
+      return
+    }
+    if (token === "branch") {
+      overlay.platforms.push({ kind: "platform", x: at.x - 40, y: at.y, w: 80, h: 16, env: stamp, asset: "branch" })
+      restart("build")
+      return
+    }
+    if (token === "trunk") {
+      overlay.platforms.push({ kind: "platform", x: at.x - 12, y: at.y, w: 24, h: 140, env: stamp, asset: "trunk" })
+      restart("build")
+      return
+    }
     if (token === "dim") {
       overlay.platforms.push({ kind: "platform", x: at.x - 70, y: at.y, w: 140, h: 24, env: stamp, dim: true })
       restart("build")

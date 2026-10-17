@@ -1,7 +1,7 @@
 import Phaser from "phaser"
 import { ChunkAssembler, type AssembledRect } from "../../systems/ChunkAssembler"
 import { getStoryLevel, poolsOf, type StoryLevelDef } from "./levels"
-import { worldIdForLevelId } from "./path"
+import { getStation, worldIdForLevelId } from "./path"
 import { applyOverlay,
   cloneStoryLevel,
   getOverlay,
@@ -11,7 +11,7 @@ import { applyOverlay,
   type EditorMode,
 } from "./editor"
 import { spawnDecorItem } from "./editor/spawnDecor"
-import { recordStoryAttempt } from "./storyTimes"
+import { formatStoryTime, recordStoryAttempt, storyTimeRows } from "./storyTimes"
 import { baselineDifficulty } from "../../core/difficulty"
 import { getInput } from "../../core/input"
 import { getSave, persistSave } from "../../core/session"
@@ -57,8 +57,10 @@ import {
 import { HAN_WARMTH, HanFight } from "./shared/hanBoss"
 import { STILL_HEARTS, STILL_WARMTH, StillFight } from "./shared/stillBoss"
 import { PenghouFight, type PenghouCourt } from "./shared/penghouBoss"
+import { OldFaceFight } from "./shared/oldFaceBoss"
 import { BreakField, padBreakSpec } from "./shared/breakables"
 import { createDustHazards, tickDust, type DustState } from "./shared/dustTides"
+import { createDrops, resetDrops, tickDrops, type DropState } from "./shared/drops"
 import {
   applyWaterPhysics,
   createMovers,
@@ -75,6 +77,7 @@ import {
   getPalette,
   hexToNum,
   isLunarEnv,
+  isWestEnv,
   lookNightAlpha,
   paintStairColumn,
   stairAltitude,
@@ -105,6 +108,10 @@ type Hud = {
   epilogue: HTMLElement
   epilogueBody: HTMLElement
   epilogueContinue: HTMLButtonElement
+  ledger: HTMLElement
+  ledgerBody: HTMLElement
+  ledgerSeeds: HTMLElement
+  ledgerContinue: HTMLButtonElement
   itemTray: HTMLElement
   hanHearts: HTMLElement
   ticker: StoryTicker
@@ -161,6 +168,15 @@ function shellHtml(): string {
       <h2 data-ui="title">${t("common.ready")}</h2>
       <p data-ui="message"></p>
       <button type="button" class="bm-btn warm" data-ui="play">${t("common.continue")}</button>
+    </div>
+  </div>
+  <div class="meadow-overlay" data-ui="ledger" hidden>
+    <div class="meadow-card bm-ledger">
+      <div class="bm-eyebrow">${t("story.ledger.eyebrow")}</div>
+      <h2>${t("story.ledger.title")}</h2>
+      <p data-ui="ledgerSeeds"></p>
+      <div data-ui="ledgerBody"></div>
+      <button type="button" class="bm-btn warm" data-ui="ledgerContinue" style="margin-top:14px">${t("story.win.map")}</button>
     </div>
   </div>
   <div class="meadow-overlay" data-ui="epilogue" hidden>
@@ -232,6 +248,11 @@ const CSS = `
 .meadow-bar-main [data-ui=muteBtn] { margin-left: auto; }
 .meadow-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#34563866; z-index:60; pointer-events:auto; }
 .meadow-overlay[hidden] { display:none !important; }
+.bm-ledger { max-width: 680px; width: min(680px, 92vw); max-height: 82vh; overflow: auto; text-align: left; }
+.bm-ledger h2 { margin: 0 0 8px; }
+.bm-ledger-chapter { margin: 14px 0 4px; font: 700 13px Georgia, serif; letter-spacing: 0.04em; text-transform: uppercase; color: #3d5a48; }
+.bm-ledger-row { display: flex; justify-content: space-between; gap: 12px; font: 15px Georgia, serif; padding: 2px 0; }
+.bm-ledger-time { font-variant-numeric: tabular-nums; }
 .meadow-card { background:#fffaf0; padding:28px; border-radius:24px; max-width:420px; text-align:center; position:relative; z-index:61; }
 .meadow-pause-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
 ${CONTROL_COACH_CSS}
@@ -376,11 +397,29 @@ function storyPadTexture(rect: AssembledRect, stationEnv: string): string {
   if (rect.asset === "skin") {
     return "story_skin"
   }
+  if (rect.asset === "reed") {
+    return "story_reed"
+  }
+  if (rect.asset === "pin") {
+    return "story_pin"
+  }
+  if (rect.asset === "cliff") {
+    return "story_cliff"
+  }
+  if (rect.asset === "blossom") {
+    return "story_peach_crown"
+  }
+  if (rect.asset === "branch" || rect.asset === "trunk") {
+    return `story_${rect.asset}`
+  }
   if (rect.asset === "wound") {
     return "story_wound"
   }
   if (rect.asset === "cave" || rect.kind === "ceiling") {
-    return "story_cave"
+    return (rect.env || stationEnv).startsWith("ch3_grotto") ? "story_cave_jade" : "story_cave"
+  }
+  if (isWestEnv(rect.env || stationEnv)) {
+    return "story_ground_west"
   }
   return lunar ? "story_ground_moon" : "story_ground"
 }
@@ -388,7 +427,10 @@ function storyPadTexture(rect: AssembledRect, stationEnv: string): string {
 function storyWallTexture(rect: AssembledRect, stationEnv: string): string {
   const lunar = isLunarEnv(rect.env || stationEnv)
   if (rect.kind === "ceiling" || rect.asset === "cave") {
-    return "story_cave"
+    return (rect.env || stationEnv).startsWith("ch3_grotto") ? "story_cave_jade" : "story_cave"
+  }
+  if (isWestEnv(rect.env || stationEnv)) {
+    return "story_ground_west"
   }
   return lunar ? "story_hedge_moon" : "story_hedge"
 }
@@ -439,9 +481,13 @@ export class StoryScene extends Phaser.Scene {
   private stillFight: StillFight | null = null
   private penghou: PenghouFight | null = null
   private penghouSeal: Phaser.GameObjects.Rectangle | null = null
+  private oldFace: OldFaceFight | null = null
   private chunkOrigins: number[] = []
   private epilogueStep = 0
   private epilogueLines: string[] = []
+  private finalePhase: "speech" | "spiral" | null = null
+  private spiralA = 0
+  private spiralR = 0
   private health = 3
   private maxHearts = 3
   private invuln = 0
@@ -476,6 +522,7 @@ export class StoryScene extends Phaser.Scene {
   private decorSprites: Phaser.GameObjects.Image[] = []
   private waterRects: Phaser.GameObjects.Rectangle[] = []
   private dust: DustState[] = []
+  private drops: DropState[] = []
   private reducedMotion = false
   private poolRipple: Phaser.GameObjects.Ellipse | null = null
   private cartFinishX: number | null = null
@@ -537,6 +584,8 @@ export class StoryScene extends Phaser.Scene {
     this.stillFight = null
     this.penghou?.destroy()
     this.penghou = null
+    this.oldFace?.destroy()
+    this.oldFace = null
     this.epilogueStep = 0
     this.leaving = false
     this.movers = []
@@ -577,6 +626,10 @@ export class StoryScene extends Phaser.Scene {
       epilogue: requireEl(shell.root, "[data-ui=epilogue]"),
       epilogueBody: requireEl(shell.root, "[data-ui=epilogueBody]"),
       epilogueContinue: requireEl(shell.root, "[data-ui=epilogueContinue]"),
+      ledger: requireEl(shell.root, "[data-ui=ledger]"),
+      ledgerBody: requireEl(shell.root, "[data-ui=ledgerBody]"),
+      ledgerSeeds: requireEl(shell.root, "[data-ui=ledgerSeeds]"),
+      ledgerContinue: requireEl(shell.root, "[data-ui=ledgerContinue]"),
       itemTray: bindItemTray(shell.root),
       hanHearts: requireEl(shell.root, "[data-ui=hanHearts]"),
       ticker: bindStoryTicker(shell.root),
@@ -631,6 +684,11 @@ export class StoryScene extends Phaser.Scene {
     this.hud.epilogueContinue.onclick = () => {
       getAudio().playSfx("confirm")
       this.advanceEpilogue()
+    }
+    this.hud.ledgerContinue.onclick = () => {
+      getAudio().playSfx("confirm")
+      this.won = true
+      this.leavePlay()
     }
     const goMap = (event: Event): void => {
       event.preventDefault()
@@ -847,7 +905,7 @@ export class StoryScene extends Phaser.Scene {
         if (padBreak) {
           this.breaks?.register(block, padBreak)
         }
-        if (this.editorMode !== "build" && !chime && rect.asset !== "raft" && rect.asset !== "skin") {
+        if (this.editorMode !== "build" && !chime && rect.asset !== "raft" && rect.asset !== "skin" && rect.asset !== "reed" && rect.asset !== "pin" && rect.asset !== "cliff" && rect.asset !== "blossom" && rect.asset !== "branch" && rect.asset !== "trunk") {
           const cap = this.add
             .rectangle(
               rect.x + rect.w / 2,
@@ -908,6 +966,7 @@ export class StoryScene extends Phaser.Scene {
       this.onWater(water)
     })
     this.dust = createDustHazards(this, world.hazards, this.reducedMotion)
+    this.drops = this.editorMode === "build" ? [] : createDrops(this, world.hazards)
     const lunarWater = isLunarEnv(env)
     this.waterRects.forEach((water, index) => {
       if (this.editorMode === "build" && water.getData("kind") !== "water") {
@@ -918,6 +977,13 @@ export class StoryScene extends Phaser.Scene {
         water.setFillStyle(0x1e3044, 0.78)
         this.add
           .rectangle(water.x, water.y - water.height / 2 + 1.5, water.width, 3, 0xb8cce0, 0.55)
+          .setDepth(0.55)
+      }
+      if (isWestEnv(env) && water.getData("kind") === "water") {
+        // West water: still silver-jade under a pale sky line. Not river blue, not moon dark.
+        water.setFillStyle(env === "ch3_pool" ? 0x7eb8a8 : 0xa6c8c2, 0.74)
+        this.add
+          .rectangle(water.x, water.y - water.height / 2 + 1.5, water.width, 3, 0xf4f8f2, 0.7)
           .setDepth(0.55)
       }
       water.setData("editKind", "hazard")
@@ -1054,12 +1120,10 @@ export class StoryScene extends Phaser.Scene {
     this.physics.add.existing(this.exitZone, true)
     applyContactBody(this.exitZone, EXIT_CONTACT)
     if (def.boss?.kind === "still" && this.editorMode !== "build") {
-      this.exitZone.setVisible(false)
-      this.exitZone.setActive(false)
-      const exitBody = this.exitZone.body as Phaser.Physics.Arcade.StaticBody | null
-      if (exitBody) {
-        exitBody.enable = false
-      }
+      this.setExitEnabled(false)
+    }
+    if (def.boss?.kind === "old_face" && this.editorMode !== "build") {
+      this.setExitEnabled(false)
     }
 
     this.physics.add.overlap(this.player, this.exitZone, () => {
@@ -1342,6 +1406,8 @@ export class StoryScene extends Phaser.Scene {
       this.stillFight = null
       this.penghou?.destroy()
       this.penghou = null
+      this.oldFace?.destroy()
+      this.oldFace = null
       this.poolRipple?.destroy()
       this.poolRipple = null
       this.style?.remove()
@@ -1887,6 +1953,7 @@ export class StoryScene extends Phaser.Scene {
     this.syncHearts()
     this.player.clearTint()
     this.breaks?.restore()
+    resetDrops(this.drops)
     this.runMs = 0
     if (this.level.boss?.kind === "still") {
       this.resetStillFight()
@@ -1898,6 +1965,12 @@ export class StoryScene extends Phaser.Scene {
       if (court) {
         this.sealPenghouCourt(court, false)
       }
+      this.syncBossHits()
+    }
+    if (this.level.boss?.kind === "old_face" && this.oldFace && !this.oldFace.settled) {
+      this.oldFace.destroy()
+      this.oldFace = null
+      this.setExitEnabled(false)
       this.syncBossHits()
     }
     if (this.level.boss?.kind === "han" && this.han && !this.han.settled) {
@@ -2245,6 +2318,18 @@ export class StoryScene extends Phaser.Scene {
       const open = this.penghou.hearts
       this.hud.hanHearts.textContent = `${"♥".repeat(open)}${"♡".repeat(Math.max(0, this.penghou.needed - open))}`
       this.hud.hanHearts.setAttribute("aria-label", t("story.boss.penghou", { hearts: open, need: this.penghou.needed }))
+      return
+    }
+    if (this.level.boss.kind === "old_face") {
+      this.hud.bossHits.hidden = true
+      if (!this.oldFace || this.oldFace.settled) {
+        this.hud.hanHearts.hidden = true
+        return
+      }
+      this.hud.hanHearts.hidden = false
+      const open = this.oldFace.hearts
+      this.hud.hanHearts.textContent = `${"♥".repeat(open)}${"♡".repeat(Math.max(0, this.oldFace.needed - open))}`
+      this.hud.hanHearts.setAttribute("aria-label", t("story.boss.old_face", { hearts: open, need: this.oldFace.needed }))
       return
     }
     if (this.level.boss.kind === "still") {
@@ -2664,6 +2749,61 @@ export class StoryScene extends Phaser.Scene {
     this.penghouSeal = seal
   }
 
+  private setExitEnabled(on: boolean): void {
+    if (!this.exitZone) {
+      return
+    }
+    this.exitZone.setVisible(on)
+    this.exitZone.setActive(on)
+    const exitBody = this.exitZone.body as Phaser.Physics.Arcade.StaticBody | null
+    if (exitBody) {
+      exitBody.enable = on
+    }
+  }
+
+  private tickOldFace(dt: number): void {
+    const boss = this.level.boss
+    const court = this.penghouCourt()
+    if (!boss || !court || this.editorMode === "build") {
+      return
+    }
+    const body = this.player.body as Phaser.Physics.Arcade.Body
+    const inCourt = this.player.x >= court.left
+    if (!this.oldFace && inCourt) {
+      const lips = (boss.cuts ?? []).map((cut) => ({
+        x: (this.chunkOrigins[cut.chunk] ?? cut.chunk * 960) + cut.x,
+        y: cut.y,
+      }))
+      const origin = this.chunkOrigins[0] ?? 0
+      this.oldFace = new OldFaceFight(this, origin + (boss.x ?? 990), boss.y ?? 820, this.player, {
+        lips,
+        platforms: this.platforms,
+        speak: (line) => this.hud.ticker.show(t(`story.old_face.line.${line}`), `old_face.${line}`),
+      })
+      this.syncBossHits()
+      return
+    }
+    if (!this.oldFace) {
+      return
+    }
+    const backOnTerrace = body.blocked.down && this.player.x < court.left
+    if (backOnTerrace && !this.oldFace.settled) {
+      this.oldFace.destroy()
+      this.oldFace = null
+      this.setExitEnabled(false)
+      this.syncBossHits()
+      return
+    }
+    this.oldFace.update(dt)
+    if (this.oldFace.takeLanding()) {
+      this.beginSealFinale()
+    }
+    if (this.oldFace.takeHurt(this.playerState.dashTime)) {
+      this.hurt()
+    }
+    this.syncBossHits()
+  }
+
   private tickPenghou(dt: number): void {
     const boss = this.level.boss
     const court = this.penghouCourt()
@@ -2725,6 +2865,10 @@ export class StoryScene extends Phaser.Scene {
     this.bossCooldown = Math.max(0, this.bossCooldown - dt)
     if (this.level.boss?.kind === "penghou") {
       this.tickPenghou(dt)
+      return
+    }
+    if (this.level.boss?.kind === "old_face") {
+      this.tickOldFace(dt)
       return
     }
     if (this.stillFight && this.level.boss?.kind === "still") {
@@ -2848,6 +2992,111 @@ export class StoryScene extends Phaser.Scene {
     }
   }
 
+  private beginSealFinale(): void {
+    if (this.finalePhase || this.won) {
+      return
+    }
+    this.finalePhase = "speech"
+    this.player.setVelocity(0, 0)
+    this.hud.ticker.show(t("story.seal.line.0"))
+    this.hud.ticker.show(t("story.seal.line.1"))
+    this.time.delayedCall(this.reducedMotion ? 1800 : 8800, () => {
+      if (this.finalePhase === "speech") {
+        this.finalePhase = "spiral"
+        this.spiralA = 0
+        const seal = this.oldFace?.sealImage
+        if (!seal) {
+          this.showLedger()
+          return
+        }
+        this.spiralR = Math.max(48, Phaser.Math.Distance.Between(this.player.x, this.player.y, seal.x, seal.y) * 0.5)
+        if (this.reducedMotion) {
+          this.showLedger()
+        }
+      }
+    })
+  }
+
+  private tickSealSpiral(dt: number): void {
+    const seal = this.oldFace?.sealImage
+    if (!seal) {
+      this.showLedger()
+      return
+    }
+    this.spiralA += dt * 7
+    this.spiralR = Math.max(0, this.spiralR - dt * 70)
+    const mx = (this.player.x + seal.x) / 2
+    const my = (this.player.y + seal.y) / 2
+    this.player.setVelocity(0, 0)
+    this.player.setPosition(mx + Math.cos(this.spiralA) * this.spiralR, my + Math.sin(this.spiralA) * this.spiralR)
+    seal.setPosition(mx + Math.cos(this.spiralA + Math.PI) * this.spiralR, my + Math.sin(this.spiralA + Math.PI) * this.spiralR)
+    this.player.setAngle(this.spiralA * 80)
+    seal.setAngle(-this.spiralA * 80)
+    const shrink = Phaser.Math.Clamp(this.spiralR / 80, 0.2, 1)
+    this.player.setScale(shrink)
+    seal.setScale(shrink)
+    if (this.spiralR <= 1) {
+      this.showLedger()
+    }
+  }
+
+  private showLedger(): void {
+    if (this.won) {
+      return
+    }
+    this.won = true
+    this.finalePhase = null
+    this.player.setVelocity(0, 0)
+    this.physics.world.isPaused = true
+    const runMs = this.runMs
+    if (!this.editorMode) {
+      try {
+        const save = getSave()
+        if (!save.progress.story.cleared.includes(this.level.id)) {
+          save.progress.story.cleared.push(this.level.id)
+        }
+        recordStoryAttempt(save, this.level.id, runMs)
+        void persistSave()
+      } catch {
+        // The ledger still opens if the save fails.
+      }
+    }
+    const save = getSave()
+    const rows = storyTimeRows(save)
+    const seeds = save.progress.story.keepsakes ?? []
+    const seedNames = seeds
+      .map((id) => getStation(id)?.title ?? id)
+      .join(", ")
+    this.hud.ledgerSeeds.textContent = t("story.ledger.seeds", {
+      n: seeds.length,
+      total: KEEPSAKE_TOTAL,
+      names: seedNames || t("story.ledger.none"),
+    })
+    const blocks: string[] = []
+    for (const chapter of rows.chapters) {
+      if (chapter.stations.length === 0) {
+        continue
+      }
+      blocks.push(`<div class="bm-ledger-chapter">${t(`story.chapter.${chapter.id}.title`)}</div>`)
+      for (const station of chapter.stations) {
+        const best = station.id === this.level.id && station.best === null ? runMs : station.best
+        const time = best === null ? t("story.ledger.none") : formatStoryTime(best)
+        blocks.push(
+          `<div class="bm-ledger-row"><span>${station.title}</span><span class="bm-ledger-time">${time}</span></div>`,
+        )
+      }
+      if (chapter.sum !== null) {
+        blocks.push(
+          `<div class="bm-ledger-row"><span>${t("story.ledger.sum")}</span><span class="bm-ledger-time">${formatStoryTime(chapter.sum)}</span></div>`,
+        )
+      }
+    }
+    this.hud.ledgerBody.innerHTML = blocks.join("")
+    this.hud.ledgerContinue.textContent = this.editorMode ? t("editor.back") : t("story.win.map")
+    this.hud.ledger.hidden = false
+    this.hud.ledgerContinue.focus()
+  }
+
   private showEpilogue(): void {
     this.epilogueLines = [
       t("story.epilogue.0"),
@@ -2889,6 +3138,9 @@ export class StoryScene extends Phaser.Scene {
     if (this.level.boss?.kind === "penghou" && !this.penghou?.settled) {
       return t("story.exit.penghou")
     }
+    if (this.level.boss?.kind === "old_face" && !this.oldFace?.settled) {
+      return t("story.exit.old_face")
+    }
     return null
   }
 
@@ -2906,6 +3158,9 @@ export class StoryScene extends Phaser.Scene {
       return
     }
     this.won = true
+    if (this.level.boss?.kind === "old_face") {
+      this.oldFace?.speakRefused()
+    }
     this.inDialogue = false
     if (this.scene.isActive("DialogueOverlay")) {
       this.scene.stop("DialogueOverlay")
@@ -3004,6 +3259,14 @@ export class StoryScene extends Phaser.Scene {
     if (!this.editorMode) {
       this.runMs += rawDt * 1000
     }
+    if (this.finalePhase === "speech") {
+      this.player.setVelocity(0, 0)
+      return
+    }
+    if (this.finalePhase === "spiral") {
+      this.tickSealSpiral(rawDt)
+      return
+    }
     if (this.editorMode === "build") {
       this.player.setVelocity(0, 0)
       for (const obj of this.enemies.getChildren()) {
@@ -3063,6 +3326,9 @@ export class StoryScene extends Phaser.Scene {
     if (tickDust(this.dust, this.player, this.playerState, dt, this.reducedMotion)) {
       this.enterDeadState(this.restartCopy("fall"))
       return
+    }
+    if (tickDrops(this.drops, this.player, dt, this.reducedMotion)) {
+      this.hurt()
     }
     this.applyGale(dt)
     this.dashFx?.tick(this.player, this.playerState.dashTime, this.playerState.facing, dt)

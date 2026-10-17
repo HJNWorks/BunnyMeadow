@@ -78,7 +78,7 @@
       "x": 1950,
       "y": 964,
       "w": 80,
-      "h": 20,
+      "h": 16,
       "rotation": 0,
       "asset": "ground"
     },
@@ -130,15 +130,7 @@
           "asset": "ground"
         }
       ],
-      "walls": [
-        {
-          "x": 400,
-          "y": 920,
-          "w": 20,
-          "h": 60,
-          "env": "meadow"
-        }
-      ],
+      "walls": [],
       "enemies": [
         {
           "id": "hedgehog",
@@ -281,10 +273,10 @@
           "asset": "ground"
         },
         {
-          "x": 390,
+          "x": 420,
           "y": 880,
-          "w": 110,
-          "h": 20,
+          "w": 200,
+          "h": 28,
           "asset": "ground"
         },
         {
@@ -295,20 +287,12 @@
           "asset": "ground"
         }
       ],
-      "walls": [
-        {
-          "x": 700,
-          "y": 870,
-          "w": 20,
-          "h": 110,
-          "env": "meadow"
-        }
-      ],
+      "walls": [],
       "enemies": [
         {
-          "id": "squirrel",
-          "x": 700,
-          "y": 850
+          "id": "fox",
+          "x": 510,
+          "y": 840
         }
       ],
       "decor": [
@@ -317,7 +301,7 @@
           "x": 30,
           "y": 964,
           "w": 80,
-          "h": 20,
+          "h": 16,
           "rotation": 0,
           "asset": "ground"
         },

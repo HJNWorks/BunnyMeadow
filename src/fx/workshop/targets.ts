@@ -50,6 +50,19 @@ const PROP_TARGETS: WorkshopTarget[] = [
   { id: "story_dewplate", label: "Dew-plate immortal" },
   { id: "story_far_silver", label: "Far Silver far" },
   { id: "story_far_mortar", label: "Mortar Yard far" },
+  { id: "story_ground_west", label: "West stone" },
+  { id: "story_far_west", label: "West of Silver far" },
+  { id: "story_reed", label: "Reed mat" },
+  { id: "story_pin", label: "Copper pin" },
+  { id: "story_cliff", label: "Ridge cliff" },
+  { id: "story_peach_crown", label: "Peach crown" },
+  { id: "story_branch", label: "Peach branch" },
+  { id: "story_trunk", label: "Peach trunk" },
+  { id: "story_cave_jade", label: "Jade cave" },
+  { id: "story_reflection_west", label: "Sky-stone (reflection)" },
+  { id: "story_cloud_west", label: "Dawn cloud pad" },
+  { id: "story_greenfruit", label: "Green peach (drop)" },
+  { id: "story_stalactite_jade", label: "Jade stalactite" },
 ]
 
 export function listWorkshopTargets(group: WorkshopGroup = "props"): WorkshopTarget[] {

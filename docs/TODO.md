@@ -1,5 +1,5 @@
 - story:
-    - Chapters: [story/chapters.md](story/chapters.md). Chapter 1 live. Chapter 2 first stations live. Chapter 3 West of Silver map live, worlds Soon.
+    - Chapters: [story/chapters.md](story/chapters.md). Chapter 1 live. Chapter 2 first stations live. Chapter 3 West of Silver: all six worlds and thirteen stations live.
     - Later: Han moon collider. Remaining palace walk toward 18 chunks
       ([story/chapter1-overhaul.md](story/chapter1-overhaul.md)). Chapter 2 stations 2
       and 3. Far Silver One Moon Pool. Chapter 3 stations.

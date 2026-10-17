@@ -24,6 +24,11 @@ export const CRITTER_LABELS: Record<string, string> = {
   pestle_sentry: "Pestle sentry",
   cassia_grub: "Cassia grub",
   crater_crab: "Crater crab",
+  ford_crab: "Ford crab",
+  copper_sentry: "Copper sentry",
+  azure_bird: "Azure bird",
+  jade_mite: "Jade mite",
+  mirror_mote: "Mirror mote",
   silver_bat: "Silver bat",
   silver_carp: "Silver carp",
   still: "Still Silver",
@@ -58,6 +63,12 @@ const CRITTERS_BY_BIOME: Record<string, string[]> = {
   ch2_dust: ["crater_crab", "dust_mite", "star_wisp"],
   ch2_wells: ["silver_bat", "star_wisp"],
   ch2_silver: ["still", "silver_carp", "star_wisp", "frost_wisp"],
+  ch3_shore: ["mirror_mote"],
+  ch3_water: ["ford_crab"],
+  ch3_ridges: ["copper_sentry"],
+  ch3_peach: ["azure_bird"],
+  ch3_grotto: ["jade_mite"],
+  ch3_pool: [],
 }
 
 const ITEMS_BY_BIOME: Record<string, string[]> = {
@@ -138,7 +149,33 @@ export const CRITTER_CHAPTERS: CritterChapter[] = [
   {
     id: "ch3",
     labelKey: "story.chapter.ch3.title",
-    groups: [],
+    groups: [
+      {
+        id: "shore",
+        labelKey: "editor.critterGroup.shore",
+        ids: ["mirror_mote"],
+      },
+      {
+        id: "water",
+        labelKey: "editor.critterGroup.water",
+        ids: ["ford_crab"],
+      },
+      {
+        id: "ridges",
+        labelKey: "editor.critterGroup.ridges",
+        ids: ["copper_sentry"],
+      },
+      {
+        id: "peach",
+        labelKey: "editor.critterGroup.peach",
+        ids: ["azure_bird"],
+      },
+      {
+        id: "grotto",
+        labelKey: "editor.critterGroup.grotto",
+        ids: ["jade_mite"],
+      },
+    ],
   },
 ]
 

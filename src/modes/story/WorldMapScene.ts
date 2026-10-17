@@ -152,13 +152,6 @@ const PATH_CSS = `
 .story-board h2 { margin: 0 0 8px; font-size: 22px; font-weight: 500; }
 .story-board p { margin: 0 0 8px; }
 .story-board ul { margin: 0 0 12px; padding-left: 18px; }
-.story-path-dev { margin-left: auto; opacity: 0.72; font-size: 12px; }
-.story-path-dev[aria-pressed="true"] {
-  opacity: 1;
-  background: #34583e;
-  color: #fffaf0;
-  border-color: #34583e;
-}
 `
 
 export class WorldMapScene extends Phaser.Scene {
@@ -241,7 +234,6 @@ export class WorldMapScene extends Phaser.Scene {
         <div class="bm-actions bm-start">
           <button type="button" class="bm-btn ghost" data-ui="back">${t("common.modes")}</button>
           <button type="button" class="bm-btn ghost" data-ui="board">${t("story.board.open")}</button>
-          <button type="button" class="bm-btn ghost story-path-dev" data-ui="devReset" aria-pressed="${save.progress.story.devUnlockAll ? "true" : "false"}">${save.progress.story.devUnlockAll ? t("story.path.devReset") : t("story.path.devUnlock")}</button>
         </div>
         <section class="bm-card story-board" data-ui="boardPanel" hidden>
           <h2>${t("story.board.title")}</h2>
@@ -366,36 +358,12 @@ export class WorldMapScene extends Phaser.Scene {
       board.hidden = true
     }
 
-    requireEl<HTMLButtonElement>(root, "[data-ui=devReset]").onclick = () => {
-      getAudio().playSfx("confirm")
-      void this.toggleDevUnlock()
-    }
-
     requireEl<HTMLButtonElement>(root, "[data-ui=beatContinue]").onclick = () => {
       getAudio().playSfx("confirm")
       void this.finishBeat()
     }
 
     syncNodes()
-  }
-
-  private async toggleDevUnlock(): Promise<void> {
-    const save = getSave()
-    if (save.progress.story.devUnlockAll) {
-      save.progress.story.devUnlockAll = false
-      save.progress.story.cleared = []
-      save.progress.story.checkpoints = {}
-      save.progress.story.controlHints = []
-      save.progress.story.world = 1
-      save.progress.story.level = 1
-      await persistSave()
-      this.expanded = "w0"
-      this.scene.start("WorldMap", { chapter: "ch1" })
-      return
-    }
-    save.progress.story.devUnlockAll = true
-    await persistSave()
-    this.scene.start("WorldMap", { chapter: this.chapter })
   }
 
   private stationButton(station: StoryStation, index: number): string {

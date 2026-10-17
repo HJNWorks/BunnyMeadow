@@ -1,0 +1,19 @@
+{
+  "id": "chunk_ch3_grotto_f",
+  "width": 960,
+  "height": 1080,
+  "groundY": 720,
+  "platforms": [
+    { "x": 0, "y": 720, "w": 160, "h": 28, "asset": "ground" },
+    { "x": 260, "y": 680, "w": 160, "h": 28, "asset": "ground" },
+    { "x": 500, "y": 740, "w": 160, "h": 28, "asset": "ground" },
+    { "x": 760, "y": 780, "w": 200, "h": 64, "asset": "ground" }
+  ],
+  "walls": [],
+  "ceilings": [{ "x": 0, "y": 170, "w": 960, "h": 90, "asset": "cave" }],
+  "enemies": [],
+  "items": [],
+  "decor": [{ "kind": "falseMouth", "x": 380, "y": 460, "w": 100, "h": 80, "asset": "cave", "env": "ch3_grotto" }],
+  "hazards": [{ "kind": "drop", "drop": "stalactite", "x": 290, "y": 262, "w": 40, "h": 418 }, { "kind": "drop", "drop": "stalactite", "x": 370, "y": 262, "w": 40, "h": 418 }, { "kind": "drop", "drop": "stalactite", "x": 560, "y": 262, "w": 40, "h": 478 }],
+  "color": "#16241f"
+}

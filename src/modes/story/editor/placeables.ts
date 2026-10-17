@@ -44,6 +44,12 @@ export type EditorEnvToken =
   | "wellhead"
   | "toad"
   | "skin"
+  | "reed"
+  | "pin"
+  | "cliff"
+  | "blossom"
+  | "branch"
+  | "trunk"
   | "dewPlate"
 
 export type EditorKitId =
@@ -61,6 +67,12 @@ export type EditorKitId =
   | "ch2_dust"
   | "ch2_wells"
   | "ch2_silver"
+  | "ch3_shore"
+  | "ch3_water"
+  | "ch3_ridges"
+  | "ch3_peach"
+  | "ch3_grotto"
+  | "ch3_pool"
 
 export type EditorEnvKit = {
   id: EditorKitId
@@ -111,6 +123,42 @@ export const EDITOR_ENV_KITS: EditorEnvKit[] = [
     labelKey: "editor.envKit.ch2_silver",
     kinds: [...KIT_CORE, "bowl", "lantern", "skin", "dewPlate"],
   },
+  {
+    id: "ch3_shore",
+    chapter: "ch3",
+    labelKey: "editor.envKit.ch3_shore",
+    kinds: [...KIT_CORE, "reflection"],
+  },
+  {
+    id: "ch3_water",
+    chapter: "ch3",
+    labelKey: "editor.envKit.ch3_water",
+    kinds: [...KIT_CORE, "reed"],
+  },
+  {
+    id: "ch3_ridges",
+    chapter: "ch3",
+    labelKey: "editor.envKit.ch3_ridges",
+    kinds: [...KIT_CORE, "pin", "cliff"],
+  },
+  {
+    id: "ch3_peach",
+    chapter: "ch3",
+    labelKey: "editor.envKit.ch3_peach",
+    kinds: [...KIT_CORE, "blossom", "branch", "trunk"],
+  },
+  {
+    id: "ch3_grotto",
+    chapter: "ch3",
+    labelKey: "editor.envKit.ch3_grotto",
+    kinds: [...KIT_CORE, "cave", "falseMouth", "stalactite"],
+  },
+  {
+    id: "ch3_pool",
+    chapter: "ch3",
+    labelKey: "editor.envKit.ch3_pool",
+    kinds: [...KIT_CORE, "rim"],
+  },
 ]
 
 export const DECOR_LABELS: Record<AssembledDecor["kind"], string> = {
@@ -157,6 +205,12 @@ export const PLATFORM_ASSETS = [
   "chime",
   "raft",
   "skin",
+  "reed",
+  "pin",
+  "cliff",
+  "blossom",
+  "branch",
+  "trunk",
 ] as const
 
 const PLACEABLES_BY_BIOME: Record<string, AssembledDecor["kind"][]> = {
@@ -174,6 +228,12 @@ const PLACEABLES_BY_BIOME: Record<string, AssembledDecor["kind"][]> = {
   ch2_cassia: ["wound", "heartwood"],
   ch2_silver: ["bowl", "lantern", "dewPlate"],
   ch2_wells: ["cave", "falseMouth", "reflection", "stalactite", "wellhead", "toad"],
+  ch3_shore: ["reflection"],
+  ch3_water: [],
+  ch3_ridges: [],
+  ch3_peach: [],
+  ch3_grotto: ["cave", "falseMouth", "stalactite"],
+  ch3_pool: ["rim"],
 }
 
 export function placeablesForEnv(env: string): AssembledDecor["kind"][] {

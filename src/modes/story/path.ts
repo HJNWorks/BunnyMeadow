@@ -368,6 +368,110 @@ const STATIONS: Record<string, StoryStation> = {
     lines: [],
     levelId: "ch2_silver_3_one_pool",
   },
+  ch3_shore_1_bank: {
+    id: "ch3_shore_1_bank",
+    kind: "level",
+    title: "Far Bank",
+    blurb: "Weight is back. Short hops first.",
+    lines: [],
+    levelId: "ch3_shore_1_bank",
+  },
+  ch3_shore_2_mirror: {
+    id: "ch3_shore_2_mirror",
+    kind: "level",
+    title: "Mirror Sky",
+    blurb: "Some stones are only the sky.",
+    lines: [],
+    levelId: "ch3_shore_2_mirror",
+  },
+  ch3_water_1_ford: {
+    id: "ch3_water_1_ford",
+    kind: "level",
+    title: "Stone Ford",
+    blurb: "Nothing floats. Trust only stone.",
+    lines: [],
+    levelId: "ch3_water_1_ford",
+  },
+  ch3_water_2_feather: {
+    id: "ch3_water_2_feather",
+    kind: "level",
+    title: "Feather Line",
+    blurb: "Long crossings. Crabs on the wide stones.",
+    lines: [],
+    levelId: "ch3_water_2_feather",
+  },
+  ch3_water_3_breath: {
+    id: "ch3_water_3_breath",
+    kind: "level",
+    title: "Breathing Stones",
+    blurb: "The stones rise and sink on a beat.",
+    lines: [],
+    levelId: "ch3_water_3_breath",
+  },
+  ch3_ridges_1_pins: {
+    id: "ch3_ridges_1_pins",
+    kind: "level",
+    title: "Pin Ladder",
+    blurb: "Copper pins up the cliff. Push off the face.",
+    lines: [],
+    levelId: "ch3_ridges_1_pins",
+  },
+  ch3_ridges_2_sentries: {
+    id: "ch3_ridges_2_sentries",
+    kind: "level",
+    title: "Sentry Ledges",
+    blurb: "Copper sentries lob from above. Do not idle.",
+    lines: [],
+    levelId: "ch3_ridges_2_sentries",
+  },
+  ch3_ridges_3_cloud: {
+    id: "ch3_ridges_3_cloud",
+    kind: "level",
+    title: "Cloud Crossing",
+    blurb: "Cloud between two summits.",
+    lines: [],
+    levelId: "ch3_ridges_3_cloud",
+  },
+  ch3_peach_1_blossom: {
+    id: "ch3_peach_1_blossom",
+    kind: "level",
+    title: "Blossom Rows",
+    blurb: "Hop the crowns. Birds dive along a line.",
+    lines: [],
+    levelId: "ch3_peach_1_blossom",
+  },
+  ch3_peach_2_green: {
+    id: "ch3_peach_2_green",
+    kind: "level",
+    title: "Green Fruit",
+    blurb: "Unripe fruit drops from shaken branches.",
+    lines: [],
+    levelId: "ch3_peach_2_green",
+  },
+  ch3_grotto_1_mouths: {
+    id: "ch3_grotto_1_mouths",
+    kind: "level",
+    title: "Jade Mouths",
+    blurb: "Real mouths and false ones. Jade haze.",
+    lines: [],
+    levelId: "ch3_grotto_1_mouths",
+  },
+  ch3_grotto_2_mass: {
+    id: "ch3_grotto_2_mass",
+    kind: "level",
+    title: "Mass Above",
+    blurb: "Stalactites shiver, then fall.",
+    lines: [],
+    levelId: "ch3_grotto_2_mass",
+  },
+  ch3_pool_1_court: {
+    id: "ch3_pool_1_court",
+    kind: "level",
+    title: "Court",
+    blurb: "Stand still on the rim. Then refuse the peach.",
+    lines: [],
+    levelId: "ch3_pool_1_court",
+  },
 }
 
 const WORLD_DEFS: WorldDef[] = [
@@ -485,8 +589,8 @@ const WORLD_DEFS: WorldDef[] = [
     world: 1,
     title: "Other Shore",
     tagline: "Inverted silver sky. Not Earth.",
-    status: "soon",
-    stationIds: [],
+    status: "live",
+    stationIds: ["ch3_shore_1_bank", "ch3_shore_2_mirror"],
   },
   {
     id: "ch3_water",
@@ -494,8 +598,8 @@ const WORLD_DEFS: WorldDef[] = [
     world: 2,
     title: "Weak Water",
     tagline: "Nothing floats. Stone fords.",
-    status: "soon",
-    stationIds: [],
+    status: "live",
+    stationIds: ["ch3_water_1_ford", "ch3_water_2_feather", "ch3_water_3_breath"],
   },
   {
     id: "ch3_ridges",
@@ -503,8 +607,8 @@ const WORLD_DEFS: WorldDef[] = [
     world: 3,
     title: "Hanging Ridges",
     tagline: "Cliffs and copper pins.",
-    status: "soon",
-    stationIds: [],
+    status: "live",
+    stationIds: ["ch3_ridges_1_pins", "ch3_ridges_2_sentries", "ch3_ridges_3_cloud"],
   },
   {
     id: "ch3_peach",
@@ -512,8 +616,8 @@ const WORLD_DEFS: WorldDef[] = [
     world: 4,
     title: "Peach Rows",
     tagline: "Blossom. Not osmanthus.",
-    status: "soon",
-    stationIds: [],
+    status: "live",
+    stationIds: ["ch3_peach_1_blossom", "ch3_peach_2_green"],
   },
   {
     id: "ch3_grotto",
@@ -521,8 +625,8 @@ const WORLD_DEFS: WorldDef[] = [
     world: 5,
     title: "Grotto Heaven",
     tagline: "Jade caves. Mass above.",
-    status: "soon",
-    stationIds: [],
+    status: "live",
+    stationIds: ["ch3_grotto_1_mouths", "ch3_grotto_2_mass"],
   },
   {
     id: "ch3_pool",
@@ -530,8 +634,8 @@ const WORLD_DEFS: WorldDef[] = [
     world: 6,
     title: "West Pool",
     tagline: "One still pool.",
-    status: "soon",
-    stationIds: [],
+    status: "live",
+    stationIds: ["ch3_pool_1_court"],
   },
 ]
 
@@ -575,6 +679,27 @@ const CH2_MORTAR = ["ch2_mortar_1_bowls", "ch2_mortar_2_pestle", "ch2_mortar_3_r
 const CH2_DUST = ["ch2_dust_1_rims", "ch2_dust_2_lips", "ch2_dust_3_wreck"] as const
 const CH2_WELLS = ["ch2_wells_1_mouths", "ch2_wells_2_false", "ch2_wells_3_silver"] as const
 const CH2_SILVER = ["ch2_silver_1_basin", "ch2_silver_2_steps", "ch2_silver_3_one_pool"] as const
+
+const CH3_ORDER: Ch3WorldId[] = ["ch3_shore", "ch3_water", "ch3_ridges", "ch3_peach", "ch3_grotto", "ch3_pool"]
+
+function liveCh3Worlds(): WorldDef[] {
+  return CH3_ORDER.map((id) => WORLD_DEFS.find((def) => def.id === id)).filter(
+    (def): def is WorldDef => def !== undefined && def.status === "live" && def.stationIds.length > 0,
+  )
+}
+
+function playableIds(def: WorldDef): string[] {
+  return def.stationIds.filter((id) => STATIONS[id] && !STATIONS[id].soon)
+}
+
+function ch3PrevWorldCleared(save: SaveV1, worldId: StoryWorldId): boolean {
+  const live = liveCh3Worlds()
+  const index = live.findIndex((def) => def.id === worldId)
+  if (index <= 0) {
+    return true
+  }
+  return worldPlayableCleared(save, playableIds(live[index - 1]))
+}
 
 function worldPlayableCleared(save: SaveV1, ids: readonly string[]): boolean {
   const cleared = new Set(save.progress.story.cleared)
@@ -769,6 +894,9 @@ export function isWorldUnlocked(save: SaveV1, worldId: StoryWorldId): boolean {
   if (worldId === "ch2_silver") {
     return isChapterUnlocked(save, "ch2") && worldPlayableCleared(save, CH2_WELLS)
   }
+  if (isCh3World(worldId)) {
+    return isChapterUnlocked(save, "ch3") && ch3PrevWorldCleared(save, worldId)
+  }
   return false
 }
 
@@ -837,6 +965,15 @@ export function isStationUnlocked(save: SaveV1, stationId: string): boolean {
       return prev === null || cleared.has(prev)
     }
     return false
+  }
+  if (stationId.startsWith("ch3_")) {
+    const worldId = worldIdForLevelId(stationId)
+    const world = WORLD_DEFS.find((entry) => entry.id === worldId)
+    if (!world || world.status !== "live" || !isChapterUnlocked(save, "ch3") || !ch3PrevWorldCleared(save, worldId)) {
+      return false
+    }
+    const prev = previousInChain(world.stationIds, stationId)
+    return prev === null || cleared.has(prev)
   }
   if (!isW0Complete(save)) {
     return false
@@ -940,7 +1077,8 @@ export function defaultExpandedWorld(save: SaveV1): StoryWorldId {
   if (!worldPlayableCleared(save, CH2_SILVER)) {
     return "ch2_silver"
   }
-  return "ch2_silver"
+  const nextCh3 = liveCh3Worlds().find((def) => !worldPlayableCleared(save, playableIds(def)))
+  return nextCh3?.id ?? "ch2_silver"
 }
 
 export function storyClockChapters(): { id: StoryChapterId; stations: { id: string; title: string }[] }[] {

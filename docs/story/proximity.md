@@ -41,6 +41,10 @@ Second use: Penghou's heartwood room on Cassia Gold Core (`boss.court` in the le
 JSON, a box in chunk space). Enter to wake the spirit and seal the floor cut behind
 Mei. Leave or fall before it settles and the fight resets and the cut opens again.
 
+Planned, not built: the West Pool court AABB on `ch3_pool_1_court`. Enter to wake
+the old face. Leave before it settles and the stamp reforms. The jade pool is a
+hazard volume, not a Moon Pool. See [old-face.md](../creatures/folk/old-face.md).
+
 Editor overlay JSON (decor and hazards) may carry:
 
 ```json

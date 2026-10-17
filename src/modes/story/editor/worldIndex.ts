@@ -253,6 +253,24 @@ export function envTokenLabel(token: string): string {
   if (token === "skin") {
     return "Silver skin"
   }
+  if (token === "reed") {
+    return "Reed mat"
+  }
+  if (token === "pin") {
+    return "Copper pin"
+  }
+  if (token === "cliff") {
+    return "Ridge cliff"
+  }
+  if (token === "blossom") {
+    return "Peach crown"
+  }
+  if (token === "branch") {
+    return "Peach branch"
+  }
+  if (token === "trunk") {
+    return "Peach trunk"
+  }
   if (token in DECOR_LABELS) {
     return DECOR_LABELS[token as keyof typeof DECOR_LABELS]
   }

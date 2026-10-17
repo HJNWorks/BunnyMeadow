@@ -1,0 +1,20 @@
+{
+  "id": "ch3_grotto_2_mass",
+  "chapter": "ch3",
+  "world": 5,
+  "index": 2,
+  "name": "Mass Above",
+  "chunks": ["chunk_ch3_grotto_d", "chunk_ch3_grotto_e", "chunk_ch3_grotto_f"],
+  "playerSpawn": { "x": 100, "y": 860 },
+  "moonPool": { "chunk": 1, "x": 670, "y": 760, "line": "When the stone shivers, go." },
+  "moonPools": [
+    { "chunk": 1, "x": 670, "y": 760, "line": "When the stone shivers, go." }
+  ],
+  "exit": { "chunk": 2, "x": 900, "y": 740 },
+  "moonLine": "",
+  "objective": "Stalactites shiver, then fall. Keep moving under them.",
+  "env": "ch3_grotto",
+  "sky": "#16241f",
+  "hour": "dusk",
+  "weather": "none"
+}

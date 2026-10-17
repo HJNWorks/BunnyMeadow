@@ -1,11 +1,10 @@
 # Wildlife — Azure Bird
 
-Status: idea (Chapter 3 Peach Rows). Class: Wildlife. Archetype: diver.
+Status: live (Chapter 3 Peach Rows, `ch3_peach_1_blossom`). Class: Wildlife. Archetype: diver.
 Hub: [../README.md](../README.md). Adapted from Xiwangmu's blue-green messengers:
 [../../LORE.md](../../LORE.md#azure-birds-青鸟).
 
-Not Xiwangmu. Not an HP-bar folk. Do not add to native editor pickers until this
-page is live in `enemies.json`.
+Not Xiwangmu. Not an HP-bar folk. Live in `enemies.json` and in the Chapter 3 editor picker.
 
 | Field | Value |
 | --- | --- |
