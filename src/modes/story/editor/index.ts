@@ -3,7 +3,13 @@ import type { EditorMode } from "./BuildHud"
 import { getLastEditorStation, setLastEditorStation } from "./worldIndex"
 
 export { applyOverlay, cloneStoryLevel, clearOverlay, ensureOverlay, getOverlay, resolveWorldHeight } from "./overlayStore"
-export { mountBuildHud, type EditorMode, type EditorSession } from "./BuildHud"
+export {
+  getEditorPlayInvincible,
+  mountBuildHud,
+  setEditorPlayInvincible,
+  type EditorMode,
+  type EditorSession,
+} from "./BuildHud"
 
 export function isEditorEnabled(): boolean {
   return getContentFlags().storyMapEditor === true

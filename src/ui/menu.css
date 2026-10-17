@@ -341,8 +341,38 @@ html.a11y-reduced-motion *::after {
   font-size: 14px;
 }
 
+.bm-list li.bm-ach-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bm-ach-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.bm-ach-previews {
+  display: flex;
+  flex-shrink: 0;
+  gap: 6px;
+}
+
+.bm-ach-preview {
+  width: 96px;
+  height: 64px;
+  border-radius: 10px;
+  border: 1px solid var(--bm-border);
+  background: #c5d48a;
+}
+
 .bm-list li.locked {
   color: var(--bm-muted);
+}
+
+.bm-list li.locked .bm-ach-preview {
+  opacity: 0.42;
 }
 
 .bm-center-text {

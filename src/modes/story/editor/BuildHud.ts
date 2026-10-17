@@ -67,6 +67,7 @@ export type EditorSession = {
   env: string
   mode: EditorMode
   selMode?: "pick" | "region"
+  onInvincibleChange?: (on: boolean) => void
 }
 
 type SelKind = "spawn" | "pool" | "exit" | "flag" | "boss" | "platform" | "mover" | "enemy" | "pickup" | "decor" | "hazard" | "ride"
@@ -76,6 +77,16 @@ type Selection = { kind: SelKind; index: number }
 type ClipRow = { kind: SelKind; snap: unknown; x: number; y: number }
 
 const COPY_SHIFT = 40
+
+let playInvincible = true
+
+export function getEditorPlayInvincible(): boolean {
+  return playInvincible
+}
+
+export function setEditorPlayInvincible(on: boolean): void {
+  playInvincible = on
+}
 
 let editorClip: ClipRow[] = []
 
@@ -164,6 +175,14 @@ const CSS = `
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
+}
+.bm-editor-hud .bm-editor-invuln {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #3d5a48;
 }
 .bm-editor-hud .bm-editor-fields {
   display: flex;
@@ -460,6 +479,10 @@ export function mountBuildHud(session: EditorSession): void {
     <div class="bm-editor-bar">
       <button type="button" class="bm-btn" data-ui="play" aria-pressed="${session.mode === "play"}">${t("editor.play")}</button>
       <button type="button" class="bm-btn" data-ui="build" aria-pressed="${session.mode === "build"}">${t("editor.build")}</button>
+      <label class="bm-editor-invuln">
+        <input type="checkbox" data-ui="invuln" ${playInvincible ? "checked" : ""} />
+        ${t("editor.invincible")}
+      </label>
       <button type="button" class="bm-btn warm" data-ui="setActive">${t("editor.setActive")}</button>
       <button type="button" class="bm-btn ghost" data-ui="copyJson">${t("editor.copyJson")}</button>
       <button type="button" class="bm-btn ghost" data-ui="back">${t("editor.back")}</button>
@@ -1928,6 +1951,11 @@ export function mountBuildHud(session: EditorSession): void {
   inspect.hidden = session.mode !== "build"
   fillInspect()
 
+  requireEl<HTMLInputElement>(root, "[data-ui=invuln]").onchange = (event) => {
+    const on = (event.currentTarget as HTMLInputElement).checked
+    setEditorPlayInvincible(on)
+    session.onInvincibleChange?.(on)
+  }
   requireEl<HTMLButtonElement>(root, "[data-ui=play]").onclick = () => {
     getAudio().playSfx("confirm")
     restart("play")

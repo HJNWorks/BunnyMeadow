@@ -15,8 +15,8 @@
   "weather": "none",
   "boss": {
     "kind": "old_face",
-    "x": 990,
-    "y": 820,
+    "x": 900,
+    "y": 860,
     "court": { "chunk": 0, "x": 460, "y": 500, "w": 1080, "h": 580 },
     "cuts": [
       { "chunk": 0, "x": 500, "y": 814 },

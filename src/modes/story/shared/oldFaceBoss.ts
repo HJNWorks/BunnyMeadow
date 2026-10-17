@@ -68,6 +68,7 @@ export class OldFaceFight {
       this.lips.push({ x: spot.x, y: spot.y, open: true, mark })
     }
     this.snapLips(opts.platforms)
+    this.centerBetweenRisePads()
     this.pads = opts.platforms
     this.needed = this.lips.length
     this.speak = opts.speak
@@ -279,7 +280,8 @@ export class OldFaceFight {
     this.speak?.("settled")
     this.sceneRef().tweens.add({
       targets: this.seal,
-      y: this.cy - 40,
+      x: this.cx,
+      y: this.riseY(),
       alpha: 1,
       displayWidth: 168,
       displayHeight: 78,
@@ -287,6 +289,26 @@ export class OldFaceFight {
       ease: "Sine.easeOut",
       onComplete: () => this.makeLanding(),
     })
+  }
+
+  private centerBetweenRisePads(): void {
+    if (this.lips.length < 2) {
+      return
+    }
+    const ranked = [...this.lips].sort((a, b) => a.y - b.y)
+    const left = ranked[0]
+    const right = ranked[1]
+    this.cx = (left.x + right.x) / 2
+    this.faceX = this.cx
+    this.seal.setX(this.cx)
+  }
+
+  private riseY(): number {
+    if (this.lips.length < 2) {
+      return this.cy - 160
+    }
+    const ranked = [...this.lips].sort((a, b) => a.y - b.y)
+    return Math.min(ranked[0].y, ranked[1].y) - 110
   }
 
   private sceneRef(): Phaser.Scene {

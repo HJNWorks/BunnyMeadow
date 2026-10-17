@@ -110,6 +110,13 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- West Pool ledger sits inside the playfield height, in three chapter columns.
+- Story map editor Play has an Invulnerable checkbox (on by default) so damage
+  can be tested.
+- Achievements that unlock a dash or accessory show a small preview on the right
+  of the row.
+- Asset Workshop Creatures includes the pool seal. The seal recenters between
+  the two highest court pads and rises above them.
 - West Pool Court: the second lip is lower and closer so a grounded hop from the
   first pad reaches it.
 - Blossom Rows and Green Fruit: the first crown sits lower, with a short branch

@@ -49,6 +49,7 @@
   "editor.applyMapsDone": "{n} Karten nach src/data/editor-out geschrieben. Committen, damit git sie behält.",
   "editor.applyMapsNone": "In diesem Browser sind noch keine Story-Karten gespeichert.",
   "editor.play": "Spielen",
+  "editor.invincible": "Unverwundbar",
   "editor.build": "Bauen",
   "editor.clear": "Overlay löschen",
   "editor.download": "JSON herunterladen",

@@ -49,6 +49,7 @@
   "editor.applyMapsDone": "Wrote {n} maps to src/data/editor-out. Commit them so git keeps the copies.",
   "editor.applyMapsNone": "No story maps are stored in this browser yet.",
   "editor.play": "Play",
+  "editor.invincible": "Invulnerable",
   "editor.build": "Build",
   "editor.clear": "Clear overlay",
   "editor.download": "Download JSON",

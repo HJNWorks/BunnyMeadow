@@ -6,6 +6,7 @@ import { applyOverlay,
   cloneStoryLevel,
   getOverlay,
   isEditorEnabled,
+  getEditorPlayInvincible,
   mountBuildHud,
   resolveWorldHeight,
   type EditorMode,
@@ -170,13 +171,13 @@ function shellHtml(): string {
       <button type="button" class="bm-btn warm" data-ui="play">${t("common.continue")}</button>
     </div>
   </div>
-  <div class="meadow-overlay" data-ui="ledger" hidden>
+  <div class="meadow-overlay bm-ledger-fit" data-ui="ledger" hidden>
     <div class="meadow-card bm-ledger">
       <div class="bm-eyebrow">${t("story.ledger.eyebrow")}</div>
       <h2>${t("story.ledger.title")}</h2>
       <p data-ui="ledgerSeeds"></p>
-      <div data-ui="ledgerBody"></div>
-      <button type="button" class="bm-btn warm" data-ui="ledgerContinue" style="margin-top:14px">${t("story.win.map")}</button>
+      <div class="bm-ledger-body" data-ui="ledgerBody"></div>
+      <button type="button" class="bm-btn warm" data-ui="ledgerContinue" style="margin-top:8px">${t("story.win.map")}</button>
     </div>
   </div>
   <div class="meadow-overlay" data-ui="epilogue" hidden>
@@ -248,12 +249,25 @@ const CSS = `
 .meadow-bar-main [data-ui=muteBtn] { margin-left: auto; }
 .meadow-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#34563866; z-index:60; pointer-events:auto; }
 .meadow-overlay[hidden] { display:none !important; }
-.bm-ledger { max-width: 680px; width: min(680px, 92vw); max-height: 82vh; overflow: auto; text-align: left; }
-.bm-ledger h2 { margin: 0 0 8px; }
-.bm-ledger-chapter { margin: 14px 0 4px; font: 700 13px Georgia, serif; letter-spacing: 0.04em; text-transform: uppercase; color: #3d5a48; }
-.bm-ledger-row { display: flex; justify-content: space-between; gap: 12px; font: 15px Georgia, serif; padding: 2px 0; }
+.meadow-overlay.bm-ledger-fit { inset: auto; }
+.bm-ledger h2 { margin: 0 0 6px; font-size: 22px; }
+.bm-ledger-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 18px; overflow: auto; flex: 1 1 auto; min-height: 0; }
+.bm-ledger-chapter { margin: 0 0 4px; font: 700 11px Georgia, serif; letter-spacing: 0.04em; text-transform: uppercase; color: #3d5a48; }
+.bm-ledger-row { display: flex; justify-content: space-between; gap: 8px; font: 13px Georgia, serif; padding: 0; line-height: 1.35; }
 .bm-ledger-time { font-variant-numeric: tabular-nums; }
 .meadow-card { background:#fffaf0; padding:28px; border-radius:24px; max-width:420px; text-align:center; position:relative; z-index:61; }
+.meadow-card.bm-ledger {
+  max-width: none;
+  width: min(1040px, 94%);
+  max-height: calc(100% - 16px);
+  padding: 12px 16px 10px;
+  overflow: hidden;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.meadow-card.bm-ledger p { margin: 0 0 6px; font-size: 13px; }
 .meadow-pause-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
 ${CONTROL_COACH_CSS}
 ${ITEM_TRAY_CSS}
@@ -712,7 +726,8 @@ export class StoryScene extends Phaser.Scene {
     const diff = baselineDifficulty()
     this.maxHearts = diff.hearts
     this.health = this.maxHearts
-    this.invincible = save.settings.accessibility.invincible || this.editorMode !== null
+    this.invincible =
+      this.editorMode !== null ? getEditorPlayInvincible() : save.settings.accessibility.invincible
     getInput().setBindings(save.settings.bindings)
     getInput().start()
 
@@ -1351,6 +1366,9 @@ export class StoryScene extends Phaser.Scene {
         env,
         mode: this.editorMode,
         selMode: this.editorSelMode ?? undefined,
+        onInvincibleChange: (on) => {
+          this.invincible = on
+        },
       })
     }
     attachPlayfieldFrame(
@@ -3077,22 +3095,31 @@ export class StoryScene extends Phaser.Scene {
       if (chapter.stations.length === 0) {
         continue
       }
-      blocks.push(`<div class="bm-ledger-chapter">${t(`story.chapter.${chapter.id}.title`)}</div>`)
+      const rowsHtml: string[] = [
+        `<div class="bm-ledger-chapter">${t(`story.chapter.${chapter.id}.title`)}</div>`,
+      ]
       for (const station of chapter.stations) {
         const best = station.id === this.level.id && station.best === null ? runMs : station.best
         const time = best === null ? t("story.ledger.none") : formatStoryTime(best)
-        blocks.push(
+        rowsHtml.push(
           `<div class="bm-ledger-row"><span>${station.title}</span><span class="bm-ledger-time">${time}</span></div>`,
         )
       }
       if (chapter.sum !== null) {
-        blocks.push(
+        rowsHtml.push(
           `<div class="bm-ledger-row"><span>${t("story.ledger.sum")}</span><span class="bm-ledger-time">${formatStoryTime(chapter.sum)}</span></div>`,
         )
       }
+      blocks.push(`<div class="bm-ledger-col">${rowsHtml.join("")}</div>`)
     }
     this.hud.ledgerBody.innerHTML = blocks.join("")
+    this.hud.ledgerBody.classList.add("bm-ledger-body")
     this.hud.ledgerContinue.textContent = this.editorMode ? t("editor.back") : t("story.win.map")
+    const canvasBox = this.game.canvas.getBoundingClientRect()
+    this.hud.ledger.style.top = `${canvasBox.top}px`
+    this.hud.ledger.style.left = `${canvasBox.left}px`
+    this.hud.ledger.style.width = `${canvasBox.width}px`
+    this.hud.ledger.style.height = `${canvasBox.height}px`
     this.hud.ledger.hidden = false
     this.hud.ledgerContinue.focus()
   }

@@ -71,6 +71,7 @@ export function listWorkshopTargets(group: WorkshopGroup = "props"): WorkshopTar
       { id: "story_han", label: "Han" },
       { id: "story_still", label: "Still Silver" },
       { id: "story_penghou", label: "Penghou" },
+      { id: "story_seal", label: "Pool seal" },
       { id: "story_barkchip", label: "Bark chip" },
       ...ALL_CRITTERS.filter((id) => id !== "still").map((id) => ({
         id: critterTextureKey(id),
