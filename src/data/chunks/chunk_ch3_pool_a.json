@@ -5,8 +5,8 @@
   "groundY": 860,
   "platforms": [
     { "x": 40, "y": 860, "w": 360, "h": 64, "asset": "ground" },
-    { "x": 450, "y": 800, "w": 120, "h": 28, "asset": "ground" },
-    { "x": 760, "y": 620, "w": 110, "h": 28, "asset": "ground" }
+    { "x": 430, "y": 800, "w": 150, "h": 28, "asset": "ground" },
+    { "x": 640, "y": 710, "w": 160, "h": 28, "asset": "ground" }
   ],
   "walls": [],
   "ceilings": [],

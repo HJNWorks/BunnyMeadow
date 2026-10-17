@@ -110,6 +110,13 @@ All notable changes to this project are recorded here. The format follows
 
 ### Changed
 
+- West Pool Court: the second lip is lower and closer so a grounded hop from the
+  first pad reaches it.
+- Blossom Rows and Green Fruit: the first crown sits lower, with a short branch
+  step under it.
+- Copper sentry pebbles pass the pin they stand on and fall toward Mei below.
+- Story unlock no longer reads a leftover `devUnlockAll` save flag, so GitHub
+  Pages follows the normal chain again.
 - Story play drops a browser map overlay when the shipped station width or chunk
   list no longer matches. Guanghan is not replaced by an old Set active copy of
   the two-chunk court.

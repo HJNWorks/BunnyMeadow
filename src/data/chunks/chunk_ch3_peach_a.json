@@ -5,9 +5,9 @@
   "groundY": 920,
   "platforms": [
     { "x": 0, "y": 920, "w": 960, "h": 64, "asset": "ground" },
-    { "x": 300, "y": 780, "w": 24, "h": 140, "asset": "trunk" },
-    { "x": 324, "y": 840, "w": 70, "h": 16, "asset": "branch" },
-    { "x": 220, "y": 752, "w": 184, "h": 28, "asset": "blossom" },
+    { "x": 300, "y": 848, "w": 24, "h": 72, "asset": "trunk" },
+    { "x": 248, "y": 872, "w": 80, "h": 16, "asset": "branch" },
+    { "x": 220, "y": 820, "w": 184, "h": 28, "asset": "blossom" },
     { "x": 640, "y": 760, "w": 24, "h": 160, "asset": "trunk" },
     { "x": 560, "y": 820, "w": 80, "h": 16, "asset": "branch" },
     { "x": 560, "y": 732, "w": 184, "h": 28, "asset": "blossom" }

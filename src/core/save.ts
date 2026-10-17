@@ -252,10 +252,7 @@ export function migrateSave(raw: unknown, slot = 0): SaveV1 {
             Array.isArray(raw.progress.story.controlHints)
               ? (raw.progress.story.controlHints as string[]).filter((value) => typeof value === "string")
               : [],
-          devUnlockAll:
-            isObject(raw.progress) &&
-            isObject(raw.progress.story) &&
-            raw.progress.story.devUnlockAll === true,
+          devUnlockAll: false,
           times: migrateStoryTimes(
             isObject(raw.progress) && isObject(raw.progress.story) ? raw.progress.story.times : undefined,
           ),

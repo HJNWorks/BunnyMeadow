@@ -75,7 +75,7 @@ const KITS: Record<string, EnemyKit> = {
   mirror_mote: { texture: "story_critter_mirror_mote", source: "story_mirrormote", w: 44, h: 36, archetype: "swarm", speed: 18, fly: true },
   jade_mite: { texture: "story_critter_jade_mite", source: "story_jademite", w: 52, h: 36, archetype: "swarm", speed: 26, fly: true },
   azure_bird: { texture: "story_critter_azure_bird", source: "story_azure", w: 40, h: 28, archetype: "diver", speed: 150, fly: true },
-  copper_sentry: { texture: "story_critter_copper_sentry", source: "story_copper", w: 32, h: 36, archetype: "ranged_lob", speed: 0 },
+  copper_sentry: { texture: "story_critter_copper_sentry", source: "story_copper", w: 32, h: 36, archetype: "ranged_lob", speed: 0, perch: true },
   ford_crab: { texture: "story_critter_ford_crab", source: "story_fordcrab", w: 44, h: 30, archetype: "patrol", speed: 38 },
   crater_crab: { texture: "story_critter_crater_crab", source: "story_crab", w: 44, h: 30, archetype: "patrol", speed: 42 },
   cassia_grub: { texture: "story_critter_cassia_grub", source: "story_grub", w: 40, h: 24, archetype: "patrol", speed: 30 },
@@ -744,9 +744,40 @@ export function updateEnemies(
     } else if (arch === "ranged_lob") {
       let cd = Number(enemy.getData("cooldown") || 0) - dt
       const id = String(enemy.getData("id") || "")
-      const radial = id === "ice_spit" || id === "pestle_sentry"
       const dx = target.x - enemy.x
       const dy = target.y - enemy.y
+      if (id === "copper_sentry") {
+        const dist = Math.hypot(dx, dy)
+        if (cd <= 0 && dist < 520 && dist > 12) {
+          const nx = dx / dist
+          const ny = dy / dist
+          const shot = scene.add.image(enemy.x + nx * 22, enemy.y + ny * 16 - 8, "story_bunny")
+          shot.setDisplaySize(14, 14)
+          shot.setTint(0x6a4a32)
+          shot.setData("passPlatforms", true)
+          projectiles.add(shot)
+          const body = shot.body as Phaser.Physics.Arcade.Body
+          body.setAllowGravity(true)
+          const vx = nx * 210
+          const vy = ny > 0.2 ? -50 + ny * 110 : ny * 170 - 100
+          body.setVelocity(vx, vy)
+          scene.time.delayedCall(2400, () => {
+            if (shot.active) {
+              shot.destroy()
+            }
+          })
+          cd = 1.55
+        }
+        enemy.setData("cooldown", cd)
+        enemy.setVelocityX(0)
+        if (enemy.getData("perch") === true) {
+          const perchBody = enemy.body as Phaser.Physics.Arcade.Body
+          perchBody.setAllowGravity(false)
+          enemy.setVelocityY(0)
+        }
+        return
+      }
+      const radial = id === "ice_spit" || id === "pestle_sentry"
       const reach = radial ? Math.hypot(dx, dy) : Math.abs(dx)
       if (cd <= 0 && reach < 420) {
         if (radial) {

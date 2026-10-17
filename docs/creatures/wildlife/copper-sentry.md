@@ -16,9 +16,9 @@ Live in `enemies.json` and in the Chapter 3 editor picker.
 
 ## Behaviour
 
-Perches on a copper pin and lobs a pebble on a parabola. Same kit as ice spit and
-pestle sentry. It guards a ledge. Earth-weight hops. Standing still on a pin is a
-bad idea.
+Perches on a copper pin and lobs a pebble on a parabola. The pebble ignores
+platforms so it can drop onto Mei on the climb below. Earth-weight hops.
+Standing still on a pin is a bad idea.
 
 ## Telegraph and counter
 

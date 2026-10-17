@@ -4,8 +4,8 @@
   "height": 1080,
   "groundY": 860,
   "platforms": [
-    { "x": 120, "y": 620, "w": 110, "h": 28, "asset": "ground" },
-    { "x": 360, "y": 760, "w": 110, "h": 28, "asset": "ground" },
+    { "x": 40, "y": 710, "w": 160, "h": 28, "asset": "ground" },
+    { "x": 340, "y": 780, "w": 130, "h": 28, "asset": "ground" },
     { "x": 600, "y": 860, "w": 320, "h": 64, "asset": "ground" }
   ],
   "walls": [],
