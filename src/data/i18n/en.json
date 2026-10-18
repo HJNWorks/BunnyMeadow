@@ -408,6 +408,8 @@
   "story.chapter.ch3.title": "West of Silver",
   "story.path.taglineArt": "Painted map. Nodes sit on the dirt platforms.",
   "story.path.taglineW0": "Burrow Eve, then Moon in the Pool teaches hop in play.",
+  "story.path.devUnlock": "Dev: unlock all",
+  "story.path.devLock": "Dev: lock path",
   "story.board.open": "Leaderboard",
   "story.board.title": "Story times",
   "story.board.best": "best {time}",

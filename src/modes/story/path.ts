@@ -773,8 +773,15 @@ export function worldIdForLevelId(id: string): StoryWorldId {
   return "w0"
 }
 
+function devOpen(save: SaveV1): boolean {
+  return save.progress.story.devUnlockAll === true
+}
+
 export function isChapterUnlocked(save: SaveV1, chapter: StoryChapterId): boolean {
   if (chapter === "ch1") {
+    return true
+  }
+  if (devOpen(save) && (chapter === "ch2" || chapter === "ch3")) {
     return true
   }
   if (chapter === "ch2") {
@@ -848,6 +855,9 @@ export function isWorldUnlocked(save: SaveV1, worldId: StoryWorldId): boolean {
   if (world.status === "soon") {
     return false
   }
+  if (devOpen(save)) {
+    return true
+  }
   if (worldId === "w0") {
     return true
   }
@@ -902,6 +912,9 @@ export function isStationUnlocked(save: SaveV1, stationId: string): boolean {
   const station = getStation(stationId)
   if (!station || station.soon) {
     return false
+  }
+  if (devOpen(save)) {
+    return true
   }
   const cleared = new Set(save.progress.story.cleared)
   if (stationId.startsWith("w0_")) {

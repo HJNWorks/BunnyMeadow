@@ -408,6 +408,8 @@
   "story.chapter.ch3.title": "Westlich von Silber",
   "story.path.taglineArt": "Gemalte Karte. Knoten sitzen auf den Erdplattformen.",
   "story.path.taglineW0": "Bauabend, dann lehrt Mond im Teich das Hüpfen im Spiel.",
+  "story.path.devUnlock": "Dev: alles öffnen",
+  "story.path.devLock": "Dev: Kette folgen",
   "story.board.open": "Bestenliste",
   "story.board.title": "Story-Zeiten",
   "story.board.best": "Bestzeit {time}",

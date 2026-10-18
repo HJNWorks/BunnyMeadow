@@ -408,6 +408,8 @@
   "story.chapter.ch3.title": "银西",
   "story.path.taglineArt": "彩绘地图。节点落在土台上。",
   "story.path.taglineW0": "洞穴前夜，然后池中月在游玩里教跳跃。",
+  "story.path.devUnlock": "开发：全部解锁",
+  "story.path.devLock": "开发：按进度锁定",
   "story.board.open": "排行榜",
   "story.board.title": "故事用时",
   "story.board.best": "最佳 {time}",

@@ -67,7 +67,7 @@ export class AchievementsScene extends Phaser.Scene {
         const rewards = ACH_REWARDS[item.id] ?? []
         const previews = rewards
           .map(
-            (reward, index) =>
+            (_reward, index) =>
               `<canvas class="bm-ach-preview" width="${PREVIEW_W}" height="${PREVIEW_H}" data-ach="${item.id}" data-reward="${index}" aria-hidden="true"></canvas>`,
           )
           .join("")
